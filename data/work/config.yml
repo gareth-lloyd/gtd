@@ -1,0 +1,14 @@
+name: work
+contexts:
+  - anywhere
+  - calls
+  - computer
+  - errands
+  - meetings
+  - office
+areas:
+  - admin
+  - engineering
+  - management
+  - writing
+default_energy: medium
