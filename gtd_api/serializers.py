@@ -47,7 +47,7 @@ class CaptureSerializer(serializers.Serializer):
 
 class MoveSerializer(serializers.Serializer):
     to = serializers.ChoiceField(
-        choices=["inbox", "next", "waiting", "someday", "reference", "archive"]
+        choices=["inbox", "next", "waiting", "someday", "reference", "archive", "trash"]
     )
 
 

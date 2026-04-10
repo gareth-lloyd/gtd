@@ -14,7 +14,9 @@ def tmp_project(tmp_path, settings):
     initial_files = ["README.md"]
     for env in ["work", "home"]:
         env_dir = data / env
-        for bucket in ["inbox", "next", "waiting", "someday", "reference", "projects", "archive"]:
+        for bucket in [
+            "inbox", "next", "waiting", "someday", "reference", "projects", "archive", "trash",
+        ]:
             (env_dir / bucket).mkdir(parents=True)
         cfg = env_dir / "config.yml"
         cfg.write_text(
@@ -153,12 +155,37 @@ class TestItems:
         assert r.status_code == 200
         assert r.json()["status"] == "archive"
 
-    def test_delete_item(self, api):
+    def test_delete_soft_deletes_to_trash(self, api):
         created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
         r = api.delete(f"/api/envs/work/items/{created['id']}/")
+        assert r.status_code == 200
+        assert r.json()["status"] == "trash"
+
+        # Item is still findable (now in trash), not in default list
+        r = api.get(f"/api/envs/work/items/{created['id']}/")
+        assert r.status_code == 200
+        assert r.json()["status"] == "trash"
+        r = api.get("/api/envs/work/items/")
+        assert created["id"] not in {i["id"] for i in r.json()}
+
+    def test_purge_hard_deletes(self, api):
+        created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
+        api.delete(f"/api/envs/work/items/{created['id']}/")  # → trash
+        r = api.post(f"/api/envs/work/items/{created['id']}/purge/")
         assert r.status_code == 204
         r = api.get(f"/api/envs/work/items/{created['id']}/")
         assert r.status_code == 404
+
+    def test_move_out_of_trash(self, api):
+        created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
+        api.delete(f"/api/envs/work/items/{created['id']}/")
+        r = api.post(
+            f"/api/envs/work/items/{created['id']}/move/",
+            {"to": "inbox"},
+            format="json",
+        )
+        assert r.status_code == 200
+        assert r.json()["status"] == "inbox"
 
     def test_filter_by_context_query_param(self, api):
         a = api.post("/api/envs/work/items/", {"title": "A"}, format="json").json()

@@ -10,7 +10,9 @@ from gtd_core.service import GtdService, slugify
 def data_root(tmp_path):
     for env in ["work", "home"]:
         env_dir = tmp_path / env
-        for bucket in ["inbox", "next", "waiting", "someday", "reference", "projects", "archive"]:
+        for bucket in [
+            "inbox", "next", "waiting", "someday", "reference", "projects", "archive", "trash",
+        ]:
             (env_dir / bucket).mkdir(parents=True)
         (env_dir / "config.yml").write_text(
             f"name: {env}\n"
@@ -78,6 +80,40 @@ class TestComplete:
         svc.move("work", item.id, Bucket.NEXT)
         completed = svc.complete("work", item.id)
         assert completed.status == Bucket.ARCHIVE
+
+
+class TestDelete:
+    def test_delete_moves_to_trash(self, svc, data_root):
+        item = svc.capture("work", "Regrettable item")
+        deleted = svc.delete("work", item.id)
+        assert deleted.status == Bucket.TRASH
+        assert not (data_root / "work" / "inbox" / f"{item.id}.md").exists()
+        assert (data_root / "work" / "trash" / f"{item.id}.md").exists()
+
+    def test_delete_is_reversible_via_move(self, svc):
+        item = svc.capture("work", "Change my mind")
+        svc.delete("work", item.id)
+        restored = svc.move("work", item.id, Bucket.INBOX)
+        assert restored.status == Bucket.INBOX
+
+    def test_default_list_excludes_trash(self, svc):
+        item = svc.capture("work", "Gone")
+        svc.delete("work", item.id)
+        items = svc.repo("work").list_items()
+        assert item.id not in {i.id for i in items}
+
+
+class TestPurge:
+    def test_purge_removes_file_hard(self, svc, data_root):
+        item = svc.capture("work", "Delete me")
+        svc.delete("work", item.id)  # → trash
+        svc.purge("work", item.id)
+        assert not (data_root / "work" / "trash" / f"{item.id}.md").exists()
+
+    def test_purge_missing_raises(self, svc):
+        import pytest
+        with pytest.raises(KeyError):
+            svc.purge("work", "nope")
 
 
 class TestUpdate:

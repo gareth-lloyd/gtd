@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   api,
   type Bucket,
@@ -9,9 +11,24 @@ import {
   type Project,
 } from './api';
 
-type Tab = 'next' | 'inbox' | 'projects' | 'waiting' | 'someday' | 'reference';
+type Tab =
+  | 'next'
+  | 'inbox'
+  | 'projects'
+  | 'waiting'
+  | 'someday'
+  | 'reference'
+  | 'trash';
 
-const TABS: Tab[] = ['next', 'inbox', 'projects', 'waiting', 'someday', 'reference'];
+const TABS: Tab[] = [
+  'next',
+  'inbox',
+  'projects',
+  'waiting',
+  'someday',
+  'reference',
+  'trash',
+];
 
 export default function App() {
   const [env, setEnv] = useState<string>(
@@ -67,9 +84,10 @@ export default function App() {
       {tab === 'next' && <NextActionsView env={env} />}
       {tab === 'inbox' && <InboxView env={env} />}
       {tab === 'projects' && <ProjectsView env={env} />}
-      {(tab === 'waiting' || tab === 'someday' || tab === 'reference') && (
-        <BucketView env={env} bucket={tab} />
-      )}
+      {(tab === 'waiting' ||
+        tab === 'someday' ||
+        tab === 'reference' ||
+        tab === 'trash') && <BucketView env={env} bucket={tab} />}
     </div>
   );
 }
@@ -404,10 +422,22 @@ function ItemRow({
     mutationFn: () => api.deleteItem(env, item.id),
     onSuccess: invalidate,
   });
+  const purgeMut = useMutation({
+    mutationFn: () => api.purgeItem(env, item.id),
+    onSuccess: invalidate,
+  });
+
+  const inTrash = item.status === 'trash';
+  const isArchive = item.status === 'archive';
 
   return (
     <div className="item">
       <div className="item-title">{item.title}</div>
+      {item.body && (
+        <div className="item-body">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{item.body}</ReactMarkdown>
+        </div>
+      )}
       <div className="item-meta">
         {item.status !== 'next' && <span className="chip">{item.status}</span>}
         {item.contexts.map((c) => (
@@ -419,29 +449,51 @@ function ItemRow({
         {item.time_minutes != null && <span className="chip">{item.time_minutes}m</span>}
         {item.area && <span className="chip">{item.area}</span>}
         {item.due && <span className="chip">due {item.due}</span>}
+        {item.defer_until && <span className="chip">defer {item.defer_until}</span>}
+        <span className="chip dates" title={`created ${fmtDate(item.created)}`}>
+          updated {fmtDate(item.updated)}
+        </span>
       </div>
       <div className="item-actions">
-        {item.status === 'inbox' && (
-          <button onClick={() => moveMut.mutate('next')}>→ next</button>
+        {inTrash ? (
+          <>
+            <button onClick={() => moveMut.mutate('inbox')}>↺ restore</button>
+            <button
+              className="danger"
+              onClick={() => {
+                if (confirm(`Permanently delete "${item.title}"?`)) purgeMut.mutate();
+              }}
+            >
+              Purge
+            </button>
+          </>
+        ) : (
+          <>
+            {item.status !== 'next' && !isArchive && (
+              <button onClick={() => moveMut.mutate('next')}>→ next</button>
+            )}
+            {item.status !== 'waiting' && !isArchive && (
+              <button onClick={() => moveMut.mutate('waiting')}>→ waiting</button>
+            )}
+            {item.status !== 'someday' && !isArchive && (
+              <button onClick={() => moveMut.mutate('someday')}>→ someday</button>
+            )}
+            {!isArchive && <button onClick={() => completeMut.mutate()}>✓ done</button>}
+            {showEdit && <button onClick={onEdit}>{editing ? 'Close' : 'Edit'}</button>}
+            <button className="danger" onClick={() => deleteMut.mutate()}>
+              Delete
+            </button>
+          </>
         )}
-        {item.status !== 'next' && item.status !== 'archive' && (
-          <button onClick={() => moveMut.mutate('next')}>→ next</button>
-        )}
-        {item.status !== 'waiting' && item.status !== 'archive' && (
-          <button onClick={() => moveMut.mutate('waiting')}>→ waiting</button>
-        )}
-        {item.status !== 'someday' && item.status !== 'archive' && (
-          <button onClick={() => moveMut.mutate('someday')}>→ someday</button>
-        )}
-        <button onClick={() => completeMut.mutate()}>✓ done</button>
-        {showEdit && <button onClick={onEdit}>{editing ? 'Close' : 'Edit'}</button>}
-        <button className="danger" onClick={() => deleteMut.mutate()}>
-          Delete
-        </button>
       </div>
       {editing && <ItemEditor env={env} item={item} />}
     </div>
   );
+}
+
+function fmtDate(iso: string): string {
+  if (!iso) return '';
+  return iso.slice(0, 10);
 }
 
 function ItemEditor({ env, item }: { env: string; item: Item }) {

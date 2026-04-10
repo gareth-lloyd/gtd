@@ -11,6 +11,7 @@ class TestBucket:
         assert Bucket.SOMEDAY.value == "someday"
         assert Bucket.REFERENCE.value == "reference"
         assert Bucket.ARCHIVE.value == "archive"
+        assert Bucket.TRASH.value == "trash"
 
     def test_from_value(self):
         assert Bucket("inbox") is Bucket.INBOX

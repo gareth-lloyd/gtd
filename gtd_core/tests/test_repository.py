@@ -9,7 +9,9 @@ from gtd_core.repository import EnvRepository
 @pytest.fixture
 def env_root(tmp_path):
     work = tmp_path / "work"
-    for bucket in ["inbox", "next", "waiting", "someday", "reference", "projects", "archive"]:
+    for bucket in [
+        "inbox", "next", "waiting", "someday", "reference", "projects", "archive", "trash",
+    ]:
         (work / bucket).mkdir(parents=True)
     (work / "config.yml").write_text(
         "name: work\n"
@@ -72,10 +74,11 @@ class TestListItems:
     def test_empty_repo(self, repo):
         assert repo.list_items() == []
 
-    def test_list_all_excludes_archive(self, repo):
+    def test_list_all_excludes_archive_and_trash(self, repo):
         repo.save(_make_item("a", Bucket.INBOX))
         repo.save(_make_item("b", Bucket.NEXT))
         repo.save(_make_item("c", Bucket.ARCHIVE))
+        repo.save(_make_item("d", Bucket.TRASH))
         ids = {i.id for i in repo.list_items()}
         assert ids == {"a", "b"}
 
@@ -84,6 +87,12 @@ class TestListItems:
         repo.save(_make_item("c", Bucket.ARCHIVE))
         ids = {i.id for i in repo.list_items(include_archive=True)}
         assert ids == {"a", "c"}
+
+    def test_list_include_trash(self, repo):
+        repo.save(_make_item("a", Bucket.INBOX))
+        repo.save(_make_item("d", Bucket.TRASH))
+        ids = {i.id for i in repo.list_items(include_trash=True)}
+        assert ids == {"a", "d"}
 
     def test_list_by_bucket(self, repo):
         repo.save(_make_item("a", Bucket.INBOX))

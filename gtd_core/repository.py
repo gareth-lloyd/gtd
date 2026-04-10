@@ -23,12 +23,15 @@ class EnvRepository:
         self,
         bucket: Bucket | None = None,
         include_archive: bool = False,
+        include_trash: bool = False,
     ) -> list[Item]:
         if bucket is not None:
             return self._list_bucket(bucket)
         buckets = list(Bucket)
         if not include_archive:
             buckets = [b for b in buckets if b is not Bucket.ARCHIVE]
+        if not include_trash:
+            buckets = [b for b in buckets if b is not Bucket.TRASH]
         items: list[Item] = []
         for b in buckets:
             items.extend(self._list_bucket(b))

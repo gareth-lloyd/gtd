@@ -88,7 +88,16 @@ def item_detail(request: Request, env: str, item_id: str) -> Response:
         return Response(ItemSerializer(item).data)
 
     try:
-        svc.delete(env, item_id)
+        item = svc.delete(env, item_id)
+    except KeyError:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(ItemSerializer(item).data)
+
+
+@api_view(["POST"])
+def item_purge(request: Request, env: str, item_id: str) -> Response:
+    try:
+        _service().purge(env, item_id)
     except KeyError:
         return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(status=status.HTTP_204_NO_CONTENT)

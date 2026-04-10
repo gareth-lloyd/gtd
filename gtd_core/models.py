@@ -14,6 +14,7 @@ class Bucket(str, Enum):
     SOMEDAY = "someday"
     REFERENCE = "reference"
     ARCHIVE = "archive"
+    TRASH = "trash"
 
 
 @dataclass(slots=True)

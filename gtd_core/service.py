@@ -72,7 +72,12 @@ class GtdService:
     def complete(self, env: str, item_id: str) -> Item:
         return self.move(env, item_id, Bucket.ARCHIVE)
 
-    def delete(self, env: str, item_id: str) -> None:
+    def delete(self, env: str, item_id: str) -> Item:
+        """Soft delete: move the item to the trash bucket."""
+        return self.move(env, item_id, Bucket.TRASH)
+
+    def purge(self, env: str, item_id: str) -> None:
+        """Hard delete: remove the file from disk. Irreversible."""
         self.repo(env).delete(item_id)
 
     def filter_items(

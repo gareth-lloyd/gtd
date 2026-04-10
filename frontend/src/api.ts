@@ -1,4 +1,11 @@
-export type Bucket = 'inbox' | 'next' | 'waiting' | 'someday' | 'reference' | 'archive';
+export type Bucket =
+  | 'inbox'
+  | 'next'
+  | 'waiting'
+  | 'someday'
+  | 'reference'
+  | 'archive'
+  | 'trash';
 export type Energy = 'low' | 'medium' | 'high';
 export type ProjectStatus = 'active' | 'on_hold' | 'complete' | 'dropped';
 
@@ -106,7 +113,9 @@ export const api = {
   completeItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/complete/`, { method: 'POST' }),
   deleteItem: (env: string, id: string) =>
-    request<void>(`/envs/${env}/items/${id}/`, { method: 'DELETE' }),
+    request<Item>(`/envs/${env}/items/${id}/`, { method: 'DELETE' }),
+  purgeItem: (env: string, id: string) =>
+    request<void>(`/envs/${env}/items/${id}/purge/`, { method: 'POST' }),
 
   listProjects: (env: string) =>
     request<Project[]>(`/envs/${env}/projects/`),
