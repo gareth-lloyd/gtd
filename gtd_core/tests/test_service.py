@@ -66,6 +66,23 @@ class TestCapture:
         item = svc.capture("work", "Research", body="About the tax code")
         assert item.body == "About the tax code"
 
+    def test_with_defaults(self, svc):
+        """Capture can set energy/time/contexts at creation time."""
+        item = svc.capture(
+            "work",
+            "Quick thing",
+            energy="low",
+            time_minutes=5,
+            contexts=["calls"],
+        )
+        assert item.energy == "low"
+        assert item.time_minutes == 5
+        assert item.contexts == ["calls"]
+
+    def test_capture_rejects_invalid_context(self, svc):
+        with pytest.raises(ValueError, match="unknown context"):
+            svc.capture("work", "Test", contexts=["bogus"])
+
 
 class TestMove:
     def test_move_to_next(self, svc):

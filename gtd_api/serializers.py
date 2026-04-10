@@ -43,6 +43,13 @@ class ProjectSerializer(serializers.Serializer):
 class CaptureSerializer(serializers.Serializer):
     title = serializers.CharField()
     body = serializers.CharField(allow_blank=True, default="")
+    energy = serializers.ChoiceField(
+        choices=["low", "medium", "high"], required=False, allow_null=True
+    )
+    time_minutes = serializers.IntegerField(required=False, allow_null=True)
+    contexts = serializers.ListField(
+        child=serializers.CharField(), required=False
+    )
 
 
 class MoveSerializer(serializers.Serializer):

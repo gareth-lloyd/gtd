@@ -7,6 +7,7 @@ import {
   type Bucket,
   type Energy,
   type EnvConfig,
+  type EnvSummary,
   type Item,
   type Project,
 } from './api';
@@ -30,15 +31,27 @@ const TABS: Tab[] = [
   'trash',
 ];
 
+const FILTER_TABS: Tab[] = ['next'];
+
 export default function App() {
   const [env, setEnv] = useState<string>(
     () => localStorage.getItem('gtd:env') || ''
   );
   const [tab, setTab] = useState<Tab>('next');
 
+  const [contexts, setContexts] = useState<string[]>([]);
+  const [energy, setEnergy] = useState<Energy | ''>('');
+  const [maxMinutes, setMaxMinutes] = useState<string>('');
+
   const { data: envs } = useQuery({
     queryKey: ['envs'],
     queryFn: api.listEnvs,
+  });
+
+  const { data: config } = useQuery({
+    queryKey: ['config', env],
+    queryFn: () => api.getConfig(env),
+    enabled: !!env,
   });
 
   useEffect(() => {
@@ -49,27 +62,28 @@ export default function App() {
     if (env) localStorage.setItem('gtd:env', env);
   }, [env]);
 
-  if (!envs || envs.length === 0) return <div className="app">Loading…</div>;
-  if (!env) return <div className="app">Choose an environment</div>;
+  useEffect(() => {
+    // Reset filters when switching envs (contexts list differs)
+    setContexts([]);
+  }, [env]);
+
+  if (!envs || envs.length === 0) return <div className="app-loading">Loading…</div>;
+  if (!env) return <div className="app-loading">Choose an environment</div>;
+
+  const showFilters = FILTER_TABS.includes(tab);
 
   return (
-    <div className="app">
+    <div className={showFilters ? 'app' : 'app no-filters'}>
       <header>
-        <h1>gtd</h1>
-        <select value={env} onChange={(e) => setEnv(e.target.value)}>
-          {envs.map((e) => (
-            <option key={e.name} value={e.name}>
-              {e.name}
-            </option>
-          ))}
-        </select>
+        <h1>
+          <span className="brand">gtd</span>
+        </h1>
+        <EnvTabs envs={envs} env={env} onChange={setEnv} />
         <div className="spacer" />
         <SyncButton />
       </header>
 
-      <CaptureBar env={env} />
-
-      <nav className="tabs">
+      <nav className="side-nav">
         {TABS.map((t) => (
           <button
             key={t}
@@ -81,13 +95,63 @@ export default function App() {
         ))}
       </nav>
 
-      {tab === 'next' && <NextActionsView env={env} />}
-      {tab === 'inbox' && <InboxView env={env} />}
-      {tab === 'projects' && <ProjectsView env={env} />}
-      {(tab === 'waiting' ||
-        tab === 'someday' ||
-        tab === 'reference' ||
-        tab === 'trash') && <BucketView env={env} bucket={tab} />}
+      <main>
+        <CaptureBar env={env} />
+        {tab === 'next' && (
+          <NextActionsView
+            env={env}
+            contexts={contexts}
+            energy={energy}
+            maxMinutes={maxMinutes}
+          />
+        )}
+        {tab === 'inbox' && <BucketView env={env} bucket="inbox" />}
+        {tab === 'projects' && <ProjectsView env={env} />}
+        {(tab === 'waiting' ||
+          tab === 'someday' ||
+          tab === 'reference' ||
+          tab === 'trash') && <BucketView env={env} bucket={tab} />}
+      </main>
+
+      {showFilters && (
+        <aside className="side-filters">
+          <FilterPanel
+            config={config}
+            contexts={contexts}
+            setContexts={setContexts}
+            energy={energy}
+            setEnergy={setEnergy}
+            maxMinutes={maxMinutes}
+            setMaxMinutes={setMaxMinutes}
+          />
+        </aside>
+      )}
+    </div>
+  );
+}
+
+// ---- Env tabs ----
+
+function EnvTabs({
+  envs,
+  env,
+  onChange,
+}: {
+  envs: EnvSummary[];
+  env: string;
+  onChange: (env: string) => void;
+}) {
+  return (
+    <div className="env-tabs">
+      {envs.map((e) => (
+        <button
+          key={e.name}
+          className={env === e.name ? 'env-tab active' : 'env-tab'}
+          onClick={() => onChange(e.name)}
+        >
+          {e.name}
+        </button>
+      ))}
     </div>
   );
 }
@@ -96,11 +160,20 @@ export default function App() {
 
 function CaptureBar({ env }: { env: string }) {
   const [title, setTitle] = useState('');
+  const [notes, setNotes] = useState('');
+  const [expanded, setExpanded] = useState(false);
   const qc = useQueryClient();
+
   const mut = useMutation({
-    mutationFn: (t: string) => api.captureItem(env, t),
+    mutationFn: () =>
+      api.captureItem(env, title.trim(), notes, {
+        energy: 'low',
+        time_minutes: 5,
+      }),
     onSuccess: () => {
       setTitle('');
+      setNotes('');
+      setExpanded(false);
       qc.invalidateQueries({ queryKey: ['items', env] });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     },
@@ -108,21 +181,45 @@ function CaptureBar({ env }: { env: string }) {
 
   return (
     <form
-      className="capture"
+      className={expanded ? 'capture expanded' : 'capture'}
       onSubmit={(e) => {
         e.preventDefault();
-        if (title.trim()) mut.mutate(title.trim());
+        if (title.trim()) mut.mutate();
       }}
     >
-      <input
-        type="text"
-        placeholder="Capture a new item into inbox…"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <button type="submit" className="primary">
-        Capture
-      </button>
+      <div className="capture-row">
+        <input
+          type="text"
+          placeholder="Capture to inbox…"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          autoFocus
+        />
+        <button
+          type="button"
+          className="expand"
+          onClick={() => setExpanded(!expanded)}
+          title={expanded ? 'Hide notes' : 'Add notes'}
+        >
+          {expanded ? '▲' : '▼'}
+        </button>
+        <button type="submit" className="primary" disabled={!title.trim()}>
+          Capture
+        </button>
+      </div>
+      {expanded && (
+        <>
+          <textarea
+            rows={4}
+            placeholder="Notes (markdown supported)…"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+          />
+          <div className="capture-hint">
+            Captured with energy=low, time=5min. Adjust later via Edit.
+          </div>
+        </>
+      )}
     </form>
   );
 }
@@ -161,17 +258,99 @@ function SyncButton() {
   );
 }
 
+// ---- Filter panel ----
+
+const ENERGY_CHOICES: (Energy | '')[] = ['', 'low', 'medium', 'high'];
+
+function FilterPanel({
+  config,
+  contexts,
+  setContexts,
+  energy,
+  setEnergy,
+  maxMinutes,
+  setMaxMinutes,
+}: {
+  config: EnvConfig | undefined;
+  contexts: string[];
+  setContexts: (updater: (prev: string[]) => string[]) => void;
+  energy: Energy | '';
+  setEnergy: (e: Energy | '') => void;
+  maxMinutes: string;
+  setMaxMinutes: (s: string) => void;
+}) {
+  return (
+    <div className="filter-panel">
+      <div className="filter-section">
+        <h3>Contexts</h3>
+        {config?.contexts.map((c) => (
+          <label key={c} className="check-row">
+            <input
+              type="checkbox"
+              checked={contexts.includes(c)}
+              onChange={(e) =>
+                setContexts((prev) =>
+                  e.target.checked ? [...prev, c] : prev.filter((x) => x !== c)
+                )
+              }
+            />
+            <span>@{c}</span>
+          </label>
+        ))}
+        {contexts.length > 0 && (
+          <button
+            type="button"
+            className="clear-link"
+            onClick={() => setContexts(() => [])}
+          >
+            clear
+          </button>
+        )}
+      </div>
+
+      <div className="filter-section">
+        <h3>Energy</h3>
+        <div className="btn-group">
+          {ENERGY_CHOICES.map((e) => (
+            <button
+              type="button"
+              key={e || 'any'}
+              className={energy === e ? 'active' : ''}
+              onClick={() => setEnergy(e)}
+            >
+              {e || 'any'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="filter-section">
+        <h3>Time (max min)</h3>
+        <input
+          type="number"
+          value={maxMinutes}
+          onChange={(e) => setMaxMinutes(e.target.value)}
+          placeholder="any"
+          min={0}
+        />
+      </div>
+    </div>
+  );
+}
+
 // ---- Next actions view ----
 
-function NextActionsView({ env }: { env: string }) {
-  const { data: config } = useQuery<EnvConfig>({
-    queryKey: ['config', env],
-    queryFn: () => api.getConfig(env),
-  });
-  const [contexts, setContexts] = useState<string[]>([]);
-  const [energy, setEnergy] = useState<Energy | ''>('');
-  const [maxMinutes, setMaxMinutes] = useState<string>('');
-
+function NextActionsView({
+  env,
+  contexts,
+  energy,
+  maxMinutes,
+}: {
+  env: string;
+  contexts: string[];
+  energy: Energy | '';
+  maxMinutes: string;
+}) {
   const params: Record<string, string> = { status: 'next' };
   if (contexts.length) params.contexts = contexts.join(',');
   if (energy) params.energy = energy;
@@ -182,61 +361,10 @@ function NextActionsView({ env }: { env: string }) {
     queryFn: () => api.listItems(env, params),
   });
 
-  return (
-    <>
-      <div className="filters">
-        <label>
-          Contexts:
-          {config?.contexts.map((c) => (
-            <label key={c} style={{ display: 'inline-flex', gap: 4, marginLeft: 8 }}>
-              <input
-                type="checkbox"
-                checked={contexts.includes(c)}
-                onChange={(e) =>
-                  setContexts((prev) =>
-                    e.target.checked ? [...prev, c] : prev.filter((x) => x !== c)
-                  )
-                }
-              />
-              {c}
-            </label>
-          ))}
-        </label>
-        <label>
-          Energy:
-          <select value={energy} onChange={(e) => setEnergy(e.target.value as Energy | '')}>
-            <option value="">any</option>
-            <option value="low">low</option>
-            <option value="medium">medium</option>
-            <option value="high">high</option>
-          </select>
-        </label>
-        <label>
-          Max minutes:
-          <input
-            type="number"
-            value={maxMinutes}
-            onChange={(e) => setMaxMinutes(e.target.value)}
-            style={{ width: 80 }}
-          />
-        </label>
-      </div>
-      <ItemList env={env} items={items ?? []} showEdit />
-    </>
-  );
-}
-
-// ---- Inbox view ----
-
-function InboxView({ env }: { env: string }) {
-  const { data: items } = useQuery({
-    queryKey: ['items', env, 'inbox'],
-    queryFn: () => api.listItems(env, { status: 'inbox' }),
-  });
   return <ItemList env={env} items={items ?? []} showEdit />;
 }
 
-// ---- Bucket view (waiting/someday/reference) ----
+// ---- Bucket view (inbox/waiting/someday/reference/trash) ----
 
 function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
   const { data: items } = useQuery({
@@ -549,9 +677,9 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
       </label>
       <label>
         Contexts
-        <div>
+        <div className="chip-row">
           {config?.contexts.map((c) => (
-            <label key={c} style={{ display: 'inline-flex', gap: 4, marginRight: 8 }}>
+            <label key={c} className="chip-check">
               <input
                 type="checkbox"
                 checked={contexts.includes(c)}
@@ -561,7 +689,7 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
                   )
                 }
               />
-              {c}
+              @{c}
             </label>
           ))}
         </div>
@@ -569,12 +697,18 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
       <div className="row">
         <label>
           Energy
-          <select value={energy} onChange={(e) => setEnergy(e.target.value as Energy | '')}>
-            <option value="">–</option>
-            <option value="low">low</option>
-            <option value="medium">medium</option>
-            <option value="high">high</option>
-          </select>
+          <div className="btn-group">
+            {ENERGY_CHOICES.map((e) => (
+              <button
+                type="button"
+                key={e || 'any'}
+                className={energy === e ? 'active' : ''}
+                onClick={() => setEnergy(e)}
+              >
+                {e || 'any'}
+              </button>
+            ))}
+          </div>
         </label>
         <label>
           Time (min)
@@ -586,14 +720,17 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
         </label>
         <label>
           Area
-          <select value={area} onChange={(e) => setArea(e.target.value)}>
-            <option value="">–</option>
+          <input
+            type="text"
+            value={area}
+            onChange={(e) => setArea(e.target.value)}
+            list={`areas-${env}`}
+          />
+          <datalist id={`areas-${env}`}>
             {config?.areas.map((a) => (
-              <option key={a} value={a}>
-                {a}
-              </option>
+              <option key={a} value={a} />
             ))}
-          </select>
+          </datalist>
         </label>
       </div>
       <div className="row">
@@ -624,7 +761,7 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
         </label>
       </div>
       <label>
-        Notes
+        Notes (markdown)
         <textarea
           rows={4}
           value={body}

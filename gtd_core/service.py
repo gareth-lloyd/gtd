@@ -31,7 +31,22 @@ class GtdService:
 
     # ---- Items ----
 
-    def capture(self, env: str, title: str, body: str = "") -> Item:
+    def capture(
+        self,
+        env: str,
+        title: str,
+        body: str = "",
+        energy: str | None = None,
+        time_minutes: int | None = None,
+        contexts: list[str] | None = None,
+    ) -> Item:
+        repo = self.repo(env)
+        if contexts:
+            cfg = repo.load_config()
+            unknown = set(contexts) - set(cfg.contexts)
+            if unknown:
+                raise ValueError(f"unknown context(s): {sorted(unknown)}")
+
         now = self._now()
         item_id = f"{now.strftime('%Y-%m-%dT%H%M')}-{slugify(title)}"
         item = Item(
@@ -41,8 +56,11 @@ class GtdService:
             created=now,
             updated=now,
             status=Bucket.INBOX,
+            energy=energy,
+            time_minutes=time_minutes,
+            contexts=list(contexts) if contexts else [],
         )
-        self.repo(env).save(item)
+        repo.save(item)
         return item
 
     def move(self, env: str, item_id: str, to: Bucket) -> Item:

@@ -65,7 +65,10 @@ def items(request: Request, env: str) -> Response:
 
     serializer = CaptureSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    item = svc.capture(env, **serializer.validated_data)
+    try:
+        item = svc.capture(env, **serializer.validated_data)
+    except ValueError as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     return Response(ItemSerializer(item).data, status=status.HTTP_201_CREATED)
 
 

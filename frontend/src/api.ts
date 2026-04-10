@@ -95,10 +95,19 @@ export const api = {
   },
   getItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/`),
-  captureItem: (env: string, title: string, body = '') =>
+  captureItem: (
+    env: string,
+    title: string,
+    body = '',
+    extras: {
+      energy?: Energy | null;
+      time_minutes?: number | null;
+      contexts?: string[];
+    } = {}
+  ) =>
     request<Item>(`/envs/${env}/items/`, {
       method: 'POST',
-      body: JSON.stringify({ title, body }),
+      body: JSON.stringify({ title, body, ...extras }),
     }),
   updateItem: (env: string, id: string, patch: Record<string, unknown>) =>
     request<Item>(`/envs/${env}/items/${id}/`, {
