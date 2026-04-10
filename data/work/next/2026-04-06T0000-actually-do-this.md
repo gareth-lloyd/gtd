@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-04-06 00:00:00
+created: 2026-04-06 00:00:00
 defer_until: null
 due: 2026-04-06
 energy: null
@@ -11,7 +11,7 @@ tags:
 - focus
 time_minutes: 15
 title: actually DO THIS
-updated: *id001
+updated: 2026-04-10 08:46:30.092032
 waiting_on: null
 waiting_since: null
 ---
