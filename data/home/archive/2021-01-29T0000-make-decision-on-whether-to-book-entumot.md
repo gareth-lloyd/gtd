@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2021-01-29 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2021-01-29T0000-make-decision-on-whether-to-book-entumot
+project: null
+tags: []
+time_minutes: null
+title: Make decision on whether to book Entumoto
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

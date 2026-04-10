@@ -1,0 +1,18 @@
+---
+area: null
+contexts: []
+created: &id001 2022-10-27 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2022-10-27T0000-reply-rose-martabania
+project: null
+tags: []
+time_minutes: null
+title: reply rose martabania
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+nice to be reminded

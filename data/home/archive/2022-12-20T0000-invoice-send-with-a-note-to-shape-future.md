@@ -1,0 +1,17 @@
+---
+area: null
+contexts: []
+created: &id001 2022-12-20 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2022-12-20T0000-invoice-send-with-a-note-to-shape-future
+project: null
+tags: []
+time_minutes: null
+title: invoice. Send with a note to shape future work - emphasis what I liked about
+  this task
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

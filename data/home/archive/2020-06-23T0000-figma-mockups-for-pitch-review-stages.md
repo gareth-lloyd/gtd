@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2020-06-23 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2020-06-23T0000-figma-mockups-for-pitch-review-stages
+project: 2020-06-29T0000-mvp
+tags: []
+time_minutes: null
+title: Figma mockups for pitch review stages
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

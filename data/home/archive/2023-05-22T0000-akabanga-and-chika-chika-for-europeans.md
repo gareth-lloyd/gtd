@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2023-05-22 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2023-05-22T0000-akabanga-and-chika-chika-for-europeans
+project: null
+tags: []
+time_minutes: null
+title: akabanga and chika chika for europeans
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

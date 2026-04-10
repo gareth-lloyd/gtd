@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2021-04-06 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2021-04-06T0000-fit-together-and-attach-to-workbench
+project: 2021-04-13T0000-workshop-reboot
+tags: []
+time_minutes: null
+title: Fit together and attach to workbench
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

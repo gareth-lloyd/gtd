@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2017-09-02 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2017-09-02T0000-sort-out-car-money
+project: 2017-09-18T0000-crete-17
+tags: []
+time_minutes: null
+title: sort out car money
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

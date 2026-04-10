@@ -1,0 +1,18 @@
+---
+area: null
+contexts: []
+created: &id001 2022-01-17 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2022-01-17T0000-retry-ears-health-passenger-locator
+project: null
+tags: []
+time_minutes: null
+title: Retry ears health passenger locator
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+https://ears.health.go.ke/airline_registration

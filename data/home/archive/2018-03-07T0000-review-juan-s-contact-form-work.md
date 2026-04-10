@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2018-03-07 00:00:00
+defer_until: null
+due: null
+energy: high
+id: 2018-03-07T0000-review-juan-s-contact-form-work
+project: null
+tags: []
+time_minutes: 30
+title: Review juan's contact form work
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

@@ -1,0 +1,20 @@
+---
+area: null
+contexts: []
+created: &id001 2019-08-27 00:00:00
+defer_until: null
+due: null
+energy: medium
+id: 2019-08-27T0000-read-through-the-add-an-index-to-the-ape
+project: 2020-04-17T0000-housekeep
+tags:
+- scoping
+time_minutes: 15
+title: REad through the "Add an index to the APE table" story, and write up the technical
+  implementation
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+coding

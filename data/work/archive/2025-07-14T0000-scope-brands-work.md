@@ -1,0 +1,18 @@
+---
+area: null
+contexts: []
+created: &id001 2025-07-14 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2025-07-14T0000-scope-brands-work
+project: null
+tags: []
+time_minutes: null
+title: Scope brands work
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+https://linear.app/canary-technologies/issue/ENT-3840/hotels-not-assigned-brands

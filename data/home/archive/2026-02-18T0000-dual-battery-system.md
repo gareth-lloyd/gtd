@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2026-02-18 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2026-02-18T0000-dual-battery-system
+project: 2026-04-10T0840-purchases
+tags: []
+time_minutes: null
+title: dual battery system
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

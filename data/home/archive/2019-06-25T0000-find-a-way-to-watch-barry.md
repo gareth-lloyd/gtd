@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2019-06-25 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2019-06-25T0000-find-a-way-to-watch-barry
+project: null
+tags: []
+time_minutes: null
+title: find a way to watch barry
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

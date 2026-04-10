@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2020-04-22 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2020-04-22T0000-sign-in-to-pariti-aws
+project: 2021-05-10T0000-pariti
+tags: []
+time_minutes: null
+title: sign in to pariti aws
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2023-03-09 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2023-03-09T0000-transfer-some-monies-income-target-to-ba
+project: null
+tags: []
+time_minutes: null
+title: transfer some monies (income target) to barclays
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

@@ -1,0 +1,18 @@
+---
+area: null
+contexts: []
+created: &id001 2024-12-13 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2024-12-13T0000-bw-upsells-images
+project: null
+tags: []
+time_minutes: null
+title: BW upsells images
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+Add to repo and alter code

@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2018-07-30 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2018-07-30T0000-secure-print-paper-wallet
+project: null
+tags: []
+time_minutes: null
+title: secure print paper wallet
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

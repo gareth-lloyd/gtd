@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2021-01-12 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2021-01-12T0000-experiment-with-ways-to-use-iphone-as-a
+project: 2026-04-10T0840-music
+tags: []
+time_minutes: null
+title: Experiment with ways to use iphone as a sampler
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

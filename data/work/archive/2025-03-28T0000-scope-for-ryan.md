@@ -1,0 +1,19 @@
+---
+area: null
+contexts: []
+created: &id001 2025-03-28 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2025-03-28T0000-scope-for-ryan
+project: null
+tags: []
+time_minutes: null
+title: Scope for ryan
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+https://linear.app/canary-technologies/issue/ENT-3014/filter-cohorthoteltable-by-training-date
+https://linear.app/canary-technologies/issue/ENT-3016/classify-certain-onboardingvalue-types-as-secret

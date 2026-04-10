@@ -1,0 +1,18 @@
+---
+area: null
+contexts: []
+created: &id001 2024-12-18 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2024-12-18T0000-taylor-how-to-onboard-hotel
+project: null
+tags: []
+time_minutes: null
+title: taylor how to onboard hotel
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+instructions - check it will work

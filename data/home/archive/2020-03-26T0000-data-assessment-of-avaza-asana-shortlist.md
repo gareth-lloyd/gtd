@@ -1,0 +1,22 @@
+---
+area: null
+contexts: []
+created: &id001 2020-03-26 00:00:00
+defer_until: null
+due: null
+energy: medium
+id: 2020-03-26T0000-data-assessment-of-avaza-asana-shortlist
+project: 2021-05-10T0000-pariti
+tags: []
+time_minutes: 45
+title: data assessment of avaza, asana, shortlist
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+api capability
+data portability
+
+https://asana.com/guide/help/api/api
+https://api.shortlist.co/docs

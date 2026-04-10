@@ -1,0 +1,17 @@
+---
+area: null
+contexts: []
+created: &id001 2019-03-16 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2019-03-16T0000-stretch-for-run-tomorrow
+project: 2019-06-25T0000-bits
+tags:
+- evening
+time_minutes: null
+title: stretch for run tomorrow
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

@@ -1,0 +1,16 @@
+---
+area: null
+contexts: []
+created: &id001 2017-05-25 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2017-05-25T0000-talk-to-ian-about-focusing-toby-feedback
+project: 2019-01-08T0000-strategy
+tags: []
+time_minutes: null
+title: Talk to Ian about focusing Toby feedback
+updated: *id001
+waiting_on: null
+waiting_since: null
+---

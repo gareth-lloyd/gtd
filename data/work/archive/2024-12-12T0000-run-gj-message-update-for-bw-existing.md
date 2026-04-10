@@ -1,0 +1,18 @@
+---
+area: null
+contexts: []
+created: &id001 2024-12-12 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2024-12-12T0000-run-gj-message-update-for-bw-existing
+project: null
+tags: []
+time_minutes: null
+title: Run GJ message update for BW existing
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+use the opportunity to establish which ones are live

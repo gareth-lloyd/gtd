@@ -1,0 +1,22 @@
+---
+area: null
+contexts: []
+created: &id001 2019-10-30 00:00:00
+defer_until: null
+due: null
+energy: null
+id: 2019-10-30T0000-convert-to-app-build-to-yarn
+project: 2019-12-03T0000-zd-chat-in-app
+tags: []
+time_minutes: null
+title: Convert to app build to yarn
+updated: *id001
+waiting_on: null
+waiting_since: null
+---
+
+- find and replace
+- run iOS build
+- run webapp build
+- modify readme
+- test readme commands
