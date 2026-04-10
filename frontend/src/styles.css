@@ -136,15 +136,47 @@ button {
   background: var(--card);
   cursor: pointer;
   color: inherit;
+  position: relative;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background: #f4f4f4;
 }
 
 button:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
+}
+
+button.busy {
+  cursor: progress;
+  opacity: 1;
+}
+
+.btn-label {
+  display: inline-block;
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.9em;
+  height: 0.9em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 button.primary {
@@ -580,4 +612,82 @@ button.danger:hover {
   background: #fef2f2;
   margin-bottom: 0.5rem;
   font-size: 0.85rem;
+}
+
+/* ---- Toast ---- */
+
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1000;
+  max-width: 420px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  pointer-events: auto;
+  animation: toast-in 0.2s ease-out;
+  font-size: 0.9rem;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-error {
+  border-left: 3px solid var(--danger);
+  color: var(--danger);
+  background: #fef2f2;
+}
+
+.toast-success {
+  border-left: 3px solid var(--success);
+  color: var(--success);
+  background: #ecfdf5;
+}
+
+.toast-info {
+  border-left: 3px solid var(--accent);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.toast-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1.2rem;
+  padding: 0 0.25rem;
+  cursor: pointer;
+  opacity: 0.6;
+  line-height: 1;
+}
+
+.toast-close:hover {
+  opacity: 1;
+  background: transparent;
 }

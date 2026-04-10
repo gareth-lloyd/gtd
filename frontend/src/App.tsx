@@ -11,6 +11,7 @@ import {
   type Item,
   type Project,
 } from './api';
+import { Button } from './Button';
 
 type Tab =
   | 'next'
@@ -32,6 +33,17 @@ const TABS: Tab[] = [
 ];
 
 const FILTER_TABS: Tab[] = ['next'];
+
+const ENERGY_CHOICES: (Energy | '')[] = ['', 'low', 'medium', 'high'];
+
+const TIME_CHOICES: { label: string; value: string }[] = [
+  { label: 'any', value: '' },
+  { label: '5m', value: '5' },
+  { label: '15m', value: '15' },
+  { label: '30m', value: '30' },
+  { label: '60m', value: '60' },
+  { label: '2h+', value: '240' },
+];
 
 export default function App() {
   const [env, setEnv] = useState<string>(
@@ -63,7 +75,6 @@ export default function App() {
   }, [env]);
 
   useEffect(() => {
-    // Reset filters when switching envs (contexts list differs)
     setContexts([]);
   }, [env]);
 
@@ -203,9 +214,14 @@ function CaptureBar({ env }: { env: string }) {
         >
           {expanded ? '▲' : '▼'}
         </button>
-        <button type="submit" className="primary" disabled={!title.trim()}>
+        <Button
+          type="submit"
+          className="primary"
+          disabled={!title.trim()}
+          busy={mut.isPending}
+        >
           Capture
-        </button>
+        </Button>
       </div>
       {expanded && (
         <>
@@ -245,22 +261,21 @@ function SyncButton() {
       <span className={count > 0 ? 'count dirty' : 'count'}>
         {count === 0 ? 'clean' : `${count} dirty`}
       </span>
-      <button
+      <Button
         onClick={() => {
           const msg = prompt('Snapshot message (optional):') || undefined;
           snap.mutate(msg);
         }}
-        disabled={count === 0 || snap.isPending}
+        disabled={count === 0}
+        busy={snap.isPending}
       >
         Sync
-      </button>
+      </Button>
     </div>
   );
 }
 
 // ---- Filter panel ----
-
-const ENERGY_CHOICES: (Energy | '')[] = ['', 'low', 'medium', 'high'];
 
 function FilterPanel({
   config,
@@ -325,14 +340,19 @@ function FilterPanel({
       </div>
 
       <div className="filter-section">
-        <h3>Time (max min)</h3>
-        <input
-          type="number"
-          value={maxMinutes}
-          onChange={(e) => setMaxMinutes(e.target.value)}
-          placeholder="any"
-          min={0}
-        />
+        <h3>Max time</h3>
+        <div className="btn-group">
+          {TIME_CHOICES.map((t) => (
+            <button
+              type="button"
+              key={t.label}
+              className={maxMinutes === t.value ? 'active' : ''}
+              onClick={() => setMaxMinutes(t.value)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -356,32 +376,36 @@ function NextActionsView({
   if (energy) params.energy = energy;
   if (maxMinutes) params.max_minutes = maxMinutes;
 
-  const { data: items } = useQuery({
+  const { data: items, isLoading } = useQuery({
     queryKey: ['items', env, 'next', contexts, energy, maxMinutes],
     queryFn: () => api.listItems(env, params),
   });
 
+  if (isLoading) return <div className="empty">Loading…</div>;
   return <ItemList env={env} items={items ?? []} showEdit />;
 }
 
 // ---- Bucket view (inbox/waiting/someday/reference/trash) ----
 
 function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
-  const { data: items } = useQuery({
+  const { data: items, isLoading } = useQuery({
     queryKey: ['items', env, bucket],
     queryFn: () => api.listItems(env, { status: bucket }),
   });
+  if (isLoading) return <div className="empty">Loading…</div>;
   return <ItemList env={env} items={items ?? []} showEdit />;
 }
 
 // ---- Projects view ----
 
 function ProjectsView({ env }: { env: string }) {
-  const { data: projects } = useQuery({
+  const { data: projects, isLoading } = useQuery({
     queryKey: ['projects', env],
     queryFn: () => api.listProjects(env),
   });
   const [expanded, setExpanded] = useState<string | null>(null);
+
+  if (isLoading) return <div className="empty">Loading…</div>;
 
   return (
     <>
@@ -450,9 +474,14 @@ function NewProjectForm({ env }: { env: string }) {
         />
       </label>
       <div className="row">
-        <button className="primary" onClick={() => mut.mutate()} disabled={!id || !title}>
+        <Button
+          className="primary"
+          onClick={() => mut.mutate()}
+          disabled={!id || !title}
+          busy={mut.isPending}
+        >
           Create
-        </button>
+        </Button>
         <button onClick={() => setOpen(false)}>Cancel</button>
       </div>
     </div>
@@ -538,8 +567,9 @@ function ItemRow({
     qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     qc.invalidateQueries({ queryKey: ['projects', env] });
   };
-  const moveMut = useMutation({
-    mutationFn: (to: Bucket) => api.moveItem(env, item.id, to),
+
+  const moveMut = useMutation<Item, Error, Bucket>({
+    mutationFn: (to) => api.moveItem(env, item.id, to),
     onSuccess: invalidate,
   });
   const completeMut = useMutation({
@@ -554,6 +584,15 @@ function ItemRow({
     mutationFn: () => api.purgeItem(env, item.id),
     onSuccess: invalidate,
   });
+
+  const rowBusy =
+    moveMut.isPending ||
+    completeMut.isPending ||
+    deleteMut.isPending ||
+    purgeMut.isPending;
+
+  const isMoving = (to: Bucket) =>
+    moveMut.isPending && moveMut.variables === to;
 
   const inTrash = item.status === 'trash';
   const isArchive = item.status === 'archive';
@@ -585,32 +624,75 @@ function ItemRow({
       <div className="item-actions">
         {inTrash ? (
           <>
-            <button onClick={() => moveMut.mutate('inbox')}>↺ restore</button>
-            <button
+            <Button
+              onClick={() => moveMut.mutate('inbox')}
+              busy={isMoving('inbox')}
+              disabled={rowBusy}
+            >
+              ↺ restore
+            </Button>
+            <Button
               className="danger"
               onClick={() => {
                 if (confirm(`Permanently delete "${item.title}"?`)) purgeMut.mutate();
               }}
+              busy={purgeMut.isPending}
+              disabled={rowBusy}
             >
               Purge
-            </button>
+            </Button>
           </>
         ) : (
           <>
             {item.status !== 'next' && !isArchive && (
-              <button onClick={() => moveMut.mutate('next')}>→ next</button>
+              <Button
+                onClick={() => moveMut.mutate('next')}
+                busy={isMoving('next')}
+                disabled={rowBusy}
+              >
+                → next
+              </Button>
             )}
             {item.status !== 'waiting' && !isArchive && (
-              <button onClick={() => moveMut.mutate('waiting')}>→ waiting</button>
+              <Button
+                onClick={() => moveMut.mutate('waiting')}
+                busy={isMoving('waiting')}
+                disabled={rowBusy}
+              >
+                → waiting
+              </Button>
             )}
             {item.status !== 'someday' && !isArchive && (
-              <button onClick={() => moveMut.mutate('someday')}>→ someday</button>
+              <Button
+                onClick={() => moveMut.mutate('someday')}
+                busy={isMoving('someday')}
+                disabled={rowBusy}
+              >
+                → someday
+              </Button>
             )}
-            {!isArchive && <button onClick={() => completeMut.mutate()}>✓ done</button>}
-            {showEdit && <button onClick={onEdit}>{editing ? 'Close' : 'Edit'}</button>}
-            <button className="danger" onClick={() => deleteMut.mutate()}>
+            {!isArchive && (
+              <Button
+                onClick={() => completeMut.mutate()}
+                busy={completeMut.isPending}
+                disabled={rowBusy}
+              >
+                ✓ done
+              </Button>
+            )}
+            {showEdit && (
+              <button onClick={onEdit} disabled={rowBusy}>
+                {editing ? 'Close' : 'Edit'}
+              </button>
+            )}
+            <Button
+              className="danger"
+              onClick={() => deleteMut.mutate()}
+              busy={deleteMut.isPending}
+              disabled={rowBusy}
+            >
               Delete
-            </button>
+            </Button>
           </>
         )}
       </div>
@@ -641,7 +723,6 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
   const [due, setDue] = useState<string>(item.due ?? '');
   const [deferUntil, setDeferUntil] = useState<string>(item.defer_until ?? '');
   const [body, setBody] = useState<string>(item.body);
-  const [error, setError] = useState<string | null>(null);
 
   const mut = useMutation({
     mutationFn: () =>
@@ -657,16 +738,13 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
         defer_until: deferUntil || null,
       }),
     onSuccess: () => {
-      setError(null);
       qc.invalidateQueries({ queryKey: ['items', env] });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     },
-    onError: (e: Error) => setError(e.message),
   });
 
   return (
     <div className="editor">
-      {error && <div className="error">{error}</div>}
       <label>
         Title
         <input
@@ -768,9 +846,9 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
           onChange={(e) => setBody(e.target.value)}
         />
       </label>
-      <button className="primary" onClick={() => mut.mutate()} disabled={mut.isPending}>
+      <Button className="primary" onClick={() => mut.mutate()} busy={mut.isPending}>
         Save
-      </button>
+      </Button>
     </div>
   );
 }
