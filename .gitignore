@@ -15,6 +15,9 @@ htmlcov/
 frontend/node_modules/
 frontend/dist/
 
+# Django collectstatic output (unused locally)
+staticfiles/
+
 # Editor
 .vscode/
 .idea/
