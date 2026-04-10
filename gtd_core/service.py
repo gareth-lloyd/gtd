@@ -75,9 +75,9 @@ class GtdService:
     def delete(self, env: str, item_id: str) -> None:
         self.repo(env).delete(item_id)
 
-    def filter_next(
+    def filter_items(
         self,
-        env: str,
+        items: list[Item],
         contexts: list[str] | None = None,
         max_minutes: int | None = None,
         energy: str | None = None,
@@ -86,7 +86,7 @@ class GtdService:
     ) -> list[Item]:
         today = self._now().date()
         results = []
-        for item in self.repo(env).list_items(bucket=Bucket.NEXT):
+        for item in items:
             if not include_deferred and item.defer_until and item.defer_until > today:
                 continue
             if contexts and not (set(item.contexts) & set(contexts)):
@@ -101,6 +101,25 @@ class GtdService:
                 continue
             results.append(item)
         return results
+
+    def filter_next(
+        self,
+        env: str,
+        contexts: list[str] | None = None,
+        max_minutes: int | None = None,
+        energy: str | None = None,
+        project: str | None = None,
+        include_deferred: bool = False,
+    ) -> list[Item]:
+        items = self.repo(env).list_items(bucket=Bucket.NEXT)
+        return self.filter_items(
+            items,
+            contexts=contexts,
+            max_minutes=max_minutes,
+            energy=energy,
+            project=project,
+            include_deferred=include_deferred,
+        )
 
     def actions_for_project(self, env: str, project_id: str) -> list[Item]:
         return [i for i in self.repo(env).list_items() if i.project == project_id]
