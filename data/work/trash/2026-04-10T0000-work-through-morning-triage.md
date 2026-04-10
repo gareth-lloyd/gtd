@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-04-10 00:00:00
+created: 2026-04-10 00:00:00
 defer_until: null
 due: 2026-04-10
 energy: high
@@ -11,7 +11,7 @@ tags:
 - focus
 time_minutes: 15
 title: Work through morning triage
-updated: *id001
+updated: 2026-04-10 09:04:44.465015
 waiting_on: null
 waiting_since: null
 ---

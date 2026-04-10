@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-04-10 08:40:18.533453
+created: 2026-04-10 08:40:18.533453
 defer_until: null
 due: null
 energy: null
@@ -10,7 +10,7 @@ project: null
 tags: []
 time_minutes: null
 title: check use of slug-name for redirect is consistant
-updated: *id001
+updated: 2026-04-10 09:04:52.104907
 waiting_on: null
 waiting_since: null
 ---
