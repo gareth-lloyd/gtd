@@ -26,6 +26,11 @@ target-version = "py313"
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "N", "SIM"]
 
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+extraPaths = ["."]
+
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "gtd_site.settings"
 python_files = ["test_*.py", "tests.py"]

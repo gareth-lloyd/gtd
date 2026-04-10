@@ -13,7 +13,6 @@ class Bucket(str, Enum):
     WAITING = "waiting"
     SOMEDAY = "someday"
     REFERENCE = "reference"
-    PROJECTS = "projects"
     ARCHIVE = "archive"
 
 

@@ -10,7 +10,6 @@ class TestBucket:
         assert Bucket.WAITING.value == "waiting"
         assert Bucket.SOMEDAY.value == "someday"
         assert Bucket.REFERENCE.value == "reference"
-        assert Bucket.PROJECTS.value == "projects"
         assert Bucket.ARCHIVE.value == "archive"
 
     def test_from_value(self):
