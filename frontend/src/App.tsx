@@ -172,7 +172,6 @@ function EnvTabs({
 function CaptureBar({ env }: { env: string }) {
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
-  const [expanded, setExpanded] = useState(false);
   const qc = useQueryClient();
 
   const mut = useMutation({
@@ -184,7 +183,6 @@ function CaptureBar({ env }: { env: string }) {
     onSuccess: () => {
       setTitle('');
       setNotes('');
-      setExpanded(false);
       qc.invalidateQueries({ queryKey: ['items', env] });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     },
@@ -192,7 +190,7 @@ function CaptureBar({ env }: { env: string }) {
 
   return (
     <form
-      className={expanded ? 'capture expanded' : 'capture'}
+      className="capture"
       onSubmit={(e) => {
         e.preventDefault();
         if (title.trim()) mut.mutate();
@@ -206,14 +204,6 @@ function CaptureBar({ env }: { env: string }) {
           onChange={(e) => setTitle(e.target.value)}
           autoFocus
         />
-        <button
-          type="button"
-          className="expand"
-          onClick={() => setExpanded(!expanded)}
-          title={expanded ? 'Hide notes' : 'Add notes'}
-        >
-          {expanded ? '▲' : '▼'}
-        </button>
         <Button
           type="submit"
           className="primary"
@@ -223,19 +213,15 @@ function CaptureBar({ env }: { env: string }) {
           Capture
         </Button>
       </div>
-      {expanded && (
-        <>
-          <textarea
-            rows={4}
-            placeholder="Notes (markdown supported)…"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
-          <div className="capture-hint">
-            Captured with energy=low, time=5min. Adjust later via Edit.
-          </div>
-        </>
-      )}
+      <textarea
+        rows={3}
+        placeholder="Notes (markdown supported, optional)…"
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
+      <div className="capture-hint">
+        Captured with energy=low, time=5min. Adjust later via Edit.
+      </div>
     </form>
   );
 }
@@ -399,9 +385,10 @@ function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
 // ---- Projects view ----
 
 function ProjectsView({ env }: { env: string }) {
+  const [showFinished, setShowFinished] = useState(false);
   const { data: projects, isLoading } = useQuery({
-    queryKey: ['projects', env],
-    queryFn: () => api.listProjects(env),
+    queryKey: ['projects', env, showFinished],
+    queryFn: () => api.listProjects(env, showFinished),
   });
   const [expanded, setExpanded] = useState<string | null>(null);
 
@@ -409,7 +396,17 @@ function ProjectsView({ env }: { env: string }) {
 
   return (
     <>
-      <NewProjectForm env={env} />
+      <div className="projects-toolbar">
+        <NewProjectForm env={env} />
+        <label className="toggle">
+          <input
+            type="checkbox"
+            checked={showFinished}
+            onChange={(e) => setShowFinished(e.target.checked)}
+          />
+          Show finished
+        </label>
+      </div>
       {projects?.length === 0 && <div className="empty">No projects yet.</div>}
       {projects?.map((p) => (
         <ProjectCard
@@ -499,18 +496,82 @@ function ProjectCard({
   expanded: boolean;
   onToggle: () => void;
 }) {
+  const qc = useQueryClient();
   const { data } = useQuery({
     queryKey: ['project', env, project.id],
     queryFn: () => api.getProject(env, project.id),
     enabled: expanded,
   });
 
+  const invalidate = () => {
+    qc.invalidateQueries({ queryKey: ['projects', env] });
+    qc.invalidateQueries({ queryKey: ['project', env, project.id] });
+    qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+  };
+
+  const statusMut = useMutation<Project, Error, string>({
+    mutationFn: (status) => api.updateProject(env, project.id, { status }),
+    onSuccess: invalidate,
+  });
+
+  const deleteMut = useMutation({
+    mutationFn: () => api.deleteProject(env, project.id),
+    onSuccess: invalidate,
+  });
+
+  const isDone = project.status === 'complete' || project.status === 'dropped';
+  const anyPending = statusMut.isPending || deleteMut.isPending;
+
   return (
-    <div className="project-card">
+    <div className={isDone ? 'project-card done' : 'project-card'}>
       <h3 onClick={onToggle} style={{ cursor: 'pointer' }}>
         {expanded ? '▼' : '▶'} {project.title}
+        {project.status !== 'active' && (
+          <span className="project-status">{project.status}</span>
+        )}
       </h3>
       {project.outcome && <div className="outcome">{project.outcome}</div>}
+      <div className="project-actions">
+        {project.status !== 'complete' && (
+          <Button
+            onClick={() => statusMut.mutate('complete')}
+            busy={statusMut.isPending && statusMut.variables === 'complete'}
+            disabled={anyPending}
+          >
+            ✓ Mark complete
+          </Button>
+        )}
+        {project.status !== 'active' && (
+          <Button
+            onClick={() => statusMut.mutate('active')}
+            busy={statusMut.isPending && statusMut.variables === 'active'}
+            disabled={anyPending}
+          >
+            ↺ Reopen
+          </Button>
+        )}
+        {project.status === 'active' && (
+          <Button
+            onClick={() => statusMut.mutate('on_hold')}
+            busy={statusMut.isPending && statusMut.variables === 'on_hold'}
+            disabled={anyPending}
+          >
+            ⏸ Put on hold
+          </Button>
+        )}
+        <Button
+          className="danger"
+          onClick={() => {
+            if (confirm(`Delete project "${project.title}"? Actions linked to it will not be deleted.`)) {
+              deleteMut.mutate();
+            }
+          }}
+          busy={deleteMut.isPending}
+          disabled={anyPending}
+        >
+          Delete
+        </Button>
+      </div>
       {expanded && data && (
         <ItemList env={env} items={data.actions} showEdit={false} />
       )}

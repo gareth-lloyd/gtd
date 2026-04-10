@@ -263,6 +263,53 @@ class TestActionsForProject:
         assert {r.id for r in results} == {a.id}
 
 
+class TestProjectUpdates:
+    def _save(self, svc, pid: str, status: str = "active") -> Project:
+        project = Project(
+            id=pid,
+            title=f"Project {pid}",
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+            status=status,  # type: ignore[arg-type]
+        )
+        svc.save_project("work", project)
+        return project
+
+    def test_update_project_status(self, svc):
+        self._save(svc, "p1")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        updated = svc.update_project("work", "p1", {"status": "complete"})
+        assert updated.status == "complete"
+        assert updated.updated == datetime(2026, 4, 11, 10, 0)
+
+    def test_update_project_missing_raises(self, svc):
+        with pytest.raises(KeyError):
+            svc.update_project("work", "nope", {"status": "complete"})
+
+    def test_update_project_invalid_status(self, svc):
+        self._save(svc, "p1")
+        with pytest.raises(ValueError, match="invalid status"):
+            svc.update_project("work", "p1", {"status": "bogus"})
+
+    def test_update_project_immutable_fields(self, svc):
+        self._save(svc, "p1")
+        with pytest.raises(ValueError, match="immutable"):
+            svc.update_project("work", "p1", {"id": "hacked"})
+
+    def test_list_projects_hides_complete(self, svc):
+        self._save(svc, "a1")
+        self._save(svc, "done1", status="complete")
+        ids = {p.id for p in svc.list_projects("work")}
+        assert ids == {"a1"}
+
+    def test_list_projects_include_inactive(self, svc):
+        self._save(svc, "a1")
+        self._save(svc, "done1", status="complete")
+        ids = {p.id for p in svc.list_projects("work", include_inactive=True)}
+        assert ids == {"a1", "done1"}
+
+
 class TestEnvIsolation:
     def test_capture_in_different_envs(self, svc, data_root):
         w = svc.capture("work", "Work item")

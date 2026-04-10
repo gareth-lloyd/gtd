@@ -142,13 +142,14 @@ class TestConfig:
 
 
 class TestProjects:
-    def _make_project(self, project_id: str) -> Project:
+    def _make_project(self, project_id: str, status: str = "active") -> Project:
         return Project(
             id=project_id,
             title=f"Project {project_id}",
             body="",
             created=datetime(2026, 3, 1),
             updated=datetime(2026, 3, 1),
+            status=status,  # type: ignore[arg-type]
         )
 
     def test_save_and_list(self, repo):
@@ -156,6 +157,21 @@ class TestProjects:
         repo.save_project(self._make_project("p2"))
         projects = repo.list_projects()
         assert {p.id for p in projects} == {"p1", "p2"}
+
+    def test_list_excludes_complete_by_default(self, repo):
+        repo.save_project(self._make_project("active1"))
+        repo.save_project(self._make_project("hold1", status="on_hold"))
+        repo.save_project(self._make_project("done1", status="complete"))
+        repo.save_project(self._make_project("drop1", status="dropped"))
+        ids = {p.id for p in repo.list_projects()}
+        assert ids == {"active1", "hold1"}
+
+    def test_list_include_inactive(self, repo):
+        repo.save_project(self._make_project("a1"))
+        repo.save_project(self._make_project("done1", status="complete"))
+        repo.save_project(self._make_project("drop1", status="dropped"))
+        ids = {p.id for p in repo.list_projects(include_inactive=True)}
+        assert ids == {"a1", "done1", "drop1"}
 
     def test_get_project(self, repo):
         repo.save_project(self._make_project("p1"))

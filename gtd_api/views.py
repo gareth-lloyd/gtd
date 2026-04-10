@@ -130,7 +130,12 @@ def item_complete(request: Request, env: str, item_id: str) -> Response:
 def projects(request: Request, env: str) -> Response:
     svc = _service()
     if request.method == "GET":
-        return Response(ProjectSerializer(svc.list_projects(env), many=True).data)
+        include_inactive = request.query_params.get("include_inactive") == "true"
+        return Response(
+            ProjectSerializer(
+                svc.list_projects(env, include_inactive=include_inactive), many=True
+            ).data
+        )
 
     serializer = ProjectCreateSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -150,19 +155,35 @@ def projects(request: Request, env: str) -> Response:
     return Response(ProjectSerializer(project).data, status=status.HTTP_201_CREATED)
 
 
-@api_view(["GET"])
+@api_view(["GET", "PATCH", "DELETE"])
 def project_detail(request: Request, env: str, project_id: str) -> Response:
     svc = _service()
-    project = svc.get_project(env, project_id)
-    if project is None:
+    if request.method == "GET":
+        project = svc.get_project(env, project_id)
+        if project is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        actions = svc.actions_for_project(env, project_id)
+        return Response(
+            {
+                "project": ProjectSerializer(project).data,
+                "actions": ItemSerializer(actions, many=True).data,
+            }
+        )
+
+    if request.method == "PATCH":
+        try:
+            project = svc.update_project(env, project_id, request.data)
+        except KeyError:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(ProjectSerializer(project).data)
+
+    try:
+        svc.delete_project(env, project_id)
+    except KeyError:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    actions = svc.actions_for_project(env, project_id)
-    return Response(
-        {
-            "project": ProjectSerializer(project).data,
-            "actions": ItemSerializer(actions, many=True).data,
-        }
-    )
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])

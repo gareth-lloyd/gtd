@@ -575,6 +575,27 @@ button.danger:hover {
 
 /* ---- Projects ---- */
 
+.projects-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.projects-toolbar .toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.projects-toolbar .toggle input {
+  width: auto;
+}
+
 .project-card {
   padding: 1rem;
   background: var(--card);
@@ -583,9 +604,35 @@ button.danger:hover {
   margin-bottom: 1rem;
 }
 
+.project-card.done {
+  background: #fafafa;
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.project-card.done h3 {
+  text-decoration: line-through;
+  text-decoration-color: var(--muted);
+}
+
 .project-card h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.project-status {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #f0f0f0;
+  color: var(--muted);
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 500;
+  text-decoration: none;
 }
 
 .project-card .outcome {
@@ -593,6 +640,18 @@ button.danger:hover {
   color: var(--muted);
   font-style: italic;
   margin-bottom: 0.5rem;
+}
+
+.project-actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+}
+
+.project-actions button {
+  font-size: 0.85rem;
+  padding: 0.25rem 0.6rem;
 }
 
 /* ---- Misc ---- */

@@ -126,8 +126,10 @@ export const api = {
   purgeItem: (env: string, id: string) =>
     request<void>(`/envs/${env}/items/${id}/purge/`, { method: 'POST' }),
 
-  listProjects: (env: string) =>
-    request<Project[]>(`/envs/${env}/projects/`),
+  listProjects: (env: string, includeInactive = false) => {
+    const qs = includeInactive ? '?include_inactive=true' : '';
+    return request<Project[]>(`/envs/${env}/projects/${qs}`);
+  },
   getProject: (env: string, id: string) =>
     request<{ project: Project; actions: Item[] }>(
       `/envs/${env}/projects/${id}/`
@@ -140,6 +142,13 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(data),
     }),
+  updateProject: (env: string, id: string, patch: Record<string, unknown>) =>
+    request<Project>(`/envs/${env}/projects/${id}/`, {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    }),
+  deleteProject: (env: string, id: string) =>
+    request<void>(`/envs/${env}/projects/${id}/`, { method: 'DELETE' }),
 
   snapshotStatus: () => request<SnapshotStatus>('/snapshot/status/'),
   snapshot: (message?: string, push = false) =>

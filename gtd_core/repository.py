@@ -75,8 +75,13 @@ class EnvRepository:
 
     # ---- Projects ----
 
-    def list_projects(self) -> list[Project]:
-        return [load_project(p) for p in list_item_paths(self.env_root / "projects")]
+    def list_projects(self, include_inactive: bool = False) -> list[Project]:
+        all_projects = [
+            load_project(p) for p in list_item_paths(self.env_root / "projects")
+        ]
+        if include_inactive:
+            return all_projects
+        return [p for p in all_projects if p.status in ("active", "on_hold")]
 
     def get_project(self, project_id: str) -> Project | None:
         path = self.env_root / "projects" / f"{project_id}.md"

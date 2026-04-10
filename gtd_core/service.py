@@ -8,6 +8,8 @@ from gtd_core.repository import EnvRepository
 
 _ENERGY_RANK = {"low": 1, "medium": 2, "high": 3}
 
+PROJECT_STATUSES = frozenset({"active", "on_hold", "complete", "dropped"})
+
 
 class GtdService:
     def __init__(self, root: Path, now: Callable[[], datetime] | None = None):
@@ -155,8 +157,23 @@ class GtdService:
     def get_project(self, env: str, project_id: str) -> Project | None:
         return self.repo(env).get_project(project_id)
 
-    def list_projects(self, env: str) -> list[Project]:
-        return self.repo(env).list_projects()
+    def list_projects(self, env: str, include_inactive: bool = False) -> list[Project]:
+        return self.repo(env).list_projects(include_inactive=include_inactive)
+
+    def update_project(self, env: str, project_id: str, patch: dict) -> Project:
+        if "id" in patch or "created" in patch:
+            raise ValueError("cannot change immutable fields id/created")
+        if "status" in patch and patch["status"] not in PROJECT_STATUSES:
+            raise ValueError(f"invalid status: {patch['status']}")
+        repo = self.repo(env)
+        project = repo.get_project(project_id)
+        if project is None:
+            raise KeyError(project_id)
+        for field_name, value in patch.items():
+            setattr(project, field_name, value)
+        project.updated = self._now()
+        repo.save_project(project)
+        return project
 
     def delete_project(self, env: str, project_id: str) -> None:
         self.repo(env).delete_project(project_id)

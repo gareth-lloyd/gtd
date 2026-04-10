@@ -254,6 +254,42 @@ class TestProjects:
         r = api.get("/api/envs/work/projects/nope/")
         assert r.status_code == 404
 
+    def test_list_hides_complete_by_default(self, api):
+        api.post("/api/envs/work/projects/", {"id": "active1", "title": "Active"}, format="json")
+        api.post("/api/envs/work/projects/", {"id": "done1", "title": "Done"}, format="json")
+        api.patch("/api/envs/work/projects/done1/", {"status": "complete"}, format="json")
+
+        r = api.get("/api/envs/work/projects/")
+        ids = {p["id"] for p in r.json()}
+        assert ids == {"active1"}
+
+    def test_list_include_inactive(self, api):
+        api.post("/api/envs/work/projects/", {"id": "active1", "title": "Active"}, format="json")
+        api.post("/api/envs/work/projects/", {"id": "done1", "title": "Done"}, format="json")
+        api.patch("/api/envs/work/projects/done1/", {"status": "complete"}, format="json")
+
+        r = api.get("/api/envs/work/projects/?include_inactive=true")
+        ids = {p["id"] for p in r.json()}
+        assert ids == {"active1", "done1"}
+
+    def test_patch_project_status(self, api):
+        api.post("/api/envs/work/projects/", {"id": "p1", "title": "P"}, format="json")
+        r = api.patch("/api/envs/work/projects/p1/", {"status": "complete"}, format="json")
+        assert r.status_code == 200
+        assert r.json()["status"] == "complete"
+
+    def test_patch_project_invalid_status(self, api):
+        api.post("/api/envs/work/projects/", {"id": "p1", "title": "P"}, format="json")
+        r = api.patch("/api/envs/work/projects/p1/", {"status": "bogus"}, format="json")
+        assert r.status_code == 400
+
+    def test_delete_project(self, api):
+        api.post("/api/envs/work/projects/", {"id": "p1", "title": "P"}, format="json")
+        r = api.delete("/api/envs/work/projects/p1/")
+        assert r.status_code == 204
+        r = api.get("/api/envs/work/projects/p1/")
+        assert r.status_code == 404
+
 
 class TestSnapshot:
     def test_status_clean(self, api):
