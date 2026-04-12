@@ -32,11 +32,13 @@ the Django server.
 ## Testing
 
 ```sh
-uv run pytest           # 142 tests, ~5s
-uv run ruff check .     # lint
+uv run pytest                    # backend (models, storage, repo, service, API, snapshot, importer)
+cd frontend && npm test          # frontend (vitest + testing-library)
+uv run ruff check .              # lint
 ```
 
-All tests use `tmp_path` fixtures — no test touches real data under `data/`.
+All backend tests use `tmp_path` fixtures — no test touches real data.
+Frontend tests use jsdom + mocked API.
 
 ## Key conventions
 
@@ -57,6 +59,15 @@ All tests use `tmp_path` fixtures — no test touches real data under `data/`.
 - **Soft delete**: `service.delete()` moves to trash. `service.purge()` is
   the irreversible hard delete. API DELETE returns the trashed item.
 
+- **Natural-language dates**: `due` and `defer_until` accept strings like
+  "next friday", "2w", "end of month", or ISO dates. The service layer
+  parses them via `gtd_core/dates.py` (dateparser + preprocessor).
+
+- **Recurring templates**: files in `data/<env>/templates/` with a
+  `recurrence:` field (daily/weekly/monthly/etc). Every snapshot (Sync
+  button or `manage.py snapshot`) spawns inbox items for due templates
+  before committing.
+
 - **Data commits**: `data/` is tracked in the same git repo as code. Use
   `uv run manage.py snapshot` (or the Sync button in the UI) to commit
   data changes separately from code. Never mix code and data in one commit.
@@ -71,3 +82,13 @@ All tests use `tmp_path` fixtures — no test touches real data under `data/`.
 - When reading GTD data in a CLI session, read the files under `data/`
   directly. No need to start the server or hit the API.
 - See subdirectory CLAUDE.md files for layer-specific guidance.
+
+## CLI skills
+
+GTD workflow commands available from Claude Code sessions:
+
+- `/gtd-review` — guided weekly review (inbox zero → projects → waiting → someday)
+- `/gtd-capture <title>` — rapid-fire inbox capture
+- `/gtd-dashboard` — text summary with counts and flags
+- `/gtd-inbox` — interactive inbox processing
+- `/gtd-check` — lint + test + build pipeline

@@ -19,11 +19,13 @@ The API layer (`gtd_api`) only talks to `GtdService`. Never skip layers.
 
 | File | Purpose |
 |------|---------|
-| `models.py` | `Bucket` enum, `Item`/`Project`/`EnvConfig` dataclasses |
-| `storage.py` | `dump_item`/`load_item`, `dump_project`/`load_project`, `load_env_config` |
+| `models.py` | `Bucket` enum, `Item`/`Project`/`Template`/`EnvConfig` dataclasses |
+| `storage.py` | `dump_item`/`load_item`, `dump_project`/`load_project`, `dump_template`/`load_template`, `load_env_config` |
 | `repository.py` | `EnvRepository` — CRUD per env. `list_items()` excludes archive+trash by default |
 | `service.py` | `GtdService` — capture, move, update, complete, delete (→trash), purge, filter_items, filter_next, projects |
 | `snapshot.py` | `snapshot()` stages+commits only `data/` paths. `snapshot_status()` reports dirty count |
+| `dates.py` | `parse_human_date()` — accepts ISO strings, natural language ("next friday", "2w", "end of month"), date objects, or None |
+| `recurring.py` | `spawn_recurring(repo)` — checks templates, spawns inbox items for due ones. Called before every snapshot |
 | `importer_nirvana.py` | CSV import from Nirvana GTD app. Case-insensitive context matching |
 
 ## Conventions

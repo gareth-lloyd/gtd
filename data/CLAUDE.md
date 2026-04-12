@@ -15,6 +15,7 @@ data/
 │   ├── someday/              Not committed, review periodically
 │   ├── reference/            Not actionable, worth keeping
 │   ├── projects/             Project metadata files
+│   ├── templates/            Recurring item templates (see below)
 │   ├── archive/              Completed items
 │   └── trash/                Soft-deleted items
 └── home/
@@ -81,6 +82,19 @@ svc = GtdService(Path("data"))
 for item in svc.filter_next("work", contexts=["calls"]):
     print(item.title)
 ```
+
+## Recurring templates
+
+Files in `data/<env>/templates/` are item templates with a `recurrence` field:
+
+```yaml
+recurrence: weekly          # daily|weekly|biweekly|monthly|quarterly|yearly|every_N_days
+last_spawned: 2026-04-10    # updated automatically after each spawn
+```
+
+Every snapshot (Sync button or `manage.py snapshot`) checks all templates
+and spawns inbox items for any that are due. The spawned item copies the
+template's title, body, contexts, energy, time, project, area, and tags.
 
 ## Committing data changes
 
