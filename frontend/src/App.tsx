@@ -36,6 +36,28 @@ const FILTER_TABS: Tab[] = ['next'];
 
 const ENERGY_CHOICES: (Energy | '')[] = ['', 'low', 'medium', 'high'];
 
+// ---- Context colors (deterministic from name) ----
+
+function contextHue(name: string): number {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h + name.charCodeAt(i) * 37) % 360;
+  return h;
+}
+
+function contextChipStyle(name: string): React.CSSProperties {
+  const h = contextHue(name);
+  return {
+    backgroundColor: `hsl(${h}, 60%, 90%)`,
+    color: `hsl(${h}, 50%, 30%)`,
+  };
+}
+
+function contextTintStyle(selected: string[]): React.CSSProperties | undefined {
+  if (selected.length === 0) return undefined;
+  const avg = selected.reduce((sum, c) => sum + contextHue(c), 0) / selected.length;
+  return { backgroundColor: `hsl(${avg}, 25%, 97%)` };
+}
+
 const TIME_CHOICES: { label: string; value: string }[] = [
   { label: 'any', value: '' },
   { label: '5m', value: '5' },
@@ -84,7 +106,7 @@ export default function App() {
   const showFilters = FILTER_TABS.includes(tab);
 
   return (
-    <div className={showFilters ? 'app' : 'app no-filters'}>
+    <div className={showFilters ? 'app' : 'app no-filters'} style={contextTintStyle(contexts)}>
       <header>
         <h1>
           <span className="brand">gtd</span>
@@ -285,7 +307,11 @@ function FilterPanel({
       <div className="filter-section">
         <h3>Contexts</h3>
         {config?.contexts.map((c) => (
-          <label key={c} className="check-row">
+          <label
+            key={c}
+            className="check-row"
+            style={{ borderLeft: `3px solid hsl(${contextHue(c)}, 55%, 65%)` }}
+          >
             <input
               type="checkbox"
               checked={contexts.includes(c)}
@@ -670,7 +696,7 @@ function ItemRow({
       <div className="item-meta">
         {item.status !== 'next' && <span className="chip">{item.status}</span>}
         {item.contexts.map((c) => (
-          <span key={c} className="chip">
+          <span key={c} className="chip context-chip" style={contextChipStyle(c)}>
             @{c}
           </span>
         ))}
@@ -819,7 +845,7 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
         Contexts
         <div className="chip-row">
           {config?.contexts.map((c) => (
-            <label key={c} className="chip-check">
+            <label key={c} className="chip-check" style={contextChipStyle(c)}>
               <input
                 type="checkbox"
                 checked={contexts.includes(c)}

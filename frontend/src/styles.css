@@ -44,6 +44,8 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   padding: 1rem 1.25rem;
+  min-height: 100vh;
+  transition: background-color 0.4s ease;
 }
 
 .app.no-filters {
@@ -346,8 +348,10 @@ button.danger:hover {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.9rem;
-  padding: 0.15rem 0;
+  padding: 0.25rem 0.5rem;
   cursor: pointer;
+  border-radius: 3px;
+  margin: 0.1rem 0;
 }
 
 .check-row input[type='checkbox'] {
@@ -495,6 +499,10 @@ button.danger:hover {
   padding: 0.1rem 0.4rem;
   border-radius: 999px;
   background: #f0f0f0;
+}
+
+.item-meta .chip.context-chip {
+  font-weight: 500;
 }
 
 .item-meta .chip.dates {
