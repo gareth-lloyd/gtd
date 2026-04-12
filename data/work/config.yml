@@ -1,11 +1,9 @@
 name: work
 contexts:
-  - anywhere
-  - calls
   - computer
-  - errands
+  - calls
   - meetings
-  - office
+  - thinking
 areas:
   - admin
   - engineering

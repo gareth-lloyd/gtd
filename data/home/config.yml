@@ -1,11 +1,13 @@
 name: home
 contexts:
-  - anywhere
-  - calls
+  - computer
   - errands
-  - garden
+  - calls
   - home
-  - kitchen
+  - watch
+  - read
+  - out
+  - anywhere
 areas:
   - finances
   - health

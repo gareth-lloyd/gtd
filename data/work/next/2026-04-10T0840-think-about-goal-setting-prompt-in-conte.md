@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-10 08:40:18.624757
+contexts:
+- thinking
+created: 2026-04-10 08:40:18.624757
 defer_until: null
 due: null
 energy: null
@@ -11,7 +12,7 @@ tags:
 - focus
 time_minutes: null
 title: think about goal-setting prompt in context of review cycle.(MD)
-updated: *id001
+updated: 2026-04-12 12:08:00.848682
 waiting_on: null
 waiting_since: null
 ---

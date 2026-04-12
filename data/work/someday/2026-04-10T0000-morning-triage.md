@@ -1,6 +1,7 @@
 ---
 area: null
-contexts: []
+contexts:
+- computer
 created: 2026-04-10 00:00:00
 defer_until: null
 due: null
@@ -10,7 +11,7 @@ project: null
 tags: []
 time_minutes: null
 title: morning triage
-updated: 2026-04-10 08:46:52.011276
+updated: 2026-04-12 12:08:00.855307
 waiting_on: null
 waiting_since: null
 ---

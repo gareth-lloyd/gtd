@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-10 08:40:24.733621
+contexts:
+- computer
+created: 2026-04-10 08:40:24.733621
 defer_until: null
 due: null
 energy: null
@@ -10,7 +11,7 @@ project: 2026-04-10T0840-learning
 tags: []
 time_minutes: null
 title: do something with [this](https://overturemaps.org/overture-maps-foundation-releases-first-world-wide-open-map-dataset/)
-updated: *id001
+updated: 2026-04-12 12:08:00.892150
 waiting_on: null
 waiting_since: null
 ---

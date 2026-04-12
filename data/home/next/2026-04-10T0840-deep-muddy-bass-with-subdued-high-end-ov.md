@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-10 08:40:22.872785
+contexts:
+- home
+created: 2026-04-10 08:40:22.872785
 defer_until: null
 due: null
 energy: null
@@ -11,7 +12,7 @@ tags: []
 time_minutes: null
 title: Deep muddy bass with subdued high end, overlaid with swooshing natural sounds
   like waves on pebbles.
-updated: *id001
+updated: 2026-04-12 12:08:00.989435
 waiting_on: null
 waiting_since: null
 ---

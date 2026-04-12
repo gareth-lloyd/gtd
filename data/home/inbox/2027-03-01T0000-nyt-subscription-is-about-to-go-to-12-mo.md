@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2027-03-01 00:00:00
+contexts:
+- computer
+created: 2027-03-01 00:00:00
 defer_until: null
 due: 2027-03-01
 energy: null
@@ -10,7 +11,7 @@ project: null
 tags: []
 time_minutes: null
 title: NYT subscription is about to go to 12/month. Cancel
-updated: *id001
+updated: 2026-04-12 12:08:00.861259
 waiting_on: null
 waiting_since: null
 ---

@@ -1,7 +1,9 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-10 08:40:18.621860
+contexts:
+- thinking
+- meetings
+created: 2026-04-10 08:40:18.621860
 defer_until: null
 due: null
 energy: null
@@ -10,7 +12,7 @@ project: 2026-04-10T0840-people
 tags: []
 time_minutes: null
 title: eng lead for ryan rogers - next steps
-updated: *id001
+updated: 2026-04-12 12:08:00.840802
 waiting_on: null
 waiting_since: null
 ---

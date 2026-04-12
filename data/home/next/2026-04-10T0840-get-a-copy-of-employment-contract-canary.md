@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-10 08:40:25.030836
+contexts:
+- calls
+created: 2026-04-10 08:40:25.030836
 defer_until: null
 due: null
 energy: null
@@ -10,7 +11,7 @@ project: null
 tags: []
 time_minutes: null
 title: Get a copy of employment contract canary
-updated: *id001
+updated: 2026-04-12 12:08:00.879333
 waiting_on: null
 waiting_since: null
 ---

@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-10 08:40:18.626045
+contexts:
+- computer
+created: 2026-04-10 08:40:18.626045
 defer_until: null
 due: null
 energy: null
@@ -12,7 +13,7 @@ tags:
 time_minutes: null
 title: rules-based - Different segment operators e.g. reference sso_hotel_id in other
   places
-updated: *id001
+updated: 2026-04-12 12:08:00.839721
 waiting_on: null
 waiting_since: null
 ---

@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-09 00:00:00
+contexts:
+- computer
+created: 2026-04-09 00:00:00
 defer_until: null
 due: 2026-04-09
 energy: null
@@ -11,7 +12,7 @@ tags:
 - focus
 time_minutes: null
 title: scope - WCP monitoring checks should be aware of switch to SMS
-updated: *id001
+updated: 2026-04-12 12:08:00.856036
 waiting_on: null
 waiting_since: null
 ---

@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-10 08:40:25.136445
+contexts:
+- errands
+created: 2026-04-10 08:40:25.136445
 defer_until: null
 due: null
 energy: null
@@ -10,7 +11,7 @@ project: 2026-04-10T0840-purchases
 tags: []
 time_minutes: null
 title: carbon steel wok
-updated: *id001
+updated: 2026-04-12 12:08:01.028659
 waiting_on: null
 waiting_since: null
 ---

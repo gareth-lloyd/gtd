@@ -1,7 +1,9 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-30 00:00:00
+contexts:
+- computer
+- meetings
+created: 2026-04-30 00:00:00
 defer_until: null
 due: 2026-04-30
 energy: null
@@ -10,7 +12,7 @@ project: null
 tags: []
 time_minutes: null
 title: 90 day review for afigueira
-updated: *id001
+updated: 2026-04-12 12:08:00.830115
 waiting_on: null
 waiting_since: null
 ---

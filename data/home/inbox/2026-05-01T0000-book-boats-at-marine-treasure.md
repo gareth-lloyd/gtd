@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-05-01 00:00:00
+contexts:
+- computer
+created: 2026-05-01 00:00:00
 defer_until: null
 due: 2026-05-01
 energy: null
@@ -10,7 +11,7 @@ project: null
 tags: []
 time_minutes: null
 title: book boats at marine treasure
-updated: *id001
+updated: 2026-04-12 12:08:00.859442
 waiting_on: null
 waiting_since: null
 ---

@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-10 08:40:18.627444
+contexts:
+- computer
+created: 2026-04-10 08:40:18.627444
 defer_until: null
 due: null
 energy: null
@@ -11,7 +12,7 @@ tags:
 - focus
 time_minutes: null
 title: Resolve the 59220 situation then fix the onboarding values
-updated: *id001
+updated: 2026-04-12 12:08:00.838134
 waiting_on: null
 waiting_since: null
 ---

@@ -1,7 +1,9 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-10 08:40:18.627606
+contexts:
+- computer
+- calls
+created: 2026-04-10 08:40:18.627606
 defer_until: null
 due: null
 energy: null
@@ -11,7 +13,7 @@ tags:
 - focus
 time_minutes: null
 title: Resolve squatter
-updated: *id001
+updated: 2026-04-12 12:08:00.837461
 waiting_on: null
 waiting_since: null
 ---

@@ -1,7 +1,8 @@
 ---
 area: null
-contexts: []
-created: &id001 2027-02-24 00:00:00
+contexts:
+- calls
+created: 2027-02-24 00:00:00
 defer_until: 2027-02-24
 due: null
 energy: null
@@ -10,7 +11,7 @@ project: null
 tags: []
 time_minutes: null
 title: Ramiro Nieto's birthday
-updated: *id001
+updated: 2026-04-12 12:08:00.854433
 waiting_on: null
 waiting_since: null
 ---
