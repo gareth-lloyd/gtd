@@ -885,17 +885,19 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
         <label>
           Due
           <input
-            type="date"
+            type="text"
             value={due}
             onChange={(e) => setDue(e.target.value)}
+            placeholder="e.g. next friday, 2w, end of month"
           />
         </label>
         <label>
           Defer until
           <input
-            type="date"
+            type="text"
             value={deferUntil}
             onChange={(e) => setDeferUntil(e.target.value)}
+            placeholder="e.g. tomorrow, 3d, Apr 30"
           />
         </label>
       </div>

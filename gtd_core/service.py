@@ -3,6 +3,7 @@ from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
 
+from gtd_core.dates import parse_human_date
 from gtd_core.models import Bucket, EnvConfig, Item, Project
 from gtd_core.repository import EnvRepository
 
@@ -83,6 +84,7 @@ class GtdService:
         if item is None:
             raise KeyError(item_id)
         _validate_patch(patch, cfg)
+        _coerce_dates(patch)
         for field_name, value in patch.items():
             setattr(item, field_name, value)
         item.updated = self._now()
@@ -201,3 +203,10 @@ def _validate_patch(patch: dict, cfg: EnvConfig) -> None:
             raise ValueError(f"unknown context(s): {sorted(unknown)}")
     if "area" in patch and patch["area"] is not None and patch["area"] not in cfg.areas:
         raise ValueError(f"unknown area: {patch['area']}")
+
+
+def _coerce_dates(patch: dict) -> None:
+    """Parse natural-language date strings in due/defer_until fields."""
+    for field in ("due", "defer_until"):
+        if field in patch:
+            patch[field] = parse_human_date(patch[field])

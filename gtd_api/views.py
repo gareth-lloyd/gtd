@@ -7,6 +7,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from gtd_core.models import Bucket, Project
+from gtd_core.recurring import spawn_recurring
 from gtd_core.service import GtdService
 from gtd_core.snapshot import snapshot, snapshot_status
 
@@ -188,6 +189,10 @@ def project_detail(request: Request, env: str, project_id: str) -> Response:
 
 @api_view(["POST"])
 def snapshot_endpoint(request: Request) -> Response:
+    svc = _service()
+    for env_name in svc.list_envs():
+        spawn_recurring(svc.repo(env_name))
+
     serializer = SnapshotRequestSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     result = snapshot(

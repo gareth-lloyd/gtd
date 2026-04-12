@@ -63,6 +63,8 @@ All tests use `tmp_path` fixtures — no test touches real data under `data/`.
 
 ## Working rules for Claude
 
+- **Red/green TDD**: write a failing test first, then make it pass. This is
+  the standard workflow for all code changes in this project.
 - Run `uv run pytest` before committing code changes.
 - Rebuild frontend after UI changes: `cd frontend && npm run build`.
 - Don't modify `data/` files in code PRs — use `tmp_path` fixtures in tests.

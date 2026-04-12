@@ -5,7 +5,7 @@ from typing import Any
 import frontmatter
 import yaml
 
-from gtd_core.models import Bucket, EnvConfig, Item, Project
+from gtd_core.models import Bucket, EnvConfig, Item, Project, Template
 
 
 def dump_item(path: Path, item: Item) -> None:
@@ -93,6 +93,43 @@ def load_env_config(path: Path) -> EnvConfig:
         contexts=list(data.get("contexts") or []),
         areas=list(data.get("areas") or []),
         default_energy=data.get("default_energy", "medium"),
+    )
+
+
+def dump_template(path: Path, template: Template) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    post = frontmatter.Post(
+        template.body,
+        id=template.id,
+        title=template.title,
+        contexts=template.contexts,
+        energy=template.energy,
+        time_minutes=template.time_minutes,
+        project=template.project,
+        area=template.area,
+        tags=template.tags,
+        recurrence=template.recurrence,
+        last_spawned=template.last_spawned,
+    )
+    with path.open("wb") as f:
+        frontmatter.dump(post, f)
+
+
+def load_template(path: Path) -> Template:
+    post = frontmatter.load(str(path))
+    md = post.metadata
+    return Template(
+        id=md["id"],
+        title=md["title"],
+        body=post.content,
+        contexts=list(md.get("contexts") or []),
+        energy=md.get("energy"),
+        time_minutes=md.get("time_minutes"),
+        project=md.get("project"),
+        area=md.get("area"),
+        tags=list(md.get("tags") or []),
+        recurrence=md.get("recurrence", "monthly"),
+        last_spawned=_as_date(md.get("last_spawned")),
     )
 
 

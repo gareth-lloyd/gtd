@@ -172,6 +172,29 @@ class TestUpdate:
         updated = svc.update("work", item.id, {"title": "New"})
         assert updated.updated > original_updated
 
+    def test_patch_due_natural_language(self, svc):
+        item = svc.capture("work", "Test")
+        updated = svc.update("work", item.id, {"due": "tomorrow"})
+        assert updated.due is not None
+        assert updated.due > date.today()
+
+    def test_patch_defer_natural_language(self, svc):
+        item = svc.capture("work", "Test")
+        updated = svc.update("work", item.id, {"defer_until": "in 2 weeks"})
+        assert updated.defer_until is not None
+        assert updated.defer_until > date.today()
+
+    def test_patch_due_iso_still_works(self, svc):
+        item = svc.capture("work", "Test")
+        updated = svc.update("work", item.id, {"due": "2026-06-15"})
+        assert updated.due == date(2026, 6, 15)
+
+    def test_patch_due_null_clears(self, svc):
+        item = svc.capture("work", "Test")
+        svc.update("work", item.id, {"due": "2026-06-15"})
+        updated = svc.update("work", item.id, {"due": None})
+        assert updated.due is None
+
 
 class TestFilterNext:
     def test_empty(self, svc):

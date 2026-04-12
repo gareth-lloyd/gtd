@@ -1,13 +1,15 @@
 from pathlib import Path
 
-from gtd_core.models import Bucket, EnvConfig, Item, Project
+from gtd_core.models import Bucket, EnvConfig, Item, Project, Template
 from gtd_core.storage import (
     dump_item,
     dump_project,
+    dump_template,
     list_item_paths,
     load_env_config,
     load_item,
     load_project,
+    load_template,
 )
 
 
@@ -99,6 +101,16 @@ class EnvRepository:
         if not path.exists():
             raise KeyError(project_id)
         path.unlink()
+
+    # ---- Templates ----
+
+    def list_templates(self) -> list[Template]:
+        return [load_template(p) for p in list_item_paths(self.env_root / "templates")]
+
+    def save_template(self, template: Template) -> Template:
+        path = self.env_root / "templates" / f"{template.id}.md"
+        dump_template(path, template)
+        return template
 
     # ---- Config ----
 

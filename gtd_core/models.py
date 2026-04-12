@@ -72,6 +72,21 @@ class Project:
 
 
 @dataclass(slots=True)
+class Template:
+    id: str
+    title: str
+    body: str
+    contexts: list[str] = field(default_factory=list)
+    energy: Energy | None = None
+    time_minutes: int | None = None
+    project: str | None = None
+    area: str | None = None
+    tags: list[str] = field(default_factory=list)
+    recurrence: str = "monthly"
+    last_spawned: date | None = None
+
+
+@dataclass(slots=True)
 class EnvConfig:
     name: str
     contexts: list[str]
