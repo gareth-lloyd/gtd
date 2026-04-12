@@ -12,6 +12,7 @@ import {
   type Project,
 } from './api';
 import { Button } from './Button';
+import { contextHue, contextChipStyle, contextTintStyle } from './context-colors';
 
 type Tab =
   | 'next'
@@ -35,28 +36,6 @@ const TABS: Tab[] = [
 const FILTER_TABS: Tab[] = ['next'];
 
 const ENERGY_CHOICES: (Energy | '')[] = ['', 'low', 'medium', 'high'];
-
-// ---- Context colors (deterministic from name) ----
-
-function contextHue(name: string): number {
-  let h = 0;
-  for (let i = 0; i < name.length; i++) h = (h + name.charCodeAt(i) * 37) % 360;
-  return h;
-}
-
-function contextChipStyle(name: string): React.CSSProperties {
-  const h = contextHue(name);
-  return {
-    backgroundColor: `hsl(${h}, 60%, 90%)`,
-    color: `hsl(${h}, 50%, 30%)`,
-  };
-}
-
-function contextTintStyle(selected: string[]): React.CSSProperties | undefined {
-  if (selected.length === 0) return undefined;
-  const avg = selected.reduce((sum, c) => sum + contextHue(c), 0) / selected.length;
-  return { backgroundColor: `hsl(${avg}, 25%, 97%)` };
-}
 
 const TIME_CHOICES: { label: string; value: string }[] = [
   { label: 'any', value: '' },
