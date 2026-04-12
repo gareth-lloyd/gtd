@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-04-10 00:00:00
+created: 2026-04-10 00:00:00
 defer_until: null
 due: 2026-04-10
 energy: null
@@ -11,7 +11,7 @@ tags:
 - focus
 time_minutes: null
 title: elsa babysit friday 17th
-updated: *id001
+updated: 2026-04-12 06:31:04.087983
 waiting_on: null
 waiting_since: null
 ---

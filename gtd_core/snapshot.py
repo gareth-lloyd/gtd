@@ -28,6 +28,9 @@ def snapshot(
     push: bool = False,
 ) -> SnapshotResult:
     repo = git.Repo(repo_root)
+    # Stage all changes (additions, modifications, deletions) under data/ only.
+    # The "-- data" pathspec in the commit below ensures code files that happen
+    # to be staged are NOT included in the snapshot commit.
     repo.git.add("-A", "--", DATA_PATHSPEC)
 
     staged = repo.git.diff("--cached", "--name-only", "--", DATA_PATHSPEC)

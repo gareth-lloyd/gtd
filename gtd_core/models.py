@@ -1,3 +1,24 @@
+"""GTD domain models.
+
+Item fields:
+  id            str       filename stem, immutable after creation (YYYY-MM-DDTHHMM-slug)
+  title         str       human-readable, editable freely
+  body          str       markdown notes
+  created       datetime  set once at capture
+  updated       datetime  bumped on every service-layer mutation
+  status        Bucket    derived from parent directory on load, NOT stored in frontmatter
+  contexts      list[str] validated against env config.yml
+  energy        str|None  "low" | "medium" | "high"
+  time_minutes  int|None  estimate in minutes
+  project       str|None  id of a linked Project
+  area          str|None  responsibility area (validated against config)
+  tags          list[str] free-form
+  due           date|None hard deadline only
+  defer_until   date|None GTD tickler — hidden from default lists until this date
+  waiting_on    str|None  who/what (meaningful when status=waiting)
+  waiting_since date|None when we started waiting
+"""
+
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from enum import Enum

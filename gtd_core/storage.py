@@ -16,6 +16,8 @@ def dump_item(path: Path, item: Item) -> None:
 
 
 def load_item(path: Path, status: Bucket) -> Item:
+    # Status is passed in by the caller (derived from the parent directory),
+    # never read from the file's frontmatter.
     post = frontmatter.load(str(path))
     md = post.metadata
     return Item(
@@ -120,6 +122,8 @@ def _item_metadata(item: Item) -> dict[str, Any]:
 
 
 def _as_datetime(v: Any) -> datetime:
+    # PyYAML deserializes "2026-04-10" as a date and
+    # "2026-04-10 09:15:00" as a datetime — handle both.
     if isinstance(v, datetime):
         return v
     if isinstance(v, date):

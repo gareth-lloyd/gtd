@@ -109,6 +109,15 @@ class GtdService:
         project: str | None = None,
         include_deferred: bool = False,
     ) -> list[Item]:
+        """Filter a list of items by GTD-relevant criteria.
+
+        Energy is a ceiling: energy="low" returns only low items;
+        energy="high" returns low+medium+high. Items with energy=None
+        are excluded when an energy filter is set.
+
+        max_minutes excludes items with time_minutes=None (unknown
+        duration doesn't fit a time budget).
+        """
         today = self._now().date()
         results = []
         for item in items:
