@@ -627,6 +627,7 @@ function ItemRow({
     qc.invalidateQueries({ queryKey: ['items', env] });
     qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     qc.invalidateQueries({ queryKey: ['projects', env] });
+    qc.invalidateQueries({ queryKey: ['project', env] });
   };
 
   const moveMut = useMutation<Item, Error, Bucket>({
