@@ -7,24 +7,8 @@ from gtd_core.repository import EnvRepository
 
 
 @pytest.fixture
-def env_root(tmp_path):
-    work = tmp_path / "work"
-    for bucket in [
-        "inbox", "next", "waiting", "someday", "reference", "projects", "archive", "trash",
-    ]:
-        (work / bucket).mkdir(parents=True)
-    (work / "config.yml").write_text(
-        "name: work\n"
-        "contexts: [calls, computer]\n"
-        "areas: [engineering]\n"
-        "default_energy: medium\n"
-    )
-    return tmp_path
-
-
-@pytest.fixture
-def repo(env_root):
-    return EnvRepository(env_root, "work")
+def repo(data_root):
+    return EnvRepository(data_root, "work")
 
 
 def _make_item(item_id: str, status: Bucket = Bucket.INBOX) -> Item:
@@ -39,9 +23,9 @@ def _make_item(item_id: str, status: Bucket = Bucket.INBOX) -> Item:
 
 
 class TestSaveAndGet:
-    def test_save_creates_file(self, repo, env_root):
+    def test_save_creates_file(self, repo, data_root):
         repo.save(_make_item("test1"))
-        assert (env_root / "work" / "inbox" / "test1.md").exists()
+        assert (data_root / "work" / "inbox" / "test1.md").exists()
 
     def test_get_returns_item(self, repo):
         repo.save(_make_item("test1"))
@@ -53,9 +37,9 @@ class TestSaveAndGet:
     def test_get_missing_returns_none(self, repo):
         assert repo.get("nonexistent") is None
 
-    def test_save_in_next_bucket(self, repo, env_root):
+    def test_save_in_next_bucket(self, repo, data_root):
         repo.save(_make_item("n1", status=Bucket.NEXT))
-        assert (env_root / "work" / "next" / "n1.md").exists()
+        assert (data_root / "work" / "next" / "n1.md").exists()
         loaded = repo.get("n1")
         assert loaded is not None
         assert loaded.status == Bucket.NEXT
@@ -102,20 +86,20 @@ class TestListItems:
 
 
 class TestMove:
-    def test_move_updates_bucket_and_file(self, repo, env_root):
+    def test_move_updates_bucket_and_file(self, repo, data_root):
         repo.save(_make_item("m1", Bucket.INBOX))
         moved = repo.move("m1", Bucket.NEXT)
         assert moved.status == Bucket.NEXT
-        assert not (env_root / "work" / "inbox" / "m1.md").exists()
-        assert (env_root / "work" / "next" / "m1.md").exists()
+        assert not (data_root / "work" / "inbox" / "m1.md").exists()
+        assert (data_root / "work" / "next" / "m1.md").exists()
         reloaded = repo.get("m1")
         assert reloaded is not None
         assert reloaded.status == Bucket.NEXT
 
-    def test_move_to_same_bucket_is_noop(self, repo, env_root):
+    def test_move_to_same_bucket_is_noop(self, repo, data_root):
         repo.save(_make_item("same", Bucket.NEXT))
         repo.move("same", Bucket.NEXT)
-        assert (env_root / "work" / "next" / "same.md").exists()
+        assert (data_root / "work" / "next" / "same.md").exists()
 
     def test_move_missing_raises(self, repo):
         with pytest.raises(KeyError):
@@ -123,10 +107,10 @@ class TestMove:
 
 
 class TestDelete:
-    def test_delete_removes_file(self, repo, env_root):
+    def test_delete_removes_file(self, repo, data_root):
         repo.save(_make_item("d1"))
         repo.delete("d1")
-        assert not (env_root / "work" / "inbox" / "d1.md").exists()
+        assert not (data_root / "work" / "inbox" / "d1.md").exists()
 
     def test_delete_missing_raises(self, repo):
         with pytest.raises(KeyError):

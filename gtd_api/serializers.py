@@ -22,6 +22,7 @@ class ItemSerializer(serializers.Serializer):
             "defer_until": instance.defer_until.isoformat() if instance.defer_until else None,
             "waiting_on": instance.waiting_on,
             "waiting_since": instance.waiting_since.isoformat() if instance.waiting_since else None,
+            "order": instance.order,
         }
 
 
@@ -37,6 +38,9 @@ class ProjectSerializer(serializers.Serializer):
             "outcome": instance.outcome,
             "area": instance.area,
             "tags": list(instance.tags),
+            "due": instance.due.isoformat() if instance.due else None,
+            "priority": instance.priority,
+            "sequential": instance.sequential,
         }
 
 
@@ -65,6 +69,44 @@ class ProjectCreateSerializer(serializers.Serializer):
     outcome = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     area = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     tags = serializers.ListField(child=serializers.CharField(), required=False, default=list)
+    due = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    priority = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=5)
+    sequential = serializers.BooleanField(required=False)
+
+
+class ItemPatchSerializer(serializers.Serializer):
+    title = serializers.CharField(required=False)
+    body = serializers.CharField(required=False, allow_blank=True)
+    contexts = serializers.ListField(child=serializers.CharField(), required=False)
+    energy = serializers.ChoiceField(
+        choices=["low", "medium", "high"], required=False, allow_null=True
+    )
+    time_minutes = serializers.IntegerField(required=False, allow_null=True)
+    area = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    project = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    due = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    defer_until = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    waiting_on = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    tags = serializers.ListField(child=serializers.CharField(), required=False)
+    order = serializers.IntegerField(required=False, allow_null=True)
+
+
+class ProjectPatchSerializer(serializers.Serializer):
+    title = serializers.CharField(required=False)
+    body = serializers.CharField(required=False, allow_blank=True)
+    status = serializers.ChoiceField(
+        choices=["active", "on_hold", "complete", "dropped"], required=False
+    )
+    outcome = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    area = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    tags = serializers.ListField(child=serializers.CharField(), required=False)
+    due = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    priority = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=5)
+    sequential = serializers.BooleanField(required=False)
+
+
+class ProjectReorderSerializer(serializers.Serializer):
+    item_ids = serializers.ListField(child=serializers.CharField(), allow_empty=False)
 
 
 class SnapshotRequestSerializer(serializers.Serializer):

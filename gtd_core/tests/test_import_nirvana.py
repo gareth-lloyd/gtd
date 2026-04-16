@@ -6,10 +6,10 @@ from gtd_core.importer_nirvana import (
     parse_date,
     parse_int,
     pick_timestamp,
-    slugify_for_id,
     split_tags,
 )
 from gtd_core.models import EnvConfig
+from gtd_core.service import slugify
 
 
 class TestParseDate:
@@ -55,7 +55,7 @@ class TestPickTimestamp:
 
 class TestSlugify:
     def test_strips_punctuation(self):
-        assert slugify_for_id("Email Sarah — re: Q2 plans") == "email-sarah-re-q2-plans"
+        assert slugify("Email Sarah — re: Q2 plans") == "email-sarah-re-q2-plans"
 
 
 class TestGenId:

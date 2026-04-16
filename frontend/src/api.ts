@@ -26,6 +26,7 @@ export interface Item {
   defer_until: string | null;
   waiting_on: string | null;
   waiting_since: string | null;
+  order: number | null;
 }
 
 export interface Project {
@@ -38,6 +39,9 @@ export interface Project {
   outcome: string | null;
   area: string | null;
   tags: string[];
+  due: string | null;
+  priority: number | null;
+  sequential: boolean;
 }
 
 export interface EnvConfig {
@@ -136,7 +140,16 @@ export const api = {
     ),
   createProject: (
     env: string,
-    data: { id: string; title: string; body?: string; outcome?: string; area?: string }
+    data: {
+      id: string;
+      title: string;
+      body?: string;
+      outcome?: string;
+      area?: string;
+      due?: string | null;
+      priority?: number | null;
+      sequential?: boolean;
+    }
   ) =>
     request<Project>(`/envs/${env}/projects/`, {
       method: 'POST',
@@ -149,6 +162,11 @@ export const api = {
     }),
   deleteProject: (env: string, id: string) =>
     request<void>(`/envs/${env}/projects/${id}/`, { method: 'DELETE' }),
+  reorderProjectItems: (env: string, projectId: string, itemIds: string[]) =>
+    request<Item[]>(`/envs/${env}/projects/${projectId}/reorder/`, {
+      method: 'POST',
+      body: JSON.stringify({ item_ids: itemIds }),
+    }),
 
   snapshotStatus: () => request<SnapshotStatus>('/snapshot/status/'),
   snapshot: (message?: string, push = false) =>

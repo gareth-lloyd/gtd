@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 
 from gtd_core.models import Bucket, Item, Template
 from gtd_core.repository import EnvRepository
-from gtd_core.service import slugify
+from gtd_core.service import make_item_id
 
 RECURRENCE_DELTAS = {
     "daily": lambda: timedelta(days=1),
@@ -44,7 +44,7 @@ def spawn_from_template(template: Template, repo: EnvRepository, today: date) ->
     from datetime import datetime
 
     now = datetime.combine(today, datetime.min.time())
-    item_id = f"{today.strftime('%Y-%m-%dT%H%M')}-{slugify(template.title)}"
+    item_id = make_item_id(now, template.title)
     item = Item(
         id=item_id,
         title=template.title,

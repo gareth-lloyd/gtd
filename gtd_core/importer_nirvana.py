@@ -5,13 +5,13 @@ ENERGY, WAITINGFOR, STARTDATE, DUEDATE, NOTES.
 """
 
 import csv
-import re
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
 
 from gtd_core.models import Bucket, EnvConfig, Item, Project
 from gtd_core.repository import EnvRepository
+from gtd_core.service import make_item_id
 
 STATE_TO_BUCKET: dict[str, Bucket | None] = {
     "Logbook": Bucket.ARCHIVE,
@@ -177,14 +177,8 @@ def pick_timestamp(row: dict) -> datetime | None:
     return None
 
 
-def slugify_for_id(text: str, max_len: int = 40) -> str:
-    s = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
-    s = s[:max_len].rstrip("-")
-    return s or "untitled"
-
-
 def gen_id(when: datetime, name: str, used: set[str]) -> str:
-    base = f"{when.strftime('%Y-%m-%dT%H%M')}-{slugify_for_id(name)}"
+    base = make_item_id(when, name, max_slug=40)
     if base not in used:
         return base
     i = 2

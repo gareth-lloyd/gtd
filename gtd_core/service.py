@@ -51,7 +51,7 @@ class GtdService:
                 raise ValueError(f"unknown context(s): {sorted(unknown)}")
 
         now = self._now()
-        item_id = f"{now.strftime('%Y-%m-%dT%H%M')}-{slugify(title)}"
+        item_id = make_item_id(now, title)
         item = Item(
             id=item_id,
             title=title,
@@ -68,9 +68,17 @@ class GtdService:
 
     def move(self, env: str, item_id: str, to: Bucket) -> Item:
         repo = self.repo(env)
-        item = repo.move(item_id, to)
+        item = repo.get(item_id)
+        if item is None:
+            raise KeyError(item_id)
         item.updated = self._now()
+        if item.status is to:
+            repo.save(item)
+            return item
+        old_path = repo.env_root / item.status.value / f"{item.id}.md"
+        item.status = to
         repo.save(item)
+        old_path.unlink()
         return item
 
     def update(self, env: str, item_id: str, patch: dict) -> Item:
@@ -147,8 +155,60 @@ class GtdService:
         project: str | None = None,
         include_deferred: bool = False,
     ) -> list[Item]:
-        items = self.repo(env).list_items(bucket=Bucket.NEXT)
-        return self.filter_items(
+        return self.list_items(
+            env,
+            bucket=Bucket.NEXT,
+            contexts=contexts,
+            max_minutes=max_minutes,
+            energy=energy,
+            project=project,
+            include_deferred=include_deferred,
+            respect_sequential=True,
+        )
+
+    def actions_for_project(self, env: str, project_id: str) -> list[Item]:
+        items = [i for i in self.repo(env).list_items() if i.project == project_id]
+        return sorted(items, key=_item_sort_key)
+
+    def reorder_project_items(
+        self, env: str, project_id: str, item_ids: list[str]
+    ) -> list[Item]:
+        """Assign order 1..N to the given items in the given sequence.
+
+        Items not listed are not touched — callers are responsible for passing
+        the complete intended ordering when reordering a full project.
+        """
+        repo = self.repo(env)
+        now = self._now()
+        updated: list[Item] = []
+        for i, item_id in enumerate(item_ids, start=1):
+            item = repo.get(item_id)
+            if item is None:
+                raise KeyError(item_id)
+            if item.project != project_id:
+                raise ValueError(
+                    f"item {item_id} is not in project {project_id}"
+                )
+            if item.order != i:
+                item.order = i
+                item.updated = now
+                repo.save(item)
+            updated.append(item)
+        return updated
+
+    def list_items(
+        self,
+        env: str,
+        bucket: Bucket | None = None,
+        contexts: list[str] | None = None,
+        max_minutes: int | None = None,
+        energy: str | None = None,
+        project: str | None = None,
+        include_deferred: bool = False,
+        respect_sequential: bool = False,
+    ) -> list[Item]:
+        items = self.repo(env).list_items(bucket=bucket)
+        filtered = self.filter_items(
             items,
             contexts=contexts,
             max_minutes=max_minutes,
@@ -156,11 +216,42 @@ class GtdService:
             project=project,
             include_deferred=include_deferred,
         )
-
-    def actions_for_project(self, env: str, project_id: str) -> list[Item]:
-        return [i for i in self.repo(env).list_items() if i.project == project_id]
+        if respect_sequential:
+            projects_by_id = {p.id: p for p in self.repo(env).list_projects(include_inactive=True)}
+            filtered = apply_sequential_hiding(filtered, projects_by_id)
+        return filtered
 
     # ---- Projects ----
+
+    def create_project(
+        self,
+        env: str,
+        title: str,
+        project_id: str,
+        body: str = "",
+        outcome: str | None = None,
+        area: str | None = None,
+        tags: list[str] | None = None,
+        due: str | None = None,
+        priority: int | None = None,
+        sequential: bool = False,
+    ) -> Project:
+        now = self._now()
+        project = Project(
+            id=project_id,
+            title=title,
+            body=body,
+            created=now,
+            updated=now,
+            outcome=outcome,
+            area=area,
+            tags=list(tags) if tags else [],
+            due=parse_human_date(due),
+            priority=priority,
+            sequential=sequential,
+        )
+        self.repo(env).save_project(project)
+        return project
 
     def save_project(self, env: str, project: Project) -> Project:
         return self.repo(env).save_project(project)
@@ -176,6 +267,11 @@ class GtdService:
             raise ValueError("cannot change immutable fields id/created")
         if "status" in patch and patch["status"] not in PROJECT_STATUSES:
             raise ValueError(f"invalid status: {patch['status']}")
+        if "due" in patch:
+            patch["due"] = parse_human_date(patch["due"])
+        if "priority" in patch and patch["priority"] is not None:
+            if patch["priority"] not in (1, 2, 3, 4, 5):
+                raise ValueError(f"priority must be 1-5, got {patch['priority']}")
         repo = self.repo(env)
         project = repo.get_project(project_id)
         if project is None:
@@ -190,10 +286,45 @@ class GtdService:
         self.repo(env).delete_project(project_id)
 
 
+def _item_sort_key(item: Item) -> tuple:
+    # Items with explicit order come first (sorted by order). Items with no
+    # order fall back to their ID, which is chronological by capture time.
+    # Using (0, order) vs (1, id) ensures None-order items sort after ordered ones.
+    if item.order is not None:
+        return (0, item.order, item.id)
+    return (1, 0, item.id)
+
+
+def apply_sequential_hiding(
+    items: list[Item], projects_by_id: dict[str, Project]
+) -> list[Item]:
+    """For each sequential project, keep only the first item in order.
+
+    Items belonging to non-sequential projects (or no project) pass through
+    unchanged. Sequential hiding is what lets `sequential=True` projects
+    surface just one action at a time on the next list.
+    """
+    seen_sequential: set[str] = set()
+    result: list[Item] = []
+    # Sort first so the "first" item per project is picked deterministically.
+    for item in sorted(items, key=_item_sort_key):
+        project = projects_by_id.get(item.project) if item.project else None
+        if project is not None and project.sequential:
+            if project.id in seen_sequential:
+                continue
+            seen_sequential.add(project.id)
+        result.append(item)
+    return result
+
+
 def slugify(text: str, max_len: int = 50) -> str:
     s = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
     s = s[:max_len].rstrip("-")
     return s or "untitled"
+
+
+def make_item_id(when: datetime, title: str, max_slug: int = 50) -> str:
+    return f"{when.strftime('%Y-%m-%dT%H%M')}-{slugify(title, max_slug)}"
 
 
 def _validate_patch(patch: dict, cfg: EnvConfig) -> None:

@@ -56,6 +56,10 @@ class Item:
     defer_until: date | None = None
     waiting_on: str | None = None
     waiting_since: date | None = None
+    order: int | None = None
+
+
+Priority = Literal[1, 2, 3, 4, 5]
 
 
 @dataclass(slots=True)
@@ -69,6 +73,9 @@ class Project:
     outcome: str | None = None
     area: str | None = None
     tags: list[str] = field(default_factory=list)
+    due: date | None = None
+    priority: Priority | None = None
+    sequential: bool = False
 
 
 @dataclass(slots=True)

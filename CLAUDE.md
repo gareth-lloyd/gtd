@@ -63,6 +63,16 @@ Frontend tests use jsdom + mocked API.
   "next friday", "2w", "end of month", or ISO dates. The service layer
   parses them via `gtd_core/dates.py` (dateparser + preprocessor).
 
+- **Project priority + due**: projects carry a `priority` (1-5, where 1 is
+  most urgent) and an optional `due` date. The frontend sorts by priority
+  then due. Priority has no automated effect — it's a sorting/visibility aid.
+
+- **Sequential projects**: a project with `sequential: true` surfaces only
+  its lowest-`order` incomplete item on the next-actions list. Completing
+  that item reveals the next one. Items have an `order: int | None` field
+  used only when their project is sequential. `GET /items/?status=next`
+  respects this by default; `?show_all=true` bypasses it (for reviews).
+
 - **Recurring templates**: files in `data/<env>/templates/` with a
   `recurrence:` field (daily/weekly/monthly/etc). Every snapshot (Sync
   button or `manage.py snapshot`) spawns inbox items for due templates
@@ -91,4 +101,6 @@ GTD workflow commands available from Claude Code sessions:
 - `/gtd-capture <title>` — rapid-fire inbox capture
 - `/gtd-dashboard` — text summary with counts and flags
 - `/gtd-inbox` — interactive inbox processing
+- `/gtd-coach` — LLM-powered triage that flags stale / vague / mis-bucketed items
+  and walks through fixes one by one
 - `/gtd-check` — lint + test + build pipeline

@@ -1,7 +1,24 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
   api,
   type Bucket,
@@ -24,8 +41,8 @@ type Tab =
   | 'trash';
 
 const TABS: Tab[] = [
-  'next',
   'inbox',
+  'next',
   'projects',
   'waiting',
   'someday',
@@ -51,10 +68,12 @@ export default function App() {
     () => localStorage.getItem('gtd:env') || ''
   );
   const [tab, setTab] = useState<Tab>('next');
+  const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
 
   const [contexts, setContexts] = useState<string[]>([]);
   const [energy, setEnergy] = useState<Energy | ''>('');
   const [maxMinutes, setMaxMinutes] = useState<string>('');
+  const [captureOpen, setCaptureOpen] = useState(false);
 
   const { data: envs } = useQuery({
     queryKey: ['envs'],
@@ -77,6 +96,7 @@ export default function App() {
 
   useEffect(() => {
     setContexts([]);
+    setActiveProjectId(null);
   }, [env]);
 
   if (!envs || envs.length === 0) return <div className="app-loading">Loading…</div>;
@@ -87,28 +107,57 @@ export default function App() {
   return (
     <div className={showFilters ? 'app' : 'app no-filters'} style={contextTintStyle(contexts)}>
       <header>
-        <h1>
-          <span className="brand">gtd</span>
-        </h1>
-        <EnvTabs envs={envs} env={env} onChange={setEnv} />
-        <div className="spacer" />
-        <SyncButton />
+        <div className="header-row">
+          <h1>
+            <span className="brand">gtd</span>
+          </h1>
+          <EnvTabs envs={envs} env={env} onChange={setEnv} />
+          {tab !== 'inbox' && (
+            <button
+              className={captureOpen ? 'active' : ''}
+              onClick={() => setCaptureOpen((v) => !v)}
+            >
+              {captureOpen ? 'Close capture' : '+ Capture'}
+            </button>
+          )}
+          <div className="spacer" />
+          <SyncButton />
+        </div>
+        {(tab === 'inbox' || captureOpen) && (
+          <CaptureBar
+            env={env}
+            onCaptured={() => setCaptureOpen(false)}
+          />
+        )}
       </header>
 
       <nav className="side-nav">
         {TABS.map((t) => (
-          <button
-            key={t}
-            className={tab === t ? 'active' : ''}
-            onClick={() => setTab(t)}
-          >
-            {t}
-          </button>
+          <React.Fragment key={t}>
+            <button
+              className={tab === t && !(t === 'projects' && activeProjectId) ? 'active' : ''}
+              onClick={() => {
+                setTab(t);
+                if (t === 'projects') setActiveProjectId(null);
+              }}
+            >
+              {t}
+            </button>
+            {t === 'projects' && (
+              <ProjectNavLinks
+                env={env}
+                activeProjectId={tab === 'projects' ? activeProjectId : null}
+                onSelect={(id) => {
+                  setTab('projects');
+                  setActiveProjectId(id);
+                }}
+              />
+            )}
+          </React.Fragment>
         ))}
       </nav>
 
       <main>
-        <CaptureBar env={env} />
         {tab === 'next' && (
           <NextActionsView
             env={env}
@@ -118,15 +167,27 @@ export default function App() {
           />
         )}
         {tab === 'inbox' && <BucketView env={env} bucket="inbox" />}
-        {tab === 'projects' && <ProjectsView env={env} />}
+        {tab === 'projects' && activeProjectId && (
+          <ProjectDetailView
+            env={env}
+            projectId={activeProjectId}
+            onBack={() => setActiveProjectId(null)}
+          />
+        )}
+        {tab === 'projects' && !activeProjectId && (
+          <ProjectsView
+            env={env}
+            onOpen={(id) => setActiveProjectId(id)}
+          />
+        )}
         {(tab === 'waiting' ||
           tab === 'someday' ||
           tab === 'reference' ||
           tab === 'trash') && <BucketView env={env} bucket={tab} />}
       </main>
 
-      {showFilters && (
-        <aside className="side-filters">
+      <aside className="side-filters">
+        {showFilters && (
           <FilterPanel
             config={config}
             contexts={contexts}
@@ -136,8 +197,8 @@ export default function App() {
             maxMinutes={maxMinutes}
             setMaxMinutes={setMaxMinutes}
           />
-        </aside>
-      )}
+        )}
+      </aside>
     </div>
   );
 }
@@ -170,7 +231,13 @@ function EnvTabs({
 
 // ---- Capture bar ----
 
-function CaptureBar({ env }: { env: string }) {
+function CaptureBar({
+  env,
+  onCaptured,
+}: {
+  env: string;
+  onCaptured?: () => void;
+}) {
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
   const qc = useQueryClient();
@@ -186,6 +253,7 @@ function CaptureBar({ env }: { env: string }) {
       setNotes('');
       qc.invalidateQueries({ queryKey: ['items', env] });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+      onCaptured?.();
     },
   });
 
@@ -389,15 +457,42 @@ function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
 
 // ---- Projects view ----
 
-function ProjectsView({ env }: { env: string }) {
+const PRIORITY_LABELS: Record<number, string> = {
+  1: 'P1 critical',
+  2: 'P2 high',
+  3: 'P3 medium',
+  4: 'P4 low',
+  5: 'P5 aspirational',
+};
+
+function sortProjects(projects: Project[]): Project[] {
+  return [...projects].sort((a, b) => {
+    const pa = a.priority ?? 99;
+    const pb = b.priority ?? 99;
+    if (pa !== pb) return pa - pb;
+    if (a.due && b.due) return a.due.localeCompare(b.due);
+    if (a.due) return -1;
+    if (b.due) return 1;
+    return a.title.localeCompare(b.title);
+  });
+}
+
+function ProjectsView({
+  env,
+  onOpen,
+}: {
+  env: string;
+  onOpen: (id: string) => void;
+}) {
   const [showFinished, setShowFinished] = useState(false);
   const { data: projects, isLoading } = useQuery({
     queryKey: ['projects', env, showFinished],
     queryFn: () => api.listProjects(env, showFinished),
   });
-  const [expanded, setExpanded] = useState<string | null>(null);
 
   if (isLoading) return <div className="empty">Loading…</div>;
+
+  const sorted = sortProjects(projects ?? []);
 
   return (
     <>
@@ -412,33 +507,246 @@ function ProjectsView({ env }: { env: string }) {
           Show finished
         </label>
       </div>
-      {projects?.length === 0 && <div className="empty">No projects yet.</div>}
-      {projects?.map((p) => (
-        <ProjectCard
-          key={p.id}
-          env={env}
-          project={p}
-          expanded={expanded === p.id}
-          onToggle={() => setExpanded(expanded === p.id ? null : p.id)}
-        />
-      ))}
+      {sorted.length === 0 && <div className="empty">No projects yet.</div>}
+      <ul className="project-index">
+        {sorted.map((p) => (
+          <li key={p.id}>
+            <ProjectIndexRow project={p} onOpen={() => onOpen(p.id)} />
+          </li>
+        ))}
+      </ul>
     </>
   );
+}
+
+function ProjectBadges({ project }: { project: Project }) {
+  return (
+    <>
+      {project.priority != null && (
+        <span className={`priority-badge p${project.priority}`}>
+          P{project.priority}
+        </span>
+      )}
+      {project.sequential && (
+        <span className="sequential-badge" title="Sequential — one step at a time">
+          ↓ sequential
+        </span>
+      )}
+      {project.status !== 'active' && (
+        <span className="project-status">{project.status}</span>
+      )}
+    </>
+  );
+}
+
+function ProjectIndexRow({
+  project,
+  onOpen,
+}: {
+  project: Project;
+  onOpen: () => void;
+}) {
+  const isDone = project.status === 'complete' || project.status === 'dropped';
+  return (
+    <button
+      type="button"
+      className={`project-index-row${isDone ? ' done' : ''}`}
+      onClick={onOpen}
+    >
+      <span className="project-index-title">{project.title}</span>
+      <ProjectBadges project={project} />
+      {project.due && <span className="chip">due {project.due}</span>}
+      {project.outcome && (
+        <span className="project-index-outcome">{project.outcome}</span>
+      )}
+    </button>
+  );
+}
+
+function ProjectNavLinks({
+  env,
+  activeProjectId,
+  onSelect,
+}: {
+  env: string;
+  activeProjectId: string | null;
+  onSelect: (id: string) => void;
+}) {
+  const { data: projects } = useQuery({
+    queryKey: ['projects', env, false],
+    queryFn: () => api.listProjects(env, false),
+  });
+  if (!projects || projects.length === 0) return null;
+  return (
+    <div className="side-nav-sub">
+      {sortProjects(projects).map((p) => (
+        <button
+          key={p.id}
+          className={activeProjectId === p.id ? 'sub-link active' : 'sub-link'}
+          onClick={() => onSelect(p.id)}
+          title={p.title}
+        >
+          {p.priority != null && (
+            <span className={`priority-dot p${p.priority}`}>●</span>
+          )}
+          <span className="sub-link-title">{p.title}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ProjectDetailView({
+  env,
+  projectId,
+  onBack,
+}: {
+  env: string;
+  projectId: string;
+  onBack: () => void;
+}) {
+  const qc = useQueryClient();
+  const [editing, setEditing] = useState(false);
+  const { data, isLoading } = useQuery({
+    queryKey: ['project', env, projectId],
+    queryFn: () => api.getProject(env, projectId),
+  });
+
+  const invalidate = () => {
+    qc.invalidateQueries({ queryKey: ['projects', env] });
+    qc.invalidateQueries({ queryKey: ['project', env, projectId] });
+    qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+  };
+
+  const statusMut = useMutation<Project, Error, string>({
+    mutationFn: (status) => api.updateProject(env, projectId, { status }),
+    onSuccess: invalidate,
+  });
+
+  const deleteMut = useMutation({
+    mutationFn: () => api.deleteProject(env, projectId),
+    onSuccess: () => {
+      invalidate();
+      onBack();
+    },
+  });
+
+  if (isLoading || !data) return <div className="empty">Loading…</div>;
+
+  const { project, actions } = data;
+  const isDone = project.status === 'complete' || project.status === 'dropped';
+  const anyPending = statusMut.isPending || deleteMut.isPending;
+
+  return (
+    <div className="project-detail">
+      <button className="back-link" onClick={onBack}>
+        ← All projects
+      </button>
+      <div className={`project-card${isDone ? ' done' : ''}`}>
+        <h2>
+          {project.title}
+          <ProjectBadges project={project} />
+        </h2>
+        <div className="project-meta">
+          {project.outcome && <span className="outcome">{project.outcome}</span>}
+          {project.due && <span className="chip">due {project.due}</span>}
+          {project.area && <span className="chip">{project.area}</span>}
+          <span className="chip">
+            {actions.length} action{actions.length !== 1 ? 's' : ''}
+          </span>
+          <span className="chip dates" title={`created ${fmtDate(project.created)}`}>
+            updated {fmtDate(project.updated)}
+          </span>
+        </div>
+        <div className="project-actions">
+          {project.status !== 'complete' && (
+            <Button
+              onClick={() => statusMut.mutate('complete')}
+              busy={statusMut.isPending && statusMut.variables === 'complete'}
+              disabled={anyPending}
+            >
+              ✓ Complete
+            </Button>
+          )}
+          {project.status !== 'active' && (
+            <Button
+              onClick={() => statusMut.mutate('active')}
+              busy={statusMut.isPending && statusMut.variables === 'active'}
+              disabled={anyPending}
+            >
+              ↺ Reopen
+            </Button>
+          )}
+          {project.status === 'active' && (
+            <Button
+              onClick={() => statusMut.mutate('on_hold')}
+              busy={statusMut.isPending && statusMut.variables === 'on_hold'}
+              disabled={anyPending}
+            >
+              ⏸ Hold
+            </Button>
+          )}
+          <button onClick={() => setEditing(!editing)} disabled={anyPending}>
+            {editing ? 'Close' : 'Edit'}
+          </button>
+          <Button
+            className="danger"
+            onClick={() => {
+              if (
+                confirm(
+                  `Delete project "${project.title}"? Actions linked to it will not be deleted.`
+                )
+              ) {
+                deleteMut.mutate();
+              }
+            }}
+            busy={deleteMut.isPending}
+            disabled={anyPending}
+          >
+            Delete
+          </Button>
+        </div>
+        {editing && <ProjectEditor env={env} project={project} />}
+        <SortableActionList env={env} projectId={project.id} items={actions} />
+      </div>
+    </div>
+  );
+}
+
+function slugify(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'untitled';
 }
 
 function NewProjectForm({ env }: { env: string }) {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
-  const [id, setId] = useState('');
   const [title, setTitle] = useState('');
   const [outcome, setOutcome] = useState('');
+  const [due, setDue] = useState('');
+  const [priority, setPriority] = useState<string>('');
+  const [sequential, setSequential] = useState(false);
+
+  const generatedId = title.trim()
+    ? `${new Date().toISOString().slice(0, 10)}-${slugify(title)}`
+    : '';
+
   const mut = useMutation({
-    mutationFn: () => api.createProject(env, { id, title, outcome }),
+    mutationFn: () =>
+      api.createProject(env, {
+        id: generatedId,
+        title: title.trim(),
+        outcome: outcome || undefined,
+        due: due || undefined,
+        priority: priority ? parseInt(priority, 10) : undefined,
+        sequential,
+      }),
     onSuccess: () => {
       setOpen(false);
-      setId('');
       setTitle('');
       setOutcome('');
+      setDue('');
+      setPriority('');
+      setSequential(false);
       qc.invalidateQueries({ queryKey: ['projects', env] });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     },
@@ -448,25 +756,15 @@ function NewProjectForm({ env }: { env: string }) {
 
   return (
     <div className="editor">
-      <div className="row">
-        <label>
-          ID
-          <input
-            type="text"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-            placeholder="2026-04-10-my-project"
-          />
-        </label>
-        <label>
-          Title
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
-      </div>
+      <label>
+        Title
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          autoFocus
+        />
+      </label>
       <label>
         Outcome (what "done" looks like)
         <input
@@ -476,10 +774,37 @@ function NewProjectForm({ env }: { env: string }) {
         />
       </label>
       <div className="row">
+        <label>
+          Due
+          <input
+            type="date"
+            value={due}
+            onChange={(e) => setDue(e.target.value)}
+          />
+        </label>
+        <label>
+          Priority
+          <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+            <option value="">—</option>
+            {[1, 2, 3, 4, 5].map((n) => (
+              <option key={n} value={n}>{PRIORITY_LABELS[n]}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <label className="toggle-row">
+        <input
+          type="checkbox"
+          checked={sequential}
+          onChange={(e) => setSequential(e.target.checked)}
+        />
+        <span>Sequential — do one step at a time (hides later steps from next list)</span>
+      </label>
+      <div className="row">
         <Button
           className="primary"
           onClick={() => mut.mutate()}
-          disabled={!id || !title}
+          disabled={!title.trim()}
           busy={mut.isPending}
         >
           Create
@@ -490,96 +815,178 @@ function NewProjectForm({ env }: { env: string }) {
   );
 }
 
-function ProjectCard({
+function SortableActionList({
   env,
-  project,
-  expanded,
-  onToggle,
+  projectId,
+  items,
 }: {
   env: string;
-  project: Project;
-  expanded: boolean;
-  onToggle: () => void;
+  projectId: string;
+  items: Item[];
 }) {
   const qc = useQueryClient();
-  const { data } = useQuery({
-    queryKey: ['project', env, project.id],
-    queryFn: () => api.getProject(env, project.id),
-    enabled: expanded,
+  // Local ordering override — starts with the server's order but updates
+  // optimistically on drop so the UI doesn't wait for the round trip.
+  const [localOrder, setLocalOrder] = useState<string[] | null>(null);
+  const ids = localOrder ?? items.map((i) => i.id);
+  const itemsById = new Map(items.map((i) => [i.id, i]));
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const reorderMut = useMutation({
+    mutationFn: (itemIds: string[]) =>
+      api.reorderProjectItems(env, projectId, itemIds),
+    onSuccess: () => {
+      setLocalOrder(null);
+      qc.invalidateQueries({ queryKey: ['project', env, projectId] });
+      qc.invalidateQueries({ queryKey: ['items', env] });
+      qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+    },
+    onError: () => {
+      // Roll back the optimistic order on failure; the global toast handler
+      // already surfaces the error message.
+      setLocalOrder(null);
+    },
   });
 
-  const invalidate = () => {
-    qc.invalidateQueries({ queryKey: ['projects', env] });
-    qc.invalidateQueries({ queryKey: ['project', env, project.id] });
-    qc.invalidateQueries({ queryKey: ['snapshot-status'] });
-  };
+  if (items.length === 0) return <div className="empty">Nothing here.</div>;
 
-  const statusMut = useMutation<Project, Error, string>({
-    mutationFn: (status) => api.updateProject(env, project.id, { status }),
-    onSuccess: invalidate,
-  });
-
-  const deleteMut = useMutation({
-    mutationFn: () => api.deleteProject(env, project.id),
-    onSuccess: invalidate,
-  });
-
-  const isDone = project.status === 'complete' || project.status === 'dropped';
-  const anyPending = statusMut.isPending || deleteMut.isPending;
+  function onDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = ids.indexOf(String(active.id));
+    const newIndex = ids.indexOf(String(over.id));
+    if (oldIndex < 0 || newIndex < 0) return;
+    const next = arrayMove(ids, oldIndex, newIndex);
+    setLocalOrder(next);
+    reorderMut.mutate(next);
+  }
 
   return (
-    <div className={isDone ? 'project-card done' : 'project-card'}>
-      <h3 onClick={onToggle} style={{ cursor: 'pointer' }}>
-        {expanded ? '▼' : '▶'} {project.title}
-        {project.status !== 'active' && (
-          <span className="project-status">{project.status}</span>
-        )}
-      </h3>
-      {project.outcome && <div className="outcome">{project.outcome}</div>}
-      <div className="project-actions">
-        {project.status !== 'complete' && (
-          <Button
-            onClick={() => statusMut.mutate('complete')}
-            busy={statusMut.isPending && statusMut.variables === 'complete'}
-            disabled={anyPending}
-          >
-            ✓ Mark complete
-          </Button>
-        )}
-        {project.status !== 'active' && (
-          <Button
-            onClick={() => statusMut.mutate('active')}
-            busy={statusMut.isPending && statusMut.variables === 'active'}
-            disabled={anyPending}
-          >
-            ↺ Reopen
-          </Button>
-        )}
-        {project.status === 'active' && (
-          <Button
-            onClick={() => statusMut.mutate('on_hold')}
-            busy={statusMut.isPending && statusMut.variables === 'on_hold'}
-            disabled={anyPending}
-          >
-            ⏸ Put on hold
-          </Button>
-        )}
-        <Button
-          className="danger"
-          onClick={() => {
-            if (confirm(`Delete project "${project.title}"? Actions linked to it will not be deleted.`)) {
-              deleteMut.mutate();
-            }
-          }}
-          busy={deleteMut.isPending}
-          disabled={anyPending}
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+      <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+        <ul className="item-list sortable">
+          {ids.map((id) => {
+            const item = itemsById.get(id);
+            if (!item) return null;
+            return <SortableItemRow key={id} env={env} item={item} />;
+          })}
+        </ul>
+      </SortableContext>
+    </DndContext>
+  );
+}
+
+function SortableItemRow({ env, item }: { env: string; item: Item }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({ id: item.id });
+  const [editing, setEditing] = useState(false);
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+  return (
+    <li ref={setNodeRef} style={style}>
+      <div className="item-with-handle">
+        <button
+          type="button"
+          className="drag-handle"
+          aria-label="Drag to reorder"
+          {...attributes}
+          {...listeners}
         >
-          Delete
-        </Button>
+          ⋮⋮
+        </button>
+        <div className="item-with-handle-body">
+          <ItemRow
+            env={env}
+            item={item}
+            editing={editing}
+            onEdit={() => setEditing(!editing)}
+            showEdit
+          />
+        </div>
       </div>
-      {expanded && data && (
-        <ItemList env={env} items={data.actions} showEdit={false} />
-      )}
+    </li>
+  );
+}
+
+function ProjectEditor({ env, project }: { env: string; project: Project }) {
+  const qc = useQueryClient();
+  const [title, setTitle] = useState(project.title);
+  const [outcome, setOutcome] = useState(project.outcome ?? '');
+  const [due, setDue] = useState(project.due ?? '');
+  const [priority, setPriority] = useState<string>(
+    project.priority?.toString() ?? ''
+  );
+  const [sequential, setSequential] = useState(project.sequential);
+  const [body, setBody] = useState(project.body);
+
+  const mut = useMutation({
+    mutationFn: () =>
+      api.updateProject(env, project.id, {
+        title,
+        outcome: outcome || null,
+        due: due || null,
+        priority: priority ? parseInt(priority, 10) : null,
+        sequential,
+        body,
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['projects', env] });
+      qc.invalidateQueries({ queryKey: ['project', env, project.id] });
+      qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+    },
+  });
+
+  return (
+    <div className="editor">
+      <label>
+        Title
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+      </label>
+      <label>
+        Outcome
+        <input type="text" value={outcome} onChange={(e) => setOutcome(e.target.value)} />
+      </label>
+      <div className="row">
+        <label>
+          Due
+          <input
+            type="date"
+            value={due}
+            onChange={(e) => setDue(e.target.value)}
+          />
+        </label>
+        <label>
+          Priority
+          <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+            <option value="">—</option>
+            {[1, 2, 3, 4, 5].map((n) => (
+              <option key={n} value={n}>{PRIORITY_LABELS[n]}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <label className="toggle-row">
+        <input
+          type="checkbox"
+          checked={sequential}
+          onChange={(e) => setSequential(e.target.checked)}
+        />
+        <span>Sequential — only the first ordered step shows on the next list</span>
+      </label>
+      <label>
+        Notes
+        <textarea rows={3} value={body} onChange={(e) => setBody(e.target.value)} />
+      </label>
+      <Button className="primary" onClick={() => mut.mutate()} busy={mut.isPending}>
+        Save
+      </Button>
     </div>
   );
 }
@@ -632,7 +1039,9 @@ function ItemRow({
     qc.invalidateQueries({ queryKey: ['items', env] });
     qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     qc.invalidateQueries({ queryKey: ['projects', env] });
-    qc.invalidateQueries({ queryKey: ['project', env] });
+    if (item.project) {
+      qc.invalidateQueries({ queryKey: ['project', env, item.project] });
+    }
   };
 
   const moveMut = useMutation<Item, Error, Bucket>({
@@ -651,12 +1060,23 @@ function ItemRow({
     mutationFn: () => api.purgeItem(env, item.id),
     onSuccess: invalidate,
   });
+  const assignProjectMut = useMutation<Item, Error, string>({
+    mutationFn: async (projectId) => {
+      const updated = await api.updateItem(env, item.id, { project: projectId });
+      if (item.status === 'inbox') {
+        return api.moveItem(env, item.id, 'next');
+      }
+      return updated;
+    },
+    onSuccess: invalidate,
+  });
 
   const rowBusy =
     moveMut.isPending ||
     completeMut.isPending ||
     deleteMut.isPending ||
-    purgeMut.isPending;
+    purgeMut.isPending ||
+    assignProjectMut.isPending;
 
   const isMoving = (to: Bucket) =>
     moveMut.isPending && moveMut.variables === to;
@@ -674,6 +1094,7 @@ function ItemRow({
       )}
       <div className="item-meta">
         {item.status !== 'next' && <span className="chip">{item.status}</span>}
+        {item.order != null && <span className="chip">#{item.order}</span>}
         {item.contexts.map((c) => (
           <span key={c} className="chip context-chip" style={contextChipStyle(c)}>
             @{c}
@@ -711,33 +1132,18 @@ function ItemRow({
           </>
         ) : (
           <>
-            {item.status !== 'next' && !isArchive && (
-              <Button
-                onClick={() => moveMut.mutate('next')}
-                busy={isMoving('next')}
-                disabled={rowBusy}
-              >
-                → next
-              </Button>
-            )}
-            {item.status !== 'waiting' && !isArchive && (
-              <Button
-                onClick={() => moveMut.mutate('waiting')}
-                busy={isMoving('waiting')}
-                disabled={rowBusy}
-              >
-                → waiting
-              </Button>
-            )}
-            {item.status !== 'someday' && !isArchive && (
-              <Button
-                onClick={() => moveMut.mutate('someday')}
-                busy={isMoving('someday')}
-                disabled={rowBusy}
-              >
-                → someday
-              </Button>
-            )}
+            {(['next', 'waiting', 'someday'] as const)
+              .filter((b) => item.status !== b && !isArchive)
+              .map((b) => (
+                <Button
+                  key={b}
+                  onClick={() => moveMut.mutate(b)}
+                  busy={isMoving(b)}
+                  disabled={rowBusy}
+                >
+                  → {b}
+                </Button>
+              ))}
             {!isArchive && (
               <Button
                 onClick={() => completeMut.mutate()}
@@ -763,7 +1169,53 @@ function ItemRow({
           </>
         )}
       </div>
+      {!inTrash && !isArchive && (
+        <ProjectAssignRow
+          env={env}
+          currentProjectId={item.project}
+          onAssign={(projectId) => assignProjectMut.mutate(projectId)}
+          busyProjectId={
+            assignProjectMut.isPending ? (assignProjectMut.variables ?? null) : null
+          }
+          disabled={rowBusy}
+        />
+      )}
       {editing && <ItemEditor env={env} item={item} />}
+    </div>
+  );
+}
+
+function ProjectAssignRow({
+  env,
+  currentProjectId,
+  onAssign,
+  busyProjectId,
+  disabled,
+}: {
+  env: string;
+  currentProjectId: string | null;
+  onAssign: (projectId: string) => void;
+  busyProjectId: string | null;
+  disabled: boolean;
+}) {
+  const { data: projects } = useQuery({
+    queryKey: ['projects', env, false],
+    queryFn: () => api.listProjects(env, false),
+  });
+  if (!projects || projects.length === 0) return null;
+  return (
+    <div className="item-actions project-assign">
+      {sortProjects(projects).map((p) => (
+        <Button
+          key={p.id}
+          className={currentProjectId === p.id ? 'active' : ''}
+          onClick={() => onAssign(p.id)}
+          busy={busyProjectId === p.id}
+          disabled={disabled}
+        >
+          → {p.title}
+        </Button>
+      ))}
     </div>
   );
 }
@@ -789,6 +1241,7 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
   const [project, setProject] = useState<string>(item.project ?? '');
   const [due, setDue] = useState<string>(item.due ?? '');
   const [deferUntil, setDeferUntil] = useState<string>(item.defer_until ?? '');
+  const [order, setOrder] = useState<string>(item.order?.toString() ?? '');
   const [body, setBody] = useState<string>(item.body);
 
   const mut = useMutation({
@@ -803,6 +1256,7 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
         project: project || null,
         due: due || null,
         defer_until: deferUntil || null,
+        order: order ? parseInt(order, 10) : null,
       }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['items', env] });
@@ -889,21 +1343,30 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
           />
         </label>
         <label>
+          Order
+          <input
+            type="number"
+            value={order}
+            onChange={(e) => setOrder(e.target.value)}
+            placeholder="within project"
+          />
+        </label>
+      </div>
+      <div className="row">
+        <label>
           Due
           <input
-            type="text"
+            type="date"
             value={due}
             onChange={(e) => setDue(e.target.value)}
-            placeholder="e.g. next friday, 2w, end of month"
           />
         </label>
         <label>
           Defer until
           <input
-            type="text"
+            type="date"
             value={deferUntil}
             onChange={(e) => setDeferUntil(e.target.value)}
-            placeholder="e.g. tomorrow, 3d, Apr 30"
           />
         </label>
       </div>

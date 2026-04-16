@@ -27,6 +27,19 @@ Disable siblings via a `rowBusy` flag.
 **State**: TanStack Query for all server state. Local `useState` for UI-only
 state (filter selections, expanded panels). `localStorage` for env persistence.
 
+**Drag-and-drop**: `@dnd-kit/core` + `@dnd-kit/sortable` for project action
+reordering. Only `SortableActionList` (used inside expanded `ProjectCard`)
+mounts the DnD context — the main next-actions list is plain. Pointer sensor
+has a 5px activation distance so clicking the handle doesn't accidentally
+start a drag. Drop is optimistic: `localOrder` overrides `items` immediately,
+then `api.reorderProjectItems` syncs; on error we drop the override and rely
+on the global toast.
+
+**Project priority colors**: P1 red, P2 orange, P3 yellow, P4 blue, P5 gray.
+Classes are `.priority-badge.p1` … `.priority-badge.p5` in `styles.css`.
+`.sequential-badge` (purple) marks sequential projects. Projects sort by
+`(priority ?? 99, due, title)` in `ProjectsView`.
+
 ## Build
 
 ```sh

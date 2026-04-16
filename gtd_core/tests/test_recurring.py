@@ -8,20 +8,8 @@ from gtd_core.repository import EnvRepository
 
 
 @pytest.fixture
-def env_root(tmp_path):
-    work = tmp_path / "work"
-    for d in ["inbox", "next", "waiting", "someday", "reference", "projects",
-              "archive", "trash", "templates"]:
-        (work / d).mkdir(parents=True)
-    (work / "config.yml").write_text(
-        "name: work\ncontexts: [calls, computer]\nareas: [engineering]\ndefault_energy: medium\n"
-    )
-    return tmp_path
-
-
-@pytest.fixture
-def repo(env_root):
-    return EnvRepository(env_root, "work")
+def repo(data_root):
+    return EnvRepository(data_root, "work")
 
 
 def _tmpl(recurrence="weekly", last_spawned=None, tmpl_id="recurring-test"):

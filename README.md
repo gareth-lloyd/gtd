@@ -71,6 +71,17 @@ data/
 
 Each item is one markdown file. See `gtd_core/models.py` for the full schema.
 
+## Project features
+
+- **Priority + due date on projects** (1 = most urgent … 5 = aspirational).
+  The projects tab sorts by priority, then due date.
+- **Sequential projects**: tick "Sequential" on a project to surface only
+  one step at a time on the next-actions list. Drag-and-drop to reorder.
+- **Natural-language dates** on item `due` / `defer_until` (e.g. "next friday",
+  "2w", "end of month"). Project due dates use a native date picker.
+- **Per-item order** within a project, editable via drag-handle or number
+  field.
+
 ## Architecture
 
 - `gtd_core/` — self-contained Python library: models, storage, repository,

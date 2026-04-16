@@ -37,6 +37,7 @@ def load_item(path: Path, status: Bucket) -> Item:
         defer_until=_as_date(md.get("defer_until")),
         waiting_on=md.get("waiting_on"),
         waiting_since=_as_date(md.get("waiting_since")),
+        order=md.get("order"),
     )
 
 
@@ -52,6 +53,9 @@ def dump_project(path: Path, project: Project) -> None:
         outcome=project.outcome,
         area=project.area,
         tags=project.tags,
+        due=project.due,
+        priority=project.priority,
+        sequential=project.sequential,
     )
     with path.open("wb") as f:
         frontmatter.dump(post, f)
@@ -70,6 +74,9 @@ def load_project(path: Path) -> Project:
         outcome=md.get("outcome"),
         area=md.get("area"),
         tags=list(md.get("tags") or []),
+        due=_as_date(md.get("due")),
+        priority=md.get("priority"),
+        sequential=bool(md.get("sequential", False)),
     )
 
 
@@ -155,6 +162,7 @@ def _item_metadata(item: Item) -> dict[str, Any]:
         "defer_until": item.defer_until,
         "waiting_on": item.waiting_on,
         "waiting_since": item.waiting_since,
+        "order": item.order,
     }
 
 

@@ -2,6 +2,8 @@ import git
 import pytest
 from rest_framework.test import APIClient
 
+from gtd_core.tests.conftest import make_env
+
 
 @pytest.fixture
 def tmp_project(tmp_path, settings):
@@ -12,20 +14,9 @@ def tmp_project(tmp_path, settings):
 
     data = tmp_path / "data"
     initial_files = ["README.md"]
-    for env in ["work", "home"]:
-        env_dir = data / env
-        for bucket in [
-            "inbox", "next", "waiting", "someday", "reference", "projects", "archive", "trash",
-        ]:
-            (env_dir / bucket).mkdir(parents=True)
-        cfg = env_dir / "config.yml"
-        cfg.write_text(
-            f"name: {env}\n"
-            "contexts: [calls, computer, errands]\n"
-            "areas: [engineering, health]\n"
-            "default_energy: medium\n"
-        )
-        initial_files.append(str(cfg.relative_to(tmp_path)))
+    for env_name in ["work", "home"]:
+        make_env(data, env_name)
+        initial_files.append(str((data / env_name / "config.yml").relative_to(tmp_path)))
 
     (tmp_path / "README.md").write_text("test\n")
     repo.index.add(initial_files)

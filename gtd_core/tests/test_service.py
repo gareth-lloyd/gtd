@@ -7,23 +7,6 @@ from gtd_core.service import GtdService, slugify
 
 
 @pytest.fixture
-def data_root(tmp_path):
-    for env in ["work", "home"]:
-        env_dir = tmp_path / env
-        for bucket in [
-            "inbox", "next", "waiting", "someday", "reference", "projects", "archive", "trash",
-        ]:
-            (env_dir / bucket).mkdir(parents=True)
-        (env_dir / "config.yml").write_text(
-            f"name: {env}\n"
-            "contexts: [calls, computer, errands, office]\n"
-            "areas: [engineering, health]\n"
-            "default_energy: medium\n"
-        )
-    return tmp_path
-
-
-@pytest.fixture
 def svc(data_root):
     fixed_now = datetime(2026, 4, 10, 9, 15)
     return GtdService(data_root, now=lambda: fixed_now)
@@ -331,6 +314,117 @@ class TestProjectUpdates:
         self._save(svc, "done1", status="complete")
         ids = {p.id for p in svc.list_projects("work", include_inactive=True)}
         assert ids == {"a1", "done1"}
+
+
+class TestSequentialProjects:
+    def _seq_project(self, svc, pid: str, sequential: bool) -> Project:
+        project = Project(
+            id=pid,
+            title=f"Project {pid}",
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+            sequential=sequential,
+        )
+        svc.save_project("work", project)
+        return project
+
+    def _capture_with_order(self, svc, title: str, project_id: str, order: int):
+        item = svc.capture("work", title)
+        svc.move("work", item.id, Bucket.NEXT)
+        svc.update("work", item.id, {"project": project_id, "order": order})
+        return item
+
+    def test_sequential_project_hides_later_steps(self, svc):
+        self._seq_project(svc, "seq", sequential=True)
+        a = self._capture_with_order(svc, "Step A", "seq", 1)
+        b = self._capture_with_order(svc, "Step B", "seq", 2)
+        c = self._capture_with_order(svc, "Step C", "seq", 3)
+        results = svc.filter_next("work")
+        assert {r.id for r in results} == {a.id}
+        assert b.id not in {r.id for r in results}
+        assert c.id not in {r.id for r in results}
+
+    def test_parallel_project_shows_all_steps(self, svc):
+        self._seq_project(svc, "par", sequential=False)
+        a = self._capture_with_order(svc, "Parallel A", "par", 1)
+        b = self._capture_with_order(svc, "Parallel B", "par", 2)
+        results = svc.filter_next("work")
+        assert {r.id for r in results} == {a.id, b.id}
+
+    def test_sequential_surfaces_next_after_completion(self, svc):
+        self._seq_project(svc, "seq", sequential=True)
+        a = self._capture_with_order(svc, "Step A", "seq", 1)
+        b = self._capture_with_order(svc, "Step B", "seq", 2)
+        # Only A visible initially
+        assert {r.id for r in svc.filter_next("work")} == {a.id}
+        # Complete A — B should now surface
+        svc.complete("work", a.id)
+        assert {r.id for r in svc.filter_next("work")} == {b.id}
+
+    def test_show_all_bypasses_sequential_hiding(self, svc):
+        self._seq_project(svc, "seq", sequential=True)
+        a = self._capture_with_order(svc, "Step A", "seq", 1)
+        b = self._capture_with_order(svc, "Step B", "seq", 2)
+        results = svc.list_items("work", bucket=Bucket.NEXT, respect_sequential=False)
+        assert {r.id for r in results} == {a.id, b.id}
+
+    def test_items_without_order_sort_by_id(self, svc):
+        # When a sequential project has items with no explicit order,
+        # the first-captured item (lowest ID) is the one that shows.
+        self._seq_project(svc, "seq", sequential=True)
+        a = svc.capture("work", "First capture")
+        svc.move("work", a.id, Bucket.NEXT)
+        svc.update("work", a.id, {"project": "seq"})
+        # Advance the clock so b's id sorts after a's
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        b = svc.capture("work", "Second capture")
+        svc.move("work", b.id, Bucket.NEXT)
+        svc.update("work", b.id, {"project": "seq"})
+        results = svc.filter_next("work")
+        assert {r.id for r in results} == {a.id}
+
+
+class TestReorderProjectItems:
+    def _project(self, svc, pid: str) -> Project:
+        project = Project(
+            id=pid,
+            title=f"Project {pid}",
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+        )
+        svc.save_project("work", project)
+        return project
+
+    def _action(self, svc, title: str, project_id: str):
+        item = svc.capture("work", title)
+        svc.move("work", item.id, Bucket.NEXT)
+        svc.update("work", item.id, {"project": project_id})
+        return item
+
+    def test_assigns_sequential_orders(self, svc):
+        self._project(svc, "p1")
+        a = self._action(svc, "A", "p1")
+        b = self._action(svc, "B", "p1")
+        c = self._action(svc, "C", "p1")
+        result = svc.reorder_project_items("work", "p1", [c.id, a.id, b.id])
+        assert [i.order for i in result] == [1, 2, 3]
+        # Verify persisted
+        actions = svc.actions_for_project("work", "p1")
+        assert [i.id for i in actions] == [c.id, a.id, b.id]
+
+    def test_rejects_foreign_item(self, svc):
+        self._project(svc, "p1")
+        self._project(svc, "p2")
+        stranger = self._action(svc, "X", "p2")
+        with pytest.raises(ValueError, match="not in project"):
+            svc.reorder_project_items("work", "p1", [stranger.id])
+
+    def test_missing_item_raises(self, svc):
+        self._project(svc, "p1")
+        with pytest.raises(KeyError):
+            svc.reorder_project_items("work", "p1", ["nonexistent"])
 
 
 class TestEnvIsolation:

@@ -1,21 +1,22 @@
-from datetime import datetime
-
 from django.conf import settings
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from gtd_core.models import Bucket, Project
+from gtd_core.models import Bucket
 from gtd_core.recurring import spawn_recurring
 from gtd_core.service import GtdService
 from gtd_core.snapshot import snapshot, snapshot_status
 
 from .serializers import (
     CaptureSerializer,
+    ItemPatchSerializer,
     ItemSerializer,
     MoveSerializer,
     ProjectCreateSerializer,
+    ProjectPatchSerializer,
+    ProjectReorderSerializer,
     ProjectSerializer,
     SnapshotRequestSerializer,
 )
@@ -53,14 +54,21 @@ def items(request: Request, env: str) -> Response:
         params = request.query_params
         bucket_name = params.get("status")
         bucket = Bucket(bucket_name) if bucket_name else None
-        item_list = svc.repo(env).list_items(bucket=bucket)
-        filtered = svc.filter_items(
-            item_list,
+        # Hide later steps of sequential projects by default when viewing the
+        # next bucket — that's the whole point of "sequential". Callers can
+        # override with ?show_all=true to see every item (e.g. during review).
+        respect_sequential = (
+            bucket is Bucket.NEXT and params.get("show_all") != "true"
+        )
+        filtered = svc.list_items(
+            env,
+            bucket=bucket,
             contexts=_parse_csv(params.get("contexts")),
             max_minutes=_parse_int(params.get("max_minutes")),
             energy=params.get("energy"),
             project=params.get("project"),
             include_deferred=params.get("include_deferred") == "true",
+            respect_sequential=respect_sequential,
         )
         return Response(ItemSerializer(filtered, many=True).data)
 
@@ -83,8 +91,10 @@ def item_detail(request: Request, env: str, item_id: str) -> Response:
         return Response(ItemSerializer(item).data)
 
     if request.method == "PATCH":
+        serializer = ItemPatchSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         try:
-            item = svc.update(env, item_id, request.data)
+            item = svc.update(env, item_id, serializer.validated_data)
         except KeyError:
             return Response(status=status.HTTP_404_NOT_FOUND)
         except ValueError as e:
@@ -140,19 +150,19 @@ def projects(request: Request, env: str) -> Response:
 
     serializer = ProjectCreateSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    now = datetime.now()
     data = serializer.validated_data
-    project = Project(
-        id=data["id"],
+    project = svc.create_project(
+        env,
+        project_id=data["id"],
         title=data["title"],
         body=data.get("body", ""),
-        created=now,
-        updated=now,
         outcome=data.get("outcome") or None,
         area=data.get("area") or None,
         tags=list(data.get("tags") or []),
+        due=data.get("due") or None,
+        priority=data.get("priority"),
+        sequential=data.get("sequential", False),
     )
-    svc.save_project(env, project)
     return Response(ProjectSerializer(project).data, status=status.HTTP_201_CREATED)
 
 
@@ -172,8 +182,10 @@ def project_detail(request: Request, env: str, project_id: str) -> Response:
         )
 
     if request.method == "PATCH":
+        serializer = ProjectPatchSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         try:
-            project = svc.update_project(env, project_id, request.data)
+            project = svc.update_project(env, project_id, serializer.validated_data)
         except KeyError:
             return Response(status=status.HTTP_404_NOT_FOUND)
         except ValueError as e:
@@ -185,6 +197,21 @@ def project_detail(request: Request, env: str, project_id: str) -> Response:
     except KeyError:
         return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["POST"])
+def project_reorder(request: Request, env: str, project_id: str) -> Response:
+    serializer = ProjectReorderSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    try:
+        items = _service().reorder_project_items(
+            env, project_id, serializer.validated_data["item_ids"]
+        )
+    except KeyError:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except ValueError as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    return Response(ItemSerializer(items, many=True).data)
 
 
 @api_view(["POST"])

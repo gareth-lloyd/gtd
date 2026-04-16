@@ -12,6 +12,7 @@ urlpatterns = [
     path("envs/<str:env>/items/<str:item_id>/purge/", views.item_purge),
     path("envs/<str:env>/projects/", views.projects),
     path("envs/<str:env>/projects/<str:project_id>/", views.project_detail),
+    path("envs/<str:env>/projects/<str:project_id>/reorder/", views.project_reorder),
     path("snapshot/", views.snapshot_endpoint),
     path("snapshot/status/", views.snapshot_status_endpoint),
 ]
