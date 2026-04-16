@@ -7,11 +7,12 @@ defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0840-i-want-to-try-ralph-wiggum
+order: null
 project: null
 tags: []
 time_minutes: null
 title: I want to try Ralph Wiggum
-updated: 2026-04-12 12:08:00.835634
+updated: 2026-04-16 10:31:09.525612
 waiting_on: null
 waiting_since: null
 ---

@@ -4,6 +4,9 @@ contexts:
   - calls
   - meetings
   - thinking
+  - unblock-team
+  - triage
+  - scoping
 areas:
   - admin
   - engineering

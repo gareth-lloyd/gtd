@@ -13,8 +13,9 @@ tags:
 - morning-gtd
 - linear
 time_minutes: 30
-title: 'Triage ENT-5952: Site 06770 Check-In Msg partially enabled after deactivation'
-updated: 2026-04-16 11:26:34.149918
+title: Triage ENT-5952. quick fix - cut ties wyndham - turn off messages. get back
+  to jcervantes - pause manual checking
+updated: 2026-04-16 10:24:12.731846
 waiting_on: null
 waiting_since: null
 ---

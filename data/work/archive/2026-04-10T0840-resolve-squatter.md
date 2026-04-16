@@ -8,12 +8,13 @@ defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0840-resolve-squatter
+order: null
 project: null
 tags:
 - focus
 time_minutes: null
 title: Resolve squatter
-updated: 2026-04-12 12:08:00.837461
+updated: 2026-04-16 10:30:31.667113
 waiting_on: null
 waiting_since: null
 ---
