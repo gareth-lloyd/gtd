@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-04-16T1126-re-review-pr-42998-ent-5900-provision-bw-email-tem
-order: 2
+order: 1
 project: 2026-04-16T1210-unblock-team
 tags:
 - morning-gtd
 - github
 time_minutes: 15
 title: 'Re-review PR #42998: ENT-5900 Provision BW email templates on all GJMs'
-updated: 2026-04-16 09:49:12.916193
+updated: 2026-04-16 10:54:08.168849
 waiting_on: null
 waiting_since: null
 ---

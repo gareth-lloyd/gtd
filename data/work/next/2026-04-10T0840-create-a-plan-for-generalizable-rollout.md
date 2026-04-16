@@ -7,13 +7,13 @@ defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0840-create-a-plan-for-generalizable-rollout
-order: null
+order: 2
 project: 2026-04-10T0840-ticket
 tags:
 - focus
 time_minutes: null
 title: Create a plan for generalizable rollout script via onboarding plans
-updated: 2026-04-16 10:30:07.923626
+updated: 2026-04-16 10:53:35.749510
 waiting_on: null
 waiting_since: null
 ---
