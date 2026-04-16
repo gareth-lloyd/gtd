@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-04-16T1126-merge-pr-43167-ent-5819-align-wyndham-rules-with-g
-order: null
+order: 4
 project: 2026-04-16T1351-ship
 tags:
 - morning-gtd
 - github
 time_minutes: 5
 title: 'Merge PR #43167: ENT-5819 Align Wyndham rules with GDPR ID capture'
-updated: 2026-04-16 10:52:29.123561
+updated: 2026-04-16 10:57:03.997939
 waiting_on: null
 waiting_since: null
 ---
