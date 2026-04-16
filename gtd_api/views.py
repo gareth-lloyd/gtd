@@ -69,8 +69,16 @@ def items(request: Request, env: str) -> Response:
             project=params.get("project"),
             include_deferred=params.get("include_deferred") == "true",
             respect_sequential=respect_sequential,
+            include_archive=params.get("include_archive") == "true",
+            include_trash=params.get("include_trash") == "true",
+            no_project=params.get("no_project") == "true",
         )
-        return Response(ItemSerializer(filtered, many=True).data)
+        projects_by_id = {p.id: p for p in svc.list_projects(env, include_inactive=True)}
+        return Response(
+            ItemSerializer(
+                filtered, many=True, context={"projects_by_id": projects_by_id}
+            ).data
+        )
 
     serializer = CaptureSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)

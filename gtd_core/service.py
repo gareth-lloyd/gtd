@@ -118,6 +118,7 @@ class GtdService:
         energy: str | None = None,
         project: str | None = None,
         include_deferred: bool = False,
+        no_project: bool = False,
     ) -> list[Item]:
         """Filter a list of items by GTD-relevant criteria.
 
@@ -127,6 +128,9 @@ class GtdService:
 
         max_minutes excludes items with time_minutes=None (unknown
         duration doesn't fit a time budget).
+
+        no_project=True keeps only items with project=None (orphan next
+        actions). Takes precedence over `project` if both are set.
         """
         today = self._now().date()
         results = []
@@ -141,7 +145,10 @@ class GtdService:
             if energy is not None:
                 if item.energy is None or _ENERGY_RANK[item.energy] > _ENERGY_RANK[energy]:
                     continue
-            if project is not None and item.project != project:
+            if no_project:
+                if item.project is not None:
+                    continue
+            elif project is not None and item.project != project:
                 continue
             results.append(item)
         return results
@@ -206,8 +213,15 @@ class GtdService:
         project: str | None = None,
         include_deferred: bool = False,
         respect_sequential: bool = False,
+        include_archive: bool = False,
+        include_trash: bool = False,
+        no_project: bool = False,
     ) -> list[Item]:
-        items = self.repo(env).list_items(bucket=bucket)
+        items = self.repo(env).list_items(
+            bucket=bucket,
+            include_archive=include_archive,
+            include_trash=include_trash,
+        )
         filtered = self.filter_items(
             items,
             contexts=contexts,
@@ -215,10 +229,12 @@ class GtdService:
             energy=energy,
             project=project,
             include_deferred=include_deferred,
+            no_project=no_project,
         )
         if respect_sequential:
             projects_by_id = {p.id: p for p in self.repo(env).list_projects(include_inactive=True)}
             filtered = apply_sequential_hiding(filtered, projects_by_id)
+            filtered = sort_next_items(filtered, projects_by_id)
         return filtered
 
     # ---- Projects ----
@@ -315,6 +331,24 @@ def apply_sequential_hiding(
             seen_sequential.add(project.id)
         result.append(item)
     return result
+
+
+def sort_next_items(
+    items: list[Item], projects_by_id: dict[str, Project]
+) -> list[Item]:
+    """Order the next-actions list: project priority → item due → capture order.
+
+    Items whose project has no priority (or that have no project) fall into
+    a trailing bucket, sorted among themselves by due date then id.
+    """
+    def key(item: Item) -> tuple:
+        project = projects_by_id.get(item.project) if item.project else None
+        priority = project.priority if project and project.priority is not None else 99
+        # (0, due) < (1,) so undated items sort after dated ones without
+        # needing to compare a date to None.
+        due_rank: tuple = (0, item.due) if item.due is not None else (1,)
+        return (priority, due_rank, item.id)
+    return sorted(items, key=key)
 
 
 def slugify(text: str, max_len: int = 50) -> str:

@@ -385,6 +385,97 @@ class TestSequentialProjects:
         assert {r.id for r in results} == {a.id}
 
 
+class TestNextViewSort:
+    """filter_next sorts by project priority → item due → capture order."""
+
+    def _project(self, svc, pid: str, priority) -> Project:
+        project = Project(
+            id=pid,
+            title=f"Project {pid}",
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+            priority=priority,
+        )
+        svc.save_project("work", project)
+        return project
+
+    def _capture_next(self, svc, title: str, project_id: str | None = None, due=None):
+        item = svc.capture("work", title)
+        svc.move("work", item.id, Bucket.NEXT)
+        patch: dict = {}
+        if project_id is not None:
+            patch["project"] = project_id
+        if due is not None:
+            patch["due"] = due
+        if patch:
+            svc.update("work", item.id, patch)
+        return item
+
+    def test_p1_beats_p3_regardless_of_capture_order(self, svc):
+        self._project(svc, "p3proj", priority=3)
+        self._project(svc, "p1proj", priority=1)
+        # Capture p3 item first, p1 item second — capture order would put p3 first.
+        p3_item = self._capture_next(svc, "P3 task", "p3proj")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        p1_item = self._capture_next(svc, "P1 task", "p1proj")
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(p1_item.id) < ordered.index(p3_item.id)
+
+    def test_no_project_sorts_after_rated_projects(self, svc):
+        self._project(svc, "p5proj", priority=5)
+        p5_item = self._capture_next(svc, "P5 task", "p5proj")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        floating = self._capture_next(svc, "Floating task", project_id=None)
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(p5_item.id) < ordered.index(floating.id)
+
+    def test_project_with_null_priority_sorts_after_rated(self, svc):
+        self._project(svc, "p2proj", priority=2)
+        self._project(svc, "unrated", priority=None)
+        p2_item = self._capture_next(svc, "P2 task", "p2proj")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        unrated_item = self._capture_next(svc, "Unrated task", "unrated")
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(p2_item.id) < ordered.index(unrated_item.id)
+
+    def test_same_priority_sorted_by_due_date(self, svc):
+        self._project(svc, "p2proj", priority=2)
+        later = self._capture_next(svc, "Due later", "p2proj", due="2026-06-01")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        sooner = self._capture_next(svc, "Due sooner", "p2proj", due="2026-05-01")
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(sooner.id) < ordered.index(later.id)
+
+    def test_same_priority_no_due_falls_back_to_capture_order(self, svc):
+        self._project(svc, "p2proj", priority=2)
+        first = self._capture_next(svc, "First captured", "p2proj")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        second = self._capture_next(svc, "Second captured", "p2proj")
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(first.id) < ordered.index(second.id)
+
+    def test_dated_items_sort_before_undated_in_same_tier(self, svc):
+        self._project(svc, "p2proj", priority=2)
+        undated = self._capture_next(svc, "No due", "p2proj")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        dated = self._capture_next(svc, "Has due", "p2proj", due="2026-07-01")
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(dated.id) < ordered.index(undated.id)
+
+    def test_show_all_preserves_capture_order(self, svc):
+        # show_all=true sets respect_sequential=False; priority sort should not apply
+        # so review mode sees everything in raw capture order.
+        self._project(svc, "p3proj", priority=3)
+        self._project(svc, "p1proj", priority=1)
+        p3_item = self._capture_next(svc, "P3 task", "p3proj")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        p1_item = self._capture_next(svc, "P1 task", "p1proj")
+        results = svc.list_items("work", bucket=Bucket.NEXT, respect_sequential=False)
+        ordered = [i.id for i in results]
+        assert ordered.index(p3_item.id) < ordered.index(p1_item.id)
+
+
 class TestReorderProjectItems:
     def _project(self, svc, pid: str) -> Project:
         project = Project(

@@ -2,9 +2,16 @@ from rest_framework import serializers
 
 
 class ItemSerializer(serializers.Serializer):
-    """Read-only representation of a gtd_core.models.Item."""
+    """Read-only representation of a gtd_core.models.Item.
+
+    Callers wanting `project_priority` populated must pass a
+    `projects_by_id` dict in context. Omitting it yields None.
+    """
 
     def to_representation(self, instance):
+        projects_by_id = self.context.get("projects_by_id") or {}
+        project = projects_by_id.get(instance.project) if instance.project else None
+        project_priority = project.priority if project is not None else None
         return {
             "id": instance.id,
             "title": instance.title,
@@ -16,6 +23,7 @@ class ItemSerializer(serializers.Serializer):
             "energy": instance.energy,
             "time_minutes": instance.time_minutes,
             "project": instance.project,
+            "project_priority": project_priority,
             "area": instance.area,
             "tags": list(instance.tags),
             "due": instance.due.isoformat() if instance.due else None,

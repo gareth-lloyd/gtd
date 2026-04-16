@@ -204,6 +204,56 @@ class TestItems:
         ids = {i["id"] for i in r.json()}
         assert ids == {a["id"]}
 
+    def test_next_items_include_project_priority(self, api):
+        api.post(
+            "/api/envs/work/projects/",
+            {"id": "p1proj", "title": "P1", "priority": 1},
+            format="json",
+        )
+        a = api.post("/api/envs/work/items/", {"title": "A"}, format="json").json()
+        api.post(f"/api/envs/work/items/{a['id']}/move/", {"to": "next"}, format="json")
+        api.patch(f"/api/envs/work/items/{a['id']}/", {"project": "p1proj"}, format="json")
+
+        # Floating item with no project
+        b = api.post("/api/envs/work/items/", {"title": "B"}, format="json").json()
+        api.post(f"/api/envs/work/items/{b['id']}/move/", {"to": "next"}, format="json")
+
+        r = api.get("/api/envs/work/items/?status=next")
+        by_id = {i["id"]: i for i in r.json()}
+        assert by_id[a["id"]]["project_priority"] == 1
+        assert by_id[b["id"]]["project_priority"] is None
+
+    def test_next_items_sorted_by_project_priority(self, api):
+        api.post(
+            "/api/envs/work/projects/",
+            {"id": "p3proj", "title": "P3", "priority": 3},
+            format="json",
+        )
+        api.post(
+            "/api/envs/work/projects/",
+            {"id": "p1proj", "title": "P1", "priority": 1},
+            format="json",
+        )
+        # Capture P3 first (earlier id), then P1
+        p3_item = api.post("/api/envs/work/items/", {"title": "P3 task"}, format="json").json()
+        api.post(f"/api/envs/work/items/{p3_item['id']}/move/", {"to": "next"}, format="json")
+        api.patch(
+            f"/api/envs/work/items/{p3_item['id']}/",
+            {"project": "p3proj"},
+            format="json",
+        )
+        p1_item = api.post("/api/envs/work/items/", {"title": "P1 task"}, format="json").json()
+        api.post(f"/api/envs/work/items/{p1_item['id']}/move/", {"to": "next"}, format="json")
+        api.patch(
+            f"/api/envs/work/items/{p1_item['id']}/",
+            {"project": "p1proj"},
+            format="json",
+        )
+
+        r = api.get("/api/envs/work/items/?status=next")
+        ordered = [i["id"] for i in r.json()]
+        assert ordered.index(p1_item["id"]) < ordered.index(p3_item["id"])
+
 
 class TestProjects:
     def test_list_empty(self, api):

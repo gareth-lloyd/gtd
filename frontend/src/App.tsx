@@ -1,7 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import {
+  Link,
+  Navigate,
+  NavLink,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useMatch,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import {
   DndContext,
   closestCenter,
@@ -29,18 +42,20 @@ import {
   type Project,
 } from './api';
 import { Button } from './Button';
+import { useNextFilters } from './filters';
+import { useSearchIndex, type SearchHit } from './search';
 import { contextHue, contextChipStyle, contextTintStyle } from './context-colors';
 
-type Tab =
-  | 'next'
+type Section =
   | 'inbox'
+  | 'next'
   | 'projects'
   | 'waiting'
   | 'someday'
   | 'reference'
   | 'trash';
 
-const TABS: Tab[] = [
+const SECTIONS: Section[] = [
   'inbox',
   'next',
   'projects',
@@ -50,7 +65,7 @@ const TABS: Tab[] = [
   'trash',
 ];
 
-const FILTER_TABS: Tab[] = ['next'];
+const DEFAULT_SECTION: Section = 'inbox';
 
 const ENERGY_CHOICES: (Energy | '')[] = ['', 'low', 'medium', 'high'];
 
@@ -64,22 +79,53 @@ const TIME_CHOICES: { label: string; value: string }[] = [
 ];
 
 export default function App() {
-  const [env, setEnv] = useState<string>(
-    () => localStorage.getItem('gtd:env') || ''
+  return (
+    <Routes>
+      <Route path="/" element={<RootRedirect />} />
+      <Route path=":env" element={<AppShell />}>
+        <Route index element={<Navigate to={DEFAULT_SECTION} replace />} />
+        <Route path="inbox" element={<BucketRoute bucket="inbox" />} />
+        <Route path="next" element={<NextActionsView />} />
+        <Route path="waiting" element={<BucketRoute bucket="waiting" />} />
+        <Route path="someday" element={<BucketRoute bucket="someday" />} />
+        <Route path="reference" element={<BucketRoute bucket="reference" />} />
+        <Route path="trash" element={<BucketRoute bucket="trash" />} />
+        <Route path="projects" element={<ProjectsView />} />
+        <Route path="projects/:projectId" element={<ProjectDetailView />} />
+        <Route path="items/:itemId" element={<ItemDetailView />} />
+        <Route path="search" element={<SearchView />} />
+      </Route>
+    </Routes>
   );
-  const [tab, setTab] = useState<Tab>('next');
-  const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
+}
 
-  const [contexts, setContexts] = useState<string[]>([]);
-  const [energy, setEnergy] = useState<Energy | ''>('');
-  const [maxMinutes, setMaxMinutes] = useState<string>('');
+function RootRedirect() {
+  const { data: envs } = useQuery({ queryKey: ['envs'], queryFn: api.listEnvs });
+  if (!envs) return <div className="app-loading">Loading…</div>;
+  if (envs.length === 0) return <div className="app-loading">No environments configured</div>;
+  const stored = localStorage.getItem('gtd:env');
+  const env = stored && envs.some((e) => e.name === stored) ? stored : envs[0].name;
+  return <Navigate to={`/${env}/${DEFAULT_SECTION}`} replace />;
+}
+
+function useEnvParam(): string {
+  const { env } = useParams<{ env: string }>();
+  return env!;
+}
+
+function AppShell() {
+  const env = useEnvParam();
+  const { contexts } = useNextFilters();
+  const { pathname } = useLocation();
   const [captureOpen, setCaptureOpen] = useState(false);
+  const [captureFocusTick, bumpCaptureFocus] = useReducer((x: number) => x + 1, 0);
+  const [searchFocusTick, bumpSearchFocus] = useReducer((x: number) => x + 1, 0);
+  const onNextPage = useMatch(':env/next') != null;
+  const onInboxPage = useMatch(':env/inbox') != null;
+  const projectDetailMatch = useMatch(':env/projects/:projectId');
+  const currentProjectId = projectDetailMatch?.params.projectId ?? '';
 
-  const { data: envs } = useQuery({
-    queryKey: ['envs'],
-    queryFn: api.listEnvs,
-  });
-
+  const { data: envs } = useQuery({ queryKey: ['envs'], queryFn: api.listEnvs });
   const { data: config } = useQuery({
     queryKey: ['config', env],
     queryFn: () => api.getConfig(env),
@@ -87,32 +133,47 @@ export default function App() {
   });
 
   useEffect(() => {
-    if (!env && envs && envs.length > 0) setEnv(envs[0].name);
-  }, [envs, env]);
-
-  useEffect(() => {
     if (env) localStorage.setItem('gtd:env', env);
   }, [env]);
 
   useEffect(() => {
-    setContexts([]);
-    setActiveProjectId(null);
-  }, [env]);
+    setCaptureOpen(false);
+  }, [pathname]);
 
-  if (!envs || envs.length === 0) return <div className="app-loading">Loading…</div>;
-  if (!env) return <div className="app-loading">Choose an environment</div>;
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (isEditableTarget(e.target)) return;
+      if (e.key === 'c') {
+        e.preventDefault();
+        setCaptureOpen(true);
+        bumpCaptureFocus();
+      } else if (e.key === '/') {
+        e.preventDefault();
+        bumpSearchFocus();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
-  const showFilters = FILTER_TABS.includes(tab);
+  if (!envs) return <div className="app-loading">Loading…</div>;
+  if (!envs.some((e) => e.name === env)) {
+    return <div className="app-loading">Unknown environment: {env}</div>;
+  }
 
   return (
-    <div className={showFilters ? 'app' : 'app no-filters'} style={contextTintStyle(contexts)}>
+    <div
+      className={onNextPage ? 'app' : 'app no-filters'}
+      style={contextTintStyle(contexts)}
+    >
       <header>
         <div className="header-row">
           <h1>
             <span className="brand">gtd</span>
           </h1>
-          <EnvTabs envs={envs} env={env} onChange={setEnv} />
-          {tab !== 'inbox' && (
+          <EnvTabs envs={envs} env={env} />
+          {!onInboxPage && (
             <button
               className={captureOpen ? 'active' : ''}
               onClick={() => setCaptureOpen((v) => !v)}
@@ -120,110 +181,64 @@ export default function App() {
               {captureOpen ? 'Close capture' : '+ Capture'}
             </button>
           )}
+          <SearchBar env={env} focusTick={searchFocusTick} />
           <div className="spacer" />
           <SyncButton />
         </div>
-        {(tab === 'inbox' || captureOpen) && (
+        {(onInboxPage || captureOpen) && (
           <CaptureBar
             env={env}
+            focusTick={captureFocusTick}
+            defaultProjectId={currentProjectId}
             onCaptured={() => setCaptureOpen(false)}
           />
         )}
       </header>
 
       <nav className="side-nav">
-        {TABS.map((t) => (
-          <React.Fragment key={t}>
-            <button
-              className={tab === t && !(t === 'projects' && activeProjectId) ? 'active' : ''}
-              onClick={() => {
-                setTab(t);
-                if (t === 'projects') setActiveProjectId(null);
-              }}
+        {SECTIONS.map((s) => (
+          <React.Fragment key={s}>
+            <NavLink
+              to={s}
+              end={s === 'projects'}
+              className={({ isActive }) => (isActive ? 'active' : '')}
             >
-              {t}
-            </button>
-            {t === 'projects' && (
-              <ProjectNavLinks
-                env={env}
-                activeProjectId={tab === 'projects' ? activeProjectId : null}
-                onSelect={(id) => {
-                  setTab('projects');
-                  setActiveProjectId(id);
-                }}
-              />
-            )}
+              {s}
+            </NavLink>
+            {s === 'projects' && <ProjectNavLinks env={env} />}
           </React.Fragment>
         ))}
       </nav>
 
       <main>
-        {tab === 'next' && (
-          <NextActionsView
-            env={env}
-            contexts={contexts}
-            energy={energy}
-            maxMinutes={maxMinutes}
-          />
-        )}
-        {tab === 'inbox' && <BucketView env={env} bucket="inbox" />}
-        {tab === 'projects' && activeProjectId && (
-          <ProjectDetailView
-            env={env}
-            projectId={activeProjectId}
-            onBack={() => setActiveProjectId(null)}
-          />
-        )}
-        {tab === 'projects' && !activeProjectId && (
-          <ProjectsView
-            env={env}
-            onOpen={(id) => setActiveProjectId(id)}
-          />
-        )}
-        {(tab === 'waiting' ||
-          tab === 'someday' ||
-          tab === 'reference' ||
-          tab === 'trash') && <BucketView env={env} bucket={tab} />}
+        <Outlet />
       </main>
 
       <aside className="side-filters">
-        {showFilters && (
-          <FilterPanel
-            config={config}
-            contexts={contexts}
-            setContexts={setContexts}
-            energy={energy}
-            setEnergy={setEnergy}
-            maxMinutes={maxMinutes}
-            setMaxMinutes={setMaxMinutes}
-          />
-        )}
+        {onNextPage && <FilterPanel config={config} />}
       </aside>
     </div>
   );
 }
 
+function BucketRoute({ bucket }: { bucket: Bucket }) {
+  const env = useEnvParam();
+  return <BucketView env={env} bucket={bucket} />;
+}
+
 // ---- Env tabs ----
 
-function EnvTabs({
-  envs,
-  env,
-  onChange,
-}: {
-  envs: EnvSummary[];
-  env: string;
-  onChange: (env: string) => void;
-}) {
+function EnvTabs({ envs, env }: { envs: EnvSummary[]; env: string }) {
   return (
     <div className="env-tabs">
       {envs.map((e) => (
-        <button
+        <Link
           key={e.name}
+          to={`/${e.name}/${DEFAULT_SECTION}`}
           className={env === e.name ? 'env-tab active' : 'env-tab'}
-          onClick={() => onChange(e.name)}
         >
           {e.name}
-        </button>
+        </Link>
       ))}
     </div>
   );
@@ -231,31 +246,77 @@ function EnvTabs({
 
 // ---- Capture bar ----
 
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  const tag = target.tagName;
+  return (
+    tag === 'INPUT' ||
+    tag === 'TEXTAREA' ||
+    tag === 'SELECT' ||
+    target.isContentEditable
+  );
+}
+
 function CaptureBar({
   env,
+  focusTick,
+  defaultProjectId = '',
   onCaptured,
 }: {
   env: string;
+  focusTick: number;
+  defaultProjectId?: string;
   onCaptured?: () => void;
 }) {
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
+  const [projectId, setProjectId] = useState(defaultProjectId);
+  const titleRef = useRef<HTMLInputElement>(null);
   const qc = useQueryClient();
 
+  useEffect(() => {
+    setProjectId(defaultProjectId);
+  }, [defaultProjectId]);
+
+  const { data: projects } = useQuery({
+    queryKey: ['projects', env, false],
+    queryFn: () => api.listProjects(env, false),
+  });
+
+  useEffect(() => {
+    titleRef.current?.focus();
+    titleRef.current?.select();
+  }, [focusTick]);
+
   const mut = useMutation({
-    mutationFn: () =>
-      api.captureItem(env, title.trim(), notes, {
+    mutationFn: async () => {
+      const item = await api.captureItem(env, title.trim(), notes, {
         energy: 'low',
         time_minutes: 5,
-      }),
+      });
+      if (projectId) {
+        await api.updateItem(env, item.id, { project: projectId });
+        return api.moveItem(env, item.id, 'next');
+      }
+      return item;
+    },
     onSuccess: () => {
       setTitle('');
       setNotes('');
+      setProjectId(defaultProjectId);
       qc.invalidateQueries({ queryKey: ['items', env] });
+      qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+      if (projectId) {
+        qc.invalidateQueries({ queryKey: ['project', env, projectId] });
+        qc.invalidateQueries({ queryKey: ['projects', env] });
+      }
       onCaptured?.();
     },
   });
+
+  const sortedProjects = projects ? sortProjects(projects) : [];
+  const destination = projectId ? 'next + project' : 'inbox';
 
   return (
     <form
@@ -267,11 +328,11 @@ function CaptureBar({
     >
       <div className="capture-row">
         <input
+          ref={titleRef}
           type="text"
-          placeholder="Capture to inbox…"
+          placeholder={projectId ? 'Capture to next…' : 'Capture to inbox…'}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          autoFocus
         />
         <Button
           type="submit"
@@ -288,8 +349,24 @@ function CaptureBar({
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
       />
-      <div className="capture-hint">
-        Captured with energy=low, time=5min. Adjust later via Edit.
+      <div className="capture-row">
+        <label className="capture-project">
+          <span>Project</span>
+          <select
+            value={projectId}
+            onChange={(e) => setProjectId(e.target.value)}
+          >
+            <option value="">— (keep in inbox)</option>
+            {sortedProjects.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <div className="capture-hint">
+          → {destination} · energy=low · time=5min
+        </div>
       </div>
     </form>
   );
@@ -332,23 +409,17 @@ function SyncButton() {
 
 // ---- Filter panel ----
 
-function FilterPanel({
-  config,
-  contexts,
-  setContexts,
-  energy,
-  setEnergy,
-  maxMinutes,
-  setMaxMinutes,
-}: {
-  config: EnvConfig | undefined;
-  contexts: string[];
-  setContexts: (updater: (prev: string[]) => string[]) => void;
-  energy: Energy | '';
-  setEnergy: (e: Energy | '') => void;
-  maxMinutes: string;
-  setMaxMinutes: (s: string) => void;
-}) {
+function FilterPanel({ config }: { config: EnvConfig | undefined }) {
+  const {
+    contexts,
+    energy,
+    maxMinutes,
+    noProject,
+    setContexts,
+    setEnergy,
+    setMaxMinutes,
+    setNoProject,
+  } = useNextFilters();
   return (
     <div className="filter-panel">
       <div className="filter-section">
@@ -413,30 +484,35 @@ function FilterPanel({
           ))}
         </div>
       </div>
+
+      <div className="filter-section">
+        <h3>Project</h3>
+        <label className="check-row">
+          <input
+            type="checkbox"
+            checked={noProject}
+            onChange={(e) => setNoProject(e.target.checked)}
+          />
+          <span>No project</span>
+        </label>
+      </div>
     </div>
   );
 }
 
 // ---- Next actions view ----
 
-function NextActionsView({
-  env,
-  contexts,
-  energy,
-  maxMinutes,
-}: {
-  env: string;
-  contexts: string[];
-  energy: Energy | '';
-  maxMinutes: string;
-}) {
+function NextActionsView() {
+  const env = useEnvParam();
+  const { contexts, energy, maxMinutes, noProject } = useNextFilters();
   const params: Record<string, string> = { status: 'next' };
   if (contexts.length) params.contexts = contexts.join(',');
   if (energy) params.energy = energy;
   if (maxMinutes) params.max_minutes = maxMinutes;
+  if (noProject) params.no_project = 'true';
 
   const { data: items, isLoading } = useQuery({
-    queryKey: ['items', env, 'next', contexts, energy, maxMinutes],
+    queryKey: ['items', env, 'next', contexts, energy, maxMinutes, noProject],
     queryFn: () => api.listItems(env, params),
   });
 
@@ -447,12 +523,44 @@ function NextActionsView({
 // ---- Bucket view (inbox/waiting/someday/reference/trash) ----
 
 function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
+  const [params, setParams] = useSearchParams();
+  const includeDeferred =
+    bucket === 'inbox' && params.get('include_deferred') === 'true';
+
+  const listParams: Record<string, string> = { status: bucket };
+  if (includeDeferred) listParams.include_deferred = 'true';
+
   const { data: items, isLoading } = useQuery({
-    queryKey: ['items', env, bucket],
-    queryFn: () => api.listItems(env, { status: bucket }),
+    queryKey: ['items', env, bucket, includeDeferred],
+    queryFn: () => api.listItems(env, listParams),
   });
-  if (isLoading) return <div className="empty">Loading…</div>;
-  return <ItemList env={env} items={items ?? []} showEdit />;
+
+  return (
+    <>
+      {bucket === 'inbox' && (
+        <div className="bucket-toolbar">
+          <label className="toggle">
+            <input
+              type="checkbox"
+              checked={includeDeferred}
+              onChange={(e) => {
+                const next = new URLSearchParams(params);
+                if (e.target.checked) next.set('include_deferred', 'true');
+                else next.delete('include_deferred');
+                setParams(next, { replace: true });
+              }}
+            />
+            Show deferred
+          </label>
+        </div>
+      )}
+      {isLoading ? (
+        <div className="empty">Loading…</div>
+      ) : (
+        <ItemList env={env} items={items ?? []} showEdit />
+      )}
+    </>
+  );
 }
 
 // ---- Projects view ----
@@ -477,13 +585,8 @@ function sortProjects(projects: Project[]): Project[] {
   });
 }
 
-function ProjectsView({
-  env,
-  onOpen,
-}: {
-  env: string;
-  onOpen: (id: string) => void;
-}) {
+function ProjectsView() {
+  const env = useEnvParam();
   const [showFinished, setShowFinished] = useState(false);
   const { data: projects, isLoading } = useQuery({
     queryKey: ['projects', env, showFinished],
@@ -511,7 +614,7 @@ function ProjectsView({
       <ul className="project-index">
         {sorted.map((p) => (
           <li key={p.id}>
-            <ProjectIndexRow project={p} onOpen={() => onOpen(p.id)} />
+            <ProjectIndexRow project={p} />
           </li>
         ))}
       </ul>
@@ -539,19 +642,12 @@ function ProjectBadges({ project }: { project: Project }) {
   );
 }
 
-function ProjectIndexRow({
-  project,
-  onOpen,
-}: {
-  project: Project;
-  onOpen: () => void;
-}) {
+function ProjectIndexRow({ project }: { project: Project }) {
   const isDone = project.status === 'complete' || project.status === 'dropped';
   return (
-    <button
-      type="button"
+    <Link
+      to={project.id}
       className={`project-index-row${isDone ? ' done' : ''}`}
-      onClick={onOpen}
     >
       <span className="project-index-title">{project.title}</span>
       <ProjectBadges project={project} />
@@ -559,19 +655,11 @@ function ProjectIndexRow({
       {project.outcome && (
         <span className="project-index-outcome">{project.outcome}</span>
       )}
-    </button>
+    </Link>
   );
 }
 
-function ProjectNavLinks({
-  env,
-  activeProjectId,
-  onSelect,
-}: {
-  env: string;
-  activeProjectId: string | null;
-  onSelect: (id: string) => void;
-}) {
+function ProjectNavLinks({ env }: { env: string }) {
   const { data: projects } = useQuery({
     queryKey: ['projects', env, false],
     queryFn: () => api.listProjects(env, false),
@@ -580,31 +668,26 @@ function ProjectNavLinks({
   return (
     <div className="side-nav-sub">
       {sortProjects(projects).map((p) => (
-        <button
+        <NavLink
           key={p.id}
-          className={activeProjectId === p.id ? 'sub-link active' : 'sub-link'}
-          onClick={() => onSelect(p.id)}
+          to={`projects/${p.id}`}
+          className={({ isActive }) => (isActive ? 'sub-link active' : 'sub-link')}
           title={p.title}
         >
           {p.priority != null && (
             <span className={`priority-dot p${p.priority}`}>●</span>
           )}
           <span className="sub-link-title">{p.title}</span>
-        </button>
+        </NavLink>
       ))}
     </div>
   );
 }
 
-function ProjectDetailView({
-  env,
-  projectId,
-  onBack,
-}: {
-  env: string;
-  projectId: string;
-  onBack: () => void;
-}) {
+function ProjectDetailView() {
+  const env = useEnvParam();
+  const { projectId = '' } = useParams<{ projectId: string }>();
+  const navigate = useNavigate();
   const qc = useQueryClient();
   const [editing, setEditing] = useState(false);
   const { data, isLoading } = useQuery({
@@ -615,6 +698,7 @@ function ProjectDetailView({
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ['projects', env] });
     qc.invalidateQueries({ queryKey: ['project', env, projectId] });
+    qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
     qc.invalidateQueries({ queryKey: ['snapshot-status'] });
   };
 
@@ -627,7 +711,7 @@ function ProjectDetailView({
     mutationFn: () => api.deleteProject(env, projectId),
     onSuccess: () => {
       invalidate();
-      onBack();
+      navigate('..');
     },
   });
 
@@ -639,9 +723,9 @@ function ProjectDetailView({
 
   return (
     <div className="project-detail">
-      <button className="back-link" onClick={onBack}>
+      <Link className="back-link" to="..">
         ← All projects
-      </button>
+      </Link>
       <div className={`project-card${isDone ? ' done' : ''}`}>
         <h2>
           {project.title}
@@ -706,9 +790,300 @@ function ProjectDetailView({
             Delete
           </Button>
         </div>
-        {editing && <ProjectEditor env={env} project={project} />}
+        {editing && (
+          <ProjectEditor
+            env={env}
+            project={project}
+            onClose={() => setEditing(false)}
+          />
+        )}
         <SortableActionList env={env} projectId={project.id} items={actions} />
       </div>
+    </div>
+  );
+}
+
+// ---- Search ----
+
+const SEARCH_CAP = 200;
+const DROPDOWN_LIMIT = 8;
+
+function hitLink(env: string, hit: SearchHit): string {
+  return hit.kind === 'item'
+    ? `/${env}/items/${hit.item.id}`
+    : `/${env}/projects/${hit.project.id}`;
+}
+
+function HitRow({
+  hit,
+  selected,
+  onClick,
+}: {
+  hit: SearchHit;
+  selected?: boolean;
+  onClick?: () => void;
+}) {
+  if (hit.kind === 'item') {
+    const item = hit.item;
+    return (
+      <div
+        className={selected ? 'search-hit selected' : 'search-hit'}
+        onClick={onClick}
+      >
+        <span className="hit-kind">item</span>
+        <span className="hit-title">{item.title}</span>
+        <span className="hit-meta">
+          <span className="chip">{item.status}</span>
+          {item.contexts.slice(0, 3).map((c) => (
+            <span key={c} className="chip context-chip" style={contextChipStyle(c)}>
+              @{c}
+            </span>
+          ))}
+        </span>
+      </div>
+    );
+  }
+  const project = hit.project;
+  return (
+    <div
+      className={selected ? 'search-hit selected' : 'search-hit'}
+      onClick={onClick}
+    >
+      <span className="hit-kind">project</span>
+      <span className="hit-title">{project.title}</span>
+      <span className="hit-meta">
+        <ProjectBadges project={project} />
+        {project.outcome && (
+          <span className="hit-snippet">{project.outcome}</span>
+        )}
+      </span>
+    </div>
+  );
+}
+
+function SearchBar({ env, focusTick }: { env: string; focusTick: number }) {
+  const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [query, setQuery] = useState('');
+  const [focused, setFocused] = useState(false);
+  const [selected, setSelected] = useState(0);
+  const [everFocused, setEverFocused] = useState(false);
+  const { index, isLoading } = useSearchIndex(env, { enabled: everFocused });
+
+  useEffect(() => {
+    if (focusTick === 0) return;
+    inputRef.current?.focus();
+    inputRef.current?.select();
+  }, [focusTick]);
+
+  useEffect(() => {
+    setSelected(0);
+  }, [query]);
+
+  const allHits = useMemoSearch(index, query, SEARCH_CAP);
+  const hits = allHits.slice(0, DROPDOWN_LIMIT);
+  const total = allHits.length;
+  const hasQuery = query.trim().length > 0;
+  const showDropdown = focused && hasQuery;
+
+  function activate(hit: SearchHit) {
+    setFocused(false);
+    setQuery('');
+    navigate(hitLink(env, hit));
+  }
+
+  function seeAll() {
+    setFocused(false);
+    navigate(`/${env}/search?q=${encodeURIComponent(query.trim())}`);
+  }
+
+  function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Escape') {
+      setQuery('');
+      inputRef.current?.blur();
+      return;
+    }
+    if (!hasQuery) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelected((s) => Math.min(s + 1, hits.length));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelected((s) => Math.max(s - 1, 0));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (selected < hits.length) activate(hits[selected]);
+      else seeAll();
+    }
+  }
+
+  return (
+    <div className="search-bar">
+      <input
+        ref={inputRef}
+        type="search"
+        placeholder="Search… (/)"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onFocus={() => {
+          setFocused(true);
+          setEverFocused(true);
+        }}
+        onBlur={() => {
+          setTimeout(() => setFocused(false), 100);
+        }}
+        onKeyDown={onKeyDown}
+      />
+      {showDropdown && (
+        <div className="search-dropdown">
+          {isLoading && !index && (
+            <div className="search-empty">Building index…</div>
+          )}
+          {index && hits.length === 0 && (
+            <div className="search-empty">No matches.</div>
+          )}
+          {hits.map((hit, i) => (
+            <div
+              key={`${hit.kind}:${hit.id}`}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => activate(hit)}
+              onMouseEnter={() => setSelected(i)}
+            >
+              <HitRow hit={hit} selected={i === selected} />
+            </div>
+          ))}
+          {total > hits.length && (
+            <div
+              className={
+                selected === hits.length
+                  ? 'search-see-all selected'
+                  : 'search-see-all'
+              }
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={seeAll}
+              onMouseEnter={() => setSelected(hits.length)}
+            >
+              See all {total} results →
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function useMemoSearch(
+  index: ReturnType<typeof useSearchIndex>['index'],
+  query: string,
+  limit: number,
+): SearchHit[] {
+  const trimmed = query.trim();
+  return React.useMemo(() => {
+    if (!index || !trimmed) return [];
+    return index.search(trimmed, limit);
+  }, [index, trimmed, limit]);
+}
+
+function SearchView() {
+  const env = useEnvParam();
+  const [params, setParams] = useSearchParams();
+  const q = params.get('q') ?? '';
+  const { index, isLoading } = useSearchIndex(env);
+  const hits = useMemoSearch(index, q, SEARCH_CAP);
+
+  const items = hits.filter((h) => h.kind === 'item');
+  const projects = hits.filter((h) => h.kind === 'project');
+
+  return (
+    <div className="search-view">
+      <input
+        type="search"
+        className="search-view-input"
+        placeholder="Search…"
+        value={q}
+        onChange={(e) => {
+          const next = new URLSearchParams(params);
+          if (e.target.value) next.set('q', e.target.value);
+          else next.delete('q');
+          setParams(next, { replace: true });
+        }}
+        autoFocus
+      />
+      {!q.trim() && <div className="empty">Type to search.</div>}
+      {q.trim() && isLoading && !index && (
+        <div className="empty">Building index…</div>
+      )}
+      {q.trim() && index && hits.length === 0 && (
+        <div className="empty">No matches.</div>
+      )}
+      {projects.length > 0 && (
+        <>
+          <h3 className="search-group-title">Projects ({projects.length})</h3>
+          <ul className="search-results">
+            {projects.map((hit) => (
+              <li key={hit.id}>
+                <Link to={hitLink(env, hit)} className="search-result-link">
+                  <HitRow hit={hit} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {items.length > 0 && (
+        <>
+          <h3 className="search-group-title">Items ({items.length})</h3>
+          <ul className="search-results">
+            {items.map((hit) => (
+              <li key={hit.id}>
+                <Link to={hitLink(env, hit)} className="search-result-link">
+                  <HitRow hit={hit} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          {hits.length === SEARCH_CAP && (
+            <div className="empty">
+              Showing first {SEARCH_CAP} — refine your search.
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+// ---- Item detail ----
+
+function ItemDetailView() {
+  const env = useEnvParam();
+  const navigate = useNavigate();
+  const { itemId = '' } = useParams<{ itemId: string }>();
+  const [editing, setEditing] = useState(true);
+  const { data: item, isLoading } = useQuery({
+    queryKey: ['item', env, itemId],
+    queryFn: () => api.getItem(env, itemId),
+  });
+
+  if (isLoading) return <div className="empty">Loading…</div>;
+  if (!item) return <div className="empty">Item not found.</div>;
+
+  return (
+    <div className="item-detail">
+      <button className="back-link" onClick={() => navigate(-1)}>
+        ← Back
+      </button>
+      <ul className="item-list">
+        <li>
+          <ItemRow
+            env={env}
+            item={item}
+            editing={editing}
+            onEdit={() => setEditing((v) => !v)}
+            showEdit
+          />
+        </li>
+      </ul>
     </div>
   );
 }
@@ -748,6 +1123,7 @@ function NewProjectForm({ env }: { env: string }) {
       setPriority('');
       setSequential(false);
       qc.invalidateQueries({ queryKey: ['projects', env] });
+      qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     },
   });
@@ -843,6 +1219,7 @@ function SortableActionList({
       setLocalOrder(null);
       qc.invalidateQueries({ queryKey: ['project', env, projectId] });
       qc.invalidateQueries({ queryKey: ['items', env] });
+      qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     },
     onError: () => {
@@ -915,7 +1292,15 @@ function SortableItemRow({ env, item }: { env: string; item: Item }) {
   );
 }
 
-function ProjectEditor({ env, project }: { env: string; project: Project }) {
+function ProjectEditor({
+  env,
+  project,
+  onClose,
+}: {
+  env: string;
+  project: Project;
+  onClose?: () => void;
+}) {
   const qc = useQueryClient();
   const [title, setTitle] = useState(project.title);
   const [outcome, setOutcome] = useState(project.outcome ?? '');
@@ -939,7 +1324,9 @@ function ProjectEditor({ env, project }: { env: string; project: Project }) {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['projects', env] });
       qc.invalidateQueries({ queryKey: ['project', env, project.id] });
+      qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+      onClose?.();
     },
   });
 
@@ -1037,6 +1424,8 @@ function ItemRow({
   const qc = useQueryClient();
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ['items', env] });
+    qc.invalidateQueries({ queryKey: ['item', env, item.id] });
+    qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
     qc.invalidateQueries({ queryKey: ['snapshot-status'] });
     qc.invalidateQueries({ queryKey: ['projects', env] });
     if (item.project) {
@@ -1094,6 +1483,11 @@ function ItemRow({
       )}
       <div className="item-meta">
         {item.status !== 'next' && <span className="chip">{item.status}</span>}
+        {item.project_priority != null && (
+          <span className={`priority-badge p${item.project_priority}`}>
+            P{item.project_priority}
+          </span>
+        )}
         {item.order != null && <span className="chip">#{item.order}</span>}
         {item.contexts.map((c) => (
           <span key={c} className="chip context-chip" style={contextChipStyle(c)}>
@@ -1180,7 +1574,7 @@ function ItemRow({
           disabled={rowBusy}
         />
       )}
-      {editing && <ItemEditor env={env} item={item} />}
+      {editing && <ItemEditor env={env} item={item} onClose={onEdit} />}
     </div>
   );
 }
@@ -1225,7 +1619,15 @@ function fmtDate(iso: string): string {
   return iso.slice(0, 10);
 }
 
-function ItemEditor({ env, item }: { env: string; item: Item }) {
+function ItemEditor({
+  env,
+  item,
+  onClose,
+}: {
+  env: string;
+  item: Item;
+  onClose?: () => void;
+}) {
   const qc = useQueryClient();
   const { data: config } = useQuery({
     queryKey: ['config', env],
@@ -1260,7 +1662,10 @@ function ItemEditor({ env, item }: { env: string; item: Item }) {
       }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['items', env] });
+      qc.invalidateQueries({ queryKey: ['item', env, item.id] });
+      qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
       qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+      onClose?.();
     },
   });
 

@@ -20,6 +20,7 @@ export interface Item {
   energy: Energy | null;
   time_minutes: number | null;
   project: string | null;
+  project_priority: number | null;
   area: string | null;
   tags: string[];
   due: string | null;
@@ -167,6 +168,18 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ item_ids: itemIds }),
     }),
+
+  listSearchCorpus: async (
+    env: string
+  ): Promise<{ items: Item[]; projects: Project[] }> => {
+    const [items, projects] = await Promise.all([
+      request<Item[]>(
+        `/envs/${env}/items/?include_archive=true&include_trash=true`
+      ),
+      request<Project[]>(`/envs/${env}/projects/?include_inactive=true`),
+    ]);
+    return { items, projects };
+  },
 
   snapshotStatus: () => request<SnapshotStatus>('/snapshot/status/'),
   snapshot: (message?: string, push = false) =>

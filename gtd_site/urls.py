@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.http import FileResponse, HttpResponseNotFound
-from django.urls import include, path
+from django.urls import include, path, re_path
 
 
 def spa_index(request):
@@ -14,5 +14,5 @@ def spa_index(request):
 
 urlpatterns = [
     path("api/", include("gtd_api.urls")),
-    path("", spa_index),
+    re_path(r"^(?!api/|static/).*$", spa_index),
 ]
