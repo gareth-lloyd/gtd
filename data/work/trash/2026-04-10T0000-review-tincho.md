@@ -7,12 +7,13 @@ defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0000-review-tincho
+order: null
 project: null
 tags:
 - focus
 time_minutes: null
 title: review tincho
-updated: 2026-04-12 12:08:00.844265
+updated: 2026-04-16 09:37:13.889391
 waiting_on: null
 waiting_since: null
 ---

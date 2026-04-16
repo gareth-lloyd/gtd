@@ -7,11 +7,12 @@ defer_until: null
 due: 2026-05-01
 energy: null
 id: 2026-05-01T0000-warm-up-peter-g
-project: null
+order: 6
+project: 2026-04-10T0840-people
 tags: []
 time_minutes: null
 title: Warm up Peter G
-updated: 2026-04-12 12:08:00.831030
+updated: 2026-04-16 09:43:59.517875
 waiting_on: null
 waiting_since: null
 ---
