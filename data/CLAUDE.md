@@ -42,6 +42,7 @@ due: null
 defer_until: null
 waiting_on: null
 waiting_since: null
+order: null
 ---
 
 Notes go here as markdown body.
@@ -50,11 +51,35 @@ Notes go here as markdown body.
 **Status is NOT in the frontmatter.** It's the parent directory name.
 Moving `inbox/foo.md` to `next/foo.md` changes the item's status.
 
+`order` is only meaningful when the item's project is `sequential: true`.
+It sorts the project's actions and (for sequential projects) controls which
+single item surfaces on the next-actions list.
+
+## Project file format
+
+```markdown
+---
+id: 2026-04-10T0915-launch-blog
+title: Launch personal blog
+created: 2026-04-10 09:15:00
+updated: 2026-04-10 09:15:00
+status: active           # active | on_hold | complete | dropped
+outcome: Blog live with 3 posts
+area: hobbies
+tags: []
+due: 2026-06-01          # optional hard deadline
+priority: 2              # 1 (most urgent) … 5 (aspirational) or null
+sequential: false        # true = run actions one at a time in `order`
+---
+
+Project notes / context / outcome detail.
+```
+
 ## config.yml
 
 ```yaml
 name: work
-contexts: [anywhere, calls, computer, errands, meetings, office]
+contexts: [computer, calls, meetings, thinking]
 areas: [admin, engineering, management, writing]
 default_energy: medium
 ```
@@ -62,6 +87,10 @@ default_energy: medium
 Contexts are strict — the service layer rejects unknown values.
 Areas are validated on update. Adding a new context/area means
 editing this file.
+
+Current real-world contexts:
+- `work`: computer, calls, meetings, thinking
+- `home`: computer, errands, calls, home, watch, read, out, anywhere
 
 ## Reading data in a Claude CLI session
 

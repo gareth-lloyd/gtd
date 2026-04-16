@@ -1,16 +1,17 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-04-10 08:40:24.999134
+created: 2026-04-10 08:40:24.999134
 defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0840-md-drinks-syrah
+order: 42
 project: 2026-04-10T0840-gift-ideas
 tags: []
 time_minutes: null
 title: Md drinks Syrah
-updated: *id001
+updated: 2026-04-13 17:34:04.200321
 waiting_on: null
 waiting_since: null
 ---

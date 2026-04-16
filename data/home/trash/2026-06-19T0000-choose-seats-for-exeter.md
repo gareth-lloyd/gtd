@@ -11,7 +11,7 @@ project: null
 tags: []
 time_minutes: null
 title: Choose seats for exeter
-updated: 2026-04-12 12:08:00.868275
+updated: 2026-04-13 16:28:06.556697
 waiting_on: null
 waiting_since: null
 ---
