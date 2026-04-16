@@ -8,13 +8,13 @@ due: null
 energy: low
 id: 2026-04-16T1126-merge-pr-42764-ent-5594-add-ihg-pilot-rules-based
 order: null
-project: null
+project: 2026-04-16T1319-rules-based-config
 tags:
 - morning-gtd
 - github
 time_minutes: 5
 title: 'Merge PR #42764: ENT-5594 Add IHG Pilot rules-based configuration'
-updated: 2026-04-16 08:49:22.005963
+updated: 2026-04-16 10:51:41.368919
 waiting_on: null
 waiting_since: null
 ---
