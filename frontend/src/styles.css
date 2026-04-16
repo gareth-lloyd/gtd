@@ -402,28 +402,6 @@ button.danger:hover {
   background: transparent;
 }
 
-/* ---- Project assign row on items ---- */
-
-.item-actions.project-assign {
-  gap: 0.3rem;
-  margin-top: 0.25rem;
-  padding-top: 0.4rem;
-  border-top: 1px dashed var(--border);
-}
-
-.item-actions.project-assign button {
-  font-size: 0.8rem;
-  padding: 0.25rem 0.55rem;
-  color: var(--muted);
-}
-
-.item-actions.project-assign button.active {
-  background: var(--accent-bg);
-  border-color: var(--accent);
-  color: var(--accent);
-  font-weight: 600;
-}
-
 /* ---- Capture bar ---- */
 
 .capture {
@@ -917,31 +895,6 @@ button.danger:hover {
   min-width: 120px;
 }
 
-.chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-}
-
-.chip-check {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.2rem 0.55rem;
-  background: #f0f0f0;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  font-weight: 400;
-  color: var(--fg);
-}
-
-.chip-check input[type='checkbox'] {
-  width: auto;
-  margin: 0;
-  cursor: pointer;
-}
-
 /* ---- Projects ---- */
 
 .projects-toolbar {
@@ -1221,4 +1174,255 @@ button.danger:hover {
 .toast-close:hover {
   opacity: 1;
   background: transparent;
+}
+
+/* ---------- Mock preview (new item card) ---------- */
+
+/* Item card collapsed/expanded visual states */
+.item {
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.item:hover:not(.expanded) {
+  border-color: #cfcfcf;
+}
+
+.item.expanded {
+  cursor: default;
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 3px var(--accent-bg),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+  background: white;
+}
+
+/* Collapsed workflow actions — revealed on hover/focus */
+.item .item-actions.on-hover {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  margin-top: 0.35rem;
+}
+
+.item:hover .item-actions.on-hover,
+.item:focus-within .item-actions.on-hover {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Project chip in the collapsed meta row */
+.item-meta .chip.project-chip {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ---------- Expanded editing panel ---------- */
+
+.item-expanded {
+  display: flex;
+  flex-direction: column;
+  padding: 0.2rem 0;
+}
+
+/* Dotted divider + generous vertical padding between each field row. */
+.item-expanded > * {
+  padding: 0.65rem 0;
+}
+
+.item-expanded > *:first-child {
+  padding-top: 0.2rem;
+}
+
+.item-expanded > *:last-child {
+  padding-bottom: 0.2rem;
+}
+
+.item-expanded > * + * {
+  border-top: 1px dotted var(--border);
+}
+
+.item-expanded .title-input {
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  padding: 0.1rem 0;
+  width: 100%;
+  font-family: inherit;
+  color: var(--fg);
+}
+
+.item-expanded .title-input:focus {
+  outline: none;
+  border-bottom-color: var(--accent);
+}
+
+.item-expanded .body-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.85rem;
+  resize: vertical;
+  background: white;
+}
+
+.item-expanded .body-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+/* Small leading hint for rows whose chips aren't self-identifying (due, defer). */
+.row-hint {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 0.25rem 0.35rem 0.25rem 0;
+  align-self: center;
+}
+
+/* Two independent chip groups sharing a row (energy + time) as real columns. */
+.chip-toggle-group.split-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+/* ---------- Chip toggle group ---------- */
+
+.chip-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.chip-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--border);
+  background: #f7f7f7;
+  color: var(--muted);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.1s ease,
+    color 0.1s ease,
+    border-color 0.1s ease,
+    box-shadow 0.1s ease;
+  font-family: inherit;
+  line-height: 1.2;
+}
+
+.chip-toggle:hover {
+  border-color: #c5c5c5;
+  color: var(--fg);
+}
+
+.chip-toggle[aria-pressed='true'] {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.chip-toggle[aria-pressed='true']:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Context chips: when selected, use their hue instead of accent blue */
+.chip-toggle.context[aria-pressed='true'] {
+  background: var(--context-bg, var(--accent));
+  color: var(--context-fg, white);
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.chip-toggle.clear {
+  color: var(--danger);
+  border-color: transparent;
+  background: transparent;
+}
+
+.chip-toggle.clear:hover {
+  background: #fee2e2;
+  color: var(--danger);
+}
+
+.chip-toggle .priority-badge {
+  margin-left: 0.2rem;
+}
+
+.chip-toggle[aria-pressed='true'] .priority-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+.chip-toggle .sequential-dot {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.order-input {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8rem;
+  font-family: inherit;
+  background: white;
+  width: 7rem;
+}
+
+.order-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+/* Date picker chip: always shows calendar icon; hidden native input sits
+   off-screen and is triggered via showPicker(). */
+.chip-toggle.picker {
+  gap: 0.3rem;
+}
+
+.chip-toggle.picker .picker-date {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.78rem;
+}
+
+.hidden-date-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.expanded-actions {
+  align-items: center;
+}
+
+.save-hint {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--success);
+  font-style: italic;
 }

@@ -1,7 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import {
   Link,
   Navigate,
@@ -45,6 +43,8 @@ import { Button } from './Button';
 import { useNextFilters } from './filters';
 import { useSearchIndex, type SearchHit } from './search';
 import { contextHue, contextChipStyle, contextTintStyle } from './context-colors';
+import { ItemCard } from './ItemCard';
+import { fmtDate, sortProjects } from './format';
 
 type Section =
   | 'inbox'
@@ -318,12 +318,22 @@ function CaptureBar({
   const sortedProjects = projects ? sortProjects(projects) : [];
   const destination = projectId ? 'next + project' : 'inbox';
 
+  const submit = () => {
+    if (title.trim()) mut.mutate();
+  };
+
   return (
     <form
       className="capture"
       onSubmit={(e) => {
         e.preventDefault();
-        if (title.trim()) mut.mutate();
+        submit();
+      }}
+      onKeyDown={(e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+          e.preventDefault();
+          submit();
+        }
       }}
     >
       <div className="capture-row">
@@ -517,7 +527,7 @@ function NextActionsView() {
   });
 
   if (isLoading) return <div className="empty">Loading…</div>;
-  return <ItemList env={env} items={items ?? []} showEdit />;
+  return <ItemList env={env} items={items ?? []} />;
 }
 
 // ---- Bucket view (inbox/waiting/someday/reference/trash) ----
@@ -557,7 +567,7 @@ function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
       {isLoading ? (
         <div className="empty">Loading…</div>
       ) : (
-        <ItemList env={env} items={items ?? []} showEdit />
+        <ItemList env={env} items={items ?? []} />
       )}
     </>
   );
@@ -572,18 +582,6 @@ const PRIORITY_LABELS: Record<number, string> = {
   4: 'P4 low',
   5: 'P5 aspirational',
 };
-
-function sortProjects(projects: Project[]): Project[] {
-  return [...projects].sort((a, b) => {
-    const pa = a.priority ?? 99;
-    const pb = b.priority ?? 99;
-    if (pa !== pb) return pa - pb;
-    if (a.due && b.due) return a.due.localeCompare(b.due);
-    if (a.due) return -1;
-    if (b.due) return 1;
-    return a.title.localeCompare(b.title);
-  });
-}
 
 function ProjectsView() {
   const env = useEnvParam();
@@ -1059,10 +1057,14 @@ function ItemDetailView() {
   const env = useEnvParam();
   const navigate = useNavigate();
   const { itemId = '' } = useParams<{ itemId: string }>();
-  const [editing, setEditing] = useState(true);
+  const [expanded, setExpanded] = useState(true);
   const { data: item, isLoading } = useQuery({
     queryKey: ['item', env, itemId],
     queryFn: () => api.getItem(env, itemId),
+  });
+  const { data: projects } = useQuery({
+    queryKey: ['projects', env, false],
+    queryFn: () => api.listProjects(env, false),
   });
 
   if (isLoading) return <div className="empty">Loading…</div>;
@@ -1075,12 +1077,13 @@ function ItemDetailView() {
       </button>
       <ul className="item-list">
         <li>
-          <ItemRow
+          <ItemCard
             env={env}
             item={item}
-            editing={editing}
-            onEdit={() => setEditing((v) => !v)}
-            showEdit
+            projects={projects}
+            expanded={expanded}
+            onExpand={() => setExpanded(true)}
+            onCollapse={() => setExpanded(false)}
           />
         </li>
       </ul>
@@ -1204,8 +1207,13 @@ function SortableActionList({
   // Local ordering override — starts with the server's order but updates
   // optimistically on drop so the UI doesn't wait for the round trip.
   const [localOrder, setLocalOrder] = useState<string[] | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const ids = localOrder ?? items.map((i) => i.id);
   const itemsById = new Map(items.map((i) => [i.id, i]));
+  const { data: projects } = useQuery({
+    queryKey: ['projects', env, false],
+    queryFn: () => api.listProjects(env, false),
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -1249,7 +1257,19 @@ function SortableActionList({
           {ids.map((id) => {
             const item = itemsById.get(id);
             if (!item) return null;
-            return <SortableItemRow key={id} env={env} item={item} />;
+            return (
+              <SortableItemRow
+                key={id}
+                env={env}
+                item={item}
+                projects={projects}
+                expanded={expandedId === id}
+                onExpand={() => setExpandedId(id)}
+                onCollapse={() =>
+                  setExpandedId((cur) => (cur === id ? null : cur))
+                }
+              />
+            );
           })}
         </ul>
       </SortableContext>
@@ -1257,10 +1277,23 @@ function SortableActionList({
   );
 }
 
-function SortableItemRow({ env, item }: { env: string; item: Item }) {
+function SortableItemRow({
+  env,
+  item,
+  projects,
+  expanded,
+  onExpand,
+  onCollapse,
+}: {
+  env: string;
+  item: Item;
+  projects: Project[] | undefined;
+  expanded: boolean;
+  onExpand: () => void;
+  onCollapse: () => void;
+}) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: item.id });
-  const [editing, setEditing] = useState(false);
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -1279,12 +1312,13 @@ function SortableItemRow({ env, item }: { env: string; item: Item }) {
           ⋮⋮
         </button>
         <div className="item-with-handle-body">
-          <ItemRow
+          <ItemCard
             env={env}
             item={item}
-            editing={editing}
-            onEdit={() => setEditing(!editing)}
-            showEdit
+            projects={projects}
+            expanded={expanded}
+            onExpand={onExpand}
+            onCollapse={onCollapse}
           />
         </div>
       </div>
@@ -1378,29 +1412,28 @@ function ProjectEditor({
   );
 }
 
-// ---- Item list + editor ----
+// ---- Item list ----
 
-function ItemList({
-  env,
-  items,
-  showEdit,
-}: {
-  env: string;
-  items: Item[];
-  showEdit: boolean;
-}) {
-  const [editing, setEditing] = useState<string | null>(null);
+function ItemList({ env, items }: { env: string; items: Item[] }) {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const { data: projects } = useQuery({
+    queryKey: ['projects', env, false],
+    queryFn: () => api.listProjects(env, false),
+  });
   if (items.length === 0) return <div className="empty">Nothing here.</div>;
   return (
     <ul className="item-list">
       {items.map((item) => (
         <li key={item.id}>
-          <ItemRow
+          <ItemCard
             env={env}
             item={item}
-            editing={editing === item.id}
-            onEdit={() => setEditing(editing === item.id ? null : item.id)}
-            showEdit={showEdit}
+            projects={projects}
+            expanded={expandedId === item.id}
+            onExpand={() => setExpandedId(item.id)}
+            onCollapse={() =>
+              setExpandedId((id) => (id === item.id ? null : id))
+            }
           />
         </li>
       ))}
@@ -1408,384 +1441,3 @@ function ItemList({
   );
 }
 
-function ItemRow({
-  env,
-  item,
-  editing,
-  onEdit,
-  showEdit,
-}: {
-  env: string;
-  item: Item;
-  editing: boolean;
-  onEdit: () => void;
-  showEdit: boolean;
-}) {
-  const qc = useQueryClient();
-  const invalidate = () => {
-    qc.invalidateQueries({ queryKey: ['items', env] });
-    qc.invalidateQueries({ queryKey: ['item', env, item.id] });
-    qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
-    qc.invalidateQueries({ queryKey: ['snapshot-status'] });
-    qc.invalidateQueries({ queryKey: ['projects', env] });
-    if (item.project) {
-      qc.invalidateQueries({ queryKey: ['project', env, item.project] });
-    }
-  };
-
-  const moveMut = useMutation<Item, Error, Bucket>({
-    mutationFn: (to) => api.moveItem(env, item.id, to),
-    onSuccess: invalidate,
-  });
-  const completeMut = useMutation({
-    mutationFn: () => api.completeItem(env, item.id),
-    onSuccess: invalidate,
-  });
-  const deleteMut = useMutation({
-    mutationFn: () => api.deleteItem(env, item.id),
-    onSuccess: invalidate,
-  });
-  const purgeMut = useMutation({
-    mutationFn: () => api.purgeItem(env, item.id),
-    onSuccess: invalidate,
-  });
-  const assignProjectMut = useMutation<Item, Error, string>({
-    mutationFn: async (projectId) => {
-      const updated = await api.updateItem(env, item.id, { project: projectId });
-      if (item.status === 'inbox') {
-        return api.moveItem(env, item.id, 'next');
-      }
-      return updated;
-    },
-    onSuccess: invalidate,
-  });
-
-  const rowBusy =
-    moveMut.isPending ||
-    completeMut.isPending ||
-    deleteMut.isPending ||
-    purgeMut.isPending ||
-    assignProjectMut.isPending;
-
-  const isMoving = (to: Bucket) =>
-    moveMut.isPending && moveMut.variables === to;
-
-  const inTrash = item.status === 'trash';
-  const isArchive = item.status === 'archive';
-
-  return (
-    <div className="item">
-      <div className="item-title">{item.title}</div>
-      {item.body && (
-        <div className="item-body">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{item.body}</ReactMarkdown>
-        </div>
-      )}
-      <div className="item-meta">
-        {item.status !== 'next' && <span className="chip">{item.status}</span>}
-        {item.project_priority != null && (
-          <span className={`priority-badge p${item.project_priority}`}>
-            P{item.project_priority}
-          </span>
-        )}
-        {item.order != null && <span className="chip">#{item.order}</span>}
-        {item.contexts.map((c) => (
-          <span key={c} className="chip context-chip" style={contextChipStyle(c)}>
-            @{c}
-          </span>
-        ))}
-        {item.energy && <span className="chip">⚡{item.energy}</span>}
-        {item.time_minutes != null && <span className="chip">{item.time_minutes}m</span>}
-        {item.area && <span className="chip">{item.area}</span>}
-        {item.due && <span className="chip">due {item.due}</span>}
-        {item.defer_until && <span className="chip">defer {item.defer_until}</span>}
-        <span className="chip dates" title={`created ${fmtDate(item.created)}`}>
-          updated {fmtDate(item.updated)}
-        </span>
-      </div>
-      <div className="item-actions">
-        {inTrash ? (
-          <>
-            <Button
-              onClick={() => moveMut.mutate('inbox')}
-              busy={isMoving('inbox')}
-              disabled={rowBusy}
-            >
-              ↺ restore
-            </Button>
-            <Button
-              className="danger"
-              onClick={() => {
-                if (confirm(`Permanently delete "${item.title}"?`)) purgeMut.mutate();
-              }}
-              busy={purgeMut.isPending}
-              disabled={rowBusy}
-            >
-              Purge
-            </Button>
-          </>
-        ) : (
-          <>
-            {(['next', 'waiting', 'someday'] as const)
-              .filter((b) => item.status !== b && !isArchive)
-              .map((b) => (
-                <Button
-                  key={b}
-                  onClick={() => moveMut.mutate(b)}
-                  busy={isMoving(b)}
-                  disabled={rowBusy}
-                >
-                  → {b}
-                </Button>
-              ))}
-            {!isArchive && (
-              <Button
-                onClick={() => completeMut.mutate()}
-                busy={completeMut.isPending}
-                disabled={rowBusy}
-              >
-                ✓ done
-              </Button>
-            )}
-            {showEdit && (
-              <button onClick={onEdit} disabled={rowBusy}>
-                {editing ? 'Close' : 'Edit'}
-              </button>
-            )}
-            <Button
-              className="danger"
-              onClick={() => deleteMut.mutate()}
-              busy={deleteMut.isPending}
-              disabled={rowBusy}
-            >
-              Delete
-            </Button>
-          </>
-        )}
-      </div>
-      {!inTrash && !isArchive && (
-        <ProjectAssignRow
-          env={env}
-          currentProjectId={item.project}
-          onAssign={(projectId) => assignProjectMut.mutate(projectId)}
-          busyProjectId={
-            assignProjectMut.isPending ? (assignProjectMut.variables ?? null) : null
-          }
-          disabled={rowBusy}
-        />
-      )}
-      {editing && <ItemEditor env={env} item={item} onClose={onEdit} />}
-    </div>
-  );
-}
-
-function ProjectAssignRow({
-  env,
-  currentProjectId,
-  onAssign,
-  busyProjectId,
-  disabled,
-}: {
-  env: string;
-  currentProjectId: string | null;
-  onAssign: (projectId: string) => void;
-  busyProjectId: string | null;
-  disabled: boolean;
-}) {
-  const { data: projects } = useQuery({
-    queryKey: ['projects', env, false],
-    queryFn: () => api.listProjects(env, false),
-  });
-  if (!projects || projects.length === 0) return null;
-  return (
-    <div className="item-actions project-assign">
-      {sortProjects(projects).map((p) => (
-        <Button
-          key={p.id}
-          className={currentProjectId === p.id ? 'active' : ''}
-          onClick={() => onAssign(p.id)}
-          busy={busyProjectId === p.id}
-          disabled={disabled}
-        >
-          → {p.title}
-        </Button>
-      ))}
-    </div>
-  );
-}
-
-function fmtDate(iso: string): string {
-  if (!iso) return '';
-  return iso.slice(0, 10);
-}
-
-function ItemEditor({
-  env,
-  item,
-  onClose,
-}: {
-  env: string;
-  item: Item;
-  onClose?: () => void;
-}) {
-  const qc = useQueryClient();
-  const { data: config } = useQuery({
-    queryKey: ['config', env],
-    queryFn: () => api.getConfig(env),
-  });
-  const [title, setTitle] = useState(item.title);
-  const [contexts, setContexts] = useState<string[]>(item.contexts);
-  const [energy, setEnergy] = useState<Energy | ''>(item.energy ?? '');
-  const [timeMinutes, setTimeMinutes] = useState<string>(
-    item.time_minutes?.toString() ?? ''
-  );
-  const [area, setArea] = useState<string>(item.area ?? '');
-  const [project, setProject] = useState<string>(item.project ?? '');
-  const [due, setDue] = useState<string>(item.due ?? '');
-  const [deferUntil, setDeferUntil] = useState<string>(item.defer_until ?? '');
-  const [order, setOrder] = useState<string>(item.order?.toString() ?? '');
-  const [body, setBody] = useState<string>(item.body);
-
-  const mut = useMutation({
-    mutationFn: () =>
-      api.updateItem(env, item.id, {
-        title,
-        body,
-        contexts,
-        energy: energy || null,
-        time_minutes: timeMinutes ? parseInt(timeMinutes, 10) : null,
-        area: area || null,
-        project: project || null,
-        due: due || null,
-        defer_until: deferUntil || null,
-        order: order ? parseInt(order, 10) : null,
-      }),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['items', env] });
-      qc.invalidateQueries({ queryKey: ['item', env, item.id] });
-      qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
-      qc.invalidateQueries({ queryKey: ['snapshot-status'] });
-      onClose?.();
-    },
-  });
-
-  return (
-    <div className="editor">
-      <label>
-        Title
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </label>
-      <label>
-        Contexts
-        <div className="chip-row">
-          {config?.contexts.map((c) => (
-            <label key={c} className="chip-check" style={contextChipStyle(c)}>
-              <input
-                type="checkbox"
-                checked={contexts.includes(c)}
-                onChange={(e) =>
-                  setContexts((prev) =>
-                    e.target.checked ? [...prev, c] : prev.filter((x) => x !== c)
-                  )
-                }
-              />
-              @{c}
-            </label>
-          ))}
-        </div>
-      </label>
-      <div className="row">
-        <label>
-          Energy
-          <div className="btn-group">
-            {ENERGY_CHOICES.map((e) => (
-              <button
-                type="button"
-                key={e || 'any'}
-                className={energy === e ? 'active' : ''}
-                onClick={() => setEnergy(e)}
-              >
-                {e || 'any'}
-              </button>
-            ))}
-          </div>
-        </label>
-        <label>
-          Time (min)
-          <input
-            type="number"
-            value={timeMinutes}
-            onChange={(e) => setTimeMinutes(e.target.value)}
-          />
-        </label>
-        <label>
-          Area
-          <input
-            type="text"
-            value={area}
-            onChange={(e) => setArea(e.target.value)}
-            list={`areas-${env}`}
-          />
-          <datalist id={`areas-${env}`}>
-            {config?.areas.map((a) => (
-              <option key={a} value={a} />
-            ))}
-          </datalist>
-        </label>
-      </div>
-      <div className="row">
-        <label>
-          Project ID
-          <input
-            type="text"
-            value={project}
-            onChange={(e) => setProject(e.target.value)}
-            placeholder="optional"
-          />
-        </label>
-        <label>
-          Order
-          <input
-            type="number"
-            value={order}
-            onChange={(e) => setOrder(e.target.value)}
-            placeholder="within project"
-          />
-        </label>
-      </div>
-      <div className="row">
-        <label>
-          Due
-          <input
-            type="date"
-            value={due}
-            onChange={(e) => setDue(e.target.value)}
-          />
-        </label>
-        <label>
-          Defer until
-          <input
-            type="date"
-            value={deferUntil}
-            onChange={(e) => setDeferUntil(e.target.value)}
-          />
-        </label>
-      </div>
-      <label>
-        Notes (markdown)
-        <textarea
-          rows={4}
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-        />
-      </label>
-      <Button className="primary" onClick={() => mut.mutate()} busy={mut.isPending}>
-        Save
-      </Button>
-    </div>
-  );
-}
