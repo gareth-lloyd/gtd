@@ -14,7 +14,7 @@ tags:
 - github
 time_minutes: 15
 title: 'Re-review PR #42998: ENT-5900 Provision BW email templates on all GJMs'
-updated: 2026-04-16 10:54:08.168849
+updated: 2026-04-16 11:24:26.148113
 waiting_on: null
 waiting_since: null
 ---

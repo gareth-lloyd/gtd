@@ -1,16 +1,16 @@
 ---
 area: null
 contexts: []
-created: 2026-04-16 10:04:39.763384
-defer_until: 2026-04-23
-due: 2026-04-24
+created: 2026-04-16 11:33:52.892413
+defer_until: null
+due: null
 energy: low
-id: 2026-04-16T1004-tincho-birthday-24th
-order: 6
+id: 2026-04-16T1133-update-people-in-lettuce
+order: 1
 project: 2026-04-10T0840-people
 tags: []
 time_minutes: 5
-title: Tincho birthday 24th
+title: Update people in lettuce
 updated: 2026-04-16 11:33:56.564078
 waiting_on: null
 waiting_since: null

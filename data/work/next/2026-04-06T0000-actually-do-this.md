@@ -7,13 +7,13 @@ defer_until: null
 due: 2026-04-06
 energy: null
 id: 2026-04-06T0000-actually-do-this
-order: 5
+order: 6
 project: 2026-04-16T1351-ship
 tags:
 - focus
 time_minutes: 15
 title: actually DO THIS
-updated: 2026-04-16 10:57:03.997939
+updated: 2026-04-16 11:51:59.620927
 waiting_on: null
 waiting_since: null
 ---
