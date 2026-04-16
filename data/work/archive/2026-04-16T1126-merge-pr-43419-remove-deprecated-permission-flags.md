@@ -14,7 +14,7 @@ tags:
 - github
 time_minutes: 15
 title: 'Merge PR #43419: Remove deprecated permission flags from frontend (ENT-4469)'
-updated: 2026-04-16 11:26:34.154129
+updated: 2026-04-16 08:49:30.456846
 waiting_on: null
 waiting_since: null
 ---

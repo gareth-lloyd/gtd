@@ -7,11 +7,12 @@ defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0840-bw-translations
+order: null
 project: null
 tags: []
 time_minutes: null
 title: BW translations
-updated: 2026-04-12 12:08:00.823021
+updated: 2026-04-16 08:38:00.381082
 waiting_on: null
 waiting_since: null
 ---
