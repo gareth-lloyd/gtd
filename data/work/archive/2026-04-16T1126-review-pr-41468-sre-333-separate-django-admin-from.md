@@ -14,7 +14,7 @@ tags:
 - github
 time_minutes: 30
 title: 'Review PR #41468: SRE-333 Separate Django Admin from Other Apps'
-updated: 2026-04-16 11:26:34.163273
+updated: 2026-04-16 09:30:02.559924
 waiting_on: null
 waiting_since: null
 ---
