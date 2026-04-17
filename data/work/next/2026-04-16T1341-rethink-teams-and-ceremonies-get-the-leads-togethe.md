@@ -6,13 +6,13 @@ defer_until: null
 due: null
 energy: low
 id: 2026-04-16T1341-rethink-teams-and-ceremonies-get-the-leads-togethe
-order: 3
+order: 1
 project: 2026-04-17-retreat
 tags: []
 time_minutes: 5
-title: rethink teams and ceremonies. Get the leads together at retreat - me, andrea,
-  martijn, laura
-updated: 2026-04-17 07:47:18.259730
+title: 'Schedule leads together at retreat - me, andrea, martijn, laura. Goal: rethink
+  teams and ceremonies.'
+updated: 2026-04-17 07:54:43.984234
 waiting_on: null
 waiting_since: null
 ---
