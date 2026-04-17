@@ -50,6 +50,38 @@ export function invalidateItemQueries(
   qc.invalidateQueries({ queryKey: ['project', env] });
 }
 
+export function invalidateProjectQueries(
+  qc: QueryClient,
+  env: string,
+  projectId?: string,
+) {
+  qc.invalidateQueries({ queryKey: ['projects', env] });
+  if (projectId) {
+    qc.invalidateQueries({ queryKey: ['project', env, projectId] });
+  }
+  qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
+  qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+}
+
+/**
+ * Find an item in the TanStack Query cache without triggering a fetch.
+ * Checks both the single-item cache and all items-list caches.
+ */
+export function findItemInCache(
+  qc: QueryClient,
+  env: string,
+  itemId: string,
+): Item | undefined {
+  const single = qc.getQueryData<Item>(['item', env, itemId]);
+  if (single) return single;
+  const lists = qc.getQueriesData<Item[]>({ queryKey: ['items', env] });
+  for (const [, data] of lists) {
+    const found = data?.find((i) => i.id === itemId);
+    if (found) return found;
+  }
+  return undefined;
+}
+
 /**
  * Coalesces field-level edits into one PATCH per debounce window, with
  * optimistic cache updates (and rollback on error) so rapid edits feel

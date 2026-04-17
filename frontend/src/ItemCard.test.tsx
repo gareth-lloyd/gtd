@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MemoryRouter } from 'react-router-dom';
 import type { Item, Project } from './api';
 
 vi.mock('./api', () => ({
@@ -12,6 +13,7 @@ vi.mock('./api', () => ({
       areas: ['engineering', 'admin'],
       default_energy: 'medium',
     }),
+    getItem: vi.fn(),
     listProjects: vi.fn(),
     updateItem: vi.fn(),
     moveItem: vi.fn(),
@@ -23,6 +25,7 @@ vi.mock('./api', () => ({
 
 import { api } from './api';
 import { ItemCard } from './ItemCard';
+import { SelectionProvider } from './SelectionContext';
 
 const baseItem: Item = {
   id: 'item-1',
@@ -75,30 +78,30 @@ const projectB: Project = {
   sequential: false,
 };
 
-function renderCard(item: Item, expanded: boolean) {
+function renderCard(item: Item) {
   const qc = new QueryClient({
     defaultOptions: { queries: { retry: false, staleTime: Infinity } },
   });
-  const onExpand = vi.fn();
-  const onCollapse = vi.fn();
   const utils = render(
     <QueryClientProvider client={qc}>
-      <ItemCard
-        env="work"
-        item={item}
-        projects={[projectA, projectB]}
-        expanded={expanded}
-        onExpand={onExpand}
-        onCollapse={onCollapse}
-      />
+      <MemoryRouter initialEntries={['/work/next']}>
+        <SelectionProvider>
+          <ItemCard
+            env="work"
+            item={item}
+            projects={[projectA, projectB]}
+          />
+        </SelectionProvider>
+      </MemoryRouter>
     </QueryClientProvider>
   );
-  return { ...utils, qc, onExpand, onCollapse };
+  return { ...utils, qc };
 }
 
 beforeEach(() => {
   vi.mocked(api.listProjects).mockResolvedValue([projectA, projectB]);
   vi.mocked(api.updateItem).mockResolvedValue({ ...baseItem });
+  vi.mocked(api.getItem).mockResolvedValue({ ...baseItem });
 });
 
 afterEach(() => {
@@ -107,75 +110,30 @@ afterEach(() => {
 
 describe('ItemCard collapsed', () => {
   it('renders the current field values as chips', async () => {
-    renderCard(baseItem, false);
+    renderCard(baseItem);
     expect(screen.getByText('Write release notes')).toBeDefined();
     expect(screen.getByText('@calls')).toBeDefined();
     expect(screen.getByText('⚡low')).toBeDefined();
     expect(screen.getByText('15m')).toBeDefined();
   });
 
-  it('clicking the card triggers onExpand', async () => {
+  it('clicking the card selects it and shows title input', async () => {
     const user = userEvent.setup();
-    const { onExpand } = renderCard(baseItem, false);
+    renderCard(baseItem);
     await user.click(screen.getByText('Write release notes'));
-    expect(onExpand).toHaveBeenCalled();
+    // After selection, the title input should appear
+    expect(screen.getByDisplayValue('Write release notes')).toBeDefined();
   });
 });
 
-describe('ItemCard expanded — discrete edits', () => {
-  it('toggling a context chip issues a single PATCH with the new contexts', async () => {
-    const user = userEvent.setup();
-    renderCard(baseItem, true);
-    // Wait for config query to resolve so context chips render.
-    const computer = await screen.findByRole('button', { name: '@computer' });
-    await user.click(computer);
-    expect(api.updateItem).toHaveBeenCalledTimes(1);
-    expect(api.updateItem).toHaveBeenCalledWith('work', 'item-1', {
-      contexts: ['calls', 'computer'],
-    });
-  });
-
-  it('clicking a project chip PATCHes the project id', async () => {
-    const user = userEvent.setup();
-    renderCard(baseItem, true);
-    const chip = await screen.findByRole('button', { name: /📁 ihg/ });
-    await user.click(chip);
-    expect(api.updateItem).toHaveBeenCalledWith('work', 'item-1', {
-      project: 'proj-b',
-    });
-  });
-
-  it('order row is visible only when the assigned project is sequential', async () => {
-    const seqItem: Item = { ...baseItem, project: 'proj-a', order: 2 };
-    const { unmount } = renderCard(seqItem, true);
-    await screen.findByRole('button', { name: /📁 ihg/ });
-    expect(screen.getByText('order')).toBeDefined();
-    unmount();
-
-    const nonSeqItem: Item = { ...baseItem, project: 'proj-b' };
-    renderCard(nonSeqItem, true);
-    await screen.findByRole('button', { name: /📁 ihg/ });
-    expect(screen.queryByText('order')).toBeNull();
-  });
-
-  it('switching projects sends only the project field, not order', async () => {
-    const user = userEvent.setup();
-    const seqItem: Item = { ...baseItem, project: 'proj-a', order: 2 };
-    renderCard(seqItem, true);
-    const ihgChip = await screen.findByRole('button', { name: /📁 ihg/ });
-    await user.click(ihgChip);
-    expect(api.updateItem).toHaveBeenCalledWith('work', 'item-1', {
-      project: 'proj-b',
-    });
-  });
-});
-
-describe('ItemCard expanded — debounced title', () => {
+describe('ItemCard selected — debounced title', () => {
   it('editing the title issues exactly one debounced PATCH after 500ms', async () => {
-    renderCard(baseItem, true);
-    const input = screen.getByDisplayValue(
-      'Write release notes'
-    ) as HTMLInputElement;
+    const user = userEvent.setup();
+    renderCard(baseItem);
+    // Select the card first
+    await user.click(screen.getByText('Write release notes'));
+
+    const input = screen.getByDisplayValue('Write release notes') as HTMLInputElement;
     vi.useFakeTimers();
     try {
       fireEvent.change(input, { target: { value: 'Updated title' } });
@@ -197,10 +155,11 @@ describe('ItemCard expanded — debounced title', () => {
   });
 
   it('multiple rapid edits before the debounce window coalesce into one PATCH', async () => {
-    renderCard(baseItem, true);
-    const input = screen.getByDisplayValue(
-      'Write release notes'
-    ) as HTMLInputElement;
+    const user = userEvent.setup();
+    renderCard(baseItem);
+    await user.click(screen.getByText('Write release notes'));
+
+    const input = screen.getByDisplayValue('Write release notes') as HTMLInputElement;
     vi.useFakeTimers();
     try {
       fireEvent.change(input, { target: { value: 'A' } });
@@ -219,71 +178,32 @@ describe('ItemCard expanded — debounced title', () => {
   });
 });
 
-describe('ItemCard expanded — project change invalidation', () => {
-  it('invalidates the old project detail query even when item is only in project cache', async () => {
-    // Scenario: user is on the project detail page. The item's data lives in
-    // ['project', 'work', 'proj-a'] (composite { project, actions }), NOT in
-    // ['item', …] or ['items', …] caches.  Changing the project must still
-    // invalidate the old project's query so it refetches and drops the item.
+describe('ItemCard deselect triggers', () => {
+  it('Cmd+Enter in the title flushes pending edits and deselects', async () => {
     const user = userEvent.setup();
-    const itemInProjA: Item = { ...baseItem, project: 'proj-a' };
-    vi.mocked(api.updateItem).mockResolvedValueOnce({ ...itemInProjA, project: 'proj-b' });
+    renderCard(baseItem);
+    await user.click(screen.getByText('Write release notes'));
 
-    const { qc } = renderCard(itemInProjA, true);
-
-    // Seed only the composite project detail query — no items-list cache.
-    qc.setQueryData(['project', 'work', 'proj-a'], {
-      project: projectA,
-      actions: [itemInProjA],
-    });
-
-    const chip = await screen.findByRole('button', { name: /📁 ihg/ });
-    await user.click(chip);
-
-    await waitFor(() => {
-      expect(
-        qc.getQueryState(['project', 'work', 'proj-a'])?.isInvalidated
-      ).toBe(true);
-    });
-  });
-});
-
-describe('ItemCard collapse triggers', () => {
-  it('pressing Escape fires onCollapse', async () => {
-    const { onCollapse } = renderCard(baseItem, true);
-    screen.getByDisplayValue('Write release notes');
-    fireEvent.keyDown(document, { key: 'Escape' });
-    expect(onCollapse).toHaveBeenCalled();
-  });
-
-  it('click outside the card fires onCollapse', async () => {
-    const { onCollapse } = renderCard(baseItem, true);
-    screen.getByDisplayValue('Write release notes');
-    fireEvent.mouseDown(document.body);
-    expect(onCollapse).toHaveBeenCalled();
-  });
-
-  it('Cmd+Enter in the title flushes pending edits and collapses', async () => {
-    const { onCollapse } = renderCard(baseItem, true);
-    const input = screen.getByDisplayValue(
-      'Write release notes'
-    ) as HTMLInputElement;
+    const input = screen.getByDisplayValue('Write release notes') as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'Pending title' } });
     fireEvent.keyDown(input, { key: 'Enter', metaKey: true });
-    expect(onCollapse).toHaveBeenCalled();
     expect(api.updateItem).toHaveBeenCalledWith('work', 'item-1', {
       title: 'Pending title',
     });
+    // After Cmd+Enter, the card should deselect — title input gone, collapsed view shows
+    await waitFor(() => {
+      expect(screen.queryByDisplayValue('Pending title')).toBeNull();
+    });
   });
 
-  it('Ctrl+Enter in the notes textarea flushes and collapses', async () => {
-    const { onCollapse } = renderCard(baseItem, true);
-    const textarea = screen.getByPlaceholderText(
-      /Notes/i
-    ) as HTMLTextAreaElement;
+  it('Ctrl+Enter in the notes textarea flushes and deselects', async () => {
+    const user = userEvent.setup();
+    renderCard(baseItem);
+    await user.click(screen.getByText('Write release notes'));
+
+    const textarea = screen.getByPlaceholderText(/Notes/i) as HTMLTextAreaElement;
     fireEvent.change(textarea, { target: { value: 'Draft notes' } });
     fireEvent.keyDown(textarea, { key: 'Enter', ctrlKey: true });
-    expect(onCollapse).toHaveBeenCalled();
     expect(api.updateItem).toHaveBeenCalledWith('work', 'item-1', {
       body: 'Draft notes',
     });

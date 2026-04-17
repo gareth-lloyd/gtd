@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -8,77 +7,67 @@ const markdownComponents: Components = {
     <a {...props} target="_blank" rel="noopener noreferrer" />
   ),
 };
-import { api, type Bucket, type Energy, type Item, type Project } from './api';
-import { Button } from './Button';
-import {
-  ChipToggleGroup,
-  DatePickerRow,
-  invalidateItemQueries,
-  useItemPatch,
-} from './ItemEdit';
+import type { Item, Project } from './api';
+import { useItemPatch } from './ItemEdit';
 import { contextChipStyle } from './context-colors';
-import { slugify, sortProjects } from './format';
+import { useSelection } from './SelectionContext';
 
 export function ItemCard({
   env,
   item,
   projects,
-  expanded,
-  onExpand,
-  onCollapse,
 }: {
   env: string;
   item: Item;
   projects: Project[] | undefined;
-  expanded: boolean;
-  onExpand: () => void;
-  onCollapse: () => void;
 }) {
+  const { selectedId, hoveredId, select, setHover } = useSelection();
+  const selected = selectedId === item.id;
+  const hovered = hoveredId === item.id;
   const cardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!expanded) return;
-    const onMouseDown = (e: MouseEvent) => {
-      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
-        onCollapse();
-      }
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onCollapse();
-    };
-    document.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', onMouseDown);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [expanded, onCollapse]);
+  const onMouseEnter = () => {
+    if (!cardRef.current) return;
+    const scrollContainer = cardRef.current.closest('.content-area');
+    if (!scrollContainer) return;
+    const cardRect = cardRef.current.getBoundingClientRect();
+    const containerRect = scrollContainer.getBoundingClientRect();
+    const topOffset = cardRect.top - containerRect.top + scrollContainer.scrollTop;
+    setHover(item.id, topOffset);
+  };
+
+  const className = [
+    'item',
+    selected ? 'selected' : '',
+    hovered && !selected ? 'hovered' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div
       ref={cardRef}
-      className={`item${expanded ? ' expanded' : ''}`}
+      className={className}
       onClick={(e) => {
-        if (expanded) return;
+        if (selected) return;
         if ((e.target as HTMLElement).closest('.item-actions')) return;
-        onExpand();
+        select(item.id);
       }}
+      onMouseEnter={onMouseEnter}
     >
-      {expanded ? (
-        <ExpandedCard env={env} item={item} projects={projects} onCollapse={onCollapse} />
+      {selected ? (
+        <SelectedInListCard env={env} item={item} />
       ) : (
-        <CollapsedCard env={env} item={item} projects={projects} />
+        <CollapsedCard item={item} projects={projects} />
       )}
     </div>
   );
 }
 
 function CollapsedCard({
-  env,
   item,
   projects,
 }: {
-  env: string;
   item: Item;
   projects: Project[] | undefined;
 }) {
@@ -115,26 +104,18 @@ function CollapsedCard({
         {item.due && <span className="chip">due {item.due}</span>}
         {item.defer_until && <span className="chip">defer {item.defer_until}</span>}
       </div>
-      <WorkflowActions env={env} item={item} variant="on-hover" />
     </>
   );
 }
 
-function ExpandedCard({
+function SelectedInListCard({
   env,
   item,
-  projects,
-  onCollapse,
 }: {
   env: string;
   item: Item;
-  projects: Project[] | undefined;
-  onCollapse: () => void;
 }) {
-  const { data: config } = useQuery({
-    queryKey: ['config', env],
-    queryFn: () => api.getConfig(env),
-  });
+  const { select } = useSelection();
   const { patch, flush } = useItemPatch(env, item.id);
 
   const [localTitle, setLocalTitle] = useState(item.title);
@@ -148,23 +129,16 @@ function ExpandedCard({
     }
   }, [item.id]);
 
-  const project = projects?.find((p) => p.id === item.project) ?? null;
-  const sequential = project?.sequential ?? false;
-  const sortedProjects = useMemo(
-    () => (projects ? sortProjects(projects) : []),
-    [projects]
-  );
-
-  const saveAndCollapse = (e: React.KeyboardEvent) => {
+  const saveAndDeselect = (e: React.KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault();
       void flush();
-      onCollapse();
+      select(null);
     }
   };
 
   return (
-    <div className="item-expanded">
+    <div className="item-selected-in-list">
       <input
         className="title-input"
         value={localTitle}
@@ -172,112 +146,10 @@ function ExpandedCard({
           setLocalTitle(e.target.value);
           patch({ title: e.target.value }, { debounce: 500 });
         }}
-        onKeyDown={saveAndCollapse}
+        onKeyDown={saveAndDeselect}
         placeholder="Title"
         autoFocus
       />
-
-      <ChipToggleGroup<string>
-        mode="single"
-        value={item.project}
-        onChange={(v) => patch({ project: v })}
-        noneLabel="📁 none"
-        options={sortedProjects.map((p) => ({
-          value: p.id,
-          label: (
-            <>
-              📁 {p.title}
-              {p.priority != null && (
-                <span className={`priority-badge p${p.priority}`}>
-                  P{p.priority}
-                </span>
-              )}
-              {p.sequential && (
-                <span className="sequential-dot" title="sequential">⇢</span>
-              )}
-            </>
-          ),
-        }))}
-      >
-        <NewProjectChip
-          env={env}
-          onCreated={(id) => patch({ project: id })}
-        />
-      </ChipToggleGroup>
-
-      {sequential && (
-        <div className="chip-toggle-group">
-          <span className="row-hint">order</span>
-          <input
-            type="number"
-            className="order-input"
-            value={item.order ?? ''}
-            onChange={(e) =>
-              patch({
-                order: e.target.value === '' ? null : parseInt(e.target.value, 10),
-              })
-            }
-            placeholder="position"
-          />
-        </div>
-      )}
-
-      <ChipToggleGroup<string>
-        mode="multi"
-        value={item.contexts}
-        onChange={(v) => patch({ contexts: v })}
-        options={(config?.contexts ?? []).map((c) => ({
-          value: c,
-          label: `@${c}`,
-        }))}
-        styleForSelected={(v) => contextChipStyle(v)}
-      />
-
-      <div className="chip-toggle-group split-row">
-        <ChipToggleGroup<Energy>
-          mode="single"
-          value={item.energy}
-          onChange={(v) => patch({ energy: v })}
-          options={(['low', 'medium', 'high'] as Energy[]).map((e) => ({
-            value: e,
-            label: `⚡ ${e}`,
-          }))}
-        />
-        <ChipToggleGroup<string>
-          mode="single"
-          value={item.time_minutes != null ? String(item.time_minutes) : null}
-          onChange={(v) => patch({ time_minutes: v == null ? null : parseInt(v, 10) })}
-          options={[5, 15, 30, 60].map((n) => ({
-            value: String(n),
-            label: `${n}m`,
-          }))}
-        />
-      </div>
-
-      <ChipToggleGroup<string>
-        mode="single"
-        value={item.area}
-        onChange={(v) => patch({ area: v })}
-        noneLabel="area: none"
-        options={(config?.areas ?? []).map((a) => ({ value: a, label: a }))}
-      />
-
-      <div className="chip-toggle-group">
-        <span className="row-hint">due</span>
-        <DatePickerRow
-          value={item.due}
-          onChange={(v) => patch({ due: v })}
-        />
-      </div>
-
-      <div className="chip-toggle-group">
-        <span className="row-hint">defer</span>
-        <DatePickerRow
-          value={item.defer_until}
-          onChange={(v) => patch({ defer_until: v })}
-        />
-      </div>
-
       <textarea
         className="body-input"
         rows={4}
@@ -286,187 +158,9 @@ function ExpandedCard({
           setLocalBody(e.target.value);
           patch({ body: e.target.value }, { debounce: 500 });
         }}
-        onKeyDown={saveAndCollapse}
+        onKeyDown={saveAndDeselect}
         placeholder="Notes (markdown)…"
       />
-
-      <WorkflowActions env={env} item={item} variant="expanded" />
     </div>
-  );
-}
-
-function WorkflowActions({
-  env,
-  item,
-  variant,
-}: {
-  env: string;
-  item: Item;
-  variant: 'on-hover' | 'expanded';
-}) {
-  const qc = useQueryClient();
-  const invalidate = () => invalidateItemQueries(qc, env, item.id);
-
-  const moveMut = useMutation<Item, Error, Bucket>({
-    mutationFn: (to) => api.moveItem(env, item.id, to),
-    onSuccess: invalidate,
-  });
-  const completeMut = useMutation({
-    mutationFn: () => api.completeItem(env, item.id),
-    onSuccess: invalidate,
-  });
-  const deleteMut = useMutation({
-    mutationFn: () => api.deleteItem(env, item.id),
-    onSuccess: invalidate,
-  });
-  const purgeMut = useMutation({
-    mutationFn: () => api.purgeItem(env, item.id),
-    onSuccess: invalidate,
-  });
-
-  const busy =
-    moveMut.isPending ||
-    completeMut.isPending ||
-    deleteMut.isPending ||
-    purgeMut.isPending;
-
-  const isMoving = (to: Bucket) =>
-    moveMut.isPending && moveMut.variables === to;
-
-  const inTrash = item.status === 'trash';
-  const isArchive = item.status === 'archive';
-
-  return (
-    <div
-      className={`item-actions ${variant === 'on-hover' ? 'on-hover' : 'expanded-actions'}`}
-      onClick={(e) => e.stopPropagation()}
-    >
-      {inTrash ? (
-        <>
-          <Button
-            onClick={() => moveMut.mutate('inbox')}
-            busy={isMoving('inbox')}
-            disabled={busy}
-          >
-            ↺ restore
-          </Button>
-          <Button
-            className="danger"
-            onClick={() => {
-              if (confirm(`Permanently delete "${item.title}"?`)) purgeMut.mutate();
-            }}
-            busy={purgeMut.isPending}
-            disabled={busy}
-          >
-            Purge
-          </Button>
-        </>
-      ) : (
-        <>
-          {(['next', 'waiting', 'someday'] as const)
-            .filter((b) => item.status !== b && !isArchive)
-            .map((b) => (
-              <Button
-                key={b}
-                onClick={() => moveMut.mutate(b)}
-                busy={isMoving(b)}
-                disabled={busy}
-              >
-                → {b}
-              </Button>
-            ))}
-          {!isArchive && (
-            <Button
-              onClick={() => completeMut.mutate()}
-              busy={completeMut.isPending}
-              disabled={busy}
-            >
-              ✓ done
-            </Button>
-          )}
-          <Button
-            className="danger"
-            onClick={() => deleteMut.mutate()}
-            busy={deleteMut.isPending}
-            disabled={busy}
-          >
-            Delete
-          </Button>
-        </>
-      )}
-    </div>
-  );
-}
-
-function NewProjectChip({
-  env,
-  onCreated,
-}: {
-  env: string;
-  onCreated: (projectId: string) => void;
-}) {
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const qc = useQueryClient();
-
-  const mut = useMutation({
-    mutationFn: () => {
-      const trimmed = title.trim();
-      const id = `${new Date().toISOString().slice(0, 10)}-${slugify(trimmed)}`;
-      return api.createProject(env, { id, title: trimmed });
-    },
-    onSuccess: (project) => {
-      qc.invalidateQueries({ queryKey: ['projects', env] });
-      qc.invalidateQueries({ queryKey: ['snapshot-status'] });
-      setTitle('');
-      setOpen(false);
-      onCreated(project.id);
-    },
-  });
-
-  const submit = () => {
-    if (title.trim()) mut.mutate();
-  };
-
-  if (!open) {
-    return (
-      <button
-        type="button"
-        className="chip-toggle new-project"
-        onClick={() => setOpen(true)}
-      >
-        + new project
-      </button>
-    );
-  }
-
-  return (
-    <span className="new-project-inline">
-      <input
-        autoFocus
-        value={title}
-        placeholder="project title"
-        onChange={(e) => setTitle(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            submit();
-          } else if (e.key === 'Escape') {
-            e.preventDefault();
-            setTitle('');
-            setOpen(false);
-          }
-        }}
-        disabled={mut.isPending}
-      />
-      <Button
-        type="button"
-        onClick={submit}
-        busy={mut.isPending}
-        disabled={!title.trim()}
-      >
-        Create
-      </Button>
-    </span>
   );
 }

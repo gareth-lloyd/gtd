@@ -1,5 +1,9 @@
 import type { Project } from './api';
 
+export function generateProjectId(title: string): string {
+  return `${new Date().toISOString().slice(0, 10)}-${slugify(title)}`;
+}
+
 export function slugify(text: string): string {
   return (
     text
