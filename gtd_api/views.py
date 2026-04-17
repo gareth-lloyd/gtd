@@ -4,12 +4,19 @@ from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from gtd_core.ai import (
+    AiCaptureError,
+    AiCaptureNoExtraction,
+    AiCaptureNotConfigured,
+    AiCaptureUpstreamError,
+)
 from gtd_core.models import Bucket
 from gtd_core.recurring import spawn_recurring
 from gtd_core.service import GtdService
 from gtd_core.snapshot import snapshot, snapshot_status
 
 from .serializers import (
+    CaptureAiSerializer,
     CaptureSerializer,
     ItemPatchSerializer,
     ItemSerializer,
@@ -87,6 +94,44 @@ def items(request: Request, env: str) -> Response:
     except ValueError as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     return Response(ItemSerializer(item).data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["POST"])
+def items_capture_ai(request: Request, env: str) -> Response:
+    svc = _service()
+    if env not in svc.list_envs():
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = CaptureAiSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    try:
+        outcome = svc.capture_ai(
+            env,
+            serializer.validated_data["text"],
+            model=getattr(settings, "ANTHROPIC_MODEL", ""),
+        )
+    except AiCaptureNotConfigured as e:
+        return Response({"error": str(e)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+    except AiCaptureNoExtraction as e:
+        return Response({"error": str(e)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+    except AiCaptureUpstreamError as e:
+        return Response({"error": str(e)}, status=status.HTTP_502_BAD_GATEWAY)
+    except AiCaptureError as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except ValueError as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    projects_by_id = {p.id: p for p in svc.list_projects(env, include_inactive=True)}
+    return Response(
+        {
+            "item": ItemSerializer(
+                outcome.item, context={"projects_by_id": projects_by_id}
+            ).data,
+            "summary": outcome.summary,
+            "skipped_inbox": outcome.skipped_inbox,
+            "project_title": outcome.project_title,
+        },
+        status=status.HTTP_201_CREATED,
+    )
 
 
 @api_view(["GET", "PATCH", "DELETE"])

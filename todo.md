@@ -1,0 +1,5 @@
+- Better item UI
+  - Avoid the gap at the foot of each item where the hover buttons come in
+  - Side drawer on hover?
+    - couple with UI move to
+  - click to keep side draw?

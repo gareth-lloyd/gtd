@@ -44,7 +44,8 @@ import { useNextFilters } from './filters';
 import { useSearchIndex, type SearchHit } from './search';
 import { contextHue, contextChipStyle, contextTintStyle } from './context-colors';
 import { ItemCard } from './ItemCard';
-import { fmtDate, sortProjects } from './format';
+import { fmtDate, slugify, sortProjects } from './format';
+import { toasts } from './toast';
 
 type Section =
   | 'inbox'
@@ -118,6 +119,7 @@ function AppShell() {
   const { contexts } = useNextFilters();
   const { pathname } = useLocation();
   const [captureOpen, setCaptureOpen] = useState(false);
+  const [captureMode, setCaptureMode] = useState<CaptureMode>('regular');
   const [captureFocusTick, bumpCaptureFocus] = useReducer((x: number) => x + 1, 0);
   const [searchFocusTick, bumpSearchFocus] = useReducer((x: number) => x + 1, 0);
   const onNextPage = useMatch(':env/next') != null;
@@ -146,6 +148,12 @@ function AppShell() {
       if (isEditableTarget(e.target)) return;
       if (e.key === 'c') {
         e.preventDefault();
+        setCaptureMode('regular');
+        setCaptureOpen(true);
+        bumpCaptureFocus();
+      } else if (e.key === 'a') {
+        e.preventDefault();
+        setCaptureMode('ai');
         setCaptureOpen(true);
         bumpCaptureFocus();
       } else if (e.key === '/') {
@@ -191,6 +199,8 @@ function AppShell() {
             focusTick={captureFocusTick}
             defaultProjectId={currentProjectId}
             onCaptured={() => setCaptureOpen(false)}
+            mode={captureMode}
+            onModeChange={setCaptureMode}
           />
         )}
       </header>
@@ -257,21 +267,29 @@ function isEditableTarget(target: EventTarget | null): boolean {
   );
 }
 
+type CaptureMode = 'regular' | 'ai';
+
 function CaptureBar({
   env,
   focusTick,
   defaultProjectId = '',
   onCaptured,
+  mode,
+  onModeChange,
 }: {
   env: string;
   focusTick: number;
   defaultProjectId?: string;
   onCaptured?: () => void;
+  mode: CaptureMode;
+  onModeChange: (m: CaptureMode) => void;
 }) {
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
   const [projectId, setProjectId] = useState(defaultProjectId);
+  const [aiText, setAiText] = useState('');
   const titleRef = useRef<HTMLInputElement>(null);
+  const aiRef = useRef<HTMLTextAreaElement>(null);
   const qc = useQueryClient();
 
   useEffect(() => {
@@ -284,9 +302,24 @@ function CaptureBar({
   });
 
   useEffect(() => {
-    titleRef.current?.focus();
-    titleRef.current?.select();
-  }, [focusTick]);
+    if (mode === 'regular') {
+      titleRef.current?.focus();
+      titleRef.current?.select();
+    } else {
+      aiRef.current?.focus();
+      aiRef.current?.select();
+    }
+  }, [focusTick, mode]);
+
+  const invalidateAfterCapture = (assignedProjectId?: string | null) => {
+    qc.invalidateQueries({ queryKey: ['items', env] });
+    qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
+    qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+    if (assignedProjectId) {
+      qc.invalidateQueries({ queryKey: ['project', env, assignedProjectId] });
+      qc.invalidateQueries({ queryKey: ['projects', env] });
+    }
+  };
 
   const mut = useMutation({
     mutationFn: async () => {
@@ -304,13 +337,17 @@ function CaptureBar({
       setTitle('');
       setNotes('');
       setProjectId(defaultProjectId);
-      qc.invalidateQueries({ queryKey: ['items', env] });
-      qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
-      qc.invalidateQueries({ queryKey: ['snapshot-status'] });
-      if (projectId) {
-        qc.invalidateQueries({ queryKey: ['project', env, projectId] });
-        qc.invalidateQueries({ queryKey: ['projects', env] });
-      }
+      invalidateAfterCapture(projectId);
+      onCaptured?.();
+    },
+  });
+
+  const aiMut = useMutation({
+    mutationFn: () => api.captureItemAi(env, aiText.trim()),
+    onSuccess: (result) => {
+      setAiText('');
+      toasts.show('success', result.summary);
+      invalidateAfterCapture(result.item.project);
       onCaptured?.();
     },
   });
@@ -321,6 +358,70 @@ function CaptureBar({
   const submit = () => {
     if (title.trim()) mut.mutate();
   };
+  const submitAi = () => {
+    if (aiText.trim()) aiMut.mutate();
+  };
+
+  const ModeToggle = (
+    <div className="capture-mode chip-toggle-group">
+      <button
+        type="button"
+        className="chip-toggle"
+        aria-pressed={mode === 'regular'}
+        onClick={() => onModeChange('regular')}
+      >
+        Regular
+      </button>
+      <button
+        type="button"
+        className="chip-toggle"
+        aria-pressed={mode === 'ai'}
+        onClick={() => onModeChange('ai')}
+      >
+        AI ✦
+      </button>
+    </div>
+  );
+
+  if (mode === 'ai') {
+    return (
+      <form
+        className="capture"
+        onSubmit={(e) => {
+          e.preventDefault();
+          submitAi();
+        }}
+        onKeyDown={(e) => {
+          if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+            e.preventDefault();
+            submitAi();
+          }
+        }}
+      >
+        {ModeToggle}
+        <textarea
+          ref={aiRef}
+          rows={3}
+          placeholder="Describe the action; AI will extract title, project, energy, dates…"
+          value={aiText}
+          onChange={(e) => setAiText(e.target.value)}
+        />
+        <div className="capture-row">
+          <Button
+            type="submit"
+            className="primary"
+            disabled={!aiText.trim()}
+            busy={aiMut.isPending}
+          >
+            Capture with AI
+          </Button>
+          <div className="capture-hint">
+            → routed automatically · Cmd/Ctrl+Enter to submit
+          </div>
+        </div>
+      </form>
+    );
+  }
 
   return (
     <form
@@ -336,6 +437,7 @@ function CaptureBar({
         }
       }}
     >
+      {ModeToggle}
       <div className="capture-row">
         <input
           ref={titleRef}
@@ -1089,10 +1191,6 @@ function ItemDetailView() {
       </ul>
     </div>
   );
-}
-
-function slugify(text: string): string {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'untitled';
 }
 
 function NewProjectForm({ env }: { env: string }) {

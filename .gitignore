@@ -24,6 +24,12 @@ staticfiles/
 *.swp
 *.swo
 
+# Secrets
+.envrc
+
 # OS
 .DS_Store
 Thumbs.db
+
+# Project admin
+todo.md

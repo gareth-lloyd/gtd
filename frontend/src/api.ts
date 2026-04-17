@@ -119,6 +119,16 @@ export const api = {
       method: 'PATCH',
       body: JSON.stringify(patch),
     }),
+  captureItemAi: (env: string, text: string) =>
+    request<{
+      item: Item;
+      summary: string;
+      skipped_inbox: boolean;
+      project_title: string | null;
+    }>(`/envs/${env}/items/capture-ai/`, {
+      method: 'POST',
+      body: JSON.stringify({ text }),
+    }),
   moveItem: (env: string, id: string, to: Bucket) =>
     request<Item>(`/envs/${env}/items/${id}/move/`, {
       method: 'POST',

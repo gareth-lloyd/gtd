@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { Item, Project } from './api';
@@ -216,6 +216,35 @@ describe('ItemCard expanded — debounced title', () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+});
+
+describe('ItemCard expanded — project change invalidation', () => {
+  it('invalidates the old project detail query even when item is only in project cache', async () => {
+    // Scenario: user is on the project detail page. The item's data lives in
+    // ['project', 'work', 'proj-a'] (composite { project, actions }), NOT in
+    // ['item', …] or ['items', …] caches.  Changing the project must still
+    // invalidate the old project's query so it refetches and drops the item.
+    const user = userEvent.setup();
+    const itemInProjA: Item = { ...baseItem, project: 'proj-a' };
+    vi.mocked(api.updateItem).mockResolvedValueOnce({ ...itemInProjA, project: 'proj-b' });
+
+    const { qc } = renderCard(itemInProjA, true);
+
+    // Seed only the composite project detail query — no items-list cache.
+    qc.setQueryData(['project', 'work', 'proj-a'], {
+      project: projectA,
+      actions: [itemInProjA],
+    });
+
+    const chip = await screen.findByRole('button', { name: /📁 ihg/ });
+    await user.click(chip);
+
+    await waitFor(() => {
+      expect(
+        qc.getQueryState(['project', 'work', 'proj-a'])?.isInvalidated
+      ).toBe(true);
+    });
   });
 });
 

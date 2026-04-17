@@ -1,21 +1,53 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useQueryClient, type QueryClient } from '@tanstack/react-query';
-import { api, type Item } from './api';
+import { api, type Item, type Project } from './api';
+import { toasts } from './toast';
+
+type Snapshot = {
+  single: Item | undefined;
+  lists: [unknown[], Item[] | undefined][];
+} | null;
+
+function findItemInSnapshot(snapshot: Snapshot, id: string): Item | undefined {
+  if (!snapshot) return undefined;
+  if (snapshot.single?.id === id) return snapshot.single;
+  for (const [, list] of snapshot.lists) {
+    const found = list?.find((i) => i.id === id);
+    if (found) return found;
+  }
+  return undefined;
+}
+
+function projectMoveMessage(
+  qc: QueryClient,
+  env: string,
+  oldProjectId: string | null,
+  newProjectId: string | null
+): string {
+  const projects = qc.getQueryData<Project[]>(['projects', env, false]);
+  const titleFor = (id: string | null) =>
+    id ? projects?.find((p) => p.id === id)?.title ?? id : null;
+  const oldTitle = titleFor(oldProjectId);
+  const newTitle = titleFor(newProjectId);
+  if (newTitle && oldTitle) return `Moved from ${oldTitle} to ${newTitle}`;
+  if (newTitle) return `Moved to ${newTitle}`;
+  return `Removed from ${oldTitle ?? 'project'}`;
+}
 
 export function invalidateItemQueries(
   qc: QueryClient,
   env: string,
   itemId: string,
-  projectId?: string | null
 ) {
   qc.invalidateQueries({ queryKey: ['items', env] });
   qc.invalidateQueries({ queryKey: ['item', env, itemId] });
   qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
   qc.invalidateQueries({ queryKey: ['snapshot-status'] });
   qc.invalidateQueries({ queryKey: ['projects', env] });
-  if (projectId) {
-    qc.invalidateQueries({ queryKey: ['project', env, projectId] });
-  }
+  // Prefix-match all project detail queries for this env — we can't reliably
+  // determine the old project ID when the item was loaded via a composite
+  // project detail query rather than an items list.
+  qc.invalidateQueries({ queryKey: ['project', env] });
 }
 
 /**
@@ -28,10 +60,7 @@ export function useItemPatch(env: string, itemId: string) {
   const qc = useQueryClient();
   const pendingRef = useRef<Partial<Item>>({});
   const timerRef = useRef<number | null>(null);
-  const snapshotRef = useRef<{
-    single: Item | undefined;
-    lists: [unknown[], Item[] | undefined][];
-  } | null>(null);
+  const snapshotRef = useRef<Snapshot>(null);
 
   const doFlush = useCallback(async () => {
     if (timerRef.current != null) {
@@ -42,10 +71,18 @@ export function useItemPatch(env: string, itemId: string) {
     pendingRef.current = {};
     if (Object.keys(patch).length === 0) return;
 
+    const projectChanged = 'project' in patch;
+    const oldProject = projectChanged
+      ? findItemInSnapshot(snapshotRef.current, itemId)?.project ?? null
+      : null;
+
     try {
       const updated = await api.updateItem(env, itemId, patch);
       snapshotRef.current = null;
-      invalidateItemQueries(qc, env, itemId, updated.project);
+      invalidateItemQueries(qc, env, itemId);
+      if (projectChanged && oldProject !== updated.project) {
+        toasts.show('info', projectMoveMessage(qc, env, oldProject, updated.project));
+      }
     } catch (err) {
       const snap = snapshotRef.current;
       if (snap) {
@@ -118,6 +155,7 @@ type ChipToggleGroupProps<T extends string> = {
   noneLabel?: string;
   className?: string;
   styleForSelected?: (value: T) => React.CSSProperties | undefined;
+  children?: React.ReactNode;
 } & (
   | {
       mode: 'single';
@@ -132,7 +170,7 @@ type ChipToggleGroupProps<T extends string> = {
 );
 
 export function ChipToggleGroup<T extends string>(props: ChipToggleGroupProps<T>) {
-  const { options, noneLabel, className, styleForSelected } = props;
+  const { options, noneLabel, className, styleForSelected, children } = props;
 
   const selectedSet =
     props.mode === 'multi' ? new Set(props.value) : null;
@@ -179,6 +217,7 @@ export function ChipToggleGroup<T extends string>(props: ChipToggleGroupProps<T>
           </button>
         );
       })}
+      {children}
     </div>
   );
 }

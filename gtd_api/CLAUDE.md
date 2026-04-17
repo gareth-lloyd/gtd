@@ -24,6 +24,7 @@ handler surfaces these as toast notifications automatically.
 - `ItemSerializer` / `ProjectSerializer` — read-only (`to_representation`).
   Items expose `order`; projects expose `priority`, `due`, `sequential`
 - `CaptureSerializer` — write: title, body, optional energy/time/contexts
+- `CaptureAiSerializer` — write: `text` (unstructured input for AI extraction)
 - `MoveSerializer` — write: `to` bucket name
 - `ItemPatchSerializer` — write: any mutable item field. Fields only appear
   in `validated_data` when the client sent them, so PATCH semantics are clean
@@ -43,6 +44,7 @@ GET    /api/envs/
 GET    /api/envs/<env>/config/
 GET    /api/envs/<env>/items/                    ?status=&contexts=&energy=&max_minutes=&project=&show_all=
 POST   /api/envs/<env>/items/                    capture (→inbox)
+POST   /api/envs/<env>/items/capture-ai/        AI capture (→inbox or →next+project)
 GET    /api/envs/<env>/items/<id>/
 PATCH  /api/envs/<env>/items/<id>/
 DELETE /api/envs/<env>/items/<id>/               soft delete (→trash)

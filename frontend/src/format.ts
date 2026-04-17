@@ -1,5 +1,15 @@
 import type { Project } from './api';
 
+export function slugify(text: string): string {
+  return (
+    text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 50) || 'untitled'
+  );
+}
+
 export function fmtDate(iso: string): string {
   if (!iso) return '';
   return iso.slice(0, 10);

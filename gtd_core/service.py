@@ -1,5 +1,7 @@
+import difflib
 import re
 from collections.abc import Callable
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
@@ -10,6 +12,14 @@ from gtd_core.repository import EnvRepository
 _ENERGY_RANK = {"low": 1, "medium": 2, "high": 3}
 
 PROJECT_STATUSES = frozenset({"active", "on_hold", "complete", "dropped"})
+
+
+@dataclass(slots=True)
+class AiCaptureOutcome:
+    item: Item
+    summary: str
+    skipped_inbox: bool
+    project_title: str | None
 
 
 class GtdService:
@@ -65,6 +75,79 @@ class GtdService:
         )
         repo.save(item)
         return item
+
+    def capture_ai(
+        self,
+        env: str,
+        text: str,
+        *,
+        model: str = "",
+    ) -> AiCaptureOutcome:
+        """Run unstructured text through the AI extractor, then create the item.
+
+        Imports from `gtd_core.ai` locally so consumers without the optional
+        `anthropic` dep can still import `service`.
+        """
+        from gtd_core.ai import ai_capture, recent_action_titles_by_project
+
+        repo = self.repo(env)
+        cfg = repo.load_config()
+        projects = self.list_projects(env, include_inactive=False)
+
+        # Newest items first so recent_action_titles_by_project keeps the
+        # current-style titles per project as in-prompt examples.
+        corpus = sorted(
+            repo.list_items(), key=lambda i: i.created, reverse=True
+        )
+        sample_actions = recent_action_titles_by_project(corpus, projects, per_project=3)
+
+        result = ai_capture(
+            text=text,
+            cfg=cfg,
+            projects=projects,
+            sample_actions=sample_actions,
+            today=self._now().date(),
+            model=model,
+        )
+
+        contexts = [c for c in (result.contexts or []) if c in cfg.contexts]
+        item = self.capture(
+            env,
+            title=result.title,
+            body=result.body or "",
+            energy=result.energy,
+            time_minutes=result.time_minutes,
+            contexts=contexts or None,
+        )
+
+        matched_project: Project | None = (
+            self.find_project_by_title(env, result.project_query)
+            if result.project_query
+            else None
+        )
+        patch: dict = {}
+        if result.area and result.area in cfg.areas:
+            patch["area"] = result.area
+        if matched_project is not None:
+            patch["project"] = matched_project.id
+        if result.due:
+            patch["due"] = result.due
+        if result.defer_until:
+            patch["defer_until"] = result.defer_until
+        if patch:
+            item = self.update(env, item.id, patch)
+
+        skipped_inbox = False
+        if matched_project is not None:
+            item = self.move(env, item.id, Bucket.NEXT)
+            skipped_inbox = True
+
+        return AiCaptureOutcome(
+            item=item,
+            summary=result.summary,
+            skipped_inbox=skipped_inbox,
+            project_title=matched_project.title if matched_project else None,
+        )
 
     def move(self, env: str, item_id: str, to: Bucket) -> Item:
         repo = self.repo(env)
@@ -277,6 +360,45 @@ class GtdService:
 
     def list_projects(self, env: str, include_inactive: bool = False) -> list[Project]:
         return self.repo(env).list_projects(include_inactive=include_inactive)
+
+    def find_project_by_title(self, env: str, query: str) -> Project | None:
+        """Resolve a freeform project title (or id) to a Project.
+
+        Tries, in order: exact id match, exact case-insensitive title match,
+        case-insensitive substring match, then difflib fuzzy match with
+        cutoff 0.6. Returns None if nothing plausibly matches.
+        """
+        if not query:
+            return None
+        candidates = self.list_projects(env, include_inactive=False)
+        if not candidates:
+            return None
+
+        for p in candidates:
+            if p.id == query:
+                return p
+
+        q = query.strip().lower()
+        for p in candidates:
+            if p.title.lower() == q:
+                return p
+
+        substring_hits = [p for p in candidates if q in p.title.lower()]
+        if len(substring_hits) == 1:
+            return substring_hits[0]
+        if len(substring_hits) > 1:
+            # Ambiguous substring — prefer highest priority (1 = most urgent).
+            substring_hits.sort(key=lambda p: (p.priority or 99, p.title))
+            return substring_hits[0]
+
+        fuzzy = difflib.get_close_matches(
+            q, [p.title.lower() for p in candidates], n=1, cutoff=0.6
+        )
+        if fuzzy:
+            for p in candidates:
+                if p.title.lower() == fuzzy[0]:
+                    return p
+        return None
 
     def update_project(self, env: str, project_id: str, patch: dict) -> Project:
         if "id" in patch or "created" in patch:

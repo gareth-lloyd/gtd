@@ -7,7 +7,10 @@ Vite + React 18 + TypeScript SPA. TanStack Query for server state.
 | File | Purpose |
 |------|---------|
 | `api.ts` | Typed fetch client. All API calls go through `request<T>()`. Types for Item, Project, EnvConfig, etc. |
-| `App.tsx` | Route table + all pages and components. Three-column CSS grid layout. |
+| `App.tsx` | Route table + all pages and components. Three-column CSS grid layout. CaptureBar (Regular + AI modes). |
+| `ItemCard.tsx` | Dual-purpose item card (collapsed chips / expanded inline editors). Replaces the old `ItemRow` + `ItemEditor`. |
+| `ItemEdit.tsx` | `useItemPatch` (debounced PATCH with optimistic cache updates), `ChipToggleGroup`, `DatePickerRow`, `invalidateItemQueries` helper. |
+| `format.ts` | Shared utilities: `fmtDate`, `sortProjects`, `slugify`. |
 | `filters.ts` | `useNextFilters()` — query-param-backed filter state for `/next`. |
 | `search.ts` | `useSearchIndex(env)` — MiniSearch index over the full corpus. |
 | `Button.tsx` | `<Button busy={mut.isPending}>` — spinner overlay, auto-disable. Use for every mutation-backed button. |
@@ -19,16 +22,30 @@ Vite + React 18 + TypeScript SPA. TanStack Query for server state.
 
 **Error handling**: global. `MutationCache.onError` and `QueryCache.onError`
 in `main.tsx` call `toasts.show('error', ...)`. No per-component error state
-needed (ItemEditor removed its local error handling when this was added).
+needed.
 
 **Loading state**: per-button via `<Button busy={mut.isPending}>`. For shared
 mutations (e.g. moveMut drives → next / → waiting / → someday), use
 `mut.variables === targetBucket` to show spinner only on the clicked button.
 Disable siblings via a `rowBusy` flag.
 
+**Inline editing**: `ItemCard` replaces the old `ItemRow` + `ItemEditor`.
+Collapsed state shows metadata as chips with workflow actions on hover.
+Clicking a card expands it: chip-toggle groups for project/contexts/energy/
+time/area, date quick-pickers, borderless title input, notes textarea.
+All edits auto-save via `useItemPatch` (debounced PATCH, optimistic cache
+updates, rollback on error). `Cmd/Ctrl+Enter` flushes and collapses.
+At most one card expanded at a time (accordion). Projects query is lifted
+to the list level so 100-item lists share one subscription.
+
+**AI capture**: `CaptureBar` has a `Regular | AI ✦` mode toggle (keyboard
+`C` / `A`). AI mode sends unstructured text to `POST /items/capture-ai/`;
+the backend shells out to the `claude` CLI. On success a summary toast
+fires. Items with a matched project auto-move to next.
+
 **State**: TanStack Query for all server state. URL (path + query params)
 for navigation and filters — see Routing below. Local `useState` for
-transient UI only (inline editor open, capture form toggle).
+transient UI only (expanded card, capture form toggle).
 `localStorage` mirrors the current env so `/` can redirect on next visit.
 
 ## Routing
@@ -51,7 +68,7 @@ section, env, project detail, and filters.
   the highlight automatically.
 - `useEnvParam()` reads `:env` from the URL; components never receive
   `env` as a prop at the route level (they still drill it into children
-  that need it, e.g. `ItemRow`).
+  that need it, e.g. `ItemCard`).
 - `useNextFilters()` (in `filters.ts`) exposes `{contexts, energy,
   maxMinutes}` + setters, backed by `useSearchParams`. Setters use
   `{ replace: true }` so filter toggles don't spam browser history.

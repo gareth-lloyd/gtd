@@ -82,6 +82,23 @@ Frontend tests use jsdom + mocked API.
   `uv run manage.py snapshot` (or the Sync button in the UI) to commit
   data changes separately from code. Never mix code and data in one commit.
 
+- **AI capture**: a second capture mode that takes unstructured text and
+  runs it through the `claude` CLI to extract a structured Item. The
+  backend shells out to `claude -p "<prompt>"` (uses the user's Max plan,
+  no API credits). Fuzzy project matching resolves freeform project names.
+  If a project matches, the item auto-moves to `next`.
+  Endpoint: `POST /api/envs/<env>/items/capture-ai/`.
+
+- **Inline editing**: items use a dual-purpose `ItemCard` — collapsed
+  shows chips, expanded shows live editors. All edits auto-save via
+  debounced PATCH (500ms text, immediate discrete). No Save button.
+
+- **Keyboard shortcuts** (when not focused in an input):
+  - `C` — open capture bar (Regular mode)
+  - `A` — open capture bar (AI mode)
+  - `/` — focus search
+  - `Cmd/Ctrl+Enter` — save and close (in expanded item or capture bar)
+
 ## Working rules for Claude
 
 - **Red/green TDD**: write a failing test first, then make it pass. This is

@@ -1,7 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+
+const markdownComponents: Components = {
+  a: ({ node: _node, ...props }) => (
+    <a {...props} target="_blank" rel="noopener noreferrer" />
+  ),
+};
 import { api, type Bucket, type Energy, type Item, type Project } from './api';
 import { Button } from './Button';
 import {
@@ -11,7 +17,7 @@ import {
   useItemPatch,
 } from './ItemEdit';
 import { contextChipStyle } from './context-colors';
-import { fmtDate, sortProjects } from './format';
+import { slugify, sortProjects } from './format';
 
 export function ItemCard({
   env,
@@ -83,7 +89,9 @@ function CollapsedCard({
       <div className="item-title">{item.title}</div>
       {item.body && (
         <div className="item-body">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{item.body}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+            {item.body}
+          </ReactMarkdown>
         </div>
       )}
       <div className="item-meta">
@@ -94,7 +102,6 @@ function CollapsedCard({
             P{item.project_priority}
           </span>
         )}
-        {item.order != null && <span className="chip">#{item.order}</span>}
         {item.contexts.map((c) => (
           <span key={c} className="chip context-chip" style={contextChipStyle(c)}>
             @{c}
@@ -107,9 +114,6 @@ function CollapsedCard({
         {item.area && <span className="chip">{item.area}</span>}
         {item.due && <span className="chip">due {item.due}</span>}
         {item.defer_until && <span className="chip">defer {item.defer_until}</span>}
-        <span className="chip dates" title={`created ${fmtDate(item.created)}`}>
-          updated {fmtDate(item.updated)}
-        </span>
       </div>
       <WorkflowActions env={env} item={item} variant="on-hover" />
     </>
@@ -194,7 +198,12 @@ function ExpandedCard({
             </>
           ),
         }))}
-      />
+      >
+        <NewProjectChip
+          env={env}
+          onCreated={(id) => patch({ project: id })}
+        />
+      </ChipToggleGroup>
 
       {sequential && (
         <div className="chip-toggle-group">
@@ -296,7 +305,7 @@ function WorkflowActions({
   variant: 'on-hover' | 'expanded';
 }) {
   const qc = useQueryClient();
-  const invalidate = () => invalidateItemQueries(qc, env, item.id, item.project);
+  const invalidate = () => invalidateItemQueries(qc, env, item.id);
 
   const moveMut = useMutation<Item, Error, Bucket>({
     mutationFn: (to) => api.moveItem(env, item.id, to),
@@ -386,5 +395,78 @@ function WorkflowActions({
         </>
       )}
     </div>
+  );
+}
+
+function NewProjectChip({
+  env,
+  onCreated,
+}: {
+  env: string;
+  onCreated: (projectId: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState('');
+  const qc = useQueryClient();
+
+  const mut = useMutation({
+    mutationFn: () => {
+      const trimmed = title.trim();
+      const id = `${new Date().toISOString().slice(0, 10)}-${slugify(trimmed)}`;
+      return api.createProject(env, { id, title: trimmed });
+    },
+    onSuccess: (project) => {
+      qc.invalidateQueries({ queryKey: ['projects', env] });
+      qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+      setTitle('');
+      setOpen(false);
+      onCreated(project.id);
+    },
+  });
+
+  const submit = () => {
+    if (title.trim()) mut.mutate();
+  };
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        className="chip-toggle new-project"
+        onClick={() => setOpen(true)}
+      >
+        + new project
+      </button>
+    );
+  }
+
+  return (
+    <span className="new-project-inline">
+      <input
+        autoFocus
+        value={title}
+        placeholder="project title"
+        onChange={(e) => setTitle(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            submit();
+          } else if (e.key === 'Escape') {
+            e.preventDefault();
+            setTitle('');
+            setOpen(false);
+          }
+        }}
+        disabled={mut.isPending}
+      />
+      <Button
+        type="button"
+        onClick={submit}
+        busy={mut.isPending}
+        disabled={!title.trim()}
+      >
+        Create
+      </Button>
+    </span>
   );
 }
