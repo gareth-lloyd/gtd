@@ -86,7 +86,6 @@ function AppShell() {
   const [captureFocusTick, bumpCaptureFocus] = useReducer((x: number) => x + 1, 0);
   const [searchFocusTick, bumpSearchFocus] = useReducer((x: number) => x + 1, 0);
   const onNextPage = useMatch(':env/next') != null;
-  const onInboxPage = useMatch(':env/inbox') != null;
   const projectDetailMatch = useMatch(':env/projects/:projectId');
   const currentProjectId = projectDetailMatch?.params.projectId ?? '';
 
@@ -107,6 +106,10 @@ function AppShell() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && captureOpen) {
+        setCaptureOpen(false);
+        return;
+      }
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (isEditableTarget(e.target)) return;
       if (e.key === 'c') {
@@ -126,7 +129,7 @@ function AppShell() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  }, [captureOpen]);
 
   if (!envs) return <div className="app-loading">Loading…</div>;
   if (!envs.some((e) => e.name === env)) {
@@ -145,19 +148,22 @@ function AppShell() {
               <span className="brand">gtd</span>
             </h1>
             <EnvTabs envs={envs} env={env} />
-            {!onInboxPage && (
-              <button
-                className={captureOpen ? 'active' : ''}
-                onClick={() => setCaptureOpen((v) => !v)}
-              >
-                {captureOpen ? 'Close capture' : '+ Capture'}
-              </button>
-            )}
+            <button
+              className={captureOpen ? 'active' : ''}
+              onClick={() => setCaptureOpen((v) => !v)}
+            >
+              {captureOpen ? 'Close capture' : '+ Capture'}
+            </button>
             <SearchBar env={env} focusTick={searchFocusTick} />
             <div className="spacer" />
             <SyncButton />
           </div>
-          {(onInboxPage || captureOpen) && (
+        </header>
+
+        {captureOpen && (
+          <div className="capture-overlay" onClick={(e) => {
+            if (e.target === e.currentTarget) setCaptureOpen(false);
+          }}>
             <CaptureBar
               env={env}
               focusTick={captureFocusTick}
@@ -166,8 +172,8 @@ function AppShell() {
               mode={captureMode}
               onModeChange={setCaptureMode}
             />
-          )}
-        </header>
+          </div>
+        )}
 
         <nav className="side-nav">
           {SECTIONS.map((s) => (

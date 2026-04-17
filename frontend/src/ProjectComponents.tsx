@@ -170,83 +170,81 @@ export function ProjectDetailView() {
   const anyPending = statusMut.isPending || deleteMut.isPending;
 
   return (
-    <div className="project-detail">
+    <div className={`project-detail${isDone ? ' done' : ''}`}>
       <Link className="back-link" to="..">
         ← All projects
       </Link>
-      <div className={`project-card${isDone ? ' done' : ''}`}>
-        <h2>
-          {project.title}
-          <ProjectBadges project={project} />
-        </h2>
-        <div className="project-meta">
-          {project.outcome && <span className="outcome">{project.outcome}</span>}
-          {project.due && <span className="chip">due {project.due}</span>}
-          {project.area && <span className="chip">{project.area}</span>}
-          <span className="chip">
-            {actions.length} action{actions.length !== 1 ? 's' : ''}
-          </span>
-          <span className="chip dates" title={`created ${fmtDate(project.created)}`}>
-            updated {fmtDate(project.updated)}
-          </span>
-        </div>
-        <div className="project-actions">
-          {project.status !== 'complete' && (
-            <Button
-              onClick={() => statusMut.mutate('complete')}
-              busy={statusMut.isPending && statusMut.variables === 'complete'}
-              disabled={anyPending}
-            >
-              ✓ Complete
-            </Button>
-          )}
-          {project.status !== 'active' && (
-            <Button
-              onClick={() => statusMut.mutate('active')}
-              busy={statusMut.isPending && statusMut.variables === 'active'}
-              disabled={anyPending}
-            >
-              ↺ Reopen
-            </Button>
-          )}
-          {project.status === 'active' && (
-            <Button
-              onClick={() => statusMut.mutate('on_hold')}
-              busy={statusMut.isPending && statusMut.variables === 'on_hold'}
-              disabled={anyPending}
-            >
-              ⏸ Hold
-            </Button>
-          )}
-          <button onClick={() => setEditing(!editing)} disabled={anyPending}>
-            {editing ? 'Close' : 'Edit'}
-          </button>
+      <h2>
+        {project.title}
+        <ProjectBadges project={project} />
+      </h2>
+      <div className="project-meta">
+        {project.outcome && <span className="outcome">{project.outcome}</span>}
+        {project.due && <span className="chip">due {project.due}</span>}
+        {project.area && <span className="chip">{project.area}</span>}
+        <span className="chip">
+          {actions.length} action{actions.length !== 1 ? 's' : ''}
+        </span>
+        <span className="chip dates" title={`created ${fmtDate(project.created)}`}>
+          updated {fmtDate(project.updated)}
+        </span>
+      </div>
+      <div className="project-actions">
+        {project.status !== 'complete' && (
           <Button
-            className="danger"
-            onClick={() => {
-              if (
-                confirm(
-                  `Delete project "${project.title}"? Actions linked to it will not be deleted.`
-                )
-              ) {
-                deleteMut.mutate();
-              }
-            }}
-            busy={deleteMut.isPending}
+            onClick={() => statusMut.mutate('complete')}
+            busy={statusMut.isPending && statusMut.variables === 'complete'}
             disabled={anyPending}
           >
-            Delete
+            ✓ Complete
           </Button>
-        </div>
-        {editing && (
-          <ProjectEditor
-            env={env}
-            project={project}
-            onClose={() => setEditing(false)}
-          />
         )}
-        <SortableActionList env={env} projectId={project.id} items={actions} />
+        {project.status !== 'active' && (
+          <Button
+            onClick={() => statusMut.mutate('active')}
+            busy={statusMut.isPending && statusMut.variables === 'active'}
+            disabled={anyPending}
+          >
+            ↺ Reopen
+          </Button>
+        )}
+        {project.status === 'active' && (
+          <Button
+            onClick={() => statusMut.mutate('on_hold')}
+            busy={statusMut.isPending && statusMut.variables === 'on_hold'}
+            disabled={anyPending}
+          >
+            ⏸ Hold
+          </Button>
+        )}
+        <button onClick={() => setEditing(!editing)} disabled={anyPending}>
+          {editing ? 'Close' : 'Edit'}
+        </button>
+        <Button
+          className="danger"
+          onClick={() => {
+            if (
+              confirm(
+                `Delete project "${project.title}"? Actions linked to it will not be deleted.`
+              )
+            ) {
+              deleteMut.mutate();
+            }
+          }}
+          busy={deleteMut.isPending}
+          disabled={anyPending}
+        >
+          Delete
+        </Button>
       </div>
+      {editing && (
+        <ProjectEditor
+          env={env}
+          project={project}
+          onClose={() => setEditing(false)}
+        />
+      )}
+      <SortableActionList env={env} projectId={project.id} items={actions} />
     </div>
   );
 }
