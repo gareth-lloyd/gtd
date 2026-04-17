@@ -21,14 +21,14 @@ Item fields:
 
 from dataclasses import dataclass, field
 from datetime import date, datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Literal
 
 Energy = Literal["low", "medium", "high"]
 ProjectStatus = Literal["active", "on_hold", "complete", "dropped"]
 
 
-class Bucket(str, Enum):
+class Bucket(StrEnum):
     INBOX = "inbox"
     NEXT = "next"
     WAITING = "waiting"

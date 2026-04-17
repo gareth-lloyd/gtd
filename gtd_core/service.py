@@ -222,12 +222,14 @@ class GtdService:
                 continue
             if contexts and not (set(item.contexts) & set(contexts)):
                 continue
-            if max_minutes is not None:
-                if item.time_minutes is None or item.time_minutes > max_minutes:
-                    continue
-            if energy is not None:
-                if item.energy is None or _ENERGY_RANK[item.energy] > _ENERGY_RANK[energy]:
-                    continue
+            if max_minutes is not None and (
+                item.time_minutes is None or item.time_minutes > max_minutes
+            ):
+                continue
+            if energy is not None and (
+                item.energy is None or _ENERGY_RANK[item.energy] > _ENERGY_RANK[energy]
+            ):
+                continue
             if no_project:
                 if item.project is not None:
                     continue
@@ -407,9 +409,12 @@ class GtdService:
             raise ValueError(f"invalid status: {patch['status']}")
         if "due" in patch:
             patch["due"] = parse_human_date(patch["due"])
-        if "priority" in patch and patch["priority"] is not None:
-            if patch["priority"] not in (1, 2, 3, 4, 5):
-                raise ValueError(f"priority must be 1-5, got {patch['priority']}")
+        if (
+            "priority" in patch
+            and patch["priority"] is not None
+            and patch["priority"] not in (1, 2, 3, 4, 5)
+        ):
+            raise ValueError(f"priority must be 1-5, got {patch['priority']}")
         repo = self.repo(env)
         project = repo.get_project(project_id)
         if project is None:

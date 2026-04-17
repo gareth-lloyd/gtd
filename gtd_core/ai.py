@@ -20,7 +20,7 @@ _JSON_SCHEMA = """{
   "project_query": "string or null — name/keyword of one of the listed projects",
   "due": "string or null — ISO date or natural language like 'tomorrow', '2w', 'eom'",
   "defer_until": "string or null — ISO date or natural language",
-  "summary": "string (required — one-line toast for the user, e.g. 'Filed to People — due tomorrow, 30m, high energy')"
+  "summary": "string (required — one-line toast, e.g. 'Filed to People — due tomorrow')"
 }"""
 
 
@@ -28,7 +28,7 @@ class AiCaptureError(Exception):
     """Raised when the AI capture pipeline cannot produce a structured result."""
 
 
-class AiCaptureNotConfigured(AiCaptureError):
+class AiCaptureNotConfiguredError(AiCaptureError):
     """Raised when the claude CLI is not available."""
 
 
@@ -36,7 +36,7 @@ class AiCaptureUpstreamError(AiCaptureError):
     """Raised for Claude CLI failures."""
 
 
-class AiCaptureNoExtraction(AiCaptureError):
+class AiCaptureNoExtractionError(AiCaptureError):
     """Raised when the model didn't return parseable JSON."""
 
 
@@ -71,7 +71,7 @@ def ai_capture(
     """
     claude_path = shutil.which("claude")
     if not claude_path:
-        raise AiCaptureNotConfigured(
+        raise AiCaptureNotConfiguredError(
             "claude CLI not found on PATH — install Claude Code to use AI capture"
         )
 
@@ -114,7 +114,8 @@ def _build_prompt(
 ) -> str:
     lines: list[str] = [
         "You extract structured GTD next actions from raw user input.",
-        "Reply ONLY with a single JSON object matching the schema below — no markdown fences, no commentary.",
+        "Reply ONLY with a single JSON object matching the schema below "
+        "— no markdown fences, no commentary.",
         "",
         f"Today: {today.isoformat()}",
         "",
@@ -173,12 +174,12 @@ def _parse_response(raw: str) -> AiCaptureResult:
     try:
         data = json.loads(cleaned)
     except json.JSONDecodeError as err:
-        raise AiCaptureNoExtraction(
+        raise AiCaptureNoExtractionError(
             f"AI did not return valid JSON; try again or use Regular capture. Raw: {raw[:200]}"
         ) from err
 
     if not isinstance(data, dict) or "title" not in data:
-        raise AiCaptureNoExtraction(
+        raise AiCaptureNoExtractionError(
             "AI response missing required 'title' field; try again or use Regular capture"
         )
 
@@ -198,7 +199,9 @@ def _result_from_dict(data: dict) -> AiCaptureResult:
         summary=str(data.get("summary", f"Added \"{data['title']}\" to inbox")).strip(),
         body=_opt_str("body"),
         energy=_opt_str("energy"),
-        time_minutes=data.get("time_minutes") if isinstance(data.get("time_minutes"), int) else None,
+        time_minutes=(
+            data.get("time_minutes") if isinstance(data.get("time_minutes"), int) else None
+        ),
         contexts=list(data["contexts"]) if isinstance(data.get("contexts"), list) else None,
         area=_opt_str("area"),
         project_query=_opt_str("project_query"),

@@ -6,8 +6,8 @@ from rest_framework.response import Response
 
 from gtd_core.ai import (
     AiCaptureError,
-    AiCaptureNoExtraction,
-    AiCaptureNotConfigured,
+    AiCaptureNoExtractionError,
+    AiCaptureNotConfiguredError,
     AiCaptureUpstreamError,
 )
 from gtd_core.models import Bucket
@@ -109,9 +109,9 @@ def items_capture_ai(request: Request, env: str) -> Response:
             serializer.validated_data["text"],
             model=getattr(settings, "ANTHROPIC_MODEL", ""),
         )
-    except AiCaptureNotConfigured as e:
+    except AiCaptureNotConfiguredError as e:
         return Response({"error": str(e)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
-    except AiCaptureNoExtraction as e:
+    except AiCaptureNoExtractionError as e:
         return Response({"error": str(e)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
     except AiCaptureUpstreamError as e:
         return Response({"error": str(e)}, status=status.HTTP_502_BAD_GATEWAY)

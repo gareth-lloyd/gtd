@@ -2,7 +2,6 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from gtd_core.recurring import spawn_recurring
-from gtd_core.repository import EnvRepository
 from gtd_core.service import GtdService
 from gtd_core.snapshot import snapshot
 

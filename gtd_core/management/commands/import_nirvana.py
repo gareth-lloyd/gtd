@@ -27,8 +27,8 @@ class Command(BaseCommand):
         repo = EnvRepository(settings.GTD_DATA_ROOT, env)
         try:
             cfg = repo.load_config()
-        except FileNotFoundError:
-            raise CommandError(f"No config.yml found for env '{env}'")
+        except FileNotFoundError as err:
+            raise CommandError(f"No config.yml found for env '{env}'") from err
 
         stats = import_csv(
             csv_path=csv_path,
@@ -46,6 +46,6 @@ class Command(BaseCommand):
         )
         if stats.unknown_states:
             self.stdout.write(
-                f"Unknown STATE values: "
+                "Unknown STATE values: "
                 + ", ".join(f"{k}={v}" for k, v in stats.unknown_states.items())
             )

@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 
 import pytest
 
@@ -57,13 +57,16 @@ class TestIsDue:
         assert is_due(_tmpl(last_spawned=None), today=date(2026, 4, 10)) is True
 
     def test_due(self):
-        assert is_due(_tmpl("weekly", last_spawned=date(2026, 4, 1)), today=date(2026, 4, 10)) is True
+        tmpl = _tmpl("weekly", last_spawned=date(2026, 4, 1))
+        assert is_due(tmpl, today=date(2026, 4, 10)) is True
 
     def test_not_due(self):
-        assert is_due(_tmpl("weekly", last_spawned=date(2026, 4, 9)), today=date(2026, 4, 10)) is False
+        tmpl = _tmpl("weekly", last_spawned=date(2026, 4, 9))
+        assert is_due(tmpl, today=date(2026, 4, 10)) is False
 
     def test_exact_day(self):
-        assert is_due(_tmpl("weekly", last_spawned=date(2026, 4, 3)), today=date(2026, 4, 10)) is True
+        tmpl = _tmpl("weekly", last_spawned=date(2026, 4, 3))
+        assert is_due(tmpl, today=date(2026, 4, 10)) is True
 
 
 class TestSpawnRecurring:
