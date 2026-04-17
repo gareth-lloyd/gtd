@@ -12,7 +12,7 @@ tags: []
 time_minutes: 5
 title: 'Schedule leads together at retreat - me, andrea, martijn, laura. Goal: rethink
   teams and ceremonies.'
-updated: 2026-04-17 07:54:43.984234
+updated: 2026-04-17 08:42:19.489015
 waiting_on: null
 waiting_since: null
 ---

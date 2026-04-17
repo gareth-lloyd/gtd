@@ -14,7 +14,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Ryan Rogers re: mobile reg card loyalty solution'
-updated: 2026-04-17 07:09:53.414390
+updated: 2026-04-17 08:21:31.116540
 waiting_on: null
 waiting_since: null
 ---

@@ -12,7 +12,7 @@ project: 2026-04-17-retreat
 tags: []
 time_minutes: 10
 title: Schedule meeting with Lorena R. at retreat
-updated: 2026-04-17 07:50:58.046179
+updated: 2026-04-17 08:38:22.845767
 waiting_on: null
 waiting_since: null
 ---
