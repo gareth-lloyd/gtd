@@ -7,13 +7,13 @@ defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0840-proper-review-and-think
-order: 2
+order: 4
 project: 2026-04-16T1351-ship
 tags:
 - focus
 time_minutes: 10
 title: proper review and think
-updated: 2026-04-17 07:40:30.939969
+updated: 2026-04-17 12:01:02.474636
 waiting_on: null
 waiting_since: null
 ---

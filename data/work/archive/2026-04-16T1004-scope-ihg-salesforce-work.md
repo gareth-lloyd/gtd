@@ -12,7 +12,7 @@ tags: []
 time_minutes: 5
 title: experiment with the new way of finding IHG in salesforce to figure out how
   to scope the work
-updated: 2026-04-17 07:47:02.353391
+updated: 2026-04-17 11:47:35.337123
 waiting_on: null
 waiting_since: null
 ---

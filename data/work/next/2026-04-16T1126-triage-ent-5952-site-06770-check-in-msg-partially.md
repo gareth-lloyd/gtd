@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-04-16T1126-triage-ent-5952-site-06770-check-in-msg-partially
-order: 3
+order: 2
 project: 2026-04-16T1351-ship
 tags:
 - morning-gtd
@@ -15,7 +15,7 @@ tags:
 time_minutes: 30
 title: Triage ENT-5952. quick fix - cut ties wyndham - turn off messages. get back
   to jcervantes - pause manual checking
-updated: 2026-04-16 11:56:25.395093
+updated: 2026-04-17 12:01:02.474636
 waiting_on: null
 waiting_since: null
 ---
