@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-04-17 08:54:55.532044
+created: 2026-04-17 08:54:55.532044
 defer_until: null
 due: null
 energy: low
@@ -11,7 +11,7 @@ project: null
 tags: []
 time_minutes: 5
 title: REad hillel waynes spec driven email
-updated: *id001
+updated: 2026-04-17 09:22:29.300183
 waiting_on: null
 waiting_since: null
 ---

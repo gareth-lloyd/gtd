@@ -79,6 +79,12 @@ export function findItemInCache(
     const found = data?.find((i) => i.id === itemId);
     if (found) return found;
   }
+  // Also check project detail caches (shape: { project, actions: Item[] })
+  const projects = qc.getQueriesData<{ actions: Item[] }>({ queryKey: ['project', env] });
+  for (const [, data] of projects) {
+    const found = data?.actions?.find((i) => i.id === itemId);
+    if (found) return found;
+  }
   return undefined;
 }
 
