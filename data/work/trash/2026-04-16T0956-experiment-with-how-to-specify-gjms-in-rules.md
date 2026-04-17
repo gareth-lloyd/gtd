@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-04-16 09:56:14.344595
+created: 2026-04-16 09:56:14.344595
 defer_until: null
 due: null
 energy: low
@@ -11,7 +11,7 @@ project: 2026-04-16T1319-rules-based-config
 tags: []
 time_minutes: 5
 title: Experiment with how to specify GJMs in rules
-updated: *id001
+updated: 2026-04-17 07:48:01.500231
 waiting_on: null
 waiting_since: null
 ---

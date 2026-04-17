@@ -14,7 +14,7 @@ tags:
 - github
 time_minutes: 15
 title: 'Re-review PR #43221: ENT-5918 Disable Room Ready system message for IHG'
-updated: 2026-04-16 09:49:12.916193
+updated: 2026-04-17 07:37:58.279833
 waiting_on: null
 waiting_since: null
 ---

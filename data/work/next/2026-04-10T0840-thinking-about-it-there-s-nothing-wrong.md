@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0840-thinking-about-it-there-s-nothing-wrong
-order: null
+order: 2
 project: 2026-04-16T1348-ideas
 tags:
 - focus
 time_minutes: null
 title: Thinking about it, there’s nothing wrong with enforced one level hierarchies
   eg slack msg
-updated: 2026-04-16 13:38:22.034655
+updated: 2026-04-17 07:47:35.969703
 waiting_on: null
 waiting_since: null
 ---
