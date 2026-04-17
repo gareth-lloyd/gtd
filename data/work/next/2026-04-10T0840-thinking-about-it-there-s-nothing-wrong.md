@@ -14,7 +14,7 @@ tags:
 time_minutes: null
 title: Thinking about it, there’s nothing wrong with enforced one level hierarchies
   eg slack msg
-updated: 2026-04-16 10:50:16.174295
+updated: 2026-04-16 13:38:22.034655
 waiting_on: null
 waiting_since: null
 ---
