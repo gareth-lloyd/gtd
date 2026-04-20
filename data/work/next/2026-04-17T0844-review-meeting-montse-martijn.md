@@ -6,12 +6,12 @@ defer_until: null
 due: null
 energy: low
 id: 2026-04-17T0844-review-meeting-montse-martijn
-order: 1
+order: 2
 project: 2026-04-17-retreat
 tags: []
 time_minutes: 5
 title: 'Review meeting: Montse + Martijn'
-updated: 2026-04-17 11:50:45.009711
+updated: 2026-04-20 09:45:25.286260
 waiting_on: null
 waiting_since: null
 ---
