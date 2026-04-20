@@ -10,7 +10,7 @@ order: 3
 project: 2026-04-10T0840-people
 tags: []
 time_minutes: 5
-title: think about goal-setting prompt in context of review cycle.(MD)
+title: Draft goal-setting prompt for review cycle
 updated: 2026-04-17 10:51:47.205578
 waiting_on: null
 waiting_since: null

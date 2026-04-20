@@ -10,9 +10,12 @@ order: 1
 project: 2026-04-16T1348-ideas
 tags: []
 time_minutes: 5
-title: Engineers should use monitoring to check status of hotels and fix them. Instead
-  of taking over onboarding
+title: Share monitoring-over-onboarding stance with core eng leads
 updated: 2026-04-17 07:47:35.969703
 waiting_on: null
 waiting_since: null
 ---
+
+Original thought:
+
+> Engineers should use monitoring to check status of hotels and fix them. Instead of taking over onboarding.

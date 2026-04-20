@@ -12,9 +12,14 @@ project: 2026-04-16T1348-ideas
 tags:
 - focus
 time_minutes: null
-title: Thinking about it, there’s nothing wrong with enforced one level hierarchies
-  eg slack msg
+title: Write up one-level-hierarchy idea
 updated: 2026-04-17 07:47:35.969703
 waiting_on: null
 waiting_since: null
 ---
+
+Enforced one-level hierarchies are fine — sometimes the constraint is the feature.
+
+Example: Slack threads. You can never go more than one "level deep" — thread messages can't themselves have threads. That's limiting, but the limit makes total sense: it prevents infinite nesting, keeps conversations scannable, and forces people to branch into a new channel/DM when a sub-discussion really needs its own thread.
+
+Worth writing up as a design principle: when a one-level hierarchy is enough, enforce it rather than leaving recursion open.

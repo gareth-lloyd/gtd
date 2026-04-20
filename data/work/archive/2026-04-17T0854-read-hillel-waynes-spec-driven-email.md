@@ -11,7 +11,7 @@ project: null
 tags: []
 time_minutes: 5
 title: REad hillel waynes spec driven email
-updated: 2026-04-17 09:22:29.300183
+updated: 2026-04-18 20:41:57.097734
 waiting_on: null
 waiting_since: null
 ---

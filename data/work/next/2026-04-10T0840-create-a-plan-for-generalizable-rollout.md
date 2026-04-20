@@ -13,7 +13,12 @@ tags:
 - focus
 time_minutes: null
 title: Create a plan for generalizable rollout script via onboarding plans
-updated: 2026-04-17 11:58:59.883814
+updated: 2026-04-17 12:04:36.490970
 waiting_on: null
 waiting_since: null
 ---
+
+* generic config process plan
+* requires wiring into prop config process
+* Could implement onboarding batch config to point to Step instances
+  * or a registry?
