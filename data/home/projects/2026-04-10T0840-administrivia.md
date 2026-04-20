@@ -5,7 +5,6 @@ due: null
 id: 2026-04-10T0840-administrivia
 outcome: null
 priority: 3
-sequential: false
 status: complete
 tags: []
 title: Administrivia

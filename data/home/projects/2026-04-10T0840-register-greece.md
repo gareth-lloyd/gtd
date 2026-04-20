@@ -5,7 +5,6 @@ due: 2026-05-01
 id: 2026-04-10T0840-register-greece
 outcome: null
 priority: 2
-sequential: false
 status: complete
 tags: []
 title: Register Greece

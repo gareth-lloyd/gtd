@@ -51,9 +51,9 @@ Notes go here as markdown body.
 **Status is NOT in the frontmatter.** It's the parent directory name.
 Moving `inbox/foo.md` to `next/foo.md` changes the item's status.
 
-`order` is only meaningful when the item's project is `sequential: true`.
-It sorts the project's actions and (for sequential projects) controls which
-single item surfaces on the next-actions list.
+`order` is only meaningful when the item's project has a `max_next_items`
+cap set. It sorts the project's actions and controls which N items surface
+on the next-actions list (N = `max_next_items`).
 
 ## Project file format
 
@@ -69,7 +69,7 @@ area: hobbies
 tags: []
 due: 2026-06-01          # optional hard deadline
 priority: 2              # 1 (most urgent) … 5 (aspirational) or null
-sequential: false        # true = run actions one at a time in `order`
+max_next_items: 1        # optional cap on next-list items per project (null = no cap, 1 = one at a time)
 ---
 
 Project notes / context / outcome detail.
