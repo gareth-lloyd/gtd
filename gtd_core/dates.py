@@ -7,11 +7,16 @@ Prefers future dates since these are typically deadlines or defer targets.
 
 dateparser doesn't handle every colloquial pattern (e.g. "next Thursday",
 "end of month"), so we preprocess common GTD phrases before falling through.
+
+`parse_human_datetime` is the datetime sibling used for `defer_until`, which
+supports hour-level granularity (e.g. "in 2 hours", "2h", "tomorrow 9am").
+Date-only inputs are promoted to midnight local time.
 """
 
 import re
 from calendar import monthrange
-from datetime import date, datetime, timedelta
+from collections.abc import Callable
+from datetime import date, datetime, time, timedelta
 from typing import Any
 
 import dateparser
@@ -49,6 +54,64 @@ def parse_human_date(value: Any) -> date | None:
     if result is not None:
         return result.date()
     raise ValueError(f"Could not parse date: {value!r}")
+
+
+def parse_human_datetime(
+    value: Any, *, now: Callable[[], datetime] | None = None
+) -> datetime | None:
+    """Parse into a full datetime, supporting hour-level granularity.
+
+    Accepts None, date/datetime objects, ISO date/datetime strings, or
+    natural language ("in 2 hours", "2h", "tomorrow 9am", "next friday").
+    Date-only inputs return midnight local time on that date.
+    """
+    if value is None:
+        return None
+    if isinstance(value, datetime):
+        return value
+    if isinstance(value, date):
+        return datetime.combine(value, time.min)
+    if not isinstance(value, str):
+        raise TypeError(f"Expected date, datetime or string, got {type(value).__name__}")
+    value = value.strip()
+    if not value:
+        return None
+    # Fast path: ISO datetime
+    try:
+        return datetime.fromisoformat(value)
+    except ValueError:
+        pass
+    # Fast path: ISO date → midnight
+    try:
+        return datetime.combine(date.fromisoformat(value[:10]), time.min)
+    except ValueError:
+        pass
+    # Hour-granularity preprocessor ("in 2 hours", "2h")
+    _now = (now or datetime.now)()
+    hour_result = _preprocess_hours(value, _now)
+    if hour_result is not None:
+        return hour_result
+    # Fall through to the date preprocessor (handles "eom", "2w", etc.)
+    preprocessed = _preprocess(value)
+    if isinstance(preprocessed, date):
+        return datetime.combine(preprocessed, time.min)
+    text = preprocessed or value
+    result = dateparser.parse(text, settings=_DATEPARSER_SETTINGS)
+    if result is not None:
+        return result
+    raise ValueError(f"Could not parse datetime: {value!r}")
+
+
+def _preprocess_hours(text: str, now: datetime) -> datetime | None:
+    """Handle hour-granularity phrases: 'in N hours', 'Nh', 'in N minutes'."""
+    lower = text.lower().strip()
+    m = re.match(r"^(?:in\s+)?(\d+)\s*h(?:ours?)?$", lower)
+    if m:
+        return now + timedelta(hours=int(m.group(1)))
+    m = re.match(r"^(?:in\s+)?(\d+)\s*(?:m|min|mins|minutes?)$", lower)
+    if m:
+        return now + timedelta(minutes=int(m.group(1)))
+    return None
 
 
 def _preprocess(text: str) -> str | date | None:

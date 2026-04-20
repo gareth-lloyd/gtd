@@ -34,7 +34,7 @@ def load_item(path: Path, status: Bucket) -> Item:
         area=md.get("area"),
         tags=list(md.get("tags") or []),
         due=_as_date(md.get("due")),
-        defer_until=_as_date(md.get("defer_until")),
+        defer_until=_as_optional_datetime(md.get("defer_until")),
         waiting_on=md.get("waiting_on"),
         waiting_since=_as_date(md.get("waiting_since")),
         order=md.get("order"),
@@ -55,7 +55,7 @@ def dump_project(path: Path, project: Project) -> None:
         tags=project.tags,
         due=project.due,
         priority=project.priority,
-        sequential=project.sequential,
+        max_next_items=project.max_next_items,
     )
     with path.open("wb") as f:
         frontmatter.dump(post, f)
@@ -64,6 +64,11 @@ def dump_project(path: Path, project: Project) -> None:
 def load_project(path: Path) -> Project:
     post = frontmatter.load(str(path))
     md = post.metadata
+    if "sequential" in md:
+        raise ValueError(
+            f"{path}: legacy 'sequential' field found — run "
+            "scripts/migrate_sequential_to_max_next_items.py to convert"
+        )
     return Project(
         id=md["id"],
         title=md["title"],
@@ -76,7 +81,7 @@ def load_project(path: Path) -> Project:
         tags=list(md.get("tags") or []),
         due=_as_date(md.get("due")),
         priority=md.get("priority"),
-        sequential=bool(md.get("sequential", False)),
+        max_next_items=md.get("max_next_items"),
     )
 
 
@@ -188,3 +193,20 @@ def _as_date(v: Any) -> date | None:
     if isinstance(v, str):
         return date.fromisoformat(v)
     raise TypeError(f"Cannot coerce {v!r} to date")
+
+
+def _as_optional_datetime(v: Any) -> datetime | None:
+    # Legacy date-only values (e.g. "2026-04-10") promote to midnight so
+    # items stored before the hours-granularity change still load cleanly.
+    if v is None:
+        return None
+    if isinstance(v, datetime):
+        return v
+    if isinstance(v, date):
+        return datetime.combine(v, datetime.min.time())
+    if isinstance(v, str):
+        try:
+            return datetime.fromisoformat(v)
+        except ValueError:
+            return datetime.combine(date.fromisoformat(v), datetime.min.time())
+    raise TypeError(f"Cannot coerce {v!r} to datetime")

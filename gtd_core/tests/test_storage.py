@@ -1,5 +1,7 @@
 from datetime import date, datetime
 
+import pytest
+
 from gtd_core.models import Bucket, EnvConfig, Item, Project
 from gtd_core.storage import (
     dump_env_config,
@@ -41,12 +43,30 @@ class TestItemRoundTrip:
             area="health",
             tags=["dentist", "urgent"],
             due=date(2026, 5, 1),
-            defer_until=date(2026, 4, 15),
+            defer_until=datetime(2026, 4, 15, 14, 30),
         )
         path = tmp_path / "next" / "full.md"
         dump_item(path, item)
         loaded = load_item(path, Bucket.NEXT)
         assert loaded == item
+
+    def test_defer_until_legacy_date_promotes_to_midnight(self, tmp_path):
+        """Items written before the hours-granularity change stored defer_until
+        as a date; load_item should promote those to midnight so the field
+        stays a datetime."""
+        path = tmp_path / "inbox" / "legacy.md"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            "---\n"
+            "id: 2026-04-10T0900-legacy\n"
+            "title: Legacy\n"
+            "created: 2026-04-10 09:00:00\n"
+            "updated: 2026-04-10 09:00:00\n"
+            "defer_until: 2026-04-15\n"
+            "---\n"
+        )
+        loaded = load_item(path, Bucket.INBOX)
+        assert loaded.defer_until == datetime(2026, 4, 15, 0, 0)
 
     def test_waiting_item(self, tmp_path):
         item = Item(
@@ -121,11 +141,26 @@ class TestProjectRoundTrip:
             outcome="Blog live with 3 posts",
             area="writing",
             tags=["personal"],
+            max_next_items=2,
         )
         path = tmp_path / "blog.md"
         dump_project(path, p)
         loaded = load_project(path)
         assert loaded == p
+
+    def test_legacy_sequential_field_raises(self, tmp_path):
+        path = tmp_path / "old.md"
+        path.write_text(
+            "---\n"
+            "id: old\n"
+            "title: Old\n"
+            "created: 2026-01-01\n"
+            "updated: 2026-01-01\n"
+            "sequential: true\n"
+            "---\n"
+        )
+        with pytest.raises(ValueError, match="legacy 'sequential'"):
+            load_project(path)
 
 
 class TestEnvConfigRoundTrip:

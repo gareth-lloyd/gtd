@@ -54,14 +54,14 @@ class TestItem:
             area="health",
             tags=["dentist"],
             due=date(2026, 5, 1),
-            defer_until=date(2026, 4, 15),
+            defer_until=datetime(2026, 4, 15, 9, 0),
             waiting_on=None,
         )
         assert item.contexts == ["calls", "errands"]
         assert item.energy == "low"
         assert item.time_minutes == 5
         assert item.due == date(2026, 5, 1)
-        assert item.defer_until == date(2026, 4, 15)
+        assert item.defer_until == datetime(2026, 4, 15, 9, 0)
         assert item.project == "2026-03-01-launch-blog"
 
     def test_independent_default_lists(self):

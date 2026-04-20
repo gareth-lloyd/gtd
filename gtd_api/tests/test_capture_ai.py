@@ -111,7 +111,7 @@ class TestCaptureAiHappyPath:
         assert item["contexts"] == ["computer"]
         assert item["area"] == "engineering"
         assert item["due"] == "2026-04-17"
-        assert item["defer_until"] == "2026-04-17"
+        assert item["defer_until"] == "2026-04-17T00:00:00"
 
 
 class TestCaptureAiFiltering:

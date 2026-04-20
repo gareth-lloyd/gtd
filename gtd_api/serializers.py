@@ -48,7 +48,46 @@ class ProjectSerializer(serializers.Serializer):
             "tags": list(instance.tags),
             "due": instance.due.isoformat() if instance.due else None,
             "priority": instance.priority,
-            "sequential": instance.sequential,
+            "max_next_items": instance.max_next_items,
+        }
+
+
+class TemplateSerializer(serializers.Serializer):
+    """Read-only representation of a `gtd_core.models.Template`.
+
+    `next_due` is derived from recurrence + last_spawned so the frontend
+    doesn't have to reimplement the recurrence-date arithmetic.
+    """
+
+    def to_representation(self, instance):
+        from datetime import date
+
+        from gtd_core.recurring import next_upcoming_spawn_date
+
+        if instance.last_spawned is None:
+            next_due: str | None = "now"
+        else:
+            try:
+                next_due = next_upcoming_spawn_date(
+                    instance.recurrence, instance.last_spawned, date.today()
+                ).isoformat()
+            except ValueError:
+                next_due = None
+        return {
+            "id": instance.id,
+            "title": instance.title,
+            "body": instance.body,
+            "contexts": list(instance.contexts),
+            "energy": instance.energy,
+            "time_minutes": instance.time_minutes,
+            "project": instance.project,
+            "area": instance.area,
+            "tags": list(instance.tags),
+            "recurrence": instance.recurrence,
+            "last_spawned": (
+                instance.last_spawned.isoformat() if instance.last_spawned else None
+            ),
+            "next_due": next_due,
         }
 
 
@@ -83,7 +122,7 @@ class ProjectCreateSerializer(serializers.Serializer):
     tags = serializers.ListField(child=serializers.CharField(), required=False, default=list)
     due = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     priority = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=5)
-    sequential = serializers.BooleanField(required=False)
+    max_next_items = serializers.IntegerField(required=False, allow_null=True, min_value=1)
 
 
 class ItemPatchSerializer(serializers.Serializer):
@@ -114,7 +153,7 @@ class ProjectPatchSerializer(serializers.Serializer):
     tags = serializers.ListField(child=serializers.CharField(), required=False)
     due = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     priority = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=5)
-    sequential = serializers.BooleanField(required=False)
+    max_next_items = serializers.IntegerField(required=False, allow_null=True, min_value=1)
 
 
 class ProjectReorderSerializer(serializers.Serializer):

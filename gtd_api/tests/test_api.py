@@ -332,6 +332,66 @@ class TestProjects:
         assert r.status_code == 404
 
 
+class TestTemplates:
+    def test_list_empty(self, api):
+        r = api.get("/api/envs/work/templates/")
+        assert r.status_code == 200
+        assert r.json() == []
+
+    def test_list_returns_templates_with_next_due(self, api, tmp_project):
+        from datetime import date, timedelta
+
+        from gtd_core.models import Template
+        from gtd_core.recurring import next_upcoming_spawn_date
+        from gtd_core.repository import EnvRepository
+
+        # Anchor weekly template on the Monday two weeks before today so the
+        # test is stable regardless of when it runs.
+        today = date.today()
+        past_monday = today - timedelta(days=today.weekday() + 14)
+        expected_next = next_upcoming_spawn_date("weekly", past_monday, today)
+
+        repo = EnvRepository(tmp_project / "data", "work")
+        repo.save_template(
+            Template(
+                id="weekly-standup-prep",
+                title="Prep for weekly standup",
+                body="Review backlog",
+                contexts=["computer"],
+                energy="medium",
+                time_minutes=15,
+                recurrence="weekly",
+                last_spawned=past_monday,
+            )
+        )
+        repo.save_template(
+            Template(
+                id="unspawned",
+                title="Never spawned",
+                body="",
+                recurrence="daily",
+                last_spawned=None,
+            )
+        )
+
+        r = api.get("/api/envs/work/templates/")
+        assert r.status_code == 200
+        data = sorted(r.json(), key=lambda t: t["id"])
+        assert [t["id"] for t in data] == ["unspawned", "weekly-standup-prep"]
+        never = next(t for t in data if t["id"] == "unspawned")
+        weekly = next(t for t in data if t["id"] == "weekly-standup-prep")
+        assert never["next_due"] == "now"
+        assert never["last_spawned"] is None
+        assert weekly["next_due"] == expected_next.isoformat()
+        assert weekly["recurrence"] == "weekly"
+        assert weekly["time_minutes"] == 15
+        assert weekly["contexts"] == ["computer"]
+
+    def test_list_unknown_env_404(self, api):
+        r = api.get("/api/envs/nope/templates/")
+        assert r.status_code == 404
+
+
 class TestSnapshot:
     def test_status_clean(self, api):
         r = api.get("/api/snapshot/status/")

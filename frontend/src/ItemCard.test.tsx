@@ -60,7 +60,7 @@ const projectA: Project = {
   tags: [],
   due: null,
   priority: 1,
-  sequential: true,
+  max_next_items: 1,
 };
 
 const projectB: Project = {
@@ -75,7 +75,7 @@ const projectB: Project = {
   tags: [],
   due: null,
   priority: 3,
-  sequential: false,
+  max_next_items: null,
 };
 
 function renderCard(item: Item) {
@@ -175,6 +175,48 @@ describe('ItemCard selected — debounced title', () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+});
+
+describe('ItemCard scheduled readonly mode', () => {
+  function localIso(offsetMs: number): string {
+    // Produce a local-time ISO-like string matching what our backend emits.
+    const d = new Date(Date.now() + offsetMs);
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return (
+      `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
+      `T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
+    );
+  }
+
+  it('selecting a scheduled item renders a readonly view with an Edit button', async () => {
+    const user = userEvent.setup();
+    const scheduled: Item = { ...baseItem, defer_until: localIso(60 * 60 * 1000) };
+    renderCard(scheduled);
+    await user.click(screen.getByText('Write release notes'));
+
+    // No editable inputs for title/body
+    expect(screen.queryByDisplayValue('Write release notes')).toBeNull();
+    expect(screen.queryByPlaceholderText(/Notes/i)).toBeNull();
+    // Edit button is present
+    const editButton = screen.getByRole('button', { name: /Edit scheduled item/i });
+    expect(editButton).toBeDefined();
+
+    // Clicking Edit reveals the inputs
+    await user.click(editButton);
+    expect(screen.getByDisplayValue('Write release notes')).toBeDefined();
+  });
+
+  it('a non-scheduled item (past defer_until) stays editable on selection', async () => {
+    const user = userEvent.setup();
+    const notScheduled: Item = { ...baseItem, defer_until: localIso(-60 * 60 * 1000) };
+    renderCard(notScheduled);
+    await user.click(screen.getByText('Write release notes'));
+
+    expect(screen.getByDisplayValue('Write release notes')).toBeDefined();
+    expect(
+      screen.queryByRole('button', { name: /Edit scheduled item/i })
+    ).toBeNull();
   });
 });
 

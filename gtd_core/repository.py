@@ -78,9 +78,7 @@ class EnvRepository:
     # ---- Projects ----
 
     def list_projects(self, include_inactive: bool = False) -> list[Project]:
-        all_projects = [
-            load_project(p) for p in list_item_paths(self.env_root / "projects")
-        ]
+        all_projects = [load_project(p) for p in list_item_paths(self.env_root / "projects")]
         if include_inactive:
             return all_projects
         return [p for p in all_projects if p.status in ("active", "on_hold")]

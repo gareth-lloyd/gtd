@@ -22,14 +22,14 @@ handler surfaces these as toast notifications automatically.
 ## Serializers
 
 - `ItemSerializer` / `ProjectSerializer` — read-only (`to_representation`).
-  Items expose `order`; projects expose `priority`, `due`, `sequential`
+  Items expose `order`; projects expose `priority`, `due`, `max_next_items`
 - `CaptureSerializer` — write: title, body, optional energy/time/contexts
 - `CaptureAiSerializer` — write: `text` (unstructured input for AI extraction)
 - `MoveSerializer` — write: `to` bucket name
 - `ItemPatchSerializer` — write: any mutable item field. Fields only appear
   in `validated_data` when the client sent them, so PATCH semantics are clean
 - `ProjectCreateSerializer` — write: id, title, body, outcome, area, tags,
-  due, priority (1-5), sequential
+  due, priority (1-5), max_next_items (int ≥ 1 or null)
 - `ProjectPatchSerializer` — write: same field set as Create minus id
 - `ProjectReorderSerializer` — write: `item_ids: list[str]`
 - `SnapshotRequestSerializer` — write: optional message, push flag
@@ -61,10 +61,12 @@ POST   /api/snapshot/                            {message?, push?}
 GET    /api/snapshot/status/
 ```
 
-### Sequential project filtering
+### Next-actions cap per project
 
-`GET /items/?status=next` automatically hides later-in-sequence items from
-projects where `sequential: true`. Only the lowest-`order` incomplete item
-per sequential project appears. Pass `?show_all=true` to bypass this (useful
-during a weekly review). Non-sequential projects and items without a project
-are unaffected.
+`GET /items/?status=next` automatically caps each project's visible items
+to `max_next_items` (when set). `max_next_items: 1` reproduces the classic
+"sequential" behaviour — only the lowest-`order` incomplete item surfaces.
+Higher values (e.g. `3`) surface the N lowest-`order` items. `null`
+(default) means no cap. Pass `?show_all=true` to bypass capping entirely
+(useful during a weekly review). Projects without a cap and items without
+a project are unaffected.

@@ -46,9 +46,18 @@ export function ProjectBadges({ project }: { project: Project }) {
           P{project.priority}
         </span>
       )}
-      {project.sequential && (
-        <span className="sequential-badge" title="Sequential — one step at a time">
-          ↓ sequential
+      {project.max_next_items != null && (
+        <span
+          className="sequential-badge"
+          title={
+            project.max_next_items === 1
+              ? 'Only the first ordered step appears on the next list'
+              : `Up to ${project.max_next_items} ordered steps appear on the next list`
+          }
+        >
+          {project.max_next_items === 1
+            ? '↓ 1-at-a-time'
+            : `↓ up to ${project.max_next_items}`}
         </span>
       )}
       {project.status !== 'active' && (
@@ -376,7 +385,9 @@ function ProjectEditor({
   const [priority, setPriority] = useState<string>(
     project.priority?.toString() ?? ''
   );
-  const [sequential, setSequential] = useState(project.sequential);
+  const [maxNextItems, setMaxNextItems] = useState<number | null>(
+    project.max_next_items
+  );
   const [body, setBody] = useState(project.body);
 
   const mut = useMutation({
@@ -386,7 +397,7 @@ function ProjectEditor({
         outcome: outcome || null,
         due: due || null,
         priority: priority ? parseInt(priority, 10) : null,
-        sequential,
+        max_next_items: maxNextItems,
         body,
       }),
     onSuccess: () => {
@@ -424,14 +435,7 @@ function ProjectEditor({
           </select>
         </label>
       </div>
-      <label className="toggle-row">
-        <input
-          type="checkbox"
-          checked={sequential}
-          onChange={(e) => setSequential(e.target.checked)}
-        />
-        <span>Sequential — only the first ordered step shows on the next list</span>
-      </label>
+      <MaxNextItemsField value={maxNextItems} onChange={setMaxNextItems} />
       <label>
         Notes
         <textarea rows={3} value={body} onChange={(e) => setBody(e.target.value)} />
@@ -450,7 +454,7 @@ function NewProjectForm({ env }: { env: string }) {
   const [outcome, setOutcome] = useState('');
   const [due, setDue] = useState('');
   const [priority, setPriority] = useState<string>('');
-  const [sequential, setSequential] = useState(false);
+  const [maxNextItems, setMaxNextItems] = useState<number | null>(null);
 
   const mut = useMutation({
     mutationFn: () =>
@@ -460,7 +464,7 @@ function NewProjectForm({ env }: { env: string }) {
         outcome: outcome || undefined,
         due: due || undefined,
         priority: priority ? parseInt(priority, 10) : undefined,
-        sequential,
+        max_next_items: maxNextItems,
       }),
     onSuccess: () => {
       setOpen(false);
@@ -468,7 +472,7 @@ function NewProjectForm({ env }: { env: string }) {
       setOutcome('');
       setDue('');
       setPriority('');
-      setSequential(false);
+      setMaxNextItems(null);
       invalidateProjectQueries(qc, env);
     },
   });
@@ -513,14 +517,7 @@ function NewProjectForm({ env }: { env: string }) {
           </select>
         </label>
       </div>
-      <label className="toggle-row">
-        <input
-          type="checkbox"
-          checked={sequential}
-          onChange={(e) => setSequential(e.target.checked)}
-        />
-        <span>Sequential — do one step at a time (hides later steps from next list)</span>
-      </label>
+      <MaxNextItemsField value={maxNextItems} onChange={setMaxNextItems} />
       <div className="row">
         <Button
           className="primary"
@@ -533,5 +530,38 @@ function NewProjectForm({ env }: { env: string }) {
         <button onClick={() => setOpen(false)}>Cancel</button>
       </div>
     </div>
+  );
+}
+
+function MaxNextItemsField({
+  value,
+  onChange,
+}: {
+  value: number | null;
+  onChange: (v: number | null) => void;
+}) {
+  const capped = value != null;
+  return (
+    <label className="toggle-row">
+      <input
+        type="checkbox"
+        checked={capped}
+        onChange={(e) => onChange(e.target.checked ? 1 : null)}
+      />
+      <span>Cap next-actions —</span>
+      <input
+        type="number"
+        min={1}
+        value={value ?? ''}
+        placeholder="∞"
+        disabled={!capped}
+        onChange={(e) => {
+          const parsed = parseInt(e.target.value, 10);
+          onChange(Number.isFinite(parsed) && parsed >= 1 ? parsed : null);
+        }}
+        style={{ width: '4rem' }}
+      />
+      <span>ordered step(s) visible at once</span>
+    </label>
   );
 }

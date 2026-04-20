@@ -9,7 +9,7 @@ Vite + React 18 + TypeScript SPA. TanStack Query for server state.
 | `api.ts` | Typed fetch client. All API calls go through `request<T>()`. Types for Item, Project, EnvConfig, etc. |
 | `App.tsx` | Route table + all pages and components. Three-column CSS grid layout. CaptureBar (Regular + AI modes). |
 | `ItemCard.tsx` | Dual-purpose item card (collapsed chips / expanded inline editors). Replaces the old `ItemRow` + `ItemEditor`. |
-| `ItemEdit.tsx` | `useItemPatch` (debounced PATCH with optimistic cache updates), `ChipToggleGroup`, `DatePickerRow`, `invalidateItemQueries` helper. |
+| `ItemEdit.tsx` | `useItemPatch` (debounced PATCH with optimistic cache updates), `ChipToggleGroup`, `DatePickerRow` (date-only), `DateTimePickerRow` (datetime — used for `defer_until`), `isScheduled`, `invalidateItemQueries` helper. |
 | `format.ts` | Shared utilities: `fmtDate`, `sortProjects`, `slugify`. |
 | `filters.ts` | `useNextFilters()` — query-param-backed filter state for `/next`. |
 | `search.ts` | `useSearchIndex(env)` — MiniSearch index over the full corpus. |
@@ -104,7 +104,7 @@ on the global toast.
 
 **Project priority colors**: P1 red, P2 orange, P3 yellow, P4 blue, P5 gray.
 Classes are `.priority-badge.p1` … `.priority-badge.p5` in `styles.css`.
-`.sequential-badge` (purple) marks sequential projects. Projects sort by
+`.sequential-badge` (purple) marks projects with a `max_next_items` cap set. Projects sort by
 `(priority ?? 99, due, title)` in `ProjectsView`.
 
 ## Build

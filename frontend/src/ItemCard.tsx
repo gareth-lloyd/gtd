@@ -8,7 +8,7 @@ const markdownComponents: Components = {
   ),
 };
 import type { Item, Project } from './api';
-import { useItemPatch } from './ItemEdit';
+import { isScheduled, useItemPatch } from './ItemEdit';
 import { contextChipStyle } from './context-colors';
 import { useSelection } from './SelectionContext';
 
@@ -144,10 +144,20 @@ function CollapsedCard({
         )}
         {item.area && <span className="chip">{item.area}</span>}
         {item.due && <span className="chip">due {item.due}</span>}
-        {item.defer_until && <span className="chip">defer {item.defer_until}</span>}
+        {item.defer_until && (
+          <span className="chip">defer {formatDeferChip(item.defer_until)}</span>
+        )}
       </div>
     </>
   );
+}
+
+function formatDeferChip(iso: string): string {
+  const m = iso.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/);
+  if (!m) return iso;
+  const [, date, hh, mm] = m;
+  if (hh === '00' && mm === '00') return date;
+  return `${date} ${hh}:${mm}`;
 }
 
 function SelectedInListCard({
@@ -162,11 +172,13 @@ function SelectedInListCard({
 
   const [localTitle, setLocalTitle] = useState(item.title);
   const [localBody, setLocalBody] = useState(item.body);
+  const [unlocked, setUnlocked] = useState(false);
   const lastItemIdRef = useRef(item.id);
   useEffect(() => {
     if (lastItemIdRef.current !== item.id) {
       setLocalTitle(item.title);
       setLocalBody(item.body);
+      setUnlocked(false);
       lastItemIdRef.current = item.id;
     }
   }, [item.id]);
@@ -178,6 +190,25 @@ function SelectedInListCard({
       select(null);
     }
   };
+
+  if (isScheduled(item) && !unlocked) {
+    return (
+      <div className="item-selected-in-list scheduled-readonly-card">
+        <div className="scheduled-banner">
+          <strong>Scheduled</strong> until {formatDeferChip(item.defer_until ?? '')}
+        </div>
+        <div className="title-input-readonly">{item.title || '(untitled)'}</div>
+        {item.body && <div className="body-input-readonly">{item.body}</div>}
+        <button
+          type="button"
+          className="chip-toggle"
+          onClick={() => setUnlocked(true)}
+        >
+          Edit scheduled item
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="item-selected-in-list">

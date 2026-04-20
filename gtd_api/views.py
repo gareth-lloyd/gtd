@@ -26,6 +26,7 @@ from .serializers import (
     ProjectReorderSerializer,
     ProjectSerializer,
     SnapshotRequestSerializer,
+    TemplateSerializer,
 )
 
 
@@ -61,10 +62,9 @@ def items(request: Request, env: str) -> Response:
         params = request.query_params
         bucket_name = params.get("status")
         bucket = Bucket(bucket_name) if bucket_name else None
-        # Hide later steps of sequential projects by default when viewing the
-        # next bucket — that's the whole point of "sequential". Callers can
-        # override with ?show_all=true to see every item (e.g. during review).
-        respect_sequential = (
+        # Cap next-bucket lists by each project's `max_next_items`. Callers
+        # can override with ?show_all=true to see every item (e.g. review).
+        respect_next_cap = (
             bucket is Bucket.NEXT and params.get("show_all") != "true"
         )
         filtered = svc.list_items(
@@ -75,7 +75,7 @@ def items(request: Request, env: str) -> Response:
             energy=params.get("energy"),
             project=params.get("project"),
             include_deferred=params.get("include_deferred") == "true",
-            respect_sequential=respect_sequential,
+            respect_next_cap=respect_next_cap,
             include_archive=params.get("include_archive") == "true",
             include_trash=params.get("include_trash") == "true",
             no_project=params.get("no_project") == "true",
@@ -214,7 +214,7 @@ def projects(request: Request, env: str) -> Response:
         tags=list(data.get("tags") or []),
         due=data.get("due") or None,
         priority=data.get("priority"),
-        sequential=data.get("sequential", False),
+        max_next_items=data.get("max_next_items"),
     )
     return Response(ProjectSerializer(project).data, status=status.HTTP_201_CREATED)
 
@@ -265,6 +265,14 @@ def project_reorder(request: Request, env: str, project_id: str) -> Response:
     except ValueError as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     return Response(ItemSerializer(items, many=True).data)
+
+
+@api_view(["GET"])
+def templates(request: Request, env: str) -> Response:
+    svc = _service()
+    if env not in svc.list_envs():
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(TemplateSerializer(svc.list_templates(env), many=True).data)
 
 
 @api_view(["POST"])

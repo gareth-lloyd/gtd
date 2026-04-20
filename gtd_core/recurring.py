@@ -34,10 +34,35 @@ def next_spawn_date(recurrence: str, last: date) -> date:
     raise ValueError(f"Unknown recurrence: {recurrence!r}")
 
 
+def next_upcoming_spawn_date(recurrence: str, last_spawned: date, today: date) -> date:
+    """The earliest scheduled date >= today, walking forward from `last_spawned`.
+
+    Used by both `is_due` (to test today == scheduled day) and the templates
+    serializer (to display when the next item will spawn). Walking forward
+    keeps the anchor aligned with the schedule: a weekly-Monday template that
+    misses a sync on Monday 4/20 will still fire on Monday 4/27, not on a
+    later weekday.
+    """
+    cursor = next_spawn_date(recurrence, last_spawned)
+    while cursor < today:
+        cursor = next_spawn_date(recurrence, cursor)
+    return cursor
+
+
 def is_due(template: Template, today: date) -> bool:
+    """True only when today is exactly on a scheduled spawn day.
+
+    Missed scheduled days are skipped: we never spawn "catch-up" items, so
+    the template's day-of-week / day-of-month anchor is preserved. Templates
+    that have never spawned (`last_spawned=None`) are due on the first sync
+    — set `last_spawned` on creation to anchor to a specific day.
+    """
     if template.last_spawned is None:
         return True
-    return next_spawn_date(template.recurrence, template.last_spawned) <= today
+    return (
+        next_upcoming_spawn_date(template.recurrence, template.last_spawned, today)
+        == today
+    )
 
 
 def spawn_from_template(template: Template, repo: EnvRepository, today: date) -> Item:

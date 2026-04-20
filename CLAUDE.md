@@ -59,19 +59,23 @@ Frontend tests use jsdom + mocked API.
 - **Soft delete**: `service.delete()` moves to trash. `service.purge()` is
   the irreversible hard delete. API DELETE returns the trashed item.
 
-- **Natural-language dates**: `due` and `defer_until` accept strings like
-  "next friday", "2w", "end of month", or ISO dates. The service layer
-  parses them via `gtd_core/dates.py` (dateparser + preprocessor).
+- **Natural-language dates**: `due` accepts strings like "next friday", "2w",
+  "end of month", or ISO dates (`parse_human_date` → `date`). `defer_until`
+  additionally supports hour-level precision ("in 2 hours", "3h", "tomorrow
+  9am", ISO datetime) via `parse_human_datetime` → `datetime`. Date-only
+  inputs promote to midnight local time.
 
 - **Project priority + due**: projects carry a `priority` (1-5, where 1 is
   most urgent) and an optional `due` date. The frontend sorts by priority
   then due. Priority has no automated effect — it's a sorting/visibility aid.
 
-- **Sequential projects**: a project with `sequential: true` surfaces only
-  its lowest-`order` incomplete item on the next-actions list. Completing
-  that item reveals the next one. Items have an `order: int | None` field
-  used only when their project is sequential. `GET /items/?status=next`
-  respects this by default; `?show_all=true` bypasses it (for reviews).
+- **Next-actions cap per project**: projects carry `max_next_items: int | None`.
+  `None` (default) means no cap — every ordered action is visible. `1`
+  surfaces only the lowest-`order` incomplete item (classic "sequential"
+  behaviour); completing it reveals the next. Higher values cap the next
+  list to N items per project. Items have `order: int | None` used when a
+  cap is set. `GET /items/?status=next` applies the cap by default;
+  `?show_all=true` bypasses it (for reviews).
 
 - **Recurring templates**: files in `data/<env>/templates/` with a
   `recurrence:` field (daily/weekly/monthly/etc). Every snapshot (Sync

@@ -165,7 +165,16 @@ class TestUpdate:
         item = svc.capture("work", "Test")
         updated = svc.update("work", item.id, {"defer_until": "in 2 weeks"})
         assert updated.defer_until is not None
-        assert updated.defer_until > date.today()
+        # fixed clock is 2026-04-10 09:15
+        assert updated.defer_until > datetime(2026, 4, 10, 9, 15)
+
+    def test_patch_defer_hours(self, svc):
+        item = svc.capture("work", "Test")
+        updated = svc.update("work", item.id, {"defer_until": "3h"})
+        assert updated.defer_until is not None
+        # "3h" uses real datetime.now (not the injected clock) — just assert
+        # the returned value is a datetime with hour/minute preserved.
+        assert isinstance(updated.defer_until, datetime)
 
     def test_patch_due_iso_still_works(self, svc):
         item = svc.capture("work", "Test")
@@ -240,7 +249,7 @@ class TestFilterNext:
         svc.move("work", a.id, Bucket.NEXT)
         b = svc.capture("work", "Later")
         svc.move("work", b.id, Bucket.NEXT)
-        svc.update("work", b.id, {"defer_until": date(2026, 6, 1)})
+        svc.update("work", b.id, {"defer_until": datetime(2026, 6, 1, 9, 0)})
         results = svc.filter_next("work")
         assert {r.id for r in results} == {a.id}
 
@@ -249,9 +258,28 @@ class TestFilterNext:
         svc.move("work", a.id, Bucket.NEXT)
         b = svc.capture("work", "Later")
         svc.move("work", b.id, Bucket.NEXT)
-        svc.update("work", b.id, {"defer_until": date(2026, 6, 1)})
+        svc.update("work", b.id, {"defer_until": datetime(2026, 6, 1, 9, 0)})
         results = svc.filter_next("work", include_deferred=True)
         assert {r.id for r in results} == {a.id, b.id}
+
+    def test_defer_by_hours_hides_until_now_passes(self, svc):
+        # svc._now() returns 2026-04-10 09:15. An item deferred one hour
+        # from "now" should still be hidden; deferred one hour ago is shown.
+        future = svc.capture("work", "In 1 hour")
+        svc.move("work", future.id, Bucket.NEXT)
+        svc.update("work", future.id, {"defer_until": datetime(2026, 4, 10, 10, 15)})
+        past = svc.capture("work", "1 hour ago")
+        svc.move("work", past.id, Bucket.NEXT)
+        svc.update("work", past.id, {"defer_until": datetime(2026, 4, 10, 8, 15)})
+        results = svc.filter_next("work")
+        assert {r.id for r in results} == {past.id}
+
+    def test_defer_same_day_later_hour_is_hidden(self, svc):
+        # Deferring to later today (daily granularity used to miss this).
+        a = svc.capture("work", "Later today")
+        svc.move("work", a.id, Bucket.NEXT)
+        svc.update("work", a.id, {"defer_until": datetime(2026, 4, 10, 15, 0)})
+        assert svc.filter_next("work") == []
 
 
 class TestActionsForProject:
@@ -267,6 +295,90 @@ class TestActionsForProject:
         svc.move("work", unrelated.id, Bucket.NEXT)
         results = svc.actions_for_project("work", "p1")
         assert {r.id for r in results} == {a.id}
+
+
+class TestFindProjectByTitle:
+    def _save(
+        self, svc, pid: str, title: str, *, priority=None, status: str = "active"
+    ) -> Project:
+        project = Project(
+            id=pid,
+            title=title,
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+            status=status,  # type: ignore[arg-type]
+            priority=priority,
+        )
+        svc.save_project("work", project)
+        return project
+
+    def test_empty_query_returns_none(self, svc):
+        self._save(svc, "p1", "Anything")
+        assert svc.find_project_by_title("work", "") is None
+
+    def test_none_query_returns_none(self, svc):
+        self._save(svc, "p1", "Anything")
+        # type: ignore[arg-type] — exercise the runtime guard
+        assert svc.find_project_by_title("work", None) is None  # type: ignore[arg-type]
+
+    def test_empty_catalogue_returns_none(self, svc):
+        assert svc.find_project_by_title("work", "anything") is None
+
+    def test_exact_id_match_beats_title(self, svc):
+        # A project whose ID equals the query should win even when another
+        # project's title happens to equal the query too.
+        self._save(svc, "exact-id", "Something else")
+        self._save(svc, "p-other", "exact-id")  # title collides with other id
+        found = svc.find_project_by_title("work", "exact-id")
+        assert found is not None
+        assert found.id == "exact-id"
+
+    def test_case_insensitive_title_match(self, svc):
+        self._save(svc, "p1", "People Ops")
+        found = svc.find_project_by_title("work", "people ops")
+        assert found is not None
+        assert found.id == "p1"
+
+    def test_single_substring_hit(self, svc):
+        self._save(svc, "p1", "Ship frontend")
+        self._save(svc, "p2", "Backlog review")
+        found = svc.find_project_by_title("work", "ship")
+        assert found is not None
+        assert found.id == "p1"
+
+    def test_multiple_substring_hits_prefer_highest_priority(self, svc):
+        # 1 is most urgent; 3 is less urgent. Both titles contain "ship".
+        self._save(svc, "p-lower", "Ship hotfix", priority=3)
+        self._save(svc, "p-higher", "Ship feature", priority=1)
+        found = svc.find_project_by_title("work", "ship")
+        assert found is not None
+        assert found.id == "p-higher"
+
+    def test_multiple_substring_hits_all_null_priority_alphabetical(self, svc):
+        # Tie-break on title alphabetical order when priorities are equal/null.
+        self._save(svc, "p-b", "Ship widget")
+        self._save(svc, "p-a", "Ship alpha")
+        found = svc.find_project_by_title("work", "ship")
+        assert found is not None
+        assert found.id == "p-a"
+
+    def test_fuzzy_match_for_typo(self, svc):
+        self._save(svc, "p1", "Onboarding")
+        self._save(svc, "p2", "Release cycle")
+        found = svc.find_project_by_title("work", "onboaring")  # missing 'd'
+        assert found is not None
+        assert found.id == "p1"
+
+    def test_totally_unrelated_query_returns_none(self, svc):
+        self._save(svc, "p1", "Onboarding")
+        self._save(svc, "p2", "Release cycle")
+        assert svc.find_project_by_title("work", "xyzzy nothing") is None
+
+    def test_inactive_projects_excluded(self, svc):
+        # Completed project should NOT be matched even by exact title.
+        self._save(svc, "p1", "Retired project", status="complete")
+        assert svc.find_project_by_title("work", "Retired project") is None
 
 
 class TestProjectUpdates:
@@ -316,15 +428,15 @@ class TestProjectUpdates:
         assert ids == {"a1", "done1"}
 
 
-class TestSequentialProjects:
-    def _seq_project(self, svc, pid: str, sequential: bool) -> Project:
+class TestMaxNextItems:
+    def _capped_project(self, svc, pid: str, max_next_items: int | None) -> Project:
         project = Project(
             id=pid,
             title=f"Project {pid}",
             body="",
             created=datetime(2026, 3, 1),
             updated=datetime(2026, 3, 1),
-            sequential=sequential,
+            max_next_items=max_next_items,
         )
         svc.save_project("work", project)
         return project
@@ -335,8 +447,8 @@ class TestSequentialProjects:
         svc.update("work", item.id, {"project": project_id, "order": order})
         return item
 
-    def test_sequential_project_hides_later_steps(self, svc):
-        self._seq_project(svc, "seq", sequential=True)
+    def test_max_next_items_one_hides_later_steps(self, svc):
+        self._capped_project(svc, "seq", max_next_items=1)
         a = self._capture_with_order(svc, "Step A", "seq", 1)
         b = self._capture_with_order(svc, "Step B", "seq", 2)
         c = self._capture_with_order(svc, "Step C", "seq", 3)
@@ -345,15 +457,26 @@ class TestSequentialProjects:
         assert b.id not in {r.id for r in results}
         assert c.id not in {r.id for r in results}
 
-    def test_parallel_project_shows_all_steps(self, svc):
-        self._seq_project(svc, "par", sequential=False)
+    def test_max_next_items_none_shows_all_steps(self, svc):
+        self._capped_project(svc, "par", max_next_items=None)
         a = self._capture_with_order(svc, "Parallel A", "par", 1)
         b = self._capture_with_order(svc, "Parallel B", "par", 2)
         results = svc.filter_next("work")
         assert {r.id for r in results} == {a.id, b.id}
 
-    def test_sequential_surfaces_next_after_completion(self, svc):
-        self._seq_project(svc, "seq", sequential=True)
+    def test_max_next_items_two_surfaces_two_steps(self, svc):
+        self._capped_project(svc, "capped", max_next_items=2)
+        a = self._capture_with_order(svc, "Step A", "capped", 1)
+        b = self._capture_with_order(svc, "Step B", "capped", 2)
+        c = self._capture_with_order(svc, "Step C", "capped", 3)
+        d = self._capture_with_order(svc, "Step D", "capped", 4)
+        results = svc.filter_next("work")
+        assert {r.id for r in results} == {a.id, b.id}
+        assert c.id not in {r.id for r in results}
+        assert d.id not in {r.id for r in results}
+
+    def test_max_next_items_one_surfaces_next_after_completion(self, svc):
+        self._capped_project(svc, "seq", max_next_items=1)
         a = self._capture_with_order(svc, "Step A", "seq", 1)
         b = self._capture_with_order(svc, "Step B", "seq", 2)
         # Only A visible initially
@@ -362,17 +485,17 @@ class TestSequentialProjects:
         svc.complete("work", a.id)
         assert {r.id for r in svc.filter_next("work")} == {b.id}
 
-    def test_show_all_bypasses_sequential_hiding(self, svc):
-        self._seq_project(svc, "seq", sequential=True)
+    def test_show_all_bypasses_next_cap(self, svc):
+        self._capped_project(svc, "seq", max_next_items=1)
         a = self._capture_with_order(svc, "Step A", "seq", 1)
         b = self._capture_with_order(svc, "Step B", "seq", 2)
-        results = svc.list_items("work", bucket=Bucket.NEXT, respect_sequential=False)
+        results = svc.list_items("work", bucket=Bucket.NEXT, respect_next_cap=False)
         assert {r.id for r in results} == {a.id, b.id}
 
     def test_items_without_order_sort_by_id(self, svc):
-        # When a sequential project has items with no explicit order,
+        # When a capped project has items with no explicit order,
         # the first-captured item (lowest ID) is the one that shows.
-        self._seq_project(svc, "seq", sequential=True)
+        self._capped_project(svc, "seq", max_next_items=1)
         a = svc.capture("work", "First capture")
         svc.move("work", a.id, Bucket.NEXT)
         svc.update("work", a.id, {"project": "seq"})
@@ -383,6 +506,17 @@ class TestSequentialProjects:
         svc.update("work", b.id, {"project": "seq"})
         results = svc.filter_next("work")
         assert {r.id for r in results} == {a.id}
+
+    def test_update_project_rejects_zero(self, svc):
+        self._capped_project(svc, "seq", max_next_items=1)
+        with pytest.raises(ValueError, match="max_next_items"):
+            svc.update_project("work", "seq", {"max_next_items": 0})
+
+    def test_create_project_rejects_zero(self, svc):
+        with pytest.raises(ValueError, match="max_next_items"):
+            svc.create_project(
+                "work", title="Bad", project_id="bad", max_next_items=0
+            )
 
 
 class TestNextViewSort:
@@ -464,14 +598,14 @@ class TestNextViewSort:
         assert ordered.index(dated.id) < ordered.index(undated.id)
 
     def test_show_all_preserves_capture_order(self, svc):
-        # show_all=true sets respect_sequential=False; priority sort should not apply
+        # show_all=true sets respect_next_cap=False; priority sort should not apply
         # so review mode sees everything in raw capture order.
         self._project(svc, "p3proj", priority=3)
         self._project(svc, "p1proj", priority=1)
         p3_item = self._capture_next(svc, "P3 task", "p3proj")
         svc._now = lambda: datetime(2026, 4, 11, 10, 0)
         p1_item = self._capture_next(svc, "P1 task", "p1proj")
-        results = svc.list_items("work", bucket=Bucket.NEXT, respect_sequential=False)
+        results = svc.list_items("work", bucket=Bucket.NEXT, respect_next_cap=False)
         ordered = [i.id for i in results]
         assert ordered.index(p3_item.id) < ordered.index(p1_item.id)
 

@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
-from gtd_core.dates import parse_human_date
+from gtd_core.dates import parse_human_date, parse_human_datetime
 from gtd_core.models import Bucket, EnvConfig, Item, Project
 from gtd_core.repository import EnvRepository
 
@@ -96,9 +96,7 @@ class GtdService:
 
         # Newest items first so recent_action_titles_by_project keeps the
         # current-style titles per project as in-prompt examples.
-        corpus = sorted(
-            repo.list_items(), key=lambda i: i.created, reverse=True
-        )
+        corpus = sorted(repo.list_items(), key=lambda i: i.created, reverse=True)
         sample_actions = recent_action_titles_by_project(corpus, projects, per_project=3)
 
         result = ai_capture(
@@ -121,9 +119,7 @@ class GtdService:
         )
 
         matched_project: Project | None = (
-            self.find_project_by_title(env, result.project_query)
-            if result.project_query
-            else None
+            self.find_project_by_title(env, result.project_query) if result.project_query else None
         )
         patch: dict = {}
         if result.area and result.area in cfg.areas:
@@ -215,10 +211,10 @@ class GtdService:
         no_project=True keeps only items with project=None (orphan next
         actions). Takes precedence over `project` if both are set.
         """
-        today = self._now().date()
+        now = self._now()
         results = []
         for item in items:
-            if not include_deferred and item.defer_until and item.defer_until > today:
+            if not include_deferred and item.defer_until and item.defer_until > now:
                 continue
             if contexts and not (set(item.contexts) & set(contexts)):
                 continue
@@ -255,16 +251,14 @@ class GtdService:
             energy=energy,
             project=project,
             include_deferred=include_deferred,
-            respect_sequential=True,
+            respect_next_cap=True,
         )
 
     def actions_for_project(self, env: str, project_id: str) -> list[Item]:
         items = [i for i in self.repo(env).list_items() if i.project == project_id]
         return sorted(items, key=_item_sort_key)
 
-    def reorder_project_items(
-        self, env: str, project_id: str, item_ids: list[str]
-    ) -> list[Item]:
+    def reorder_project_items(self, env: str, project_id: str, item_ids: list[str]) -> list[Item]:
         """Assign order 1..N to the given items in the given sequence.
 
         Items not listed are not touched — callers are responsible for passing
@@ -278,9 +272,7 @@ class GtdService:
             if item is None:
                 raise KeyError(item_id)
             if item.project != project_id:
-                raise ValueError(
-                    f"item {item_id} is not in project {project_id}"
-                )
+                raise ValueError(f"item {item_id} is not in project {project_id}")
             if item.order != i:
                 item.order = i
                 item.updated = now
@@ -297,7 +289,7 @@ class GtdService:
         energy: str | None = None,
         project: str | None = None,
         include_deferred: bool = False,
-        respect_sequential: bool = False,
+        respect_next_cap: bool = False,
         include_archive: bool = False,
         include_trash: bool = False,
         no_project: bool = False,
@@ -316,9 +308,9 @@ class GtdService:
             include_deferred=include_deferred,
             no_project=no_project,
         )
-        if respect_sequential:
+        if respect_next_cap:
             projects_by_id = {p.id: p for p in self.repo(env).list_projects(include_inactive=True)}
-            filtered = apply_sequential_hiding(filtered, projects_by_id)
+            filtered = apply_next_item_cap(filtered, projects_by_id)
             filtered = sort_next_items(filtered, projects_by_id)
         return filtered
 
@@ -335,8 +327,10 @@ class GtdService:
         tags: list[str] | None = None,
         due: str | None = None,
         priority: int | None = None,
-        sequential: bool = False,
+        max_next_items: int | None = None,
     ) -> Project:
+        if max_next_items is not None and max_next_items < 1:
+            raise ValueError(f"max_next_items must be >= 1, got {max_next_items}")
         now = self._now()
         project = Project(
             id=project_id,
@@ -349,7 +343,7 @@ class GtdService:
             tags=list(tags) if tags else [],
             due=parse_human_date(due),
             priority=priority,
-            sequential=sequential,
+            max_next_items=max_next_items,
         )
         self.repo(env).save_project(project)
         return project
@@ -393,9 +387,7 @@ class GtdService:
             substring_hits.sort(key=lambda p: (p.priority or 99, p.title))
             return substring_hits[0]
 
-        fuzzy = difflib.get_close_matches(
-            q, [p.title.lower() for p in candidates], n=1, cutoff=0.6
-        )
+        fuzzy = difflib.get_close_matches(q, [p.title.lower() for p in candidates], n=1, cutoff=0.6)
         if fuzzy:
             for p in candidates:
                 if p.title.lower() == fuzzy[0]:
@@ -415,6 +407,14 @@ class GtdService:
             and patch["priority"] not in (1, 2, 3, 4, 5)
         ):
             raise ValueError(f"priority must be 1-5, got {patch['priority']}")
+        if (
+            "max_next_items" in patch
+            and patch["max_next_items"] is not None
+            and patch["max_next_items"] < 1
+        ):
+            raise ValueError(
+                f"max_next_items must be >= 1 or null, got {patch['max_next_items']}"
+            )
         repo = self.repo(env)
         project = repo.get_project(project_id)
         if project is None:
@@ -428,6 +428,11 @@ class GtdService:
     def delete_project(self, env: str, project_id: str) -> None:
         self.repo(env).delete_project(project_id)
 
+    # ---- Templates ----
+
+    def list_templates(self, env: str) -> list:
+        return self.repo(env).list_templates()
+
 
 def _item_sort_key(item: Item) -> tuple:
     # Items with explicit order come first (sorted by order). Items with no
@@ -438,36 +443,34 @@ def _item_sort_key(item: Item) -> tuple:
     return (1, 0, item.id)
 
 
-def apply_sequential_hiding(
-    items: list[Item], projects_by_id: dict[str, Project]
-) -> list[Item]:
-    """For each sequential project, keep only the first item in order.
+def apply_next_item_cap(items: list[Item], projects_by_id: dict[str, Project]) -> list[Item]:
+    """For each project with a `max_next_items` cap, keep only the first N in order.
 
-    Items belonging to non-sequential projects (or no project) pass through
-    unchanged. Sequential hiding is what lets `sequential=True` projects
-    surface just one action at a time on the next list.
+    Items in uncapped projects (or no project) pass through unchanged.
+    `max_next_items=1` gives the classic "sequential" behavior; higher values
+    surface several ordered steps at once.
     """
-    seen_sequential: set[str] = set()
+    seen_counts: dict[str, int] = {}
     result: list[Item] = []
-    # Sort first so the "first" item per project is picked deterministically.
+    # Sort first so the "first" items per project are picked deterministically.
     for item in sorted(items, key=_item_sort_key):
         project = projects_by_id.get(item.project) if item.project else None
-        if project is not None and project.sequential:
-            if project.id in seen_sequential:
+        if project is not None and project.max_next_items is not None:
+            count = seen_counts.get(project.id, 0)
+            if count >= project.max_next_items:
                 continue
-            seen_sequential.add(project.id)
+            seen_counts[project.id] = count + 1
         result.append(item)
     return result
 
 
-def sort_next_items(
-    items: list[Item], projects_by_id: dict[str, Project]
-) -> list[Item]:
+def sort_next_items(items: list[Item], projects_by_id: dict[str, Project]) -> list[Item]:
     """Order the next-actions list: project priority → item due → capture order.
 
     Items whose project has no priority (or that have no project) fall into
     a trailing bucket, sorted among themselves by due date then id.
     """
+
     def key(item: Item) -> tuple:
         project = projects_by_id.get(item.project) if item.project else None
         priority = project.priority if project and project.priority is not None else 99
@@ -475,6 +478,7 @@ def sort_next_items(
         # needing to compare a date to None.
         due_rank: tuple = (0, item.due) if item.due is not None else (1,)
         return (priority, due_rank, item.id)
+
     return sorted(items, key=key)
 
 
@@ -498,7 +502,8 @@ def _validate_patch(patch: dict, cfg: EnvConfig) -> None:
 
 
 def _coerce_dates(patch: dict) -> None:
-    """Parse natural-language date strings in due/defer_until fields."""
-    for field in ("due", "defer_until"):
-        if field in patch:
-            patch[field] = parse_human_date(patch[field])
+    """Parse natural-language strings for due (date) and defer_until (datetime)."""
+    if "due" in patch:
+        patch["due"] = parse_human_date(patch["due"])
+    if "defer_until" in patch:
+        patch["defer_until"] = parse_human_datetime(patch["defer_until"])

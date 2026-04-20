@@ -14,7 +14,7 @@ Item fields:
   area          str|None  responsibility area (validated against config)
   tags          list[str] free-form
   due           date|None hard deadline only
-  defer_until   date|None GTD tickler — hidden from default lists until this date
+  defer_until   datetime|None GTD tickler — hidden from default lists until this moment
   waiting_on    str|None  who/what (meaningful when status=waiting)
   waiting_since date|None when we started waiting
 """
@@ -53,7 +53,7 @@ class Item:
     area: str | None = None
     tags: list[str] = field(default_factory=list)
     due: date | None = None
-    defer_until: date | None = None
+    defer_until: datetime | None = None
     waiting_on: str | None = None
     waiting_since: date | None = None
     order: int | None = None
@@ -75,7 +75,7 @@ class Project:
     tags: list[str] = field(default_factory=list)
     due: date | None = None
     priority: Priority | None = None
-    sequential: bool = False
+    max_next_items: int | None = None
 
 
 @dataclass(slots=True)

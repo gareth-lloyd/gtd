@@ -22,6 +22,7 @@ import { FilterPanel } from './FilterPanel';
 import { SearchBar, SearchView } from './SearchComponents';
 import { ProjectNavLinks, ProjectsView, ProjectDetailView } from './ProjectComponents';
 import { BucketRoute, NextActionsView } from './ItemList';
+import { TemplatesView } from './TemplatesView';
 import { SelectionProvider, useSelection } from './SelectionContext';
 import { DetailPanel } from './DetailPanel';
 import { useEnvParam } from './useEnvParam';
@@ -33,6 +34,7 @@ type Section =
   | 'waiting'
   | 'someday'
   | 'reference'
+  | 'templates'
   | 'trash';
 
 const SECTIONS: Section[] = [
@@ -42,6 +44,7 @@ const SECTIONS: Section[] = [
   'waiting',
   'someday',
   'reference',
+  'templates',
   'trash',
 ];
 
@@ -61,6 +64,7 @@ export default function App() {
         <Route path="trash" element={<BucketRoute bucket="trash" />} />
         <Route path="projects" element={<ProjectsView />} />
         <Route path="projects/:projectId" element={<ProjectDetailView />} />
+        <Route path="templates" element={<TemplatesView />} />
         <Route path="items/:itemId" element={<ItemDetailView />} />
         <Route path="search" element={<SearchView />} />
       </Route>

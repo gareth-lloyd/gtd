@@ -1058,6 +1058,119 @@ button.danger:hover {
   color: #5b21b6;
 }
 
+.scheduled-banner {
+  padding: 0.5rem 0.75rem;
+  background: #eff6ff;
+  color: #1e3a8a;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+}
+
+.scheduled-readonly {
+  padding: 0.4rem 0.6rem;
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.scheduled-body {
+  font-family: inherit;
+  line-height: 1.45;
+}
+
+.scheduled-readonly-card .title-input-readonly {
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 0.2rem 0;
+  color: var(--fg);
+}
+
+.scheduled-readonly-card .body-input-readonly {
+  font-size: 0.9rem;
+  color: var(--muted);
+  white-space: pre-wrap;
+  padding: 0.2rem 0;
+}
+
+.template-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.template-row {
+  padding: 0.75rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.template-row.due-now {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.template-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.template-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.recurrence-badge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.template-due {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.template-row.due-now .template-due {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.template-body {
+  color: var(--muted);
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.template-meta {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.template-meta .last-spawned {
+  color: var(--muted);
+  font-style: italic;
+}
+
 .toggle-row {
   display: flex !important;
   flex-direction: row !important;

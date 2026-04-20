@@ -1,11 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { api, type Energy, type Project } from './api';
+import { api, type Energy, type Item, type Project } from './api';
 import {
   ChipToggleGroup,
   DatePickerRow,
+  DateTimePickerRow,
   findItemInCache,
   invalidateProjectQueries,
+  isScheduled,
   useItemPatch,
 } from './ItemEdit';
 import { contextChipStyle } from './context-colors';
@@ -86,9 +88,21 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
     [projects],
   );
   const project = projects?.find((p) => p.id === item?.project) ?? null;
-  const sequential = project?.sequential ?? false;
+  const capped = project?.max_next_items != null;
+
+  const [unlocked, setUnlocked] = useState(false);
+  useEffect(() => {
+    // Re-lock whenever the selected item changes.
+    setUnlocked(false);
+  }, [itemId]);
 
   if (!item) return <div className="detail-empty">Loading…</div>;
+
+  if (isScheduled(item) && !unlocked) {
+    return (
+      <ScheduledItemView env={env} item={item} onEdit={() => setUnlocked(true)} />
+    );
+  }
 
   return (
     <div className="detail-meta">
@@ -109,8 +123,17 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
                     P{p.priority}
                   </span>
                 )}
-                {p.sequential && (
-                  <span className="sequential-dot" title="sequential">⇢</span>
+                {p.max_next_items != null && (
+                  <span
+                    className="sequential-dot"
+                    title={
+                      p.max_next_items === 1
+                        ? 'one at a time'
+                        : `up to ${p.max_next_items} at once`
+                    }
+                  >
+                    ⇢
+                  </span>
                 )}
               </>
             ),
@@ -123,7 +146,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
         </ChipToggleGroup>
       </div>
 
-      {sequential && (
+      {capped && (
         <div className="detail-section">
           <span className="detail-label">Order</span>
           <div className="chip-toggle-group">
@@ -215,7 +238,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
       <div className="detail-section">
         <span className="detail-label">Defer until</span>
         <div className="chip-toggle-group">
-          <DatePickerRow
+          <DateTimePickerRow
             value={item.defer_until}
             onChange={(v) => patch({ defer_until: v })}
           />
@@ -230,6 +253,67 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
       </div>
     </div>
   );
+}
+
+function ScheduledItemView({
+  env,
+  item,
+  onEdit,
+}: {
+  env: string;
+  item: Item;
+  onEdit: () => void;
+}) {
+  const when = item.defer_until
+    ? formatScheduled(item.defer_until)
+    : '(unknown)';
+  return (
+    <div className="detail-meta scheduled-view">
+      <div className="scheduled-banner">
+        <strong>Scheduled</strong> until {when}
+      </div>
+      <div className="detail-section">
+        <span className="detail-label">Title</span>
+        <div className="scheduled-readonly">{item.title || '(untitled)'}</div>
+      </div>
+      {item.body && (
+        <div className="detail-section">
+          <span className="detail-label">Notes</span>
+          <div className="scheduled-readonly scheduled-body">{item.body}</div>
+        </div>
+      )}
+      {item.contexts.length > 0 && (
+        <div className="detail-section">
+          <span className="detail-label">Contexts</span>
+          <div className="scheduled-readonly">
+            {item.contexts.map((c) => `@${c}`).join(' ')}
+          </div>
+        </div>
+      )}
+      {item.due && (
+        <div className="detail-section">
+          <span className="detail-label">Due</span>
+          <div className="scheduled-readonly">{item.due}</div>
+        </div>
+      )}
+      <div className="detail-section">
+        <Button type="button" onClick={onEdit}>
+          Edit scheduled item
+        </Button>
+      </div>
+      <div className="detail-section">
+        <WorkflowActions env={env} item={item} />
+      </div>
+    </div>
+  );
+}
+
+function formatScheduled(iso: string): string {
+  const m = iso.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/);
+  if (!m) return iso;
+  const [, date, hh, mm] = m;
+  if (hh === '00' && mm === '00') return date;
+  return `${date} ${hh}:${mm}`;
 }
 
 function NewProjectChip({

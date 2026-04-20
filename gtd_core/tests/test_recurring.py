@@ -56,17 +56,29 @@ class TestIsDue:
     def test_never_spawned(self):
         assert is_due(_tmpl(last_spawned=None), today=date(2026, 4, 10)) is True
 
-    def test_due(self):
-        tmpl = _tmpl("weekly", last_spawned=date(2026, 4, 1))
+    def test_exact_scheduled_day_is_due(self):
+        # 4/3 + 7 = 4/10 exactly.
+        tmpl = _tmpl("weekly", last_spawned=date(2026, 4, 3))
         assert is_due(tmpl, today=date(2026, 4, 10)) is True
 
-    def test_not_due(self):
+    def test_before_scheduled_day_not_due(self):
         tmpl = _tmpl("weekly", last_spawned=date(2026, 4, 9))
         assert is_due(tmpl, today=date(2026, 4, 10)) is False
 
-    def test_exact_day(self):
-        tmpl = _tmpl("weekly", last_spawned=date(2026, 4, 3))
-        assert is_due(tmpl, today=date(2026, 4, 10)) is True
+    def test_day_after_scheduled_day_not_due(self):
+        # 4/1 + 7 = 4/8. Today is 4/10 (past the scheduled day) — do NOT
+        # fire late; wait for the next scheduled day.
+        tmpl = _tmpl("weekly", last_spawned=date(2026, 4, 1))
+        assert is_due(tmpl, today=date(2026, 4, 10)) is False
+
+    def test_missed_cycle_fires_on_next_scheduled_day(self):
+        # Weekly anchored on Monday 4/13. Missed 4/20 (no sync). Next sync
+        # on Monday 4/27 should fire.
+        tmpl = _tmpl("weekly", last_spawned=date(2026, 4, 13))
+        assert is_due(tmpl, today=date(2026, 4, 20)) is True  # first scheduled day
+        assert is_due(tmpl, today=date(2026, 4, 21)) is False  # day after, skip
+        assert is_due(tmpl, today=date(2026, 4, 23)) is False  # still skip
+        assert is_due(tmpl, today=date(2026, 4, 27)) is True  # next Monday
 
 
 class TestSpawnRecurring:

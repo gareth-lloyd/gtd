@@ -42,7 +42,32 @@ export interface Project {
   tags: string[];
   due: string | null;
   priority: number | null;
-  sequential: boolean;
+  max_next_items: number | null;
+}
+
+export type Recurrence =
+  | 'daily'
+  | 'weekly'
+  | 'biweekly'
+  | 'monthly'
+  | 'quarterly'
+  | 'yearly'
+  | string; // "every_N_days" falls through
+
+export interface Template {
+  id: string;
+  title: string;
+  body: string;
+  contexts: string[];
+  energy: Energy | null;
+  time_minutes: number | null;
+  project: string | null;
+  area: string | null;
+  tags: string[];
+  recurrence: Recurrence;
+  last_spawned: string | null;
+  /** ISO date the next item will spawn, or "now" if it's already due, or null if recurrence is unrecognized. */
+  next_due: string | null;
 }
 
 export interface EnvConfig {
@@ -159,7 +184,7 @@ export const api = {
       area?: string;
       due?: string | null;
       priority?: number | null;
-      sequential?: boolean;
+      max_next_items?: number | null;
     }
   ) =>
     request<Project>(`/envs/${env}/projects/`, {
@@ -178,6 +203,9 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ item_ids: itemIds }),
     }),
+
+  listTemplates: (env: string) =>
+    request<Template[]>(`/envs/${env}/templates/`),
 
   listSearchCorpus: async (
     env: string
