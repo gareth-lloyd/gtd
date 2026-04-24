@@ -28,6 +28,7 @@ export interface Item {
   waiting_on: string | null;
   waiting_since: string | null;
   order: number | null;
+  source_id: string | null;
 }
 
 export interface Project {

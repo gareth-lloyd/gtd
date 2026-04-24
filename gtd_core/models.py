@@ -17,6 +17,7 @@ Item fields:
   defer_until   datetime|None GTD tickler — hidden from default lists until this moment
   waiting_on    str|None  who/what (meaningful when status=waiting)
   waiting_since date|None when we started waiting
+  source_id     str|None  stable external ref (PR url, Linear ID, Slack permalink) for dedup
 """
 
 from dataclasses import dataclass, field
@@ -57,6 +58,7 @@ class Item:
     waiting_on: str | None = None
     waiting_since: date | None = None
     order: int | None = None
+    source_id: str | None = None
 
 
 Priority = Literal[1, 2, 3, 4, 5]

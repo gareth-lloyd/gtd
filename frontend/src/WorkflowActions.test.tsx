@@ -37,6 +37,7 @@ const nextItem: Item = {
   waiting_on: null,
   waiting_since: null,
   order: null,
+  source_id: null,
 };
 
 function renderActions(item: Item) {

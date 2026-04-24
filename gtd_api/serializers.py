@@ -31,6 +31,7 @@ class ItemSerializer(serializers.Serializer):
             "waiting_on": instance.waiting_on,
             "waiting_since": instance.waiting_since.isoformat() if instance.waiting_since else None,
             "order": instance.order,
+            "source_id": instance.source_id,
         }
 
 
@@ -101,6 +102,7 @@ class CaptureSerializer(serializers.Serializer):
     contexts = serializers.ListField(
         child=serializers.CharField(), required=False
     )
+    source_id = serializers.CharField(required=False, allow_null=True, allow_blank=False)
 
 
 class CaptureAiSerializer(serializers.Serializer):
@@ -140,6 +142,7 @@ class ItemPatchSerializer(serializers.Serializer):
     waiting_on = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     tags = serializers.ListField(child=serializers.CharField(), required=False)
     order = serializers.IntegerField(required=False, allow_null=True)
+    source_id = serializers.CharField(required=False, allow_null=True, allow_blank=False)
 
 
 class ProjectPatchSerializer(serializers.Serializer):

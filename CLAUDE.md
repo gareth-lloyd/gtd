@@ -35,10 +35,25 @@ the Django server.
 uv run pytest                    # backend (models, storage, repo, service, API, snapshot, importer)
 cd frontend && npm test          # frontend (vitest + testing-library)
 uv run ruff check .              # lint
+./scripts/coverage.sh            # backend + frontend coverage summary
+./scripts/e2e.sh                 # Playwright e2e against a throwaway env
 ```
 
 All backend tests use `tmp_path` fixtures — no test touches real data.
 Frontend tests use jsdom + mocked API.
+
+## E2E testing
+
+Playwright drives a real browser against a Django server with
+`GTD_DATA_ROOT` pointed at `frontend/e2e/.tmp/data/` (created fresh per
+run, bucket dirs wiped per test). The AI capture endpoint is short-
+circuited via the `GTD_AI_STUB_RESPONSE` env var — set in the Playwright
+`webServer` config, it causes `gtd_core/ai.py:ai_capture()` to return the
+value verbatim instead of shelling out to the `claude` CLI. Production
+behaviour is unchanged when the var is unset.
+
+Specs live in `frontend/e2e/*.spec.ts`. Run `./scripts/e2e.sh` (builds
+then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
 
 ## Key conventions
 

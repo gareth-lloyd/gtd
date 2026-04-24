@@ -117,6 +117,21 @@ npm run dev      # vite dev server on :5173, proxies /api to :8000
 `dist/` is served by Django via WhiteNoise at `/static/`. Vite `base` is
 `/static/` so built assets reference `/static/assets/...`.
 
+## E2E (Playwright)
+
+`e2e/*.spec.ts` — Playwright specs. `playwright.config.ts` runs a
+throwaway Django server against `e2e/.tmp/data/` (globalSetup seeds
+`config.yml` + bucket dirs, the auto `autoReset` fixture in
+`fixtures.ts` wipes item files before every test).
+
+AI capture is stubbed via the `GTD_AI_STUB_RESPONSE` env var set by the
+Playwright `webServer` config (see `gtd_core/ai.py`).
+
+Run from project root via `./scripts/e2e.sh`, or `npm run e2e:ui` here
+for interactive mode. `npm test` (vitest) and `npm run e2e` are disjoint:
+vitest matches `src/**/*.test.{ts,tsx}`, Playwright matches
+`e2e/*.spec.ts`.
+
 ## CSS conventions
 
 CSS custom properties defined in `:root` of `styles.css`. Key tokens:

@@ -100,6 +100,36 @@ class TestItemRoundTrip:
         raw = path.read_text()
         assert "status:" not in raw
 
+    def test_source_id_round_trip(self, tmp_path):
+        item = Item(
+            id="2026-04-21T0930-review-pr-40386",
+            title="Review PR #40386",
+            body="",
+            created=datetime(2026, 4, 21, 9, 30),
+            updated=datetime(2026, 4, 21, 9, 30),
+            status=Bucket.INBOX,
+            source_id="https://github.com/canary-technologies-corp/canary/pull/40386",
+        )
+        path = tmp_path / "inbox" / "pr.md"
+        dump_item(path, item)
+        loaded = load_item(path, Bucket.INBOX)
+        assert loaded.source_id == item.source_id
+        assert loaded == item
+
+    def test_source_id_defaults_to_none_for_legacy_files(self, tmp_path):
+        path = tmp_path / "inbox" / "legacy.md"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            "---\n"
+            "id: 2026-04-01T0900-legacy\n"
+            "title: Legacy item\n"
+            "created: 2026-04-01 09:00:00\n"
+            "updated: 2026-04-01 09:00:00\n"
+            "---\n"
+        )
+        loaded = load_item(path, Bucket.INBOX)
+        assert loaded.source_id is None
+
     def test_body_preserved(self, tmp_path):
         body = "# Heading\n\nSome **bold** markdown.\n\n- list\n- items\n"
         item = Item(

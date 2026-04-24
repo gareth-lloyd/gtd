@@ -52,6 +52,7 @@ class GtdService:
         energy: str | None = None,
         time_minutes: int | None = None,
         contexts: list[str] | None = None,
+        source_id: str | None = None,
     ) -> Item:
         repo = self.repo(env)
         if contexts:
@@ -72,6 +73,7 @@ class GtdService:
             energy=energy,
             time_minutes=time_minutes,
             contexts=list(contexts) if contexts else [],
+            source_id=source_id,
         )
         repo.save(item)
         return item

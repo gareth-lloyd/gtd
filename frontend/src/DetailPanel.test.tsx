@@ -46,6 +46,7 @@ const testItem: Item = {
   waiting_on: null,
   waiting_since: null,
   order: null,
+  source_id: null,
 };
 
 // Helper to select an item from outside DetailPanel

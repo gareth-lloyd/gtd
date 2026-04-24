@@ -14,6 +14,9 @@ htmlcov/
 # Frontend
 frontend/node_modules/
 frontend/dist/
+frontend/e2e/.tmp/
+frontend/test-results/
+frontend/playwright-report/
 
 # Django collectstatic output (unused locally)
 staticfiles/

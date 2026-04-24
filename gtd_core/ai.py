@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 from dataclasses import dataclass
@@ -68,7 +69,15 @@ def ai_capture(
 
     Shells out to `claude -p "..." --model <model>`. Uses the user's Max plan
     so no separate API credits are needed.
+
+    Test seam: if ``GTD_AI_STUB_RESPONSE`` is set in the environment its value
+    is parsed as the raw Claude CLI output. The subprocess is not invoked.
+    Used by the Playwright e2e suite to drive AI capture without the real CLI.
     """
+    stub = os.environ.get("GTD_AI_STUB_RESPONSE")
+    if stub:
+        return _parse_response(stub)
+
     claude_path = shutil.which("claude")
     if not claude_path:
         raise AiCaptureNotConfiguredError(

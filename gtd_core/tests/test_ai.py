@@ -10,12 +10,15 @@ from datetime import date, datetime
 
 import pytest
 
+import gtd_core.ai as ai_mod
 from gtd_core.ai import (
     AiCaptureNoExtractionError,
+    AiCaptureNotConfiguredError,
     AiCaptureResult,
     _build_prompt,
     _parse_response,
     _result_from_dict,
+    ai_capture,
     recent_action_titles_by_project,
 )
 from gtd_core.models import EnvConfig, Item, Project
@@ -298,3 +301,59 @@ class TestRecentActionTitlesByProject:
             [_item("i1", "x", "p1")], projects=[]
         )
         assert grouped == {}
+
+
+# ---------------- GTD_AI_STUB_RESPONSE env seam ----------------
+
+
+class TestAiCaptureStub:
+    """Tests for the GTD_AI_STUB_RESPONSE env-var seam."""
+
+    _cfg = EnvConfig(name="work", contexts=["calls"], areas=["admin"])
+
+    def test_stub_env_var_short_circuits_subprocess(self, monkeypatch):
+        def _boom(*_args, **_kwargs):
+            raise AssertionError("subprocess.run must not be called when stub is set")
+
+        monkeypatch.setattr(ai_mod.subprocess, "run", _boom)
+        monkeypatch.setattr(ai_mod.shutil, "which", lambda _: None)
+        monkeypatch.setenv(
+            "GTD_AI_STUB_RESPONSE",
+            '{"title": "Stubbed", "summary": "From stub", "contexts": ["calls"]}',
+        )
+
+        result = ai_capture(
+            text="anything",
+            cfg=self._cfg,
+            projects=[],
+            sample_actions={},
+            today=date(2026, 4, 20),
+        )
+
+        assert result.title == "Stubbed"
+        assert result.summary == "From stub"
+        assert result.contexts == ["calls"]
+
+    def test_stub_env_var_invalid_json_raises_no_extraction(self, monkeypatch):
+        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", "not json")
+        with pytest.raises(AiCaptureNoExtractionError):
+            ai_capture(
+                text="x",
+                cfg=self._cfg,
+                projects=[],
+                sample_actions={},
+                today=date(2026, 4, 20),
+            )
+
+    def test_without_stub_still_requires_claude(self, monkeypatch):
+        monkeypatch.delenv("GTD_AI_STUB_RESPONSE", raising=False)
+        monkeypatch.setattr(ai_mod.shutil, "which", lambda _: None)
+
+        with pytest.raises(AiCaptureNotConfiguredError):
+            ai_capture(
+                text="x",
+                cfg=self._cfg,
+                projects=[],
+                sample_actions={},
+                today=date(2026, 4, 20),
+            )

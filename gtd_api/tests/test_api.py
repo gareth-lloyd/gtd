@@ -70,6 +70,33 @@ class TestItems:
         assert r.status_code == 201
         assert r.json()["body"] == "Some notes"
 
+    def test_capture_with_source_id_persists_it(self, api):
+        url = "https://github.com/canary-technologies-corp/canary/pull/40386"
+        r = api.post(
+            "/api/envs/work/items/",
+            {"title": "Review PR 40386", "source_id": url},
+            format="json",
+        )
+        assert r.status_code == 201
+        data = r.json()
+        assert data["source_id"] == url
+
+        got = api.get(f"/api/envs/work/items/{data['id']}/").json()
+        assert got["source_id"] == url
+
+    def test_patch_can_backfill_source_id(self, api):
+        created = api.post(
+            "/api/envs/work/items/", {"title": "Legacy"}, format="json"
+        ).json()
+        assert created["source_id"] is None
+        r = api.patch(
+            f"/api/envs/work/items/{created['id']}/",
+            {"source_id": "ENT-1234"},
+            format="json",
+        )
+        assert r.status_code == 200
+        assert r.json()["source_id"] == "ENT-1234"
+
     def test_list_items_filter_by_status(self, api):
         a = api.post("/api/envs/work/items/", {"title": "A"}, format="json").json()
         api.post(f"/api/envs/work/items/{a['id']}/move/", {"to": "next"}, format="json")
