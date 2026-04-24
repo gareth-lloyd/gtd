@@ -6,12 +6,13 @@ defer_until: null
 due: null
 energy: low
 id: 2026-04-17T1320-fix-ugly-variant-names
-order: 1
+order: 3
 project: 2026-04-16T1351-ship
+source_id: null
 tags: []
 time_minutes: 5
 title: Fix ugly variant names
-updated: 2026-04-17 13:20:27.831746
+updated: 2026-04-23 07:51:57.957625
 waiting_on: null
 waiting_since: null
 ---

@@ -7,13 +7,14 @@ defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0840-proper-review-and-think
-order: 4
+order: 8
 project: 2026-04-16T1351-ship
+source_id: null
 tags:
 - focus
 time_minutes: 10
-title: Review PR #37770 thoroughly
-updated: 2026-04-17 12:01:02.474636
+title: Review PR
+updated: 2026-04-23 07:51:54.908212
 waiting_on: null
 waiting_since: null
 ---
