@@ -6,13 +6,13 @@ defer_until: null
 due: null
 energy: low
 id: 2026-04-23T0751-remove-whatsapp-from-wcp-onboarding
-order: 1
+order: 2
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: remove whatsapp from WCP onboarding
-updated: 2026-04-23 07:51:57.957625
+updated: 2026-04-24 15:25:24.780441
 waiting_on: null
 waiting_since: null
 ---
