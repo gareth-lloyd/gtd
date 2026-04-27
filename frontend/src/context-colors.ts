@@ -13,14 +13,15 @@ export function contextHue(name: string): number {
 }
 
 /**
- * Inline style for a context chip: pastel background + darker text,
- * both derived from the context's hue.
+ * Low-chroma tinted chip: hue carries identity, saturation stays low so
+ * the chip reads as "tinted texture" instead of competing for pre-attentive
+ * attention with the accent and priority heat ramp.
  */
 export function contextChipStyle(name: string): React.CSSProperties {
   const h = contextHue(name);
   return {
-    backgroundColor: `hsl(${h}, 60%, 90%)`,
-    color: `hsl(${h}, 50%, 30%)`,
+    backgroundColor: `hsl(${h}, 42%, 93%)`,
+    color: `hsl(${h}, 30%, 28%)`,
   };
 }
 

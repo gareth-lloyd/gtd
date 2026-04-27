@@ -1,14 +1,44 @@
+/* ---------- Focused Ink palette ----------
+ * Warm paper neutrals + one teal accent reserved for interactive affordances.
+ * Saturation is a budget: high-chroma tokens (accent, semantic states,
+ * priority ramp) stay rare so real signals — toasts, overdue flags — read
+ * clearly. Priority is a single-axis warm→cool heat ramp; the eye sorts by
+ * temperature without conscious effort. Edit tokens here, not hex values
+ * in rules.
+ * ----------------------------------------- */
 :root {
-  --bg: #fafaf9;
-  --fg: #1a1a1a;
-  --muted: #707070;
-  --accent: #2563eb;
-  --accent-bg: #eff6ff;
-  --border: #e5e5e5;
-  --card: #ffffff;
-  --warn: #d97706;
-  --danger: #dc2626;
-  --success: #059669;
+  /* Neutrals — warm paper to ink */
+  --paper:         #FBF8F3;
+  --surface:       #FFFFFF;
+  --surface-soft:  #F2EFE8;
+  --surface-hover: #FDFBF6;
+  --ink:           #17161A;
+  --ink-muted:     #636168;
+  --ink-faint:     #9B9A9F;
+  --rule:          #E9E4DC;
+  --rule-strong:   #D7D1C5;
+
+  /* Accent (teal) — "you can act on this" */
+  --accent:        #0F6D73;
+  --accent-hover:  #0A5458;
+  --accent-bg:     #E6F2F2;
+  --accent-ink:    #053A3D;
+
+  /* Semantic states — used during transitions, not as permanent decoration */
+  --danger:        #B42318;
+  --danger-bg:     #FEEDE8;
+  --warn:          #A8570C;
+  --warn-bg:       #FBEFDB;
+  --success:       #0F7A54;
+  --success-bg:    #E3F5EA;
+
+  /* Aliases for existing rules — migrate to the explicit names over time */
+  --bg:            var(--paper);
+  --fg:            var(--ink);
+  --muted:         var(--ink-muted);
+  --border:        var(--rule);
+  --card:          var(--surface);
+
   --radius: 6px;
   font-family:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
@@ -89,10 +119,12 @@ body {
   background: var(--card);
 }
 
-/* Items + detail share a single scroll container */
+/* Scroll lives on main; detail-panel is a stable full-height sibling so
+ * hover-actions positioned inside it stay aligned with the hovered card
+ * regardless of how far the list has been scrolled. */
 .content-area {
   grid-area: content;
-  overflow-y: auto;
+  overflow: hidden;
   display: flex;
   min-height: 0;
 }
@@ -100,6 +132,7 @@ body {
 .content-area > main {
   flex: 1;
   min-width: 0;
+  overflow-y: auto;
   padding: 12px 16px;
   background: var(--card);
 }
@@ -107,6 +140,7 @@ body {
 .detail-panel {
   flex: 0 0 50%;
   position: relative;
+  overflow-y: auto;
   background: var(--card);
 }
 
@@ -175,7 +209,7 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background: #f4f4f4;
+  background: var(--surface-soft);
 }
 
 button:disabled {
@@ -229,7 +263,7 @@ button.danger {
 }
 
 button.danger:hover {
-  background: #fef2f2;
+  background: var(--danger-bg);
 }
 
 /* ---- Env tabs ---- */
@@ -237,7 +271,7 @@ button.danger:hover {
 .env-tabs {
   display: flex;
   gap: 0;
-  background: #f0f0f0;
+  background: var(--surface-soft);
   padding: 3px;
   border-radius: var(--radius);
 }
@@ -255,7 +289,7 @@ button.danger:hover {
 }
 
 .env-tab:hover {
-  background: #e5e5e5;
+  background: var(--rule);
 }
 
 .env-tab.active {
@@ -346,11 +380,11 @@ button.danger:hover {
   font-size: 0.7rem;
   line-height: 1;
 }
-.side-nav-sub .priority-dot.p1 { color: #dc2626; }
-.side-nav-sub .priority-dot.p2 { color: #ea580c; }
-.side-nav-sub .priority-dot.p3 { color: #ca8a04; }
-.side-nav-sub .priority-dot.p4 { color: #2563eb; }
-.side-nav-sub .priority-dot.p5 { color: #6b7280; }
+.side-nav-sub .priority-dot.p1 { color: #B42318; }
+.side-nav-sub .priority-dot.p2 { color: #C26A1A; }
+.side-nav-sub .priority-dot.p3 { color: #A88318; }
+.side-nav-sub .priority-dot.p4 { color: #8F7A52; }
+.side-nav-sub .priority-dot.p5 { color: #8A8780; }
 
 /* ---- Project index (list view) ---- */
 
@@ -797,7 +831,7 @@ button.danger:hover {
 
 .item-body {
   font-size: 0.9rem;
-  color: #333;
+  color: var(--ink);
   border-left: 2px solid var(--border);
   padding: 0.25rem 0 0.25rem 0.75rem;
   margin: 0.25rem 0;
@@ -816,7 +850,7 @@ button.danger:hover {
 }
 
 .item-body pre {
-  background: #f4f4f4;
+  background: var(--surface-soft);
   padding: 0.5rem;
   border-radius: var(--radius);
   overflow-x: auto;
@@ -824,7 +858,7 @@ button.danger:hover {
 }
 
 .item-body code {
-  background: #f4f4f4;
+  background: var(--surface-soft);
   padding: 0 0.25rem;
   border-radius: 3px;
   font-size: 0.9em;
@@ -903,7 +937,7 @@ button.danger:hover {
 .item-meta .chip {
   padding: 0.1rem 0.4rem;
   border-radius: 999px;
-  background: #f0f0f0;
+  background: var(--surface-soft);
 }
 
 .item-meta .chip.context-chip {
@@ -931,7 +965,7 @@ button.danger:hover {
 /* ---- Editor ---- */
 
 .editor {
-  background: #fafafa;
+  background: var(--paper);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 0.85rem;
@@ -997,7 +1031,7 @@ button.danger:hover {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  background: #f0f0f0;
+  background: var(--surface-soft);
   color: var(--muted);
   padding: 0.1rem 0.5rem;
   border-radius: 999px;
@@ -1018,7 +1052,7 @@ button.danger:hover {
 .project-meta .chip {
   padding: 0.1rem 0.4rem;
   border-radius: 999px;
-  background: #f0f0f0;
+  background: var(--surface-soft);
 }
 
 .project-meta .chip.dates {
@@ -1041,11 +1075,11 @@ button.danger:hover {
   text-decoration: none;
 }
 
-.priority-badge.p1 { background: #fecaca; color: #991b1b; }
-.priority-badge.p2 { background: #fed7aa; color: #9a3412; }
-.priority-badge.p3 { background: #fef08a; color: #854d0e; }
-.priority-badge.p4 { background: #e0f2fe; color: #075985; }
-.priority-badge.p5 { background: #f0f0f0; color: var(--muted); }
+.priority-badge.p1 { background: #F3CCC8; color: #7A1B12; }
+.priority-badge.p2 { background: #F7D9B8; color: #7C3A10; }
+.priority-badge.p3 { background: #F5E6B0; color: #6D4A0A; }
+.priority-badge.p4 { background: #EDE2C9; color: #6F5A33; }
+.priority-badge.p5 { background: var(--surface-soft); color: var(--ink-muted); }
 
 .sequential-badge {
   font-size: 0.65rem;
@@ -1054,22 +1088,22 @@ button.danger:hover {
   padding: 0.1rem 0.45rem;
   border-radius: 999px;
   font-weight: 600;
-  background: #ede9fe;
-  color: #5b21b6;
+  background: var(--accent-bg);
+  color: var(--accent-ink);
 }
 
 .scheduled-banner {
   padding: 0.5rem 0.75rem;
-  background: #eff6ff;
-  color: #1e3a8a;
-  border: 1px solid #bfdbfe;
+  background: var(--accent-bg);
+  color: var(--accent-ink);
+  border: 1px solid var(--rule);
   border-radius: var(--radius);
   font-size: 0.85rem;
 }
 
 .scheduled-readonly {
   padding: 0.4rem 0.6rem;
-  background: #fafafa;
+  background: var(--paper);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--fg);
@@ -1116,8 +1150,8 @@ button.danger:hover {
 }
 
 .template-row.due-now {
-  border-color: #f59e0b;
-  background: #fffbeb;
+  border-color: var(--warn);
+  background: var(--warn-bg);
 }
 
 .template-header {
@@ -1138,8 +1172,8 @@ button.danger:hover {
   letter-spacing: 0.04em;
   padding: 0.15rem 0.5rem;
   border-radius: 999px;
-  background: #dbeafe;
-  color: #1e40af;
+  background: var(--surface-soft);
+  color: var(--ink-muted);
   font-weight: 600;
 }
 
@@ -1150,7 +1184,7 @@ button.danger:hover {
 }
 
 .template-row.due-now .template-due {
-  color: #b45309;
+  color: var(--warn);
   font-weight: 600;
 }
 
@@ -1219,7 +1253,7 @@ button.danger:hover {
 }
 
 .drag-handle:hover {
-  background: #f4f4f4;
+  background: var(--surface-soft);
   border-color: var(--border);
   color: var(--fg);
 }
@@ -1254,7 +1288,7 @@ button.danger:hover {
   padding: 0.5rem;
   border: 1px solid var(--danger);
   border-radius: var(--radius);
-  background: #fef2f2;
+  background: var(--danger-bg);
   margin-bottom: 0.5rem;
   font-size: 0.85rem;
 }
@@ -1301,13 +1335,13 @@ button.danger:hover {
 .toast-error {
   border-left: 3px solid var(--danger);
   color: var(--danger);
-  background: #fef2f2;
+  background: var(--danger-bg);
 }
 
 .toast-success {
   border-left: 3px solid var(--success);
   color: var(--success);
-  background: #ecfdf5;
+  background: var(--success-bg);
 }
 
 .toast-info {
@@ -1348,7 +1382,7 @@ button.danger:hover {
 }
 
 .item:hover:not(.expanded) {
-  border-color: #cfcfcf;
+  border-color: var(--rule-strong);
 }
 
 /* Selected-in-list card (title + notes only) */
@@ -1398,12 +1432,12 @@ button.danger:hover {
 .item.selected {
   cursor: default;
   border-color: var(--accent);
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 0 0 1px rgba(15, 109, 115, 0.18);
 }
 
 .item.hovered:not(.selected) {
-  border-color: #cfcfcf;
-  background: #fdfdff;
+  border-color: var(--rule-strong);
+  background: var(--surface-hover);
 }
 
 /* Project chip in the collapsed meta row */
@@ -1506,7 +1540,7 @@ button.danger:hover {
   gap: 0.35rem;
   padding: 0.25rem 0.65rem;
   border: 1px solid var(--border);
-  background: #f7f7f7;
+  background: var(--surface-soft);
   color: var(--muted);
   border-radius: 999px;
   font-size: 0.8rem;
@@ -1522,7 +1556,7 @@ button.danger:hover {
 }
 
 .chip-toggle:hover {
-  border-color: #c5c5c5;
+  border-color: var(--rule-strong);
   color: var(--fg);
 }
 
@@ -1552,7 +1586,7 @@ button.danger:hover {
 }
 
 .chip-toggle.clear:hover {
-  background: #fee2e2;
+  background: var(--danger-bg);
   color: var(--danger);
 }
 

@@ -49,14 +49,14 @@ describe('contextChipStyle', () => {
     expect(style).toHaveProperty('color');
   });
 
-  it('background is a light pastel (90% lightness)', () => {
+  it('background is a low-chroma tint (93% lightness, 42% sat)', () => {
     const style = contextChipStyle('calls');
-    expect(style.backgroundColor).toMatch(/^hsl\(\d+, 60%, 90%\)$/);
+    expect(style.backgroundColor).toMatch(/^hsl\(\d+, 42%, 93%\)$/);
   });
 
-  it('text is dark (30% lightness)', () => {
+  it('text is dark and desaturated (28% lightness, 30% sat)', () => {
     const style = contextChipStyle('calls');
-    expect(style.color).toMatch(/^hsl\(\d+, 50%, 30%\)$/);
+    expect(style.color).toMatch(/^hsl\(\d+, 30%, 28%\)$/);
   });
 
   it('different contexts produce different colors', () => {

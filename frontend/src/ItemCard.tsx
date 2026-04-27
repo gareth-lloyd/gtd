@@ -28,11 +28,11 @@ export function ItemCard({
 
   const onMouseEnter = () => {
     if (!cardRef.current) return;
-    const scrollContainer = cardRef.current.closest('.content-area');
+    const scrollContainer = cardRef.current.closest('main');
     if (!scrollContainer) return;
     const cardRect = cardRef.current.getBoundingClientRect();
     const containerRect = scrollContainer.getBoundingClientRect();
-    const topOffset = cardRect.top - containerRect.top + scrollContainer.scrollTop;
+    const topOffset = cardRect.top - containerRect.top;
     setHover(item.id, topOffset);
   };
 

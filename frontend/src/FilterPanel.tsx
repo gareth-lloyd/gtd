@@ -32,7 +32,7 @@ export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
           <label
             key={c}
             className="check-row"
-            style={{ borderLeft: `3px solid hsl(${contextHue(c)}, 55%, 65%)` }}
+            style={{ borderLeft: `3px solid hsl(${contextHue(c)}, 38%, 72%)` }}
           >
             <input
               type="checkbox"

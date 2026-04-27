@@ -210,7 +210,7 @@ function ContentArea({ env }: { env: string }) {
   const { clearHover } = useSelection();
   return (
     <div className="content-area" onMouseLeave={clearHover}>
-      <main>
+      <main onScroll={clearHover}>
         <Outlet />
       </main>
       <DetailPanel env={env} />
