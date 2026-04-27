@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-04-21T0927-re-review-pr-42947-vox-2622-voice-onboarding-scrip
-order: 13
+order: 6
 project: 2026-04-16T1351-ship
 source_id: null
 tags:
@@ -15,7 +15,7 @@ tags:
 - github
 time_minutes: 15
 title: 'Re-review PR #42947: VOX-2622 voice onboarding script pre-run input'
-updated: 2026-04-27 11:29:36.592907
+updated: 2026-04-27 14:01:59.848190
 waiting_on: null
 waiting_since: null
 ---

@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-04-21T0927-triage-ent-5990-add-hotels-to-marriott-loyalty-por
-order: 14
+order: 7
 project: 2026-04-16T1351-ship
 source_id: null
 tags:
@@ -15,7 +15,7 @@ tags:
 - linear
 time_minutes: 20
 title: 'Triage ENT-5990: Add hotels to Marriott Loyalty Portfolio'
-updated: 2026-04-27 11:29:36.592907
+updated: 2026-04-27 14:01:59.848190
 waiting_on: null
 waiting_since: null
 ---
