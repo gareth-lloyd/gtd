@@ -6,13 +6,13 @@ defer_until: null
 due: null
 energy: low
 id: 2026-04-23T0724-side-draw-on-batches-would-be-nice
-order: 10
-project: 2026-04-16T1351-ship
+order: 12
+project: 2026-04-16T1348-ideas
 source_id: null
 tags: []
 time_minutes: 5
 title: Side draw on batches would be nice
-updated: 2026-04-24 15:25:24.780441
+updated: 2026-04-27 13:06:19.493615
 waiting_on: null
 waiting_since: null
 ---
