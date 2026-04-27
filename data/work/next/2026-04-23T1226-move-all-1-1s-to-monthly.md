@@ -6,13 +6,13 @@ defer_until: null
 due: null
 energy: low
 id: 2026-04-23T1226-move-all-1-1s-to-monthly
-order: 3
+order: 4
 project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 5
 title: Move all 1-1s to monthly
-updated: 2026-04-23 12:26:08.764687
+updated: 2026-04-27 10:21:17.809664
 waiting_on: null
 waiting_since: null
 ---

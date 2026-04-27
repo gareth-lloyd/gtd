@@ -11,8 +11,8 @@ project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 5
-title: Get an answer from shales on this hotelkey question
-updated: 2026-04-23 14:38:10.772129
+title: Arrange call with shales on this hotelkey question
+updated: 2026-04-27 10:22:22.856756
 waiting_on: null
 waiting_since: null
 ---
