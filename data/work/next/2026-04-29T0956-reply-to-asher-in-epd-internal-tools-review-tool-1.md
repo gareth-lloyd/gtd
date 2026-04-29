@@ -13,9 +13,9 @@ source_id: https://canarytechnologies.slack.com/archives/C0AMJPBUH60/p1777393154
 tags:
 - morning-gtd
 - slack
-time_minutes: 30
+time_minutes: 15
 title: 'Reply to Asher in #epd-internal-tools: review TOOL-121 AI branding eng design'
-updated: 2026-04-29 09:42:17.495384
+updated: 2026-04-29 12:08:06.051485
 waiting_on: null
 waiting_since: null
 ---
