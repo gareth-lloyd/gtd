@@ -1,17 +1,17 @@
 ---
 area: null
 contexts: []
-created: 2026-04-20 13:14:30.030481
+created: 2026-04-28 12:11:28.983687
 defer_until: null
 due: null
 energy: low
-id: 2026-04-20T1314-ent-plugin-in-project-dir
-order: 7
+id: 2026-04-28T1211-my-legacy-on-ent-needs-to-be-to-drive-hard-boundar
+order: 2
 project: 2026-04-16T1348-ideas
 source_id: null
 tags: []
 time_minutes: 5
-title: ENT plugin in project dir
+title: My legacy on ent needs to be to drive hard boundaries on portfolieos
 updated: 2026-04-28 12:11:31.167747
 waiting_on: null
 waiting_since: null

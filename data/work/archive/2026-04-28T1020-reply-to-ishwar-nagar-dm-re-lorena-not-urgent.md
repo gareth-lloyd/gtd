@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 5
 title: 'Reply to Ishwar Nagar DM re: Lorena (not urgent)'
-updated: 2026-04-28 07:44:48.867973
+updated: 2026-04-28 11:07:44.060565
 waiting_on: null
 waiting_since: null
 ---

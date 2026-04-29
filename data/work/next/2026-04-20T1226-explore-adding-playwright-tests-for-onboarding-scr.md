@@ -7,12 +7,13 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-04-20T1226-explore-adding-playwright-tests-for-onboarding-scr
-order: null
+order: 6
 project: 2026-04-16T1348-ideas
+source_id: null
 tags: []
 time_minutes: null
 title: Explore adding Playwright tests for onboarding scripts
-updated: 2026-04-20 12:26:59.955905
+updated: 2026-04-28 12:11:31.167747
 waiting_on: null
 waiting_since: null
 ---

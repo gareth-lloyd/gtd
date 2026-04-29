@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: 2026-04-27 14:01:56.161185
-defer_until: 2026-04-28 09:00:00
-due: 2026-04-28
+created: 2026-04-28 08:37:30.883163
+defer_until: null
+due: null
 energy: low
-id: 2026-04-27T1401-fix-user-email-once-verified-approach
-order: 4
+id: 2026-04-28T0837-canalta-wainwrite
+order: 1
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
-title: Fix user email once verified approach
-updated: 2026-04-28 08:37:50.938395
+title: Canalta wainwrite
+updated: 2026-04-28 10:33:15.726430
 waiting_on: null
 waiting_since: null
 ---

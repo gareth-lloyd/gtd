@@ -7,13 +7,14 @@ defer_until: null
 due: null
 energy: null
 id: 2026-04-10T0840-thinking-about-it-there-s-nothing-wrong
-order: 2
+order: 3
 project: 2026-04-16T1348-ideas
+source_id: null
 tags:
 - focus
 time_minutes: null
 title: Write up one-level-hierarchy idea
-updated: 2026-04-17 07:47:35.969703
+updated: 2026-04-28 12:11:31.167747
 waiting_on: null
 waiting_since: null
 ---
