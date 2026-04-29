@@ -9,12 +9,13 @@ energy: medium
 id: 2026-04-17T0940-prep-for-mon-apr-20-wyndham-ai-search-regroup
 order: 2
 project: 2026-04-16T1314-above-property-chat
+source_id: null
 tags:
 - morning-gtd
 - email
 time_minutes: 45
 title: Prep for Mon Apr 20 Wyndham AI Search regroup
-updated: 2026-04-17 07:47:52.214610
+updated: 2026-04-29 11:51:07.446996
 waiting_on: null
 waiting_since: null
 ---

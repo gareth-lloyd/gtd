@@ -8,10 +8,11 @@ energy: high
 id: 2026-04-16T1003-interesting-project-play-with-the-rules-consistenc
 order: 4
 project: 2026-04-16T1319-rules-based-config
+source_id: null
 tags: []
 time_minutes: 60
 title: Play with rules consistency PR (ENT-5030)
-updated: 2026-04-17 07:48:12.208295
+updated: 2026-04-29 11:54:22.822169
 waiting_on: null
 waiting_since: null
 ---

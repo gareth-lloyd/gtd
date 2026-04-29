@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: 2026-04-17 10:51:28.971225
+created: 2026-04-29 11:47:06.563949
 defer_until: null
 due: null
 energy: high
-id: 2026-04-17T1051-montse-review-written-up
-order: 1
+id: 2026-04-29T1147-finalize-martijn
+order: 5
 project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 30
-title: Finalize Montse's review and share with Martijn
-updated: 2026-04-29 11:47:19.843588
+title: finalize martijn
+updated: 2026-04-29 11:51:48.482267
 waiting_on: null
 waiting_since: null
 ---

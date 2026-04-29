@@ -13,9 +13,9 @@ source_id: https://canarytechnologies.slack.com/archives/C08P0M47GPQ/p1776987315
 tags:
 - morning-gtd
 - slack
-time_minutes: 30
+time_minutes: 15
 title: Investigate non-rebrand Marriott/Hilton hotels in BW portfolio
-updated: 2026-04-29 10:00:43.417228
+updated: 2026-04-29 11:49:25.419331
 waiting_on: null
 waiting_since: null
 ---

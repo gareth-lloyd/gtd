@@ -7,13 +7,13 @@ due: null
 energy: low
 id: 2026-04-23T1226-move-all-1-1s-to-monthly
 order: 4
-project: 2026-04-10T0840-people
+project: 2026-04-16-admin
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Move all 1-1s to monthly; Add for Asher, Marta, Adil, Andrea. Laura, Martijn
   -> 45m
-updated: 2026-04-29 07:56:19.765756
+updated: 2026-04-29 11:49:48.740769
 waiting_on: null
 waiting_since: null
 ---

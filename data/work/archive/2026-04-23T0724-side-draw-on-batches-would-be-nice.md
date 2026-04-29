@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Side draw on batches would be nice
-updated: 2026-04-28 12:11:31.167747
+updated: 2026-04-29 11:50:22.023364
 waiting_on: null
 waiting_since: null
 ---

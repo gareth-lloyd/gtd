@@ -3,16 +3,17 @@ area: null
 contexts: []
 created: 2026-04-28 12:11:28.983687
 defer_until: null
-due: null
-energy: low
+due: 2026-04-30
+energy: high
 id: 2026-04-28T1211-my-legacy-on-ent-needs-to-be-to-drive-hard-boundar
 order: 2
 project: 2026-04-16T1348-ideas
 source_id: null
 tags: []
-time_minutes: 5
-title: My legacy on ent needs to be to drive hard boundaries on portfolieos
-updated: 2026-04-28 12:11:31.167747
+time_minutes: 30
+title: Plan the work to create harder portfolio boundaries. IHG slaesforce, Wyndham
+  update etc
+updated: 2026-04-29 11:50:52.152324
 waiting_on: null
 waiting_since: null
 ---

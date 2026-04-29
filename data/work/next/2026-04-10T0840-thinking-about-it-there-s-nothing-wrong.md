@@ -5,16 +5,16 @@ contexts:
 created: 2026-04-10 08:40:18.614217
 defer_until: null
 due: null
-energy: null
+energy: medium
 id: 2026-04-10T0840-thinking-about-it-there-s-nothing-wrong
 order: 3
 project: 2026-04-16T1348-ideas
 source_id: null
 tags:
 - focus
-time_minutes: null
+time_minutes: 15
 title: Write up one-level-hierarchy idea
-updated: 2026-04-28 12:11:31.167747
+updated: 2026-04-29 11:50:00.566318
 waiting_on: null
 waiting_since: null
 ---

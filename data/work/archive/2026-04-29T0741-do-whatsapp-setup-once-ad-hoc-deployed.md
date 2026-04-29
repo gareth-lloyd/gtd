@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Do whatsapp setup once ad hoc deployed
-updated: 2026-04-29 10:00:37.597407
+updated: 2026-04-29 11:40:59.423914
 waiting_on: null
 waiting_since: null
 ---

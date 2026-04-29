@@ -4,15 +4,15 @@ contexts: []
 created: 2026-04-16 12:57:06.186848
 defer_until: null
 due: null
-energy: low
+energy: medium
 id: 2026-04-16T1257-asher-onboarding-feedback
-order: 3
+order: 7
 project: 2026-04-10T0840-people
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Give Asher onboarding feedback
-updated: 2026-04-29 07:53:21.731818
+updated: 2026-04-29 11:51:55.773679
 waiting_on: null
 waiting_since: null
 ---
