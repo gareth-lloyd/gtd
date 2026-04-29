@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Gaston re: voice onboarding pre-run flow Loom'
-updated: 2026-04-29 09:56:28.127449
+updated: 2026-04-29 09:06:31.019557
 waiting_on: null
 waiting_since: null
 ---

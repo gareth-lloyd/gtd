@@ -6,13 +6,13 @@ defer_until: null
 due: null
 energy: high
 id: 2026-04-17T1051-montse-review-written-up
-order: 1
+order: 2
 project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 30
-title: Write Montse's review
-updated: 2026-04-28 11:09:36.886000
+title: Finalize Montse's review and share with Martijn
+updated: 2026-04-29 07:55:18.250640
 waiting_on: null
 waiting_since: null
 ---

@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-04-28T1054-investigate-non-rebrand-marriott-hilton-hotels-in
-order: null
+order: 2
 project: 2026-04-16T1351-ship
 source_id: https://canarytechnologies.slack.com/archives/C08P0M47GPQ/p1776987315383679
 tags:
@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 30
 title: Investigate non-rebrand Marriott/Hilton hotels in BW portfolio
-updated: 2026-04-28 11:07:15.945421
+updated: 2026-04-29 10:00:43.417228
 waiting_on: null
 waiting_since: null
 ---

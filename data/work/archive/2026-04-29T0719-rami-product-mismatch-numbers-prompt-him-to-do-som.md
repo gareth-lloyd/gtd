@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-04-29 07:19:44.532446
+created: 2026-04-29 07:19:44.532446
 defer_until: null
 due: null
 energy: low
@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Rami product mismatch numbers - prompt him to do something
-updated: *id001
+updated: 2026-04-29 09:05:32.236847
 waiting_on: null
 waiting_since: null
 ---

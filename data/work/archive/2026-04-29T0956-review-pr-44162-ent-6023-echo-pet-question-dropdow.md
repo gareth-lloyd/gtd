@@ -8,14 +8,14 @@ due: null
 energy: medium
 id: 2026-04-29T0956-review-pr-44162-ent-6023-echo-pet-question-dropdow
 order: null
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://github.com/canary-technologies-corp/canary/pull/44162
 tags:
 - morning-gtd
 - github
 time_minutes: 20
 title: 'Review PR #44162: ENT-6023 ECHO pet question dropdown for Wyndham reg card'
-updated: 2026-04-29 09:56:28.124169
+updated: 2026-04-29 10:00:23.866097
 waiting_on: null
 waiting_since: null
 ---

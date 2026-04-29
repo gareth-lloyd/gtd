@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Reply to Marta in #wyndham: dual collateral still failing post go-live'
-updated: 2026-04-28 10:54:36.124089
+updated: 2026-04-29 09:04:26.892593
 waiting_on: null
 waiting_since: null
 ---

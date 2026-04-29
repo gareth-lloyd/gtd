@@ -6,13 +6,13 @@ defer_until: null
 due: null
 energy: low
 id: 2026-04-16T0956-think-about-goal-setting-prompt-in-context-of-revi
-order: 6
+order: 5
 project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 5
 title: Draft goal-setting prompt for review cycle
-updated: 2026-04-28 11:09:41.560179
+updated: 2026-04-29 07:58:26.395566
 waiting_on: null
 waiting_since: null
 ---

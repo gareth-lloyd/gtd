@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Follow up on Lautaro DM thread re: script change'
-updated: 2026-04-29 09:56:28.128294
+updated: 2026-04-29 09:59:35.895544
 waiting_on: null
 waiting_since: null
 ---

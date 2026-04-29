@@ -8,10 +8,11 @@ energy: low
 id: 2026-04-16T1254-engineers-should-use-monitoring-to-check-status-of
 order: 1
 project: 2026-04-16T1348-ideas
+source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Share monitoring-over-onboarding stance with core eng leads
-updated: 2026-04-17 07:47:35.969703
+updated: 2026-04-29 07:59:03.717220
 waiting_on: null
 waiting_since: null
 ---

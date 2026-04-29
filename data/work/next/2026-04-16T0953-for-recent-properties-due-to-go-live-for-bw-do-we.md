@@ -6,13 +6,13 @@ defer_until: 2026-04-29 09:00:00
 due: null
 energy: low
 id: 2026-04-16T0953-for-recent-properties-due-to-go-live-for-bw-do-we
-order: 7
+order: 4
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: Check if recent BW go-live properties have Twilio
-updated: 2026-04-28 12:18:53.055476
+updated: 2026-04-29 10:00:43.417228
 waiting_on: null
 waiting_since: null
 ---

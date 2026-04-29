@@ -10,9 +10,9 @@ order: null
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Rules based configuration - loom demo
-updated: 2026-04-28 09:27:21.211888
+updated: 2026-04-29 07:58:59.011793
 waiting_on: null
 waiting_since: null
 ---
