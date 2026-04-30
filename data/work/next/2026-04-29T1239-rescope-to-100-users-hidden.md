@@ -4,7 +4,7 @@ contexts:
 - deep
 created: 2026-04-29 12:39:50.951533
 defer_until: null
-due: null
+due: 2026-04-30
 energy: medium
 id: 2026-04-29T1239-rescope-to-100-users-hidden
 order: 4
@@ -14,7 +14,7 @@ tags: []
 time_minutes: 15
 title: Rescope to 100+ users hidden / Or look at how to use their assignment mechanism
   for equivalent.
-updated: 2026-04-30 08:00:14.705766
+updated: 2026-04-30 10:59:47.876370
 waiting_on: null
 waiting_since: null
 ---

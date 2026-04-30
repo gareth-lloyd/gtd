@@ -3,7 +3,7 @@ area: null
 contexts:
 - consume
 created: 2026-04-29 12:47:56.473163
-defer_until: null
+defer_until: 2026-05-01 09:00:00
 due: null
 energy: low
 id: 2026-04-29T1247-get-up-to-speed-on-step-configurator
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Get up to speed on step configurator
-updated: 2026-04-30 08:00:14.705766
+updated: 2026-04-30 10:59:40.577933
 waiting_on: null
 waiting_since: null
 ---

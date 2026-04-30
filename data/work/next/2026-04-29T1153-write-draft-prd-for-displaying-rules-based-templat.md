@@ -3,7 +3,7 @@ area: null
 contexts:
 - deep
 created: 2026-04-29 11:53:59.317821
-defer_until: null
+defer_until: 2026-05-01 09:00:00
 due: null
 energy: high
 id: 2026-04-29T1153-write-draft-prd-for-displaying-rules-based-templat
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 60
 title: Write draft PRD for displaying rules-based templates in above property dashboard
-updated: 2026-04-30 08:00:14.705766
+updated: 2026-04-30 10:59:56.640491
 waiting_on: null
 waiting_since: null
 ---
