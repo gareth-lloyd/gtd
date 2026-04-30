@@ -5,7 +5,7 @@ contexts:
 created: 2026-04-29 21:13:51.043673
 defer_until: null
 due: null
-energy: low
+energy: medium
 id: 2026-04-29T2113-re-review-pr-44149-ent-6011-override-manual-user-m
 order: null
 project: 2026-04-16T1210-unblock-team
@@ -15,7 +15,7 @@ tags:
 - github
 time_minutes: 5
 title: 'Re-review PR #44149: ENT-6011 override_manual_user_merge bypass SSO gate'
-updated: 2026-04-30 07:04:54.662709
+updated: 2026-04-30 07:10:30.301498
 waiting_on: null
 waiting_since: null
 ---
