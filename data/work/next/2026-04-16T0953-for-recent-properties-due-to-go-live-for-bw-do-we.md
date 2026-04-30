@@ -1,7 +1,6 @@
 ---
 area: null
-contexts:
-- quick
+contexts: []
 created: 2026-04-16 09:53:28.469394
 defer_until: 2026-04-29 09:00:00
 due: null
@@ -13,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Check if recent BW go-live properties have Twilio
-updated: 2026-04-29 11:52:20.768752
+updated: 2026-04-30 07:51:48.670340
 waiting_on: null
 waiting_since: null
 ---

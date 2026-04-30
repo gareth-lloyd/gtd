@@ -2,7 +2,7 @@ name: work
 contexts:
   - deep
   - craft
-  - quick
+  - react
   - consume
   - autopilot
   - listen

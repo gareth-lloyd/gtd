@@ -11,9 +11,9 @@ order: 1
 project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Get up to speed on step configurator
-updated: 2026-04-29 12:48:24.711421
+updated: 2026-04-30 07:48:35.963556
 waiting_on: null
 waiting_since: null
 ---

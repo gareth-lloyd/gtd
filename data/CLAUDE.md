@@ -79,7 +79,7 @@ Project notes / context / outcome detail.
 
 ```yaml
 name: work
-contexts: [deep, craft, quick, consume, autopilot, listen, fun]
+contexts: [deep, craft, react, consume, autopilot, listen, fun]
 areas: [admin, engineering, management, writing]
 default_energy: medium
 ```
@@ -89,10 +89,10 @@ Areas are validated on update. Adding a new context/area means
 editing this file.
 
 Current real-world contexts:
-- `work`: deep, craft, quick, consume, autopilot, listen, fun
+- `work`: deep, craft, react, consume, autopilot, listen, fun
   - `deep`: protected solo time for generative work (PRDs, plans, expansive synthesis)
   - `craft`: sustained careful writing where words matter (people writeups, polished comms, Looms)
-  - `quick`: bursty 5–20m between-meeting work that needs attention (PR reviews, Slack/Linear replies)
+  - `react`: reactive engagement with inbound work — PR reviews, Slack/Linear replies, single-decision triage. Mode, not duration.
   - `consume`: focused input — reading docs, briefing yourself before deciding
   - `autopilot`: low-cognitive-engagement execution (Linear cleanup, calendar admin, batch updates)
   - `listen`: audio-only work away from the computer (recorded meetings, podcasts)

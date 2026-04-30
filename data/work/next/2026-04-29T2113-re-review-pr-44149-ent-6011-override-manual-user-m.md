@@ -1,7 +1,7 @@
 ---
 area: null
 contexts:
-- quick
+- react
 created: 2026-04-29 21:13:51.043673
 defer_until: null
 due: null
