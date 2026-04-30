@@ -3,7 +3,7 @@ area: null
 contexts:
 - react
 created: 2026-04-30 10:02:08.697002
-defer_until: null
+defer_until: 2026-05-04 09:00:00
 due: null
 energy: medium
 id: 2026-04-30T1002-engage-on-welcome-gifts-staffing-prd-group-dm-with
@@ -16,7 +16,7 @@ tags:
 time_minutes: 5
 title: Engage on Welcome Gifts staffing/PRD (group DM with SJ, Blake, Bree, Connor,
   Dana)
-updated: 2026-04-30 08:00:14.705766
+updated: 2026-04-30 13:54:30.896410
 waiting_on: null
 waiting_since: null
 ---

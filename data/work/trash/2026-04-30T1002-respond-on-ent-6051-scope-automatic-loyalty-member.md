@@ -15,7 +15,7 @@ tags:
 - linear
 time_minutes: 15
 title: 'Respond on ENT-6051: scope automatic loyalty membership backfill'
-updated: 2026-04-30 08:00:14.705766
+updated: 2026-04-30 13:54:42.254166
 waiting_on: null
 waiting_since: null
 ---

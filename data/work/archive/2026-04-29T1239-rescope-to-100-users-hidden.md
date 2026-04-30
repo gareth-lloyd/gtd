@@ -14,7 +14,7 @@ tags: []
 time_minutes: 15
 title: Rescope to 100+ users hidden / Or look at how to use their assignment mechanism
   for equivalent.
-updated: 2026-04-30 10:59:47.876370
+updated: 2026-04-30 12:30:21.611767
 waiting_on: null
 waiting_since: null
 ---

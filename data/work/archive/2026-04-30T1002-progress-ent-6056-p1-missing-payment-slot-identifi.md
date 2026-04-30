@@ -8,14 +8,14 @@ due: null
 energy: high
 id: 2026-04-30T1002-progress-ent-6056-p1-missing-payment-slot-identifi
 order: 1
-project: 2026-04-10T0840-ticket
+project: 2026-04-16T1351-ship
 source_id: https://linear.app/canary-technologies/issue/ENT-6056/p1-auth-form-cc-posting-fails-on-428-hotels-missing-payment-slot
 tags:
 - morning-gtd
 - linear
 time_minutes: 90
 title: 'Progress ENT-6056: P1 missing payment slot identifier (417 hotels)'
-updated: 2026-04-30 10:58:12.424117
+updated: 2026-04-30 12:16:32.385006
 waiting_on: null
 waiting_since: null
 ---

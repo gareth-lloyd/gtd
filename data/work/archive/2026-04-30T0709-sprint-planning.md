@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 60
 title: Sprint planning
-updated: 2026-04-30 08:00:14.705766
+updated: 2026-04-30 13:35:31.238181
 waiting_on: null
 waiting_since: null
 ---

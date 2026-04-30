@@ -3,7 +3,7 @@ area: null
 contexts:
 - deep
 created: 2026-04-29 11:46:05.864080
-defer_until: null
+defer_until: 2026-04-30 16:30:00
 due: null
 energy: high
 id: 2026-04-29T1146-plan-next-steps-for-wyndham-payment-methods-given
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Plan next steps for Wyndham payment methods given Lei's work
-updated: 2026-04-30 08:00:14.705766
+updated: 2026-04-30 12:30:38.322716
 waiting_on: null
 waiting_since: null
 ---
