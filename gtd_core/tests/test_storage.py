@@ -211,5 +211,5 @@ class TestEnvConfigRoundTrip:
 
         cfg = load_env_config(settings.GTD_DATA_ROOT / "work" / "config.yml")
         assert cfg.name == "work"
-        assert "calls" in cfg.contexts
+        assert "deep" in cfg.contexts
         assert "engineering" in cfg.areas
