@@ -8,14 +8,14 @@ due: null
 energy: medium
 id: 2026-04-29T2113-send-mziaei-list-of-740-missing-checkout-link-site
 order: null
-project: null
+project: 2026-04-16T1351-ship
 source_id: https://linear.app/canary-technologies/issue/ENT-5953/query-missing-checkout-links
 tags:
 - morning-gtd
 - linear
-time_minutes: 30
+time_minutes: 15
 title: Send mziaei list of 740 missing-checkout-link site IDs + account names (ENT-5953)
-updated: 2026-04-29 21:13:51.043184
+updated: 2026-04-30 07:05:24.999530
 waiting_on: null
 waiting_since: null
 ---

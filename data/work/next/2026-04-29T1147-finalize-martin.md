@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-04-29 11:47:14.541017
-defer_until: null
+defer_until: 2026-05-04 09:00:00
 due: null
 energy: high
 id: 2026-04-29T1147-finalize-martin
@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: finalize martin
-updated: 2026-04-29 11:51:50.727653
+updated: 2026-04-30 07:08:02.896243
 waiting_on: null
 waiting_since: null
 ---

@@ -5,7 +5,7 @@ contexts:
 created: 2026-04-29 21:13:51.045550
 defer_until: null
 due: null
-energy: low
+energy: medium
 id: 2026-04-29T2113-read-sj-sawhney-s-note-on-q2-product-priorities-se
 order: null
 project: null
@@ -13,9 +13,9 @@ source_id: https://mail.google.com/mail/u/0/#inbox/19dd96b3e71e7c5e
 tags:
 - morning-gtd
 - gmail
-time_minutes: 10
+time_minutes: 5
 title: Read SJ Sawhney's note on Q2 product priorities + Sebastian's reply
-updated: 2026-04-29 21:13:51.046042
+updated: 2026-04-30 07:04:58.552978
 waiting_on: null
 waiting_since: null
 ---

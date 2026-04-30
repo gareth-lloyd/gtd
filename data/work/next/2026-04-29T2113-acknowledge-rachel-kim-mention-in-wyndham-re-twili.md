@@ -8,14 +8,14 @@ due: null
 energy: low
 id: 2026-04-29T2113-acknowledge-rachel-kim-mention-in-wyndham-re-twili
 order: null
-project: null
+project: 2026-04-16-admin
 source_id: https://canarytechnologies.slack.com/archives/C04STT7UPRQ/p1777052246239939?thread_ts=1775646924.310129&cid=C04STT7UPRQ
 tags:
 - morning-gtd
 - slack
 time_minutes: 5
 title: 'Acknowledge Rachel Kim @-mention in #wyndham re: Twilio number unblocks'
-updated: 2026-04-29 21:13:51.045141
+updated: 2026-04-30 07:04:39.775183
 waiting_on: null
 waiting_since: null
 ---

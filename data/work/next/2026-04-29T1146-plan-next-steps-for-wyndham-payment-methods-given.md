@@ -7,12 +7,12 @@ due: null
 energy: high
 id: 2026-04-29T1146-plan-next-steps-for-wyndham-payment-methods-given
 order: null
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 15
 title: Plan next steps for Wyndham payment methods given Lei's work
-updated: 2026-04-29 11:49:06.361500
+updated: 2026-04-30 07:04:04.001017
 waiting_on: null
 waiting_since: null
 ---

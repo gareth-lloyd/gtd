@@ -15,10 +15,13 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Asher in #epd-internal-tools: review TOOL-121 AI branding eng design'
-updated: 2026-04-29 12:08:06.051485
+updated: 2026-04-30 07:07:39.848614
 waiting_on: null
 waiting_since: null
 ---
+
+Asher @s me + Laura on eng design doc (used Claude to write). I'd promised to review this evening when I posted I'd been under the weather. Notion doc: https://www.notion.so/canarytechnologies/Using-AI-to-update-hotel-branding-3448146861518002a687c41b5ad845cf
+https://canarytechnologies.slack.com/archives/C0AMJPBUH60/p1777498971902099?thread_ts=1776461807.622889&cid=C0AMJPBUH60
 
 Long branding-tools thread (TOOL-95/TOOL-121). I parked it saying I'd review when feeling better. Asher started an eng design doc. Laura suggested ChatGPT/Claude plugin angle. Asher pushed back, wants in-product UI. Need my take on direction + design doc.
 https://canarytechnologies.slack.com/archives/C0AMJPBUH60/p1777393154544039?thread_ts=1776461807.622889&cid=C0AMJPBUH60
