@@ -7,13 +7,13 @@ defer_until: null
 due: null
 energy: low
 id: 2026-04-29T1247-get-up-to-speed-on-step-configurator
-order: 1
+order: 3
 project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 15
 title: Get up to speed on step configurator
-updated: 2026-04-30 07:48:35.963556
+updated: 2026-04-30 08:00:14.705766
 waiting_on: null
 waiting_since: null
 ---

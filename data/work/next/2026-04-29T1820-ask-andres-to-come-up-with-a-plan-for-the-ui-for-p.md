@@ -7,13 +7,13 @@ defer_until: null
 due: 2026-04-30
 energy: medium
 id: 2026-04-29T1820-ask-andres-to-come-up-with-a-plan-for-the-ui-for-p
-order: null
+order: 9
 project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 15
 title: Ask andres to come up with a plan for the UI for portfolio reg cards
-updated: 2026-04-30 07:28:01.092807
+updated: 2026-04-30 08:00:14.705766
 waiting_on: null
 waiting_since: null
 ---

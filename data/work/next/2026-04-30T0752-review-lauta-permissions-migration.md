@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: review lauta permissions migration
-updated: 2026-04-30 07:57:38.642237
+updated: 2026-04-30 07:57:48.357541
 waiting_on: null
 waiting_since: null
 ---

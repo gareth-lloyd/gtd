@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 5
 title: Read SJ Sawhney's note on Q2 product priorities + Sebastian's reply
-updated: 2026-04-30 07:35:58.863071
+updated: 2026-04-30 09:58:27.815632
 waiting_on: null
 waiting_since: null
 ---
