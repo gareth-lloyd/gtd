@@ -5,10 +5,12 @@ export interface NextFilters {
   contexts: string[];
   energy: Energy | '';
   maxMinutes: string;
+  minMinutes: string;
   noProject: boolean;
   setContexts: (updater: (prev: string[]) => string[]) => void;
   setEnergy: (e: Energy | '') => void;
   setMaxMinutes: (s: string) => void;
+  setMinMinutes: (s: string) => void;
   setNoProject: (v: boolean) => void;
 }
 
@@ -18,14 +20,17 @@ export function useNextFilters(): NextFilters {
   const contexts = params.get('contexts')?.split(',').filter(Boolean) ?? [];
   const energy = (params.get('energy') ?? '') as Energy | '';
   const maxMinutes = params.get('max_minutes') ?? '';
+  const minMinutes = params.get('min_minutes') ?? '';
   const noProject = params.get('no_project') === 'true';
 
-  const patch = (key: string, value: string) => {
+  const patch = (entries: Record<string, string>) => {
     setParams(
       (prev) => {
         const next = new URLSearchParams(prev);
-        if (value) next.set(key, value);
-        else next.delete(key);
+        for (const [key, value] of Object.entries(entries)) {
+          if (value) next.set(key, value);
+          else next.delete(key);
+        }
         return next;
       },
       { replace: true },
@@ -36,10 +41,12 @@ export function useNextFilters(): NextFilters {
     contexts,
     energy,
     maxMinutes,
+    minMinutes,
     noProject,
-    setContexts: (updater) => patch('contexts', updater(contexts).join(',')),
-    setEnergy: (e) => patch('energy', e),
-    setMaxMinutes: (s) => patch('max_minutes', s),
-    setNoProject: (v) => patch('no_project', v ? 'true' : ''),
+    setContexts: (updater) => patch({ contexts: updater(contexts).join(',') }),
+    setEnergy: (e) => patch({ energy: e }),
+    setMaxMinutes: (s) => patch({ max_minutes: s, min_minutes: '' }),
+    setMinMinutes: (s) => patch({ min_minutes: s, max_minutes: '' }),
+    setNoProject: (v) => patch({ no_project: v ? 'true' : '' }),
   };
 }

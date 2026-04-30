@@ -248,6 +248,19 @@ class TestItems:
         ids = {i["id"] for i in r.json()}
         assert ids == {a["id"]}
 
+    def test_filter_by_min_minutes(self, api):
+        a = api.post("/api/envs/work/items/", {"title": "Quick"}, format="json").json()
+        api.post(f"/api/envs/work/items/{a['id']}/move/", {"to": "next"}, format="json")
+        api.patch(f"/api/envs/work/items/{a['id']}/", {"time_minutes": 30}, format="json")
+
+        b = api.post("/api/envs/work/items/", {"title": "Long"}, format="json").json()
+        api.post(f"/api/envs/work/items/{b['id']}/move/", {"to": "next"}, format="json")
+        api.patch(f"/api/envs/work/items/{b['id']}/", {"time_minutes": 180}, format="json")
+
+        r = api.get("/api/envs/work/items/?status=next&min_minutes=120")
+        ids = {i["id"] for i in r.json()}
+        assert ids == {b["id"]}
+
     def test_next_items_include_project_priority(self, api):
         api.post(
             "/api/envs/work/projects/",

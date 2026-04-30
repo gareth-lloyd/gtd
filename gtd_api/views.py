@@ -72,6 +72,7 @@ def items(request: Request, env: str) -> Response:
             bucket=bucket,
             contexts=_parse_csv(params.get("contexts")),
             max_minutes=_parse_int(params.get("max_minutes")),
+            min_minutes=_parse_int(params.get("min_minutes")),
             energy=params.get("energy"),
             project=params.get("project"),
             include_deferred=params.get("include_deferred") == "true",

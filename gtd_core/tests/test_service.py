@@ -282,6 +282,26 @@ class TestFilterNext:
         results = svc.filter_next("work", max_minutes=15)
         assert {r.id for r in results} == {a.id}
 
+    def test_by_min_minutes(self, svc):
+        a = svc.capture("work", "Quick")
+        svc.move("work", a.id, Bucket.NEXT)
+        svc.update("work", a.id, {"time_minutes": 30})
+        b = svc.capture("work", "Long")
+        svc.move("work", b.id, Bucket.NEXT)
+        svc.update("work", b.id, {"time_minutes": 180})
+        results = svc.filter_next("work", min_minutes=120)
+        assert {r.id for r in results} == {b.id}
+
+    def test_min_minutes_excludes_unknown(self, svc):
+        """Items with no time estimate are excluded from min_minutes filter."""
+        a = svc.capture("work", "Long")
+        svc.move("work", a.id, Bucket.NEXT)
+        svc.update("work", a.id, {"time_minutes": 180})
+        b = svc.capture("work", "Unknown")
+        svc.move("work", b.id, Bucket.NEXT)
+        results = svc.filter_next("work", min_minutes=120)
+        assert {r.id for r in results} == {a.id}
+
     def test_by_energy_ceiling(self, svc):
         a = svc.capture("work", "Low")
         svc.move("work", a.id, Bucket.NEXT)
@@ -606,13 +626,23 @@ class TestNextViewSort:
         ordered = [i.id for i in svc.filter_next("work")]
         assert ordered.index(p1_item.id) < ordered.index(p3_item.id)
 
-    def test_no_project_sorts_after_rated_projects(self, svc):
-        self._project(svc, "p5proj", priority=5)
-        p5_item = self._capture_next(svc, "P5 task", "p5proj")
+    def test_no_project_sorts_before_rated_projects(self, svc):
+        # Orphan next actions surface at the top — they would otherwise be
+        # buried under prioritised project work and forgotten.
+        self._project(svc, "p1proj", priority=1)
+        p1_item = self._capture_next(svc, "P1 task", "p1proj")
         svc._now = lambda: datetime(2026, 4, 11, 10, 0)
         floating = self._capture_next(svc, "Floating task", project_id=None)
         ordered = [i.id for i in svc.filter_next("work")]
-        assert ordered.index(p5_item.id) < ordered.index(floating.id)
+        assert ordered.index(floating.id) < ordered.index(p1_item.id)
+
+    def test_no_project_sorts_before_unrated_projects(self, svc):
+        self._project(svc, "unrated", priority=None)
+        unrated_item = self._capture_next(svc, "Unrated task", "unrated")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        floating = self._capture_next(svc, "Floating task", project_id=None)
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(floating.id) < ordered.index(unrated_item.id)
 
     def test_project_with_null_priority_sorts_after_rated(self, svc):
         self._project(svc, "p2proj", priority=2)

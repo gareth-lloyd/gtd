@@ -7,15 +7,16 @@ import { useEnvParam } from './useEnvParam';
 
 export function NextActionsView() {
   const env = useEnvParam();
-  const { contexts, energy, maxMinutes, noProject } = useNextFilters();
+  const { contexts, energy, maxMinutes, minMinutes, noProject } = useNextFilters();
   const params: Record<string, string> = { status: 'next' };
   if (contexts.length) params.contexts = contexts.join(',');
   if (energy) params.energy = energy;
   if (maxMinutes) params.max_minutes = maxMinutes;
+  if (minMinutes) params.min_minutes = minMinutes;
   if (noProject) params.no_project = 'true';
 
   const { data: items, isLoading } = useQuery({
-    queryKey: ['items', env, 'next', contexts, energy, maxMinutes, noProject],
+    queryKey: ['items', env, 'next', contexts, energy, maxMinutes, minMinutes, noProject],
     queryFn: () => api.listItems(env, params),
   });
 

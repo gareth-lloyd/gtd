@@ -790,6 +790,10 @@ button.danger:hover {
   gap: 0.2rem;
 }
 
+.btn-group-vertical {
+  flex-direction: column;
+}
+
 .btn-group button {
   flex: 1;
   padding: 0.3rem 0.4rem;

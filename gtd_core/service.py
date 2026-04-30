@@ -11,6 +11,12 @@ from gtd_core.repository import EnvRepository
 
 _ENERGY_RANK = {"low": 1, "medium": 2, "high": 3}
 
+# Sort sentinels for next-actions ranking. Project priority is 1-5 (1 = most
+# urgent), so picking values outside that range slots items either ahead of
+# or behind every rated project without comparing to None.
+_ORPHAN_PRIORITY = -1
+_UNRATED_PRIORITY = 99
+
 PROJECT_STATUSES = frozenset({"active", "on_hold", "complete", "dropped"})
 
 
@@ -206,6 +212,7 @@ class GtdService:
         items: list[Item],
         contexts: list[str] | None = None,
         max_minutes: int | None = None,
+        min_minutes: int | None = None,
         energy: str | None = None,
         project: str | None = None,
         include_deferred: bool = False,
@@ -217,8 +224,10 @@ class GtdService:
         energy="high" returns low+medium+high. Items with energy=None
         are excluded when an energy filter is set.
 
-        max_minutes excludes items with time_minutes=None (unknown
-        duration doesn't fit a time budget).
+        max_minutes excludes items with time_minutes=None or longer than the
+        budget. min_minutes does the mirror — keep only items strictly longer
+        than `min_minutes` (and excludes items with no time estimate). Used
+        for the ">2h" filter when the user wants long, deep-work items only.
 
         no_project=True keeps only items with project=None (orphan next
         actions). Takes precedence over `project` if both are set.
@@ -232,6 +241,10 @@ class GtdService:
                 continue
             if max_minutes is not None and (
                 item.time_minutes is None or item.time_minutes > max_minutes
+            ):
+                continue
+            if min_minutes is not None and (
+                item.time_minutes is None or item.time_minutes <= min_minutes
             ):
                 continue
             if energy is not None and (
@@ -251,6 +264,7 @@ class GtdService:
         env: str,
         contexts: list[str] | None = None,
         max_minutes: int | None = None,
+        min_minutes: int | None = None,
         energy: str | None = None,
         project: str | None = None,
         include_deferred: bool = False,
@@ -260,6 +274,7 @@ class GtdService:
             bucket=Bucket.NEXT,
             contexts=contexts,
             max_minutes=max_minutes,
+            min_minutes=min_minutes,
             energy=energy,
             project=project,
             include_deferred=include_deferred,
@@ -298,6 +313,7 @@ class GtdService:
         bucket: Bucket | None = None,
         contexts: list[str] | None = None,
         max_minutes: int | None = None,
+        min_minutes: int | None = None,
         energy: str | None = None,
         project: str | None = None,
         include_deferred: bool = False,
@@ -315,6 +331,7 @@ class GtdService:
             items,
             contexts=contexts,
             max_minutes=max_minutes,
+            min_minutes=min_minutes,
             energy=energy,
             project=project,
             include_deferred=include_deferred,
@@ -400,7 +417,7 @@ class GtdService:
             return substring_hits[0]
         if len(substring_hits) > 1:
             # Ambiguous substring — prefer highest priority (1 = most urgent).
-            substring_hits.sort(key=lambda p: (p.priority or 99, p.title))
+            substring_hits.sort(key=lambda p: (p.priority or _UNRATED_PRIORITY, p.title))
             return substring_hits[0]
 
         fuzzy = difflib.get_close_matches(q, [p.title.lower() for p in candidates], n=1, cutoff=0.6)
@@ -481,15 +498,22 @@ def apply_next_item_cap(items: list[Item], projects_by_id: dict[str, Project]) -
 
 
 def sort_next_items(items: list[Item], projects_by_id: dict[str, Project]) -> list[Item]:
-    """Order the next-actions list: project priority → item due → capture order.
+    """Order the next-actions list: orphan items → project priority → due → capture order.
 
-    Items whose project has no priority (or that have no project) fall into
-    a trailing bucket, sorted among themselves by due date then id.
+    Items with no project surface at the top — they're typically standalone next
+    actions that aren't tied to any larger initiative and would otherwise be
+    buried under prioritised project work. Items in projects without a priority
+    fall into a trailing bucket.
     """
 
     def key(item: Item) -> tuple:
         project = projects_by_id.get(item.project) if item.project else None
-        priority = project.priority if project and project.priority is not None else 99
+        if item.project is None:
+            priority = _ORPHAN_PRIORITY
+        elif project and project.priority is not None:
+            priority = project.priority
+        else:
+            priority = _UNRATED_PRIORITY
         # (0, due) < (1,) so undated items sort after dated ones without
         # needing to compare a date to None.
         due_rank: tuple = (0, item.due) if item.due is not None else (1,)
