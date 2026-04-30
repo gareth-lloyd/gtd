@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: respond on Marta's tipping collateral
-updated: 2026-04-30 07:57:53.419681
+updated: 2026-04-30 10:28:50.584039
 waiting_on: null
 waiting_since: null
 ---

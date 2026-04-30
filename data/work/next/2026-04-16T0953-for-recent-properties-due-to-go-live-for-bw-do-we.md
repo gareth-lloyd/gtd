@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-04-16 09:53:28.469394
-defer_until: 2026-04-29 09:00:00
+defer_until: 2026-05-01 09:00:00
 due: null
 energy: medium
 id: 2026-04-16T0953-for-recent-properties-due-to-go-live-for-bw-do-we
@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Check if recent BW go-live properties have Twilio
-updated: 2026-04-30 07:51:48.670340
+updated: 2026-04-30 10:03:03.425364
 waiting_on: null
 waiting_since: null
 ---

@@ -4,17 +4,17 @@ contexts:
 - craft
 - fun
 created: 2026-04-28 09:26:13.213964
-defer_until: 2026-04-30 09:00:00
+defer_until: 2026-05-01 09:00:00
 due: null
 energy: high
 id: 2026-04-28T0926-rules-based-configuration-loom-demo
-order: null
+order: 1
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 15
 title: Rules based configuration - loom demo
-updated: 2026-04-29 11:59:02.218655
+updated: 2026-04-30 10:17:17.969348
 waiting_on: null
 waiting_since: null
 ---

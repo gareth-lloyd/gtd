@@ -8,14 +8,14 @@ due: null
 energy: medium
 id: 2026-04-28T1054-reply-to-marta-in-wyndham-dual-collateral-still-fa
 order: null
-project: null
+project: 2026-04-10T0840-people
 source_id: https://canarytechnologies.slack.com/archives/C04STT7UPRQ/p1776779279913179#refresh-2026-04-28
 tags:
 - morning-gtd
 - slack
 time_minutes: 30
 title: 'Reply to Marta in #wyndham: dual collateral still failing post go-live'
-updated: 2026-04-29 09:04:26.892593
+updated: 2026-04-30 10:27:16.174043
 waiting_on: null
 waiting_since: null
 ---

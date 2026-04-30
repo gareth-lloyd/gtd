@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-04-30T1002-follow-up-on-saml-sso-script-change-for-lautaro-dm
-order: null
+order: 6
 project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/D08QQ2UP92A/p1776952643788199?thread_ts=1776950516.005889&cid=D08QQ2UP92A
 tags:
@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Follow up on: SAML/SSO script change for Lautaro (DM)'
-updated: 2026-04-30 07:05:47.601826
+updated: 2026-04-30 10:17:17.969348
 waiting_on: null
 waiting_since: null
 ---
