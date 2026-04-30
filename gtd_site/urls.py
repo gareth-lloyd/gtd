@@ -14,5 +14,6 @@ def spa_index(request):
 
 urlpatterns = [
     path("api/", include("gtd_api.urls")),
-    re_path(r"^(?!api/|static/).*$", spa_index),
+    path("bear-api/", include("bear_reader.urls")),
+    re_path(r"^(?!api/|bear-api/|static/).*$", spa_index),
 ]
