@@ -1,18 +1,19 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-04-30 07:52:46.615187
+contexts:
+- craft
+created: 2026-04-30 07:52:46.615187
 defer_until: null
 due: null
-energy: low
+energy: medium
 id: 2026-04-30T0752-review-lauta-permissions-migration
 order: null
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: review lauta permissions migration
-updated: *id001
+updated: 2026-04-30 07:57:38.642237
 waiting_on: null
 waiting_since: null
 ---
