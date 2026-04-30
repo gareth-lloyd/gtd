@@ -1,8 +1,8 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 import pytest
 
-from gtd_core.dates import parse_human_date, parse_human_datetime
+from gtd_core.dates import is_overdue, parse_human_date, parse_human_datetime
 
 
 class TestParseHumanDate:
@@ -113,3 +113,19 @@ class TestParseHumanDatetime:
         assert result.hour == 0
         assert result.minute == 0
         assert result.weekday() == 3
+
+
+class TestIsOverdue:
+    TODAY = date(2026, 5, 1)
+
+    def test_none_due_is_not_overdue(self):
+        assert is_overdue(None, self.TODAY) is False
+
+    def test_today_counts_as_overdue(self):
+        assert is_overdue(self.TODAY, self.TODAY) is True
+
+    def test_yesterday_is_overdue(self):
+        assert is_overdue(self.TODAY - timedelta(days=1), self.TODAY) is True
+
+    def test_tomorrow_is_not_overdue(self):
+        assert is_overdue(self.TODAY + timedelta(days=1), self.TODAY) is False

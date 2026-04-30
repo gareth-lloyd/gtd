@@ -42,6 +42,7 @@ const baseItem: Item = {
   area: null,
   tags: [],
   due: null,
+  overdue: false,
   defer_until: null,
   waiting_on: null,
   waiting_since: null,
@@ -116,6 +117,30 @@ describe('ItemCard collapsed', () => {
     expect(screen.getByText('@calls')).toBeDefined();
     expect(screen.getByText('⚡low')).toBeDefined();
     expect(screen.getByText('15m')).toBeDefined();
+  });
+
+  it('renders no due chip when item has no due date', () => {
+    const { container } = renderCard(baseItem);
+    expect(container.querySelector('.chip-overdue')).toBeNull();
+    expect(container.textContent).not.toContain('due ');
+  });
+
+  it('renders neutral due chip when not overdue', () => {
+    const { container } = renderCard({ ...baseItem, due: '2099-01-01', overdue: false });
+    const chip = Array.from(container.querySelectorAll('.chip')).find((el) =>
+      el.textContent?.includes('due 2099-01-01'),
+    );
+    expect(chip).toBeDefined();
+    expect(chip!.classList.contains('chip-overdue')).toBe(false);
+  });
+
+  it('renders overdue chip with .chip-overdue when overdue', () => {
+    const { container } = renderCard({ ...baseItem, due: '2020-01-01', overdue: true });
+    const chip = Array.from(container.querySelectorAll('.chip')).find((el) =>
+      el.textContent?.includes('due 2020-01-01'),
+    );
+    expect(chip).toBeDefined();
+    expect(chip!.classList.contains('chip-overdue')).toBe(true);
   });
 
   it('clicking the card selects it and shows title input', async () => {

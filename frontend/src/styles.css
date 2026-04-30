@@ -954,6 +954,12 @@ button.danger:hover {
   color: var(--muted);
 }
 
+.item-meta .chip.chip-overdue {
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-weight: 600;
+}
+
 .item-actions {
   display: flex;
   gap: 0.25rem;

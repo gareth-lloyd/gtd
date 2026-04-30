@@ -7,11 +7,13 @@ export interface NextFilters {
   maxMinutes: string;
   minMinutes: string;
   noProject: boolean;
+  overdue: boolean;
   setContexts: (updater: (prev: string[]) => string[]) => void;
   setEnergy: (e: Energy | '') => void;
   setMaxMinutes: (s: string) => void;
   setMinMinutes: (s: string) => void;
   setNoProject: (v: boolean) => void;
+  setOverdue: (v: boolean) => void;
 }
 
 export function useNextFilters(): NextFilters {
@@ -22,6 +24,7 @@ export function useNextFilters(): NextFilters {
   const maxMinutes = params.get('max_minutes') ?? '';
   const minMinutes = params.get('min_minutes') ?? '';
   const noProject = params.get('no_project') === 'true';
+  const overdue = params.get('overdue') === 'true';
 
   const patch = (entries: Record<string, string>) => {
     setParams(
@@ -43,10 +46,12 @@ export function useNextFilters(): NextFilters {
     maxMinutes,
     minMinutes,
     noProject,
+    overdue,
     setContexts: (updater) => patch({ contexts: updater(contexts).join(',') }),
     setEnergy: (e) => patch({ energy: e }),
     setMaxMinutes: (s) => patch({ max_minutes: s, min_minutes: '' }),
     setMinMinutes: (s) => patch({ min_minutes: s, max_minutes: '' }),
     setNoProject: (v) => patch({ no_project: v ? 'true' : '' }),
+    setOverdue: (v) => patch({ overdue: v ? 'true' : '' }),
   };
 }

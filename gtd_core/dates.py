@@ -27,6 +27,10 @@ _DATEPARSER_SETTINGS: dict[str, Any] = {
 }
 
 
+def is_overdue(due: date | None, today: date) -> bool:
+    return due is not None and due <= today
+
+
 def parse_human_date(value: Any) -> date | None:
     if value is None:
         return None

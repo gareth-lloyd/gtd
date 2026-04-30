@@ -148,7 +148,11 @@ function CollapsedCard({
           <span className="chip">{item.time_minutes}m</span>
         )}
         {item.area && <span className="chip">{item.area}</span>}
-        {item.due && <span className="chip">due {item.due}</span>}
+        {item.due && (
+          <span className={`chip${item.overdue ? ' chip-overdue' : ''}`}>
+            due {item.due}
+          </span>
+        )}
         {item.defer_until && (
           <span className="chip">defer {formatDeferChip(item.defer_until)}</span>
         )}

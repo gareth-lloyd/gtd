@@ -351,6 +351,87 @@ class TestFilterNext:
         svc.update("work", a.id, {"defer_until": datetime(2026, 4, 10, 15, 0)})
         assert svc.filter_next("work") == []
 
+    def test_overdue_overrides_defer(self, svc):
+        # An item past its due date must surface even if deferred — otherwise
+        # a typo in defer_until silently hides a missed deadline.
+        a = svc.capture("work", "Overdue but deferred")
+        svc.move("work", a.id, Bucket.NEXT)
+        svc.update(
+            "work",
+            a.id,
+            {"due": "2026-04-09", "defer_until": datetime(2026, 6, 1, 9, 0)},
+        )
+        assert {r.id for r in svc.filter_next("work")} == {a.id}
+
+    def test_due_today_overrides_defer(self, svc):
+        # Same protection on the boundary: due today should not be hidden.
+        a = svc.capture("work", "Due today, deferred")
+        svc.move("work", a.id, Bucket.NEXT)
+        svc.update(
+            "work",
+            a.id,
+            {"due": "2026-04-10", "defer_until": datetime(2026, 6, 1, 9, 0)},
+        )
+        assert {r.id for r in svc.filter_next("work")} == {a.id}
+
+    def test_future_due_with_active_defer_still_hidden(self, svc):
+        # Defer still works when the deadline hasn't arrived yet.
+        a = svc.capture("work", "Due later, deferred")
+        svc.move("work", a.id, Bucket.NEXT)
+        svc.update(
+            "work",
+            a.id,
+            {"due": "2026-05-01", "defer_until": datetime(2026, 4, 20, 9, 0)},
+        )
+        assert svc.filter_next("work") == []
+
+
+class TestOverdueFilter:
+    """Filter by overdue (due ≤ today, where today comes from the injected clock)."""
+
+    def _seed(self, svc):
+        # svc clock is fixed to 2026-04-10. Three items in /next, mixed dueness.
+        past = svc.capture("work", "Past due")
+        svc.move("work", past.id, Bucket.NEXT)
+        svc.update("work", past.id, {"due": "2026-04-09"})
+        today = svc.capture("work", "Due today")
+        svc.move("work", today.id, Bucket.NEXT)
+        svc.update("work", today.id, {"due": "2026-04-10"})
+        future = svc.capture("work", "Due later")
+        svc.move("work", future.id, Bucket.NEXT)
+        svc.update("work", future.id, {"due": "2026-04-30"})
+        undated = svc.capture("work", "No due")
+        svc.move("work", undated.id, Bucket.NEXT)
+        return past, today, future, undated
+
+    def test_overdue_includes_today_and_past(self, svc):
+        past, today, *_ = self._seed(svc)
+        results = svc.list_items("work", bucket=Bucket.NEXT, overdue=True)
+        assert {r.id for r in results} == {past.id, today.id}
+
+    def test_overdue_off_returns_all(self, svc):
+        past, today, future, undated = self._seed(svc)
+        results = svc.list_items("work", bucket=Bucket.NEXT)
+        assert {r.id for r in results} == {past.id, today.id, future.id, undated.id}
+
+    def test_overdue_combines_with_other_filters(self, svc):
+        past, today, *_ = self._seed(svc)
+        svc.update("work", past.id, {"contexts": ["calls"]})
+        svc.update("work", today.id, {"contexts": ["computer"]})
+        results = svc.list_items(
+            "work", bucket=Bucket.NEXT, overdue=True, contexts=["calls"]
+        )
+        assert {r.id for r in results} == {past.id}
+
+    def test_overdue_works_in_other_buckets(self, svc):
+        # An item due yesterday in inbox should show up too.
+        a = svc.capture("work", "Inbox overdue")
+        svc.update("work", a.id, {"due": "2026-04-09"})
+        b = svc.capture("work", "Inbox future")
+        svc.update("work", b.id, {"due": "2026-05-01"})
+        results = svc.list_items("work", bucket=Bucket.INBOX, overdue=True)
+        assert {r.id for r in results} == {a.id}
+
 
 class TestActionsForProject:
     def test_returns_linked_items(self, svc):

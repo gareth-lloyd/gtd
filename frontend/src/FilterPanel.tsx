@@ -28,11 +28,13 @@ export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
     maxMinutes,
     minMinutes,
     noProject,
+    overdue,
     setContexts,
     setEnergy,
     setMaxMinutes,
     setMinMinutes,
     setNoProject,
+    setOverdue,
   } = useNextFilters();
 
   const isTimeActive = (t: TimeChoice) => {
@@ -120,6 +122,18 @@ export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
             onChange={(e) => setNoProject(e.target.checked)}
           />
           <span>No project</span>
+        </label>
+      </div>
+
+      <div className="filter-section">
+        <h3>Due</h3>
+        <label className="check-row">
+          <input
+            type="checkbox"
+            checked={overdue}
+            onChange={(e) => setOverdue(e.target.checked)}
+          />
+          <span>Overdue only</span>
         </label>
       </div>
     </div>

@@ -24,6 +24,8 @@ export interface Item {
   area: string | null;
   tags: string[];
   due: string | null;
+  /** Derived server-side: true when due ≤ today (today counts). */
+  overdue: boolean;
   defer_until: string | null;
   waiting_on: string | null;
   waiting_since: string | null;

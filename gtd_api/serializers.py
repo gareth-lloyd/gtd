@@ -1,17 +1,23 @@
+from django.utils.timezone import localdate
 from rest_framework import serializers
+
+from gtd_core.dates import is_overdue
 
 
 class ItemSerializer(serializers.Serializer):
     """Read-only representation of a gtd_core.models.Item.
 
-    Callers wanting `project_priority` populated must pass a
-    `projects_by_id` dict in context. Omitting it yields None.
+    Optional context:
+    - `projects_by_id` — dict for `project_priority` lookup. Omitting yields None.
+    - `today` — date used for `overdue` derivation. List callers should pass
+      one shared value to avoid an N×`localdate()` cost.
     """
 
     def to_representation(self, instance):
         projects_by_id = self.context.get("projects_by_id") or {}
         project = projects_by_id.get(instance.project) if instance.project else None
         project_priority = project.priority if project is not None else None
+        today = self.context.get("today") or localdate()
         return {
             "id": instance.id,
             "title": instance.title,
@@ -27,6 +33,7 @@ class ItemSerializer(serializers.Serializer):
             "area": instance.area,
             "tags": list(instance.tags),
             "due": instance.due.isoformat() if instance.due else None,
+            "overdue": is_overdue(instance.due, today),
             "defer_until": instance.defer_until.isoformat() if instance.defer_until else None,
             "waiting_on": instance.waiting_on,
             "waiting_since": instance.waiting_since.isoformat() if instance.waiting_since else None,

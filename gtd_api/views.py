@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils.timezone import localdate
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
@@ -80,11 +81,14 @@ def items(request: Request, env: str) -> Response:
             include_archive=params.get("include_archive") == "true",
             include_trash=params.get("include_trash") == "true",
             no_project=params.get("no_project") == "true",
+            overdue=params.get("overdue") == "true",
         )
         projects_by_id = {p.id: p for p in svc.list_projects(env, include_inactive=True)}
         return Response(
             ItemSerializer(
-                filtered, many=True, context={"projects_by_id": projects_by_id}
+                filtered,
+                many=True,
+                context={"projects_by_id": projects_by_id, "today": localdate()},
             ).data
         )
 

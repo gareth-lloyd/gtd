@@ -33,6 +33,7 @@ const nextItem: Item = {
   area: null,
   tags: [],
   due: null,
+  overdue: false,
   defer_until: null,
   waiting_on: null,
   waiting_since: null,

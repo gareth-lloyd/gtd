@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 import git
 import pytest
 from rest_framework.test import APIClient
@@ -260,6 +262,60 @@ class TestItems:
         r = api.get("/api/envs/work/items/?status=next&min_minutes=120")
         ids = {i["id"] for i in r.json()}
         assert ids == {b["id"]}
+
+    def test_serializer_emits_overdue_flag(self, api):
+        today = date.today()
+        past = api.post("/api/envs/work/items/", {"title": "Past"}, format="json").json()
+        api.patch(
+            f"/api/envs/work/items/{past['id']}/",
+            {"due": (today - timedelta(days=1)).isoformat()},
+            format="json",
+        )
+        future = api.post("/api/envs/work/items/", {"title": "Future"}, format="json").json()
+        api.patch(
+            f"/api/envs/work/items/{future['id']}/",
+            {"due": (today + timedelta(days=14)).isoformat()},
+            format="json",
+        )
+        undated = api.post("/api/envs/work/items/", {"title": "None"}, format="json").json()
+
+        items = {i["id"]: i for i in api.get("/api/envs/work/items/").json()}
+        assert items[past["id"]]["overdue"] is True
+        assert items[future["id"]]["overdue"] is False
+        assert items[undated["id"]]["overdue"] is False
+
+    def test_serializer_overdue_true_when_due_is_today(self, api):
+        item = api.post("/api/envs/work/items/", {"title": "Today"}, format="json").json()
+        api.patch(
+            f"/api/envs/work/items/{item['id']}/",
+            {"due": date.today().isoformat()},
+            format="json",
+        )
+        items = {i["id"]: i for i in api.get("/api/envs/work/items/").json()}
+        assert items[item["id"]]["overdue"] is True
+
+    def test_filter_overdue_only(self, api):
+        today = date.today()
+        past = api.post("/api/envs/work/items/", {"title": "Past"}, format="json").json()
+        api.post(f"/api/envs/work/items/{past['id']}/move/", {"to": "next"}, format="json")
+        api.patch(
+            f"/api/envs/work/items/{past['id']}/",
+            {"due": (today - timedelta(days=2)).isoformat()},
+            format="json",
+        )
+        future = api.post("/api/envs/work/items/", {"title": "Future"}, format="json").json()
+        api.post(f"/api/envs/work/items/{future['id']}/move/", {"to": "next"}, format="json")
+        api.patch(
+            f"/api/envs/work/items/{future['id']}/",
+            {"due": (today + timedelta(days=7)).isoformat()},
+            format="json",
+        )
+        undated = api.post("/api/envs/work/items/", {"title": "Undated"}, format="json").json()
+        api.post(f"/api/envs/work/items/{undated['id']}/move/", {"to": "next"}, format="json")
+
+        r = api.get("/api/envs/work/items/?status=next&overdue=true")
+        ids = {i["id"] for i in r.json()}
+        assert ids == {past["id"]}
 
     def test_next_items_include_project_priority(self, api):
         api.post(

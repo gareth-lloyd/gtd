@@ -18,6 +18,7 @@ function mkItem(overrides: Partial<Item> = {}): Item {
     area: null,
     tags: [],
     due: null,
+    overdue: false,
     defer_until: null,
     waiting_on: null,
     waiting_since: null,

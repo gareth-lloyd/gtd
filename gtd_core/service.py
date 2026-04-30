@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
-from gtd_core.dates import parse_human_date, parse_human_datetime
+from gtd_core.dates import is_overdue, parse_human_date, parse_human_datetime
 from gtd_core.models import Bucket, EnvConfig, Item, Project
 from gtd_core.repository import EnvRepository
 
@@ -233,9 +233,15 @@ class GtdService:
         actions). Takes precedence over `project` if both are set.
         """
         now = self._now()
+        today = now.date()
         results = []
         for item in items:
-            if not include_deferred and item.defer_until and item.defer_until > now:
+            # Defer hides an item until its defer_until — except when its due
+            # date has already arrived. Otherwise a stale defer_until could
+            # silently swallow a missed deadline.
+            deferred = item.defer_until and item.defer_until > now
+            due_reached = item.due and item.due <= today
+            if not include_deferred and deferred and not due_reached:
                 continue
             if contexts and not (set(item.contexts) & set(contexts)):
                 continue
@@ -321,6 +327,7 @@ class GtdService:
         include_archive: bool = False,
         include_trash: bool = False,
         no_project: bool = False,
+        overdue: bool = False,
     ) -> list[Item]:
         items = self.repo(env).list_items(
             bucket=bucket,
@@ -337,6 +344,9 @@ class GtdService:
             include_deferred=include_deferred,
             no_project=no_project,
         )
+        if overdue:
+            today = self._now().date()
+            filtered = [i for i in filtered if is_overdue(i.due, today)]
         if respect_next_cap:
             projects_by_id = {p.id: p for p in self.repo(env).list_projects(include_inactive=True)}
             filtered = apply_next_item_cap(filtered, projects_by_id)
