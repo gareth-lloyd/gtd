@@ -67,6 +67,56 @@ class TestCapture:
             svc.capture("work", "Test", contexts=["bogus"])
 
 
+class TestCaptureAtTop:
+    def _svc_at(self, data_root, when: datetime) -> GtdService:
+        return GtdService(data_root, now=lambda: when)
+
+    def test_default_capture_leaves_order_null(self, svc):
+        item = svc.capture("work", "Default")
+        assert item.order is None
+
+    def test_at_top_sets_negative_order_when_inbox_empty(self, svc):
+        item = svc.capture("work", "First", at_top=True)
+        assert item.order == -1
+
+    def test_consecutive_at_top_stack_with_decreasing_order(self, data_root):
+        svc1 = self._svc_at(data_root, datetime(2026, 4, 10, 9, 0))
+        first = svc1.capture("work", "First", at_top=True)
+        svc2 = self._svc_at(data_root, datetime(2026, 4, 10, 10, 0))
+        second = svc2.capture("work", "Second", at_top=True)
+        assert first.order == -1
+        assert second.order == -2  # newer top-capture floats above older
+
+    def test_at_top_ignores_unordered_inbox_items(self, data_root):
+        svc1 = self._svc_at(data_root, datetime(2026, 4, 10, 9, 0))
+        svc1.capture("work", "Bottom A")
+        svc2 = self._svc_at(data_root, datetime(2026, 4, 10, 10, 0))
+        top = svc2.capture("work", "Top", at_top=True)
+        assert top.order == -1
+
+    def test_inbox_listing_sorts_top_captures_first(self, data_root):
+        svc1 = self._svc_at(data_root, datetime(2026, 4, 10, 9, 0))
+        a = svc1.capture("work", "First bottom")
+        svc2 = self._svc_at(data_root, datetime(2026, 4, 10, 10, 0))
+        b = svc2.capture("work", "Second bottom")
+        svc3 = self._svc_at(data_root, datetime(2026, 4, 10, 11, 0))
+        c = svc3.capture("work", "Top one", at_top=True)
+        listed = svc3.list_items("work", bucket=Bucket.INBOX)
+        ids = [i.id for i in listed]
+        assert ids[0] == c.id
+        assert ids[1:] == [a.id, b.id]
+
+    def test_order_preserved_when_moving_out_of_inbox(self, svc):
+        # The negative order means "user wanted this near the top". Preserve
+        # it so the intent carries into next/waiting/etc — _item_sort_key
+        # treats negative orders as sorting before any positive (reorder-
+        # assigned) order, which lands the item first inside its destination.
+        item = svc.capture("work", "Top thing", at_top=True)
+        assert item.order == -1
+        moved = svc.move("work", item.id, Bucket.NEXT)
+        assert moved.order == -1
+
+
 class TestMove:
     def test_move_to_next(self, svc):
         item = svc.capture("work", "Test")

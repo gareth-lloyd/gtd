@@ -179,6 +179,42 @@ describe('ItemCard selected — debounced title', () => {
   });
 });
 
+describe('ItemCard URL link chips', () => {
+  it('keeps URL link chips visible below the editor when the card is selected', async () => {
+    const user = userEvent.setup();
+    const withUrl: Item = {
+      ...baseItem,
+      body: 'see https://example.com/foo for context',
+    };
+    const { container } = renderCard(withUrl);
+
+    // Visible while collapsed (the chip — the markdown body also renders an
+    // anchor for the URL, so query by the chip class explicitly)
+    expect(container.querySelector('.link-chip')).not.toBeNull();
+
+    await user.click(screen.getByText('Write release notes'));
+
+    expect(screen.getByDisplayValue('Write release notes')).toBeDefined();
+    const chip = container.querySelector('.link-chip') as HTMLAnchorElement | null;
+    expect(chip).not.toBeNull();
+    expect(chip!.getAttribute('href')).toBe('https://example.com/foo');
+  });
+
+  it('reflects newly-typed URLs in the body textarea immediately', async () => {
+    const user = userEvent.setup();
+    const { container } = renderCard(baseItem);
+    await user.click(screen.getByText('Write release notes'));
+
+    const textarea = screen.getByPlaceholderText(/Notes/i) as HTMLTextAreaElement;
+    fireEvent.change(textarea, {
+      target: { value: 'check https://newsite.test/x' },
+    });
+    const chip = container.querySelector('.link-chip') as HTMLAnchorElement | null;
+    expect(chip).not.toBeNull();
+    expect(chip!.getAttribute('href')).toBe('https://newsite.test/x');
+  });
+});
+
 describe('ItemCard scheduled readonly mode', () => {
   function localIso(offsetMs: number): string {
     // Produce a local-time ISO-like string matching what our backend emits.

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { Project } from './api';
-import { fmtDate, generateProjectId, slugify, sortProjects } from './format';
+import { fmtDate, fmtMinutes, generateProjectId, slugify, sortProjects } from './format';
 
 function mkProject(overrides: Partial<Project> = {}): Project {
   return {
@@ -79,6 +79,24 @@ describe('fmtDate', () => {
 
   it('returns empty string for empty input', () => {
     expect(fmtDate('')).toBe('');
+  });
+});
+
+describe('fmtMinutes', () => {
+  it('renders 0 explicitly', () => {
+    expect(fmtMinutes(0)).toBe('0m');
+  });
+  it('renders sub-hour values in minutes', () => {
+    expect(fmtMinutes(5)).toBe('5m');
+    expect(fmtMinutes(45)).toBe('45m');
+  });
+  it('renders whole hours without minutes', () => {
+    expect(fmtMinutes(60)).toBe('1h');
+    expect(fmtMinutes(180)).toBe('3h');
+  });
+  it('renders mixed hours and minutes', () => {
+    expect(fmtMinutes(65)).toBe('1h 5m');
+    expect(fmtMinutes(125)).toBe('2h 5m');
   });
 });
 

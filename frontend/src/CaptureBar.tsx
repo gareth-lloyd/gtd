@@ -6,7 +6,17 @@ import { toasts } from './toast';
 import { sortProjects } from './format';
 import { invalidateProjectQueries } from './ItemEdit';
 
-export type CaptureMode = 'regular' | 'ai';
+export type CaptureMode = 'regular' | 'regular-top' | 'ai';
+
+const MODES: ReadonlyArray<{ value: CaptureMode; label: string; title?: string }> = [
+  { value: 'regular', label: 'Regular' },
+  {
+    value: 'regular-top',
+    label: 'Regular ↑',
+    title: 'Capture and float to the top of the inbox (Shift+C)',
+  },
+  { value: 'ai', label: 'AI ✦' },
+];
 
 export function isEditableTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
@@ -51,15 +61,17 @@ export function CaptureBar({
     queryFn: () => api.listProjects(env, false),
   });
 
+  const isRegular = mode === 'regular' || mode === 'regular-top';
+
   useEffect(() => {
-    if (mode === 'regular') {
+    if (isRegular) {
       titleRef.current?.focus();
       titleRef.current?.select();
     } else {
       aiRef.current?.focus();
       aiRef.current?.select();
     }
-  }, [focusTick, mode]);
+  }, [focusTick, isRegular]);
 
   const invalidateAfterCapture = (assignedProjectId?: string | null) => {
     qc.invalidateQueries({ queryKey: ['items', env] });
@@ -75,6 +87,7 @@ export function CaptureBar({
       const item = await api.captureItem(env, title.trim(), notes, {
         energy: 'low',
         time_minutes: 5,
+        at_top: mode === 'regular-top',
       });
       if (projectId) {
         await api.updateItem(env, item.id, { project: projectId });
@@ -113,22 +126,18 @@ export function CaptureBar({
 
   const ModeToggle = (
     <div className="capture-mode chip-toggle-group">
-      <button
-        type="button"
-        className="chip-toggle"
-        aria-pressed={mode === 'regular'}
-        onClick={() => onModeChange('regular')}
-      >
-        Regular
-      </button>
-      <button
-        type="button"
-        className="chip-toggle"
-        aria-pressed={mode === 'ai'}
-        onClick={() => onModeChange('ai')}
-      >
-        AI ✦
-      </button>
+      {MODES.map((opt) => (
+        <button
+          key={opt.value}
+          type="button"
+          className="chip-toggle"
+          aria-pressed={mode === opt.value}
+          onClick={() => onModeChange(opt.value)}
+          title={opt.title}
+        >
+          {opt.label}
+        </button>
+      ))}
     </div>
   );
 
@@ -226,7 +235,9 @@ export function CaptureBar({
           </select>
         </label>
         <div className="capture-hint">
-          → {destination} · energy=low · time=5min
+          → {destination}
+          {mode === 'regular-top' && !projectId ? ' (top)' : ''}
+          {' · energy=low · time=5min'}
         </div>
       </div>
     </form>

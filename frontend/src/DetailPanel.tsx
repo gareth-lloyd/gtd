@@ -16,13 +16,17 @@ import { Button } from './Button';
 import { WorkflowActions } from './WorkflowActions';
 import { useSelection } from './SelectionContext';
 
+// Experiment flag: hover renders the full editor; click pins selection.
+const HOVER_SHOWS_FULL_CONTROLS = true;
+
 export function DetailPanel({ env }: { env: string }) {
   const { selectedId, hoveredId, hoveredCardTop } = useSelection();
+  const activeId = selectedId ?? (HOVER_SHOWS_FULL_CONTROLS ? hoveredId : null);
 
-  if (selectedId) {
+  if (activeId) {
     return (
       <div className="detail-panel">
-        <SelectedDetail env={env} itemId={selectedId} />
+        <SelectedDetail env={env} itemId={activeId} />
       </div>
     );
   }

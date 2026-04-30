@@ -89,6 +89,27 @@ function extractUrls(text: string): string[] {
   return [...new Set(matches)];
 }
 
+function ItemLinks({ body }: { body: string }) {
+  const urls = body ? extractUrls(body) : [];
+  if (urls.length === 0) return null;
+  return (
+    <div className="item-links">
+      {urls.map((url) => (
+        <a
+          key={url}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link-chip"
+          title={url}
+        >
+          {formatUrl(url)}
+        </a>
+      ))}
+    </div>
+  );
+}
+
 function CollapsedCard({
   item,
   projects,
@@ -97,7 +118,6 @@ function CollapsedCard({
   projects: Project[] | undefined;
 }) {
   const project = projects?.find((p) => p.id === item.project) ?? null;
-  const urls = item.body ? extractUrls(item.body) : [];
 
   return (
     <>
@@ -109,22 +129,7 @@ function CollapsedCard({
           </ReactMarkdown>
         </div>
       )}
-      {urls.length > 0 && (
-        <div className="item-links">
-          {urls.map((url) => (
-            <a
-              key={url}
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-chip"
-              title={url}
-            >
-              {formatUrl(url)}
-            </a>
-          ))}
-        </div>
-      )}
+      <ItemLinks body={item.body} />
       <div className="item-meta">
         {item.status !== 'next' && <span className="chip">{item.status}</span>}
         {project && <span className="chip project-chip">📁 {project.title}</span>}
@@ -234,6 +239,7 @@ function SelectedInListCard({
         onKeyDown={saveAndDeselect}
         placeholder="Notes (markdown)…"
       />
+      <ItemLinks body={localBody} />
     </div>
   );
 }

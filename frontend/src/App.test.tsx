@@ -42,6 +42,30 @@ vi.mock('./api', () => ({
     snapshotStatus: vi.fn().mockResolvedValue({ dirty_count: 0, dirty_files: [] }),
     listProjects: vi.fn().mockResolvedValue([]),
     listSearchCorpus: vi.fn().mockResolvedValue({ items: [], projects: [] }),
+    captureItem: vi.fn().mockResolvedValue({
+      id: 'capture-1',
+      title: 'New thing',
+      body: '',
+      created: '2026-04-29T12:00:00',
+      updated: '2026-04-29T12:00:00',
+      status: 'inbox',
+      contexts: [],
+      energy: 'low',
+      time_minutes: 5,
+      project: null,
+      project_priority: null,
+      area: null,
+      tags: [],
+      due: null,
+      defer_until: null,
+      waiting_on: null,
+      waiting_since: null,
+      order: -1,
+      source_id: null,
+    }),
+    captureItemAi: vi.fn(),
+    updateItem: vi.fn(),
+    moveItem: vi.fn(),
   },
 }));
 
@@ -225,5 +249,54 @@ describe('Search', () => {
     const inputs = await screen.findAllByPlaceholderText(/search/i);
     // header search + page search input
     expect(inputs.length).toBeGreaterThanOrEqual(1);
+  });
+});
+
+describe('Capture-at-top shortcut', () => {
+  beforeEach(async () => {
+    localStorage.setItem('gtd:env', 'work');
+    const { api } = await import('./api');
+    vi.mocked(api.captureItem).mockClear();
+  });
+
+  it('Shift+C captures with at_top: true', async () => {
+    const { api } = await import('./api');
+    const user = userEvent.setup();
+    renderApp('/work/inbox');
+    await screen.findByPlaceholderText(/search/i);
+
+    // Press Shift+C — keys press uppercase 'C' with shiftKey true
+    await user.keyboard('{Shift>}c{/Shift}');
+
+    const titleInput = await screen.findByPlaceholderText(/Capture to inbox/i);
+    await user.type(titleInput, 'Urgent thing');
+    await user.keyboard('{Meta>}{Enter}{/Meta}');
+
+    await vi.waitFor(() => {
+      expect(api.captureItem).toHaveBeenCalledTimes(1);
+    });
+    const lastCall = vi.mocked(api.captureItem).mock.calls.at(-1)!;
+    const extras = lastCall[3] as { at_top?: boolean };
+    expect(extras.at_top).toBe(true);
+  });
+
+  it('plain C captures with at_top: false', async () => {
+    const { api } = await import('./api');
+    const user = userEvent.setup();
+    renderApp('/work/inbox');
+    await screen.findByPlaceholderText(/search/i);
+
+    await user.keyboard('c');
+
+    const titleInput = await screen.findByPlaceholderText(/Capture to inbox/i);
+    await user.type(titleInput, 'Routine');
+    await user.keyboard('{Meta>}{Enter}{/Meta}');
+
+    await vi.waitFor(() => {
+      expect(api.captureItem).toHaveBeenCalledTimes(1);
+    });
+    const lastCall = vi.mocked(api.captureItem).mock.calls.at(-1)!;
+    const extras = lastCall[3] as { at_top?: boolean };
+    expect(extras.at_top).toBe(false);
   });
 });

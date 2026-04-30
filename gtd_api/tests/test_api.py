@@ -70,6 +70,23 @@ class TestItems:
         assert r.status_code == 201
         assert r.json()["body"] == "Some notes"
 
+    def test_capture_at_top_assigns_negative_order(self, api):
+        api.post("/api/envs/work/items/", {"title": "Bottom"}, format="json")
+        r = api.post(
+            "/api/envs/work/items/",
+            {"title": "Top", "at_top": True},
+            format="json",
+        )
+        assert r.status_code == 201
+        data = r.json()
+        assert data["title"] == "Top"
+        assert data["order"] == -1
+
+        listing = api.get("/api/envs/work/items/?status=inbox").json()
+        titles = [i["title"] for i in listing]
+        assert titles[0] == "Top"
+        assert "Bottom" in titles[1:]
+
     def test_capture_with_source_id_persists_it(self, api):
         url = "https://github.com/canary-technologies-corp/canary/pull/40386"
         r = api.post(

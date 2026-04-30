@@ -19,6 +19,15 @@ export function fmtDate(iso: string): string {
   return iso.slice(0, 10);
 }
 
+export function fmtMinutes(m: number): string {
+  if (m === 0) return '0m';
+  const h = Math.floor(m / 60);
+  const mm = m % 60;
+  if (h === 0) return `${mm}m`;
+  if (mm === 0) return `${h}h`;
+  return `${h}h ${mm}m`;
+}
+
 export function sortProjects(projects: Project[]): Project[] {
   return [...projects].sort((a, b) => {
     const pa = a.priority ?? 99;

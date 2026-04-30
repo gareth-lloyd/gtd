@@ -1065,6 +1065,30 @@ button.danger:hover {
   flex-basis: 100%;
 }
 
+.project-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0.5rem;
+  font-size: 0.8rem;
+}
+.project-stats .chip {
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: var(--surface-soft);
+}
+.project-stats .stat-total {
+  font-weight: 600;
+}
+.project-stats .stat-energy-low    { background: #f3f1ec; }
+.project-stats .stat-energy-medium { background: #e9efe6; }
+.project-stats .stat-energy-high   { background: #efe2dc; }
+.project-stats .stat-energy-unset  { color: var(--muted); }
+.project-stats .stat-count {
+  opacity: 0.7;
+  margin-left: 0.15rem;
+}
+
 .priority-badge {
   font-size: 0.65rem;
   text-transform: uppercase;

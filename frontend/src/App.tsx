@@ -116,9 +116,10 @@ function AppShell() {
       }
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (isEditableTarget(e.target)) return;
-      if (e.key === 'c') {
+      if (e.shiftKey && e.key.toLowerCase() !== 'c') return;
+      if (e.key === 'c' || e.key === 'C') {
         e.preventDefault();
-        setCaptureMode('regular');
+        setCaptureMode(e.shiftKey ? 'regular-top' : 'regular');
         setCaptureOpen(true);
         bumpCaptureFocus();
       } else if (e.key === 'a') {

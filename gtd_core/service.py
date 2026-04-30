@@ -53,6 +53,7 @@ class GtdService:
         time_minutes: int | None = None,
         contexts: list[str] | None = None,
         source_id: str | None = None,
+        at_top: bool = False,
     ) -> Item:
         repo = self.repo(env)
         if contexts:
@@ -63,6 +64,14 @@ class GtdService:
 
         now = self._now()
         item_id = make_item_id(now, title)
+        order: int | None = None
+        if at_top:
+            existing = repo.list_items(bucket=Bucket.INBOX)
+            min_order = min(
+                (i.order for i in existing if i.order is not None),
+                default=0,
+            )
+            order = min_order - 1
         item = Item(
             id=item_id,
             title=title,
@@ -74,6 +83,7 @@ class GtdService:
             time_minutes=time_minutes,
             contexts=list(contexts) if contexts else [],
             source_id=source_id,
+            order=order,
         )
         repo.save(item)
         return item
@@ -314,6 +324,10 @@ class GtdService:
             projects_by_id = {p.id: p for p in self.repo(env).list_projects(include_inactive=True)}
             filtered = apply_next_item_cap(filtered, projects_by_id)
             filtered = sort_next_items(filtered, projects_by_id)
+        elif bucket is Bucket.INBOX:
+            # Items captured "at top" carry a negative `order` so they sort
+            # ahead of the natural creation-order tail.
+            filtered = sorted(filtered, key=_item_sort_key)
         return filtered
 
     # ---- Projects ----

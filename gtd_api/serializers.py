@@ -103,6 +103,7 @@ class CaptureSerializer(serializers.Serializer):
         child=serializers.CharField(), required=False
     )
     source_id = serializers.CharField(required=False, allow_null=True, allow_blank=False)
+    at_top = serializers.BooleanField(required=False, default=False)
 
 
 class CaptureAiSerializer(serializers.Serializer):

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Link,
@@ -26,9 +26,35 @@ import { CSS } from '@dnd-kit/utilities';
 import { api, type Item, type Project } from './api';
 import { Button } from './Button';
 import { ItemCard } from './ItemCard';
-import { fmtDate, generateProjectId, sortProjects } from './format';
+import { fmtDate, fmtMinutes, generateProjectId, sortProjects } from './format';
 import { invalidateProjectQueries } from './ItemEdit';
 import { useEnvParam } from './useEnvParam';
+
+type EnergyKey = 'low' | 'medium' | 'high' | 'unset';
+
+export interface ProjectStats {
+  totalMinutes: number;
+  totalCount: number;
+  byEnergy: Record<EnergyKey, { count: number; minutes: number }>;
+}
+
+export function computeProjectStats(actions: Item[]): ProjectStats {
+  const byEnergy: ProjectStats['byEnergy'] = {
+    low: { count: 0, minutes: 0 },
+    medium: { count: 0, minutes: 0 },
+    high: { count: 0, minutes: 0 },
+    unset: { count: 0, minutes: 0 },
+  };
+  let totalMinutes = 0;
+  for (const a of actions) {
+    const m = a.time_minutes ?? 0;
+    totalMinutes += m;
+    const k: EnergyKey = a.energy ?? 'unset';
+    byEnergy[k].count += 1;
+    byEnergy[k].minutes += m;
+  }
+  return { totalMinutes, totalCount: actions.length, byEnergy };
+}
 
 export const PRIORITY_LABELS: Record<number, string> = {
   1: 'P1 critical',
@@ -146,6 +172,30 @@ export function ProjectsView() {
   );
 }
 
+function ProjectStatsRow({ stats }: { stats: ProjectStats }) {
+  const energyOrder: EnergyKey[] = ['high', 'medium', 'low'];
+  return (
+    <div className="project-stats">
+      <span className="chip stat-total">
+        ⏱ {fmtMinutes(stats.totalMinutes)} total
+      </span>
+      {energyOrder.map((k) =>
+        stats.byEnergy[k].count > 0 ? (
+          <span key={k} className={`chip stat-energy stat-energy-${k}`}>
+            ⚡ {k} · {fmtMinutes(stats.byEnergy[k].minutes)}
+            <span className="stat-count"> ({stats.byEnergy[k].count})</span>
+          </span>
+        ) : null,
+      )}
+      {stats.byEnergy.unset.count > 0 && (
+        <span className="chip stat-energy stat-energy-unset">
+          no energy · {stats.byEnergy.unset.count}
+        </span>
+      )}
+    </div>
+  );
+}
+
 export function ProjectDetailView() {
   const env = useEnvParam();
   const { projectId = '' } = useParams<{ projectId: string }>();
@@ -172,7 +222,12 @@ export function ProjectDetailView() {
     },
   });
 
-  if (isLoading || !data) return <div className="empty">Loading…</div>;
+  const stats = useMemo(
+    () => (data ? computeProjectStats(data.actions) : null),
+    [data],
+  );
+
+  if (isLoading || !data || !stats) return <div className="empty">Loading…</div>;
 
   const { project, actions } = data;
   const isDone = project.status === 'complete' || project.status === 'dropped';
@@ -187,6 +242,7 @@ export function ProjectDetailView() {
         {project.title}
         <ProjectBadges project={project} />
       </h2>
+      {actions.length > 0 && <ProjectStatsRow stats={stats} />}
       <div className="project-meta">
         {project.outcome && <span className="outcome">{project.outcome}</span>}
         {project.due && <span className="chip">due {project.due}</span>}
