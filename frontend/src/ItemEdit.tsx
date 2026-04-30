@@ -40,6 +40,7 @@ export function invalidateItemQueries(
   itemId: string,
 ) {
   qc.invalidateQueries({ queryKey: ['items', env] });
+  qc.invalidateQueries({ queryKey: ['items-done', env] });
   qc.invalidateQueries({ queryKey: ['item', env, itemId] });
   qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
   qc.invalidateQueries({ queryKey: ['snapshot-status'] });
@@ -354,6 +355,19 @@ export function isScheduled(item: { defer_until: string | null }): boolean {
   const d = new Date(item.defer_until);
   if (Number.isNaN(d.getTime())) return false;
   return d > new Date();
+}
+
+/**
+ * Mirrors backend `_is_hidden_by_defer`: an item is hidden by defer when its
+ * defer_until is in the future AND its due date hasn't arrived. Overdue items
+ * stay visible so a stale defer_until can't swallow a missed deadline.
+ */
+export function isHiddenByDefer(item: {
+  defer_until: string | null;
+  overdue: boolean;
+}): boolean {
+  if (item.overdue) return false;
+  return isScheduled(item);
 }
 
 interface DateTimePickerRowProps {

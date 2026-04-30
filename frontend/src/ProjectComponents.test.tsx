@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import type { Item } from './api';
-import { computeProjectStats } from './ProjectComponents';
+import { computeProjectStats, computeReorderedFullIds } from './ProjectComponents';
 
 function mkItem(overrides: Partial<Item> = {}): Item {
   return {
@@ -62,5 +62,34 @@ describe('computeProjectStats', () => {
     ]);
     expect(stats.totalMinutes).toBe(0);
     expect(stats.byEnergy.medium).toEqual({ count: 1, minutes: 0 });
+  });
+});
+
+describe('computeReorderedFullIds', () => {
+  it('passes through when nothing is hidden', () => {
+    const visible = new Set(['a', 'b', 'c']);
+    const result = computeReorderedFullIds(['a', 'b', 'c'], visible, ['c', 'a', 'b']);
+    expect(result).toEqual(['c', 'a', 'b']);
+  });
+
+  it('keeps hidden items in their absolute slots when visibles move', () => {
+    // full: [A, B(hidden), C, D(hidden), E]; user drags E above A → [E, A, C]
+    const visible = new Set(['A', 'C', 'E']);
+    const result = computeReorderedFullIds(
+      ['A', 'B', 'C', 'D', 'E'],
+      visible,
+      ['E', 'A', 'C'],
+    );
+    expect(result).toEqual(['E', 'B', 'A', 'D', 'C']);
+  });
+
+  it('preserves first-and-last hidden items', () => {
+    const visible = new Set(['B', 'C']);
+    const result = computeReorderedFullIds(
+      ['A', 'B', 'C', 'D'],
+      visible,
+      ['C', 'B'],
+    );
+    expect(result).toEqual(['A', 'C', 'B', 'D']);
   });
 });

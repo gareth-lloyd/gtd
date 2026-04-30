@@ -5,6 +5,7 @@ import {
   NavLink,
   useNavigate,
   useParams,
+  useSearchParams,
 } from 'react-router-dom';
 import {
   DndContext,
@@ -27,7 +28,7 @@ import { api, type Item, type Project } from './api';
 import { Button } from './Button';
 import { ItemCard } from './ItemCard';
 import { fmtDate, fmtMinutes, generateProjectId, sortProjects } from './format';
-import { invalidateProjectQueries } from './ItemEdit';
+import { invalidateProjectQueries, isHiddenByDefer } from './ItemEdit';
 import { useEnvParam } from './useEnvParam';
 
 type EnergyKey = 'low' | 'medium' | 'high' | 'unset';
@@ -202,9 +203,16 @@ export function ProjectDetailView() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [editing, setEditing] = useState(false);
+  const [params, setParams] = useSearchParams();
+  const includeDeferred = params.get('include_deferred') === 'true';
+  // Always fetch the full action list — drag-to-reorder needs every item so
+  // hidden deferred items keep their slots. The checkbox toggles a render-time
+  // filter, not the API call.
+  // Always fetch the full action list — drag-reorder needs hidden items to
+  // preserve their slots. The "Show deferred" toggle is a render-time filter.
   const { data, isLoading } = useQuery({
-    queryKey: ['project', env, projectId],
-    queryFn: () => api.getProject(env, projectId),
+    queryKey: ['project', env, projectId, 'full'],
+    queryFn: () => api.getProject(env, projectId, true),
   });
 
   const invalidate = () => invalidateProjectQueries(qc, env, projectId);
@@ -230,6 +238,10 @@ export function ProjectDetailView() {
   if (isLoading || !data || !stats) return <div className="empty">Loading…</div>;
 
   const { project, actions } = data;
+  const visibleActions = includeDeferred
+    ? actions
+    : actions.filter((a) => !isHiddenByDefer(a));
+  const deferredHidden = actions.length - visibleActions.length;
   const isDone = project.status === 'complete' || project.status === 'dropped';
   const anyPending = statusMut.isPending || deleteMut.isPending;
 
@@ -249,6 +261,7 @@ export function ProjectDetailView() {
         {project.area && <span className="chip">{project.area}</span>}
         <span className="chip">
           {actions.length} action{actions.length !== 1 ? 's' : ''}
+          {!includeDeferred && deferredHidden > 0 && ` (${deferredHidden} deferred)`}
         </span>
         <span className="chip dates" title={`created ${fmtDate(project.created)}`}>
           updated {fmtDate(project.updated)}
@@ -309,8 +322,46 @@ export function ProjectDetailView() {
           onClose={() => setEditing(false)}
         />
       )}
-      <SortableActionList env={env} projectId={project.id} items={actions} />
+      {(deferredHidden > 0 || includeDeferred) && (
+        <div className="bucket-toolbar">
+          <label className="toggle">
+            <input
+              type="checkbox"
+              checked={includeDeferred}
+              onChange={(e) => {
+                const next = new URLSearchParams(params);
+                if (e.target.checked) next.set('include_deferred', 'true');
+                else next.delete('include_deferred');
+                setParams(next, { replace: true });
+              }}
+            />
+            Show deferred
+          </label>
+        </div>
+      )}
+      <SortableActionList
+        env={env}
+        projectId={project.id}
+        items={visibleActions}
+        allItems={actions}
+      />
     </div>
+  );
+}
+
+/**
+ * Walk the current full order, substituting `newVisible` into the slots
+ * currently occupied by visible items. Hidden items keep their absolute slot —
+ * visible items move around them.
+ */
+export function computeReorderedFullIds(
+  currentFull: string[],
+  visibleSet: Set<string>,
+  newVisible: string[],
+): string[] {
+  let cursor = 0;
+  return currentFull.map((id) =>
+    visibleSet.has(id) ? newVisible[cursor++] : id,
   );
 }
 
@@ -318,14 +369,28 @@ export function SortableActionList({
   env,
   projectId,
   items,
+  allItems,
 }: {
   env: string;
   projectId: string;
   items: Item[];
+  /**
+   * Full action list including any items hidden from rendering (e.g. deferred
+   * items when "Show deferred" is off). Reorder operates on this list so
+   * hidden items keep their slots and `order` values stay collision-free.
+   * Defaults to `items` for callers that don't filter.
+   */
+  allItems?: Item[];
 }) {
+  const fullItems = allItems ?? items;
   const qc = useQueryClient();
-  const [localOrder, setLocalOrder] = useState<string[] | null>(null);
-  const ids = localOrder ?? items.map((i) => i.id);
+  const [localFullOrder, setLocalFullOrder] = useState<string[] | null>(null);
+  // Lists are small (≤ ~50 items) and the parent re-renders on every action
+  // edit, so memoizing these buys nothing — the deps change reference each pass.
+  const visibleSet = new Set(items.map((i) => i.id));
+  const visibleIds = localFullOrder
+    ? localFullOrder.filter((id) => visibleSet.has(id))
+    : items.map((i) => i.id);
   const itemsById = new Map(items.map((i) => [i.id, i]));
   const { data: projects } = useQuery({
     queryKey: ['projects', env, false],
@@ -341,12 +406,12 @@ export function SortableActionList({
     mutationFn: (itemIds: string[]) =>
       api.reorderProjectItems(env, projectId, itemIds),
     onSuccess: () => {
-      setLocalOrder(null);
+      setLocalFullOrder(null);
       invalidateProjectQueries(qc, env, projectId);
       qc.invalidateQueries({ queryKey: ['items', env] });
     },
     onError: () => {
-      setLocalOrder(null);
+      setLocalFullOrder(null);
     },
   });
 
@@ -355,19 +420,21 @@ export function SortableActionList({
   function onDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-    const oldIndex = ids.indexOf(String(active.id));
-    const newIndex = ids.indexOf(String(over.id));
+    const oldIndex = visibleIds.indexOf(String(active.id));
+    const newIndex = visibleIds.indexOf(String(over.id));
     if (oldIndex < 0 || newIndex < 0) return;
-    const next = arrayMove(ids, oldIndex, newIndex);
-    setLocalOrder(next);
-    reorderMut.mutate(next);
+    const newVisible = arrayMove(visibleIds, oldIndex, newIndex);
+    const currentFull = localFullOrder ?? fullItems.map((i) => i.id);
+    const newFull = computeReorderedFullIds(currentFull, visibleSet, newVisible);
+    setLocalFullOrder(newFull);
+    reorderMut.mutate(newFull);
   }
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-      <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+      <SortableContext items={visibleIds} strategy={verticalListSortingStrategy}>
         <ul className="item-list sortable">
-          {ids.map((id) => {
+          {visibleIds.map((id) => {
             const item = itemsById.get(id);
             if (!item) return null;
             return (

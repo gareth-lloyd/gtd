@@ -192,6 +192,66 @@ class TestItems:
         assert r.status_code == 200
         assert r.json()["status"] == "archive"
 
+    def test_done_list_returns_only_archive_items(self, api):
+        a = api.post("/api/envs/work/items/", {"title": "A"}, format="json").json()
+        b = api.post("/api/envs/work/items/", {"title": "B"}, format="json").json()
+        api.post(f"/api/envs/work/items/{a['id']}/complete/")
+
+        r = api.get("/api/envs/work/items/done/")
+        assert r.status_code == 200
+        body = r.json()
+        ids = {i["id"] for i in body["items"]}
+        assert ids == {a["id"]}
+        assert b["id"] not in ids
+        assert body["total"] == 1
+        assert body["page"] == 1
+        assert body["has_next"] is False
+
+    def test_done_list_pagination(self, api):
+        ids = []
+        for n in range(5):
+            created = api.post(
+                "/api/envs/work/items/", {"title": f"T{n}"}, format="json"
+            ).json()
+            api.post(f"/api/envs/work/items/{created['id']}/complete/")
+            ids.append(created["id"])
+
+        r = api.get("/api/envs/work/items/done/?page=1&page_size=2")
+        body = r.json()
+        assert body["total"] == 5
+        assert body["page"] == 1
+        assert body["page_size"] == 2
+        assert body["has_next"] is True
+        assert len(body["items"]) == 2
+
+        last = api.get("/api/envs/work/items/done/?page=3&page_size=2").json()
+        assert last["has_next"] is False
+        assert len(last["items"]) == 1
+
+    def test_done_list_invalid_pagination(self, api):
+        r = api.get("/api/envs/work/items/done/?page=0")
+        assert r.status_code == 400
+        r = api.get("/api/envs/work/items/done/?page_size=0")
+        assert r.status_code == 400
+
+    def test_uncomplete_via_move_to_next(self, api):
+        # The frontend "uncomplete" button uses the existing move endpoint
+        # to send an archive item back to next.
+        created = api.post(
+            "/api/envs/work/items/", {"title": "Done thing"}, format="json"
+        ).json()
+        api.post(f"/api/envs/work/items/{created['id']}/complete/")
+        r = api.post(
+            f"/api/envs/work/items/{created['id']}/move/",
+            {"to": "next"},
+            format="json",
+        )
+        assert r.status_code == 200
+        assert r.json()["status"] == "next"
+
+        done = api.get("/api/envs/work/items/done/").json()
+        assert created["id"] not in {i["id"] for i in done["items"]}
+
     def test_delete_soft_deletes_to_trash(self, api):
         created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
         r = api.delete(f"/api/envs/work/items/{created['id']}/")
@@ -407,6 +467,29 @@ class TestProjects:
     def test_get_missing_project(self, api):
         r = api.get("/api/envs/work/projects/nope/")
         assert r.status_code == 404
+
+    def test_get_project_hides_deferred_by_default(self, api):
+        api.post(
+            "/api/envs/work/projects/",
+            {"id": "p1", "title": "Project one"},
+            format="json",
+        )
+        live = api.post("/api/envs/work/items/", {"title": "Live"}, format="json").json()
+        api.post(f"/api/envs/work/items/{live['id']}/move/", {"to": "next"}, format="json")
+        api.patch(f"/api/envs/work/items/{live['id']}/", {"project": "p1"}, format="json")
+        deferred = api.post("/api/envs/work/items/", {"title": "Deferred"}, format="json").json()
+        api.post(f"/api/envs/work/items/{deferred['id']}/move/", {"to": "next"}, format="json")
+        api.patch(
+            f"/api/envs/work/items/{deferred['id']}/",
+            {"project": "p1", "defer_until": "2099-01-01T09:00"},
+            format="json",
+        )
+
+        default = api.get("/api/envs/work/projects/p1/").json()
+        assert {a["id"] for a in default["actions"]} == {live["id"]}
+
+        full = api.get("/api/envs/work/projects/p1/?include_deferred=true").json()
+        assert {a["id"] for a in full["actions"]} == {live["id"], deferred["id"]}
 
     def test_list_hides_complete_by_default(self, api):
         api.post("/api/envs/work/projects/", {"id": "active1", "title": "Active"}, format="json")

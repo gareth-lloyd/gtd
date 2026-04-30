@@ -139,6 +139,42 @@ def items_capture_ai(request: Request, env: str) -> Response:
     )
 
 
+DONE_MAX_PAGE_SIZE = 200
+
+
+@api_view(["GET"])
+def items_done(request: Request, env: str) -> Response:
+    svc = _service()
+    if env not in svc.list_envs():
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    page = _parse_int(request.query_params.get("page"))
+    page_size = _parse_int(request.query_params.get("page_size"))
+    if page is None:
+        page = 1
+    if page_size is None:
+        page_size = 50
+    page_size = min(page_size, DONE_MAX_PAGE_SIZE)
+    try:
+        items, total = svc.list_done(env, page=page, page_size=page_size)
+    except ValueError as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    projects_by_id = {p.id: p for p in svc.list_projects(env, include_inactive=True)}
+    today = localdate()
+    return Response(
+        {
+            "items": ItemSerializer(
+                items,
+                many=True,
+                context={"projects_by_id": projects_by_id, "today": today},
+            ).data,
+            "page": page,
+            "page_size": page_size,
+            "total": total,
+            "has_next": page * page_size < total,
+        }
+    )
+
+
 @api_view(["GET", "PATCH", "DELETE"])
 def item_detail(request: Request, env: str, item_id: str) -> Response:
     svc = _service()
@@ -231,7 +267,10 @@ def project_detail(request: Request, env: str, project_id: str) -> Response:
         project = svc.get_project(env, project_id)
         if project is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        actions = svc.actions_for_project(env, project_id)
+        include_deferred = request.query_params.get("include_deferred") == "true"
+        actions = svc.actions_for_project(
+            env, project_id, include_deferred=include_deferred
+        )
         return Response(
             {
                 "project": ProjectSerializer(project).data,

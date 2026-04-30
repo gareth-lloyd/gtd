@@ -17,7 +17,7 @@ vi.mock('./toast', () => ({
 }));
 
 import { api } from './api';
-import { useItemPatch } from './ItemEdit';
+import { isHiddenByDefer, useItemPatch } from './ItemEdit';
 import { toasts } from './toast';
 
 const baseItem: Item = {
@@ -245,5 +245,26 @@ describe('useItemPatch — unmount safety', () => {
     });
     // Reaching this line without an unhandled rejection is the assertion.
     expect(true).toBe(true);
+  });
+});
+
+describe('isHiddenByDefer', () => {
+  it('is false when defer_until is null', () => {
+    expect(isHiddenByDefer({ defer_until: null, overdue: false })).toBe(false);
+  });
+
+  it('is true when defer_until is in the future and not overdue', () => {
+    const future = new Date(Date.now() + 86_400_000).toISOString();
+    expect(isHiddenByDefer({ defer_until: future, overdue: false })).toBe(true);
+  });
+
+  it('is false when defer_until is in the past', () => {
+    const past = new Date(Date.now() - 86_400_000).toISOString();
+    expect(isHiddenByDefer({ defer_until: past, overdue: false })).toBe(false);
+  });
+
+  it('is false when overdue, even if defer_until is in the future', () => {
+    const future = new Date(Date.now() + 86_400_000).toISOString();
+    expect(isHiddenByDefer({ defer_until: future, overdue: true })).toBe(false);
   });
 });

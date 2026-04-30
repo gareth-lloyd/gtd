@@ -21,7 +21,7 @@ import { CaptureBar, isEditableTarget, type CaptureMode } from './CaptureBar';
 import { FilterPanel } from './FilterPanel';
 import { SearchBar, SearchView } from './SearchComponents';
 import { ProjectNavLinks, ProjectsView, ProjectDetailView } from './ProjectComponents';
-import { BucketRoute, NextActionsView } from './ItemList';
+import { BucketRoute, DoneView, NextActionsView } from './ItemList';
 import { TemplatesView } from './TemplatesView';
 import { SelectionProvider, useSelection } from './SelectionContext';
 import { DetailPanel } from './DetailPanel';
@@ -35,6 +35,7 @@ type Section =
   | 'someday'
   | 'reference'
   | 'templates'
+  | 'done'
   | 'trash';
 
 const SECTIONS: Section[] = [
@@ -45,6 +46,7 @@ const SECTIONS: Section[] = [
   'someday',
   'reference',
   'templates',
+  'done',
   'trash',
 ];
 
@@ -61,6 +63,7 @@ export default function App() {
         <Route path="waiting" element={<BucketRoute bucket="waiting" />} />
         <Route path="someday" element={<BucketRoute bucket="someday" />} />
         <Route path="reference" element={<BucketRoute bucket="reference" />} />
+        <Route path="done" element={<DoneView />} />
         <Route path="trash" element={<BucketRoute bucket="trash" />} />
         <Route path="projects" element={<ProjectsView />} />
         <Route path="projects/:projectId" element={<ProjectDetailView />} />

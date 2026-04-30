@@ -126,6 +126,19 @@ export const api = {
     const qs = new URLSearchParams(params).toString();
     return request<Item[]>(`/envs/${env}/items/${qs ? '?' + qs : ''}`);
   },
+  listDoneItems: (env: string, page = 1, pageSize = 50) => {
+    const qs = new URLSearchParams({
+      page: String(page),
+      page_size: String(pageSize),
+    }).toString();
+    return request<{
+      items: Item[];
+      page: number;
+      page_size: number;
+      total: number;
+      has_next: boolean;
+    }>(`/envs/${env}/items/done/?${qs}`);
+  },
   getItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/`),
   captureItem: (
@@ -174,10 +187,12 @@ export const api = {
     const qs = includeInactive ? '?include_inactive=true' : '';
     return request<Project[]>(`/envs/${env}/projects/${qs}`);
   },
-  getProject: (env: string, id: string) =>
-    request<{ project: Project; actions: Item[] }>(
-      `/envs/${env}/projects/${id}/`
-    ),
+  getProject: (env: string, id: string, includeDeferred = false) => {
+    const qs = includeDeferred ? '?include_deferred=true' : '';
+    return request<{ project: Project; actions: Item[] }>(
+      `/envs/${env}/projects/${id}/${qs}`
+    );
+  },
   createProject: (
     env: string,
     data: {

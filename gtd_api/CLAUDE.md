@@ -53,7 +53,7 @@ POST   /api/envs/<env>/items/<id>/complete/      →archive
 POST   /api/envs/<env>/items/<id>/purge/         hard delete
 GET    /api/envs/<env>/projects/                 ?include_inactive=true
 POST   /api/envs/<env>/projects/
-GET    /api/envs/<env>/projects/<id>/            includes linked actions (sorted by order)
+GET    /api/envs/<env>/projects/<id>/            ?include_deferred= — actions hide deferred items by default
 PATCH  /api/envs/<env>/projects/<id>/
 DELETE /api/envs/<env>/projects/<id>/
 POST   /api/envs/<env>/projects/<id>/reorder/    {item_ids: [...]} — assigns order 1..N

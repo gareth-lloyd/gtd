@@ -7,6 +7,7 @@ urlpatterns = [
     path("envs/<str:env>/config/", views.env_config),
     path("envs/<str:env>/items/", views.items),
     path("envs/<str:env>/items/capture-ai/", views.items_capture_ai),
+    path("envs/<str:env>/items/done/", views.items_done),
     path("envs/<str:env>/items/<str:item_id>/", views.item_detail),
     path("envs/<str:env>/items/<str:item_id>/move/", views.item_move),
     path("envs/<str:env>/items/<str:item_id>/complete/", views.item_complete),

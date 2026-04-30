@@ -199,6 +199,26 @@ class GtdService:
     def complete(self, env: str, item_id: str) -> Item:
         return self.move(env, item_id, Bucket.ARCHIVE)
 
+    def list_done(
+        self, env: str, *, page: int = 1, page_size: int = 50
+    ) -> tuple[list[Item], int]:
+        """Return a page of archived items, most recently completed first.
+
+        Sorted by `(updated, id)` descending — `complete()`/`move()` set
+        `updated = now()` on transition, so the head is what just got ticked
+        off; `id` (a chronological filename stem) breaks ties when multiple
+        items share the same `updated` instant. Returns (page_slice, total).
+        """
+        if page < 1:
+            raise ValueError(f"page must be >= 1, got {page}")
+        if page_size < 1:
+            raise ValueError(f"page_size must be >= 1, got {page_size}")
+        items = self.repo(env).list_items(bucket=Bucket.ARCHIVE)
+        items.sort(key=lambda i: (i.updated, i.id), reverse=True)
+        total = len(items)
+        start = (page - 1) * page_size
+        return items[start : start + page_size], total
+
     def delete(self, env: str, item_id: str) -> Item:
         """Soft delete: move the item to the trash bucket."""
         return self.move(env, item_id, Bucket.TRASH)
@@ -233,15 +253,9 @@ class GtdService:
         actions). Takes precedence over `project` if both are set.
         """
         now = self._now()
-        today = now.date()
         results = []
         for item in items:
-            # Defer hides an item until its defer_until — except when its due
-            # date has already arrived. Otherwise a stale defer_until could
-            # silently swallow a missed deadline.
-            deferred = item.defer_until and item.defer_until > now
-            due_reached = item.due and item.due <= today
-            if not include_deferred and deferred and not due_reached:
+            if not include_deferred and _is_hidden_by_defer(item, now):
                 continue
             if contexts and not (set(item.contexts) & set(contexts)):
                 continue
@@ -287,8 +301,16 @@ class GtdService:
             respect_next_cap=True,
         )
 
-    def actions_for_project(self, env: str, project_id: str) -> list[Item]:
-        items = [i for i in self.repo(env).list_items() if i.project == project_id]
+    def actions_for_project(
+        self, env: str, project_id: str, include_deferred: bool = False
+    ) -> list[Item]:
+        now = self._now()
+        items = [
+            i
+            for i in self.repo(env).list_items()
+            if i.project == project_id
+            and (include_deferred or not _is_hidden_by_defer(i, now))
+        ]
         return sorted(items, key=_item_sort_key)
 
     def reorder_project_items(self, env: str, project_id: str, item_ids: list[str]) -> list[Item]:
@@ -475,6 +497,14 @@ class GtdService:
 
     def list_templates(self, env: str) -> list:
         return self.repo(env).list_templates()
+
+
+def _is_hidden_by_defer(item: Item, now: datetime) -> bool:
+    # Defer hides an item until its defer_until — except when its due date has
+    # already arrived. A stale defer_until must never swallow a missed deadline.
+    if not item.defer_until or item.defer_until <= now:
+        return False
+    return not (item.due and item.due <= now.date())
 
 
 def _item_sort_key(item: Item) -> tuple:

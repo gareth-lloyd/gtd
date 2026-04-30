@@ -72,10 +72,28 @@ export function WorkflowActions({
             Purge
           </Button>
         </>
+      ) : isArchive ? (
+        <>
+          <Button
+            onClick={() => moveMut.mutate('next')}
+            busy={isMoving('next')}
+            disabled={busy}
+          >
+            ↺ uncomplete
+          </Button>
+          <Button
+            className="danger"
+            onClick={() => deleteMut.mutate()}
+            busy={deleteMut.isPending}
+            disabled={busy}
+          >
+            Delete
+          </Button>
+        </>
       ) : (
         <>
           {(['next', 'waiting', 'someday'] as const)
-            .filter((b) => item.status !== b && !isArchive)
+            .filter((b) => item.status !== b)
             .map((b) => (
               <Button
                 key={b}
@@ -86,15 +104,13 @@ export function WorkflowActions({
                 → {b}
               </Button>
             ))}
-          {!isArchive && (
-            <Button
-              onClick={() => completeMut.mutate()}
-              busy={completeMut.isPending}
-              disabled={busy}
-            >
-              ✓ done
-            </Button>
-          )}
+          <Button
+            onClick={() => completeMut.mutate()}
+            busy={completeMut.isPending}
+            disabled={busy}
+          >
+            ✓ done
+          </Button>
           <Button
             className="danger"
             onClick={() => deleteMut.mutate()}

@@ -132,6 +132,80 @@ class TestComplete:
         assert completed.status == Bucket.ARCHIVE
 
 
+class TestListDone:
+    """`list_done` returns archive items sorted by `updated` desc, paginated."""
+
+    def _complete_at(self, data_root, when: datetime, title: str):
+        svc = GtdService(data_root, now=lambda: when)
+        item = svc.capture("work", title)
+        return svc.complete("work", item.id)
+
+    def test_empty(self, svc):
+        items, total = svc.list_done("work")
+        assert items == []
+        assert total == 0
+
+    def test_returns_only_archive(self, svc, data_root):
+        live = svc.capture("work", "Live")
+        svc.move("work", live.id, Bucket.NEXT)
+        done = self._complete_at(data_root, datetime(2026, 4, 11, 9, 0), "Done")
+        items, total = svc.list_done("work")
+        assert {i.id for i in items} == {done.id}
+        assert total == 1
+
+    def test_excludes_trash(self, svc, data_root):
+        # Trash is a separate bucket and should not show up under "done".
+        item = svc.capture("work", "Trashed")
+        svc.delete("work", item.id)
+        self._complete_at(data_root, datetime(2026, 4, 11, 9, 0), "Done")
+        items, total = svc.list_done("work")
+        assert total == 1
+        assert all(i.id != item.id for i in items)
+
+    def test_sorted_by_updated_desc(self, data_root):
+        first = GtdService(data_root, now=lambda: datetime(2026, 4, 1, 9, 0))
+        a = first.capture("work", "First")
+        first.complete("work", a.id)
+        second = GtdService(data_root, now=lambda: datetime(2026, 4, 5, 9, 0))
+        b = second.capture("work", "Second")
+        second.complete("work", b.id)
+        third = GtdService(data_root, now=lambda: datetime(2026, 4, 10, 9, 0))
+        c = third.capture("work", "Third")
+        third.complete("work", c.id)
+        items, _ = third.list_done("work")
+        assert [i.id for i in items] == [c.id, b.id, a.id]
+
+    def test_pagination(self, data_root):
+        # Complete 5 items at distinct times so order is deterministic.
+        ids: list[str] = []
+        for n in range(5):
+            done = self._complete_at(data_root, datetime(2026, 4, 1 + n, 9, 0), f"T{n}")
+            ids.append(done.id)
+        svc = GtdService(data_root, now=lambda: datetime(2026, 4, 10))
+        page1, total = svc.list_done("work", page=1, page_size=2)
+        assert total == 5
+        assert [i.id for i in page1] == [ids[4], ids[3]]
+        page2, _ = svc.list_done("work", page=2, page_size=2)
+        assert [i.id for i in page2] == [ids[2], ids[1]]
+        page3, _ = svc.list_done("work", page=3, page_size=2)
+        assert [i.id for i in page3] == [ids[0]]
+
+    def test_page_beyond_end_returns_empty(self, data_root):
+        self._complete_at(data_root, datetime(2026, 4, 1, 9, 0), "Only")
+        svc = GtdService(data_root)
+        items, total = svc.list_done("work", page=99, page_size=10)
+        assert items == []
+        assert total == 1
+
+    def test_invalid_page(self, svc):
+        with pytest.raises(ValueError, match="page"):
+            svc.list_done("work", page=0)
+
+    def test_invalid_page_size(self, svc):
+        with pytest.raises(ValueError, match="page_size"):
+            svc.list_done("work", page_size=0)
+
+
 class TestDelete:
     def test_delete_moves_to_trash(self, svc, data_root):
         item = svc.capture("work", "Regrettable item")
@@ -446,6 +520,49 @@ class TestActionsForProject:
         svc.move("work", unrelated.id, Bucket.NEXT)
         results = svc.actions_for_project("work", "p1")
         assert {r.id for r in results} == {a.id}
+
+    def _seed_project_with_deferred(self, svc):
+        svc.save_project("work", Project(
+            id="p1", title="P1", body="",
+            created=datetime(2026, 3, 1), updated=datetime(2026, 3, 1),
+        ))
+        live = svc.capture("work", "Live")
+        svc.move("work", live.id, Bucket.NEXT)
+        svc.update("work", live.id, {"project": "p1"})
+        deferred = svc.capture("work", "Deferred")
+        svc.move("work", deferred.id, Bucket.NEXT)
+        svc.update("work", deferred.id, {
+            "project": "p1",
+            "defer_until": datetime(2026, 6, 1, 9, 0),
+        })
+        return live, deferred
+
+    def test_hides_deferred_by_default(self, svc):
+        live, _ = self._seed_project_with_deferred(svc)
+        results = svc.actions_for_project("work", "p1")
+        assert {r.id for r in results} == {live.id}
+
+    def test_include_deferred_returns_all(self, svc):
+        live, deferred = self._seed_project_with_deferred(svc)
+        results = svc.actions_for_project("work", "p1", include_deferred=True)
+        assert {r.id for r in results} == {live.id, deferred.id}
+
+    def test_overdue_overrides_defer(self, svc):
+        # Same protection as filter_items: a deferred-but-overdue item must
+        # surface so a stale defer_until cannot swallow a missed deadline.
+        svc.save_project("work", Project(
+            id="p1", title="P1", body="",
+            created=datetime(2026, 3, 1), updated=datetime(2026, 3, 1),
+        ))
+        item = svc.capture("work", "Overdue + deferred")
+        svc.move("work", item.id, Bucket.NEXT)
+        svc.update("work", item.id, {
+            "project": "p1",
+            "due": "2026-04-09",
+            "defer_until": datetime(2026, 6, 1, 9, 0),
+        })
+        results = svc.actions_for_project("work", "p1")
+        assert {r.id for r in results} == {item.id}
 
 
 class TestFindProjectByTitle:

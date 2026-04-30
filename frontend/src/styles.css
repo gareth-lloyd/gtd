@@ -541,6 +541,11 @@ button.danger:hover {
   width: auto;
 }
 
+.bucket-toolbar .status {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
 /* ---- Search ---- */
 
 .search-bar {
