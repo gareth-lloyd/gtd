@@ -79,7 +79,7 @@ Project notes / context / outcome detail.
 
 ```yaml
 name: work
-contexts: [computer, calls, meetings, thinking]
+contexts: [deep, craft, quick, consume, autopilot, listen, fun]
 areas: [admin, engineering, management, writing]
 default_energy: medium
 ```
@@ -89,7 +89,14 @@ Areas are validated on update. Adding a new context/area means
 editing this file.
 
 Current real-world contexts:
-- `work`: computer, calls, meetings, thinking
+- `work`: deep, craft, quick, consume, autopilot, listen, fun
+  - `deep`: protected solo time for generative work (PRDs, plans, expansive synthesis)
+  - `craft`: sustained careful writing where words matter (people writeups, polished comms, Looms)
+  - `quick`: bursty 5–20m between-meeting work that needs attention (PR reviews, Slack/Linear replies)
+  - `consume`: focused input — reading docs, briefing yourself before deciding
+  - `autopilot`: low-cognitive-engagement execution (Linear cleanup, calendar admin, batch updates)
+  - `listen`: audio-only work away from the computer (recorded meetings, podcasts)
+  - `fun`: orthogonal axis — intrinsically rewarding work; can combine with any other context
 - `home`: computer, errands, calls, home, watch, read, out, anywhere
 
 ## Reading data in a Claude CLI session

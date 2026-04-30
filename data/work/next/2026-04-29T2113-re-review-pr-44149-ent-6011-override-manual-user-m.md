@@ -1,7 +1,7 @@
 ---
 area: null
 contexts:
-- computer
+- quick
 created: 2026-04-29 21:13:51.043673
 defer_until: null
 due: null

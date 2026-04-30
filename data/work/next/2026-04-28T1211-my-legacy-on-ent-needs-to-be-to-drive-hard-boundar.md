@@ -1,6 +1,8 @@
 ---
 area: null
-contexts: []
+contexts:
+- deep
+- fun
 created: 2026-04-28 12:11:28.983687
 defer_until: null
 due: 2026-04-30

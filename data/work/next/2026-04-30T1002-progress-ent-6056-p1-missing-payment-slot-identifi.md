@@ -1,8 +1,7 @@
 ---
 area: null
 contexts:
-- computer
-- unblock-team
+- deep
 created: 2026-04-30 10:02:08.693226
 defer_until: null
 due: null

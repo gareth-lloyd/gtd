@@ -1,6 +1,7 @@
 ---
 area: null
-contexts: []
+contexts:
+- autopilot
 created: 2026-04-23 12:26:03.950497
 defer_until: null
 due: null
@@ -13,7 +14,7 @@ tags: []
 time_minutes: 15
 title: Move all 1-1s to monthly; Add for Asher, Marta, Adil, Andrea. Laura, Martijn
   -> 45m
-updated: 2026-04-29 11:49:48.740769
+updated: 2026-04-30 07:35:01.911607
 waiting_on: null
 waiting_since: null
 ---

@@ -1,7 +1,7 @@
 ---
 area: null
 contexts:
-- computer
+- autopilot
 created: 2026-04-29 21:13:51.044651
 defer_until: null
 due: null

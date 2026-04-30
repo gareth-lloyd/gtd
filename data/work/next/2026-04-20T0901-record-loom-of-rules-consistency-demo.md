@@ -1,6 +1,8 @@
 ---
 area: null
-contexts: []
+contexts:
+- craft
+- fun
 created: 2026-04-20 09:01:00
 defer_until: null
 due: null

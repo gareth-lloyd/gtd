@@ -1,7 +1,8 @@
 ---
 area: null
 contexts:
-- computer
+- consume
+- craft
 created: 2026-04-29 21:13:51.045550
 defer_until: null
 due: null
@@ -15,7 +16,7 @@ tags:
 - gmail
 time_minutes: 5
 title: Read SJ Sawhney's note on Q2 product priorities + Sebastian's reply
-updated: 2026-04-30 07:04:58.552978
+updated: 2026-04-30 07:35:58.863071
 waiting_on: null
 waiting_since: null
 ---

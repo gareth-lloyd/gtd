@@ -1,7 +1,7 @@
 ---
 area: null
 contexts:
-- scoping
+- consume
 created: 2026-04-16 09:53:13.655333
 defer_until: null
 due: null

@@ -1,6 +1,7 @@
 ---
 area: null
-contexts: []
+contexts:
+- consume
 created: 2026-04-29 12:47:56.473163
 defer_until: null
 due: null

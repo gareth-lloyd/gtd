@@ -1,7 +1,6 @@
 ---
 area: null
-contexts:
-- calls
+contexts: []
 created: 2027-02-14 00:00:00
 defer_until: 2027-02-14
 due: null

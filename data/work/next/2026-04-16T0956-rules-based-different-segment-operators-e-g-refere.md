@@ -1,6 +1,7 @@
 ---
 area: null
-contexts: []
+contexts:
+- quick
 created: 2026-04-16 09:56:52.219121
 defer_until: null
 due: null

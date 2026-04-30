@@ -1,7 +1,7 @@
 ---
 area: null
 contexts:
-- computer
+- craft
 created: 2026-04-28 10:54:36.125291
 defer_until: null
 due: null
@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 15
 title: Investigate non-rebrand Marriott/Hilton hotels in BW portfolio
-updated: 2026-04-29 11:49:25.419331
+updated: 2026-04-30 07:34:41.336478
 waiting_on: null
 waiting_since: null
 ---

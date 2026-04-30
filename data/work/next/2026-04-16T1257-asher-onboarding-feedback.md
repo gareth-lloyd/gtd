@@ -1,6 +1,7 @@
 ---
 area: null
-contexts: []
+contexts:
+- craft
 created: 2026-04-16 12:57:06.186848
 defer_until: null
 due: null

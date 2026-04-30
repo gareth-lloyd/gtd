@@ -1,7 +1,8 @@
 ---
 area: null
 contexts:
-- thinking
+- deep
+- fun
 created: 2026-04-10 08:40:18.614217
 defer_until: null
 due: null

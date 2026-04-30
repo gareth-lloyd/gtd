@@ -1,6 +1,8 @@
 ---
 area: null
-contexts: []
+contexts:
+- autopilot
+- craft
 created: 2026-04-16 12:00:59.312749
 defer_until: null
 due: null
@@ -12,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 60
 title: linear backlog cleanup
-updated: 2026-04-29 11:49:44.585537
+updated: 2026-04-30 07:34:57.118852
 waiting_on: null
 waiting_since: null
 ---

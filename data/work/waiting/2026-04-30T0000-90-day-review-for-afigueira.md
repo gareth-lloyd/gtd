@@ -1,8 +1,7 @@
 ---
 area: null
 contexts:
-- computer
-- meetings
+- craft
 created: 2026-04-30 00:00:00
 defer_until: null
 due: 2026-04-30

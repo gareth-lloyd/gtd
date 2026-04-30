@@ -1,6 +1,7 @@
 ---
 area: null
-contexts: []
+contexts:
+- deep
 created: 2026-04-29 11:46:05.864080
 defer_until: null
 due: null

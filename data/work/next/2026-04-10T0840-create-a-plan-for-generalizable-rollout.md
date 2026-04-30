@@ -1,7 +1,8 @@
 ---
 area: null
 contexts:
-- computer
+- deep
+- fun
 created: 2026-04-10 08:40:18.628585
 defer_until: null
 due: null
@@ -14,7 +15,7 @@ tags:
 - focus
 time_minutes: 15
 title: Create a plan for generalizable rollout script via onboarding plans
-updated: 2026-04-29 11:49:53.558301
+updated: 2026-04-30 07:35:28.019797
 waiting_on: null
 waiting_since: null
 ---

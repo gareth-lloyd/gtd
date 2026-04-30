@@ -1,12 +1,12 @@
 name: work
 contexts:
-  - computer
-  - calls
-  - meetings
-  - thinking
-  - unblock-team
-  - triage
-  - scoping
+  - deep
+  - craft
+  - quick
+  - consume
+  - autopilot
+  - listen
+  - fun
 areas:
   - admin
   - engineering

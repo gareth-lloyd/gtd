@@ -1,6 +1,7 @@
 ---
 area: null
-contexts: []
+contexts:
+- autopilot
 created: 2026-04-16 12:00:45.456582
 defer_until: null
 due: null

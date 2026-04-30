@@ -1,7 +1,7 @@
 ---
 area: null
 contexts:
-- computer
+- craft
 created: 2026-04-29 09:56:28.125429
 defer_until: null
 due: null
@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Asher in #epd-internal-tools: review TOOL-121 AI branding eng design'
-updated: 2026-04-30 07:07:39.848614
+updated: 2026-04-30 07:34:45.274960
 waiting_on: null
 waiting_since: null
 ---
