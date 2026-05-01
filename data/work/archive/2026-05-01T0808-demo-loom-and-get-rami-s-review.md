@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-01 08:08:31.304231
+created: 2026-05-01 08:08:31.304231
 defer_until: null
 due: null
 energy: low
@@ -12,9 +12,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Demo loom and get rami's review
-updated: *id001
+updated: 2026-05-01 09:46:05.998379
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 https://github.com/canary-technologies-corp/canary/pull/44124

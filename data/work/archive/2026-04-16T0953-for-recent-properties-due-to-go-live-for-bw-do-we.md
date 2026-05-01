@@ -12,7 +12,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Check if recent BW go-live properties have Twilio
-updated: 2026-04-30 10:03:03.425364
+updated: 2026-05-01 10:19:57.111450
 waiting_on: null
 waiting_since: null
+working_on: false
 ---

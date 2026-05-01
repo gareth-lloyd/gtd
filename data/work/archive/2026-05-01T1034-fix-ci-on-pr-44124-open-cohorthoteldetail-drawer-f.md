@@ -15,9 +15,10 @@ tags:
 - github
 time_minutes: 20
 title: 'Fix CI on PR #44124: Open CohortHotelDetail drawer from OnboardingScriptHotelTable'
-updated: 2026-05-01 10:34:17.992229
+updated: 2026-05-01 09:46:13.508882
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 https://github.com/canary-technologies-corp/canary/pull/44124

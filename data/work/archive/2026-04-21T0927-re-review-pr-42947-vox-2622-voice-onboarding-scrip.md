@@ -15,9 +15,10 @@ tags:
 - github
 time_minutes: 15
 title: Respond to Gaston - he's put effort into a new drawer view.
-updated: 2026-04-30 10:03:07.507956
+updated: 2026-05-01 09:54:26.916493
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 gdelarrechea — I left CHANGES_REQUESTED previously; check if addressed. https://github.com/canary-technologies-corp/canary/pull/42947

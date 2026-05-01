@@ -15,9 +15,10 @@ tags:
 - github
 time_minutes: 5
 title: 'Merge PR #44418: ENT-5922 grant EPD access to BookingGateway admin'
-updated: 2026-05-01 10:34:17.990902
+updated: 2026-05-01 09:46:30.249489
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 https://github.com/canary-technologies-corp/canary/pull/44418

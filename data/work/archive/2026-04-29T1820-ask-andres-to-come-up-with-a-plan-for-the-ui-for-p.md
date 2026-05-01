@@ -13,7 +13,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Ask andres to come up with a plan for the UI for portfolio reg cards
-updated: 2026-05-01 08:03:02.757228
+updated: 2026-05-01 09:57:02.572805
 waiting_on: null
 waiting_since: null
+working_on: false
 ---

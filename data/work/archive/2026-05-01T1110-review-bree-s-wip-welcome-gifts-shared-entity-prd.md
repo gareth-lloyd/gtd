@@ -15,9 +15,10 @@ tags:
 - slack
 time_minutes: 45
 title: Review Bree's WIP Welcome Gifts shared-entity PRD draft
-updated: 2026-05-01 11:10:13.589413
+updated: 2026-05-01 09:48:07.551733
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 Bree Sullivan MPDM: shared WIP PRD framing Welcome Gifts as shared entity. Wants alignment before turning into true PRD. https://canarytechnologies.slack.com/archives/C0B08JBF7K9/p1777490682492239
