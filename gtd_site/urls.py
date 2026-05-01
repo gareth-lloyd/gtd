@@ -3,10 +3,10 @@ from django.http import FileResponse, HttpResponseNotFound
 from django.urls import include, path, re_path
 
 
-def spa_index(request):
+def spa_index(_request):
     index = settings.FRONTEND_DIR / "index.html"
     if not index.exists():
-        return HttpResponseNotFound("Frontend not built. Run `cd frontend && npm run build`.")
+        return HttpResponseNotFound(b"Frontend not built. Run `cd frontend && npm run build`.")
     return FileResponse(index.open("rb"), content_type="text/html")
 
 

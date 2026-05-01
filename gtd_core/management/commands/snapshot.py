@@ -26,6 +26,7 @@ class Command(BaseCommand):
         if not result.committed:
             self.stdout.write("nothing to snapshot")
             return
+        assert result.sha is not None  # committed=True implies sha is set
         self.stdout.write(f"{result.sha[:12]} {result.message}")
         if push:
             if result.pushed:

@@ -33,7 +33,7 @@ class TestSnapshot:
 
         repo = git.Repo(repo_root)
         for f in repo.head.commit.stats.files:
-            assert f.startswith("data/")
+            assert str(f).startswith("data/")
 
     def test_only_stages_data_dir(self, repo_root):
         (repo_root / "data" / "work" / "inbox" / "item1.md").write_text("content")
@@ -51,7 +51,7 @@ class TestSnapshot:
 
         repo = git.Repo(repo_root)
         for f in repo.head.commit.stats.files:
-            assert f.startswith("data/")
+            assert str(f).startswith("data/")
         # code.py should still be modified (not staged, not committed)
         assert repo.is_dirty()
 
@@ -59,14 +59,14 @@ class TestSnapshot:
         (repo_root / "data" / "work" / "inbox" / "item1.md").write_text("content")
         snapshot(repo_root, message="weekly review")
         repo = git.Repo(repo_root)
-        assert repo.head.commit.message.startswith("weekly review")
+        assert str(repo.head.commit.message).startswith("weekly review")
 
     def test_generated_message_format(self, repo_root):
         (repo_root / "data" / "work" / "inbox" / "a.md").write_text("a")
         (repo_root / "data" / "work" / "inbox" / "b.md").write_text("b")
         snapshot(repo_root)
         repo = git.Repo(repo_root)
-        msg = repo.head.commit.message
+        msg = str(repo.head.commit.message)
         assert "snapshot" in msg
         assert "2 files" in msg
 
