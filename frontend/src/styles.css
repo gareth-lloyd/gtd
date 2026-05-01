@@ -1852,3 +1852,58 @@ button.danger:hover {
   padding: 7px 14px;
   font-size: 0.85rem;
 }
+
+/* ---- UX animations ---- */
+
+.item[data-fresh] {
+  animation: fresh-fade 1.2s ease-out;
+}
+@keyframes fresh-fade {
+  0%   { background: var(--accent-bg); }
+  100% { background: var(--card); }
+}
+
+.item-actions button[data-completing] {
+  animation: complete-beat 320ms ease-out;
+  background: var(--success-bg);
+  color: var(--success);
+  border-color: var(--success);
+}
+@keyframes complete-beat {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+.capture-overlay {
+  animation: capture-fade-in 0.18s ease-out;
+}
+.capture-overlay .capture {
+  animation: capture-slide-in 0.22s ease-out;
+}
+@keyframes capture-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes capture-slide-in {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.item-meta .chip.chip-overdue {
+  animation: chip-pulse 1.4s ease-in-out 2;
+}
+@keyframes chip-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item[data-fresh],
+  .item-actions button[data-completing],
+  .capture-overlay,
+  .capture-overlay .capture,
+  .item-meta .chip.chip-overdue {
+    animation: none;
+  }
+}

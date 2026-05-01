@@ -7,15 +7,27 @@ Vite + React 18 + TypeScript SPA. TanStack Query for server state.
 | File | Purpose |
 |------|---------|
 | `api.ts` | Typed fetch client. All API calls go through `request<T>()`. Types for Item, Project, EnvConfig, etc. |
-| `App.tsx` | Route table + all pages and components. Three-column CSS grid layout. CaptureBar (Regular + AI modes). |
+| `App.tsx` | Route table + `AppShell` layout. Owns top-level keyboard shortcuts (`C`, `Shift+C`, `A`, `/`). |
+| `CaptureBar.tsx` | Capture overlay with `Regular` / `Regular ↑` / `AI ✦` mode toggle. Exports `CaptureMode` and `isEditableTarget`. |
 | `ItemCard.tsx` | Dual-purpose item card (collapsed chips / expanded inline editors). Replaces the old `ItemRow` + `ItemEditor`. |
+| `ItemList.tsx` | Bucket list views (NextActionsView, etc). Wires filters and pagination, drives `<ItemCard>`. |
 | `ItemEdit.tsx` | `useItemPatch` (debounced PATCH with optimistic cache updates), `ChipToggleGroup`, `DatePickerRow` (date-only), `DateTimePickerRow` (datetime — used for `defer_until`), `isScheduled`, `invalidateItemQueries` helper. |
-| `format.ts` | Shared utilities: `fmtDate`, `sortProjects`, `slugify`. |
+| `DetailPanel.tsx` | Right-side detail pane bound to selection/hover. Renders the full editor for the active item. |
+| `WorkflowActions.tsx` | Move / complete / delete buttons shared across card and detail pane. |
+| `FilterPanel.tsx` | Aside filter UI for `/next` — contexts, energy, time bands, no-project, overdue. Reads/writes via `useNextFilters()`. |
+| `ProjectComponents.tsx` | Projects list, project detail, `SortableActionList` (DnD), `ProjectBadges`. |
+| `TemplatesView.tsx` | Read-only list of recurring templates from `GET /api/envs/<env>/templates/`. |
+| `SearchComponents.tsx` | Header `SearchBar` dropdown + full search page. Routes `/:env/search` and `/:env/items/:itemId`. |
+| `SelectionContext.tsx` | React context for selected/hovered item id, used to drive `DetailPanel`. |
+| `useEnvParam.ts` | Tiny hook reading `:env` from the URL — components never receive `env` as a prop at the route level. |
+| `format.ts` | Shared utilities: `fmtDate`, `sortProjects`, `slugify`, `generateProjectId`. |
 | `filters.ts` | `useNextFilters()` — query-param-backed filter state for `/next`. |
 | `search.ts` | `useSearchIndex(env)` — MiniSearch index over the full corpus. |
+| `context-colors.ts` | Deterministic context→hue mapping (djb2 hash) and `contextChipStyle` helper. |
 | `Button.tsx` | `<Button busy={mut.isPending}>` — spinner overlay, auto-disable. Use for every mutation-backed button. |
 | `toast.tsx` | Module-level `ToastStore` (callable outside React). `<Toaster />` subscribes to it. |
 | `main.tsx` | React entry. `BrowserRouter` + `QueryClient` with `MutationCache.onError` → auto-toast. |
+| `test-setup.ts` | Vitest setup — registers `@testing-library/jest-dom` matchers. |
 | `styles.css` | Vanilla CSS with custom properties. No Tailwind. |
 
 ## Patterns
@@ -94,18 +106,22 @@ via TanStack Query (60 s staleTime, `['search-corpus', env]` key).
 Fields/boosts and the `prefix:true, fuzzy:0.15, combineWith:'AND'`
 search options live in `search.ts` — adjust ranking there.
 
-**Drag-and-drop**: `@dnd-kit/core` + `@dnd-kit/sortable` for project action
-reordering. Only `SortableActionList` (used inside `ProjectDetailView`)
-mounts the DnD context — the main next-actions list is plain. Pointer sensor
-has a 5px activation distance so clicking the handle doesn't accidentally
-start a drag. Drop is optimistic: `localOrder` overrides `items` immediately,
-then `api.reorderProjectItems` syncs; on error we drop the override and rely
-on the global toast.
+## Drag-and-drop
 
-**Project priority colors**: P1 red, P2 orange, P3 yellow, P4 blue, P5 gray.
-Classes are `.priority-badge.p1` … `.priority-badge.p5` in `styles.css`.
-`.sequential-badge` (purple) marks projects with a `max_next_items` cap set. Projects sort by
-`(priority ?? 99, due, title)` in `ProjectsView`.
+`@dnd-kit/core` + `@dnd-kit/sortable` for project action reordering. Only
+`SortableActionList` (used inside `ProjectDetailView`) mounts the DnD
+context — the main next-actions list is plain. Pointer sensor has a 5px
+activation distance so clicking the handle doesn't accidentally start a
+drag. Drop is optimistic: `localOrder` overrides `items` immediately, then
+`api.reorderProjectItems` syncs; on error we drop the override and rely on
+the global toast.
+
+## Project priority colors
+
+P1 red, P2 orange, P3 yellow, P4 blue, P5 gray. Classes are
+`.priority-badge.p1` … `.priority-badge.p5` in `styles.css`.
+`.sequential-badge` (purple) marks projects with a `max_next_items` cap
+set. Projects sort by `(priority ?? 99, due, title)` in `ProjectsView`.
 
 ## Build
 

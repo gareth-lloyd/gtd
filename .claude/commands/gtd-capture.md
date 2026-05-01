@@ -39,3 +39,4 @@ waiting_since: null
 - Defaults to energy=low, time=5min (same as the web UI capture bar)
 - The user can chain multiple captures: just keep providing titles
 - No validation needed for inbox items — they get processed later
+- If the frontmatter template above drifts from reality, the source of truth is the `Item` dataclass in `gtd_core/models.py`

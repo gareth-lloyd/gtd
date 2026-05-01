@@ -19,15 +19,25 @@ The API layer (`gtd_api`) only talks to `GtdService`. Never skip layers.
 
 | File | Purpose |
 |------|---------|
-| `models.py` | `Bucket` enum, `Item`/`Project`/`Template`/`EnvConfig` dataclasses |
-| `storage.py` | `dump_item`/`load_item`, `dump_project`/`load_project`, `dump_template`/`load_template`, `load_env_config` |
+| `models.py` | `Bucket` enum (inbox/next/waiting/someday/reference/archive/trash), `Item`/`Project`/`Template`/`EnvConfig` dataclasses |
+| `storage.py` | Raw frontmatter IO: `dump_item`/`load_item`, `dump_project`/`load_project`, `dump_template`/`load_template`, `load_env_config`/`dump_env_config` |
 | `repository.py` | `EnvRepository` — CRUD per env. `list_items()` excludes archive+trash by default |
-| `service.py` | `GtdService` — capture, capture_ai, move, update, complete, delete (→trash), purge, filter_items, filter_next, list_items (with `respect_next_cap`), projects, `create_project`, `reorder_project_items`, `find_project_by_title` (fuzzy match), `apply_next_item_cap` helper, `make_item_id`, `AiCaptureOutcome` dataclass |
-| `ai.py` | AI capture via `claude` CLI subprocess. Builds a prompt with today's date, valid contexts/areas, project catalogue + recent actions. Parses JSON response into `AiCaptureResult`. No Anthropic API key needed — uses the user's Max plan via the CLI. |
+| `service.py` | `GtdService` — see method table below. `AiCaptureOutcome` dataclass; module-level helpers `apply_next_item_cap`, `sort_next_items`, `slugify`, `make_item_id` |
+| `ai.py` | AI capture via `claude` CLI subprocess. Builds a prompt with today's date, valid contexts/areas, project catalogue + recent actions. Parses JSON response into `AiCaptureResult`. No Anthropic API key needed — uses the user's Max plan via the CLI |
 | `snapshot.py` | `snapshot()` stages+commits only `data/` paths. `snapshot_status()` reports dirty count |
 | `dates.py` | `parse_human_date()` (date granularity) and `parse_human_datetime()` (datetime granularity, used for `defer_until`) — accept ISO strings, natural language ("next friday", "2w", "end of month", "in 2 hours", "3h"), date/datetime objects, or None |
 | `recurring.py` | `spawn_recurring(repo)` — checks templates, spawns inbox items for due ones. Called before every snapshot |
 | `importer_nirvana.py` | CSV import from Nirvana GTD app. Case-insensitive context matching |
+
+### `GtdService` methods
+
+| Group | Methods |
+|-------|---------|
+| Envs | `list_envs`, `repo`, `config` |
+| Item capture / lifecycle | `capture`, `capture_ai`, `move`, `update`, `complete`, `delete` (→trash), `purge` |
+| Item queries | `list_items` (with `respect_next_cap`), `filter_items`, `filter_next`, `list_done` (paginated archive+trash), `actions_for_project` |
+| Projects | `create_project`, `save_project`, `get_project`, `list_projects`, `update_project`, `delete_project`, `find_project_by_title` (fuzzy match), `reorder_project_items` |
+| Templates | `list_templates` |
 
 ## Conventions
 

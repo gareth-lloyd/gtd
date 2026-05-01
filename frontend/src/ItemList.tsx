@@ -1,5 +1,6 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { api, type Bucket, type Item } from './api';
 import { useNextFilters } from './filters';
 import { ItemCard } from './ItemCard';
@@ -130,9 +131,10 @@ export function ItemList({ env, items }: { env: string; items: Item[] }) {
     queryKey: ['projects', env, false],
     queryFn: () => api.listProjects(env, false),
   });
+  const [listRef] = useAutoAnimate<HTMLUListElement>();
   if (items.length === 0) return <div className="empty">Nothing here.</div>;
   return (
-    <ul className="item-list">
+    <ul ref={listRef} className="item-list">
       {items.map((item) => (
         <li key={item.id}>
           <ItemCard

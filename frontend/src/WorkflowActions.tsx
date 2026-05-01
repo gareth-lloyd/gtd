@@ -105,6 +105,7 @@ export function WorkflowActions({
               </Button>
             ))}
           <Button
+            data-completing={completeMut.isPending ? 'true' : undefined}
             onClick={() => completeMut.mutate()}
             busy={completeMut.isPending}
             disabled={busy}

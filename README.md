@@ -23,14 +23,14 @@ cd frontend && npm install && cd ..
 cd frontend && npm run build && cd ..
 
 # Start the Django server (serves API + built frontend)
-uv run manage.py runserver
+uv run manage.py runserver 8765
 ```
 
 For frontend hot-reload during development, run Vite dev server alongside:
 
 ```sh
 # Terminal 1
-uv run manage.py runserver
+uv run manage.py runserver 8765
 
 # Terminal 2
 cd frontend && npm run dev
@@ -63,24 +63,35 @@ data/
 │   ├── waiting/
 │   ├── someday/
 │   ├── reference/
-│   ├── projects/
-│   └── archive/
+│   ├── archive/
+│   ├── trash/
+│   ├── projects/      # not a bucket — projects live here
+│   └── templates/     # not a bucket — recurring templates
 └── home/
     └── ...
 ```
 
 Each item is one markdown file. See `gtd_core/models.py` for the full schema.
 
-## Project features
+## Features
 
-- **Priority + due date on projects** (1 = most urgent … 5 = aspirational).
-  The projects tab sorts by priority, then due date.
-- **Sequential projects**: tick "Sequential" on a project to surface only
-  one step at a time on the next-actions list. Drag-and-drop to reorder.
-- **Natural-language dates** on item `due` / `defer_until` (e.g. "next friday",
-  "2w", "end of month"). Project due dates use a native date picker.
-- **Per-item order** within a project, editable via drag-handle or number
-  field.
+- **Capture**: quick text capture (`C`) or AI capture (`A`) — AI mode shells
+  out to the `claude` CLI to extract title, contexts, project, etc. from
+  unstructured text.
+- **Inline editing**: items expand into live editors that auto-save via
+  debounced PATCH. No Save button.
+- **Full-text search**: client-side MiniSearch index over the whole corpus
+  including archive and trash.
+- **Recurring templates**: files in `data/<env>/templates/` spawn inbox
+  items on a schedule (daily / weekly / monthly / …). Triggered on every
+  snapshot.
+- **Per-project next-action cap** (`max_next_items`): `1` = classic
+  sequential (one step at a time), `N` = surface N steps, `null` = no cap.
+  Drag-and-drop reorders.
+- **Project priority + due date** (priority 1 = most urgent … 5 =
+  aspirational). The projects tab sorts by priority, then due date.
+- **Natural-language dates** on item `due` / `defer_until` (e.g. "next
+  friday", "2w", "end of month", "in 2 hours").
 
 ## Architecture
 
@@ -90,3 +101,5 @@ Each item is one markdown file. See `gtd_core/models.py` for the full schema.
 - `gtd_api/` — thin DRF layer: serializers + views that call `gtd_core`.
 - `frontend/` — Vite + React + TypeScript SPA.
 - `gtd_site/` — Django project glue.
+
+Each layer has its own `CLAUDE.md` with deeper conventions.

@@ -38,3 +38,6 @@ extraPaths = ["."]
 DJANGO_SETTINGS_MODULE = "gtd_site.settings"
 python_files = ["test_*.py", "tests.py"]
 addopts = "-ra"
+filterwarnings = [
+    "ignore:No directory at:UserWarning:django.core.handlers.base",
+]

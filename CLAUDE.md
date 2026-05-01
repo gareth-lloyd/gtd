@@ -60,6 +60,10 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
 - **Status from path**: an item's status (inbox/next/waiting/...) is the name
   of its parent directory. It is NOT stored in YAML frontmatter. On load,
   `storage.load_item(path, bucket)` receives the bucket as an argument.
+  Bucket dirs are `inbox`, `next`, `waiting`, `someday`, `reference`,
+  `archive`, `trash`. `projects/` and `templates/` are sibling top-level
+  dirs under `data/<env>/`, not buckets — projects/templates have their
+  own dataclasses and storage helpers.
 
 - **Filename = ID**: `YYYY-MM-DDTHHMM-slug.md`. Immutable after creation.
   Title can change freely in frontmatter; filename never does.

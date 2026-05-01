@@ -45,6 +45,7 @@ GET    /api/envs/<env>/config/
 GET    /api/envs/<env>/items/                    ?status=&contexts=&energy=&max_minutes=&project=&show_all=
 POST   /api/envs/<env>/items/                    capture (→inbox)
 POST   /api/envs/<env>/items/capture-ai/        AI capture (→inbox or →next+project)
+GET    /api/envs/<env>/items/done/               ?page=1&page_size=50 — paginated archive+trash
 GET    /api/envs/<env>/items/<id>/
 PATCH  /api/envs/<env>/items/<id>/
 DELETE /api/envs/<env>/items/<id>/               soft delete (→trash)
@@ -57,6 +58,7 @@ GET    /api/envs/<env>/projects/<id>/            ?include_deferred= — actions 
 PATCH  /api/envs/<env>/projects/<id>/
 DELETE /api/envs/<env>/projects/<id>/
 POST   /api/envs/<env>/projects/<id>/reorder/    {item_ids: [...]} — assigns order 1..N
+GET    /api/envs/<env>/templates/                recurring templates list
 POST   /api/snapshot/                            {message?, push?}
 GET    /api/snapshot/status/
 ```

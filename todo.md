@@ -1,1 +1,0 @@
-- different shortcuts: capture at top, capture at bottom
