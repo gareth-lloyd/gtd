@@ -65,9 +65,7 @@ def items(request: Request, env: str) -> Response:
         bucket = Bucket(bucket_name) if bucket_name else None
         # Cap next-bucket lists by each project's `max_next_items`. Callers
         # can override with ?show_all=true to see every item (e.g. review).
-        respect_next_cap = (
-            bucket is Bucket.NEXT and params.get("show_all") != "true"
-        )
+        respect_next_cap = bucket is Bucket.NEXT and params.get("show_all") != "true"
         filtered = svc.list_items(
             env,
             bucket=bucket,
@@ -128,9 +126,7 @@ def items_capture_ai(request: Request, env: str) -> Response:
     projects_by_id = {p.id: p for p in svc.list_projects(env, include_inactive=True)}
     return Response(
         {
-            "item": ItemSerializer(
-                outcome.item, context={"projects_by_id": projects_by_id}
-            ).data,
+            "item": ItemSerializer(outcome.item, context={"projects_by_id": projects_by_id}).data,
             "summary": outcome.summary,
             "skipped_inbox": outcome.skipped_inbox,
             "project_title": outcome.project_title,
@@ -268,9 +264,7 @@ def project_detail(request: Request, env: str, project_id: str) -> Response:
         if project is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
         include_deferred = request.query_params.get("include_deferred") == "true"
-        actions = svc.actions_for_project(
-            env, project_id, include_deferred=include_deferred
-        )
+        actions = svc.actions_for_project(env, project_id, include_deferred=include_deferred)
         return Response(
             {
                 "project": ProjectSerializer(project).data,

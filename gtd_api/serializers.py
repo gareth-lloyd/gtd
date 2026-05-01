@@ -93,9 +93,7 @@ class TemplateSerializer(serializers.Serializer):
             "area": instance.area,
             "tags": list(instance.tags),
             "recurrence": instance.recurrence,
-            "last_spawned": (
-                instance.last_spawned.isoformat() if instance.last_spawned else None
-            ),
+            "last_spawned": (instance.last_spawned.isoformat() if instance.last_spawned else None),
             "next_due": next_due,
         }
 
@@ -107,9 +105,7 @@ class CaptureSerializer(serializers.Serializer):
         choices=["low", "medium", "high"], required=False, allow_null=True
     )
     time_minutes = serializers.IntegerField(required=False, allow_null=True)
-    contexts = serializers.ListField(
-        child=serializers.CharField(), required=False
-    )
+    contexts = serializers.ListField(child=serializers.CharField(), required=False)
     source_id = serializers.CharField(required=False, allow_null=True, allow_blank=False)
     at_top = serializers.BooleanField(required=False, default=False)
 

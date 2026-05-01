@@ -187,9 +187,7 @@ def gen_id(when: datetime, name: str, used: set[str]) -> str:
     return f"{base}-{i}"
 
 
-def split_tags(
-    row: dict, cfg: EnvConfig, env_name: str
-) -> tuple[list[str], list[str]]:
+def split_tags(row: dict, cfg: EnvConfig, env_name: str) -> tuple[list[str], list[str]]:
     raw = row.get("TAGS") or ""
     if not raw:
         return [], []

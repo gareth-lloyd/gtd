@@ -297,9 +297,7 @@ class TestRecentActionTitlesByProject:
         assert grouped == {"p1": [], "p2": []}
 
     def test_no_projects(self):
-        grouped = recent_action_titles_by_project(
-            [_item("i1", "x", "p1")], projects=[]
-        )
+        grouped = recent_action_titles_by_project([_item("i1", "x", "p1")], projects=[])
         assert grouped == {}
 
 

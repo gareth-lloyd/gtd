@@ -75,9 +75,7 @@ class BearReader:
             src.close()
 
     def _connect(self) -> sqlite3.Connection:
-        return sqlite3.connect(
-            f"file:{self._snapshot}?mode=ro&immutable=1", uri=True
-        )
+        return sqlite3.connect(f"file:{self._snapshot}?mode=ro&immutable=1", uri=True)
 
     def get_note(self, unique_id: str) -> Note | None:
         with self._connect() as conn:
@@ -112,8 +110,7 @@ class BearReader:
         joins = ""
         if tag is not None:
             joins = (
-                " JOIN Z_5TAGS j ON j.Z_5NOTES = n.Z_PK"
-                " JOIN ZSFNOTETAG t ON t.Z_PK = j.Z_13TAGS"
+                " JOIN Z_5TAGS j ON j.Z_5NOTES = n.Z_PK JOIN ZSFNOTETAG t ON t.Z_PK = j.Z_13TAGS"
             )
             clauses.append("t.ZTITLE = ?")
             params.append(tag)

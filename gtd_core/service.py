@@ -211,9 +211,7 @@ class GtdService:
     def complete(self, env: str, item_id: str) -> Item:
         return self.move(env, item_id, Bucket.ARCHIVE)
 
-    def list_done(
-        self, env: str, *, page: int = 1, page_size: int = 50
-    ) -> tuple[list[Item], int]:
+    def list_done(self, env: str, *, page: int = 1, page_size: int = 50) -> tuple[list[Item], int]:
         """Return a page of archived items, most recently completed first.
 
         Sorted by `(updated, id)` descending — `complete()`/`move()` set
@@ -320,8 +318,7 @@ class GtdService:
         items = [
             i
             for i in self.repo(env).list_items()
-            if i.project == project_id
-            and (include_deferred or not _is_hidden_by_defer(i, now))
+            if i.project == project_id and (include_deferred or not _is_hidden_by_defer(i, now))
         ]
         return sorted(items, key=_item_sort_key)
 
@@ -489,9 +486,7 @@ class GtdService:
             and patch["max_next_items"] is not None
             and patch["max_next_items"] < 1
         ):
-            raise ValueError(
-                f"max_next_items must be >= 1 or null, got {patch['max_next_items']}"
-            )
+            raise ValueError(f"max_next_items must be >= 1 or null, got {patch['max_next_items']}")
         repo = self.repo(env)
         project = repo.get_project(project_id)
         if project is None:

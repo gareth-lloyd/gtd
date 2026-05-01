@@ -3,8 +3,15 @@ from pathlib import Path
 import pytest
 
 ALL_BUCKETS = [
-    "inbox", "next", "waiting", "someday", "reference",
-    "projects", "archive", "trash", "templates",
+    "inbox",
+    "next",
+    "waiting",
+    "someday",
+    "reference",
+    "projects",
+    "archive",
+    "trash",
+    "templates",
 ]
 
 DEFAULT_CONFIG = (

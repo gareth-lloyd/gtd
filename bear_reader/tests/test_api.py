@@ -16,12 +16,14 @@ def _reset_reader_cache():
 
 @pytest.fixture
 def api(settings, bear_db_factory, snapshot_dir):
-    db = bear_db_factory([
-        NoteSpec(unique_id="a", title="Alpha", body="alpha body", tags=("foo",)),
-        NoteSpec(unique_id="b", title="Beta", body="beta body", tags=("bar",)),
-        NoteSpec(unique_id="c", title="Gamma", body="gamma body", tags=("foo", "bar")),
-        NoteSpec(unique_id="t", title="Trashed", trashed=True),
-    ])
+    db = bear_db_factory(
+        [
+            NoteSpec(unique_id="a", title="Alpha", body="alpha body", tags=("foo",)),
+            NoteSpec(unique_id="b", title="Beta", body="beta body", tags=("bar",)),
+            NoteSpec(unique_id="c", title="Gamma", body="gamma body", tags=("foo", "bar")),
+            NoteSpec(unique_id="t", title="Trashed", trashed=True),
+        ]
+    )
     settings.BEAR_DB_PATH = db
     settings.BEAR_READER_SNAPSHOT_DIR = snapshot_dir
     return APIClient()

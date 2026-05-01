@@ -104,9 +104,7 @@ class TestItems:
         assert got["source_id"] == url
 
     def test_patch_can_backfill_source_id(self, api):
-        created = api.post(
-            "/api/envs/work/items/", {"title": "Legacy"}, format="json"
-        ).json()
+        created = api.post("/api/envs/work/items/", {"title": "Legacy"}, format="json").json()
         assert created["source_id"] is None
         r = api.patch(
             f"/api/envs/work/items/{created['id']}/",
@@ -117,9 +115,7 @@ class TestItems:
         assert r.json()["source_id"] == "ENT-1234"
 
     def test_working_on_round_trips_via_patch(self, api):
-        created = api.post(
-            "/api/envs/work/items/", {"title": "Drive"}, format="json"
-        ).json()
+        created = api.post("/api/envs/work/items/", {"title": "Drive"}, format="json").json()
         assert created["working_on"] is False
         api.post(
             f"/api/envs/work/items/{created['id']}/move/",
@@ -138,9 +134,7 @@ class TestItems:
         assert got["working_on"] is True
 
     def test_complete_clears_working_on_via_api(self, api):
-        created = api.post(
-            "/api/envs/work/items/", {"title": "Drive"}, format="json"
-        ).json()
+        created = api.post("/api/envs/work/items/", {"title": "Drive"}, format="json").json()
         api.post(
             f"/api/envs/work/items/{created['id']}/move/",
             {"to": "next"},
@@ -151,9 +145,7 @@ class TestItems:
             {"working_on": True},
             format="json",
         )
-        completed = api.post(
-            f"/api/envs/work/items/{created['id']}/complete/"
-        ).json()
+        completed = api.post(f"/api/envs/work/items/{created['id']}/complete/").json()
         assert completed["working_on"] is False
 
     def test_list_items_filter_by_status(self, api):
@@ -250,9 +242,7 @@ class TestItems:
     def test_done_list_pagination(self, api):
         ids = []
         for n in range(5):
-            created = api.post(
-                "/api/envs/work/items/", {"title": f"T{n}"}, format="json"
-            ).json()
+            created = api.post("/api/envs/work/items/", {"title": f"T{n}"}, format="json").json()
             api.post(f"/api/envs/work/items/{created['id']}/complete/")
             ids.append(created["id"])
 
@@ -277,9 +267,7 @@ class TestItems:
     def test_uncomplete_via_move_to_next(self, api):
         # The frontend "uncomplete" button uses the existing move endpoint
         # to send an archive item back to next.
-        created = api.post(
-            "/api/envs/work/items/", {"title": "Done thing"}, format="json"
-        ).json()
+        created = api.post("/api/envs/work/items/", {"title": "Done thing"}, format="json").json()
         api.post(f"/api/envs/work/items/{created['id']}/complete/")
         r = api.post(
             f"/api/envs/work/items/{created['id']}/move/",

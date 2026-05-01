@@ -15,8 +15,7 @@ from pathlib import Path
 from .reader import BearReader
 
 DEFAULT_DB_PATH = Path(
-    "~/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/"
-    "Application Data/database.sqlite"
+    "~/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite"
 ).expanduser()
 
 
@@ -28,9 +27,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("query", help="FTS5 search query")
     parser.add_argument("--limit", type=int, default=10)
     parser.add_argument("--db-path", type=Path, default=DEFAULT_DB_PATH)
-    parser.add_argument(
-        "--include-trashed", action="store_true", default=False
-    )
+    parser.add_argument("--include-trashed", action="store_true", default=False)
     parser.add_argument(
         "--include-archived",
         dest="include_archived",

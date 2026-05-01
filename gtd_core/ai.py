@@ -85,8 +85,11 @@ def ai_capture(
         )
 
     prompt = _build_prompt(
-        text=text, cfg=cfg, projects=projects,
-        sample_actions=sample_actions, today=today,
+        text=text,
+        cfg=cfg,
+        projects=projects,
+        sample_actions=sample_actions,
+        today=today,
     )
 
     cmd = [claude_path, "-p", prompt]
@@ -157,8 +160,7 @@ def _build_prompt(
             "- Only set a field when clearly implied by the input.",
             "- If the input references a project by name or keyword, set project_query "
             "to that project's title.",
-            "- When a project matches, phrase the title to fit that project's recent-action "
-            "style.",
+            "- When a project matches, phrase the title to fit that project's recent-action style.",
             "- Dates accept natural language ('tomorrow', 'next friday', 'eom', '2w') "
             "or ISO YYYY-MM-DD.",
             "- Always include a one-line summary of what you extracted for the user toast.",
@@ -205,7 +207,7 @@ def _result_from_dict(data: dict) -> AiCaptureResult:
 
     return AiCaptureResult(
         title=str(data["title"]).strip(),
-        summary=str(data.get("summary", f"Added \"{data['title']}\" to inbox")).strip(),
+        summary=str(data.get("summary", f'Added "{data["title"]}" to inbox')).strip(),
         body=_opt_str("body"),
         energy=_opt_str("energy"),
         time_minutes=(

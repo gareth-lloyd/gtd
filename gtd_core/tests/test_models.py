@@ -67,12 +67,20 @@ class TestItem:
     def test_independent_default_lists(self):
         """Default factories must give each instance its own list."""
         a = Item(
-            id="a", title="", body="", created=datetime(2026, 1, 1),
-            updated=datetime(2026, 1, 1), status=Bucket.INBOX,
+            id="a",
+            title="",
+            body="",
+            created=datetime(2026, 1, 1),
+            updated=datetime(2026, 1, 1),
+            status=Bucket.INBOX,
         )
         b = Item(
-            id="b", title="", body="", created=datetime(2026, 1, 1),
-            updated=datetime(2026, 1, 1), status=Bucket.INBOX,
+            id="b",
+            title="",
+            body="",
+            created=datetime(2026, 1, 1),
+            updated=datetime(2026, 1, 1),
+            status=Bucket.INBOX,
         )
         a.contexts.append("calls")
         assert b.contexts == []

@@ -20,11 +20,14 @@ def _run_cli(args: list[str]) -> subprocess.CompletedProcess:
 @pytest.fixture
 def populated_db(tmp_path):
     db = tmp_path / "bear.sqlite"
-    make_bear_db(db, [
-        NoteSpec(unique_id="a", title="Alpha onboarding", body="welcome ryan"),
-        NoteSpec(unique_id="b", title="Beta", body="other content"),
-        NoteSpec(unique_id="c", title="Gamma", body="ryan again"),
-    ])
+    make_bear_db(
+        db,
+        [
+            NoteSpec(unique_id="a", title="Alpha onboarding", body="welcome ryan"),
+            NoteSpec(unique_id="b", title="Beta", body="other content"),
+            NoteSpec(unique_id="c", title="Gamma", body="ryan again"),
+        ],
+    )
     return db
 
 

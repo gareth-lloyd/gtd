@@ -59,10 +59,7 @@ def is_due(template: Template, today: date) -> bool:
     """
     if template.last_spawned is None:
         return True
-    return (
-        next_upcoming_spawn_date(template.recurrence, template.last_spawned, today)
-        == today
-    )
+    return next_upcoming_spawn_date(template.recurrence, template.last_spawned, today) == today
 
 
 def spawn_from_template(template: Template, repo: EnvRepository, today: date) -> Item:

@@ -93,9 +93,7 @@ def make_bear_db(path: Path, notes: list[NoteSpec]) -> Path:
             )
             for tag in spec.tags:
                 if tag not in tag_ids:
-                    cur = conn.execute(
-                        "INSERT INTO ZSFNOTETAG (ZTITLE) VALUES (?)", (tag,)
-                    )
+                    cur = conn.execute("INSERT INTO ZSFNOTETAG (ZTITLE) VALUES (?)", (tag,))
                     tag_ids[tag] = cur.lastrowid  # type: ignore[assignment]
                 conn.execute(
                     "INSERT INTO Z_5TAGS (Z_5NOTES, Z_13TAGS) VALUES (?, ?)",

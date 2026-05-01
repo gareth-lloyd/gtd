@@ -236,6 +236,7 @@ class TestPurge:
 
     def test_purge_missing_raises(self, svc):
         import pytest
+
         with pytest.raises(KeyError):
             svc.purge("work", "nope")
 
@@ -492,9 +493,7 @@ class TestOverdueFilter:
         past, today, *_ = self._seed(svc)
         svc.update("work", past.id, {"contexts": ["calls"]})
         svc.update("work", today.id, {"contexts": ["computer"]})
-        results = svc.list_items(
-            "work", bucket=Bucket.NEXT, overdue=True, contexts=["calls"]
-        )
+        results = svc.list_items("work", bucket=Bucket.NEXT, overdue=True, contexts=["calls"])
         assert {r.id for r in results} == {past.id}
 
     def test_overdue_works_in_other_buckets(self, svc):
@@ -509,10 +508,16 @@ class TestOverdueFilter:
 
 class TestActionsForProject:
     def test_returns_linked_items(self, svc):
-        svc.save_project("work", Project(
-            id="p1", title="P1", body="",
-            created=datetime(2026, 3, 1), updated=datetime(2026, 3, 1),
-        ))
+        svc.save_project(
+            "work",
+            Project(
+                id="p1",
+                title="P1",
+                body="",
+                created=datetime(2026, 3, 1),
+                updated=datetime(2026, 3, 1),
+            ),
+        )
         a = svc.capture("work", "Action A")
         svc.move("work", a.id, Bucket.NEXT)
         svc.update("work", a.id, {"project": "p1"})
@@ -522,19 +527,29 @@ class TestActionsForProject:
         assert {r.id for r in results} == {a.id}
 
     def _seed_project_with_deferred(self, svc):
-        svc.save_project("work", Project(
-            id="p1", title="P1", body="",
-            created=datetime(2026, 3, 1), updated=datetime(2026, 3, 1),
-        ))
+        svc.save_project(
+            "work",
+            Project(
+                id="p1",
+                title="P1",
+                body="",
+                created=datetime(2026, 3, 1),
+                updated=datetime(2026, 3, 1),
+            ),
+        )
         live = svc.capture("work", "Live")
         svc.move("work", live.id, Bucket.NEXT)
         svc.update("work", live.id, {"project": "p1"})
         deferred = svc.capture("work", "Deferred")
         svc.move("work", deferred.id, Bucket.NEXT)
-        svc.update("work", deferred.id, {
-            "project": "p1",
-            "defer_until": datetime(2026, 6, 1, 9, 0),
-        })
+        svc.update(
+            "work",
+            deferred.id,
+            {
+                "project": "p1",
+                "defer_until": datetime(2026, 6, 1, 9, 0),
+            },
+        )
         return live, deferred
 
     def test_hides_deferred_by_default(self, svc):
@@ -550,25 +565,33 @@ class TestActionsForProject:
     def test_overdue_overrides_defer(self, svc):
         # Same protection as filter_items: a deferred-but-overdue item must
         # surface so a stale defer_until cannot swallow a missed deadline.
-        svc.save_project("work", Project(
-            id="p1", title="P1", body="",
-            created=datetime(2026, 3, 1), updated=datetime(2026, 3, 1),
-        ))
+        svc.save_project(
+            "work",
+            Project(
+                id="p1",
+                title="P1",
+                body="",
+                created=datetime(2026, 3, 1),
+                updated=datetime(2026, 3, 1),
+            ),
+        )
         item = svc.capture("work", "Overdue + deferred")
         svc.move("work", item.id, Bucket.NEXT)
-        svc.update("work", item.id, {
-            "project": "p1",
-            "due": "2026-04-09",
-            "defer_until": datetime(2026, 6, 1, 9, 0),
-        })
+        svc.update(
+            "work",
+            item.id,
+            {
+                "project": "p1",
+                "due": "2026-04-09",
+                "defer_until": datetime(2026, 6, 1, 9, 0),
+            },
+        )
         results = svc.actions_for_project("work", "p1")
         assert {r.id for r in results} == {item.id}
 
 
 class TestFindProjectByTitle:
-    def _save(
-        self, svc, pid: str, title: str, *, priority=None, status: str = "active"
-    ) -> Project:
+    def _save(self, svc, pid: str, title: str, *, priority=None, status: str = "active") -> Project:
         project = Project(
             id=pid,
             title=title,
@@ -782,9 +805,7 @@ class TestMaxNextItems:
 
     def test_create_project_rejects_zero(self, svc):
         with pytest.raises(ValueError, match="max_next_items"):
-            svc.create_project(
-                "work", title="Bad", project_id="bad", max_next_items=0
-            )
+            svc.create_project("work", title="Bad", project_id="bad", max_next_items=0)
 
 
 class TestNextViewSort:

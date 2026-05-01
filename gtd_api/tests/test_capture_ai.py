@@ -124,9 +124,7 @@ class TestCaptureAiFiltering:
                 "summary": "Added to inbox",
             },
         )
-        r = api.post(
-            "/api/envs/work/items/capture-ai/", {"text": "call dentist"}, format="json"
-        )
+        r = api.post("/api/envs/work/items/capture-ai/", {"text": "call dentist"}, format="json")
         assert r.status_code == 201
         assert r.json()["item"]["contexts"] == ["calls"]
 
@@ -139,9 +137,7 @@ class TestCaptureAiFiltering:
                 "summary": "Added to inbox",
             },
         )
-        r = api.post(
-            "/api/envs/work/items/capture-ai/", {"text": "plan roadmap"}, format="json"
-        )
+        r = api.post("/api/envs/work/items/capture-ai/", {"text": "plan roadmap"}, format="json")
         assert r.status_code == 201
         assert r.json()["item"]["area"] is None
 
@@ -166,25 +162,19 @@ class TestCaptureAiFiltering:
 class TestCaptureAiErrors:
     def test_missing_cli_returns_503(self, api, monkeypatch):
         monkeypatch.setattr("gtd_core.ai.shutil.which", lambda name: None)
-        r = api.post(
-            "/api/envs/work/items/capture-ai/", {"text": "anything"}, format="json"
-        )
+        r = api.post("/api/envs/work/items/capture-ai/", {"text": "anything"}, format="json")
         assert r.status_code == 503
         assert "claude CLI" in r.json()["error"]
 
     def test_invalid_json_returns_422(self, api, monkeypatch):
         _mock_claude_cli(monkeypatch, response_dict=None)
-        r = api.post(
-            "/api/envs/work/items/capture-ai/", {"text": "anything"}, format="json"
-        )
+        r = api.post("/api/envs/work/items/capture-ai/", {"text": "anything"}, format="json")
         assert r.status_code == 422
         assert "AI did not return valid JSON" in r.json()["error"]
 
     def test_unknown_env_returns_404(self, api, monkeypatch):
         _mock_claude_cli(monkeypatch, {"title": "x", "summary": "x"})
-        r = api.post(
-            "/api/envs/nope/items/capture-ai/", {"text": "x"}, format="json"
-        )
+        r = api.post("/api/envs/nope/items/capture-ai/", {"text": "x"}, format="json")
         assert r.status_code == 404
 
 
@@ -215,9 +205,7 @@ class TestCaptureAiPromptShape:
 
 class TestFuzzyProjectMatching:
     def test_matches_case_insensitive_title(self, api, monkeypatch):
-        _create_project(
-            api, id="2026-03-01-people-mgmt", title="People", priority=2
-        )
+        _create_project(api, id="2026-03-01-people-mgmt", title="People", priority=2)
         _mock_claude_cli(
             monkeypatch,
             {
@@ -226,15 +214,11 @@ class TestFuzzyProjectMatching:
                 "summary": "Filed to People",
             },
         )
-        r = api.post(
-            "/api/envs/work/items/capture-ai/", {"text": "x"}, format="json"
-        )
+        r = api.post("/api/envs/work/items/capture-ai/", {"text": "x"}, format="json")
         assert r.json()["item"]["project"] == "2026-03-01-people-mgmt"
 
     def test_matches_substring(self, api, monkeypatch):
-        _create_project(
-            api, id="2026-03-01-ship-the-release", title="Ship the release"
-        )
+        _create_project(api, id="2026-03-01-ship-the-release", title="Ship the release")
         _mock_claude_cli(
             monkeypatch,
             {
@@ -243,9 +227,7 @@ class TestFuzzyProjectMatching:
                 "summary": "Filed",
             },
         )
-        r = api.post(
-            "/api/envs/work/items/capture-ai/", {"text": "x"}, format="json"
-        )
+        r = api.post("/api/envs/work/items/capture-ai/", {"text": "x"}, format="json")
         assert r.json()["item"]["project"] == "2026-03-01-ship-the-release"
 
     def test_matches_fuzzy_typo(self, api, monkeypatch):
@@ -258,7 +240,5 @@ class TestFuzzyProjectMatching:
                 "summary": "Filed",
             },
         )
-        r = api.post(
-            "/api/envs/work/items/capture-ai/", {"text": "x"}, format="json"
-        )
+        r = api.post("/api/envs/work/items/capture-ai/", {"text": "x"}, format="json")
         assert r.json()["item"]["project"] == "2026-03-01-performance"
