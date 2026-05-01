@@ -21,8 +21,7 @@ notebooks, or CLI sessions. The API only ever calls `GtdService` methods.
 ## Running
 
 ```sh
-uv sync                                    # Python deps
-cd frontend && npm install && npm run build # Frontend (once)
+./scripts/setup-dev.sh                     # First clone: deps + pre-commit hook
 uv run manage.py runserver 8765            # Serve everything
 ```
 
@@ -34,10 +33,29 @@ the Django server.
 ```sh
 uv run pytest                    # backend (models, storage, repo, service, API, snapshot, importer)
 cd frontend && npm test          # frontend (vitest + testing-library)
-uv run ruff check .              # lint
+./scripts/lint.sh                # ruff + eslint + prettier + tsc (also auto-runs pre-commit)
 ./scripts/coverage.sh            # backend + frontend coverage summary
 ./scripts/e2e.sh                 # Playwright e2e against a throwaway env
 ```
+
+## Linting
+
+A single `pre-commit` umbrella covers both languages. One-time setup is
+`./scripts/setup-dev.sh` (or `uv run pre-commit install`); thereafter
+hooks fire on every `git commit`.
+
+```sh
+./scripts/lint.sh                # full battery, fail-fast (mirrors pre-commit)
+uv run ruff check . --fix        # Python lint, auto-fix
+uv run ruff format .             # Python format
+cd frontend && npm run lint:fix  # ESLint, auto-fix
+cd frontend && npm run format    # Prettier, auto-fix
+cd frontend && npm run typecheck # tsc --noEmit
+```
+
+Pyright config exists in `pyproject.toml` for editor LSPs but is not in
+the lint pipeline — there's a backlog of stub-related errors to clean up
+before that gate makes sense.
 
 All backend tests use `tmp_path` fixtures — no test touches real data.
 Frontend tests use jsdom + mocked API.

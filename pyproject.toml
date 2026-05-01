@@ -39,6 +39,7 @@ line-ending = "lf"
 venvPath = "."
 venv = ".venv"
 extraPaths = ["."]
+typeCheckingMode = "basic"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "gtd_site.settings"

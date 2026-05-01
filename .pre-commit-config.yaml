@@ -1,0 +1,39 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^data/
+      - id: end-of-file-fixer
+        exclude: ^data/
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.5
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint (frontend)
+        language: system
+        # Pre-commit passes paths relative to repo root; strip the frontend/
+        # prefix before invoking eslint inside frontend/.
+        entry: bash -c 'paths=(); for f in "$@"; do paths+=("${f#frontend/}"); done; cd frontend && npx --no-install eslint --max-warnings=0 --cache --cache-location node_modules/.cache/.eslintcache "${paths[@]}"' --
+        files: ^frontend/.*\.(ts|tsx|js|cjs|mjs)$
+        exclude: ^frontend/(dist|coverage|playwright-report|e2e/\.tmp)/
+        pass_filenames: true
+
+      - id: prettier
+        name: prettier (frontend)
+        language: system
+        entry: bash -c 'paths=(); for f in "$@"; do paths+=("${f#frontend/}"); done; cd frontend && npx --no-install prettier --write --ignore-unknown "${paths[@]}"' --
+        files: ^frontend/.*\.(ts|tsx|js|cjs|mjs|json|css|md|html)$
+        exclude: ^frontend/(dist|coverage|playwright-report|test-results|e2e/\.tmp|package-lock\.json)
+        pass_filenames: true

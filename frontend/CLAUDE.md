@@ -133,6 +133,25 @@ npm run dev      # vite dev server on :5173, proxies /api to :8000
 `dist/` is served by Django via WhiteNoise at `/static/`. Vite `base` is
 `/static/` so built assets reference `/static/assets/...`.
 
+## Lint / format
+
+Configured in `eslint.config.js` (flat config) and `.prettierrc.json`.
+ESLint uses the established React Hooks rules (`rules-of-hooks`,
+`exhaustive-deps`) plus typescript-eslint recommended. The newer v7
+"react-compiler-friendly" rules are deliberately not enabled.
+
+```sh
+npm run lint        # eslint --max-warnings=0 (cached)
+npm run lint:fix    # eslint --fix
+npm run format      # prettier --write
+npm run format:check
+npm run typecheck   # tsc --noEmit
+```
+
+The repo-root `./scripts/lint.sh` runs all of these plus the Python
+equivalents in fail-fast order. Both fire automatically via
+`pre-commit` on `git commit`.
+
 ## E2E (Playwright)
 
 `e2e/*.spec.ts` — Playwright specs. `playwright.config.ts` runs a

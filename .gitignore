@@ -17,6 +17,7 @@ frontend/dist/
 frontend/e2e/.tmp/
 frontend/test-results/
 frontend/playwright-report/
+frontend/coverage/
 
 # Django collectstatic output (unused locally)
 staticfiles/
