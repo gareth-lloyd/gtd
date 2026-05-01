@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
 
-from gtd_core.models import Bucket, EnvConfig, Item, Project
+from gtd_core.models import Bucket, Energy, EnvConfig, Item, Project, ProjectStatus
 from gtd_core.repository import EnvRepository
 from gtd_core.service import make_item_id
 
@@ -25,9 +25,9 @@ STATE_TO_BUCKET: dict[str, Bucket | None] = {
     "Active": None,
 }
 
-ENERGY_MAP = {"High": "high", "Medium": "medium", "Low": "low"}
+ENERGY_MAP: dict[str, Energy] = {"High": "high", "Medium": "medium", "Low": "low"}
 
-PROJECT_STATE_MAP = {
+PROJECT_STATE_MAP: dict[str, ProjectStatus] = {
     "Active": "active",
     "Next": "active",
     "Inbox": "active",
@@ -92,11 +92,11 @@ def import_csv(
     task_rows = [r for r in rows if r["TYPE"] not in PROJECT_TYPES]
     for row in task_rows:
         state = row["STATE"]
-        bucket = STATE_TO_BUCKET.get(state, "missing")
-        if bucket == "missing":
+        if state not in STATE_TO_BUCKET:
             stats.unknown_states[state] = stats.unknown_states.get(state, 0) + 1
             stats.skipped += 1
             continue
+        bucket = STATE_TO_BUCKET[state]
         if bucket is None:
             stats.skipped += 1
             continue
@@ -134,7 +134,7 @@ def import_csv(
             area=None,
             tags=tags,
             due=parse_date(row.get("DUEDATE")),
-            defer_until=parse_date(row.get("STARTDATE")),
+            defer_until=_to_midnight(parse_date(row.get("STARTDATE"))),
             waiting_on=waiting_on,
             waiting_since=None,
         )
@@ -158,6 +158,13 @@ def parse_date(s: str | None) -> date | None:
         return date(int(parts[0]), int(parts[1]), int(parts[2]))
     except (ValueError, IndexError):
         return None
+
+
+def _to_midnight(d: date | None) -> datetime | None:
+    """Promote a date to midnight datetime (matches the storage convention)."""
+    if d is None:
+        return None
+    return datetime.combine(d, datetime.min.time())
 
 
 def parse_int(s: str | None) -> int | None:

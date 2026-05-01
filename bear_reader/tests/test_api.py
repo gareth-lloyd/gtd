@@ -130,4 +130,4 @@ class TestMissingDatabase:
         client = APIClient()
         r = client.get("/bear-api/notes/")
         assert r.status_code == 503
-        assert "bear database not found" in r.json()["error"].lower()
+        assert "bear database not found" in r.data["error"].lower()  # type: ignore[attr-defined]

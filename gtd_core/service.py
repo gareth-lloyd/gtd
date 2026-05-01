@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 
 from gtd_core.dates import is_overdue, parse_human_date, parse_human_datetime
-from gtd_core.models import Bucket, EnvConfig, Item, Project
+from gtd_core.models import Bucket, Energy, EnvConfig, Item, Priority, Project
 from gtd_core.repository import EnvRepository
 
 _ENERGY_RANK = {"low": 1, "medium": 2, "high": 3}
@@ -55,7 +55,7 @@ class GtdService:
         env: str,
         title: str,
         body: str = "",
-        energy: str | None = None,
+        energy: Energy | None = None,
         time_minutes: int | None = None,
         contexts: list[str] | None = None,
         source_id: str | None = None,
@@ -127,11 +127,14 @@ class GtdService:
         )
 
         contexts = [c for c in (result.contexts or []) if c in cfg.contexts]
+        energy: Energy | None = (
+            result.energy if result.energy in ("low", "medium", "high") else None
+        )
         item = self.capture(
             env,
             title=result.title,
             body=result.body or "",
-            energy=result.energy,
+            energy=energy,
             time_minutes=result.time_minutes,
             contexts=contexts or None,
         )
@@ -400,7 +403,7 @@ class GtdService:
         area: str | None = None,
         tags: list[str] | None = None,
         due: str | None = None,
-        priority: int | None = None,
+        priority: Priority | None = None,
         max_next_items: int | None = None,
     ) -> Project:
         if max_next_items is not None and max_next_items < 1:
