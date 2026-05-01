@@ -31,6 +31,8 @@ export interface Item {
   waiting_since: string | null;
   order: number | null;
   source_id: string | null;
+  /** Pin to top of next-actions; auto-cleared on completion, future defer, or move out of next. */
+  working_on: boolean;
 }
 
 export interface Project {

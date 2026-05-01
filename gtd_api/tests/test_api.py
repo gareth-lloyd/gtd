@@ -116,6 +116,46 @@ class TestItems:
         assert r.status_code == 200
         assert r.json()["source_id"] == "ENT-1234"
 
+    def test_working_on_round_trips_via_patch(self, api):
+        created = api.post(
+            "/api/envs/work/items/", {"title": "Drive"}, format="json"
+        ).json()
+        assert created["working_on"] is False
+        api.post(
+            f"/api/envs/work/items/{created['id']}/move/",
+            {"to": "next"},
+            format="json",
+        )
+        r = api.patch(
+            f"/api/envs/work/items/{created['id']}/",
+            {"working_on": True},
+            format="json",
+        )
+        assert r.status_code == 200
+        assert r.json()["working_on"] is True
+
+        got = api.get(f"/api/envs/work/items/{created['id']}/").json()
+        assert got["working_on"] is True
+
+    def test_complete_clears_working_on_via_api(self, api):
+        created = api.post(
+            "/api/envs/work/items/", {"title": "Drive"}, format="json"
+        ).json()
+        api.post(
+            f"/api/envs/work/items/{created['id']}/move/",
+            {"to": "next"},
+            format="json",
+        )
+        api.patch(
+            f"/api/envs/work/items/{created['id']}/",
+            {"working_on": True},
+            format="json",
+        )
+        completed = api.post(
+            f"/api/envs/work/items/{created['id']}/complete/"
+        ).json()
+        assert completed["working_on"] is False
+
     def test_list_items_filter_by_status(self, api):
         a = api.post("/api/envs/work/items/", {"title": "A"}, format="json").json()
         api.post(f"/api/envs/work/items/{a['id']}/move/", {"to": "next"}, format="json")

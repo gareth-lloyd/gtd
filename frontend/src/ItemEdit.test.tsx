@@ -41,6 +41,7 @@ const baseItem: Item = {
   waiting_since: null,
   order: null,
   source_id: null,
+  working_on: false,
 };
 
 const projectA: Project = {

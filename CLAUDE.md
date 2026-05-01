@@ -112,10 +112,18 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
   shows chips, expanded shows live editors. All edits auto-save via
   debounced PATCH (500ms text, immediate discrete). No Save button.
 
+- **Working-on pin**: items carry `working_on: bool` (default false). When
+  set, the item pins to the very top of the next-actions list and bypasses
+  its project's `max_next_items` cap. Auto-cleared on completion, on any
+  move out of the next bucket, and when `defer_until` is set to a future
+  datetime. Edits to title/body/contexts/etc leave it alone.
+
 - **Keyboard shortcuts** (when not focused in an input):
   - `C` — open capture bar (Regular mode)
+  - `Shift+C` — open capture bar (Regular ↑ mode: float new item to top of inbox)
   - `A` — open capture bar (AI mode)
   - `/` — focus search
+  - `F` — toggle working_on on the selected item
   - `Cmd/Ctrl+Enter` — save and close (in expanded item or capture bar)
 
 ## Working rules for Claude

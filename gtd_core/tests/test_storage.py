@@ -130,6 +130,36 @@ class TestItemRoundTrip:
         loaded = load_item(path, Bucket.INBOX)
         assert loaded.source_id is None
 
+    def test_working_on_round_trip(self, tmp_path):
+        item = Item(
+            id="2026-05-01T0900-pin-me",
+            title="Pinned task",
+            body="",
+            created=datetime(2026, 5, 1, 9, 0),
+            updated=datetime(2026, 5, 1, 9, 0),
+            status=Bucket.NEXT,
+            working_on=True,
+        )
+        path = tmp_path / "next" / "pin.md"
+        dump_item(path, item)
+        loaded = load_item(path, Bucket.NEXT)
+        assert loaded.working_on is True
+        assert loaded == item
+
+    def test_working_on_defaults_false_for_legacy_files(self, tmp_path):
+        path = tmp_path / "inbox" / "legacy.md"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            "---\n"
+            "id: 2026-04-01T0900-legacy\n"
+            "title: Legacy item\n"
+            "created: 2026-04-01 09:00:00\n"
+            "updated: 2026-04-01 09:00:00\n"
+            "---\n"
+        )
+        loaded = load_item(path, Bucket.INBOX)
+        assert loaded.working_on is False
+
     def test_body_preserved(self, tmp_path):
         body = "# Heading\n\nSome **bold** markdown.\n\n- list\n- items\n"
         item = Item(

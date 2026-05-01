@@ -39,6 +39,7 @@ def load_item(path: Path, status: Bucket) -> Item:
         waiting_since=_as_date(md.get("waiting_since")),
         order=md.get("order"),
         source_id=md.get("source_id"),
+        working_on=bool(md.get("working_on", False)),
     )
 
 
@@ -170,6 +171,7 @@ def _item_metadata(item: Item) -> dict[str, Any]:
         "waiting_since": item.waiting_since,
         "order": item.order,
         "source_id": item.source_id,
+        "working_on": item.working_on,
     }
 
 

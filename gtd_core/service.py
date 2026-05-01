@@ -172,6 +172,11 @@ class GtdService:
         if item.status is to:
             repo.save(item)
             return item
+        # Working_on is a marker for "actively driving this in next" — it
+        # only makes sense in the NEXT bucket. Any move out of NEXT
+        # (complete, defer-via-move, re-bucket) clears it.
+        if item.status is Bucket.NEXT and to is not Bucket.NEXT:
+            item.working_on = False
         old_path = repo.env_root / item.status.value / f"{item.id}.md"
         item.status = to
         repo.save(item)
@@ -192,6 +197,13 @@ class GtdService:
         _coerce_dates(patch)
         for field_name, value in patch.items():
             setattr(item, field_name, value)
+        # Setting a future defer_until means "I'll come back to this later" —
+        # incompatible with "currently working on it". Past/None defer leaves
+        # working_on alone (the user might be un-deferring something they want
+        # to keep pinned).
+        new_defer = patch.get("defer_until")
+        if isinstance(new_defer, datetime) and new_defer > self._now():
+            item.working_on = False
         item.updated = self._now()
         repo.save(item)
         return item
@@ -522,6 +534,10 @@ def apply_next_item_cap(items: list[Item], projects_by_id: dict[str, Project]) -
     Items in uncapped projects (or no project) pass through unchanged.
     `max_next_items=1` gives the classic "sequential" behavior; higher values
     surface several ordered steps at once.
+
+    Items flagged `working_on=True` always pass through, even when past the
+    cap — pinning explicitly overrides the per-project visibility limit so the
+    thing you're actively driving is never hidden.
     """
     seen_counts: dict[str, int] = {}
     result: list[Item] = []
@@ -530,7 +546,7 @@ def apply_next_item_cap(items: list[Item], projects_by_id: dict[str, Project]) -
         project = projects_by_id.get(item.project) if item.project else None
         if project is not None and project.max_next_items is not None:
             count = seen_counts.get(project.id, 0)
-            if count >= project.max_next_items:
+            if count >= project.max_next_items and not item.working_on:
                 continue
             seen_counts[project.id] = count + 1
         result.append(item)
@@ -557,7 +573,8 @@ def sort_next_items(items: list[Item], projects_by_id: dict[str, Project]) -> li
         # (0, due) < (1,) so undated items sort after dated ones without
         # needing to compare a date to None.
         due_rank: tuple = (0, item.due) if item.due is not None else (1,)
-        return (priority, due_rank, item.id)
+        # Working_on items pin to the very top — False sorts before True.
+        return (not item.working_on, priority, due_rank, item.id)
 
     return sorted(items, key=key)
 

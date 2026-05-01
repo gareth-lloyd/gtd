@@ -938,3 +938,122 @@ class TestEnvIsolation:
         assert (data_root / "home" / "inbox" / f"{h.id}.md").exists()
         assert svc.filter_next("work") == []
         assert svc.filter_next("home") == []
+
+
+class TestWorkingOn:
+    def _next_item(self, svc, title: str, project_id: str | None = None, order: int | None = None):
+        item = svc.capture("work", title)
+        svc.move("work", item.id, Bucket.NEXT)
+        patch: dict = {}
+        if project_id is not None:
+            patch["project"] = project_id
+        if order is not None:
+            patch["order"] = order
+        if patch:
+            svc.update("work", item.id, patch)
+        return item
+
+    def _project(
+        self,
+        svc,
+        pid: str,
+        *,
+        max_next_items: int | None = None,
+        priority: int | None = None,
+    ) -> Project:
+        project = Project(
+            id=pid,
+            title=f"Project {pid}",
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+            max_next_items=max_next_items,
+            priority=priority,
+        )
+        svc.save_project("work", project)
+        return project
+
+    def test_default_is_false(self, svc):
+        item = svc.capture("work", "Plain")
+        assert item.working_on is False
+
+    def test_patch_sets_working_on(self, svc):
+        item = self._next_item(svc, "Driving this")
+        updated = svc.update("work", item.id, {"working_on": True})
+        assert updated.working_on is True
+
+    def test_complete_clears_working_on(self, svc):
+        item = self._next_item(svc, "Driving")
+        svc.update("work", item.id, {"working_on": True})
+        completed = svc.complete("work", item.id)
+        assert completed.working_on is False
+
+    def test_move_out_of_next_clears_working_on(self, svc):
+        item = self._next_item(svc, "Driving")
+        svc.update("work", item.id, {"working_on": True})
+        moved = svc.move("work", item.id, Bucket.WAITING)
+        assert moved.working_on is False
+
+    def test_delete_clears_working_on(self, svc):
+        item = self._next_item(svc, "Driving")
+        svc.update("work", item.id, {"working_on": True})
+        trashed = svc.delete("work", item.id)
+        assert trashed.working_on is False
+
+    def test_move_within_next_preserves_working_on(self, svc):
+        item = self._next_item(svc, "Driving")
+        svc.update("work", item.id, {"working_on": True})
+        moved = svc.move("work", item.id, Bucket.NEXT)
+        assert moved.working_on is True
+
+    def test_setting_future_defer_clears_working_on(self, svc):
+        item = self._next_item(svc, "Driving")
+        svc.update("work", item.id, {"working_on": True})
+        # svc fixture's now() is 2026-04-10 09:15
+        updated = svc.update("work", item.id, {"defer_until": "2026-04-15T09:00"})
+        assert updated.working_on is False
+        assert updated.defer_until == datetime(2026, 4, 15, 9, 0)
+
+    def test_clearing_defer_does_not_toggle_working_on(self, svc):
+        item = self._next_item(svc, "Driving")
+        svc.update("work", item.id, {"working_on": True})
+        updated = svc.update("work", item.id, {"defer_until": None})
+        assert updated.working_on is True
+
+    def test_past_defer_does_not_clear_working_on(self, svc):
+        item = self._next_item(svc, "Driving")
+        svc.update("work", item.id, {"working_on": True})
+        updated = svc.update("work", item.id, {"defer_until": "2026-04-01T09:00"})
+        assert updated.working_on is True
+
+    def test_title_edit_does_not_clear_working_on(self, svc):
+        item = self._next_item(svc, "Driving")
+        svc.update("work", item.id, {"working_on": True})
+        updated = svc.update("work", item.id, {"title": "Renamed"})
+        assert updated.working_on is True
+
+    def test_working_on_pins_to_top_of_next(self, svc):
+        # P1 project would normally pull its items above an unpinned orphan,
+        # but a working_on flag on a P5 item beats everything.
+        self._project(svc, "p1", priority=1)
+        a = self._next_item(svc, "P1 first", project_id="p1")
+        self._project(svc, "p5", priority=5)
+        b = self._next_item(svc, "P5 pinned", project_id="p5")
+        svc.update("work", b.id, {"working_on": True})
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered[0] == b.id
+        assert a.id in ordered
+
+    def test_working_on_overrides_max_next_items_cap(self, svc):
+        self._project(svc, "seq", max_next_items=1)
+        a = self._next_item(svc, "Step A", project_id="seq", order=1)
+        b = self._next_item(svc, "Step B", project_id="seq", order=2)
+        c = self._next_item(svc, "Step C", project_id="seq", order=3)
+        # Without working_on: only A is visible.
+        assert {i.id for i in svc.filter_next("work")} == {a.id}
+        # Pin B — both A and B should now show; C still capped.
+        svc.update("work", b.id, {"working_on": True})
+        visible = {i.id for i in svc.filter_next("work")}
+        assert a.id in visible
+        assert b.id in visible
+        assert c.id not in visible

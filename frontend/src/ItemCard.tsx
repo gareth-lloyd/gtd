@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
+const SESSION_START_MS = Date.now();
+const FRESH_WINDOW_MS = 2000;
+
 const markdownComponents: Components = {
   a: ({ node: _node, ...props }) => (
     <a {...props} target="_blank" rel="noopener noreferrer" />
@@ -24,13 +27,12 @@ export function ItemCard({
   const { selectedId, hoveredId, select, setHover } = useSelection();
   const selected = selectedId === item.id;
   const hovered = hoveredId === item.id;
-  const cardRef = useRef<HTMLDivElement>(null);
 
-  const onMouseEnter = () => {
-    if (!cardRef.current) return;
-    const scrollContainer = cardRef.current.closest('main');
+  const onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const scrollContainer = el.closest('main');
     if (!scrollContainer) return;
-    const cardRect = cardRef.current.getBoundingClientRect();
+    const cardRect = el.getBoundingClientRect();
     const containerRect = scrollContainer.getBoundingClientRect();
     const topOffset = cardRect.top - containerRect.top;
     setHover(item.id, topOffset);
@@ -40,18 +42,24 @@ export function ItemCard({
     'item',
     selected ? 'selected' : '',
     hovered && !selected ? 'hovered' : '',
+    item.working_on ? 'working-on' : '',
   ]
     .filter(Boolean)
     .join(' ');
 
+  const createdMs = new Date(item.created).getTime();
+  const isFresh =
+    createdMs > SESSION_START_MS && Date.now() - createdMs < FRESH_WINDOW_MS;
+
   return (
     <div
-      ref={cardRef}
       className={className}
+      data-fresh={isFresh ? 'true' : undefined}
       onClick={(e) => {
         if (selected) return;
         if ((e.target as HTMLElement).closest('.item-actions')) return;
         if ((e.target as HTMLElement).closest('a')) return;
+        if ((e.target as HTMLElement).closest('.working-on-toggle')) return;
         select(item.id);
       }}
       onMouseEnter={onMouseEnter}
@@ -59,9 +67,29 @@ export function ItemCard({
       {selected ? (
         <SelectedInListCard env={env} item={item} />
       ) : (
-        <CollapsedCard item={item} projects={projects} />
+        <CollapsedCard env={env} item={item} projects={projects} />
       )}
     </div>
+  );
+}
+
+function WorkingOnToggle({ env, item }: { env: string; item: Item }) {
+  const { patch } = useItemPatch(env, item.id);
+  const active = item.working_on;
+  return (
+    <button
+      type="button"
+      className={`working-on-toggle${active ? ' active' : ''}`}
+      aria-pressed={active}
+      aria-label={active ? 'Unpin working on' : 'Mark as working on'}
+      title={active ? 'Working on this — click to unpin' : 'Mark as working on'}
+      onClick={(e) => {
+        e.stopPropagation();
+        patch({ working_on: !active }, { debounce: 200 });
+      }}
+    >
+      <span aria-hidden>📌</span>
+    </button>
   );
 }
 
@@ -111,9 +139,11 @@ function ItemLinks({ body }: { body: string }) {
 }
 
 function CollapsedCard({
+  env,
   item,
   projects,
 }: {
+  env: string;
   item: Item;
   projects: Project[] | undefined;
 }) {
@@ -121,7 +151,10 @@ function CollapsedCard({
 
   return (
     <>
-      <div className="item-title">{item.title}</div>
+      <div className="item-title-row">
+        <WorkingOnToggle env={env} item={item} />
+        <div className="item-title">{item.title}</div>
+      </div>
       {item.body && (
         <div className="item-body">
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>

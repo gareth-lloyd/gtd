@@ -39,6 +39,7 @@ const nextItem: Item = {
   waiting_since: null,
   order: null,
   source_id: null,
+  working_on: false,
 };
 
 function renderActions(item: Item) {

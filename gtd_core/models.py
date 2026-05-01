@@ -18,6 +18,8 @@ Item fields:
   waiting_on    str|None  who/what (meaningful when status=waiting)
   waiting_since date|None when we started waiting
   source_id     str|None  stable external ref (PR url, Linear ID, Slack permalink) for dedup
+  working_on    bool      pin to top of next-actions; auto-cleared when the item leaves NEXT
+                          or gets a future defer_until
 """
 
 from dataclasses import dataclass, field
@@ -59,6 +61,7 @@ class Item:
     waiting_since: date | None = None
     order: int | None = None
     source_id: str | None = None
+    working_on: bool = False
 
 
 Priority = Literal[1, 2, 3, 4, 5]

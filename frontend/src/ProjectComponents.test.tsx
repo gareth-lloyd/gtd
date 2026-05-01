@@ -24,6 +24,7 @@ function mkItem(overrides: Partial<Item> = {}): Item {
     waiting_since: null,
     order: null,
     source_id: null,
+    working_on: false,
     ...overrides,
   };
 }

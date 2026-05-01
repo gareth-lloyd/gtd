@@ -26,6 +26,7 @@ import { TemplatesView } from './TemplatesView';
 import { SelectionProvider, useSelection } from './SelectionContext';
 import { DetailPanel } from './DetailPanel';
 import { useEnvParam } from './useEnvParam';
+import { findItemInCache, useItemPatch } from './ItemEdit';
 
 type Section =
   | 'inbox'
@@ -206,6 +207,7 @@ function AppShell() {
 
         <ContentArea env={env} />
       </div>
+      <WorkingOnShortcut env={env} />
     </SelectionProvider>
   );
 }
@@ -220,6 +222,28 @@ function ContentArea({ env }: { env: string }) {
       <DetailPanel env={env} />
     </div>
   );
+}
+
+// Lives inside SelectionProvider so it can read selectedId. Renders nothing.
+function WorkingOnShortcut({ env }: { env: string }) {
+  const { selectedId } = useSelection();
+  const qc = useQueryClient();
+  const { patch } = useItemPatch(env, selectedId ?? '');
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() !== 'f') return;
+      if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+      if (isEditableTarget(e.target)) return;
+      if (!selectedId) return;
+      const item = findItemInCache(qc, env, selectedId);
+      if (!item) return;
+      e.preventDefault();
+      patch({ working_on: !item.working_on });
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [env, selectedId, qc, patch]);
+  return null;
 }
 
 // ---- Env tabs ----
