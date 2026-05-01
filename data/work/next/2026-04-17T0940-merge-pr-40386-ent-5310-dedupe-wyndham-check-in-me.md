@@ -4,8 +4,8 @@ contexts:
 - craft
 - react
 created: 2026-04-17 09:40:12.748440
-defer_until: 2026-05-01 09:00:00
-due: 2026-05-01
+defer_until: null
+due: null
 energy: high
 id: 2026-04-17T0940-merge-pr-40386-ent-5310-dedupe-wyndham-check-in-me
 order: 3
@@ -16,9 +16,10 @@ tags:
 - github
 time_minutes: 15
 title: 'Merge PR #40386: ENT-5310 Dedupe Wyndham check-in message use cases'
-updated: 2026-04-30 09:58:49.889696
+updated: 2026-05-01 14:24:04.958056
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 APPROVED by martinrodriguezcanary, CI green. https://github.com/canary-technologies-corp/canary/pull/40386

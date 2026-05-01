@@ -13,10 +13,10 @@ tags: []
 time_minutes: 5
 title: Use the Compendium rollout as the opportunity to finalize our process for these
   sorts of changes
-updated: 2026-05-01 10:20:57.833014
+updated: 2026-05-01 14:07:32.610154
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Start with a doc

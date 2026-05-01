@@ -15,9 +15,10 @@ tags:
 - slack
 time_minutes: 15
 title: 'Follow up on: SAML/SSO script change for Lautaro (DM)'
-updated: 2026-04-30 11:25:26.430560
+updated: 2026-05-01 14:06:18.019687
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 I parked my own messages on 2026-04-23: 'I can change for today/tomorrow' + 'I'll check the script but I'm sure it's OK'. Verify script and follow up.
