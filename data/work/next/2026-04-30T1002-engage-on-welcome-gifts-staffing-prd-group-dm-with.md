@@ -7,7 +7,7 @@ defer_until: 2026-05-04 09:00:00
 due: null
 energy: medium
 id: 2026-04-30T1002-engage-on-welcome-gifts-staffing-prd-group-dm-with
-order: 10
+order: 6
 project: 2026-04-10T0840-ticket
 source_id: https://canarytechnologies.slack.com/archives/C0B08JBF7K9/p1777498963932009
 tags:
@@ -16,7 +16,7 @@ tags:
 time_minutes: 5
 title: Engage on Welcome Gifts staffing/PRD (group DM with SJ, Blake, Bree, Connor,
   Dana)
-updated: 2026-04-30 13:54:30.896410
+updated: 2026-05-01 08:03:02.757228
 waiting_on: null
 waiting_since: null
 ---
