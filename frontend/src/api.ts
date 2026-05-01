@@ -1,13 +1,6 @@
-export type Bucket =
-  | 'inbox'
-  | 'next'
-  | 'waiting'
-  | 'someday'
-  | 'reference'
-  | 'archive'
-  | 'trash';
-export type Energy = 'low' | 'medium' | 'high';
-export type ProjectStatus = 'active' | 'on_hold' | 'complete' | 'dropped';
+export type Bucket = "inbox" | "next" | "waiting" | "someday" | "reference" | "archive" | "trash";
+export type Energy = "low" | "medium" | "high";
+export type ProjectStatus = "active" | "on_hold" | "complete" | "dropped";
 
 export interface Item {
   id: string;
@@ -51,12 +44,12 @@ export interface Project {
 }
 
 export type Recurrence =
-  | 'daily'
-  | 'weekly'
-  | 'biweekly'
-  | 'monthly'
-  | 'quarterly'
-  | 'yearly'
+  | "daily"
+  | "weekly"
+  | "biweekly"
+  | "monthly"
+  | "quarterly"
+  | "yearly"
   | string; // "every_N_days" falls through
 
 export interface Template {
@@ -99,11 +92,11 @@ export interface SnapshotResult {
   pushed: boolean;
 }
 
-const API_BASE = '/api';
+const API_BASE = "/api";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
     ...init,
   });
   if (!res.ok) {
@@ -121,12 +114,12 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  listEnvs: () => request<EnvSummary[]>('/envs/'),
+  listEnvs: () => request<EnvSummary[]>("/envs/"),
   getConfig: (env: string) => request<EnvConfig>(`/envs/${env}/config/`),
 
   listItems: (env: string, params: Record<string, string> = {}) => {
     const qs = new URLSearchParams(params).toString();
-    return request<Item[]>(`/envs/${env}/items/${qs ? '?' + qs : ''}`);
+    return request<Item[]>(`/envs/${env}/items/${qs ? "?" + qs : ""}`);
   },
   listDoneItems: (env: string, page = 1, pageSize = 50) => {
     const qs = new URLSearchParams({
@@ -141,26 +134,25 @@ export const api = {
       has_next: boolean;
     }>(`/envs/${env}/items/done/?${qs}`);
   },
-  getItem: (env: string, id: string) =>
-    request<Item>(`/envs/${env}/items/${id}/`),
+  getItem: (env: string, id: string) => request<Item>(`/envs/${env}/items/${id}/`),
   captureItem: (
     env: string,
     title: string,
-    body = '',
+    body = "",
     extras: {
       energy?: Energy | null;
       time_minutes?: number | null;
       contexts?: string[];
       at_top?: boolean;
-    } = {}
+    } = {},
   ) =>
     request<Item>(`/envs/${env}/items/`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({ title, body, ...extras }),
     }),
   updateItem: (env: string, id: string, patch: Record<string, unknown>) =>
     request<Item>(`/envs/${env}/items/${id}/`, {
-      method: 'PATCH',
+      method: "PATCH",
       body: JSON.stringify(patch),
     }),
   captureItemAi: (env: string, text: string) =>
@@ -170,30 +162,28 @@ export const api = {
       skipped_inbox: boolean;
       project_title: string | null;
     }>(`/envs/${env}/items/capture-ai/`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({ text }),
     }),
   moveItem: (env: string, id: string, to: Bucket) =>
     request<Item>(`/envs/${env}/items/${id}/move/`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({ to }),
     }),
   completeItem: (env: string, id: string) =>
-    request<Item>(`/envs/${env}/items/${id}/complete/`, { method: 'POST' }),
+    request<Item>(`/envs/${env}/items/${id}/complete/`, { method: "POST" }),
   deleteItem: (env: string, id: string) =>
-    request<Item>(`/envs/${env}/items/${id}/`, { method: 'DELETE' }),
+    request<Item>(`/envs/${env}/items/${id}/`, { method: "DELETE" }),
   purgeItem: (env: string, id: string) =>
-    request<void>(`/envs/${env}/items/${id}/purge/`, { method: 'POST' }),
+    request<void>(`/envs/${env}/items/${id}/purge/`, { method: "POST" }),
 
   listProjects: (env: string, includeInactive = false) => {
-    const qs = includeInactive ? '?include_inactive=true' : '';
+    const qs = includeInactive ? "?include_inactive=true" : "";
     return request<Project[]>(`/envs/${env}/projects/${qs}`);
   },
   getProject: (env: string, id: string, includeDeferred = false) => {
-    const qs = includeDeferred ? '?include_deferred=true' : '';
-    return request<{ project: Project; actions: Item[] }>(
-      `/envs/${env}/projects/${id}/${qs}`
-    );
+    const qs = includeDeferred ? "?include_deferred=true" : "";
+    return request<{ project: Project; actions: Item[] }>(`/envs/${env}/projects/${id}/${qs}`);
   },
   createProject: (
     env: string,
@@ -206,44 +196,39 @@ export const api = {
       due?: string | null;
       priority?: number | null;
       max_next_items?: number | null;
-    }
+    },
   ) =>
     request<Project>(`/envs/${env}/projects/`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(data),
     }),
   updateProject: (env: string, id: string, patch: Record<string, unknown>) =>
     request<Project>(`/envs/${env}/projects/${id}/`, {
-      method: 'PATCH',
+      method: "PATCH",
       body: JSON.stringify(patch),
     }),
   deleteProject: (env: string, id: string) =>
-    request<void>(`/envs/${env}/projects/${id}/`, { method: 'DELETE' }),
+    request<void>(`/envs/${env}/projects/${id}/`, { method: "DELETE" }),
   reorderProjectItems: (env: string, projectId: string, itemIds: string[]) =>
     request<Item[]>(`/envs/${env}/projects/${projectId}/reorder/`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({ item_ids: itemIds }),
     }),
 
-  listTemplates: (env: string) =>
-    request<Template[]>(`/envs/${env}/templates/`),
+  listTemplates: (env: string) => request<Template[]>(`/envs/${env}/templates/`),
 
-  listSearchCorpus: async (
-    env: string
-  ): Promise<{ items: Item[]; projects: Project[] }> => {
+  listSearchCorpus: async (env: string): Promise<{ items: Item[]; projects: Project[] }> => {
     const [items, projects] = await Promise.all([
-      request<Item[]>(
-        `/envs/${env}/items/?include_archive=true&include_trash=true`
-      ),
+      request<Item[]>(`/envs/${env}/items/?include_archive=true&include_trash=true`),
       request<Project[]>(`/envs/${env}/projects/?include_inactive=true`),
     ]);
     return { items, projects };
   },
 
-  snapshotStatus: () => request<SnapshotStatus>('/snapshot/status/'),
+  snapshotStatus: () => request<SnapshotStatus>("/snapshot/status/"),
   snapshot: (message?: string, push = false) =>
-    request<SnapshotResult>('/snapshot/', {
-      method: 'POST',
+    request<SnapshotResult>("/snapshot/", {
+      method: "POST",
       body: JSON.stringify({ message, push }),
     }),
 };

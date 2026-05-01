@@ -1,15 +1,15 @@
-import { useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import MiniSearch from 'minisearch';
-import { api, type Item, type Project } from './api';
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import MiniSearch from "minisearch";
+import { api, type Item, type Project } from "./api";
 
 export type SearchHit =
-  | { kind: 'item'; id: string; item: Item }
-  | { kind: 'project'; id: string; project: Project };
+  | { kind: "item"; id: string; item: Item }
+  | { kind: "project"; id: string; project: Project };
 
 interface SearchDoc {
   id: string;
-  kind: 'item' | 'project';
+  kind: "item" | "project";
   title: string;
   body: string;
   outcome: string;
@@ -19,15 +19,7 @@ interface SearchDoc {
   projectTitle: string;
 }
 
-const SEARCH_FIELDS = [
-  'title',
-  'body',
-  'outcome',
-  'contexts',
-  'tags',
-  'area',
-  'projectTitle',
-];
+const SEARCH_FIELDS = ["title", "body", "outcome", "contexts", "tags", "area", "projectTitle"];
 
 const FIELD_BOOSTS = {
   title: 3,
@@ -42,13 +34,13 @@ const FIELD_BOOSTS = {
 function itemDoc(item: Item, projectTitle: string): SearchDoc {
   return {
     id: `item:${item.id}`,
-    kind: 'item',
+    kind: "item",
     title: item.title,
     body: item.body,
-    outcome: '',
-    contexts: item.contexts.join(' '),
-    tags: item.tags.join(' '),
-    area: item.area ?? '',
+    outcome: "",
+    contexts: item.contexts.join(" "),
+    tags: item.tags.join(" "),
+    area: item.area ?? "",
     projectTitle,
   };
 }
@@ -56,14 +48,14 @@ function itemDoc(item: Item, projectTitle: string): SearchDoc {
 function projectDoc(project: Project): SearchDoc {
   return {
     id: `project:${project.id}`,
-    kind: 'project',
+    kind: "project",
     title: project.title,
     body: project.body,
-    outcome: project.outcome ?? '',
-    contexts: '',
-    tags: project.tags.join(' '),
-    area: project.area ?? '',
-    projectTitle: '',
+    outcome: project.outcome ?? "",
+    contexts: "",
+    tags: project.tags.join(" "),
+    area: project.area ?? "",
+    projectTitle: "",
   };
 }
 
@@ -82,13 +74,13 @@ function buildIndex(items: Item[], projects: Project[]): SearchIndex {
     searchOptions: {
       prefix: true,
       fuzzy: 0.15,
-      combineWith: 'AND',
+      combineWith: "AND",
       boost: FIELD_BOOSTS,
     },
   });
 
   for (const item of items) {
-    const pTitle = (item.project && projectTitleById.get(item.project)) || '';
+    const pTitle = (item.project && projectTitleById.get(item.project)) || "";
     mini.add(itemDoc(item, pTitle));
   }
   for (const project of projects) {
@@ -105,13 +97,13 @@ function buildIndex(items: Item[], projects: Project[]): SearchIndex {
       for (const r of raw) {
         if (hits.length >= limit) break;
         const docId = String(r.id);
-        const [kind, id] = docId.split(':', 2) as ['item' | 'project', string];
-        if (kind === 'item') {
+        const [kind, id] = docId.split(":", 2) as ["item" | "project", string];
+        if (kind === "item") {
           const item = itemsById.get(id);
-          if (item) hits.push({ kind: 'item', id, item });
+          if (item) hits.push({ kind: "item", id, item });
         } else {
           const project = projectsById.get(id);
-          if (project) hits.push({ kind: 'project', id, project });
+          if (project) hits.push({ kind: "project", id, project });
         }
       }
       return hits;
@@ -137,7 +129,7 @@ export function useSearchIndex(
   isLoading: boolean;
 } {
   const { data, isLoading } = useQuery({
-    queryKey: ['search-corpus', env],
+    queryKey: ["search-corpus", env],
     queryFn: () => api.listSearchCorpus(env!),
     enabled: !!env && enabled,
     staleTime: 60_000,

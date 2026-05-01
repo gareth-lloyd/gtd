@@ -1,5 +1,5 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useReducer, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Link,
   Navigate,
@@ -11,47 +11,47 @@ import {
   useMatch,
   useNavigate,
   useParams,
-} from 'react-router-dom';
-import { api, type EnvSummary } from './api';
-import { Button } from './Button';
-import { useNextFilters } from './filters';
-import { contextTintStyle } from './context-colors';
-import { ItemCard } from './ItemCard';
-import { CaptureBar, isEditableTarget, type CaptureMode } from './CaptureBar';
-import { FilterPanel } from './FilterPanel';
-import { SearchBar, SearchView } from './SearchComponents';
-import { ProjectNavLinks, ProjectsView, ProjectDetailView } from './ProjectComponents';
-import { BucketRoute, DoneView, NextActionsView } from './ItemList';
-import { TemplatesView } from './TemplatesView';
-import { SelectionProvider, useSelection } from './SelectionContext';
-import { DetailPanel } from './DetailPanel';
-import { useEnvParam } from './useEnvParam';
-import { findItemInCache, useItemPatch } from './ItemEdit';
+} from "react-router-dom";
+import { api, type EnvSummary } from "./api";
+import { Button } from "./Button";
+import { useNextFilters } from "./filters";
+import { contextTintStyle } from "./context-colors";
+import { ItemCard } from "./ItemCard";
+import { CaptureBar, isEditableTarget, type CaptureMode } from "./CaptureBar";
+import { FilterPanel } from "./FilterPanel";
+import { SearchBar, SearchView } from "./SearchComponents";
+import { ProjectNavLinks, ProjectsView, ProjectDetailView } from "./ProjectComponents";
+import { BucketRoute, DoneView, NextActionsView } from "./ItemList";
+import { TemplatesView } from "./TemplatesView";
+import { SelectionProvider, useSelection } from "./SelectionContext";
+import { DetailPanel } from "./DetailPanel";
+import { useEnvParam } from "./useEnvParam";
+import { findItemInCache, useItemPatch } from "./ItemEdit";
 
 type Section =
-  | 'inbox'
-  | 'next'
-  | 'projects'
-  | 'waiting'
-  | 'someday'
-  | 'reference'
-  | 'templates'
-  | 'done'
-  | 'trash';
+  | "inbox"
+  | "next"
+  | "projects"
+  | "waiting"
+  | "someday"
+  | "reference"
+  | "templates"
+  | "done"
+  | "trash";
 
 const SECTIONS: Section[] = [
-  'inbox',
-  'next',
-  'projects',
-  'waiting',
-  'someday',
-  'reference',
-  'templates',
-  'done',
-  'trash',
+  "inbox",
+  "next",
+  "projects",
+  "waiting",
+  "someday",
+  "reference",
+  "templates",
+  "done",
+  "trash",
 ];
 
-const DEFAULT_SECTION: Section = 'inbox';
+const DEFAULT_SECTION: Section = "inbox";
 
 export default function App() {
   return (
@@ -77,10 +77,10 @@ export default function App() {
 }
 
 function RootRedirect() {
-  const { data: envs } = useQuery({ queryKey: ['envs'], queryFn: api.listEnvs });
+  const { data: envs } = useQuery({ queryKey: ["envs"], queryFn: api.listEnvs });
   if (!envs) return <div className="app-loading">Loading…</div>;
   if (envs.length === 0) return <div className="app-loading">No environments configured</div>;
-  const stored = localStorage.getItem('gtd:env');
+  const stored = localStorage.getItem("gtd:env");
   const env = stored && envs.some((e) => e.name === stored) ? stored : envs[0].name;
   return <Navigate to={`/${env}/${DEFAULT_SECTION}`} replace />;
 }
@@ -90,22 +90,22 @@ function AppShell() {
   const { contexts } = useNextFilters();
   const { pathname } = useLocation();
   const [captureOpen, setCaptureOpen] = useState(false);
-  const [captureMode, setCaptureMode] = useState<CaptureMode>('regular');
+  const [captureMode, setCaptureMode] = useState<CaptureMode>("regular");
   const [captureFocusTick, bumpCaptureFocus] = useReducer((x: number) => x + 1, 0);
   const [searchFocusTick, bumpSearchFocus] = useReducer((x: number) => x + 1, 0);
-  const onNextPage = useMatch(':env/next') != null;
-  const projectDetailMatch = useMatch(':env/projects/:projectId');
-  const currentProjectId = projectDetailMatch?.params.projectId ?? '';
+  const onNextPage = useMatch(":env/next") != null;
+  const projectDetailMatch = useMatch(":env/projects/:projectId");
+  const currentProjectId = projectDetailMatch?.params.projectId ?? "";
 
-  const { data: envs } = useQuery({ queryKey: ['envs'], queryFn: api.listEnvs });
+  const { data: envs } = useQuery({ queryKey: ["envs"], queryFn: api.listEnvs });
   const { data: config } = useQuery({
-    queryKey: ['config', env],
+    queryKey: ["config", env],
     queryFn: () => api.getConfig(env),
     enabled: !!env,
   });
 
   useEffect(() => {
-    if (env) localStorage.setItem('gtd:env', env);
+    if (env) localStorage.setItem("gtd:env", env);
   }, [env]);
 
   useEffect(() => {
@@ -114,30 +114,30 @@ function AppShell() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && captureOpen) {
+      if (e.key === "Escape" && captureOpen) {
         setCaptureOpen(false);
         return;
       }
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (isEditableTarget(e.target)) return;
-      if (e.shiftKey && e.key.toLowerCase() !== 'c') return;
-      if (e.key === 'c' || e.key === 'C') {
+      if (e.shiftKey && e.key.toLowerCase() !== "c") return;
+      if (e.key === "c" || e.key === "C") {
         e.preventDefault();
-        setCaptureMode(e.shiftKey ? 'regular-top' : 'regular');
+        setCaptureMode(e.shiftKey ? "regular-top" : "regular");
         setCaptureOpen(true);
         bumpCaptureFocus();
-      } else if (e.key === 'a') {
+      } else if (e.key === "a") {
         e.preventDefault();
-        setCaptureMode('ai');
+        setCaptureMode("ai");
         setCaptureOpen(true);
         bumpCaptureFocus();
-      } else if (e.key === '/') {
+      } else if (e.key === "/") {
         e.preventDefault();
         bumpSearchFocus();
       }
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [captureOpen]);
 
   if (!envs) return <div className="app-loading">Loading…</div>;
@@ -147,10 +147,7 @@ function AppShell() {
 
   return (
     <SelectionProvider>
-      <div
-        className={onNextPage ? 'app' : 'app no-filters'}
-        style={contextTintStyle(contexts)}
-      >
+      <div className={onNextPage ? "app" : "app no-filters"} style={contextTintStyle(contexts)}>
         <header>
           <div className="header-row">
             <h1>
@@ -158,10 +155,10 @@ function AppShell() {
             </h1>
             <EnvTabs envs={envs} env={env} />
             <button
-              className={captureOpen ? 'active' : ''}
+              className={captureOpen ? "active" : ""}
               onClick={() => setCaptureOpen((v) => !v)}
             >
-              {captureOpen ? 'Close capture' : '+ Capture'}
+              {captureOpen ? "Close capture" : "+ Capture"}
             </button>
             <SearchBar env={env} focusTick={searchFocusTick} />
             <div className="spacer" />
@@ -170,9 +167,12 @@ function AppShell() {
         </header>
 
         {captureOpen && (
-          <div className="capture-overlay" onClick={(e) => {
-            if (e.target === e.currentTarget) setCaptureOpen(false);
-          }}>
+          <div
+            className="capture-overlay"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setCaptureOpen(false);
+            }}
+          >
             <CaptureBar
               env={env}
               focusTick={captureFocusTick}
@@ -189,12 +189,12 @@ function AppShell() {
             <React.Fragment key={s}>
               <NavLink
                 to={s}
-                end={s === 'projects'}
-                className={({ isActive }) => (isActive ? 'active' : '')}
+                end={s === "projects"}
+                className={({ isActive }) => (isActive ? "active" : "")}
               >
                 {s}
               </NavLink>
-              {s === 'projects' && <ProjectNavLinks env={env} />}
+              {s === "projects" && <ProjectNavLinks env={env} />}
             </React.Fragment>
           ))}
         </nav>
@@ -228,10 +228,10 @@ function ContentArea({ env }: { env: string }) {
 function WorkingOnShortcut({ env }: { env: string }) {
   const { selectedId } = useSelection();
   const qc = useQueryClient();
-  const { patch } = useItemPatch(env, selectedId ?? '');
+  const { patch } = useItemPatch(env, selectedId ?? "");
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() !== 'f') return;
+      if (e.key.toLowerCase() !== "f") return;
       if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
       if (isEditableTarget(e.target)) return;
       if (!selectedId) return;
@@ -240,8 +240,8 @@ function WorkingOnShortcut({ env }: { env: string }) {
       e.preventDefault();
       patch({ working_on: !item.working_on });
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [env, selectedId, qc, patch]);
   return null;
 }
@@ -255,7 +255,7 @@ function EnvTabs({ envs, env }: { envs: EnvSummary[]; env: string }) {
         <Link
           key={e.name}
           to={`/${e.name}/${DEFAULT_SECTION}`}
-          className={env === e.name ? 'env-tab active' : 'env-tab'}
+          className={env === e.name ? "env-tab active" : "env-tab"}
         >
           {e.name}
         </Link>
@@ -269,25 +269,25 @@ function EnvTabs({ envs, env }: { envs: EnvSummary[]; env: string }) {
 function SyncButton() {
   const qc = useQueryClient();
   const { data } = useQuery({
-    queryKey: ['snapshot-status'],
+    queryKey: ["snapshot-status"],
     queryFn: api.snapshotStatus,
     refetchInterval: 10_000,
   });
   const snap = useMutation({
     mutationFn: (message?: string) => api.snapshot(message),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['snapshot-status'] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["snapshot-status"] }),
   });
 
   const count = data?.dirty_count ?? 0;
 
   return (
     <div className="sync">
-      <span className={count > 0 ? 'count dirty' : 'count'}>
-        {count === 0 ? 'clean' : `${count} dirty`}
+      <span className={count > 0 ? "count dirty" : "count"}>
+        {count === 0 ? "clean" : `${count} dirty`}
       </span>
       <Button
         onClick={() => {
-          const msg = prompt('Snapshot message (optional):') || undefined;
+          const msg = prompt("Snapshot message (optional):") || undefined;
           snap.mutate(msg);
         }}
         disabled={count === 0}
@@ -304,14 +304,14 @@ function SyncButton() {
 function ItemDetailView() {
   const env = useEnvParam();
   const navigate = useNavigate();
-  const { itemId = '' } = useParams<{ itemId: string }>();
+  const { itemId = "" } = useParams<{ itemId: string }>();
   const { select } = useSelection();
   const { data: item, isLoading } = useQuery({
-    queryKey: ['item', env, itemId],
+    queryKey: ["item", env, itemId],
     queryFn: () => api.getItem(env, itemId),
   });
   const { data: projects } = useQuery({
-    queryKey: ['projects', env, false],
+    queryKey: ["projects", env, false],
     queryFn: () => api.listProjects(env, false),
   });
 
@@ -330,11 +330,7 @@ function ItemDetailView() {
       </button>
       <ul className="item-list">
         <li>
-          <ItemCard
-            env={env}
-            item={item}
-            projects={projects}
-          />
+          <ItemCard env={env} item={item} projects={projects} />
         </li>
       </ul>
     </div>

@@ -1,16 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api, type Bucket, type Item } from './api';
-import { Button } from './Button';
-import { invalidateItemQueries } from './ItemEdit';
-import { useSelection } from './SelectionContext';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api, type Bucket, type Item } from "./api";
+import { Button } from "./Button";
+import { invalidateItemQueries } from "./ItemEdit";
+import { useSelection } from "./SelectionContext";
 
-export function WorkflowActions({
-  env,
-  item,
-}: {
-  env: string;
-  item: Item;
-}) {
+export function WorkflowActions({ env, item }: { env: string; item: Item }) {
   const qc = useQueryClient();
   const { select } = useSelection();
   const invalidate = () => {
@@ -36,29 +30,18 @@ export function WorkflowActions({
   });
 
   const busy =
-    moveMut.isPending ||
-    completeMut.isPending ||
-    deleteMut.isPending ||
-    purgeMut.isPending;
+    moveMut.isPending || completeMut.isPending || deleteMut.isPending || purgeMut.isPending;
 
-  const isMoving = (to: Bucket) =>
-    moveMut.isPending && moveMut.variables === to;
+  const isMoving = (to: Bucket) => moveMut.isPending && moveMut.variables === to;
 
-  const inTrash = item.status === 'trash';
-  const isArchive = item.status === 'archive';
+  const inTrash = item.status === "trash";
+  const isArchive = item.status === "archive";
 
   return (
-    <div
-      className="item-actions"
-      onClick={(e) => e.stopPropagation()}
-    >
+    <div className="item-actions" onClick={(e) => e.stopPropagation()}>
       {inTrash ? (
         <>
-          <Button
-            onClick={() => moveMut.mutate('inbox')}
-            busy={isMoving('inbox')}
-            disabled={busy}
-          >
+          <Button onClick={() => moveMut.mutate("inbox")} busy={isMoving("inbox")} disabled={busy}>
             ↺ restore
           </Button>
           <Button
@@ -74,11 +57,7 @@ export function WorkflowActions({
         </>
       ) : isArchive ? (
         <>
-          <Button
-            onClick={() => moveMut.mutate('next')}
-            busy={isMoving('next')}
-            disabled={busy}
-          >
+          <Button onClick={() => moveMut.mutate("next")} busy={isMoving("next")} disabled={busy}>
             ↺ uncomplete
           </Button>
           <Button
@@ -92,20 +71,15 @@ export function WorkflowActions({
         </>
       ) : (
         <>
-          {(['next', 'waiting', 'someday'] as const)
+          {(["next", "waiting", "someday"] as const)
             .filter((b) => item.status !== b)
             .map((b) => (
-              <Button
-                key={b}
-                onClick={() => moveMut.mutate(b)}
-                busy={isMoving(b)}
-                disabled={busy}
-              >
+              <Button key={b} onClick={() => moveMut.mutate(b)} busy={isMoving(b)} disabled={busy}>
                 → {b}
               </Button>
             ))}
           <Button
-            data-completing={completeMut.isPending ? 'true' : undefined}
+            data-completing={completeMut.isPending ? "true" : undefined}
             onClick={() => completeMut.mutate()}
             busy={completeMut.isPending}
             disabled={busy}

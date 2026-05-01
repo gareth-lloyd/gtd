@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useSearchIndex, type SearchHit } from './search';
-import { contextChipStyle } from './context-colors';
-import { ProjectBadges } from './ProjectComponents';
-import { useEnvParam } from './useEnvParam';
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchIndex, type SearchHit } from "./search";
+import { contextChipStyle } from "./context-colors";
+import { ProjectBadges } from "./ProjectComponents";
+import { useEnvParam } from "./useEnvParam";
 
 const SEARCH_CAP = 200;
 const DROPDOWN_LIMIT = 8;
 
 export function hitLink(env: string, hit: SearchHit): string {
-  return hit.kind === 'item'
+  return hit.kind === "item"
     ? `/${env}/items/${hit.item.id}`
     : `/${env}/projects/${hit.project.id}`;
 }
@@ -23,13 +23,10 @@ export function HitRow({
   selected?: boolean;
   onClick?: () => void;
 }) {
-  if (hit.kind === 'item') {
+  if (hit.kind === "item") {
     const item = hit.item;
     return (
-      <div
-        className={selected ? 'search-hit selected' : 'search-hit'}
-        onClick={onClick}
-      >
+      <div className={selected ? "search-hit selected" : "search-hit"} onClick={onClick}>
         <span className="hit-kind">item</span>
         <span className="hit-title">{item.title}</span>
         <span className="hit-meta">
@@ -45,17 +42,12 @@ export function HitRow({
   }
   const project = hit.project;
   return (
-    <div
-      className={selected ? 'search-hit selected' : 'search-hit'}
-      onClick={onClick}
-    >
+    <div className={selected ? "search-hit selected" : "search-hit"} onClick={onClick}>
       <span className="hit-kind">project</span>
       <span className="hit-title">{project.title}</span>
       <span className="hit-meta">
         <ProjectBadges project={project} />
-        {project.outcome && (
-          <span className="hit-snippet">{project.outcome}</span>
-        )}
+        {project.outcome && <span className="hit-snippet">{project.outcome}</span>}
       </span>
     </div>
   );
@@ -64,7 +56,7 @@ export function HitRow({
 export function SearchBar({ env, focusTick }: { env: string; focusTick: number }) {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const [selected, setSelected] = useState(0);
   const [everFocused, setEverFocused] = useState(false);
@@ -88,7 +80,7 @@ export function SearchBar({ env, focusTick }: { env: string; focusTick: number }
 
   function activate(hit: SearchHit) {
     setFocused(false);
-    setQuery('');
+    setQuery("");
     navigate(hitLink(env, hit));
   }
 
@@ -98,19 +90,19 @@ export function SearchBar({ env, focusTick }: { env: string; focusTick: number }
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'Escape') {
-      setQuery('');
+    if (e.key === "Escape") {
+      setQuery("");
       inputRef.current?.blur();
       return;
     }
     if (!hasQuery) return;
-    if (e.key === 'ArrowDown') {
+    if (e.key === "ArrowDown") {
       e.preventDefault();
       setSelected((s) => Math.min(s + 1, hits.length));
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setSelected((s) => Math.max(s - 1, 0));
-    } else if (e.key === 'Enter') {
+    } else if (e.key === "Enter") {
       e.preventDefault();
       if (selected < hits.length) activate(hits[selected]);
       else seeAll();
@@ -136,12 +128,8 @@ export function SearchBar({ env, focusTick }: { env: string; focusTick: number }
       />
       {showDropdown && (
         <div className="search-dropdown">
-          {isLoading && !index && (
-            <div className="search-empty">Building index…</div>
-          )}
-          {index && hits.length === 0 && (
-            <div className="search-empty">No matches.</div>
-          )}
+          {isLoading && !index && <div className="search-empty">Building index…</div>}
+          {index && hits.length === 0 && <div className="search-empty">No matches.</div>}
           {hits.map((hit, i) => (
             <div
               key={`${hit.kind}:${hit.id}`}
@@ -154,11 +142,7 @@ export function SearchBar({ env, focusTick }: { env: string; focusTick: number }
           ))}
           {total > hits.length && (
             <div
-              className={
-                selected === hits.length
-                  ? 'search-see-all selected'
-                  : 'search-see-all'
-              }
+              className={selected === hits.length ? "search-see-all selected" : "search-see-all"}
               onMouseDown={(e) => e.preventDefault()}
               onClick={seeAll}
               onMouseEnter={() => setSelected(hits.length)}
@@ -173,7 +157,7 @@ export function SearchBar({ env, focusTick }: { env: string; focusTick: number }
 }
 
 function useMemoSearch(
-  index: ReturnType<typeof useSearchIndex>['index'],
+  index: ReturnType<typeof useSearchIndex>["index"],
   query: string,
   limit: number,
 ): SearchHit[] {
@@ -187,12 +171,12 @@ function useMemoSearch(
 export function SearchView() {
   const env = useEnvParam();
   const [params, setParams] = useSearchParams();
-  const q = params.get('q') ?? '';
+  const q = params.get("q") ?? "";
   const { index, isLoading } = useSearchIndex(env);
   const hits = useMemoSearch(index, q, SEARCH_CAP);
 
-  const items = hits.filter((h) => h.kind === 'item');
-  const projects = hits.filter((h) => h.kind === 'project');
+  const items = hits.filter((h) => h.kind === "item");
+  const projects = hits.filter((h) => h.kind === "project");
 
   return (
     <div className="search-view">
@@ -203,19 +187,15 @@ export function SearchView() {
         value={q}
         onChange={(e) => {
           const next = new URLSearchParams(params);
-          if (e.target.value) next.set('q', e.target.value);
-          else next.delete('q');
+          if (e.target.value) next.set("q", e.target.value);
+          else next.delete("q");
           setParams(next, { replace: true });
         }}
         autoFocus
       />
       {!q.trim() && <div className="empty">Type to search.</div>}
-      {q.trim() && isLoading && !index && (
-        <div className="empty">Building index…</div>
-      )}
-      {q.trim() && index && hits.length === 0 && (
-        <div className="empty">No matches.</div>
-      )}
+      {q.trim() && isLoading && !index && <div className="empty">Building index…</div>}
+      {q.trim() && index && hits.length === 0 && <div className="empty">No matches.</div>}
       {projects.length > 0 && (
         <>
           <h3 className="search-group-title">Projects ({projects.length})</h3>
@@ -243,9 +223,7 @@ export function SearchView() {
             ))}
           </ul>
           {hits.length === SEARCH_CAP && (
-            <div className="empty">
-              Showing first {SEARCH_CAP} — refine your search.
-            </div>
+            <div className="empty">Showing first {SEARCH_CAP} — refine your search.</div>
           )}
         </>
       )}

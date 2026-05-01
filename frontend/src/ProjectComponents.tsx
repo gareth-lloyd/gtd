@@ -1,12 +1,6 @@
-import React, { useMemo, useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  Link,
-  NavLink,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import React, { useMemo, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link, NavLink, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   DndContext,
   closestCenter,
@@ -15,23 +9,23 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { api, type Item, type Project } from './api';
-import { Button } from './Button';
-import { ItemCard } from './ItemCard';
-import { fmtDate, fmtMinutes, generateProjectId, sortProjects } from './format';
-import { invalidateProjectQueries, isHiddenByDefer } from './ItemEdit';
-import { useEnvParam } from './useEnvParam';
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { api, type Item, type Project } from "./api";
+import { Button } from "./Button";
+import { ItemCard } from "./ItemCard";
+import { fmtDate, fmtMinutes, generateProjectId, sortProjects } from "./format";
+import { invalidateProjectQueries, isHiddenByDefer } from "./ItemEdit";
+import { useEnvParam } from "./useEnvParam";
 
-type EnergyKey = 'low' | 'medium' | 'high' | 'unset';
+type EnergyKey = "low" | "medium" | "high" | "unset";
 
 export interface ProjectStats {
   totalMinutes: number;
@@ -40,7 +34,7 @@ export interface ProjectStats {
 }
 
 export function computeProjectStats(actions: Item[]): ProjectStats {
-  const byEnergy: ProjectStats['byEnergy'] = {
+  const byEnergy: ProjectStats["byEnergy"] = {
     low: { count: 0, minutes: 0 },
     medium: { count: 0, minutes: 0 },
     high: { count: 0, minutes: 0 },
@@ -50,7 +44,7 @@ export function computeProjectStats(actions: Item[]): ProjectStats {
   for (const a of actions) {
     const m = a.time_minutes ?? 0;
     totalMinutes += m;
-    const k: EnergyKey = a.energy ?? 'unset';
+    const k: EnergyKey = a.energy ?? "unset";
     byEnergy[k].count += 1;
     byEnergy[k].minutes += m;
   }
@@ -58,62 +52,51 @@ export function computeProjectStats(actions: Item[]): ProjectStats {
 }
 
 export const PRIORITY_LABELS: Record<number, string> = {
-  1: 'P1 critical',
-  2: 'P2 high',
-  3: 'P3 medium',
-  4: 'P4 low',
-  5: 'P5 aspirational',
+  1: "P1 critical",
+  2: "P2 high",
+  3: "P3 medium",
+  4: "P4 low",
+  5: "P5 aspirational",
 };
 
 export function ProjectBadges({ project }: { project: Project }) {
   return (
     <>
       {project.priority != null && (
-        <span className={`priority-badge p${project.priority}`}>
-          P{project.priority}
-        </span>
+        <span className={`priority-badge p${project.priority}`}>P{project.priority}</span>
       )}
       {project.max_next_items != null && (
         <span
           className="sequential-badge"
           title={
             project.max_next_items === 1
-              ? 'Only the first ordered step appears on the next list'
+              ? "Only the first ordered step appears on the next list"
               : `Up to ${project.max_next_items} ordered steps appear on the next list`
           }
         >
-          {project.max_next_items === 1
-            ? '↓ 1-at-a-time'
-            : `↓ up to ${project.max_next_items}`}
+          {project.max_next_items === 1 ? "↓ 1-at-a-time" : `↓ up to ${project.max_next_items}`}
         </span>
       )}
-      {project.status !== 'active' && (
-        <span className="project-status">{project.status}</span>
-      )}
+      {project.status !== "active" && <span className="project-status">{project.status}</span>}
     </>
   );
 }
 
 function ProjectIndexRow({ project }: { project: Project }) {
-  const isDone = project.status === 'complete' || project.status === 'dropped';
+  const isDone = project.status === "complete" || project.status === "dropped";
   return (
-    <Link
-      to={project.id}
-      className={`project-index-row${isDone ? ' done' : ''}`}
-    >
+    <Link to={project.id} className={`project-index-row${isDone ? " done" : ""}`}>
       <span className="project-index-title">{project.title}</span>
       <ProjectBadges project={project} />
       {project.due && <span className="chip">due {project.due}</span>}
-      {project.outcome && (
-        <span className="project-index-outcome">{project.outcome}</span>
-      )}
+      {project.outcome && <span className="project-index-outcome">{project.outcome}</span>}
     </Link>
   );
 }
 
 export function ProjectNavLinks({ env }: { env: string }) {
   const { data: projects } = useQuery({
-    queryKey: ['projects', env, false],
+    queryKey: ["projects", env, false],
     queryFn: () => api.listProjects(env, false),
   });
   if (!projects || projects.length === 0) return null;
@@ -123,12 +106,10 @@ export function ProjectNavLinks({ env }: { env: string }) {
         <NavLink
           key={p.id}
           to={`projects/${p.id}`}
-          className={({ isActive }) => (isActive ? 'sub-link active' : 'sub-link')}
+          className={({ isActive }) => (isActive ? "sub-link active" : "sub-link")}
           title={p.title}
         >
-          {p.priority != null && (
-            <span className={`priority-dot p${p.priority}`}>●</span>
-          )}
+          {p.priority != null && <span className={`priority-dot p${p.priority}`}>●</span>}
           <span className="sub-link-title">{p.title}</span>
         </NavLink>
       ))}
@@ -140,7 +121,7 @@ export function ProjectsView() {
   const env = useEnvParam();
   const [showFinished, setShowFinished] = useState(false);
   const { data: projects, isLoading } = useQuery({
-    queryKey: ['projects', env, showFinished],
+    queryKey: ["projects", env, showFinished],
     queryFn: () => api.listProjects(env, showFinished),
   });
 
@@ -174,12 +155,10 @@ export function ProjectsView() {
 }
 
 function ProjectStatsRow({ stats }: { stats: ProjectStats }) {
-  const energyOrder: EnergyKey[] = ['high', 'medium', 'low'];
+  const energyOrder: EnergyKey[] = ["high", "medium", "low"];
   return (
     <div className="project-stats">
-      <span className="chip stat-total">
-        ⏱ {fmtMinutes(stats.totalMinutes)} total
-      </span>
+      <span className="chip stat-total">⏱ {fmtMinutes(stats.totalMinutes)} total</span>
       {energyOrder.map((k) =>
         stats.byEnergy[k].count > 0 ? (
           <span key={k} className={`chip stat-energy stat-energy-${k}`}>
@@ -199,19 +178,19 @@ function ProjectStatsRow({ stats }: { stats: ProjectStats }) {
 
 export function ProjectDetailView() {
   const env = useEnvParam();
-  const { projectId = '' } = useParams<{ projectId: string }>();
+  const { projectId = "" } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [editing, setEditing] = useState(false);
   const [params, setParams] = useSearchParams();
-  const includeDeferred = params.get('include_deferred') === 'true';
+  const includeDeferred = params.get("include_deferred") === "true";
   // Always fetch the full action list — drag-to-reorder needs every item so
   // hidden deferred items keep their slots. The checkbox toggles a render-time
   // filter, not the API call.
   // Always fetch the full action list — drag-reorder needs hidden items to
   // preserve their slots. The "Show deferred" toggle is a render-time filter.
   const { data, isLoading } = useQuery({
-    queryKey: ['project', env, projectId, 'full'],
+    queryKey: ["project", env, projectId, "full"],
     queryFn: () => api.getProject(env, projectId, true),
   });
 
@@ -226,27 +205,22 @@ export function ProjectDetailView() {
     mutationFn: () => api.deleteProject(env, projectId),
     onSuccess: () => {
       invalidate();
-      navigate('..');
+      navigate("..");
     },
   });
 
-  const stats = useMemo(
-    () => (data ? computeProjectStats(data.actions) : null),
-    [data],
-  );
+  const stats = useMemo(() => (data ? computeProjectStats(data.actions) : null), [data]);
 
   if (isLoading || !data || !stats) return <div className="empty">Loading…</div>;
 
   const { project, actions } = data;
-  const visibleActions = includeDeferred
-    ? actions
-    : actions.filter((a) => !isHiddenByDefer(a));
+  const visibleActions = includeDeferred ? actions : actions.filter((a) => !isHiddenByDefer(a));
   const deferredHidden = actions.length - visibleActions.length;
-  const isDone = project.status === 'complete' || project.status === 'dropped';
+  const isDone = project.status === "complete" || project.status === "dropped";
   const anyPending = statusMut.isPending || deleteMut.isPending;
 
   return (
-    <div className={`project-detail${isDone ? ' done' : ''}`}>
+    <div className={`project-detail${isDone ? " done" : ""}`}>
       <Link className="back-link" to="..">
         ← All projects
       </Link>
@@ -260,7 +234,7 @@ export function ProjectDetailView() {
         {project.due && <span className="chip">due {project.due}</span>}
         {project.area && <span className="chip">{project.area}</span>}
         <span className="chip">
-          {actions.length} action{actions.length !== 1 ? 's' : ''}
+          {actions.length} action{actions.length !== 1 ? "s" : ""}
           {!includeDeferred && deferredHidden > 0 && ` (${deferredHidden} deferred)`}
         </span>
         <span className="chip dates" title={`created ${fmtDate(project.created)}`}>
@@ -268,42 +242,42 @@ export function ProjectDetailView() {
         </span>
       </div>
       <div className="project-actions">
-        {project.status !== 'complete' && (
+        {project.status !== "complete" && (
           <Button
-            onClick={() => statusMut.mutate('complete')}
-            busy={statusMut.isPending && statusMut.variables === 'complete'}
+            onClick={() => statusMut.mutate("complete")}
+            busy={statusMut.isPending && statusMut.variables === "complete"}
             disabled={anyPending}
           >
             ✓ Complete
           </Button>
         )}
-        {project.status !== 'active' && (
+        {project.status !== "active" && (
           <Button
-            onClick={() => statusMut.mutate('active')}
-            busy={statusMut.isPending && statusMut.variables === 'active'}
+            onClick={() => statusMut.mutate("active")}
+            busy={statusMut.isPending && statusMut.variables === "active"}
             disabled={anyPending}
           >
             ↺ Reopen
           </Button>
         )}
-        {project.status === 'active' && (
+        {project.status === "active" && (
           <Button
-            onClick={() => statusMut.mutate('on_hold')}
-            busy={statusMut.isPending && statusMut.variables === 'on_hold'}
+            onClick={() => statusMut.mutate("on_hold")}
+            busy={statusMut.isPending && statusMut.variables === "on_hold"}
             disabled={anyPending}
           >
             ⏸ Hold
           </Button>
         )}
         <button onClick={() => setEditing(!editing)} disabled={anyPending}>
-          {editing ? 'Close' : 'Edit'}
+          {editing ? "Close" : "Edit"}
         </button>
         <Button
           className="danger"
           onClick={() => {
             if (
               confirm(
-                `Delete project "${project.title}"? Actions linked to it will not be deleted.`
+                `Delete project "${project.title}"? Actions linked to it will not be deleted.`,
               )
             ) {
               deleteMut.mutate();
@@ -315,13 +289,7 @@ export function ProjectDetailView() {
           Delete
         </Button>
       </div>
-      {editing && (
-        <ProjectEditor
-          env={env}
-          project={project}
-          onClose={() => setEditing(false)}
-        />
-      )}
+      {editing && <ProjectEditor env={env} project={project} onClose={() => setEditing(false)} />}
       {(deferredHidden > 0 || includeDeferred) && (
         <div className="bucket-toolbar">
           <label className="toggle">
@@ -330,8 +298,8 @@ export function ProjectDetailView() {
               checked={includeDeferred}
               onChange={(e) => {
                 const next = new URLSearchParams(params);
-                if (e.target.checked) next.set('include_deferred', 'true');
-                else next.delete('include_deferred');
+                if (e.target.checked) next.set("include_deferred", "true");
+                else next.delete("include_deferred");
                 setParams(next, { replace: true });
               }}
             />
@@ -360,9 +328,7 @@ export function computeReorderedFullIds(
   newVisible: string[],
 ): string[] {
   let cursor = 0;
-  return currentFull.map((id) =>
-    visibleSet.has(id) ? newVisible[cursor++] : id,
-  );
+  return currentFull.map((id) => (visibleSet.has(id) ? newVisible[cursor++] : id));
 }
 
 export function SortableActionList({
@@ -393,22 +359,21 @@ export function SortableActionList({
     : items.map((i) => i.id);
   const itemsById = new Map(items.map((i) => [i.id, i]));
   const { data: projects } = useQuery({
-    queryKey: ['projects', env, false],
+    queryKey: ["projects", env, false],
     queryFn: () => api.listProjects(env, false),
   });
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
   const reorderMut = useMutation({
-    mutationFn: (itemIds: string[]) =>
-      api.reorderProjectItems(env, projectId, itemIds),
+    mutationFn: (itemIds: string[]) => api.reorderProjectItems(env, projectId, itemIds),
     onSuccess: () => {
       setLocalFullOrder(null);
       invalidateProjectQueries(qc, env, projectId);
-      qc.invalidateQueries({ queryKey: ['items', env] });
+      qc.invalidateQueries({ queryKey: ["items", env] });
     },
     onError: () => {
       setLocalFullOrder(null);
@@ -437,14 +402,7 @@ export function SortableActionList({
           {visibleIds.map((id) => {
             const item = itemsById.get(id);
             if (!item) return null;
-            return (
-              <SortableItemRow
-                key={id}
-                env={env}
-                item={item}
-                projects={projects}
-              />
-            );
+            return <SortableItemRow key={id} env={env} item={item} projects={projects} />;
           })}
         </ul>
       </SortableContext>
@@ -461,8 +419,9 @@ function SortableItemRow({
   item: Item;
   projects: Project[] | undefined;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: item.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: item.id,
+  });
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -481,11 +440,7 @@ function SortableItemRow({
           ⋮⋮
         </button>
         <div className="item-with-handle-body">
-          <ItemCard
-            env={env}
-            item={item}
-            projects={projects}
-          />
+          <ItemCard env={env} item={item} projects={projects} />
         </div>
       </div>
     </li>
@@ -503,14 +458,10 @@ function ProjectEditor({
 }) {
   const qc = useQueryClient();
   const [title, setTitle] = useState(project.title);
-  const [outcome, setOutcome] = useState(project.outcome ?? '');
-  const [due, setDue] = useState(project.due ?? '');
-  const [priority, setPriority] = useState<string>(
-    project.priority?.toString() ?? ''
-  );
-  const [maxNextItems, setMaxNextItems] = useState<number | null>(
-    project.max_next_items
-  );
+  const [outcome, setOutcome] = useState(project.outcome ?? "");
+  const [due, setDue] = useState(project.due ?? "");
+  const [priority, setPriority] = useState<string>(project.priority?.toString() ?? "");
+  const [maxNextItems, setMaxNextItems] = useState<number | null>(project.max_next_items);
   const [body, setBody] = useState(project.body);
 
   const mut = useMutation({
@@ -542,18 +493,16 @@ function ProjectEditor({
       <div className="row">
         <label>
           Due
-          <input
-            type="date"
-            value={due}
-            onChange={(e) => setDue(e.target.value)}
-          />
+          <input type="date" value={due} onChange={(e) => setDue(e.target.value)} />
         </label>
         <label>
           Priority
           <select value={priority} onChange={(e) => setPriority(e.target.value)}>
             <option value="">—</option>
             {[1, 2, 3, 4, 5].map((n) => (
-              <option key={n} value={n}>{PRIORITY_LABELS[n]}</option>
+              <option key={n} value={n}>
+                {PRIORITY_LABELS[n]}
+              </option>
             ))}
           </select>
         </label>
@@ -573,10 +522,10 @@ function ProjectEditor({
 function NewProjectForm({ env }: { env: string }) {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [outcome, setOutcome] = useState('');
-  const [due, setDue] = useState('');
-  const [priority, setPriority] = useState<string>('');
+  const [title, setTitle] = useState("");
+  const [outcome, setOutcome] = useState("");
+  const [due, setDue] = useState("");
+  const [priority, setPriority] = useState<string>("");
   const [maxNextItems, setMaxNextItems] = useState<number | null>(null);
 
   const mut = useMutation({
@@ -591,10 +540,10 @@ function NewProjectForm({ env }: { env: string }) {
       }),
     onSuccess: () => {
       setOpen(false);
-      setTitle('');
-      setOutcome('');
-      setDue('');
-      setPriority('');
+      setTitle("");
+      setOutcome("");
+      setDue("");
+      setPriority("");
       setMaxNextItems(null);
       invalidateProjectQueries(qc, env);
     },
@@ -606,36 +555,25 @@ function NewProjectForm({ env }: { env: string }) {
     <div className="editor">
       <label>
         Title
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          autoFocus
-        />
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} autoFocus />
       </label>
       <label>
         Outcome (what "done" looks like)
-        <input
-          type="text"
-          value={outcome}
-          onChange={(e) => setOutcome(e.target.value)}
-        />
+        <input type="text" value={outcome} onChange={(e) => setOutcome(e.target.value)} />
       </label>
       <div className="row">
         <label>
           Due
-          <input
-            type="date"
-            value={due}
-            onChange={(e) => setDue(e.target.value)}
-          />
+          <input type="date" value={due} onChange={(e) => setDue(e.target.value)} />
         </label>
         <label>
           Priority
           <select value={priority} onChange={(e) => setPriority(e.target.value)}>
             <option value="">—</option>
             {[1, 2, 3, 4, 5].map((n) => (
-              <option key={n} value={n}>{PRIORITY_LABELS[n]}</option>
+              <option key={n} value={n}>
+                {PRIORITY_LABELS[n]}
+              </option>
             ))}
           </select>
         </label>
@@ -675,14 +613,14 @@ function MaxNextItemsField({
       <input
         type="number"
         min={1}
-        value={value ?? ''}
+        value={value ?? ""}
         placeholder="∞"
         disabled={!capped}
         onChange={(e) => {
           const parsed = parseInt(e.target.value, 10);
           onChange(Number.isFinite(parsed) && parsed >= 1 ? parsed : null);
         }}
-        style={{ width: '4rem' }}
+        style={{ width: "4rem" }}
       />
       <span>ordered step(s) visible at once</span>
     </label>

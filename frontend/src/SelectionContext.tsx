@@ -6,8 +6,8 @@ import {
   useMemo,
   useState,
   type ReactNode,
-} from 'react';
-import { useLocation } from 'react-router-dom';
+} from "react";
+import { useLocation } from "react-router-dom";
 
 interface HoverState {
   id: string;
@@ -50,18 +50,18 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
   // Escape to deselect
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
+      if (e.key !== "Escape") return;
       if (!selectedId) return;
       const active = document.activeElement;
       if (active) {
-        const inCapture = active.closest('.capture');
-        const inSearch = active.closest('.search-bar');
+        const inCapture = active.closest(".capture");
+        const inSearch = active.closest(".search-bar");
         if (inCapture || inSearch) return;
       }
       setSelectedId(null);
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [selectedId]);
 
   const select = useCallback((id: string | null) => {
@@ -92,9 +92,5 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
     [selectedId, hover, select, setHover, clearHover],
   );
 
-  return (
-    <SelectionCtx.Provider value={value}>
-      {children}
-    </SelectionCtx.Provider>
-  );
+  return <SelectionCtx.Provider value={value}>{children}</SelectionCtx.Provider>;
 }

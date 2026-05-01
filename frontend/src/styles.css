@@ -8,41 +8,40 @@
  * ----------------------------------------- */
 :root {
   /* Neutrals — warm paper to ink */
-  --paper:         #FBF8F3;
-  --surface:       #FFFFFF;
-  --surface-soft:  #F2EFE8;
-  --surface-hover: #FDFBF6;
-  --ink:           #17161A;
-  --ink-muted:     #636168;
-  --ink-faint:     #9B9A9F;
-  --rule:          #E9E4DC;
-  --rule-strong:   #D7D1C5;
+  --paper: #fbf8f3;
+  --surface: #ffffff;
+  --surface-soft: #f2efe8;
+  --surface-hover: #fdfbf6;
+  --ink: #17161a;
+  --ink-muted: #636168;
+  --ink-faint: #9b9a9f;
+  --rule: #e9e4dc;
+  --rule-strong: #d7d1c5;
 
   /* Accent (teal) — "you can act on this" */
-  --accent:        #0F6D73;
-  --accent-hover:  #0A5458;
-  --accent-bg:     #E6F2F2;
-  --accent-ink:    #053A3D;
+  --accent: #0f6d73;
+  --accent-hover: #0a5458;
+  --accent-bg: #e6f2f2;
+  --accent-ink: #053a3d;
 
   /* Semantic states — used during transitions, not as permanent decoration */
-  --danger:        #B42318;
-  --danger-bg:     #FEEDE8;
-  --warn:          #A8570C;
-  --warn-bg:       #FBEFDB;
-  --success:       #0F7A54;
-  --success-bg:    #E3F5EA;
+  --danger: #b42318;
+  --danger-bg: #feede8;
+  --warn: #a8570c;
+  --warn-bg: #fbefdb;
+  --success: #0f7a54;
+  --success-bg: #e3f5ea;
 
   /* Aliases for existing rules — migrate to the explicit names over time */
-  --bg:            var(--paper);
-  --fg:            var(--ink);
-  --muted:         var(--ink-muted);
-  --border:        var(--rule);
-  --card:          var(--surface);
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --muted: var(--ink-muted);
+  --border: var(--rule);
+  --card: var(--surface);
 
   --radius: 6px;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 * {
@@ -173,9 +172,9 @@ button {
 }
 
 select,
-input[type='text'],
-input[type='number'],
-input[type='date'],
+input[type="text"],
+input[type="number"],
+input[type="date"],
 textarea {
   padding: 0.4rem 0.6rem;
   border: 1px solid var(--border);
@@ -189,9 +188,9 @@ textarea {
   font-family: inherit;
 }
 
-input[type='text']:focus,
-input[type='number']:focus,
-input[type='date']:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
 textarea:focus,
 select:focus {
   outline: 2px solid var(--accent);
@@ -380,11 +379,21 @@ button.danger:hover {
   font-size: 0.7rem;
   line-height: 1;
 }
-.side-nav-sub .priority-dot.p1 { color: #B42318; }
-.side-nav-sub .priority-dot.p2 { color: #C26A1A; }
-.side-nav-sub .priority-dot.p3 { color: #A88318; }
-.side-nav-sub .priority-dot.p4 { color: #8F7A52; }
-.side-nav-sub .priority-dot.p5 { color: #8A8780; }
+.side-nav-sub .priority-dot.p1 {
+  color: #b42318;
+}
+.side-nav-sub .priority-dot.p2 {
+  color: #c26a1a;
+}
+.side-nav-sub .priority-dot.p3 {
+  color: #a88318;
+}
+.side-nav-sub .priority-dot.p4 {
+  color: #8f7a52;
+}
+.side-nav-sub .priority-dot.p5 {
+  color: #8a8780;
+}
 
 /* ---- Project index (list view) ---- */
 
@@ -554,7 +563,7 @@ button.danger:hover {
   min-width: 180px;
 }
 
-.search-bar input[type='search'] {
+.search-bar input[type="search"] {
   width: 100%;
   padding: 0.35rem 0.7rem;
   border: 1px solid var(--border);
@@ -769,7 +778,7 @@ button.danger:hover {
   margin: 0.1rem 0;
 }
 
-.check-row input[type='checkbox'] {
+.check-row input[type="checkbox"] {
   width: auto;
   cursor: pointer;
 }
@@ -919,7 +928,7 @@ button.danger:hover {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   font-size: 0.75rem;
-  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
   color: var(--accent);
   text-decoration: none;
   background: var(--card);
@@ -1095,10 +1104,18 @@ button.danger:hover {
 .project-stats .stat-total {
   font-weight: 600;
 }
-.project-stats .stat-energy-low    { background: #f3f1ec; }
-.project-stats .stat-energy-medium { background: #e9efe6; }
-.project-stats .stat-energy-high   { background: #efe2dc; }
-.project-stats .stat-energy-unset  { color: var(--muted); }
+.project-stats .stat-energy-low {
+  background: #f3f1ec;
+}
+.project-stats .stat-energy-medium {
+  background: #e9efe6;
+}
+.project-stats .stat-energy-high {
+  background: #efe2dc;
+}
+.project-stats .stat-energy-unset {
+  color: var(--muted);
+}
 .project-stats .stat-count {
   opacity: 0.7;
   margin-left: 0.15rem;
@@ -1114,11 +1131,26 @@ button.danger:hover {
   text-decoration: none;
 }
 
-.priority-badge.p1 { background: #F3CCC8; color: #7A1B12; }
-.priority-badge.p2 { background: #F7D9B8; color: #7C3A10; }
-.priority-badge.p3 { background: #F5E6B0; color: #6D4A0A; }
-.priority-badge.p4 { background: #EDE2C9; color: #6F5A33; }
-.priority-badge.p5 { background: var(--surface-soft); color: var(--ink-muted); }
+.priority-badge.p1 {
+  background: #f3ccc8;
+  color: #7a1b12;
+}
+.priority-badge.p2 {
+  background: #f7d9b8;
+  color: #7c3a10;
+}
+.priority-badge.p3 {
+  background: #f5e6b0;
+  color: #6d4a0a;
+}
+.priority-badge.p4 {
+  background: #ede2c9;
+  color: #6f5a33;
+}
+.priority-badge.p5 {
+  background: var(--surface-soft);
+  color: var(--ink-muted);
+}
 
 .sequential-badge {
   font-size: 0.65rem;
@@ -1452,7 +1484,7 @@ button.danger:hover {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 0.5rem;
-  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 0.85rem;
   resize: vertical;
   background: white;
@@ -1576,7 +1608,7 @@ button.danger:hover {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 0.5rem;
-  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 0.85rem;
   resize: vertical;
   background: white;
@@ -1642,19 +1674,19 @@ button.danger:hover {
   color: var(--fg);
 }
 
-.chip-toggle[aria-pressed='true'] {
+.chip-toggle[aria-pressed="true"] {
   background: var(--accent);
   color: white;
   border-color: var(--accent);
 }
 
-.chip-toggle[aria-pressed='true']:hover {
+.chip-toggle[aria-pressed="true"]:hover {
   background: var(--accent);
   color: white;
 }
 
 /* Context chips: when selected, use their hue instead of accent blue */
-.chip-toggle.context[aria-pressed='true'] {
+.chip-toggle.context[aria-pressed="true"] {
   background: var(--context-bg, var(--accent));
   color: var(--context-fg, white);
   border-color: transparent;
@@ -1676,7 +1708,7 @@ button.danger:hover {
   margin-left: 0.2rem;
 }
 
-.chip-toggle[aria-pressed='true'] .priority-badge {
+.chip-toggle[aria-pressed="true"] .priority-badge {
   background: rgba(255, 255, 255, 0.25);
   color: white;
 }
@@ -1859,8 +1891,12 @@ button.danger:hover {
   animation: fresh-fade 1.2s ease-out;
 }
 @keyframes fresh-fade {
-  0%   { background: var(--accent-bg); }
-  100% { background: var(--card); }
+  0% {
+    background: var(--accent-bg);
+  }
+  100% {
+    background: var(--card);
+  }
 }
 
 .item-actions button[data-completing] {
@@ -1870,9 +1906,15 @@ button.danger:hover {
   border-color: var(--success);
 }
 @keyframes complete-beat {
-  0%   { transform: scale(1); }
-  35%  { transform: scale(1.06); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .capture-overlay {
@@ -1882,20 +1924,35 @@ button.danger:hover {
   animation: capture-slide-in 0.22s ease-out;
 }
 @keyframes capture-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes capture-slide-in {
-  from { opacity: 0; transform: translateY(-12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .item-meta .chip.chip-overdue {
   animation: chip-pulse 1.4s ease-in-out 2;
 }
 @keyframes chip-pulse {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.55; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

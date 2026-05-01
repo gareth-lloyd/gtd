@@ -1,21 +1,21 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
-export const E2E_ENV = 'e2e';
+export const E2E_ENV = "e2e";
 
 const BUCKETS = [
-  'inbox',
-  'next',
-  'waiting',
-  'someday',
-  'reference',
-  'projects',
-  'archive',
-  'trash',
-  'templates',
+  "inbox",
+  "next",
+  "waiting",
+  "someday",
+  "reference",
+  "projects",
+  "archive",
+  "trash",
+  "templates",
 ];
 
 const CONFIG_YAML = `name: ${E2E_ENV}
@@ -25,12 +25,12 @@ default_energy: medium
 `;
 
 export const STUB_AI_RESPONSE = {
-  title: 'Email Jane about Q2 roadmap',
-  summary: 'Filed to inbox — ready to triage',
+  title: "Email Jane about Q2 roadmap",
+  summary: "Filed to inbox — ready to triage",
   body: null,
-  energy: 'medium',
+  energy: "medium",
   time_minutes: 10,
-  contexts: ['computer'],
+  contexts: ["computer"],
   area: null,
   project_query: null,
   due: null,
@@ -38,7 +38,7 @@ export const STUB_AI_RESPONSE = {
 } as const;
 
 export function tmpDataRoot(): string {
-  return path.resolve(HERE, '.tmp', 'data');
+  return path.resolve(HERE, ".tmp", "data");
 }
 
 export function envRoot(): string {
@@ -60,5 +60,5 @@ export default async function globalSetup() {
   for (const bucket of BUCKETS) {
     fs.mkdirSync(path.join(root, bucket), { recursive: true });
   }
-  fs.writeFileSync(path.join(root, 'config.yml'), CONFIG_YAML);
+  fs.writeFileSync(path.join(root, "config.yml"), CONFIG_YAML);
 }

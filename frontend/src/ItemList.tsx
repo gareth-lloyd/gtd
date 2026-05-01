@@ -1,27 +1,27 @@
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { useSearchParams } from 'react-router-dom';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { api, type Bucket, type Item } from './api';
-import { useNextFilters } from './filters';
-import { ItemCard } from './ItemCard';
-import { Button } from './Button';
-import { useEnvParam } from './useEnvParam';
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { api, type Bucket, type Item } from "./api";
+import { useNextFilters } from "./filters";
+import { ItemCard } from "./ItemCard";
+import { Button } from "./Button";
+import { useEnvParam } from "./useEnvParam";
 
 const DONE_PAGE_SIZE = 50;
 
 export function NextActionsView() {
   const env = useEnvParam();
   const { contexts, energy, maxMinutes, minMinutes, noProject, overdue } = useNextFilters();
-  const params: Record<string, string> = { status: 'next' };
-  if (contexts.length) params.contexts = contexts.join(',');
+  const params: Record<string, string> = { status: "next" };
+  if (contexts.length) params.contexts = contexts.join(",");
   if (energy) params.energy = energy;
   if (maxMinutes) params.max_minutes = maxMinutes;
   if (minMinutes) params.min_minutes = minMinutes;
-  if (noProject) params.no_project = 'true';
-  if (overdue) params.overdue = 'true';
+  if (noProject) params.no_project = "true";
+  if (overdue) params.overdue = "true";
 
   const { data: items, isLoading } = useQuery({
-    queryKey: ['items', env, 'next', contexts, energy, maxMinutes, minMinutes, noProject, overdue],
+    queryKey: ["items", env, "next", contexts, energy, maxMinutes, minMinutes, noProject, overdue],
     queryFn: () => api.listItems(env, params),
   });
 
@@ -31,20 +31,19 @@ export function NextActionsView() {
 
 export function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
   const [params, setParams] = useSearchParams();
-  const includeDeferred =
-    bucket === 'inbox' && params.get('include_deferred') === 'true';
+  const includeDeferred = bucket === "inbox" && params.get("include_deferred") === "true";
 
   const listParams: Record<string, string> = { status: bucket };
-  if (includeDeferred) listParams.include_deferred = 'true';
+  if (includeDeferred) listParams.include_deferred = "true";
 
   const { data: items, isLoading } = useQuery({
-    queryKey: ['items', env, bucket, includeDeferred],
+    queryKey: ["items", env, bucket, includeDeferred],
     queryFn: () => api.listItems(env, listParams),
   });
 
   return (
     <>
-      {bucket === 'inbox' && (
+      {bucket === "inbox" && (
         <div className="bucket-toolbar">
           <label className="toggle">
             <input
@@ -52,8 +51,8 @@ export function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
               checked={includeDeferred}
               onChange={(e) => {
                 const next = new URLSearchParams(params);
-                if (e.target.checked) next.set('include_deferred', 'true');
-                else next.delete('include_deferred');
+                if (e.target.checked) next.set("include_deferred", "true");
+                else next.delete("include_deferred");
                 setParams(next, { replace: true });
               }}
             />
@@ -78,10 +77,10 @@ export function BucketRoute({ bucket }: { bucket: Bucket }) {
 export function DoneView() {
   const env = useEnvParam();
   const [params, setParams] = useSearchParams();
-  const page = Math.max(1, parseInt(params.get('page') ?? '1', 10) || 1);
+  const page = Math.max(1, parseInt(params.get("page") ?? "1", 10) || 1);
 
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: ['items-done', env, page, DONE_PAGE_SIZE],
+    queryKey: ["items-done", env, page, DONE_PAGE_SIZE],
     queryFn: () => api.listDoneItems(env, page, DONE_PAGE_SIZE),
     placeholderData: keepPreviousData,
   });
@@ -96,8 +95,8 @@ export function DoneView() {
 
   const goto = (next: number) => {
     const sp = new URLSearchParams(params);
-    if (next <= 1) sp.delete('page');
-    else sp.set('page', String(next));
+    if (next <= 1) sp.delete("page");
+    else sp.set("page", String(next));
     setParams(sp, { replace: true });
   };
 
@@ -105,9 +104,7 @@ export function DoneView() {
     <>
       <div className="bucket-toolbar">
         <span className="status">
-          {total === 0
-            ? 'No completed items.'
-            : `${total} done · page ${page}/${totalPages}`}
+          {total === 0 ? "No completed items." : `${total} done · page ${page}/${totalPages}`}
         </span>
         <div className="spacer" />
         <Button onClick={() => goto(page - 1)} disabled={!hasPrev || isFetching}>
@@ -128,7 +125,7 @@ export function DoneView() {
 
 export function ItemList({ env, items }: { env: string; items: Item[] }) {
   const { data: projects } = useQuery({
-    queryKey: ['projects', env, false],
+    queryKey: ["projects", env, false],
     queryFn: () => api.listProjects(env, false),
   });
   const [listRef] = useAutoAnimate<HTMLUListElement>();
@@ -137,11 +134,7 @@ export function ItemList({ env, items }: { env: string; items: Item[] }) {
     <ul ref={listRef} className="item-list">
       {items.map((item) => (
         <li key={item.id}>
-          <ItemCard
-            env={env}
-            item={item}
-            projects={projects}
-          />
+          <ItemCard env={env} item={item} projects={projects} />
         </li>
       ))}
     </ul>

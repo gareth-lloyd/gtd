@@ -1,24 +1,24 @@
-import { useNextFilters } from './filters';
-import { contextHue } from './context-colors';
-import type { Energy, EnvConfig } from './api';
+import { useNextFilters } from "./filters";
+import { contextHue } from "./context-colors";
+import type { Energy, EnvConfig } from "./api";
 
-const ENERGY_CHOICES: (Energy | '')[] = ['', 'low', 'medium', 'high'];
+const ENERGY_CHOICES: (Energy | "")[] = ["", "low", "medium", "high"];
 
 // ">2h" needs a different shape than the rest: it filters for items longer
 // than the budget, not items that fit within it.
 type TimeChoice =
-  | { label: string; kind: 'none' }
-  | { label: string; kind: 'max'; value: string }
-  | { label: string; kind: 'min'; value: string };
+  | { label: string; kind: "none" }
+  | { label: string; kind: "max"; value: string }
+  | { label: string; kind: "min"; value: string };
 
 const TIME_CHOICES: TimeChoice[] = [
-  { label: 'any', kind: 'none' },
-  { label: '5m', kind: 'max', value: '5' },
-  { label: '15m', kind: 'max', value: '15' },
-  { label: '30m', kind: 'max', value: '30' },
-  { label: '60m', kind: 'max', value: '60' },
-  { label: '2h', kind: 'max', value: '120' },
-  { label: '>2h', kind: 'min', value: '120' },
+  { label: "any", kind: "none" },
+  { label: "5m", kind: "max", value: "5" },
+  { label: "15m", kind: "max", value: "15" },
+  { label: "30m", kind: "max", value: "30" },
+  { label: "60m", kind: "max", value: "60" },
+  { label: "2h", kind: "max", value: "120" },
+  { label: ">2h", kind: "min", value: "120" },
 ];
 
 export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
@@ -38,14 +38,14 @@ export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
   } = useNextFilters();
 
   const isTimeActive = (t: TimeChoice) => {
-    if (t.kind === 'none') return !maxMinutes && !minMinutes;
-    if (t.kind === 'max') return maxMinutes === t.value;
+    if (t.kind === "none") return !maxMinutes && !minMinutes;
+    if (t.kind === "max") return maxMinutes === t.value;
     return minMinutes === t.value;
   };
 
   const selectTime = (t: TimeChoice) => {
-    if (t.kind === 'none') setMaxMinutes('');
-    else if (t.kind === 'max') setMaxMinutes(t.value);
+    if (t.kind === "none") setMaxMinutes("");
+    else if (t.kind === "max") setMaxMinutes(t.value);
     else setMinMinutes(t.value);
   };
   return (
@@ -63,7 +63,7 @@ export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
               checked={contexts.includes(c)}
               onChange={(e) =>
                 setContexts((prev) =>
-                  e.target.checked ? [...prev, c] : prev.filter((x) => x !== c)
+                  e.target.checked ? [...prev, c] : prev.filter((x) => x !== c),
                 )
               }
             />
@@ -71,11 +71,7 @@ export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
           </label>
         ))}
         {contexts.length > 0 && (
-          <button
-            type="button"
-            className="clear-link"
-            onClick={() => setContexts(() => [])}
-          >
+          <button type="button" className="clear-link" onClick={() => setContexts(() => [])}>
             clear
           </button>
         )}
@@ -87,11 +83,11 @@ export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
           {ENERGY_CHOICES.map((e) => (
             <button
               type="button"
-              key={e || 'any'}
-              className={energy === e ? 'active' : ''}
+              key={e || "any"}
+              className={energy === e ? "active" : ""}
               onClick={() => setEnergy(e)}
             >
-              {e || 'any'}
+              {e || "any"}
             </button>
           ))}
         </div>
@@ -104,7 +100,7 @@ export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
             <button
               type="button"
               key={t.label}
-              className={isTimeActive(t) ? 'active' : ''}
+              className={isTimeActive(t) ? "active" : ""}
               onClick={() => selectTime(t)}
             >
               {t.label}
@@ -128,11 +124,7 @@ export function FilterPanel({ config }: { config: EnvConfig | undefined }) {
       <div className="filter-section">
         <h3>Due</h3>
         <label className="check-row">
-          <input
-            type="checkbox"
-            checked={overdue}
-            onChange={(e) => setOverdue(e.target.checked)}
-          />
+          <input type="checkbox" checked={overdue} onChange={(e) => setOverdue(e.target.checked)} />
           <span>Overdue only</span>
         </label>
       </div>

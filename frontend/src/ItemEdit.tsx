@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useQueryClient, type QueryClient } from '@tanstack/react-query';
-import { api, type Item, type Project } from './api';
-import { toasts } from './toast';
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useQueryClient, type QueryClient } from "@tanstack/react-query";
+import { api, type Item, type Project } from "./api";
+import { toasts } from "./toast";
 
 type Snapshot = {
   single: Item | undefined;
@@ -22,66 +22,54 @@ function projectMoveMessage(
   qc: QueryClient,
   env: string,
   oldProjectId: string | null,
-  newProjectId: string | null
+  newProjectId: string | null,
 ): string {
-  const projects = qc.getQueryData<Project[]>(['projects', env, false]);
+  const projects = qc.getQueryData<Project[]>(["projects", env, false]);
   const titleFor = (id: string | null) =>
-    id ? projects?.find((p) => p.id === id)?.title ?? id : null;
+    id ? (projects?.find((p) => p.id === id)?.title ?? id) : null;
   const oldTitle = titleFor(oldProjectId);
   const newTitle = titleFor(newProjectId);
   if (newTitle && oldTitle) return `Moved from ${oldTitle} to ${newTitle}`;
   if (newTitle) return `Moved to ${newTitle}`;
-  return `Removed from ${oldTitle ?? 'project'}`;
+  return `Removed from ${oldTitle ?? "project"}`;
 }
 
-export function invalidateItemQueries(
-  qc: QueryClient,
-  env: string,
-  itemId: string,
-) {
-  qc.invalidateQueries({ queryKey: ['items', env] });
-  qc.invalidateQueries({ queryKey: ['items-done', env] });
-  qc.invalidateQueries({ queryKey: ['item', env, itemId] });
-  qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
-  qc.invalidateQueries({ queryKey: ['snapshot-status'] });
-  qc.invalidateQueries({ queryKey: ['projects', env] });
+export function invalidateItemQueries(qc: QueryClient, env: string, itemId: string) {
+  qc.invalidateQueries({ queryKey: ["items", env] });
+  qc.invalidateQueries({ queryKey: ["items-done", env] });
+  qc.invalidateQueries({ queryKey: ["item", env, itemId] });
+  qc.invalidateQueries({ queryKey: ["search-corpus", env], refetchType: "none" });
+  qc.invalidateQueries({ queryKey: ["snapshot-status"] });
+  qc.invalidateQueries({ queryKey: ["projects", env] });
   // Prefix-match all project detail queries for this env — we can't reliably
   // determine the old project ID when the item was loaded via a composite
   // project detail query rather than an items list.
-  qc.invalidateQueries({ queryKey: ['project', env] });
+  qc.invalidateQueries({ queryKey: ["project", env] });
 }
 
-export function invalidateProjectQueries(
-  qc: QueryClient,
-  env: string,
-  projectId?: string,
-) {
-  qc.invalidateQueries({ queryKey: ['projects', env] });
+export function invalidateProjectQueries(qc: QueryClient, env: string, projectId?: string) {
+  qc.invalidateQueries({ queryKey: ["projects", env] });
   if (projectId) {
-    qc.invalidateQueries({ queryKey: ['project', env, projectId] });
+    qc.invalidateQueries({ queryKey: ["project", env, projectId] });
   }
-  qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
-  qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+  qc.invalidateQueries({ queryKey: ["search-corpus", env], refetchType: "none" });
+  qc.invalidateQueries({ queryKey: ["snapshot-status"] });
 }
 
 /**
  * Find an item in the TanStack Query cache without triggering a fetch.
  * Checks both the single-item cache and all items-list caches.
  */
-export function findItemInCache(
-  qc: QueryClient,
-  env: string,
-  itemId: string,
-): Item | undefined {
-  const single = qc.getQueryData<Item>(['item', env, itemId]);
+export function findItemInCache(qc: QueryClient, env: string, itemId: string): Item | undefined {
+  const single = qc.getQueryData<Item>(["item", env, itemId]);
   if (single) return single;
-  const lists = qc.getQueriesData<Item[]>({ queryKey: ['items', env] });
+  const lists = qc.getQueriesData<Item[]>({ queryKey: ["items", env] });
   for (const [, data] of lists) {
     const found = data?.find((i) => i.id === itemId);
     if (found) return found;
   }
   // Also check project detail caches (shape: { project, actions: Item[] })
-  const projects = qc.getQueriesData<{ actions: Item[] }>({ queryKey: ['project', env] });
+  const projects = qc.getQueriesData<{ actions: Item[] }>({ queryKey: ["project", env] });
   for (const [, data] of projects) {
     const found = data?.actions?.find((i) => i.id === itemId);
     if (found) return found;
@@ -110,9 +98,9 @@ export function useItemPatch(env: string, itemId: string) {
     pendingRef.current = {};
     if (Object.keys(patch).length === 0) return;
 
-    const projectChanged = 'project' in patch;
+    const projectChanged = "project" in patch;
     const oldProject = projectChanged
-      ? findItemInSnapshot(snapshotRef.current, itemId)?.project ?? null
+      ? (findItemInSnapshot(snapshotRef.current, itemId)?.project ?? null)
       : null;
 
     try {
@@ -120,12 +108,12 @@ export function useItemPatch(env: string, itemId: string) {
       snapshotRef.current = null;
       invalidateItemQueries(qc, env, itemId);
       if (projectChanged && oldProject !== updated.project) {
-        toasts.show('info', projectMoveMessage(qc, env, oldProject, updated.project));
+        toasts.show("info", projectMoveMessage(qc, env, oldProject, updated.project));
       }
     } catch (err) {
       const snap = snapshotRef.current;
       if (snap) {
-        qc.setQueryData(['item', env, itemId], snap.single);
+        qc.setQueryData(["item", env, itemId], snap.single);
         for (const [key, list] of snap.lists) {
           qc.setQueryData(key, list);
         }
@@ -138,20 +126,20 @@ export function useItemPatch(env: string, itemId: string) {
   const patch = useCallback(
     (fields: Partial<Item>, opts: { debounce?: number } = {}) => {
       if (!snapshotRef.current) {
-        const single = qc.getQueryData<Item>(['item', env, itemId]);
+        const single = qc.getQueryData<Item>(["item", env, itemId]);
         const lists: [unknown[], Item[] | undefined][] = qc
-          .getQueriesData<Item[]>({ queryKey: ['items', env] })
+          .getQueriesData<Item[]>({ queryKey: ["items", env] })
           .map(([key, data]) => [key as unknown[], data]);
         snapshotRef.current = { single, lists };
       }
 
       pendingRef.current = { ...pendingRef.current, ...fields };
 
-      qc.setQueryData<Item | undefined>(['item', env, itemId], (prev) =>
-        prev ? { ...prev, ...fields } : prev
+      qc.setQueryData<Item | undefined>(["item", env, itemId], (prev) =>
+        prev ? { ...prev, ...fields } : prev,
       );
-      qc.setQueriesData<Item[]>({ queryKey: ['items', env] }, (prev) =>
-        prev?.map((it) => (it.id === itemId ? { ...it, ...fields } : it))
+      qc.setQueriesData<Item[]>({ queryKey: ["items", env] }, (prev) =>
+        prev?.map((it) => (it.id === itemId ? { ...it, ...fields } : it)),
       );
 
       if (timerRef.current != null) {
@@ -167,7 +155,7 @@ export function useItemPatch(env: string, itemId: string) {
         }, delay);
       }
     },
-    [env, itemId, qc, doFlush]
+    [env, itemId, qc, doFlush],
   );
 
   useEffect(() => {
@@ -197,12 +185,12 @@ type ChipToggleGroupProps<T extends string> = {
   children?: React.ReactNode;
 } & (
   | {
-      mode: 'single';
+      mode: "single";
       value: T | null;
       onChange: (next: T | null) => void;
     }
   | {
-      mode: 'multi';
+      mode: "multi";
       value: T[];
       onChange: (next: T[]) => void;
     }
@@ -211,13 +199,11 @@ type ChipToggleGroupProps<T extends string> = {
 export function ChipToggleGroup<T extends string>(props: ChipToggleGroupProps<T>) {
   const { options, noneLabel, className, styleForSelected, children } = props;
 
-  const selectedSet =
-    props.mode === 'multi' ? new Set(props.value) : null;
-  const isSelected = (v: T) =>
-    props.mode === 'multi' ? selectedSet!.has(v) : props.value === v;
+  const selectedSet = props.mode === "multi" ? new Set(props.value) : null;
+  const isSelected = (v: T) => (props.mode === "multi" ? selectedSet!.has(v) : props.value === v);
 
   const toggle = (v: T) => {
-    if (props.mode === 'multi') {
+    if (props.mode === "multi") {
       const arr = props.value;
       props.onChange(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
     } else {
@@ -226,8 +212,8 @@ export function ChipToggleGroup<T extends string>(props: ChipToggleGroupProps<T>
   };
 
   return (
-    <div className={`chip-toggle-group ${className ?? ''}`}>
-      {noneLabel !== undefined && props.mode === 'single' && (
+    <div className={`chip-toggle-group ${className ?? ""}`}>
+      {noneLabel !== undefined && props.mode === "single" && (
         <button
           type="button"
           className="chip-toggle"
@@ -239,9 +225,7 @@ export function ChipToggleGroup<T extends string>(props: ChipToggleGroupProps<T>
       )}
       {options.map((opt) => {
         const selected = isSelected(opt.value);
-        const style = selected
-          ? styleForSelected?.(opt.value) ?? opt.style
-          : undefined;
+        const style = selected ? (styleForSelected?.(opt.value) ?? opt.style) : undefined;
         return (
           <button
             type="button"
@@ -270,11 +254,11 @@ export function DatePickerRow({ value, onChange }: DatePickerRowProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const quick = useMemo(
     () => [
-      { label: 'Today', v: daysFromToday(0) },
-      { label: 'Tomorrow', v: daysFromToday(1) },
-      { label: 'Next Mon', v: nextMonday() },
+      { label: "Today", v: daysFromToday(0) },
+      { label: "Tomorrow", v: daysFromToday(1) },
+      { label: "Next Mon", v: nextMonday() },
     ],
-    []
+    [],
   );
   const matchesQuick = quick.some((q) => q.v === value);
   const customDateSet = value != null && !matchesQuick;
@@ -308,7 +292,7 @@ export function DatePickerRow({ value, onChange }: DatePickerRowProps) {
         className="chip-toggle picker"
         aria-pressed={customDateSet}
         onClick={openPicker}
-        title={customDateSet ? `Picked ${value}` : 'Pick a date'}
+        title={customDateSet ? `Picked ${value}` : "Pick a date"}
       >
         <span aria-hidden>📅</span>
         {customDateSet && <span className="picker-date">{value}</span>}
@@ -329,7 +313,7 @@ export function DatePickerRow({ value, onChange }: DatePickerRowProps) {
         className="hidden-date-input"
         tabIndex={-1}
         aria-hidden
-        value={value ?? ''}
+        value={value ?? ""}
         onChange={(e) => onChange(e.target.value || null)}
       />
     </>
@@ -362,10 +346,7 @@ export function isScheduled(item: { defer_until: string | null }): boolean {
  * defer_until is in the future AND its due date hasn't arrived. Overdue items
  * stay visible so a stale defer_until can't swallow a missed deadline.
  */
-export function isHiddenByDefer(item: {
-  defer_until: string | null;
-  overdue: boolean;
-}): boolean {
+export function isHiddenByDefer(item: { defer_until: string | null; overdue: boolean }): boolean {
   if (item.overdue) return false;
   return isScheduled(item);
 }
@@ -384,15 +365,15 @@ export function DateTimePickerRow({ value, onChange }: DateTimePickerRowProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const presets = useMemo(
     () => [
-      { label: '+1h', make: () => hoursFromNow(1) },
-      { label: '+3h', make: () => hoursFromNow(3) },
-      { label: 'Tomorrow 9am', make: () => tomorrowAt(9, 0) },
-      { label: 'Next Mon 9am', make: () => nextMondayAt(9, 0) },
+      { label: "+1h", make: () => hoursFromNow(1) },
+      { label: "+3h", make: () => hoursFromNow(3) },
+      { label: "Tomorrow 9am", make: () => tomorrowAt(9, 0) },
+      { label: "Next Mon 9am", make: () => nextMondayAt(9, 0) },
     ],
-    []
+    [],
   );
 
-  const inputValue = value ? toDatetimeLocalValue(value) : '';
+  const inputValue = value ? toDatetimeLocalValue(value) : "";
 
   const openPicker = () => {
     const el = inputRef.current;
@@ -422,7 +403,7 @@ export function DateTimePickerRow({ value, onChange }: DateTimePickerRowProps) {
         className="chip-toggle picker"
         aria-pressed={value != null}
         onClick={openPicker}
-        title={value ? `Deferred until ${formatDateTime(value)}` : 'Pick a date/time'}
+        title={value ? `Deferred until ${formatDateTime(value)}` : "Pick a date/time"}
       >
         <span aria-hidden>📅</span>
         {value && <span className="picker-date">{formatDateTime(value)}</span>}
@@ -473,7 +454,7 @@ function nextMondayAt(hour: number, minute: number): string {
 
 /** Produce an ISO-like local timestamp without the "Z" suffix. */
 function toIsoLocal(d: Date): string {
-  const pad = (n: number) => String(n).padStart(2, '0');
+  const pad = (n: number) => String(n).padStart(2, "0");
   return (
     `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
     `T${pad(d.getHours())}:${pad(d.getMinutes())}:00`
@@ -497,6 +478,6 @@ function formatDateTime(iso: string): string {
   const m = iso.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/);
   if (!m) return iso;
   const [, date, hh, mm] = m;
-  if (hh === '00' && mm === '00') return date;
+  if (hh === "00" && mm === "00") return date;
   return `${date} ${hh}:${mm}`;
 }

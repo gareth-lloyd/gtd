@@ -4,31 +4,31 @@ Vite + React 18 + TypeScript SPA. TanStack Query for server state.
 
 ## Key files
 
-| File | Purpose |
-|------|---------|
-| `api.ts` | Typed fetch client. All API calls go through `request<T>()`. Types for Item, Project, EnvConfig, etc. |
-| `App.tsx` | Route table + `AppShell` layout. Owns top-level keyboard shortcuts (`C`, `Shift+C`, `A`, `/`). |
-| `CaptureBar.tsx` | Capture overlay with `Regular` / `Regular ↑` / `AI ✦` mode toggle. Exports `CaptureMode` and `isEditableTarget`. |
-| `ItemCard.tsx` | Dual-purpose item card (collapsed chips / expanded inline editors). Replaces the old `ItemRow` + `ItemEditor`. |
-| `ItemList.tsx` | Bucket list views (NextActionsView, etc). Wires filters and pagination, drives `<ItemCard>`. |
-| `ItemEdit.tsx` | `useItemPatch` (debounced PATCH with optimistic cache updates), `ChipToggleGroup`, `DatePickerRow` (date-only), `DateTimePickerRow` (datetime — used for `defer_until`), `isScheduled`, `invalidateItemQueries` helper. |
-| `DetailPanel.tsx` | Right-side detail pane bound to selection/hover. Renders the full editor for the active item. |
-| `WorkflowActions.tsx` | Move / complete / delete buttons shared across card and detail pane. |
-| `FilterPanel.tsx` | Aside filter UI for `/next` — contexts, energy, time bands, no-project, overdue. Reads/writes via `useNextFilters()`. |
-| `ProjectComponents.tsx` | Projects list, project detail, `SortableActionList` (DnD), `ProjectBadges`. |
-| `TemplatesView.tsx` | Read-only list of recurring templates from `GET /api/envs/<env>/templates/`. |
-| `SearchComponents.tsx` | Header `SearchBar` dropdown + full search page. Routes `/:env/search` and `/:env/items/:itemId`. |
-| `SelectionContext.tsx` | React context for selected/hovered item id, used to drive `DetailPanel`. |
-| `useEnvParam.ts` | Tiny hook reading `:env` from the URL — components never receive `env` as a prop at the route level. |
-| `format.ts` | Shared utilities: `fmtDate`, `sortProjects`, `slugify`, `generateProjectId`. |
-| `filters.ts` | `useNextFilters()` — query-param-backed filter state for `/next`. |
-| `search.ts` | `useSearchIndex(env)` — MiniSearch index over the full corpus. |
-| `context-colors.ts` | Deterministic context→hue mapping (djb2 hash) and `contextChipStyle` helper. |
-| `Button.tsx` | `<Button busy={mut.isPending}>` — spinner overlay, auto-disable. Use for every mutation-backed button. |
-| `toast.tsx` | Module-level `ToastStore` (callable outside React). `<Toaster />` subscribes to it. |
-| `main.tsx` | React entry. `BrowserRouter` + `QueryClient` with `MutationCache.onError` → auto-toast. |
-| `test-setup.ts` | Vitest setup — registers `@testing-library/jest-dom` matchers. |
-| `styles.css` | Vanilla CSS with custom properties. No Tailwind. |
+| File                    | Purpose                                                                                                                                                                                                                 |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `api.ts`                | Typed fetch client. All API calls go through `request<T>()`. Types for Item, Project, EnvConfig, etc.                                                                                                                   |
+| `App.tsx`               | Route table + `AppShell` layout. Owns top-level keyboard shortcuts (`C`, `Shift+C`, `A`, `/`).                                                                                                                          |
+| `CaptureBar.tsx`        | Capture overlay with `Regular` / `Regular ↑` / `AI ✦` mode toggle. Exports `CaptureMode` and `isEditableTarget`.                                                                                                        |
+| `ItemCard.tsx`          | Dual-purpose item card (collapsed chips / expanded inline editors). Replaces the old `ItemRow` + `ItemEditor`.                                                                                                          |
+| `ItemList.tsx`          | Bucket list views (NextActionsView, etc). Wires filters and pagination, drives `<ItemCard>`.                                                                                                                            |
+| `ItemEdit.tsx`          | `useItemPatch` (debounced PATCH with optimistic cache updates), `ChipToggleGroup`, `DatePickerRow` (date-only), `DateTimePickerRow` (datetime — used for `defer_until`), `isScheduled`, `invalidateItemQueries` helper. |
+| `DetailPanel.tsx`       | Right-side detail pane bound to selection/hover. Renders the full editor for the active item.                                                                                                                           |
+| `WorkflowActions.tsx`   | Move / complete / delete buttons shared across card and detail pane.                                                                                                                                                    |
+| `FilterPanel.tsx`       | Aside filter UI for `/next` — contexts, energy, time bands, no-project, overdue. Reads/writes via `useNextFilters()`.                                                                                                   |
+| `ProjectComponents.tsx` | Projects list, project detail, `SortableActionList` (DnD), `ProjectBadges`.                                                                                                                                             |
+| `TemplatesView.tsx`     | Read-only list of recurring templates from `GET /api/envs/<env>/templates/`.                                                                                                                                            |
+| `SearchComponents.tsx`  | Header `SearchBar` dropdown + full search page. Routes `/:env/search` and `/:env/items/:itemId`.                                                                                                                        |
+| `SelectionContext.tsx`  | React context for selected/hovered item id, used to drive `DetailPanel`.                                                                                                                                                |
+| `useEnvParam.ts`        | Tiny hook reading `:env` from the URL — components never receive `env` as a prop at the route level.                                                                                                                    |
+| `format.ts`             | Shared utilities: `fmtDate`, `sortProjects`, `slugify`, `generateProjectId`.                                                                                                                                            |
+| `filters.ts`            | `useNextFilters()` — query-param-backed filter state for `/next`.                                                                                                                                                       |
+| `search.ts`             | `useSearchIndex(env)` — MiniSearch index over the full corpus.                                                                                                                                                          |
+| `context-colors.ts`     | Deterministic context→hue mapping (djb2 hash) and `contextChipStyle` helper.                                                                                                                                            |
+| `Button.tsx`            | `<Button busy={mut.isPending}>` — spinner overlay, auto-disable. Use for every mutation-backed button.                                                                                                                  |
+| `toast.tsx`             | Module-level `ToastStore` (callable outside React). `<Toaster />` subscribes to it.                                                                                                                                     |
+| `main.tsx`              | React entry. `BrowserRouter` + `QueryClient` with `MutationCache.onError` → auto-toast.                                                                                                                                 |
+| `test-setup.ts`         | Vitest setup — registers `@testing-library/jest-dom` matchers.                                                                                                                                                          |
+| `styles.css`            | Vanilla CSS with custom properties. No Tailwind.                                                                                                                                                                        |
 
 ## Patterns
 
@@ -82,13 +82,13 @@ section, env, project detail, and filters.
   `env` as a prop at the route level (they still drill it into children
   that need it, e.g. `ItemCard`).
 - `useNextFilters()` (in `filters.ts`) exposes `{contexts, energy,
-  maxMinutes}` + setters, backed by `useSearchParams`. Setters use
+maxMinutes}` + setters, backed by `useSearchParams`. Setters use
   `{ replace: true }` so filter toggles don't spam browser history.
   Empty values are dropped from the URL.
 - Filters only render on `/:env/next` (detected via `useMatch`). The
   URL query keeps them but other sections don't read them.
 - Tests: `renderApp()` wraps `<App/>` in `<MemoryRouter initialEntries=
-  {['/work/next']}>`.
+{['/work/next']}>`.
 
 ## Search
 

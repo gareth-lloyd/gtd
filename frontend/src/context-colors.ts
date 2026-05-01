@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from "react";
 
 /**
  * Deterministic hue from a context name. Uses djb2 hash for good
@@ -30,11 +30,8 @@ export function contextChipStyle(name: string): React.CSSProperties {
  * Returns undefined when no contexts are selected (revert to default bg).
  * When multiple contexts selected, averages their hues.
  */
-export function contextTintStyle(
-  selected: string[]
-): React.CSSProperties | undefined {
+export function contextTintStyle(selected: string[]): React.CSSProperties | undefined {
   if (selected.length === 0) return undefined;
-  const avg =
-    selected.reduce((sum, c) => sum + contextHue(c), 0) / selected.length;
+  const avg = selected.reduce((sum, c) => sum + contextHue(c), 0) / selected.length;
   return { backgroundColor: `hsl(${Math.round(avg)}, 25%, 97%)` };
 }

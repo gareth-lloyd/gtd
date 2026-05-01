@@ -1,19 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
-import ReactMarkdown, { type Components } from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { useEffect, useRef, useState } from "react";
+import ReactMarkdown, { type Components } from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const SESSION_START_MS = Date.now();
 const FRESH_WINDOW_MS = 2000;
 
 const markdownComponents: Components = {
-  a: ({ node: _node, ...props }) => (
-    <a {...props} target="_blank" rel="noopener noreferrer" />
-  ),
+  a: ({ node: _node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />,
 };
-import type { Item, Project } from './api';
-import { isScheduled, useItemPatch } from './ItemEdit';
-import { contextChipStyle } from './context-colors';
-import { useSelection } from './SelectionContext';
+import type { Item, Project } from "./api";
+import { isScheduled, useItemPatch } from "./ItemEdit";
+import { contextChipStyle } from "./context-colors";
+import { useSelection } from "./SelectionContext";
 
 export function ItemCard({
   env,
@@ -30,7 +28,7 @@ export function ItemCard({
 
   const onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = e.currentTarget;
-    const scrollContainer = el.closest('main');
+    const scrollContainer = el.closest("main");
     if (!scrollContainer) return;
     const cardRect = el.getBoundingClientRect();
     const containerRect = scrollContainer.getBoundingClientRect();
@@ -39,27 +37,26 @@ export function ItemCard({
   };
 
   const className = [
-    'item',
-    selected ? 'selected' : '',
-    hovered && !selected ? 'hovered' : '',
-    item.working_on ? 'working-on' : '',
+    "item",
+    selected ? "selected" : "",
+    hovered && !selected ? "hovered" : "",
+    item.working_on ? "working-on" : "",
   ]
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 
   const createdMs = new Date(item.created).getTime();
-  const isFresh =
-    createdMs > SESSION_START_MS && Date.now() - createdMs < FRESH_WINDOW_MS;
+  const isFresh = createdMs > SESSION_START_MS && Date.now() - createdMs < FRESH_WINDOW_MS;
 
   return (
     <div
       className={className}
-      data-fresh={isFresh ? 'true' : undefined}
+      data-fresh={isFresh ? "true" : undefined}
       onClick={(e) => {
         if (selected) return;
-        if ((e.target as HTMLElement).closest('.item-actions')) return;
-        if ((e.target as HTMLElement).closest('a')) return;
-        if ((e.target as HTMLElement).closest('.working-on-toggle')) return;
+        if ((e.target as HTMLElement).closest(".item-actions")) return;
+        if ((e.target as HTMLElement).closest("a")) return;
+        if ((e.target as HTMLElement).closest(".working-on-toggle")) return;
         select(item.id);
       }}
       onMouseEnter={onMouseEnter}
@@ -79,10 +76,10 @@ function WorkingOnToggle({ env, item }: { env: string; item: Item }) {
   return (
     <button
       type="button"
-      className={`working-on-toggle${active ? ' active' : ''}`}
+      className={`working-on-toggle${active ? " active" : ""}`}
       aria-pressed={active}
-      aria-label={active ? 'Unpin working on' : 'Mark as working on'}
-      title={active ? 'Working on this — click to unpin' : 'Mark as working on'}
+      aria-label={active ? "Unpin working on" : "Mark as working on"}
+      title={active ? "Working on this — click to unpin" : "Mark as working on"}
       onClick={(e) => {
         e.stopPropagation();
         patch({ working_on: !active }, { debounce: 200 });
@@ -96,15 +93,16 @@ function WorkingOnToggle({ env, item }: { env: string; item: Item }) {
 function formatUrl(url: string): string {
   try {
     const u = new URL(url);
-    const path = u.pathname.replace(/\/$/, '');
-    if (!path || path === '/') return u.hostname;
-    const segments = path.split('/').filter(Boolean);
-    const short = segments.length <= 2
-      ? segments.join('/')
-      : `${segments[0]}/…/${segments[segments.length - 1]}`;
+    const path = u.pathname.replace(/\/$/, "");
+    if (!path || path === "/") return u.hostname;
+    const segments = path.split("/").filter(Boolean);
+    const short =
+      segments.length <= 2
+        ? segments.join("/")
+        : `${segments[0]}/…/${segments[segments.length - 1]}`;
     return `${u.hostname}/${short}`;
   } catch {
-    return url.length > 40 ? url.slice(0, 37) + '…' : url;
+    return url.length > 40 ? url.slice(0, 37) + "…" : url;
   }
 }
 
@@ -164,7 +162,7 @@ function CollapsedCard({
       )}
       <ItemLinks body={item.body} />
       <div className="item-meta">
-        {item.status !== 'next' && <span className="chip">{item.status}</span>}
+        {item.status !== "next" && <span className="chip">{item.status}</span>}
         {project && <span className="chip project-chip">📁 {project.title}</span>}
         {item.project_priority != null && (
           <span className={`priority-badge p${item.project_priority}`}>
@@ -177,14 +175,10 @@ function CollapsedCard({
           </span>
         ))}
         {item.energy && <span className="chip">⚡{item.energy}</span>}
-        {item.time_minutes != null && (
-          <span className="chip">{item.time_minutes}m</span>
-        )}
+        {item.time_minutes != null && <span className="chip">{item.time_minutes}m</span>}
         {item.area && <span className="chip">{item.area}</span>}
         {item.due && (
-          <span className={`chip${item.overdue ? ' chip-overdue' : ''}`}>
-            due {item.due}
-          </span>
+          <span className={`chip${item.overdue ? " chip-overdue" : ""}`}>due {item.due}</span>
         )}
         {item.defer_until && (
           <span className="chip">defer {formatDeferChip(item.defer_until)}</span>
@@ -198,17 +192,11 @@ function formatDeferChip(iso: string): string {
   const m = iso.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/);
   if (!m) return iso;
   const [, date, hh, mm] = m;
-  if (hh === '00' && mm === '00') return date;
+  if (hh === "00" && mm === "00") return date;
   return `${date} ${hh}:${mm}`;
 }
 
-function SelectedInListCard({
-  env,
-  item,
-}: {
-  env: string;
-  item: Item;
-}) {
+function SelectedInListCard({ env, item }: { env: string; item: Item }) {
   const { select } = useSelection();
   const { patch, flush } = useItemPatch(env, item.id);
 
@@ -223,10 +211,12 @@ function SelectedInListCard({
       setUnlocked(false);
       lastItemIdRef.current = item.id;
     }
+    // Only reset on id change. Including title/body would clobber in-flight edits.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.id]);
 
   const saveAndDeselect = (e: React.KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
       e.preventDefault();
       void flush();
       select(null);
@@ -237,15 +227,11 @@ function SelectedInListCard({
     return (
       <div className="item-selected-in-list scheduled-readonly-card">
         <div className="scheduled-banner">
-          <strong>Scheduled</strong> until {formatDeferChip(item.defer_until ?? '')}
+          <strong>Scheduled</strong> until {formatDeferChip(item.defer_until ?? "")}
         </div>
-        <div className="title-input-readonly">{item.title || '(untitled)'}</div>
+        <div className="title-input-readonly">{item.title || "(untitled)"}</div>
         {item.body && <div className="body-input-readonly">{item.body}</div>}
-        <button
-          type="button"
-          className="chip-toggle"
-          onClick={() => setUnlocked(true)}
-        >
+        <button type="button" className="chip-toggle" onClick={() => setUnlocked(true)}>
           Edit scheduled item
         </button>
       </div>

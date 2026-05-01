@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { api, type Energy, type Item, type Project } from './api';
+import { useEffect, useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { api, type Energy, type Item, type Project } from "./api";
 import {
   ChipToggleGroup,
   DatePickerRow,
@@ -9,12 +9,12 @@ import {
   invalidateProjectQueries,
   isScheduled,
   useItemPatch,
-} from './ItemEdit';
-import { contextChipStyle } from './context-colors';
-import { generateProjectId, sortProjects } from './format';
-import { Button } from './Button';
-import { WorkflowActions } from './WorkflowActions';
-import { useSelection } from './SelectionContext';
+} from "./ItemEdit";
+import { contextChipStyle } from "./context-colors";
+import { generateProjectId, sortProjects } from "./format";
+import { Button } from "./Button";
+import { WorkflowActions } from "./WorkflowActions";
+import { useSelection } from "./SelectionContext";
 
 // Experiment flag: hover renders the full editor; click pins selection.
 const HOVER_SHOWS_FULL_CONTROLS = true;
@@ -70,16 +70,16 @@ function HoverDetail({
 function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
   const qc = useQueryClient();
   const { data: config } = useQuery({
-    queryKey: ['config', env],
+    queryKey: ["config", env],
     queryFn: () => api.getConfig(env),
   });
   const { data: projects } = useQuery({
-    queryKey: ['projects', env, false],
+    queryKey: ["projects", env, false],
     queryFn: () => api.listProjects(env, false),
   });
   // Seed from cache so the first render is instant; fall back to fetch
   const { data: item } = useQuery({
-    queryKey: ['item', env, itemId],
+    queryKey: ["item", env, itemId],
     queryFn: () => api.getItem(env, itemId),
     initialData: () => findItemInCache(qc, env, itemId),
     staleTime: 30_000,
@@ -87,10 +87,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
 
   const { patch } = useItemPatch(env, itemId);
 
-  const sortedProjects = useMemo(
-    () => (projects ? sortProjects(projects) : []),
-    [projects],
-  );
+  const sortedProjects = useMemo(() => (projects ? sortProjects(projects) : []), [projects]);
   const project = projects?.find((p) => p.id === item?.project) ?? null;
   const capped = project?.max_next_items != null;
 
@@ -103,9 +100,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
   if (!item) return <div className="detail-empty">Loading…</div>;
 
   if (isScheduled(item) && !unlocked) {
-    return (
-      <ScheduledItemView env={env} item={item} onEdit={() => setUnlocked(true)} />
-    );
+    return <ScheduledItemView env={env} item={item} onEdit={() => setUnlocked(true)} />;
   }
 
   return (
@@ -123,17 +118,13 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
               <>
                 📁 {p.title}
                 {p.priority != null && (
-                  <span className={`priority-badge p${p.priority}`}>
-                    P{p.priority}
-                  </span>
+                  <span className={`priority-badge p${p.priority}`}>P{p.priority}</span>
                 )}
                 {p.max_next_items != null && (
                   <span
                     className="sequential-dot"
                     title={
-                      p.max_next_items === 1
-                        ? 'one at a time'
-                        : `up to ${p.max_next_items} at once`
+                      p.max_next_items === 1 ? "one at a time" : `up to ${p.max_next_items} at once`
                     }
                   >
                     ⇢
@@ -143,10 +134,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
             ),
           }))}
         >
-          <NewProjectChip
-            env={env}
-            onCreated={(id) => patch({ project: id })}
-          />
+          <NewProjectChip env={env} onCreated={(id) => patch({ project: id })} />
         </ChipToggleGroup>
       </div>
 
@@ -157,10 +145,10 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
             <input
               type="number"
               className="order-input"
-              value={item.order ?? ''}
+              value={item.order ?? ""}
               onChange={(e) =>
                 patch({
-                  order: e.target.value === '' ? null : parseInt(e.target.value, 10),
+                  order: e.target.value === "" ? null : parseInt(e.target.value, 10),
                 })
               }
               placeholder="position"
@@ -194,7 +182,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
             mode="single"
             value={item.energy}
             onChange={(v) => patch({ energy: v })}
-            options={(['low', 'medium', 'high'] as Energy[]).map((e) => ({
+            options={(["low", "medium", "high"] as Energy[]).map((e) => ({
               value: e,
               label: `⚡ ${e}`,
             }))}
@@ -232,20 +220,14 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
       <div className="detail-section">
         <span className="detail-label">Due</span>
         <div className="chip-toggle-group">
-          <DatePickerRow
-            value={item.due}
-            onChange={(v) => patch({ due: v })}
-          />
+          <DatePickerRow value={item.due} onChange={(v) => patch({ due: v })} />
         </div>
       </div>
 
       <div className="detail-section">
         <span className="detail-label">Defer until</span>
         <div className="chip-toggle-group">
-          <DateTimePickerRow
-            value={item.defer_until}
-            onChange={(v) => patch({ defer_until: v })}
-          />
+          <DateTimePickerRow value={item.defer_until} onChange={(v) => patch({ defer_until: v })} />
         </div>
       </div>
 
@@ -259,18 +241,8 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
   );
 }
 
-function ScheduledItemView({
-  env,
-  item,
-  onEdit,
-}: {
-  env: string;
-  item: Item;
-  onEdit: () => void;
-}) {
-  const when = item.defer_until
-    ? formatScheduled(item.defer_until)
-    : '(unknown)';
+function ScheduledItemView({ env, item, onEdit }: { env: string; item: Item; onEdit: () => void }) {
+  const when = item.defer_until ? formatScheduled(item.defer_until) : "(unknown)";
   return (
     <div className="detail-meta scheduled-view">
       <div className="scheduled-banner">
@@ -278,7 +250,7 @@ function ScheduledItemView({
       </div>
       <div className="detail-section">
         <span className="detail-label">Title</span>
-        <div className="scheduled-readonly">{item.title || '(untitled)'}</div>
+        <div className="scheduled-readonly">{item.title || "(untitled)"}</div>
       </div>
       {item.body && (
         <div className="detail-section">
@@ -289,9 +261,7 @@ function ScheduledItemView({
       {item.contexts.length > 0 && (
         <div className="detail-section">
           <span className="detail-label">Contexts</span>
-          <div className="scheduled-readonly">
-            {item.contexts.map((c) => `@${c}`).join(' ')}
-          </div>
+          <div className="scheduled-readonly">{item.contexts.map((c) => `@${c}`).join(" ")}</div>
         </div>
       )}
       {item.due && (
@@ -316,7 +286,7 @@ function formatScheduled(iso: string): string {
   const m = iso.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/);
   if (!m) return iso;
   const [, date, hh, mm] = m;
-  if (hh === '00' && mm === '00') return date;
+  if (hh === "00" && mm === "00") return date;
   return `${date} ${hh}:${mm}`;
 }
 
@@ -328,7 +298,7 @@ function NewProjectChip({
   onCreated: (projectId: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const qc = useQueryClient();
 
   const mut = useMutation({
@@ -338,7 +308,7 @@ function NewProjectChip({
     },
     onSuccess: (project: Project) => {
       invalidateProjectQueries(qc, env);
-      setTitle('');
+      setTitle("");
       setOpen(false);
       onCreated(project.id);
     },
@@ -350,11 +320,7 @@ function NewProjectChip({
 
   if (!open) {
     return (
-      <button
-        type="button"
-        className="chip-toggle new-project"
-        onClick={() => setOpen(true)}
-      >
+      <button type="button" className="chip-toggle new-project" onClick={() => setOpen(true)}>
         + new project
       </button>
     );
@@ -368,23 +334,18 @@ function NewProjectChip({
         placeholder="project title"
         onChange={(e) => setTitle(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+          if (e.key === "Enter") {
             e.preventDefault();
             submit();
-          } else if (e.key === 'Escape') {
+          } else if (e.key === "Escape") {
             e.preventDefault();
-            setTitle('');
+            setTitle("");
             setOpen(false);
           }
         }}
         disabled={mut.isPending}
       />
-      <Button
-        type="button"
-        onClick={submit}
-        busy={mut.isPending}
-        disabled={!title.trim()}
-      >
+      <Button type="button" onClick={submit} busy={mut.isPending} disabled={!title.trim()}>
         Create
       </Button>
     </span>

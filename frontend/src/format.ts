@@ -1,4 +1,4 @@
-import type { Project } from './api';
+import type { Project } from "./api";
 
 export function generateProjectId(title: string): string {
   return `${new Date().toISOString().slice(0, 10)}-${slugify(title)}`;
@@ -8,19 +8,19 @@ export function slugify(text: string): string {
   return (
     text
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '')
-      .slice(0, 50) || 'untitled'
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 50) || "untitled"
   );
 }
 
 export function fmtDate(iso: string): string {
-  if (!iso) return '';
+  if (!iso) return "";
   return iso.slice(0, 10);
 }
 
 export function fmtMinutes(m: number): string {
-  if (m === 0) return '0m';
+  if (m === 0) return "0m";
   const h = Math.floor(m / 60);
   const mm = m % 60;
   if (h === 0) return `${mm}m`;

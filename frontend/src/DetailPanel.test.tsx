@@ -1,17 +1,17 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { MemoryRouter } from 'react-router-dom';
-import type { Item } from './api';
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MemoryRouter } from "react-router-dom";
+import type { Item } from "./api";
 
-vi.mock('./api', () => ({
+vi.mock("./api", () => ({
   api: {
     getConfig: vi.fn().mockResolvedValue({
-      name: 'work',
-      contexts: ['calls', 'computer'],
-      areas: ['engineering'],
-      default_energy: 'medium',
+      name: "work",
+      contexts: ["calls", "computer"],
+      areas: ["engineering"],
+      default_energy: "medium",
     }),
     getItem: vi.fn(),
     listProjects: vi.fn().mockResolvedValue([]),
@@ -23,19 +23,19 @@ vi.mock('./api', () => ({
   },
 }));
 
-import { api } from './api';
-import { DetailPanel } from './DetailPanel';
-import { SelectionProvider, useSelection } from './SelectionContext';
+import { api } from "./api";
+import { DetailPanel } from "./DetailPanel";
+import { SelectionProvider, useSelection } from "./SelectionContext";
 
 const testItem: Item = {
-  id: 'item-1',
-  title: 'Test item',
-  body: '',
-  created: '2026-04-10T09:00:00',
-  updated: '2026-04-10T09:00:00',
-  status: 'next',
-  contexts: ['calls'],
-  energy: 'low',
+  id: "item-1",
+  title: "Test item",
+  body: "",
+  created: "2026-04-10T09:00:00",
+  updated: "2026-04-10T09:00:00",
+  status: "next",
+  contexts: ["calls"],
+  energy: "low",
   time_minutes: 15,
   project: null,
   project_priority: null,
@@ -75,17 +75,17 @@ function renderPanel(options: { withSelect?: string; withHover?: string } = {}) 
     defaultOptions: { queries: { retry: false, staleTime: Infinity } },
   });
   // Seed the items list cache so findItemInCache can find items without a fetch
-  qc.setQueryData(['items', 'work', 'next', [], '', '', false], [testItem]);
+  qc.setQueryData(["items", "work", "next", [], "", "", false], [testItem]);
   const utils = render(
     <QueryClientProvider client={qc}>
-      <MemoryRouter initialEntries={['/work/next']}>
+      <MemoryRouter initialEntries={["/work/next"]}>
         <SelectionProvider>
           {options.withSelect && <SelectTrigger itemId={options.withSelect} />}
           {options.withHover && <HoverTrigger itemId={options.withHover} />}
           <DetailPanel env="work" />
         </SelectionProvider>
       </MemoryRouter>
-    </QueryClientProvider>
+    </QueryClientProvider>,
   );
   return { ...utils, qc };
 }
@@ -99,36 +99,36 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-describe('DetailPanel', () => {
-  it('renders empty state when nothing is selected or hovered', () => {
+describe("DetailPanel", () => {
+  it("renders empty state when nothing is selected or hovered", () => {
     renderPanel();
-    expect(screen.getByText('Select an item to edit')).toBeDefined();
+    expect(screen.getByText("Select an item to edit")).toBeDefined();
   });
 
-  it('shows metadata editors when an item is selected', async () => {
+  it("shows metadata editors when an item is selected", async () => {
     const user = userEvent.setup();
-    renderPanel({ withSelect: 'item-1' });
+    renderPanel({ withSelect: "item-1" });
 
-    await user.click(screen.getByTestId('select-trigger'));
+    await user.click(screen.getByTestId("select-trigger"));
 
     // Wait for the item data to load and metadata sections to render
     await waitFor(() => {
-      expect(screen.getByText('Project')).toBeDefined();
+      expect(screen.getByText("Project")).toBeDefined();
     });
-    expect(screen.getByText('Contexts')).toBeDefined();
-    expect(screen.getByText('Energy')).toBeDefined();
-    expect(screen.getByText('Time')).toBeDefined();
-    expect(screen.getByText('Area')).toBeDefined();
-    expect(screen.getByText('Due')).toBeDefined();
-    expect(screen.getByText('Defer until')).toBeDefined();
-    expect(screen.getByText('Actions')).toBeDefined();
+    expect(screen.getByText("Contexts")).toBeDefined();
+    expect(screen.getByText("Energy")).toBeDefined();
+    expect(screen.getByText("Time")).toBeDefined();
+    expect(screen.getByText("Area")).toBeDefined();
+    expect(screen.getByText("Due")).toBeDefined();
+    expect(screen.getByText("Defer until")).toBeDefined();
+    expect(screen.getByText("Actions")).toBeDefined();
   });
 
-  it('shows workflow actions when hovering', async () => {
+  it("shows workflow actions when hovering", async () => {
     const user = userEvent.setup();
-    renderPanel({ withHover: 'item-1' });
+    renderPanel({ withHover: "item-1" });
 
-    await user.click(screen.getByTestId('hover-trigger'));
+    await user.click(screen.getByTestId("hover-trigger"));
 
     // Hover state shows workflow action buttons
     await waitFor(() => {
@@ -138,36 +138,36 @@ describe('DetailPanel', () => {
     expect(screen.getByText(/✓ done/)).toBeDefined();
   });
 
-  it('selected state takes priority over hover', async () => {
+  it("selected state takes priority over hover", async () => {
     const user = userEvent.setup();
-    renderPanel({ withSelect: 'item-1', withHover: 'item-1' });
+    renderPanel({ withSelect: "item-1", withHover: "item-1" });
 
     // First select
-    await user.click(screen.getByTestId('select-trigger'));
+    await user.click(screen.getByTestId("select-trigger"));
 
     await waitFor(() => {
-      expect(screen.getByText('Project')).toBeDefined();
+      expect(screen.getByText("Project")).toBeDefined();
     });
 
     // Try to hover — should be ignored since selectedId is set
-    await user.click(screen.getByTestId('hover-trigger'));
+    await user.click(screen.getByTestId("hover-trigger"));
 
     // Should still show metadata editors, not hover actions
-    expect(screen.getByText('Project')).toBeDefined();
-    expect(screen.getByText('Contexts')).toBeDefined();
+    expect(screen.getByText("Project")).toBeDefined();
+    expect(screen.getByText("Contexts")).toBeDefined();
   });
 
-  it('clicking a context chip triggers a PATCH', async () => {
+  it("clicking a context chip triggers a PATCH", async () => {
     const user = userEvent.setup();
-    renderPanel({ withSelect: 'item-1' });
+    renderPanel({ withSelect: "item-1" });
 
-    await user.click(screen.getByTestId('select-trigger'));
+    await user.click(screen.getByTestId("select-trigger"));
 
-    const computer = await screen.findByRole('button', { name: '@computer' });
+    const computer = await screen.findByRole("button", { name: "@computer" });
     await user.click(computer);
 
-    expect(api.updateItem).toHaveBeenCalledWith('work', 'item-1', {
-      contexts: ['calls', 'computer'],
+    expect(api.updateItem).toHaveBeenCalledWith("work", "item-1", {
+      contexts: ["calls", "computer"],
     });
   });
 });

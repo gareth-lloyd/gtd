@@ -1,38 +1,33 @@
-import { useEffect, useRef, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { api } from './api';
-import { Button } from './Button';
-import { toasts } from './toast';
-import { sortProjects } from './format';
-import { invalidateProjectQueries } from './ItemEdit';
+import { useEffect, useRef, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { api } from "./api";
+import { Button } from "./Button";
+import { toasts } from "./toast";
+import { sortProjects } from "./format";
+import { invalidateProjectQueries } from "./ItemEdit";
 
-export type CaptureMode = 'regular' | 'regular-top' | 'ai';
+export type CaptureMode = "regular" | "regular-top" | "ai";
 
 const MODES: ReadonlyArray<{ value: CaptureMode; label: string; title?: string }> = [
-  { value: 'regular', label: 'Regular' },
+  { value: "regular", label: "Regular" },
   {
-    value: 'regular-top',
-    label: 'Regular ↑',
-    title: 'Capture and float to the top of the inbox (Shift+C)',
+    value: "regular-top",
+    label: "Regular ↑",
+    title: "Capture and float to the top of the inbox (Shift+C)",
   },
-  { value: 'ai', label: 'AI ✦' },
+  { value: "ai", label: "AI ✦" },
 ];
 
 export function isEditableTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
   const tag = target.tagName;
-  return (
-    tag === 'INPUT' ||
-    tag === 'TEXTAREA' ||
-    tag === 'SELECT' ||
-    target.isContentEditable
-  );
+  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || target.isContentEditable;
 }
 
 export function CaptureBar({
   env,
   focusTick,
-  defaultProjectId = '',
+  defaultProjectId = "",
   onCaptured,
   mode,
   onModeChange,
@@ -44,10 +39,10 @@ export function CaptureBar({
   mode: CaptureMode;
   onModeChange: (m: CaptureMode) => void;
 }) {
-  const [title, setTitle] = useState('');
-  const [notes, setNotes] = useState('');
+  const [title, setTitle] = useState("");
+  const [notes, setNotes] = useState("");
   const [projectId, setProjectId] = useState(defaultProjectId);
-  const [aiText, setAiText] = useState('');
+  const [aiText, setAiText] = useState("");
   const titleRef = useRef<HTMLInputElement>(null);
   const aiRef = useRef<HTMLTextAreaElement>(null);
   const qc = useQueryClient();
@@ -57,11 +52,11 @@ export function CaptureBar({
   }, [defaultProjectId]);
 
   const { data: projects } = useQuery({
-    queryKey: ['projects', env, false],
+    queryKey: ["projects", env, false],
     queryFn: () => api.listProjects(env, false),
   });
 
-  const isRegular = mode === 'regular' || mode === 'regular-top';
+  const isRegular = mode === "regular" || mode === "regular-top";
 
   useEffect(() => {
     if (isRegular) {
@@ -74,9 +69,9 @@ export function CaptureBar({
   }, [focusTick, isRegular]);
 
   const invalidateAfterCapture = (assignedProjectId?: string | null) => {
-    qc.invalidateQueries({ queryKey: ['items', env] });
-    qc.invalidateQueries({ queryKey: ['search-corpus', env], refetchType: 'none' });
-    qc.invalidateQueries({ queryKey: ['snapshot-status'] });
+    qc.invalidateQueries({ queryKey: ["items", env] });
+    qc.invalidateQueries({ queryKey: ["search-corpus", env], refetchType: "none" });
+    qc.invalidateQueries({ queryKey: ["snapshot-status"] });
     if (assignedProjectId) {
       invalidateProjectQueries(qc, env, assignedProjectId);
     }
@@ -85,19 +80,19 @@ export function CaptureBar({
   const mut = useMutation({
     mutationFn: async () => {
       const item = await api.captureItem(env, title.trim(), notes, {
-        energy: 'low',
+        energy: "low",
         time_minutes: 5,
-        at_top: mode === 'regular-top',
+        at_top: mode === "regular-top",
       });
       if (projectId) {
         await api.updateItem(env, item.id, { project: projectId });
-        return api.moveItem(env, item.id, 'next');
+        return api.moveItem(env, item.id, "next");
       }
       return item;
     },
     onSuccess: () => {
-      setTitle('');
-      setNotes('');
+      setTitle("");
+      setNotes("");
       setProjectId(defaultProjectId);
       invalidateAfterCapture(projectId);
       onCaptured?.();
@@ -107,15 +102,15 @@ export function CaptureBar({
   const aiMut = useMutation({
     mutationFn: () => api.captureItemAi(env, aiText.trim()),
     onSuccess: (result) => {
-      setAiText('');
-      toasts.show('success', result.summary);
+      setAiText("");
+      toasts.show("success", result.summary);
       invalidateAfterCapture(result.item.project);
       onCaptured?.();
     },
   });
 
   const sortedProjects = projects ? sortProjects(projects) : [];
-  const destination = projectId ? 'next + project' : 'inbox';
+  const destination = projectId ? "next + project" : "inbox";
 
   const submit = () => {
     if (title.trim()) mut.mutate();
@@ -141,7 +136,7 @@ export function CaptureBar({
     </div>
   );
 
-  if (mode === 'ai') {
+  if (mode === "ai") {
     return (
       <form
         className="capture"
@@ -150,7 +145,7 @@ export function CaptureBar({
           submitAi();
         }}
         onKeyDown={(e) => {
-          if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+          if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
             e.preventDefault();
             submitAi();
           }
@@ -173,9 +168,7 @@ export function CaptureBar({
           >
             Capture with AI
           </Button>
-          <div className="capture-hint">
-            → routed automatically · Cmd/Ctrl+Enter to submit
-          </div>
+          <div className="capture-hint">→ routed automatically · Cmd/Ctrl+Enter to submit</div>
         </div>
       </form>
     );
@@ -189,7 +182,7 @@ export function CaptureBar({
         submit();
       }}
       onKeyDown={(e) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+        if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
           e.preventDefault();
           submit();
         }
@@ -200,16 +193,11 @@ export function CaptureBar({
         <input
           ref={titleRef}
           type="text"
-          placeholder={projectId ? 'Capture to next…' : 'Capture to inbox…'}
+          placeholder={projectId ? "Capture to next…" : "Capture to inbox…"}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <Button
-          type="submit"
-          className="primary"
-          disabled={!title.trim()}
-          busy={mut.isPending}
-        >
+        <Button type="submit" className="primary" disabled={!title.trim()} busy={mut.isPending}>
           Capture
         </Button>
       </div>
@@ -222,10 +210,7 @@ export function CaptureBar({
       <div className="capture-row">
         <label className="capture-project">
           <span>Project</span>
-          <select
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
-          >
+          <select value={projectId} onChange={(e) => setProjectId(e.target.value)}>
             <option value="">— (keep in inbox)</option>
             {sortedProjects.map((p) => (
               <option key={p.id} value={p.id}>
@@ -236,8 +221,8 @@ export function CaptureBar({
         </label>
         <div className="capture-hint">
           → {destination}
-          {mode === 'regular-top' && !projectId ? ' (top)' : ''}
-          {' · energy=low · time=5min'}
+          {mode === "regular-top" && !projectId ? " (top)" : ""}
+          {" · energy=low · time=5min"}
         </div>
       </div>
     </form>
