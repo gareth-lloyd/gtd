@@ -19,6 +19,11 @@ uv run ruff check .
 step "ruff format --check"
 uv run ruff format --check .
 
+if [[ "${SKIP_TYPECHECK:-0}" != "1" ]]; then
+  step "pyright"
+  uv run pyright
+fi
+
 step "frontend eslint"
 (cd frontend && npm run --silent lint)
 

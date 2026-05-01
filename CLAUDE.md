@@ -48,14 +48,15 @@ hooks fire on every `git commit`.
 ./scripts/lint.sh                # full battery, fail-fast (mirrors pre-commit)
 uv run ruff check . --fix        # Python lint, auto-fix
 uv run ruff format .             # Python format
+uv run pyright                   # Python type-check (basic mode)
 cd frontend && npm run lint:fix  # ESLint, auto-fix
 cd frontend && npm run format    # Prettier, auto-fix
 cd frontend && npm run typecheck # tsc --noEmit
 ```
 
-Pyright config exists in `pyproject.toml` for editor LSPs but is not in
-the lint pipeline — there's a backlog of stub-related errors to clean up
-before that gate makes sense.
+Pyright runs in `basic` mode and is gated by `scripts/lint.sh`, not
+pre-commit (it's slower than the other hooks). Set `SKIP_TYPECHECK=1`
+to skip pyright + tsc when iterating fast.
 
 All backend tests use `tmp_path` fixtures — no test touches real data.
 Frontend tests use jsdom + mocked API.
