@@ -2,7 +2,7 @@ from datetime import date, datetime
 
 import pytest
 
-from gtd_core.models import Bucket, Project
+from gtd_core.models import Bucket, Priority, Project
 from gtd_core.service import GtdService, slugify
 
 
@@ -980,7 +980,7 @@ class TestWorkingOn:
         pid: str,
         *,
         max_next_items: int | None = None,
-        priority: int | None = None,
+        priority: Priority | None = None,
     ) -> Project:
         project = Project(
             id=pid,

@@ -5,21 +5,31 @@ import pytest
 from bear_reader.models import Note, NoteMatch
 
 
-def make_note(**overrides) -> Note:
-    defaults = dict(
-        unique_id="abc",
-        title="Hello",
-        body="world",
-        tags=(),
-        created_at=datetime(2024, 1, 1, tzinfo=UTC),
-        modified_at=datetime(2024, 1, 1, tzinfo=UTC),
-        archived=False,
-        trashed=False,
-        pinned=False,
-        encrypted=False,
+def make_note(
+    *,
+    unique_id: str = "abc",
+    title: str = "Hello",
+    body: str = "world",
+    tags: tuple[str, ...] = (),
+    created_at: datetime = datetime(2024, 1, 1, tzinfo=UTC),
+    modified_at: datetime = datetime(2024, 1, 1, tzinfo=UTC),
+    archived: bool = False,
+    trashed: bool = False,
+    pinned: bool = False,
+    encrypted: bool = False,
+) -> Note:
+    return Note(
+        unique_id=unique_id,
+        title=title,
+        body=body,
+        tags=tags,
+        created_at=created_at,
+        modified_at=modified_at,
+        archived=archived,
+        trashed=trashed,
+        pinned=pinned,
+        encrypted=encrypted,
     )
-    defaults.update(overrides)
-    return Note(**defaults)
 
 
 class TestNote:
@@ -45,7 +55,7 @@ class TestNote:
                 trashed=False,
                 pinned=False,
                 encrypted=False,
-                bogus="x",
+                bogus="x",  # pyright: ignore[reportCallIssue]
             )
 
     def test_tags_is_tuple(self):

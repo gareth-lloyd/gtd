@@ -44,9 +44,13 @@ class TestGetNote:
             ]
         )
         reader = BearReader(db, snapshot_dir=snapshot_dir)
-        assert reader.get_note("a").archived is True
-        assert reader.get_note("b").trashed is True
-        assert reader.get_note("c").pinned is True
+        a = reader.get_note("a")
+        b = reader.get_note("b")
+        c = reader.get_note("c")
+        assert a is not None and b is not None and c is not None
+        assert a.archived is True
+        assert b.trashed is True
+        assert c.pinned is True
 
     def test_includes_tags(self, bear_db_factory, snapshot_dir):
         db = bear_db_factory(
@@ -56,6 +60,7 @@ class TestGetNote:
         )
         reader = BearReader(db, snapshot_dir=snapshot_dir)
         note = reader.get_note("a")
+        assert note is not None
         assert set(note.tags) == {"foo", "bar/baz"}
 
 
@@ -69,6 +74,7 @@ class TestDateConversion:
         )
         reader = BearReader(db, snapshot_dir=snapshot_dir)
         note = reader.get_note("a")
+        assert note is not None
         assert note.created_at == epoch
         assert note.modified_at == epoch
 
@@ -81,6 +87,7 @@ class TestDateConversion:
         )
         reader = BearReader(db, snapshot_dir=snapshot_dir)
         note = reader.get_note("a")
+        assert note is not None
         assert note.created_at == ts
 
 
@@ -401,13 +408,16 @@ class TestRefresh:
 
         db = bear_db_factory([NoteSpec(unique_id="a", title="v1")])
         reader = BearReader(db, snapshot_dir=snapshot_dir)
-        assert reader.get_note("a").title == "v1"
+        n = reader.get_note("a")
+        assert n is not None and n.title == "v1"
 
         make_bear_db(db, [NoteSpec(unique_id="a", title="v2")])
-        assert reader.get_note("a").title == "v1"
+        n = reader.get_note("a")
+        assert n is not None and n.title == "v1"
 
         reader.refresh()
-        assert reader.get_note("a").title == "v2"
+        n = reader.get_note("a")
+        assert n is not None and n.title == "v2"
 
 
 class TestListTags:

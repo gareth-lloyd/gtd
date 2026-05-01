@@ -638,7 +638,7 @@ class TestSnapshot:
         assert data["files_changed"] == 1
 
         repo = git.Repo(tmp_project)
-        assert repo.head.commit.message.startswith("test snapshot")
+        assert str(repo.head.commit.message).startswith("test snapshot")
 
     def test_snapshot_noop(self, api):
         r = api.post("/api/snapshot/", {}, format="json")
