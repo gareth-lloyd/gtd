@@ -64,8 +64,8 @@ For each flagged item, present:
 [3 of 47] dream scenario
   project: media-2 (Media)
   contexts: [watch]
-  
-Coach: This is a film name, not an action. What would the actual next 
+
+Coach: This is a film name, not an action. What would the actual next
 action be? Probably "Watch Dream Scenario (2023, Nicolas Cage)".
 
 Suggested: Watch "Dream Scenario" (2023)
@@ -86,8 +86,8 @@ For "wrong bucket" suggestions, the prompt is simpler:
 [8 of 47] Drive the NC500
   project: bucket (Bucket)
   contexts: [out]
-  
-Coach: This is a bucket-list aspiration, not something you'll do this 
+
+Coach: This is a bucket-list aspiration, not something you'll do this
 week. Move to someday so it stops cluttering your next list.
 
 Move to someday? (y/n/skip)
@@ -104,7 +104,7 @@ Move to someday? (y/n/skip)
 After the per-item loop, if there are leftover metadata gaps grouped by pattern, offer batched fixes:
 
 ```
-14 watch items have no time estimate. Want me to set them all to 
+14 watch items have no time estimate. Want me to set them all to
 time_minutes: 120 (a typical film length)? Or skip?
 ```
 
@@ -117,11 +117,11 @@ At the end, print:
 ```
 Coached 47 items:
   ✓ 12 moved to someday
-  ✓ 18 titles rewritten  
+  ✓ 18 titles rewritten
   ✓ 3 projects created
   ✓ 14 metadata fields filled
   - 0 skipped
-  
+
 Next list is now N items (was M). Run /gtd-dashboard to see the new state.
 ```
 
