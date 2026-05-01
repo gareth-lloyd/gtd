@@ -20,6 +20,16 @@ repos:
 
   - repo: local
     hooks:
+      - id: pyright
+        name: pyright
+        language: system
+        # Pyright always type-checks the whole project — a change in one file
+        # can break another, so per-file invocation is wrong. Run only when a
+        # .py file changes; the check itself is whole-project.
+        entry: uv run pyright
+        files: \.py$
+        pass_filenames: false
+
       - id: eslint
         name: eslint (frontend)
         language: system

@@ -54,9 +54,9 @@ cd frontend && npm run format    # Prettier, auto-fix
 cd frontend && npm run typecheck # tsc --noEmit
 ```
 
-Pyright runs in `basic` mode and is gated by `scripts/lint.sh`, not
-pre-commit (it's slower than the other hooks). Set `SKIP_TYPECHECK=1`
-to skip pyright + tsc when iterating fast.
+Pyright runs in `basic` mode in both `scripts/lint.sh` and pre-commit
+(whole-project, ~1.3s warm). Set `SKIP_TYPECHECK=1` to skip pyright +
+tsc in `lint.sh` when iterating fast.
 
 All backend tests use `tmp_path` fixtures — no test touches real data.
 Frontend tests use jsdom + mocked API.
