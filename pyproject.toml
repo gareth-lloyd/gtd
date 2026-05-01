@@ -22,6 +22,7 @@ dev = [
     "pytest-cov>=5.0",
     "pre-commit>=3.7",
     "pyright>=1.1.380",
+    "djangorestframework-types>=0.9.0",
 ]
 
 [tool.ruff]

@@ -72,8 +72,8 @@ def items(request: Request, env: str) -> Response:
             contexts=_parse_csv(params.get("contexts")),
             max_minutes=_parse_int(params.get("max_minutes")),
             min_minutes=_parse_int(params.get("min_minutes")),
-            energy=params.get("energy"),
-            project=params.get("project"),
+            energy=_qstr(params.get("energy")),
+            project=_qstr(params.get("project")),
             include_deferred=params.get("include_deferred") == "true",
             respect_next_cap=respect_next_cap,
             include_archive=params.get("include_archive") == "true",
@@ -348,13 +348,25 @@ def snapshot_status_endpoint(request: Request) -> Response:
     )
 
 
-def _parse_csv(value: str | None) -> list[str] | None:
-    if not value:
-        return None
-    return [v.strip() for v in value.split(",") if v.strip()]
+def _qstr(value: object) -> str | None:
+    """Narrow a QueryDict.get() result to str | None.
+
+    Django's QueryDict.get() returns Any (and DRF's QueryDict stub widens it
+    further to `str | list | None`). Use this at the views layer when the
+    value is single-valued and downstream code expects str | None.
+    """
+    return value if isinstance(value, str) else None
 
 
-def _parse_int(value: str | None) -> int | None:
-    if value is None or value == "":
+def _parse_csv(value: object) -> list[str] | None:
+    s = _qstr(value)
+    if not s:
         return None
-    return int(value)
+    return [v.strip() for v in s.split(",") if v.strip()]
+
+
+def _parse_int(value: object) -> int | None:
+    s = _qstr(value)
+    if not s:
+        return None
+    return int(s)
