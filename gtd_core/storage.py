@@ -18,12 +18,11 @@ def dump_item(path: Path, item: Item) -> None:
 def load_item(path: Path, status: Bucket) -> Item:
     # Status is passed in by the caller (derived from the parent directory),
     # never read from the file's frontmatter.
-    post = frontmatter.load(str(path))
-    md = post.metadata
+    md, body = _read_frontmatter(path)
     return Item(
         id=md["id"],
         title=md["title"],
-        body=post.content,
+        body=body,
         created=_as_datetime(md["created"]),
         updated=_as_datetime(md["updated"]),
         status=status,
@@ -64,8 +63,7 @@ def dump_project(path: Path, project: Project) -> None:
 
 
 def load_project(path: Path) -> Project:
-    post = frontmatter.load(str(path))
-    md = post.metadata
+    md, body = _read_frontmatter(path)
     if "sequential" in md:
         raise ValueError(
             f"{path}: legacy 'sequential' field found — run "
@@ -74,7 +72,7 @@ def load_project(path: Path) -> Project:
     return Project(
         id=md["id"],
         title=md["title"],
-        body=post.content,
+        body=body,
         created=_as_datetime(md["created"]),
         updated=_as_datetime(md["updated"]),
         status=md.get("status", "active"),
@@ -101,7 +99,7 @@ def dump_env_config(path: Path, config: EnvConfig) -> None:
 
 def load_env_config(path: Path) -> EnvConfig:
     with path.open("r") as f:
-        data = yaml.safe_load(f) or {}
+        data: dict[str, Any] = yaml.safe_load(f) or {}
     return EnvConfig(
         name=data["name"],
         contexts=list(data.get("contexts") or []),
@@ -130,12 +128,11 @@ def dump_template(path: Path, template: Template) -> None:
 
 
 def load_template(path: Path) -> Template:
-    post = frontmatter.load(str(path))
-    md = post.metadata
+    md, body = _read_frontmatter(path)
     return Template(
         id=md["id"],
         title=md["title"],
-        body=post.content,
+        body=body,
         contexts=list(md.get("contexts") or []),
         energy=md.get("energy"),
         time_minutes=md.get("time_minutes"),
@@ -151,6 +148,16 @@ def list_item_paths(directory: Path) -> list[Path]:
     if not directory.exists():
         return []
     return sorted(p for p in directory.iterdir() if p.is_file() and p.suffix == ".md")
+
+
+def _read_frontmatter(path: Path) -> tuple[dict[str, Any], str]:
+    """Load a markdown file's frontmatter metadata + body.
+
+    The metadata is widened to dict[str, Any] — the YAML payload is shaped by
+    each load_X function rather than statically typed at this layer.
+    """
+    post = frontmatter.load(str(path))
+    return dict(post.metadata), post.content
 
 
 def _item_metadata(item: Item) -> dict[str, Any]:
