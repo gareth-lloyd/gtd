@@ -16,7 +16,7 @@ tags:
 time_minutes: 20
 title: 'Triage ENT-6104: Hotel Aristocrate inaccurate French translations on hardcoded
   check-in'
-updated: 2026-05-03 10:37:09.308419
+updated: 2026-05-03 12:07:10.610441
 waiting_on: null
 waiting_since: null
 working_on: false
