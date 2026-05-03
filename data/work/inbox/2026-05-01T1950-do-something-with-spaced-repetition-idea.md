@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-01 19:50:30.375064
+created: 2026-05-01 19:50:30.375064
 defer_until: null
 due: null
 energy: low
@@ -12,8 +12,12 @@ source_id: null
 tags: []
 time_minutes: 5
 title: do something with spaced repetition idea
-updated: *id001
+updated: 2026-05-01 19:56:50.010894
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+more cards. Actually spend time on good content. 
+shippable artifact (or repo and request for PRs?)
+demo loom

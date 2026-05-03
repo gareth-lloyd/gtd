@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Stephen re: where onboarding script inputs should live'
-updated: 2026-05-01 18:08:54.915890
+updated: 2026-05-01 19:50:54.915009
 waiting_on: null
 waiting_since: null
 working_on: false
