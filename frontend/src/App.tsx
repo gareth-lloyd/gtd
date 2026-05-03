@@ -274,7 +274,7 @@ function SyncButton() {
     refetchInterval: 10_000,
   });
   const snap = useMutation({
-    mutationFn: (message?: string) => api.snapshot(message),
+    mutationFn: () => api.snapshot(),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["snapshot-status"] }),
   });
 
@@ -285,14 +285,7 @@ function SyncButton() {
       <span className={count > 0 ? "count dirty" : "count"}>
         {count === 0 ? "clean" : `${count} dirty`}
       </span>
-      <Button
-        onClick={() => {
-          const msg = prompt("Snapshot message (optional):") || undefined;
-          snap.mutate(msg);
-        }}
-        disabled={count === 0}
-        busy={snap.isPending}
-      >
+      <Button onClick={() => snap.mutate()} disabled={count === 0} busy={snap.isPending}>
         Sync
       </Button>
     </div>
