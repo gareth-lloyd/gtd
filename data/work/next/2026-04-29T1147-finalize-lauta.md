@@ -12,7 +12,7 @@ project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 30
-title: finalize lauta
+title: Finalize Lautaro's review
 updated: 2026-04-30 07:07:58.029189
 waiting_on: null
 waiting_since: null
