@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-04-28 07:54:38.342986
-defer_until: 2026-05-04 09:00:00
+defer_until: 2026-05-05 09:00:00
 due: 2026-05-05
 energy: low
 id: 2026-04-28T0754-lauta-birthday
@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Lauta birthday
-updated: 2026-05-04 08:33:04.966648
+updated: 2026-05-04 11:34:01.566139
 waiting_on: null
 waiting_since: null
 working_on: false
