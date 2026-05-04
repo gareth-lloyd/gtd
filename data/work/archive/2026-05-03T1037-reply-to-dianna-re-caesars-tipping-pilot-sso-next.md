@@ -5,7 +5,7 @@ contexts:
 created: 2026-05-03 10:37:09.308871
 defer_until: null
 due: null
-energy: low
+energy: high
 id: 2026-05-03T1037-reply-to-dianna-re-caesars-tipping-pilot-sso-next
 order: null
 project: null
@@ -13,9 +13,9 @@ source_id: https://canarytechnologies.slack.com/archives/C09K7JVNHGA/p1777666090
 tags:
 - morning-gtd
 - slack
-time_minutes: 10
+time_minutes: 5
 title: Reply to Dianna re Caesars Tipping Pilot SSO next steps
-updated: 2026-05-03 10:37:09.309395
+updated: 2026-05-04 11:22:17.754780
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 15
 title: Confirm scripts can activate LATAM Tipping pilot site by Tues 5/5
-updated: 2026-05-03 10:37:09.326137
+updated: 2026-05-04 11:18:51.293978
 waiting_on: null
 waiting_since: null
 working_on: false

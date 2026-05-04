@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: do something with spaced repetition idea
-updated: 2026-05-03 12:07:08.062387
+updated: 2026-05-03 14:30:34.147244
 waiting_on: null
 waiting_since: null
 working_on: false
