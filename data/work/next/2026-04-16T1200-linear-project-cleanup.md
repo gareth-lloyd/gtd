@@ -4,7 +4,7 @@ contexts:
 - autopilot
 created: 2026-04-16 12:00:52.894251
 defer_until: null
-due: null
+due: 2026-05-06
 energy: low
 id: 2026-04-16T1200-linear-project-cleanup
 order: null
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 60
 title: Linear project cleanup
-updated: 2026-05-04 13:29:12.756082
+updated: 2026-05-05 14:58:57.662962
 waiting_on: null
 waiting_since: null
 working_on: false

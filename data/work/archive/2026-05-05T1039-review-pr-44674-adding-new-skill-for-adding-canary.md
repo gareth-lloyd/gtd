@@ -15,7 +15,7 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #44674: Adding new skill for adding canary permissions'
-updated: 2026-05-05 10:39:38.174005
+updated: 2026-05-05 14:28:10.492654
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -12,8 +12,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Prep for IHG SF conversation
-updated: 2026-05-05 11:10:59.906214
+updated: 2026-05-05 14:55:31.812351
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
