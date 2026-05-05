@@ -237,9 +237,8 @@ describe("ItemCard URL link chips", () => {
   });
 });
 
-describe("ItemCard scheduled readonly mode", () => {
+describe("ItemCard scheduled items", () => {
   function localIso(offsetMs: number): string {
-    // Produce a local-time ISO-like string matching what our backend emits.
     const d = new Date(Date.now() + offsetMs);
     const pad = (n: number) => String(n).padStart(2, "0");
     return (
@@ -248,31 +247,14 @@ describe("ItemCard scheduled readonly mode", () => {
     );
   }
 
-  it("selecting a scheduled item renders a readonly view with an Edit button", async () => {
+  it("renders the same editable inline form as a regular item", async () => {
     const user = userEvent.setup();
     const scheduled: Item = { ...baseItem, defer_until: localIso(60 * 60 * 1000) };
     renderCard(scheduled);
     await user.click(screen.getByText("Write release notes"));
 
-    // No editable inputs for title/body
-    expect(screen.queryByDisplayValue("Write release notes")).toBeNull();
-    expect(screen.queryByPlaceholderText(/Notes/i)).toBeNull();
-    // Edit button is present
-    const editButton = screen.getByRole("button", { name: /Edit scheduled item/i });
-    expect(editButton).toBeDefined();
-
-    // Clicking Edit reveals the inputs
-    await user.click(editButton);
     expect(screen.getByDisplayValue("Write release notes")).toBeDefined();
-  });
-
-  it("a non-scheduled item (past defer_until) stays editable on selection", async () => {
-    const user = userEvent.setup();
-    const notScheduled: Item = { ...baseItem, defer_until: localIso(-60 * 60 * 1000) };
-    renderCard(notScheduled);
-    await user.click(screen.getByText("Write release notes"));
-
-    expect(screen.getByDisplayValue("Write release notes")).toBeDefined();
+    expect(screen.getByPlaceholderText(/Notes/i)).toBeDefined();
     expect(screen.queryByRole("button", { name: /Edit scheduled item/i })).toBeNull();
   });
 });

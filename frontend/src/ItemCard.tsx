@@ -9,7 +9,7 @@ const markdownComponents: Components = {
   a: ({ node: _node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />,
 };
 import type { Item, Project } from "./api";
-import { isScheduled, useItemPatch } from "./ItemEdit";
+import { useItemPatch } from "./ItemEdit";
 import { contextChipStyle } from "./context-colors";
 import { useSelection } from "./SelectionContext";
 
@@ -202,13 +202,11 @@ function SelectedInListCard({ env, item }: { env: string; item: Item }) {
 
   const [localTitle, setLocalTitle] = useState(item.title);
   const [localBody, setLocalBody] = useState(item.body);
-  const [unlocked, setUnlocked] = useState(false);
   const lastItemIdRef = useRef(item.id);
   useEffect(() => {
     if (lastItemIdRef.current !== item.id) {
       setLocalTitle(item.title);
       setLocalBody(item.body);
-      setUnlocked(false);
       lastItemIdRef.current = item.id;
     }
     // Only reset on id change. Including title/body would clobber in-flight edits.
@@ -222,21 +220,6 @@ function SelectedInListCard({ env, item }: { env: string; item: Item }) {
       select(null);
     }
   };
-
-  if (isScheduled(item) && !unlocked) {
-    return (
-      <div className="item-selected-in-list scheduled-readonly-card">
-        <div className="scheduled-banner">
-          <strong>Scheduled</strong> until {formatDeferChip(item.defer_until ?? "")}
-        </div>
-        <div className="title-input-readonly">{item.title || "(untitled)"}</div>
-        {item.body && <div className="body-input-readonly">{item.body}</div>}
-        <button type="button" className="chip-toggle" onClick={() => setUnlocked(true)}>
-          Edit scheduled item
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className="item-selected-in-list">
