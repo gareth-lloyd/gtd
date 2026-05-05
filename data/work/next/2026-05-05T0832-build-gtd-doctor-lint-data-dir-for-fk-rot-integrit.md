@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 180
 title: 'Build gtd-doctor: lint data dir for FK rot + integrity issues'
-updated: 2026-05-05 08:32:00
+updated: 2026-05-05 15:05:35.977303
 waiting_on: null
 waiting_since: null
 working_on: false

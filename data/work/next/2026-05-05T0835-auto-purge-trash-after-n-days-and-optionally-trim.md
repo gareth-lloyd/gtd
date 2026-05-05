@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 45
 title: Auto-purge trash after N days (and optionally trim archive)
-updated: 2026-05-05 08:35:00
+updated: 2026-05-05 15:05:41.179989
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 90
 title: Make recurring spawns reliable — don't depend on manual Sync
-updated: 2026-05-05 08:31:00
+updated: 2026-05-05 15:05:34.583491
 waiting_on: null
 waiting_since: null
 working_on: false
