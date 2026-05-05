@@ -13,9 +13,9 @@ source_id: https://linear.app/canary-technologies/issue/ENT-6109/checkout-invite
 tags:
 - morning-gtd
 - linear
-time_minutes: 60
+time_minutes: 30
 title: 'Investigate ENT-6109: Checkout invite messages failing — Wyndham hotel 14464'
-updated: 2026-05-05 10:39:38.176896
+updated: 2026-05-05 13:55:19.409093
 waiting_on: null
 waiting_since: null
 working_on: false

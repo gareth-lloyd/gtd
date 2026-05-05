@@ -3,7 +3,7 @@ area: null
 contexts:
 - react
 created: 2026-05-05 10:39:38.177336
-defer_until: null
+defer_until: 2026-05-06 09:00:00
 due: null
 energy: medium
 id: 2026-05-05T1039-reply-to-dianna-re-caesars-okta-sso-setup
@@ -15,7 +15,7 @@ tags:
 - gmail
 time_minutes: 5
 title: Reply to Dianna re Caesars Okta SSO setup
-updated: 2026-05-05 13:17:20.084201
+updated: 2026-05-05 13:59:46.545863
 waiting_on: null
 waiting_since: null
 working_on: false
