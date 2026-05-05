@@ -7,6 +7,7 @@ from gtd_core.storage import (
     dump_env_config,
     dump_item,
     dump_project,
+    list_item_paths,
     load_env_config,
     load_item,
     load_project,
@@ -243,3 +244,52 @@ class TestEnvConfigRoundTrip:
         assert cfg.name == "work"
         assert "deep" in cfg.contexts
         assert "engineering" in cfg.areas
+
+
+class TestAtomicDump:
+    """`dump_*` writes through a tmp file + os.replace so a crash mid-write
+    cannot corrupt or truncate the destination."""
+
+    def _make_item(self, body: str) -> Item:
+        return Item(
+            id="2026-04-10T0915-atomic",
+            title="Atomic test",
+            body=body,
+            created=datetime(2026, 4, 10, 9, 15),
+            updated=datetime(2026, 4, 10, 9, 15),
+            status=Bucket.INBOX,
+        )
+
+    def test_dump_failure_preserves_original_content(self, tmp_path, monkeypatch):
+        path = tmp_path / "inbox" / "atomic.md"
+        original = self._make_item("original body")
+        dump_item(path, original)
+        before = path.read_bytes()
+
+        # frontmatter.dump raises on second call → tmp must not replace dest.
+        import gtd_core.storage as storage
+
+        real_dump = storage.frontmatter.dump
+
+        def boom(*_args, **_kwargs):
+            raise OSError("simulated mid-write crash")
+
+        monkeypatch.setattr(storage.frontmatter, "dump", boom)
+        try:
+            with pytest.raises(OSError, match="simulated"):
+                dump_item(path, self._make_item("would-be replacement"))
+        finally:
+            monkeypatch.setattr(storage.frontmatter, "dump", real_dump)
+
+        # Original content intact and no .tmp leak in the directory.
+        assert path.read_bytes() == before
+        leftovers = [p.name for p in path.parent.iterdir() if p.suffix == ".tmp"]
+        assert leftovers == []
+
+    def test_tmp_files_invisible_to_list_item_paths(self, tmp_path):
+        path = tmp_path / "real.md"
+        dump_item(path, self._make_item("real"))
+        # Manually drop a tmp orphan as if a previous crash had left one.
+        (tmp_path / f"orphan.md.{12345}.tmp").write_bytes(b"junk")
+        listed = list_item_paths(tmp_path)
+        assert listed == [path]

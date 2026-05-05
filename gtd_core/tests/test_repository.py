@@ -105,6 +105,69 @@ class TestMove:
         with pytest.raises(KeyError):
             repo.move("nonexistent", Bucket.NEXT)
 
+    def test_relocate_failure_keeps_item_in_source_bucket(self, repo, data_root, monkeypatch):
+        """If `os.replace` raises mid-relocate, the source file must remain
+        intact and no orphan must appear in the destination."""
+        import gtd_core.repository as repository
+
+        repo.save(_make_item("atomic", Bucket.INBOX))
+        item = repo.get("atomic")
+        assert item is not None
+
+        def boom(*_args, **_kwargs):
+            raise OSError("simulated rename failure")
+
+        monkeypatch.setattr(repository.os, "replace", boom)
+        with pytest.raises(OSError, match="simulated"):
+            repo.relocate(item, Bucket.NEXT)
+
+        assert (data_root / "work" / "inbox" / "atomic.md").exists()
+        assert not (data_root / "work" / "next" / "atomic.md").exists()
+
+    def test_relocate_overwrites_dest_corpse(self, repo, data_root):
+        """If a stale file exists at the destination (e.g. from a prior crash),
+        relocate uses os.replace which overwrites it cleanly."""
+        # Drop a stale corpse directly into the destination.
+        corpse_path = data_root / "work" / "next" / "rebirth.md"
+        corpse_path.parent.mkdir(parents=True, exist_ok=True)
+        corpse_path.write_text(
+            "---\nid: rebirth\ntitle: stale\ncreated: 2026-01-01\nupdated: 2026-01-01\n---\n"
+        )
+        # Save the live item in inbox, then relocate it to next.
+        repo.save(_make_item("rebirth", Bucket.INBOX))
+        live = repo.get("rebirth")
+        assert live is not None
+        repo.relocate(live, Bucket.NEXT)
+        # File now in next, source gone, content is the live one.
+        assert not (data_root / "work" / "inbox" / "rebirth.md").exists()
+        assert corpse_path.exists()
+        loaded = repo.get("rebirth")
+        assert loaded is not None
+        assert loaded.title == "Title for rebirth"
+
+
+class TestReserveId:
+    def test_no_collision_returns_base(self, repo):
+        assert repo.reserve_id("2026-04-10T0915-foo") == "2026-04-10T0915-foo"
+
+    def test_collision_in_inbox_suffixes(self, repo):
+        repo.save(_make_item("2026-04-10T0915-foo", Bucket.INBOX))
+        assert repo.reserve_id("2026-04-10T0915-foo") == "2026-04-10T0915-foo-2"
+
+    def test_collision_in_archive_still_suffixes(self, repo):
+        # Soft-deleted corpses must not be silently overwritten by a fresh capture.
+        repo.save(_make_item("2026-04-10T0915-foo", Bucket.ARCHIVE))
+        assert repo.reserve_id("2026-04-10T0915-foo") == "2026-04-10T0915-foo-2"
+
+    def test_collision_in_trash_still_suffixes(self, repo):
+        repo.save(_make_item("2026-04-10T0915-foo", Bucket.TRASH))
+        assert repo.reserve_id("2026-04-10T0915-foo") == "2026-04-10T0915-foo-2"
+
+    def test_chains_to_dash_3(self, repo):
+        repo.save(_make_item("2026-04-10T0915-foo", Bucket.INBOX))
+        repo.save(_make_item("2026-04-10T0915-foo-2", Bucket.NEXT))
+        assert repo.reserve_id("2026-04-10T0915-foo") == "2026-04-10T0915-foo-3"
+
 
 class TestDelete:
     def test_delete_removes_file(self, repo, data_root):

@@ -66,7 +66,7 @@ def spawn_from_template(template: Template, repo: EnvRepository, today: date) ->
     from datetime import datetime
 
     now = datetime.combine(today, datetime.min.time())
-    item_id = make_item_id(now, template.title)
+    item_id = repo.reserve_id(make_item_id(now, template.title))
     item = Item(
         id=item_id,
         title=template.title,

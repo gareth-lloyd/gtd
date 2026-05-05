@@ -1,4 +1,7 @@
+import os
+from collections.abc import Callable
 from datetime import date, datetime
+from io import IOBase
 from pathlib import Path
 from typing import Any
 
@@ -8,11 +11,29 @@ import yaml
 from gtd_core.models import Bucket, EnvConfig, Item, Project, Template
 
 
-def dump_item(path: Path, item: Item) -> None:
+def _atomic_dump(path: Path, write_fn: Callable[[IOBase], None]) -> None:
+    """Write `path` atomically: serialize to a sibling tmp file, then rename.
+
+    A crash mid-`write_fn` leaves the destination's previous content
+    intact (or absent, if it never existed) — never partially-written.
+    The tmp filename is PID-suffixed so concurrent writers can't collide
+    on a shared scratch path. Tmp lives in the same directory as the
+    destination so `os.replace` stays within one filesystem and is atomic.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(f"{path.suffix}.{os.getpid()}.tmp")
+    try:
+        with tmp.open("wb") as f:
+            write_fn(f)
+        os.replace(tmp, path)
+    except BaseException:
+        tmp.unlink(missing_ok=True)
+        raise
+
+
+def dump_item(path: Path, item: Item) -> None:
     post = frontmatter.Post(item.body, **_item_metadata(item))
-    with path.open("wb") as f:
-        frontmatter.dump(post, f)
+    _atomic_dump(path, lambda f: frontmatter.dump(post, f))
 
 
 def load_item(path: Path, status: Bucket) -> Item:
@@ -43,7 +64,6 @@ def load_item(path: Path, status: Bucket) -> Item:
 
 
 def dump_project(path: Path, project: Project) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
     post = frontmatter.Post(
         project.body,
         id=project.id,
@@ -58,8 +78,7 @@ def dump_project(path: Path, project: Project) -> None:
         priority=project.priority,
         max_next_items=project.max_next_items,
     )
-    with path.open("wb") as f:
-        frontmatter.dump(post, f)
+    _atomic_dump(path, lambda f: frontmatter.dump(post, f))
 
 
 def load_project(path: Path) -> Project:
@@ -86,15 +105,18 @@ def load_project(path: Path) -> Project:
 
 
 def dump_env_config(path: Path, config: EnvConfig) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
     data = {
         "name": config.name,
         "contexts": config.contexts,
         "areas": config.areas,
         "default_energy": config.default_energy,
     }
-    with path.open("w") as f:
-        yaml.safe_dump(data, f, sort_keys=False)
+    payload = yaml.safe_dump(data, sort_keys=False).encode("utf-8")
+
+    def write(f: IOBase) -> None:
+        f.write(payload)
+
+    _atomic_dump(path, write)
 
 
 def load_env_config(path: Path) -> EnvConfig:
@@ -109,7 +131,6 @@ def load_env_config(path: Path) -> EnvConfig:
 
 
 def dump_template(path: Path, template: Template) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
     post = frontmatter.Post(
         template.body,
         id=template.id,
@@ -123,8 +144,7 @@ def dump_template(path: Path, template: Template) -> None:
         recurrence=template.recurrence,
         last_spawned=template.last_spawned,
     )
-    with path.open("wb") as f:
-        frontmatter.dump(post, f)
+    _atomic_dump(path, lambda f: frontmatter.dump(post, f))
 
 
 def load_template(path: Path) -> Template:

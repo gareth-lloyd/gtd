@@ -37,3 +37,8 @@ Thumbs.db
 
 # Project admin
 todo.md
+
+# Atomic-write tmp orphans (storage.py writes via tmp + os.replace; a crash
+# can leave .tmp files behind. They are invisible to list_item_paths but
+# would otherwise be picked up by snapshot's `git add -A -- data`.)
+data/**/*.tmp

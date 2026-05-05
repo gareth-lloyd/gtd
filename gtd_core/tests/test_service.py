@@ -66,6 +66,16 @@ class TestCapture:
         with pytest.raises(ValueError, match="unknown context"):
             svc.capture("work", "Test", contexts=["bogus"])
 
+    def test_same_minute_same_title_creates_two_items(self, svc, data_root):
+        # Capturing twice with the same clock + title used to silently overwrite
+        # the first file. reserve_id now suffixes the second ID with `-2`.
+        first = svc.capture("work", "Standup notes")
+        second = svc.capture("work", "Standup notes")
+        assert first.id != second.id
+        assert second.id == f"{first.id}-2"
+        assert (data_root / "work" / "inbox" / f"{first.id}.md").exists()
+        assert (data_root / "work" / "inbox" / f"{second.id}.md").exists()
+
 
 class TestCaptureAtTop:
     def _svc_at(self, data_root, when: datetime) -> GtdService:

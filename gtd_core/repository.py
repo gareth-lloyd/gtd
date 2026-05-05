@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from gtd_core.models import Bucket, EnvConfig, Item, Project, Template
@@ -49,6 +50,24 @@ class EnvRepository:
                 return load_item(path, bucket)
         return None
 
+    def reserve_id(self, base_id: str) -> str:
+        """Return `base_id`, or `base_id-2`/`-3`/... if already taken anywhere.
+
+        Scans every bucket — including archive and trash — so a fresh capture
+        can never collide with a corpse left over from soft-deletion. Callers
+        should reserve immediately before saving; there is a TOCTOU window
+        between reserve and save that is acceptable for single-user use.
+        """
+        if not self._id_exists(base_id):
+            return base_id
+        n = 2
+        while self._id_exists(f"{base_id}-{n}"):
+            n += 1
+        return f"{base_id}-{n}"
+
+    def _id_exists(self, item_id: str) -> bool:
+        return any((self.env_root / b.value / f"{item_id}.md").exists() for b in Bucket)
+
     def save(self, item: Item) -> Item:
         path = self.env_root / item.status.value / f"{item.id}.md"
         dump_item(path, item)
@@ -58,13 +77,28 @@ class EnvRepository:
         item = self.get(item_id)
         if item is None:
             raise KeyError(item_id)
+        return self.relocate(item, new_bucket)
+
+    def relocate(self, item: Item, new_bucket: Bucket) -> Item:
+        """Atomically move `item`'s file from its current bucket to `new_bucket`.
+
+        Precondition: the file at `env_root/item.status.value/<id>.md` already
+        contains the up-to-date serialized form of `item`. This primitive
+        performs only the directory change — callers that need to mutate
+        fields (e.g. `updated`, `working_on`) must `repo.save(item)` *before*
+        calling relocate so the on-disk content is current.
+
+        The atomic primitive is `os.replace`, which on POSIX is a single
+        rename syscall and on the same filesystem is atomic. There is never
+        a window in which the file exists in both buckets or in neither.
+        """
         if item.status is new_bucket:
             return item
         old_path = self.env_root / item.status.value / f"{item.id}.md"
-        item.status = new_bucket
         new_path = self.env_root / new_bucket.value / f"{item.id}.md"
-        dump_item(new_path, item)
-        old_path.unlink()
+        new_path.parent.mkdir(parents=True, exist_ok=True)
+        os.replace(old_path, new_path)
+        item.status = new_bucket
         return item
 
     def delete(self, item_id: str) -> None:

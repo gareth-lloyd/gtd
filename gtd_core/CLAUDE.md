@@ -47,8 +47,21 @@ The API layer (`gtd_api`) only talks to `GtdService`. Never skip layers.
 - **Injectable clock**: `GtdService(root, now=lambda: fixed_datetime)` for
   deterministic tests. Production uses `datetime.now`.
 
-- **Collision-safe IDs**: `YYYY-MM-DDTHHMM-slug` with `-N` suffix on
-  collision. See `service.slugify()` and `importer_nirvana.gen_id()`.
+- **Collision-safe IDs**: `service.make_item_id()` produces
+  `YYYY-MM-DDTHHMM-slug`. Callers wrap it with `repo.reserve_id()` (in
+  `service.capture` and `recurring.spawn_from_template`) which scans every
+  bucket — including archive and trash — and appends `-2`/`-3`/... if the
+  base ID is taken. The Nirvana importer has its own in-process dedup via
+  `importer_nirvana.gen_id()`.
+
+- **Atomic file IO**: `storage._atomic_dump()` writes through a
+  PID-suffixed sibling tmp file then `os.replace`s into place, so a crash
+  mid-write never corrupts the destination. `EnvRepository.relocate()`
+  uses `os.replace` to move an item between buckets — atomic on the same
+  filesystem, never leaving the file in two buckets or in neither.
+  `service.move()` saves first (atomic write at source) then relocates
+  (atomic rename) — two atomic ops in sequence; intermediate state is
+  always recoverable.
 
 - **Validation at service layer**: contexts checked against `config.yml`,
   immutable fields (`id`, `created`) rejected in patches, status changes

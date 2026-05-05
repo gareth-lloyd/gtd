@@ -92,7 +92,7 @@ class GtdService:
                 raise ValueError(f"unknown context(s): {sorted(unknown)}")
 
         now = self._now()
-        item_id = make_item_id(now, title)
+        item_id = repo.reserve_id(make_item_id(now, title))
         order: int | None = None
         if at_top:
             existing = repo.list_items(bucket=Bucket.INBOX)
@@ -195,18 +195,16 @@ class GtdService:
         if item is None:
             raise KeyError(item_id)
         item.updated = self._now()
-        if item.status is to:
-            repo.save(item)
-            return item
         # Working_on is a marker for "actively driving this in next" — it
         # only makes sense in the NEXT bucket. Any move out of NEXT
         # (complete, defer-via-move, re-bucket) clears it.
         if item.status is Bucket.NEXT and to is not Bucket.NEXT:
             item.working_on = False
-        old_path = repo.env_root / item.status.value / f"{item.id}.md"
-        item.status = to
+        # Save first (atomic write at source) then relocate (atomic rename) —
+        # a crash between still leaves the item recoverable in its source bucket.
         repo.save(item)
-        old_path.unlink()
+        if item.status is not to:
+            repo.relocate(item, to)
         return item
 
     def update(self, env: str, item_id: str, patch: dict) -> Item:

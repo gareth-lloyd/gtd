@@ -126,3 +126,33 @@ class TestSpawnRecurring:
         assert len(first) == 1
         second = spawn_recurring(repo, today=date(2026, 4, 10))
         assert len(second) == 0
+
+    def test_spawn_collision_with_existing_item_suffixes(self, repo):
+        """If today's user already captured an item that happens to share the
+        slug a template would generate, the spawn must not silently overwrite
+        it. reserve_id appends `-2` to keep both."""
+        from datetime import datetime
+
+        from gtd_core.models import Item
+
+        # Pre-stash an inbox item at the exact ID a `Test template` spawn would
+        # produce on 2026-04-10 (midnight, slugify("Test template")).
+        existing_id = "2026-04-10T0000-test-template"
+        repo.save(
+            Item(
+                id=existing_id,
+                title="User-captured first",
+                body="should be preserved",
+                created=datetime(2026, 4, 10, 8, 0),
+                updated=datetime(2026, 4, 10, 8, 0),
+                status=Bucket.INBOX,
+            )
+        )
+        repo.save_template(_tmpl("daily", last_spawned=None))
+        spawned = spawn_recurring(repo, today=date(2026, 4, 10))
+        assert len(spawned) == 1
+        assert spawned[0].id == f"{existing_id}-2"
+        # Original is intact.
+        original = repo.get(existing_id)
+        assert original is not None
+        assert original.body == "should be preserved"
