@@ -3,7 +3,7 @@ area: null
 contexts:
 - craft
 created: 2026-04-16 12:57:06.186848
-defer_until: 2026-05-01 09:00:00
+defer_until: null
 due: null
 energy: medium
 id: 2026-04-16T1257-asher-onboarding-feedback
@@ -16,4 +16,5 @@ title: Give Asher onboarding feedback
 updated: 2026-04-30 10:00:22.316748
 waiting_on: null
 waiting_since: null
+working_on: false
 ---

@@ -2,7 +2,7 @@
 area: engineering
 contexts:
 - deep
-created: &id001 2026-05-05 11:08:00
+created: 2026-05-05 11:08:00
 defer_until: null
 due: null
 energy: medium
@@ -15,7 +15,7 @@ tags:
 - frontend
 time_minutes: 60
 title: 'GTD: inline-edit deferred items'
-updated: *id001
+updated: 2026-05-05 15:14:05.615878
 waiting_on: null
 waiting_since: null
 working_on: false

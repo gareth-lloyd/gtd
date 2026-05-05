@@ -3,13 +3,13 @@ area: engineering
 contexts:
 - deep
 - fun
-created: &id001 2026-05-05 11:13:00
+created: 2026-05-05 11:13:00
 defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T1113-gtd-what-did-i-do-this-week-digest
 order: null
-project: 2026-04-16T1348-ideas
+project: 2026-04-27-gtd
 source_id: null
 tags:
 - gtd-meta
@@ -17,7 +17,7 @@ tags:
 - skills
 time_minutes: 90
 title: 'GTD: what did I do this week digest'
-updated: *id001
+updated: 2026-05-05 15:14:27.944329
 waiting_on: null
 waiting_since: null
 working_on: false

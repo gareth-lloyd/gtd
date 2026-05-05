@@ -4,7 +4,7 @@ contexts:
 - craft
 - fun
 created: 2026-04-28 09:26:13.213964
-defer_until: 2026-05-01 09:00:00
+defer_until: null
 due: null
 energy: high
 id: 2026-04-28T0926-rules-based-configuration-loom-demo
@@ -17,6 +17,7 @@ title: Rules based configuration - loom demo
 updated: 2026-04-30 10:17:17.969348
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 Martijn has requested. 

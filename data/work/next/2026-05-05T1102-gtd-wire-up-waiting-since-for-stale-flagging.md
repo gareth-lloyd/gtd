@@ -2,20 +2,20 @@
 area: engineering
 contexts:
 - deep
-created: &id001 2026-05-05 11:02:00
+created: 2026-05-05 11:02:00
 defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T1102-gtd-wire-up-waiting-since-for-stale-flagging
 order: null
-project: 2026-04-16T1348-ideas
+project: 2026-04-27-gtd
 source_id: null
 tags:
 - gtd-meta
 - backend
 time_minutes: 45
 title: 'GTD: wire up waiting_since for stale-flagging'
-updated: *id001
+updated: 2026-05-05 15:13:48.798438
 waiting_on: null
 waiting_since: null
 working_on: false

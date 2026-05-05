@@ -2,7 +2,7 @@
 area: engineering
 contexts:
 - craft
-created: &id001 2026-05-05 11:09:00
+created: 2026-05-05 11:09:00
 defer_until: null
 due: null
 energy: medium
@@ -16,7 +16,7 @@ tags:
 - a11y
 time_minutes: 180
 title: 'GTD: accessibility pass on the SPA'
-updated: *id001
+updated: 2026-05-05 15:14:13.036584
 waiting_on: null
 waiting_since: null
 working_on: false

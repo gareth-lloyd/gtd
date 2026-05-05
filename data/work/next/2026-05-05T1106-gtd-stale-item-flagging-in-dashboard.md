@@ -2,20 +2,20 @@
 area: engineering
 contexts:
 - craft
-created: &id001 2026-05-05 11:06:00
+created: 2026-05-05 11:06:00
 defer_until: null
 due: null
 energy: low
 id: 2026-05-05T1106-gtd-stale-item-flagging-in-dashboard
 order: null
-project: 2026-04-16T1348-ideas
+project: 2026-04-27-gtd
 source_id: null
 tags:
 - gtd-meta
 - skills
 time_minutes: 30
 title: 'GTD: stale-item flagging in dashboard'
-updated: *id001
+updated: 2026-05-05 15:13:59.300237
 waiting_on: null
 waiting_since: null
 working_on: false

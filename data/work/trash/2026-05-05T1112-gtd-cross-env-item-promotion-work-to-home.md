@@ -2,7 +2,7 @@
 area: engineering
 contexts:
 - deep
-created: &id001 2026-05-05 11:12:00
+created: 2026-05-05 11:12:00
 defer_until: null
 due: null
 energy: medium
@@ -16,7 +16,7 @@ tags:
 - frontend
 time_minutes: 90
 title: 'GTD: cross-env item promotion (work to home)'
-updated: *id001
+updated: 2026-05-05 15:14:23.732965
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -3,20 +3,20 @@ area: engineering
 contexts:
 - deep
 - fun
-created: &id001 2026-05-05 11:11:00
+created: 2026-05-05 11:11:00
 defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T1111-gtd-cool-down-needs-decompose-lane
 order: null
-project: 2026-04-16T1348-ideas
+project: 2026-04-27-gtd
 source_id: null
 tags:
 - gtd-meta
 - creative
 time_minutes: 120
 title: 'GTD: cool-down / needs-decompose lane'
-updated: *id001
+updated: 2026-05-05 15:14:20.278417
 waiting_on: null
 waiting_since: null
 working_on: false

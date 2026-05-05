@@ -2,20 +2,20 @@
 area: engineering
 contexts:
 - deep
-created: &id001 2026-05-05 11:07:00
+created: 2026-05-05 11:07:00
 defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T1107-gtd-project-existence-validation-exception-hierarc
 order: null
-project: 2026-04-16T1348-ideas
+project: 2026-04-27-gtd
 source_id: null
 tags:
 - gtd-meta
 - backend
 time_minutes: 90
 title: 'GTD: project-existence validation + exception hierarchy'
-updated: *id001
+updated: 2026-05-05 15:14:02.103848
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,13 +2,13 @@
 area: engineering
 contexts:
 - deep
-created: &id001 2026-05-05 11:01:00
+created: 2026-05-05 11:01:00
 defer_until: null
 due: null
 energy: high
 id: 2026-05-05T1101-gtd-multi-select-and-batch-operations-on-items
 order: null
-project: 2026-04-16T1348-ideas
+project: 2026-04-27-gtd
 source_id: null
 tags:
 - gtd-meta
@@ -16,7 +16,7 @@ tags:
 - backend
 time_minutes: 240
 title: 'GTD: multi-select and batch operations on items'
-updated: *id001
+updated: 2026-05-05 15:13:45.793830
 waiting_on: null
 waiting_since: null
 working_on: false

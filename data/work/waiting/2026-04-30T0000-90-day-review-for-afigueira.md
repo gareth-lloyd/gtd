@@ -3,7 +3,7 @@ area: null
 contexts:
 - craft
 created: 2026-04-30 00:00:00
-defer_until: 2026-05-04 09:00:00
+defer_until: null
 due: 2026-05-04
 energy: high
 id: 2026-04-30T0000-90-day-review-for-afigueira

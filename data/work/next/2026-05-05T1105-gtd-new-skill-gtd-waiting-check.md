@@ -2,20 +2,20 @@
 area: engineering
 contexts:
 - craft
-created: &id001 2026-05-05 11:05:00
+created: 2026-05-05 11:05:00
 defer_until: null
 due: null
 energy: low
 id: 2026-05-05T1105-gtd-new-skill-gtd-waiting-check
 order: null
-project: 2026-04-16T1348-ideas
+project: 2026-04-27-gtd
 source_id: null
 tags:
 - gtd-meta
 - skills
 time_minutes: 60
 title: 'GTD: new skill /gtd-waiting-check'
-updated: *id001
+updated: 2026-05-05 15:13:57.253822
 waiting_on: null
 waiting_since: null
 working_on: false

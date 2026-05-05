@@ -3,7 +3,7 @@ area: null
 contexts:
 - deep
 created: 2026-04-29 11:53:59.317821
-defer_until: 2026-05-01 09:00:00
+defer_until: null
 due: null
 energy: high
 id: 2026-04-29T1153-write-draft-prd-for-displaying-rules-based-templat

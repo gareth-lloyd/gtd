@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-04 12:07:10.836310
-defer_until: 2026-05-05 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-04T1207-email-to-everyone-that-reports-to-andrea-and-me-an

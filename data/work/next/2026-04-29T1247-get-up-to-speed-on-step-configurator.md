@@ -3,7 +3,7 @@ area: null
 contexts:
 - consume
 created: 2026-04-29 12:47:56.473163
-defer_until: 2026-05-01 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-04-29T1247-get-up-to-speed-on-step-configurator
