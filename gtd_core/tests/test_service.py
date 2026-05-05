@@ -294,12 +294,12 @@ class TestUpdate:
         assert updated.defer_until > datetime(2026, 4, 10, 9, 15)
 
     def test_patch_defer_hours(self, svc):
+        # Relative phrases anchor on the service's clock so they line up with
+        # locally-stored naive datetimes (Django's TZ=UTC would otherwise
+        # produce a UTC-anchored result that's hours off the file's value).
         item = svc.capture("work", "Test")
         updated = svc.update("work", item.id, {"defer_until": "3h"})
-        assert updated.defer_until is not None
-        # "3h" uses real datetime.now (not the injected clock) — just assert
-        # the returned value is a datetime with hour/minute preserved.
-        assert isinstance(updated.defer_until, datetime)
+        assert updated.defer_until == datetime(2026, 4, 10, 12, 15)
 
     def test_patch_due_iso_still_works(self, svc):
         item = svc.capture("work", "Test")
@@ -949,6 +949,39 @@ class TestReorderProjectItems:
         self._project(svc, "p1")
         with pytest.raises(KeyError):
             svc.reorder_project_items("work", "p1", ["nonexistent"])
+
+
+class TestDefaultNow:
+    """Domain clock must stay naive-local even when the process TZ is UTC —
+    `defer_until` is stored as naive local, so a UTC clock silently hides
+    items past their wall-clock unhide time."""
+
+    def test_default_now_independent_of_tz_env(self, monkeypatch):
+        import time
+        from zoneinfo import ZoneInfo
+
+        from gtd_core import service as svc_mod
+
+        monkeypatch.setenv("TZ", "UTC")
+        time.tzset()
+        monkeypatch.setattr(svc_mod, "_DEFAULT_TZ", ZoneInfo("America/Los_Angeles"))
+
+        result = svc_mod._default_now()
+        expected = datetime.now(ZoneInfo("America/Los_Angeles")).replace(tzinfo=None)
+        assert abs((expected - result).total_seconds()) < 2
+
+        utc_naive = datetime.now(ZoneInfo("UTC")).replace(tzinfo=None)
+        assert abs((utc_naive - result).total_seconds()) > 60
+
+    def test_read_os_local_tz_name_falls_back_to_utc_when_readlink_fails(self, monkeypatch):
+        from gtd_core import service as svc_mod
+
+        def fail(target: str) -> str:
+            del target
+            raise OSError("no symlink")
+
+        monkeypatch.setattr(svc_mod.os, "readlink", fail)
+        assert svc_mod._read_os_local_tz_name() == "UTC"
 
 
 class TestEnvIsolation:

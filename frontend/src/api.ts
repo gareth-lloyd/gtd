@@ -219,7 +219,9 @@ export const api = {
 
   listSearchCorpus: async (env: string): Promise<{ items: Item[]; projects: Project[] }> => {
     const [items, projects] = await Promise.all([
-      request<Item[]>(`/envs/${env}/items/?include_archive=true&include_trash=true`),
+      request<Item[]>(
+        `/envs/${env}/items/?include_archive=true&include_trash=true&include_deferred=true`,
+      ),
       request<Project[]>(`/envs/${env}/projects/?include_inactive=true`),
     ]);
     return { items, projects };

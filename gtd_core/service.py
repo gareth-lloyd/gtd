@@ -1,15 +1,38 @@
 import difflib
+import os
 import re
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from gtd_core.dates import is_overdue, parse_human_date, parse_human_datetime
 from gtd_core.models import Bucket, Energy, EnvConfig, Item, Priority, Project
 from gtd_core.repository import EnvRepository
 
 _ENERGY_RANK = {"low": 1, "medium": 2, "high": 3}
+
+
+def _read_os_local_tz_name() -> str:
+    # Item files store naive *local* datetimes, but Django's USE_TZ=True +
+    # TIME_ZONE='UTC' makes datetime.now() return naive UTC server-side.
+    # Read /etc/localtime directly so the domain clock stays local regardless.
+    try:
+        path = os.readlink("/etc/localtime")
+    except OSError:
+        return "UTC"
+    marker = "/zoneinfo/"
+    i = path.rfind(marker)
+    return path[i + len(marker) :] if i >= 0 else "UTC"
+
+
+_DEFAULT_TZ = ZoneInfo(_read_os_local_tz_name())
+
+
+def _default_now() -> datetime:
+    return datetime.now(_DEFAULT_TZ).replace(tzinfo=None)
+
 
 # Sort sentinels for next-actions ranking. Project priority is 1-5 (1 = most
 # urgent), so picking values outside that range slots items either ahead of
@@ -31,7 +54,7 @@ class AiCaptureOutcome:
 class GtdService:
     def __init__(self, root: Path, now: Callable[[], datetime] | None = None):
         self.root = Path(root)
-        self._now = now or datetime.now
+        self._now = now or _default_now
 
     def list_envs(self) -> list[str]:
         if not self.root.exists():
@@ -197,7 +220,7 @@ class GtdService:
         if item is None:
             raise KeyError(item_id)
         _validate_patch(patch, cfg)
-        _coerce_dates(patch)
+        _coerce_dates(patch, now=self._now)
         for field_name, value in patch.items():
             setattr(item, field_name, value)
         # Setting a future defer_until means "I'll come back to this later" —
@@ -596,9 +619,12 @@ def _validate_patch(patch: dict, cfg: EnvConfig) -> None:
         raise ValueError(f"unknown area: {patch['area']}")
 
 
-def _coerce_dates(patch: dict) -> None:
-    """Parse natural-language strings for due (date) and defer_until (datetime)."""
+def _coerce_dates(patch: dict, now: Callable[[], datetime] | None = None) -> None:
+    """Parse natural-language strings for due (date) and defer_until (datetime).
+
+    `now` anchors relative phrases ("3h", "in 2 hours") on the caller's clock.
+    """
     if "due" in patch:
         patch["due"] = parse_human_date(patch["due"])
     if "defer_until" in patch:
-        patch["defer_until"] = parse_human_datetime(patch["defer_until"])
+        patch["defer_until"] = parse_human_datetime(patch["defer_until"], now=now)
