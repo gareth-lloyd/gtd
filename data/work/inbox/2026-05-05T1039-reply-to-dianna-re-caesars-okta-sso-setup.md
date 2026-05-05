@@ -13,9 +13,9 @@ source_id: https://mail.google.com/mail/u/0/#inbox/19df3a60ee11b48d
 tags:
 - morning-gtd
 - gmail
-time_minutes: 20
+time_minutes: 5
 title: Reply to Dianna re Caesars Okta SSO setup
-updated: 2026-05-05 10:39:38.177942
+updated: 2026-05-05 13:17:20.084201
 waiting_on: null
 waiting_since: null
 working_on: false

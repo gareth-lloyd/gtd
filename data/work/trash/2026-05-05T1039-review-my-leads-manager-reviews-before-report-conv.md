@@ -4,7 +4,7 @@ contexts:
 - deep
 created: 2026-05-05 10:39:38.180289
 defer_until: null
-due: null
+due: 2026-05-05
 energy: high
 id: 2026-05-05T1039-review-my-leads-manager-reviews-before-report-conv
 order: null
@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 60
 title: Review my Leads' manager reviews before report conversations
-updated: 2026-05-05 10:39:38.180779
+updated: 2026-05-05 13:18:12.525193
 waiting_on: null
 waiting_since: null
 working_on: false
