@@ -31,6 +31,10 @@ def is_overdue(due: date | None, today: date) -> bool:
     return due is not None and due <= today
 
 
+def defer_expired(defer_until: datetime | None, now: datetime) -> bool:
+    return defer_until is not None and defer_until <= now
+
+
 def parse_human_date(value: Any) -> date | None:
     if value is None:
         return None

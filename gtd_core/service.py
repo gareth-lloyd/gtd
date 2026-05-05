@@ -3,11 +3,11 @@ import os
 import re
 from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from gtd_core.dates import is_overdue, parse_human_date, parse_human_datetime
+from gtd_core.dates import defer_expired, is_overdue, parse_human_date, parse_human_datetime
 from gtd_core.models import Bucket, Energy, EnvConfig, Item, Priority, Project
 from gtd_core.repository import EnvRepository
 
@@ -339,12 +339,13 @@ class GtdService:
         self, env: str, project_id: str, include_deferred: bool = False
     ) -> list[Item]:
         now = self._now()
+        today = now.date()
         items = [
             i
             for i in self.repo(env).list_items()
             if i.project == project_id and (include_deferred or not _is_hidden_by_defer(i, now))
         ]
-        return sorted(items, key=_item_sort_key)
+        return sorted(items, key=lambda i: _item_sort_key(i, today))
 
     def reorder_project_items(self, env: str, project_id: str, item_ids: list[str]) -> list[Item]:
         """Assign order 1..N to the given items in the given sequence.
@@ -399,17 +400,17 @@ class GtdService:
             include_deferred=include_deferred,
             no_project=no_project,
         )
+        today = self._now().date()
         if overdue:
-            today = self._now().date()
             filtered = [i for i in filtered if is_overdue(i.due, today)]
         if respect_next_cap:
             projects_by_id = {p.id: p for p in self.repo(env).list_projects(include_inactive=True)}
-            filtered = apply_next_item_cap(filtered, projects_by_id)
-            filtered = sort_next_items(filtered, projects_by_id)
+            filtered = apply_next_item_cap(filtered, projects_by_id, today)
+            filtered = sort_next_items(filtered, projects_by_id, today)
         elif bucket is Bucket.INBOX:
             # Items captured "at top" carry a negative `order` so they sort
             # ahead of the natural creation-order tail.
-            filtered = sorted(filtered, key=_item_sort_key)
+            filtered = sorted(filtered, key=lambda i: _item_sort_key(i, today))
         return filtered
 
     # ---- Projects ----
@@ -531,23 +532,23 @@ class GtdService:
 
 
 def _is_hidden_by_defer(item: Item, now: datetime) -> bool:
-    # Defer hides an item until its defer_until — except when its due date has
-    # already arrived. A stale defer_until must never swallow a missed deadline.
-    if not item.defer_until or item.defer_until <= now:
+    # A stale defer_until must never swallow a missed deadline.
+    if item.defer_until is None or defer_expired(item.defer_until, now):
         return False
     return not (item.due and item.due <= now.date())
 
 
-def _item_sort_key(item: Item) -> tuple:
-    # Items with explicit order come first (sorted by order). Items with no
-    # order fall back to their ID, which is chronological by capture time.
-    # Using (0, order) vs (1, id) ensures None-order items sort after ordered ones.
+def _item_sort_key(item: Item, today: date) -> tuple:
+    # Overdue floats to top so a missed deadline isn't buried under earlier steps.
+    overdue_rank = 0 if is_overdue(item.due, today) else 1
     if item.order is not None:
-        return (0, item.order, item.id)
-    return (1, 0, item.id)
+        return (overdue_rank, 0, item.order, item.id)
+    return (overdue_rank, 1, 0, item.id)
 
 
-def apply_next_item_cap(items: list[Item], projects_by_id: dict[str, Project]) -> list[Item]:
+def apply_next_item_cap(
+    items: list[Item], projects_by_id: dict[str, Project], today: date
+) -> list[Item]:
     """For each project with a `max_next_items` cap, keep only the first N in order.
 
     Items in uncapped projects (or no project) pass through unchanged.
@@ -561,7 +562,7 @@ def apply_next_item_cap(items: list[Item], projects_by_id: dict[str, Project]) -
     seen_counts: dict[str, int] = {}
     result: list[Item] = []
     # Sort first so the "first" items per project are picked deterministically.
-    for item in sorted(items, key=_item_sort_key):
+    for item in sorted(items, key=lambda i: _item_sort_key(i, today)):
         project = projects_by_id.get(item.project) if item.project else None
         if project is not None and project.max_next_items is not None:
             count = seen_counts.get(project.id, 0)
@@ -572,13 +573,17 @@ def apply_next_item_cap(items: list[Item], projects_by_id: dict[str, Project]) -
     return result
 
 
-def sort_next_items(items: list[Item], projects_by_id: dict[str, Project]) -> list[Item]:
-    """Order the next-actions list: orphan items → project priority → due → capture order.
+def sort_next_items(
+    items: list[Item], projects_by_id: dict[str, Project], today: date
+) -> list[Item]:
+    """Order the next-actions list: working_on → overdue → priority → due → capture order.
 
-    Items with no project surface at the top — they're typically standalone next
-    actions that aren't tied to any larger initiative and would otherwise be
-    buried under prioritised project work. Items in projects without a priority
-    fall into a trailing bucket.
+    Working_on pins beat everything (a thing the user is actively driving must
+    not slip out of view). Below that, overdue items rise above non-overdue
+    regardless of project priority — a stale deadline matters more than a
+    higher-priority on-track task. Then orphan items (no project) sort above
+    rated projects, then unrated. Within a tier, dated items sort before
+    undated so the next deadline is always next-most-actionable.
     """
 
     def key(item: Item) -> tuple:
@@ -592,8 +597,8 @@ def sort_next_items(items: list[Item], projects_by_id: dict[str, Project]) -> li
         # (0, due) < (1,) so undated items sort after dated ones without
         # needing to compare a date to None.
         due_rank: tuple = (0, item.due) if item.due is not None else (1,)
-        # Working_on items pin to the very top — False sorts before True.
-        return (not item.working_on, priority, due_rank, item.id)
+        overdue_rank = 0 if is_overdue(item.due, today) else 1
+        return (not item.working_on, overdue_rank, priority, due_rank, item.id)
 
     return sorted(items, key=key)
 

@@ -644,3 +644,16 @@ class TestSnapshot:
         r = api.post("/api/snapshot/", {}, format="json")
         assert r.status_code == 200
         assert r.json()["committed"] is False
+
+    def test_snapshot_clears_expired_defers(self, api):
+        captured = api.post("/api/envs/work/items/", {"title": "Deferred"}, format="json").json()
+        api.patch(
+            f"/api/envs/work/items/{captured['id']}/",
+            {"defer_until": "2020-01-01T00:00"},
+            format="json",
+        )
+
+        api.post("/api/snapshot/", {}, format="json")
+
+        reloaded = api.get(f"/api/envs/work/items/{captured['id']}/").json()
+        assert reloaded["defer_until"] is None

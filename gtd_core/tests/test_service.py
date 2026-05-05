@@ -600,6 +600,66 @@ class TestActionsForProject:
         assert {r.id for r in results} == {item.id}
 
 
+class TestActionsForProjectOrdering:
+    """Within a project's view, overdue items float to the top — ahead of
+    the natural `order` sequence — so a missed deadline cannot get buried
+    under earlier sequential steps."""
+
+    def _project(self, svc, pid: str) -> Project:
+        project = Project(
+            id=pid,
+            title=f"Project {pid}",
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+        )
+        svc.save_project("work", project)
+        return project
+
+    def _action(self, svc, title: str, project_id: str, *, order=None, due=None):
+        item = svc.capture("work", title)
+        svc.move("work", item.id, Bucket.NEXT)
+        patch: dict = {"project": project_id}
+        if order is not None:
+            patch["order"] = order
+        if due is not None:
+            patch["due"] = due
+        svc.update("work", item.id, patch)
+        return item
+
+    def test_overdue_floats_above_ordered_steps(self, svc):
+        self._project(svc, "p1")
+        first = self._action(svc, "First step", "p1", order=1)
+        late = self._action(svc, "Late step", "p1", order=3, due="2026-04-09")
+        middle = self._action(svc, "Middle step", "p1", order=2)
+        ids = [i.id for i in svc.actions_for_project("work", "p1")]
+        assert ids[0] == late.id
+        assert ids[1:] == [first.id, middle.id]
+
+    def test_due_today_floats_to_top(self, svc):
+        # is_overdue is inclusive: due == today is overdue.
+        self._project(svc, "p1")
+        first = self._action(svc, "First step", "p1", order=1)
+        today_due = self._action(svc, "Due today", "p1", order=2, due="2026-04-10")
+        ids = [i.id for i in svc.actions_for_project("work", "p1")]
+        assert ids == [today_due.id, first.id]
+
+    def test_future_due_does_not_float(self, svc):
+        self._project(svc, "p1")
+        first = self._action(svc, "First step", "p1", order=1)
+        later = self._action(svc, "Due later", "p1", order=2, due="2026-05-01")
+        ids = [i.id for i in svc.actions_for_project("work", "p1")]
+        assert ids == [first.id, later.id]
+
+    def test_multiple_overdue_keep_relative_order(self, svc):
+        self._project(svc, "p1")
+        on_track = self._action(svc, "On track", "p1", order=1)
+        late_b = self._action(svc, "Late B", "p1", order=3, due="2026-04-08")
+        late_a = self._action(svc, "Late A", "p1", order=2, due="2026-04-09")
+        ids = [i.id for i in svc.actions_for_project("work", "p1")]
+        assert ids == [late_a.id, late_b.id, on_track.id]
+
+
 class TestFindProjectByTitle:
     def _save(self, svc, pid: str, title: str, *, priority=None, status: str = "active") -> Project:
         project = Project(
@@ -917,6 +977,75 @@ class TestNextViewSort:
         results = svc.list_items("work", bucket=Bucket.NEXT, respect_next_cap=False)
         ordered = [i.id for i in results]
         assert ordered.index(p3_item.id) < ordered.index(p1_item.id)
+
+
+class TestNextViewSortOverdue:
+    """Overdue items rise above non-overdue across the whole next-actions list,
+    above project priority but still below working_on pins. svc clock is fixed
+    at 2026-04-10 09:15."""
+
+    def _project(self, svc, pid: str, priority) -> Project:
+        project = Project(
+            id=pid,
+            title=f"Project {pid}",
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+            priority=priority,
+        )
+        svc.save_project("work", project)
+        return project
+
+    def _capture_next(self, svc, title: str, project_id=None, *, due=None, working_on=False):
+        item = svc.capture("work", title)
+        svc.move("work", item.id, Bucket.NEXT)
+        patch: dict = {}
+        if project_id is not None:
+            patch["project"] = project_id
+        if due is not None:
+            patch["due"] = due
+        if working_on:
+            patch["working_on"] = True
+        if patch:
+            svc.update("work", item.id, patch)
+        return item
+
+    def test_overdue_low_priority_beats_on_track_high_priority(self, svc):
+        self._project(svc, "p1", priority=1)
+        self._project(svc, "p5", priority=5)
+        p1_item = self._capture_next(svc, "P1 on track", "p1")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        p5_overdue = self._capture_next(svc, "P5 overdue", "p5", due="2026-04-09")
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(p5_overdue.id) < ordered.index(p1_item.id)
+
+    def test_working_on_still_beats_overdue(self, svc):
+        self._project(svc, "p1", priority=1)
+        self._project(svc, "p5", priority=5)
+        p1_overdue = self._capture_next(svc, "P1 overdue", "p1", due="2026-04-09")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        pinned = self._capture_next(svc, "Pinned not due", "p5", working_on=True)
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered[0] == pinned.id
+        assert p1_overdue.id in ordered
+
+    def test_two_overdue_items_fall_back_to_priority(self, svc):
+        self._project(svc, "p1", priority=1)
+        self._project(svc, "p5", priority=5)
+        p5_overdue = self._capture_next(svc, "P5 overdue", "p5", due="2026-04-09")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        p1_overdue = self._capture_next(svc, "P1 overdue", "p1", due="2026-04-09")
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(p1_overdue.id) < ordered.index(p5_overdue.id)
+
+    def test_due_today_counts_as_overdue(self, svc):
+        self._project(svc, "p1", priority=1)
+        self._project(svc, "p5", priority=5)
+        p1_item = self._capture_next(svc, "P1 on track", "p1")
+        svc._now = lambda: datetime(2026, 4, 11, 10, 0)
+        p5_today = self._capture_next(svc, "P5 due today", "p5", due="2026-04-10")
+        ordered = [i.id for i in svc.filter_next("work")]
+        assert ordered.index(p5_today.id) < ordered.index(p1_item.id)
 
 
 class TestReorderProjectItems:

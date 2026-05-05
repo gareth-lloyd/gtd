@@ -11,6 +11,7 @@ from gtd_core.ai import (
     AiCaptureNotConfiguredError,
     AiCaptureUpstreamError,
 )
+from gtd_core.maintenance import clear_expired_defers
 from gtd_core.models import Bucket
 from gtd_core.recurring import spawn_recurring
 from gtd_core.service import GtdService
@@ -317,7 +318,9 @@ def templates(request: Request, env: str) -> Response:
 def snapshot_endpoint(request: Request) -> Response:
     svc = _service()
     for env_name in svc.list_envs():
-        spawn_recurring(svc.repo(env_name))
+        repo = svc.repo(env_name)
+        spawn_recurring(repo)
+        clear_expired_defers(repo, now=svc._now)
 
     serializer = SnapshotRequestSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
