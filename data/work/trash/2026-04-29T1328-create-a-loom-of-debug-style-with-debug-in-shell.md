@@ -14,7 +14,8 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Create a loom of debug style with debug_in_shell
-updated: 2026-04-30 10:17:17.969348
+updated: 2026-05-04 13:25:50.889718
 waiting_on: null
 waiting_since: null
+working_on: false
 ---

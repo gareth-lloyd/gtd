@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 60
 title: Linear project cleanup
-updated: 2026-05-04 11:31:47.488212
+updated: 2026-05-04 13:29:12.756082
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
