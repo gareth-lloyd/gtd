@@ -636,6 +636,8 @@ class TestSnapshot:
         assert data["committed"] is True
         assert data["sha"] is not None
         assert data["files_changed"] == 1
+        assert data["pushed"] is False
+        assert data["push_error"] is None
 
         repo = git.Repo(tmp_project)
         assert str(repo.head.commit.message).startswith("test snapshot")

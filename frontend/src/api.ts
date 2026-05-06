@@ -90,6 +90,7 @@ export interface SnapshotResult {
   files_changed: number;
   message: string;
   pushed: boolean;
+  push_error: string | null;
 }
 
 const API_BASE = "/api";

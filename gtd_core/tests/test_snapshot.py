@@ -89,6 +89,41 @@ class TestSnapshot:
         assert result.files_changed == 1
 
 
+class TestSnapshotPush:
+    def test_successful_push_clears_error(self, repo_root, tmp_path):
+        bare = tmp_path / "origin.git"
+        git.Repo.init(bare, bare=True)
+        repo = git.Repo(repo_root)
+        repo.create_remote("origin", str(bare))
+
+        (repo_root / "data" / "work" / "inbox" / "item1.md").write_text("content")
+        result = snapshot(repo_root, push=True)
+
+        assert result.committed is True
+        assert result.pushed is True
+        assert result.push_error is None
+
+    def test_push_failure_captures_error_message(self, repo_root, tmp_path):
+        repo = git.Repo(repo_root)
+        repo.create_remote("origin", str(tmp_path / "does-not-exist"))
+
+        (repo_root / "data" / "work" / "inbox" / "item1.md").write_text("content")
+        result = snapshot(repo_root, push=True)
+
+        assert result.committed is True
+        assert result.pushed is False
+        assert result.push_error is not None
+        assert result.push_error != ""
+
+    def test_no_push_requested_leaves_error_none(self, repo_root):
+        (repo_root / "data" / "work" / "inbox" / "item1.md").write_text("content")
+        result = snapshot(repo_root, push=False)
+
+        assert result.committed is True
+        assert result.pushed is False
+        assert result.push_error is None
+
+
 class TestSnapshotStatus:
     def test_clean(self, repo_root):
         status = snapshot_status(repo_root)

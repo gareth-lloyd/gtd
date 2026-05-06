@@ -14,6 +14,7 @@ class SnapshotResult:
     files_changed: int = 0
     message: str = ""
     pushed: bool = False
+    push_error: str | None = None
 
 
 @dataclass(slots=True)
@@ -48,12 +49,13 @@ def snapshot(
     sha = repo.head.commit.hexsha
 
     pushed = False
+    push_error: str | None = None
     if push:
         try:
             repo.remote("origin").push("HEAD")
             pushed = True
-        except (git.GitCommandError, ValueError):
-            pushed = False
+        except (git.GitCommandError, ValueError) as exc:
+            push_error = str(exc).strip() or exc.__class__.__name__
 
     return SnapshotResult(
         committed=True,
@@ -61,6 +63,7 @@ def snapshot(
         files_changed=files_changed,
         message=message,
         pushed=pushed,
+        push_error=push_error,
     )
 
 

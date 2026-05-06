@@ -336,6 +336,7 @@ def snapshot_endpoint(request: Request) -> Response:
             "files_changed": result.files_changed,
             "message": result.message,
             "pushed": result.pushed,
+            "push_error": result.push_error,
         }
     )
 

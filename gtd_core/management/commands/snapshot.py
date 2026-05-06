@@ -31,5 +31,7 @@ class Command(BaseCommand):
         if push:
             if result.pushed:
                 self.stdout.write("pushed to origin")
+            elif result.push_error:
+                self.stderr.write(f"push failed: {result.push_error}")
             else:
-                self.stdout.write("push skipped (no remote or push failed)")
+                self.stdout.write("push skipped (no remote)")
