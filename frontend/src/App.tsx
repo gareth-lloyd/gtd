@@ -12,7 +12,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { api, type EnvSummary } from "./api";
+import { api, type EnvSummary, type Item } from "./api";
 import { Button } from "./Button";
 import { useNextFilters } from "./filters";
 import { contextTintStyle } from "./context-colors";
@@ -27,6 +27,7 @@ import { SelectionProvider, useSelection } from "./SelectionContext";
 import { DetailPanel } from "./DetailPanel";
 import { useEnvParam } from "./useEnvParam";
 import { findItemInCache, useItemPatch } from "./ItemEdit";
+import { useSpotlight } from "./spotlight";
 
 type Section =
   | "inbox"
@@ -160,6 +161,7 @@ function AppShell() {
             >
               {captureOpen ? "Close capture" : "+ Capture"}
             </button>
+            <SpotlightWorkingOnButton env={env} />
             <SearchBar env={env} focusTick={searchFocusTick} />
             <div className="spacer" />
             <SyncButton />
@@ -221,6 +223,48 @@ function ContentArea({ env }: { env: string }) {
       </main>
       <DetailPanel env={env} />
     </div>
+  );
+}
+
+// Subscribe to the React Query cache so we can surface a working-on entry
+// point without firing our own dedicated /items?status=next request — that
+// would either drift from NextActionsView's filter-aware key (silent
+// duplicate fetches under filters) or pin the cache to a fragile key shape.
+function useWorkingOnId(env: string): string | null {
+  const qc = useQueryClient();
+  const [id, setId] = useState<string | null>(null);
+  useEffect(() => {
+    const compute = () => {
+      const lists = qc.getQueriesData<Item[]>({ queryKey: ["items", env] });
+      let next: string | null = null;
+      for (const [, data] of lists) {
+        const found = data?.find((i) => i.working_on);
+        if (found) {
+          next = found.id;
+          break;
+        }
+      }
+      setId((prev) => (prev === next ? prev : next));
+    };
+    compute();
+    return qc.getQueryCache().subscribe(compute);
+  }, [env, qc]);
+  return id;
+}
+
+function SpotlightWorkingOnButton({ env }: { env: string }) {
+  const { spotlightId, setSpotlight } = useSpotlight();
+  const workingOnId = useWorkingOnId(env);
+  if (!workingOnId || workingOnId === spotlightId) return null;
+  return (
+    <button
+      type="button"
+      className="spotlight-working-on"
+      title="Focus on the item you're currently working on"
+      onClick={() => setSpotlight(workingOnId)}
+    >
+      🎯 Focus working item
+    </button>
   );
 }
 

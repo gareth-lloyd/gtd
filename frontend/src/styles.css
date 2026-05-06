@@ -1519,6 +1519,69 @@ button.danger:hover {
   filter: none;
 }
 
+/* Spotlight toggle — discovery glyph at the right edge of each card. Same
+   "fade until needed" pattern as the working-on pin so the row stays calm. */
+.spotlight-toggle {
+  margin-left: auto;
+  align-self: center;
+  background: none;
+  border: none;
+  padding: 0 0.1rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--muted);
+  opacity: 0.18;
+  transition: opacity 120ms ease;
+}
+
+.item:hover .spotlight-toggle:not(.active) {
+  opacity: 0.45;
+}
+
+.spotlight-toggle:hover,
+.spotlight-toggle:focus-visible {
+  opacity: 1;
+}
+
+.spotlight-toggle.active {
+  opacity: 1;
+  color: var(--accent);
+}
+
+/* Spotlight mode — only the spotlit card renders, centered with breathing
+   room so the "this is what we're doing" framing reads at a glance. */
+.item-list.spotlight-mode {
+  max-width: 680px;
+  margin: 4rem auto 0;
+}
+
+.spotlight-exit {
+  position: fixed;
+  top: 4.5rem;
+  right: 1rem;
+  z-index: 5;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.spotlight-exit:hover,
+.spotlight-exit:focus-visible {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+}
+
+.spotlight-working-on {
+  font-size: 0.85rem;
+}
+
 /* Project chip in the collapsed meta row */
 .item-meta .chip.project-chip {
   background: var(--accent-bg);

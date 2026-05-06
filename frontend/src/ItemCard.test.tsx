@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import type { Item, Project } from "./api";
 
 vi.mock("./api", () => ({
@@ -81,20 +81,26 @@ const projectB: Project = {
   max_next_items: null,
 };
 
-function renderCard(item: Item) {
+function renderCard(item: Item, initial = "/work/next") {
   const qc = new QueryClient({
     defaultOptions: { queries: { retry: false, staleTime: Infinity } },
   });
+  let location: ReturnType<typeof useLocation> | null = null;
+  function LocationProbe() {
+    location = useLocation();
+    return null;
+  }
   const utils = render(
     <QueryClientProvider client={qc}>
-      <MemoryRouter initialEntries={["/work/next"]}>
+      <MemoryRouter initialEntries={[initial]}>
         <SelectionProvider>
+          <LocationProbe />
           <ItemCard env="work" item={item} projects={[projectA, projectB]} />
         </SelectionProvider>
       </MemoryRouter>
     </QueryClientProvider>,
   );
-  return { ...utils, qc };
+  return { ...utils, qc, getLocation: () => location };
 }
 
 beforeEach(() => {
@@ -288,5 +294,35 @@ describe("ItemCard deselect triggers", () => {
     expect(api.updateItem).toHaveBeenCalledWith("work", "item-1", {
       body: "Draft notes",
     });
+  });
+});
+
+describe("ItemCard spotlight toggle", () => {
+  it("renders an unpressed Focus toggle by default", () => {
+    renderCard(baseItem);
+    const btn = screen.getByRole("button", { name: /focus on this item/i });
+    expect(btn.getAttribute("aria-pressed")).toBe("false");
+  });
+
+  it("clicking the toggle writes spotlight=<id> to the URL and expands the card", async () => {
+    const user = userEvent.setup();
+    const { getLocation } = renderCard(baseItem);
+    await user.click(screen.getByRole("button", { name: /focus on this item/i }));
+    expect(getLocation()!.search).toContain("spotlight=item-1");
+    const titleInput = screen.getByDisplayValue("Write release notes") as HTMLInputElement;
+    expect(titleInput.tagName).toBe("INPUT");
+  });
+
+  it("the toggle reflects the spotlit state and switches to Exit", () => {
+    renderCard(baseItem, "/work/next?spotlight=item-1");
+    const btn = screen.getByRole("button", { name: /exit spotlight/i });
+    expect(btn.getAttribute("aria-pressed")).toBe("true");
+  });
+
+  it("clicking the toggle while spotlit clears the URL param", async () => {
+    const user = userEvent.setup();
+    const { getLocation } = renderCard(baseItem, "/work/next?spotlight=item-1");
+    await user.click(screen.getByRole("button", { name: /exit spotlight/i }));
+    expect(getLocation()!.search).not.toContain("spotlight");
   });
 });

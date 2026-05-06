@@ -12,6 +12,7 @@ import type { Item, Project } from "./api";
 import { useItemPatch } from "./ItemEdit";
 import { contextChipStyle } from "./context-colors";
 import { useSelection } from "./SelectionContext";
+import { useSpotlight } from "./spotlight";
 
 export function ItemCard({
   env,
@@ -57,6 +58,7 @@ export function ItemCard({
         if ((e.target as HTMLElement).closest(".item-actions")) return;
         if ((e.target as HTMLElement).closest("a")) return;
         if ((e.target as HTMLElement).closest(".working-on-toggle")) return;
+        if ((e.target as HTMLElement).closest(".spotlight-toggle")) return;
         select(item.id);
       }}
       onMouseEnter={onMouseEnter}
@@ -67,6 +69,32 @@ export function ItemCard({
         <CollapsedCard env={env} item={item} projects={projects} />
       )}
     </div>
+  );
+}
+
+function SpotlightToggle({ id }: { id: string }) {
+  const { spotlightId, setSpotlight } = useSpotlight();
+  const { select } = useSelection();
+  const active = spotlightId === id;
+  return (
+    <button
+      type="button"
+      className={`spotlight-toggle${active ? " active" : ""}`}
+      aria-pressed={active}
+      aria-label={active ? "Exit spotlight" : "Focus on this item"}
+      title={active ? "Exit spotlight" : "Focus on this item"}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (active) {
+          setSpotlight(null);
+        } else {
+          setSpotlight(id);
+          select(id);
+        }
+      }}
+    >
+      <span aria-hidden>{active ? "✕" : "◎"}</span>
+    </button>
   );
 }
 
@@ -152,6 +180,7 @@ function CollapsedCard({
       <div className="item-title-row">
         <WorkingOnToggle env={env} item={item} />
         <div className="item-title">{item.title}</div>
+        <SpotlightToggle id={item.id} />
       </div>
       {item.body && (
         <div className="item-body">
