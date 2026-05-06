@@ -12,9 +12,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Review Andres remove images
-updated: 2026-04-29 09:59:15.160800
+updated: 2026-05-06 10:01:05.686257
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 https://github.com/canary-technologies-corp/canary/pull/43676

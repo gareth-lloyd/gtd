@@ -15,7 +15,7 @@ tags:
 - slack
 time_minutes: 30
 title: Follow up on Jessica's response on ENT-6116 (GJ messages disabled with no logs)
-updated: 2026-05-06 09:33:02.031219
+updated: 2026-05-06 10:37:23.965471
 waiting_on: null
 waiting_since: null
 working_on: false
