@@ -4,18 +4,18 @@ contexts:
 - react
 created: 2026-05-05 10:39:38.178366
 defer_until: null
-due: null
+due: 2026-05-05
 energy: medium
 id: 2026-05-05T1039-reply-to-ryan-salesforce-as-source-of-truth-for-st
 order: null
-project: null
+project: 2026-04-10T0840-ticket
 source_id: https://canarytechnologies.slack.com/archives/C08RELXN00M/p1777923384319639
 tags:
 - morning-gtd
 - slack
 time_minutes: 5
 title: 'Reply to Ryan: Salesforce as source-of-truth for staging hotels?'
-updated: 2026-05-05 13:17:17.474403
+updated: 2026-05-05 21:13:04.590420
 waiting_on: null
 waiting_since: null
 working_on: false

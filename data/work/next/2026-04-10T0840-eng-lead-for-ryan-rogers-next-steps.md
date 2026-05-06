@@ -7,13 +7,13 @@ defer_until: 2026-06-01 09:00:00
 due: null
 energy: medium
 id: 2026-04-10T0840-eng-lead-for-ryan-rogers-next-steps
-order: 9
+order: 10
 project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 15
 title: Check availability of eng leads training for Rami and Ryan
-updated: 2026-05-05 11:10:23.214698
+updated: 2026-05-05 16:38:56.364336
 waiting_on: null
 waiting_since: null
 working_on: false

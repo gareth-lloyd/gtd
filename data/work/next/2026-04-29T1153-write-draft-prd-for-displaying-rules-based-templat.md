@@ -13,8 +13,12 @@ source_id: null
 tags: []
 time_minutes: 60
 title: Write draft PRD for displaying rules-based templates in above property dashboard
-updated: 2026-05-04 11:54:02.181940
+updated: 2026-05-05 21:57:29.689199
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
+
+BAse off prototype
+simple features, nice presentation, wihtin Canary standards. 
+api endpoint to load

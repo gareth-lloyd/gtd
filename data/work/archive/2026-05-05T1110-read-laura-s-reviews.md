@@ -6,16 +6,16 @@ defer_until: null
 due: null
 energy: low
 id: 2026-05-05T1110-read-laura-s-reviews
-order: 1
+order: 4
 project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 5
 title: Read Laura's reviews
-updated: 2026-05-05 14:54:40.561591
+updated: 2026-05-05 21:13:42.222955
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://lettuce.canary-engineering.com/reviews/30781468-6151-8188-84e2-cd44b76b6aa7/manager
