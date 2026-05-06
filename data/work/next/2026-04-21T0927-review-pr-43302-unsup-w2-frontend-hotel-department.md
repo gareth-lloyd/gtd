@@ -5,20 +5,21 @@ contexts:
 created: 2026-04-21 09:27:25.603344
 defer_until: null
 due: null
-energy: medium
+energy: high
 id: 2026-04-21T0927-review-pr-43302-unsup-w2-frontend-hotel-department
 order: null
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags:
 - morning-gtd
 - github
-time_minutes: 20
+time_minutes: 5
 title: 'Review PR #43302: [UNSUP][W2.Frontend] hotel department CRUD endpoints, Bridge
   API, admin UI'
-updated: 2026-05-06 00:00:00.000000
+updated: 2026-05-06 09:33:47.988332
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 tobthecreator. https://github.com/canary-technologies-corp/canary/pull/43302
