@@ -7,15 +7,16 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T2200-triage-ent-6126-validate-update-csr-id-hotel-id-du
-order: null
-project: null
+order: 4
+output: ''
+project: 2026-04-16T1210-unblock-team
 source_id: https://linear.app/canary-technologies/issue/ENT-6126/validate-and-update-csr-idhotel-id-during-initial-configuration
 tags:
 - morning-gtd
 - linear
 time_minutes: 20
 title: 'Triage ENT-6126: Validate/update CSR ID/Hotel id during Initial Configuration'
-updated: 2026-05-05 22:00:22.932029
+updated: 2026-05-06 13:24:02.867484
 waiting_on: null
 waiting_since: null
 working_on: false

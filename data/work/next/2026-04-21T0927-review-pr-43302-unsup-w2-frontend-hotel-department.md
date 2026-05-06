@@ -7,7 +7,8 @@ defer_until: null
 due: null
 energy: high
 id: 2026-04-21T0927-review-pr-43302-unsup-w2-frontend-hotel-department
-order: null
+order: 2
+output: ''
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags:
@@ -16,7 +17,7 @@ tags:
 time_minutes: 5
 title: 'Review PR #43302: [UNSUP][W2.Frontend] hotel department CRUD endpoints, Bridge
   API, admin UI'
-updated: 2026-05-06 09:33:47.988332
+updated: 2026-05-06 13:24:02.867484
 waiting_on: null
 waiting_since: null
 working_on: false

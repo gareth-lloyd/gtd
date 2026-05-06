@@ -8,7 +8,8 @@ due: null
 energy: medium
 id: 2026-05-05T2200-reply-to-connor-in-epd-core-engineers-re-portfolio
 order: null
-project: null
+output: ''
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C08RJU9Q7FV/p1777991964620109?thread_ts=1777305117.231939&cid=C08RJU9Q7FV
 tags:
 - morning-gtd
@@ -16,7 +17,7 @@ tags:
 time_minutes: 15
 title: 'Reply to Connor in #epd-core-engineers re: portfolio-level boolean for above-property
   staff assignment'
-updated: 2026-05-05 22:00:22.930809
+updated: 2026-05-06 13:02:28.138412
 waiting_on: null
 waiting_since: null
 working_on: false

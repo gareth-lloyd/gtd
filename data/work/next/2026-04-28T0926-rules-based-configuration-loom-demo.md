@@ -8,13 +8,14 @@ defer_until: null
 due: null
 energy: high
 id: 2026-04-28T0926-rules-based-configuration-loom-demo
-order: 1
+order: 3
+output: ''
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 15
 title: Rules based configuration - loom demo
-updated: 2026-04-30 10:17:17.969348
+updated: 2026-05-06 13:24:02.867484
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -12,7 +12,7 @@ source_id: null
 tags: []
 time_minutes: 20
 title: Surface snapshot push failures (currently silently swallowed)
-updated: 2026-05-05 15:05:39.569523
+updated: 2026-05-06 10:46:55.655258
 waiting_on: null
 waiting_since: null
 working_on: false
