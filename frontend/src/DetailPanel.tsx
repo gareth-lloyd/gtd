@@ -9,6 +9,7 @@ import {
   invalidateProjectQueries,
   useItemPatch,
 } from "./ItemEdit";
+import { Markdown } from "./markdown";
 import { contextChipStyle } from "./context-colors";
 import { generateProjectId, sortProjects } from "./format";
 import { Button } from "./Button";
@@ -94,6 +95,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
 
   return (
     <div className="detail-meta">
+      {item.output && <AgentLog key={item.id} output={item.output} />}
       <div className="detail-section">
         <span className="detail-label">Project</span>
         <ChipToggleGroup<string>
@@ -226,6 +228,27 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
         <span className="detail-label">Actions</span>
         <WorkflowActions env={env} item={item} />
       </div>
+    </div>
+  );
+}
+
+function AgentLog({ output }: { output: string }) {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <div className="agent-output">
+      <button
+        type="button"
+        className="agent-output-header"
+        aria-expanded={expanded}
+        onClick={() => setExpanded((v) => !v)}
+      >
+        <span aria-hidden>{expanded ? "▾" : "▸"}</span> 🤖 Agent log
+      </button>
+      {expanded && (
+        <div className="agent-output-body">
+          <Markdown source={output} />
+        </div>
+      )}
     </div>
   );
 }

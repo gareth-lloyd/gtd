@@ -38,6 +38,7 @@ vi.mock("./api", () => ({
         order: null,
         source_id: null,
         working_on: false,
+        output: "",
       },
     ]),
     getItem: vi.fn().mockResolvedValue(null),
@@ -66,6 +67,7 @@ vi.mock("./api", () => ({
       order: -1,
       source_id: null,
       working_on: false,
+      output: "",
     }),
     captureItemAi: vi.fn(),
     updateItem: vi.fn(),
@@ -193,6 +195,7 @@ describe("Project priority on next view", () => {
         order: null,
         source_id: null,
         working_on: false,
+        output: "",
       },
     ]);
 
@@ -229,6 +232,7 @@ describe("Project priority on next view", () => {
         order: null,
         source_id: null,
         working_on: false,
+        output: "",
       },
     ]);
 

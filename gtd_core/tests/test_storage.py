@@ -161,6 +161,36 @@ class TestItemRoundTrip:
         loaded = load_item(path, Bucket.INBOX)
         assert loaded.working_on is False
 
+    def test_output_round_trip(self, tmp_path):
+        item = Item(
+            id="2026-05-06T0900-with-output",
+            title="Has agent log",
+            body="",
+            created=datetime(2026, 5, 6, 9, 0),
+            updated=datetime(2026, 5, 6, 9, 0),
+            status=Bucket.NEXT,
+            output="## Agent run 2026-05-06\n\nReviewed PR. LGTM.",
+        )
+        path = tmp_path / "next" / "out.md"
+        dump_item(path, item)
+        loaded = load_item(path, Bucket.NEXT)
+        assert loaded.output == "## Agent run 2026-05-06\n\nReviewed PR. LGTM."
+        assert loaded == item
+
+    def test_output_defaults_empty_for_legacy_files(self, tmp_path):
+        path = tmp_path / "inbox" / "legacy.md"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            "---\n"
+            "id: 2026-04-01T0900-legacy\n"
+            "title: Legacy item\n"
+            "created: 2026-04-01 09:00:00\n"
+            "updated: 2026-04-01 09:00:00\n"
+            "---\n"
+        )
+        loaded = load_item(path, Bucket.INBOX)
+        assert loaded.output == ""
+
     def test_body_preserved(self, tmp_path):
         body = "# Heading\n\nSome **bold** markdown.\n\n- list\n- items\n"
         item = Item(

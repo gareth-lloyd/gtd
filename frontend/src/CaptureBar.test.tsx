@@ -39,6 +39,7 @@ const baseItem: Item = {
   order: null,
   source_id: null,
   working_on: false,
+  output: "",
 };
 
 function renderBar(mode: CaptureMode = "regular") {

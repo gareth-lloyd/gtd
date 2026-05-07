@@ -49,6 +49,7 @@ const testItem: Item = {
   order: null,
   source_id: null,
   working_on: false,
+  output: "",
 };
 
 // Helper to select an item from outside DetailPanel
@@ -155,6 +156,52 @@ describe("DetailPanel", () => {
     // Should still show metadata editors, not hover actions
     expect(screen.getByText("Project")).toBeDefined();
     expect(screen.getByText("Contexts")).toBeDefined();
+  });
+
+  it("renders the agent log header, collapsed, when item.output is non-empty", async () => {
+    const user = userEvent.setup();
+    const itemWithOutput: Item = {
+      ...testItem,
+      output: "## Agent run 2026-05-06\n\nReviewed PR. LGTM.",
+    };
+    vi.mocked(api.getItem).mockResolvedValue(itemWithOutput);
+
+    const qc = new QueryClient({
+      defaultOptions: { queries: { retry: false, staleTime: Infinity } },
+    });
+    qc.setQueryData(["items", "work", "next", [], "", "", false], [itemWithOutput]);
+    render(
+      <QueryClientProvider client={qc}>
+        <MemoryRouter initialEntries={["/work/next"]}>
+          <SelectionProvider>
+            <SelectTrigger itemId="item-1" />
+            <DetailPanel env="work" />
+          </SelectionProvider>
+        </MemoryRouter>
+      </QueryClientProvider>,
+    );
+    await user.click(screen.getByTestId("select-trigger"));
+
+    const header = await screen.findByRole("button", { name: /Agent log/ });
+    expect(header).toBeDefined();
+    expect(header.getAttribute("aria-expanded")).toBe("false");
+    // Collapsed: body markdown should not render
+    expect(screen.queryByText(/Reviewed PR/)).toBeNull();
+
+    await user.click(header);
+    expect(header.getAttribute("aria-expanded")).toBe("true");
+    expect(await screen.findByText(/Reviewed PR/)).toBeDefined();
+  });
+
+  it("does not render the agent log section when item.output is empty", async () => {
+    const user = userEvent.setup();
+    renderPanel({ withSelect: "item-1" });
+    await user.click(screen.getByTestId("select-trigger"));
+
+    await waitFor(() => {
+      expect(screen.getByText("Project")).toBeDefined();
+    });
+    expect(screen.queryByRole("button", { name: /Agent log/ })).toBeNull();
   });
 
   it("clicking a context chip triggers a PATCH", async () => {

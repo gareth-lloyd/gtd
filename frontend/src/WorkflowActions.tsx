@@ -28,9 +28,16 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
     mutationFn: () => api.purgeItem(env, item.id),
     onSuccess: invalidate,
   });
+  const launchMut = useMutation({
+    mutationFn: () => api.launchAgent(env, item.id),
+  });
 
   const busy =
-    moveMut.isPending || completeMut.isPending || deleteMut.isPending || purgeMut.isPending;
+    moveMut.isPending ||
+    completeMut.isPending ||
+    deleteMut.isPending ||
+    purgeMut.isPending ||
+    launchMut.isPending;
 
   const isMoving = (to: Bucket) => moveMut.isPending && moveMut.variables === to;
 
@@ -85,6 +92,14 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
             disabled={busy}
           >
             ✓ done
+          </Button>
+          <Button
+            onClick={() => launchMut.mutate()}
+            busy={launchMut.isPending}
+            disabled={busy}
+            title="Launch a Claude Code session in iTerm with this item as the prompt"
+          >
+            🤖 agent
           </Button>
           <Button
             className="danger"

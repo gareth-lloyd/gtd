@@ -25,6 +25,7 @@ function mkItem(overrides: Partial<Item> = {}): Item {
     order: null,
     source_id: null,
     working_on: false,
+    output: "",
     ...overrides,
   };
 }

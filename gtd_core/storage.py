@@ -60,6 +60,7 @@ def load_item(path: Path, status: Bucket) -> Item:
         order=md.get("order"),
         source_id=md.get("source_id"),
         working_on=bool(md.get("working_on", False)),
+        output=md.get("output") or "",
     )
 
 
@@ -199,6 +200,7 @@ def _item_metadata(item: Item) -> dict[str, Any]:
         "order": item.order,
         "source_id": item.source_id,
         "working_on": item.working_on,
+        "output": item.output,
     }
 
 

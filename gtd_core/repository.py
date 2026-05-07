@@ -22,6 +22,12 @@ class EnvRepository:
 
     # ---- Items ----
 
+    def path_for(self, item: Item) -> Path:
+        return self.path_for_id(item.id, item.status)
+
+    def path_for_id(self, item_id: str, bucket: Bucket) -> Path:
+        return self.env_root / bucket.value / f"{item_id}.md"
+
     def list_items(
         self,
         bucket: Bucket | None = None,
@@ -45,7 +51,7 @@ class EnvRepository:
 
     def get(self, item_id: str) -> Item | None:
         for bucket in Bucket:
-            path = self.env_root / bucket.value / f"{item_id}.md"
+            path = self.path_for_id(item_id, bucket)
             if path.exists():
                 return load_item(path, bucket)
         return None
@@ -66,11 +72,10 @@ class EnvRepository:
         return f"{base_id}-{n}"
 
     def _id_exists(self, item_id: str) -> bool:
-        return any((self.env_root / b.value / f"{item_id}.md").exists() for b in Bucket)
+        return any(self.path_for_id(item_id, b).exists() for b in Bucket)
 
     def save(self, item: Item) -> Item:
-        path = self.env_root / item.status.value / f"{item.id}.md"
-        dump_item(path, item)
+        dump_item(self.path_for(item), item)
         return item
 
     def move(self, item_id: str, new_bucket: Bucket) -> Item:
@@ -94,8 +99,8 @@ class EnvRepository:
         """
         if item.status is new_bucket:
             return item
-        old_path = self.env_root / item.status.value / f"{item.id}.md"
-        new_path = self.env_root / new_bucket.value / f"{item.id}.md"
+        old_path = self.path_for(item)
+        new_path = self.path_for_id(item.id, new_bucket)
         new_path.parent.mkdir(parents=True, exist_ok=True)
         os.replace(old_path, new_path)
         item.status = new_bucket
@@ -103,7 +108,7 @@ class EnvRepository:
 
     def delete(self, item_id: str) -> None:
         for bucket in Bucket:
-            path = self.env_root / bucket.value / f"{item_id}.md"
+            path = self.path_for_id(item_id, bucket)
             if path.exists():
                 path.unlink()
                 return

@@ -5,6 +5,12 @@ from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from gtd_core.agent_launch import (
+    AgentLaunchError,
+    AgentLaunchNotConfiguredError,
+    build_prompt,
+    launch_claude_session,
+)
 from gtd_core.ai import (
     AiCaptureError,
     AiCaptureNoExtractionError,
@@ -217,6 +223,31 @@ def item_move(request: Request, env: str, item_id: str) -> Response:
     except KeyError:
         return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(ItemSerializer(item).data)
+
+
+@api_view(["POST"])
+def item_launch_agent(request: Request, env: str, item_id: str) -> Response:
+    svc = _service()
+    repo = svc.repo(env)
+    item = repo.get(item_id)
+    if item is None:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if not item.working_on:
+        item = svc.update(env, item_id, {"working_on": True})
+
+    project = svc.get_project(env, item.project) if item.project else None
+    prompt = build_prompt(
+        item, item_path=repo.path_for(item), env_dir=repo.env_root, project=project
+    )
+
+    try:
+        launch_claude_session(prompt=prompt, cwd=settings.GTD_AGENT_CWD)
+    except AgentLaunchNotConfiguredError as e:
+        return Response({"error": str(e)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+    except AgentLaunchError as e:
+        return Response({"error": str(e)}, status=status.HTTP_502_BAD_GATEWAY)
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])

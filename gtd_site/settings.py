@@ -70,3 +70,7 @@ BEAR_DB_PATH = Path(
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-4-6")
+
+# Working dir for `🤖 agent` Terminal launches. Defaults to the canary monorepo
+# so the spawned `claude` session has the right code context out of the box.
+GTD_AGENT_CWD = Path(os.environ.get("GTD_AGENT_CWD", "~/projects/canary")).expanduser()

@@ -49,6 +49,7 @@ const baseItem: Item = {
   order: null,
   source_id: null,
   working_on: false,
+  output: "",
 };
 
 const projectA: Project = {
@@ -122,6 +123,22 @@ describe("ItemCard collapsed", () => {
     expect(screen.getByText("15m")).toBeDefined();
   });
 
+  it("renders 🤖 log chip when output is non-empty", () => {
+    const { container } = renderCard({ ...baseItem, output: "## Agent run\nDone." });
+    const chip = Array.from(container.querySelectorAll(".chip")).find((el) =>
+      el.textContent?.includes("🤖 log"),
+    );
+    expect(chip).toBeDefined();
+  });
+
+  it("does not render 🤖 log chip when output is empty", () => {
+    const { container } = renderCard(baseItem);
+    const chip = Array.from(container.querySelectorAll(".chip")).find((el) =>
+      el.textContent?.includes("🤖 log"),
+    );
+    expect(chip).toBeUndefined();
+  });
+
   it("renders no due chip when item has no due date", () => {
     const { container } = renderCard(baseItem);
     expect(container.querySelector(".chip-overdue")).toBeNull();
@@ -144,6 +161,28 @@ describe("ItemCard collapsed", () => {
     );
     expect(chip).toBeDefined();
     expect(chip!.classList.contains("chip-overdue")).toBe(true);
+  });
+
+  it("wraps the body in a clipped block (no native scrollbars)", () => {
+    const longBody = Array.from({ length: 60 }, (_, i) => `paragraph ${i}`).join("\n\n");
+    const { container } = renderCard({ ...baseItem, body: longBody });
+    // The wrapper exists and applies max-height inline (so overflow is clipped, not scrolled).
+    const block = container.querySelector(".clipped-block");
+    expect(block).not.toBeNull();
+    const content = block!.querySelector(".clipped-block-content") as HTMLElement;
+    expect(content).not.toBeNull();
+    // .item-body class lands on the inner content div, not the wrapper, so
+    // the .item-body > * margin-reset rules still target the markdown nodes.
+    expect(content.classList.contains("item-body")).toBe(true);
+    // jsdom doesn't measure layout, so the "Show all" button may not appear here —
+    // assert the structural contract: max-height + overflow:hidden is present.
+    expect(content.style.maxHeight).toBe("14rem");
+    expect(content.style.overflow).toBe("hidden");
+  });
+
+  it("does not wrap a missing body in a clipped block", () => {
+    const { container } = renderCard({ ...baseItem, body: "" });
+    expect(container.querySelector(".clipped-block")).toBeNull();
   });
 
   it("clicking the card selects it and shows title input", async () => {

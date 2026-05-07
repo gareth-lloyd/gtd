@@ -26,6 +26,8 @@ export interface Item {
   source_id: string | null;
   /** Pin to top of next-actions; auto-cleared on completion, future defer, or move out of next. */
   working_on: boolean;
+  /** Append-only log written by `/launch-agent` Claude sessions. Empty by default. */
+  output: string;
 }
 
 export interface Project {
@@ -173,6 +175,8 @@ export const api = {
     }),
   completeItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/complete/`, { method: "POST" }),
+  launchAgent: (env: string, id: string) =>
+    request<void>(`/envs/${env}/items/${id}/launch-agent/`, { method: "POST" }),
   deleteItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/`, { method: "DELETE" }),
   purgeItem: (env: string, id: string) =>

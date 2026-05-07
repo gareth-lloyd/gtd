@@ -11,6 +11,7 @@ vi.mock("./api", () => ({
     completeItem: vi.fn(),
     deleteItem: vi.fn(),
     purgeItem: vi.fn(),
+    launchAgent: vi.fn(),
   },
 }));
 
@@ -40,6 +41,7 @@ const nextItem: Item = {
   order: null,
   source_id: null,
   working_on: false,
+  output: "",
 };
 
 function renderActions(item: Item) {
@@ -66,6 +68,7 @@ beforeEach(() => {
   vi.mocked(api.completeItem).mockResolvedValue({ ...nextItem, status: "archive" });
   vi.mocked(api.deleteItem).mockResolvedValue({ ...nextItem, status: "trash" });
   vi.mocked(api.purgeItem).mockResolvedValue(undefined as unknown as void);
+  vi.mocked(api.launchAgent).mockResolvedValue(undefined as unknown as void);
 });
 
 afterEach(() => {
@@ -105,6 +108,15 @@ describe("WorkflowActions — next bucket", () => {
     await user.click(screen.getByRole("button", { name: /✓ done/ }));
     await waitFor(() => {
       expect(api.completeItem).toHaveBeenCalledWith("work", "item-1");
+    });
+  });
+
+  it('clicking "🤖 agent" calls launchAgent', async () => {
+    const user = userEvent.setup();
+    renderActions(nextItem);
+    await user.click(screen.getByRole("button", { name: /agent/ }));
+    await waitFor(() => {
+      expect(api.launchAgent).toHaveBeenCalledWith("work", "item-1");
     });
   });
 

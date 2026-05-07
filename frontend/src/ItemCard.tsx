@@ -1,18 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import ReactMarkdown, { type Components } from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { Item, Project } from "./api";
+import { useItemPatch } from "./ItemEdit";
+import { contextChipStyle } from "./context-colors";
+import { Markdown } from "./markdown";
+import { useSelection } from "./SelectionContext";
+import { useSpotlight } from "./spotlight";
 
 const SESSION_START_MS = Date.now();
 const FRESH_WINDOW_MS = 2000;
 
-const markdownComponents: Components = {
-  a: ({ node: _node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />,
-};
-import type { Item, Project } from "./api";
-import { useItemPatch } from "./ItemEdit";
-import { contextChipStyle } from "./context-colors";
-import { useSelection } from "./SelectionContext";
-import { useSpotlight } from "./spotlight";
+const COLLAPSED_BODY_MAX_REM = 14;
+const EDITOR_BODY_MAX_REM = 24;
+const REM_PX = 16;
 
 export function ItemCard({
   env,
@@ -183,14 +182,21 @@ function CollapsedCard({
         <SpotlightToggle id={item.id} />
       </div>
       {item.body && (
-        <div className="item-body">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-            {item.body}
-          </ReactMarkdown>
-        </div>
+        <ClippedBlock
+          maxHeightRem={COLLAPSED_BODY_MAX_REM}
+          contentClassName="item-body"
+          contentKey={item.body}
+        >
+          <Markdown source={item.body} />
+        </ClippedBlock>
       )}
       <ItemLinks body={item.body} />
       <div className="item-meta">
+        {item.output && (
+          <span className="chip" title="Agent log present — expand to read">
+            🤖 log
+          </span>
+        )}
         {item.status !== "next" && <span className="chip">{item.status}</span>}
         {project && <span className="chip project-chip">📁 {project.title}</span>}
         {item.project_priority != null && (
@@ -263,9 +269,8 @@ function SelectedInListCard({ env, item }: { env: string; item: Item }) {
         placeholder="Title"
         autoFocus
       />
-      <textarea
+      <AutoGrowTextarea
         className="body-input"
-        rows={4}
         value={localBody}
         onChange={(e) => {
           setLocalBody(e.target.value);
@@ -273,8 +278,116 @@ function SelectedInListCard({ env, item }: { env: string; item: Item }) {
         }}
         onKeyDown={saveAndDeselect}
         placeholder="Notes (markdown)…"
+        minRows={4}
+        maxHeightRem={EDITOR_BODY_MAX_REM}
       />
       <ItemLinks body={localBody} />
+    </div>
+  );
+}
+
+function ShowAllButton({ onExpand }: { onExpand: () => void }) {
+  return (
+    <button
+      type="button"
+      className="clipped-block-expand"
+      onClick={(e) => {
+        e.stopPropagation();
+        onExpand();
+      }}
+    >
+      Show all ↓
+    </button>
+  );
+}
+
+function ClippedBlock({
+  maxHeightRem,
+  contentClassName,
+  contentKey,
+  children,
+}: {
+  maxHeightRem: number;
+  contentClassName?: string;
+  /** Stable string used as the measurement effect's dependency, so we don't
+   * remeasure on every parent re-render that constructs new `children`. */
+  contentKey?: string;
+  children: React.ReactNode;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [clipped, setClipped] = useState(false);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    setClipped(el.scrollHeight > maxHeightRem * REM_PX + 1);
+  }, [contentKey, maxHeightRem]);
+
+  const innerClass = ["clipped-block-content", contentClassName].filter(Boolean).join(" ");
+  return (
+    <div className="clipped-block">
+      <div
+        ref={ref}
+        className={innerClass}
+        style={expanded ? undefined : { maxHeight: `${maxHeightRem}rem`, overflow: "hidden" }}
+      >
+        {children}
+      </div>
+      {clipped && !expanded && <ShowAllButton onExpand={() => setExpanded(true)} />}
+    </div>
+  );
+}
+
+function AutoGrowTextarea({
+  className,
+  value,
+  onChange,
+  onKeyDown,
+  placeholder,
+  minRows,
+  maxHeightRem,
+}: {
+  className?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  placeholder?: string;
+  minRows: number;
+  maxHeightRem: number;
+}) {
+  const ref = useRef<HTMLTextAreaElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [clipped, setClipped] = useState(false);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    // Reset height so shrinking works, then set to natural content height.
+    el.style.height = "auto";
+    const maxPx = maxHeightRem * REM_PX;
+    const natural = el.scrollHeight;
+    if (!expanded && natural > maxPx) {
+      el.style.height = `${maxPx}px`;
+      setClipped(true);
+    } else {
+      el.style.height = `${natural}px`;
+      setClipped(false);
+    }
+  }, [value, expanded, maxHeightRem]);
+
+  return (
+    <div className="autogrow-wrap">
+      <textarea
+        ref={ref}
+        className={`${className ?? ""} autogrow-textarea`.trim()}
+        rows={minRows}
+        value={value}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        placeholder={placeholder}
+      />
+      {clipped && !expanded && <ShowAllButton onExpand={() => setExpanded(true)} />}
     </div>
   );
 }

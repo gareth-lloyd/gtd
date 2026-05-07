@@ -20,6 +20,8 @@ Item fields:
   source_id     str|None  stable external ref (PR url, Linear ID, Slack permalink) for dedup
   working_on    bool      pin to top of next-actions; auto-cleared when the item leaves NEXT
                           or gets a future defer_until
+  output        str       agent-written log: append-only space for `/launch-agent` sessions
+                          to record what they did. User-authored notes go in `body`.
 """
 
 from dataclasses import dataclass, field
@@ -62,6 +64,7 @@ class Item:
     order: int | None = None
     source_id: str | None = None
     working_on: bool = False
+    output: str = ""
 
 
 Priority = Literal[1, 2, 3, 4, 5]

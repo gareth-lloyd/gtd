@@ -40,6 +40,7 @@ class ItemSerializer(serializers.Serializer):
             "order": instance.order,
             "source_id": instance.source_id,
             "working_on": instance.working_on,
+            "output": instance.output,
         }
 
 
@@ -149,6 +150,7 @@ class ItemPatchSerializer(serializers.Serializer):
     order = serializers.IntegerField(required=False, allow_null=True)
     source_id = serializers.CharField(required=False, allow_null=True, allow_blank=False)
     working_on = serializers.BooleanField(required=False)
+    output = serializers.CharField(required=False, allow_blank=True)
 
 
 class ProjectPatchSerializer(serializers.Serializer):
