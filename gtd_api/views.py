@@ -44,6 +44,16 @@ def _require_env(svc: GtdService, env: str) -> Response | None:
     return None
 
 
+def _require_purge_confirmation(request: Request) -> Response | None:
+    """Reject hard-deletes lacking the confirmation header — defends against scripted misclicks."""
+    if request.headers.get("X-Confirm-Purge") != "true":
+        return Response(
+            {"error": "purge requires X-Confirm-Purge: true header"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    return None
+
+
 @api_view(["GET"])
 def list_envs(request: Request) -> Response:
     return Response([{"name": e} for e in _service().list_envs()])
@@ -217,6 +227,8 @@ def item_detail(request: Request, env: str, item_id: str) -> Response:
 
 @api_view(["POST"])
 def item_purge(request: Request, env: str, item_id: str) -> Response:
+    if missing := _require_purge_confirmation(request):
+        return missing
     try:
         _service().purge(env, item_id)
     except KeyError:
@@ -313,10 +325,14 @@ def project_detail(request: Request, env: str, project_id: str) -> Response:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(ProjectSerializer(project).data)
 
+    if missing := _require_purge_confirmation(request):
+        return missing
     try:
         svc.delete_project(env, project_id)
     except KeyError:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    except ValueError as e:
+        return Response({"error": str(e)}, status=status.HTTP_409_CONFLICT)
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 

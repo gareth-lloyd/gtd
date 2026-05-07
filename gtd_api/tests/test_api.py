@@ -312,10 +312,19 @@ class TestItems:
     def test_purge_hard_deletes(self, api):
         created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
         api.delete(f"/api/envs/work/items/{created['id']}/")  # → trash
-        r = api.post(f"/api/envs/work/items/{created['id']}/purge/")
+        r = api.post(f"/api/envs/work/items/{created['id']}/purge/", HTTP_X_CONFIRM_PURGE="true")
         assert r.status_code == 204
         r = api.get(f"/api/envs/work/items/{created['id']}/")
         assert r.status_code == 404
+
+    def test_purge_without_confirm_header_returns_400(self, api):
+        """Defense in depth: hard-deletes require explicit confirmation."""
+        created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
+        api.delete(f"/api/envs/work/items/{created['id']}/")
+        r = api.post(f"/api/envs/work/items/{created['id']}/purge/")
+        assert r.status_code == 400
+        # Item must still exist after the rejected call.
+        assert api.get(f"/api/envs/work/items/{created['id']}/").status_code == 200
 
     def test_move_out_of_trash(self, api):
         created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
@@ -566,10 +575,26 @@ class TestProjects:
 
     def test_delete_project(self, api):
         api.post("/api/envs/work/projects/", {"id": "p1", "title": "P"}, format="json")
-        r = api.delete("/api/envs/work/projects/p1/")
+        r = api.delete("/api/envs/work/projects/p1/", HTTP_X_CONFIRM_PURGE="true")
         assert r.status_code == 204
         r = api.get("/api/envs/work/projects/p1/")
         assert r.status_code == 404
+
+    def test_delete_project_without_confirm_header_returns_400(self, api):
+        api.post("/api/envs/work/projects/", {"id": "p1", "title": "P"}, format="json")
+        r = api.delete("/api/envs/work/projects/p1/")
+        assert r.status_code == 400
+        # Project still exists.
+        assert api.get("/api/envs/work/projects/p1/").status_code == 200
+
+    def test_delete_project_with_active_items_returns_409(self, api):
+        """Refuse to orphan items; the user must clear them first."""
+        api.post("/api/envs/work/projects/", {"id": "p1", "title": "P"}, format="json")
+        item = api.post("/api/envs/work/items/", {"title": "child"}, format="json").json()
+        api.patch(f"/api/envs/work/items/{item['id']}/", {"project": "p1"}, format="json")
+        r = api.delete("/api/envs/work/projects/p1/", HTTP_X_CONFIRM_PURGE="true")
+        assert r.status_code == 409
+        assert "active items" in r.json()["error"]
 
 
 class TestTemplates:

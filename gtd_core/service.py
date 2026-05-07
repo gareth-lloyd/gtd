@@ -8,6 +8,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from gtd_core.agent_launch import launch_claude_session
+from gtd_core.audit import log_purge
 from gtd_core.dates import defer_expired, is_overdue, parse_human_date, parse_human_datetime
 from gtd_core.models import Bucket, Energy, EnvConfig, Item, Priority, Project
 from gtd_core.repository import EnvRepository
@@ -295,6 +296,7 @@ class GtdService:
 
     def purge(self, env: str, item_id: str) -> None:
         """Hard delete: remove the file from disk. Irreversible."""
+        log_purge(self.root, env=env, kind="item", target_id=item_id)
         self.repo(env).delete(item_id)
 
     def filter_items(
@@ -558,7 +560,21 @@ class GtdService:
         repo.save_project(project)
         return project
 
-    def delete_project(self, env: str, project_id: str) -> None:
+    def delete_project(self, env: str, project_id: str, cascade: bool = False) -> None:
+        """Hard-delete a project. Refuses if active items reference it.
+
+        Active = anywhere outside archive/trash. The default refuses to orphan
+        items so the caller has to clean up first; pass `cascade=True` only
+        when the caller has a deliberate reason to bypass that guard. Items
+        themselves are never deleted by this call — `cascade` only controls
+        the guard, not item lifecycle.
+        """
+        if not cascade and any(i.project == project_id for i in self.repo(env).list_items()):
+            raise ValueError(
+                f"project {project_id!r} has active items — "
+                "move or archive them before deleting the project"
+            )
+        log_purge(self.root, env=env, kind="project", target_id=project_id)
         self.repo(env).delete_project(project_id)
 
     # ---- Templates ----

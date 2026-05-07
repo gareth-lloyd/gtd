@@ -1324,3 +1324,89 @@ class TestLaunchAgentSession:
         item = svc.capture("work", "x")
         svc.launch_agent_session("work", item.id)
         assert captured["cwd"] == tmp_path
+
+
+class TestPurgeAudit:
+    """Hard deletes leave a record so an accidental purge can be reconstructed."""
+
+    def test_purge_writes_audit_log(self, svc, data_root):
+        item = svc.capture("work", "Bye")
+        svc.purge("work", item.id)
+        log = data_root / ".audit" / "purges.ndjson"
+        assert log.exists()
+        import json
+
+        records = [json.loads(line) for line in log.read_text().splitlines() if line.strip()]
+        assert any(
+            r["env"] == "work" and r["kind"] == "item" and r["id"] == item.id for r in records
+        )
+
+    def test_purge_writes_log_before_delete(self, svc, data_root, monkeypatch):
+        """If file deletion fails, the audit record must already be written."""
+        from gtd_core.repository import EnvRepository
+
+        item = svc.capture("work", "Survives")
+
+        def boom(self, item_id):
+            raise OSError("simulated unlink failure")
+
+        monkeypatch.setattr(EnvRepository, "delete", boom)
+        with pytest.raises(OSError):
+            svc.purge("work", item.id)
+
+        log = data_root / ".audit" / "purges.ndjson"
+        assert log.exists()
+        assert item.id in log.read_text()
+
+
+class TestDeleteProjectGuard:
+    def _project(self, svc) -> str:
+        proj = Project(
+            id="proj-x",
+            title="Project X",
+            body="",
+            created=datetime(2026, 4, 1),
+            updated=datetime(2026, 4, 1),
+        )
+        svc.repo("work").save_project(proj)
+        return proj.id
+
+    def test_refuses_when_active_items_exist(self, svc):
+        project_id = self._project(svc)
+        item = svc.capture("work", "in project")
+        svc.update("work", item.id, {"project": project_id})
+
+        with pytest.raises(ValueError, match="active items"):
+            svc.delete_project("work", project_id)
+
+    def test_succeeds_when_no_active_items(self, svc):
+        project_id = self._project(svc)
+        svc.delete_project("work", project_id)
+        assert svc.get_project("work", project_id) is None
+
+    def test_archive_and_trash_items_do_not_block_delete(self, svc):
+        """Items already gone (archive/trash) shouldn't block hygiene cleanup."""
+        project_id = self._project(svc)
+        item = svc.capture("work", "in project")
+        svc.update("work", item.id, {"project": project_id})
+        svc.move("work", item.id, Bucket.ARCHIVE)
+        svc.delete_project("work", project_id)
+        assert svc.get_project("work", project_id) is None
+
+    def test_cascade_true_overrides_guard(self, svc):
+        project_id = self._project(svc)
+        item = svc.capture("work", "in project")
+        svc.update("work", item.id, {"project": project_id})
+        svc.delete_project("work", project_id, cascade=True)
+        assert svc.get_project("work", project_id) is None
+        # The item itself is untouched — cascade only bypasses the guard,
+        # it doesn't delete actions.
+        assert svc.get_item("work", item.id) is not None
+
+    def test_writes_audit_log(self, svc, data_root):
+        project_id = self._project(svc)
+        svc.delete_project("work", project_id)
+        log = data_root / ".audit" / "purges.ndjson"
+        assert log.exists()
+        assert "project" in log.read_text()
+        assert project_id in log.read_text()

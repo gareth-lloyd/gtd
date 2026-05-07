@@ -100,8 +100,8 @@ const API_BASE = "/api";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
     ...init,
+    headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },
   });
   if (!res.ok) {
     let message = `${res.status} ${res.statusText}`;
@@ -181,7 +181,10 @@ export const api = {
   deleteItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/`, { method: "DELETE" }),
   purgeItem: (env: string, id: string) =>
-    request<void>(`/envs/${env}/items/${id}/purge/`, { method: "POST" }),
+    request<void>(`/envs/${env}/items/${id}/purge/`, {
+      method: "POST",
+      headers: { "X-Confirm-Purge": "true" },
+    }),
 
   listProjects: (env: string, includeInactive = false) => {
     const qs = includeInactive ? "?include_inactive=true" : "";
@@ -214,7 +217,10 @@ export const api = {
       body: JSON.stringify(patch),
     }),
   deleteProject: (env: string, id: string) =>
-    request<void>(`/envs/${env}/projects/${id}/`, { method: "DELETE" }),
+    request<void>(`/envs/${env}/projects/${id}/`, {
+      method: "DELETE",
+      headers: { "X-Confirm-Purge": "true" },
+    }),
   reorderProjectItems: (env: string, projectId: string, itemIds: string[]) =>
     request<Item[]>(`/envs/${env}/projects/${projectId}/reorder/`, {
       method: "POST",
