@@ -230,12 +230,21 @@ export const api = {
   listTemplates: (env: string) => request<Template[]>(`/envs/${env}/templates/`),
 
   listSearchCorpus: async (env: string): Promise<{ items: Item[]; projects: Project[] }> => {
-    const [items, projects] = await Promise.all([
+    // Trim archive/trash to the last 30 days so the index doesn't grow unbounded
+    // as `done` items pile up. Active items (inbox/next/waiting/someday/reference)
+    // pull without `since` so a stale next-action stays searchable indefinitely.
+    const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+    const [active, archived, projects] = await Promise.all([
+      request<Item[]>(`/envs/${env}/items/?include_deferred=true`),
       request<Item[]>(
-        `/envs/${env}/items/?include_archive=true&include_trash=true&include_deferred=true`,
+        `/envs/${env}/items/?include_archive=true&include_trash=true&include_deferred=true&since=${since}`,
       ),
       request<Project[]>(`/envs/${env}/projects/?include_inactive=true`),
     ]);
+    // The `archived` request returns active items too (since covers all buckets);
+    // dedupe by id, preferring the active fetch's representation.
+    const activeIds = new Set(active.map((i) => i.id));
+    const items = [...active, ...archived.filter((i) => !activeIds.has(i.id))];
     return { items, projects };
   },
 

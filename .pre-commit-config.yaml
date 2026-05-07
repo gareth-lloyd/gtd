@@ -47,3 +47,11 @@ repos:
         files: ^frontend/.*\.(ts|tsx|js|cjs|mjs|json|css|md|html)$
         exclude: ^frontend/(dist|coverage|playwright-report|test-results|e2e/\.tmp|package-lock\.json)
         pass_filenames: true
+
+      - id: tsc
+        name: tsc (frontend)
+        language: system
+        # tsc is whole-project — same reasoning as the pyright hook above.
+        entry: bash -c 'cd frontend && npm run --silent typecheck'
+        files: ^frontend/.*\.(ts|tsx)$
+        pass_filenames: false

@@ -210,6 +210,48 @@ class TestItems:
         r = api.get("/api/envs/nope/items/")
         assert r.status_code == 404
 
+    def test_list_filters_archive_by_since(self, api, tmp_project):
+        """`?since=YYYY-MM-DD` keeps only items with `updated >= since`.
+
+        Used by the search index to trim the archive corpus to recent history.
+        """
+        from datetime import datetime
+
+        from gtd_core.models import Bucket, Item
+        from gtd_core.repository import EnvRepository
+
+        repo = EnvRepository(tmp_project / "data", "work")
+        repo.save(
+            Item(
+                id="2026-01-01T0900-old",
+                title="Old archived",
+                body="",
+                created=datetime(2026, 1, 1, 9, 0),
+                updated=datetime(2026, 1, 1, 9, 0),
+                status=Bucket.ARCHIVE,
+            )
+        )
+        repo.save(
+            Item(
+                id="2026-04-15T0900-recent",
+                title="Recent archived",
+                body="",
+                created=datetime(2026, 4, 15, 9, 0),
+                updated=datetime(2026, 4, 15, 9, 0),
+                status=Bucket.ARCHIVE,
+            )
+        )
+
+        r = api.get("/api/envs/work/items/?include_archive=true&since=2026-04-01")
+        assert r.status_code == 200
+        ids = {i["id"] for i in r.json()}
+        assert "2026-04-15T0900-recent" in ids
+        assert "2026-01-01T0900-old" not in ids
+
+    def test_list_invalid_since_returns_400(self, api):
+        r = api.get("/api/envs/work/items/?since=not-a-date")
+        assert r.status_code == 400
+
     def test_capture_unknown_env_returns_404(self, api):
         """POST capture on an unknown env should 404, not silently capture into limbo."""
         r = api.post("/api/envs/nope/items/", {"title": "T"}, format="json")

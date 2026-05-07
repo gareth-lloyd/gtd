@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.conf import settings
 from django.utils.timezone import localdate
 from rest_framework import status
@@ -93,6 +95,14 @@ def items(request: Request, env: str) -> Response:
         # Cap next-bucket lists by each project's `max_next_items`. Callers
         # can override with ?show_all=true to see every item (e.g. review).
         respect_next_cap = bucket is Bucket.NEXT and params.get("show_all") != "true"
+        since_str = _qstr(params.get("since"))
+        try:
+            since = date.fromisoformat(since_str) if since_str else None
+        except ValueError:
+            return Response(
+                {"error": f"invalid since: {since_str!r} (expected YYYY-MM-DD)"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         filtered = svc.list_items(
             env,
             bucket=bucket,
@@ -107,6 +117,7 @@ def items(request: Request, env: str) -> Response:
             include_trash=params.get("include_trash") == "true",
             no_project=params.get("no_project") == "true",
             overdue=params.get("overdue") == "true",
+            since=since,
         )
         projects_by_id = {p.id: p for p in svc.list_projects(env, include_inactive=True)}
         return Response(

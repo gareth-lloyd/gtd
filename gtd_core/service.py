@@ -422,6 +422,7 @@ class GtdService:
         include_trash: bool = False,
         no_project: bool = False,
         overdue: bool = False,
+        since: date | None = None,
     ) -> list[Item]:
         items = self.repo(env).list_items(
             bucket=bucket,
@@ -441,6 +442,8 @@ class GtdService:
         today = self._now().date()
         if overdue:
             filtered = [i for i in filtered if is_overdue(i.due, today)]
+        if since is not None:
+            filtered = [i for i in filtered if i.updated.date() >= since]
         if respect_next_cap:
             projects_by_id = {p.id: p for p in self.repo(env).list_projects(include_inactive=True)}
             filtered = apply_next_item_cap(filtered, projects_by_id, today)
