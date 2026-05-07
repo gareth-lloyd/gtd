@@ -17,7 +17,7 @@ tags:
 time_minutes: 5
 title: 'Review PR #43302: [UNSUP][W2.Frontend] hotel department CRUD endpoints, Bridge
   API, admin UI'
-updated: 2026-05-06 13:24:02.867484
+updated: 2026-05-06 15:02:47.271470
 waiting_on: null
 waiting_since: null
 working_on: false

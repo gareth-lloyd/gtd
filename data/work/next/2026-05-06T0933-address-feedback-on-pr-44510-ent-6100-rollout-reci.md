@@ -7,7 +7,8 @@ defer_until: null
 due: null
 energy: high
 id: 2026-05-06T0933-address-feedback-on-pr-44510-ent-6100-rollout-reci
-order: null
+order: 4
+output: ''
 project: 2026-04-16T1351-ship
 source_id: https://github.com/canary-technologies-corp/canary/pull/44510
 tags:
@@ -15,7 +16,7 @@ tags:
 - github
 time_minutes: 90
 title: 'Address feedback on PR #44510 (ENT-6100 Rollout Recipes) — Ryan blocking issues'
-updated: 2026-05-06 11:22:02.754382
+updated: 2026-05-06 16:10:43.011530
 waiting_on: null
 waiting_since: null
 working_on: false
