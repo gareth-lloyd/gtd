@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Set up: 1Password for Eng (accept invite)'
-updated: 2026-05-07 11:29:44.792978
+updated: 2026-05-07 13:23:08.367092
 waiting_on: null
 waiting_since: null
 working_on: false

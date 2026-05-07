@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-07 12:30:52.101901
-defer_until: null
+created: 2026-05-07 12:30:52.101901
+defer_until: 2026-05-11 09:00:00
 due: null
 energy: null
 id: 2026-05-07T1230-follow-up-with-bree-kiosk-on-brand-definition-in-s
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Follow up with Bree/Kiosk on Brand definition in step configurator
-updated: *id001
+updated: 2026-05-07 12:31:19.695069
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -17,7 +17,7 @@ tags:
 time_minutes: 10
 title: 'Reply on SRE-466: alan asks about creating Triage tickets to Integration from
   lambda'
-updated: 2026-05-07 11:15:35.015381
+updated: 2026-05-07 13:11:32.227877
 waiting_on: null
 waiting_since: null
 working_on: false

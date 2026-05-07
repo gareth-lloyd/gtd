@@ -1,20 +1,20 @@
 ---
-area: null
+area: admin
 contexts: []
-created: &id001 2026-05-07 11:14:17.074788
+created: 2026-05-07 11:14:17.074788
 defer_until: null
-due: null
-energy: low
+due: 2026-05-07
+energy: medium
 id: 2026-05-07T1114-positive-actions-for-laura-let-s-plan-them
 order: 0
 output: ''
-project: null
+project: 2026-04-10T0840-people
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Positive actions for Laura - let's plan them
-updated: *id001
+updated: 2026-05-07 12:31:37.812676
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

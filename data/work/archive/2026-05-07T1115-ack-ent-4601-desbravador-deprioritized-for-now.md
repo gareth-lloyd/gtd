@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 5
 title: 'Ack ENT-4601: Desbravador deprioritized for now'
-updated: 2026-05-07 11:15:35.016659
+updated: 2026-05-07 13:10:56.325873
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,19 @@
 ---
-area: null
+area: engineering
 contexts: []
 created: 2026-05-06 16:10:04.573963
 defer_until: null
-due: null
-energy: low
+due: 2026-05-07
+energy: medium
 id: 2026-05-06T1610-ihg-hotelkey-pms
 order: 1
 output: ''
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
-time_minutes: 5
-title: IHG hotelkey PMS onboarding workflow
-updated: 2026-05-06 17:09:22.080717
+time_minutes: 15
+title: IHG hotelkey PMS onboarding workflow - Fix issues with workflow
+updated: 2026-05-07 12:32:00.089650
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,18 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-05 14:42:49.093231
-defer_until: null
+created: 2026-05-05 14:42:49.093231
+defer_until: 2026-05-08 09:00:00
 due: null
 energy: low
 id: 2026-05-05T1442-read-ihg-notes
 order: null
+output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
 title: Read IHG notes
-updated: *id001
+updated: 2026-05-07 12:32:05.631724
 waiting_on: null
 waiting_since: null
 working_on: false
