@@ -13,10 +13,11 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review Andres's voice transcript eng design
-updated: 2026-05-06 16:00:39.935233
+updated: 2026-05-07 12:05:42.771169
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
 https://above-property-call-search.vercel.app/
+https://www.notion.so/canarytechnologies/Above-Property-Call-Transcripts-35881468615180efa569db321c85aa3b?source=copy_link
