@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter, useLocation } from "react-router-dom";
 import type { Item, Project } from "./api";
+import { ROUTER_FUTURE } from "./routerConfig";
 
 vi.mock("./api", () => ({
   api: {
@@ -93,7 +94,7 @@ function renderCard(item: Item, initial = "/work/next") {
   }
   const utils = render(
     <QueryClientProvider client={qc}>
-      <MemoryRouter initialEntries={[initial]}>
+      <MemoryRouter initialEntries={[initial]} future={ROUTER_FUTURE}>
         <SelectionProvider>
           <LocationProbe />
           <ItemCard env="work" item={item} projects={[projectA, projectB]} />

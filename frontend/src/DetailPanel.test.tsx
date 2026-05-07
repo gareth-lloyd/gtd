@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import type { Item } from "./api";
+import { ROUTER_FUTURE } from "./routerConfig";
 
 vi.mock("./api", () => ({
   api: {
@@ -79,7 +80,7 @@ function renderPanel(options: { withSelect?: string; withHover?: string } = {}) 
   qc.setQueryData(["items", "work", "next", [], "", "", false], [testItem]);
   const utils = render(
     <QueryClientProvider client={qc}>
-      <MemoryRouter initialEntries={["/work/next"]}>
+      <MemoryRouter initialEntries={["/work/next"]} future={ROUTER_FUTURE}>
         <SelectionProvider>
           {options.withSelect && <SelectTrigger itemId={options.withSelect} />}
           {options.withHover && <HoverTrigger itemId={options.withHover} />}
@@ -172,7 +173,7 @@ describe("DetailPanel", () => {
     qc.setQueryData(["items", "work", "next", [], "", "", false], [itemWithOutput]);
     render(
       <QueryClientProvider client={qc}>
-        <MemoryRouter initialEntries={["/work/next"]}>
+        <MemoryRouter initialEntries={["/work/next"]} future={ROUTER_FUTURE}>
           <SelectionProvider>
             <SelectTrigger itemId="item-1" />
             <DetailPanel env="work" />

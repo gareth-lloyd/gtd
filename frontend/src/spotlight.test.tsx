@@ -2,10 +2,15 @@ import { describe, it, expect } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { MemoryRouter, useLocation } from "react-router-dom";
 import { useSpotlight } from "./spotlight";
+import { ROUTER_FUTURE } from "./routerConfig";
 
 function wrap(initial: string) {
   return function Wrapper({ children }: { children: React.ReactNode }) {
-    return <MemoryRouter initialEntries={[initial]}>{children}</MemoryRouter>;
+    return (
+      <MemoryRouter initialEntries={[initial]} future={ROUTER_FUTURE}>
+        {children}
+      </MemoryRouter>
+    );
   };
 }
 

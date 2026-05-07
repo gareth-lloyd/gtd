@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useState, useSyncExternalStore } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Link,
@@ -230,26 +230,21 @@ function ContentArea({ env }: { env: string }) {
 // point without firing our own dedicated /items?status=next request — that
 // would either drift from NextActionsView's filter-aware key (silent
 // duplicate fetches under filters) or pin the cache to a fragile key shape.
+// useSyncExternalStore (not useEffect+setState) — synchronous cache fires
+// during another component's render would otherwise trigger React's
+// "setState during render of another component" warning.
 function useWorkingOnId(env: string): string | null {
   const qc = useQueryClient();
-  const [id, setId] = useState<string | null>(null);
-  useEffect(() => {
-    const compute = () => {
-      const lists = qc.getQueriesData<Item[]>({ queryKey: ["items", env] });
-      let next: string | null = null;
-      for (const [, data] of lists) {
-        const found = data?.find((i) => i.working_on);
-        if (found) {
-          next = found.id;
-          break;
-        }
-      }
-      setId((prev) => (prev === next ? prev : next));
-    };
-    compute();
-    return qc.getQueryCache().subscribe(compute);
-  }, [env, qc]);
-  return id;
+  const subscribe = useCallback((cb: () => void) => qc.getQueryCache().subscribe(cb), [qc]);
+  const getSnapshot = useCallback(() => {
+    const lists = qc.getQueriesData<Item[]>({ queryKey: ["items", env] });
+    for (const [, data] of lists) {
+      const found = data?.find((i) => i.working_on);
+      if (found) return found.id;
+    }
+    return null;
+  }, [qc, env]);
+  return useSyncExternalStore(subscribe, getSnapshot);
 }
 
 function SpotlightWorkingOnButton({ env }: { env: string }) {

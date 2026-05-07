@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
+import { ROUTER_FUTURE } from "./routerConfig";
 
 // Mock the API module so we don't need a running backend
 vi.mock("./api", () => ({
@@ -85,7 +86,7 @@ function renderApp(initialEntry = "/work/next") {
   });
   return render(
     <QueryClientProvider client={qc}>
-      <MemoryRouter initialEntries={[initialEntry]}>
+      <MemoryRouter initialEntries={[initialEntry]} future={ROUTER_FUTURE}>
         <App />
       </MemoryRouter>
     </QueryClientProvider>,
