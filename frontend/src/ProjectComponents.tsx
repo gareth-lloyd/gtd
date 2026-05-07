@@ -21,7 +21,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { api, type Item, type Project } from "./api";
 import { Button } from "./Button";
 import { ItemCard } from "./ItemCard";
-import { fmtDate, fmtMinutes, generateProjectId, sortProjects } from "./format";
+import { fmtMinutes, generateProjectId, sortProjects } from "./format";
 import { invalidateProjectQueries, isHiddenByDefer } from "./ItemEdit";
 import { useEnvParam } from "./useEnvParam";
 
@@ -158,7 +158,9 @@ function ProjectStatsRow({ stats }: { stats: ProjectStats }) {
   const energyOrder: EnergyKey[] = ["high", "medium", "low"];
   return (
     <div className="project-stats">
-      <span className="chip stat-total">⏱ {fmtMinutes(stats.totalMinutes)} total</span>
+      {stats.totalMinutes > 0 && (
+        <span className="chip stat-total">⏱ {fmtMinutes(stats.totalMinutes)} total</span>
+      )}
       {energyOrder.map((k) =>
         stats.byEnergy[k].count > 0 ? (
           <span key={k} className={`chip stat-energy stat-energy-${k}`}>
@@ -221,26 +223,20 @@ export function ProjectDetailView() {
 
   return (
     <div className={`project-detail${isDone ? " done" : ""}`}>
-      <Link className="back-link" to="..">
-        ← All projects
-      </Link>
-      <h2>
-        {project.title}
-        <ProjectBadges project={project} />
-      </h2>
+      <header className="project-header">
+        <h2>{project.title}</h2>
+        <div className="project-badges-row">
+          <ProjectBadges project={project} />
+        </div>
+      </header>
       {actions.length > 0 && <ProjectStatsRow stats={stats} />}
-      <div className="project-meta">
-        {project.outcome && <span className="outcome">{project.outcome}</span>}
-        {project.due && <span className="chip">due {project.due}</span>}
-        {project.area && <span className="chip">{project.area}</span>}
-        <span className="chip">
-          {actions.length} action{actions.length !== 1 ? "s" : ""}
-          {!includeDeferred && deferredHidden > 0 && ` (${deferredHidden} deferred)`}
-        </span>
-        <span className="chip dates" title={`created ${fmtDate(project.created)}`}>
-          updated {fmtDate(project.updated)}
-        </span>
-      </div>
+      {(project.outcome || project.due || project.area) && (
+        <div className="project-meta">
+          {project.outcome && <span className="outcome">{project.outcome}</span>}
+          {project.due && <span className="chip">due {project.due}</span>}
+          {project.area && <span className="chip">{project.area}</span>}
+        </div>
+      )}
       <div className="project-actions">
         {project.status !== "complete" && (
           <Button
@@ -269,11 +265,11 @@ export function ProjectDetailView() {
             ⏸ Hold
           </Button>
         )}
-        <button onClick={() => setEditing(!editing)} disabled={anyPending}>
+        <button className="quiet" onClick={() => setEditing(!editing)} disabled={anyPending}>
           {editing ? "Close" : "Edit"}
         </button>
         <Button
-          className="danger"
+          className="quiet danger"
           onClick={() => {
             if (
               confirm(
