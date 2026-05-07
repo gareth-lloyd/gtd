@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Reply to Rebecca Sheehan re: Django access request'
-updated: 2026-05-07 11:29:44.798892
+updated: 2026-05-07 14:03:32.972301
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-07 11:52:11.611020
-defer_until: null
+created: 2026-05-07 11:52:11.611020
+defer_until: 2026-05-08 09:00:00
 due: null
 energy: low
 id: 2026-05-07T1152-watch-cs-instruction-vids
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Watch CS instruction vids
-updated: *id001
+updated: 2026-05-07 14:04:17.515680
 waiting_on: null
 waiting_since: null
 working_on: false

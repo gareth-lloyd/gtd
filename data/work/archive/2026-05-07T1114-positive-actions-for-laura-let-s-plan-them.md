@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Positive actions for Laura - let's plan them
-updated: 2026-05-07 12:31:37.812676
+updated: 2026-05-07 14:04:24.813876
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

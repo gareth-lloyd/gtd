@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: IHG users at BW hotel
-updated: 2026-05-07 12:28:07.848862
+updated: 2026-05-07 14:25:55.045358
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://linear.app/canary-technologies/issue/ENT-6142/remove-ihg-users-from-bw-hotel
