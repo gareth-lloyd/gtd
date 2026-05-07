@@ -84,6 +84,7 @@ export interface EnvSummary {
 export interface SnapshotStatus {
   dirty_count: number;
   dirty_files: string[];
+  unloadable_files: string[];
 }
 
 export interface SnapshotResult {

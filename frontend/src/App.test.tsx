@@ -42,7 +42,9 @@ vi.mock("./api", () => ({
       },
     ]),
     getItem: vi.fn().mockResolvedValue(null),
-    snapshotStatus: vi.fn().mockResolvedValue({ dirty_count: 0, dirty_files: [] }),
+    snapshotStatus: vi
+      .fn()
+      .mockResolvedValue({ dirty_count: 0, dirty_files: [], unloadable_files: [] }),
     listProjects: vi.fn().mockResolvedValue([]),
     listSearchCorpus: vi.fn().mockResolvedValue({ items: [], projects: [] }),
     captureItem: vi.fn().mockResolvedValue({

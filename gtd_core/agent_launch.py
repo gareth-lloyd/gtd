@@ -49,7 +49,8 @@ def build_prompt(
         "You were launched from a GTD next-action item. Do the work described at "
         "the bottom of this prompt, write your findings into the item's `output:` "
         "field, then STOP and hand control back to the user. You are running in "
-        "auto mode (permissions bypassed) — be deliberate.",
+        "auto permission mode — most tools run without per-call prompts, but "
+        "destructive and outbound actions still need confirmation. Be deliberate.",
         "## STRICT: you do not decide when the task is finished",
         (
             "GTD task lifecycle is the user's call, not yours. Your job ends when "
@@ -153,9 +154,11 @@ def launch_claude_session(*, prompt: str, cwd: Path | None = None, auto: bool = 
     The iTerm session is interactive — the agent stays running so the user
     can supervise, course-correct, and read the result.
 
-    `auto=True` passes `--dangerously-skip-permissions` so the agent runs
-    without per-tool prompts. Suitable for the GTD use case where the user
-    is launching trusted tasks they intend to be hands-off.
+    `auto=True` passes `--permission-mode auto` so the agent runs without
+    per-tool prompts but still respects the harness-level safety rails
+    (outbound writes, destructive tools, etc.). Suitable for the GTD use
+    case where the user is launching trusted tasks they intend to be
+    hands-off but does not want a fully unconstrained shell.
     """
     if not shutil.which("claude"):
         raise AgentLaunchNotConfiguredError(
@@ -172,7 +175,7 @@ def launch_claude_session(*, prompt: str, cwd: Path | None = None, auto: bool = 
     with os.fdopen(fd, "w") as f:
         f.write(prompt)
 
-    auto_flag = " --dangerously-skip-permissions" if auto else ""
+    auto_flag = " --permission-mode auto" if auto else ""
     file_q = shlex.quote(str(prompt_file))
     # `trap` ensures the prompt file is removed even if the user closes the
     # iTerm window mid-session (SIGHUP) — bare `; rm` would leak in that case.

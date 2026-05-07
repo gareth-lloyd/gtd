@@ -628,6 +628,17 @@ class TestSnapshot:
         assert r.status_code == 200
         assert r.json()["dirty_count"] == 1
 
+    def test_status_includes_unloadable_files(self, api, tmp_project):
+        """A broken markdown file in any bucket must be surfaced, not crash the endpoint."""
+        broken = tmp_project / "data" / "work" / "inbox" / "broken.md"
+        broken.parent.mkdir(parents=True, exist_ok=True)
+        broken.write_text('---\nid: broken\ntitle: "unbalanced\ncreated: 2026-04-10\n---\nbody\n')
+        r = api.get("/api/snapshot/status/")
+        assert r.status_code == 200
+        body = r.json()
+        assert "unloadable_files" in body
+        assert any("broken.md" in f for f in body["unloadable_files"])
+
     def test_snapshot_commit(self, api, tmp_project):
         api.post("/api/envs/work/items/", {"title": "T"}, format="json")
         r = api.post("/api/snapshot/", {"message": "test snapshot"}, format="json")

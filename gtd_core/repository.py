@@ -1,3 +1,4 @@
+import logging
 import os
 from pathlib import Path
 
@@ -12,6 +13,8 @@ from gtd_core.storage import (
     load_project,
     load_template,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class EnvRepository:
@@ -47,7 +50,13 @@ class EnvRepository:
         return items
 
     def _list_bucket(self, bucket: Bucket) -> list[Item]:
-        return [load_item(p, bucket) for p in list_item_paths(self.env_root / bucket.value)]
+        out: list[Item] = []
+        for p in list_item_paths(self.env_root / bucket.value):
+            try:
+                out.append(load_item(p, bucket))
+            except Exception as exc:
+                logger.warning("skipping unloadable item %s: %s", p, exc)
+        return out
 
     def get(self, item_id: str) -> Item | None:
         for bucket in Bucket:
@@ -117,7 +126,12 @@ class EnvRepository:
     # ---- Projects ----
 
     def list_projects(self, include_inactive: bool = False) -> list[Project]:
-        all_projects = [load_project(p) for p in list_item_paths(self.env_root / "projects")]
+        all_projects: list[Project] = []
+        for p in list_item_paths(self.env_root / "projects"):
+            try:
+                all_projects.append(load_project(p))
+            except Exception as exc:
+                logger.warning("skipping unloadable project %s: %s", p, exc)
         if include_inactive:
             return all_projects
         return [p for p in all_projects if p.status in ("active", "on_hold")]
@@ -142,7 +156,13 @@ class EnvRepository:
     # ---- Templates ----
 
     def list_templates(self) -> list[Template]:
-        return [load_template(p) for p in list_item_paths(self.env_root / "templates")]
+        out: list[Template] = []
+        for p in list_item_paths(self.env_root / "templates"):
+            try:
+                out.append(load_template(p))
+            except Exception as exc:
+                logger.warning("skipping unloadable template %s: %s", p, exc)
+        return out
 
     def save_template(self, template: Template) -> Template:
         path = self.env_root / "templates" / f"{template.id}.md"

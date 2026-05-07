@@ -287,18 +287,20 @@ class TestLaunchClaudeSession:
         as_script = cmds[0][2]
         assert f"cd {shlex.quote(str(Path.home()))}" in as_script
 
-    def test_auto_mode_default_passes_skip_permissions_flag(self, monkeypatch, tmp_path):
+    def test_auto_mode_default_passes_permission_mode_auto(self, monkeypatch, tmp_path):
         _mock_which(monkeypatch)
         cmds = _mock_subprocess(monkeypatch)
 
         launch_claude_session(prompt="hi", cwd=tmp_path)
 
-        assert "--dangerously-skip-permissions" in cmds[0][2]
+        assert "--permission-mode auto" in cmds[0][2]
+        assert "--dangerously-skip-permissions" not in cmds[0][2]
 
-    def test_auto_mode_off_omits_skip_permissions_flag(self, monkeypatch, tmp_path):
+    def test_auto_mode_off_omits_permission_mode_flag(self, monkeypatch, tmp_path):
         _mock_which(monkeypatch)
         cmds = _mock_subprocess(monkeypatch)
 
         launch_claude_session(prompt="hi", cwd=tmp_path, auto=False)
 
+        assert "--permission-mode" not in cmds[0][2]
         assert "--dangerously-skip-permissions" not in cmds[0][2]

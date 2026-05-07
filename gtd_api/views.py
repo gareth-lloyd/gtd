@@ -379,6 +379,7 @@ def snapshot_status_endpoint(request: Request) -> Response:
         {
             "dirty_count": result.dirty_count,
             "dirty_files": result.dirty_files,
+            "unloadable_files": result.unloadable_files,
         }
     )
 

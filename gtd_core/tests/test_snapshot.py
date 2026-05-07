@@ -142,3 +142,56 @@ class TestSnapshotStatus:
         status = snapshot_status(repo_root)
         assert status.dirty_count == 1
         assert not any("unrelated" in f for f in status.dirty_files)
+
+
+class TestSnapshotStatusUnloadableFiles:
+    """A corrupt YAML in any bucket must surface so the user sees it in the UI.
+
+    `unloadable_files` lists relative paths under `data/` that exist as `.md`
+    files but fail to load. Empty list when everything parses.
+    """
+
+    def test_no_unloadable_files_when_clean(self, repo_root):
+        (repo_root / "data" / "work" / "inbox").mkdir(parents=True, exist_ok=True)
+        status = snapshot_status(repo_root)
+        assert status.unloadable_files == []
+
+    def test_lists_unloadable_item_file(self, repo_root):
+        broken = repo_root / "data" / "work" / "inbox" / "broken.md"
+        broken.parent.mkdir(parents=True, exist_ok=True)
+        broken.write_text('---\nid: broken\ntitle: "unbalanced\ncreated: 2026-04-10\n---\nbody\n')
+        status = snapshot_status(repo_root)
+        assert any("broken.md" in f for f in status.unloadable_files)
+
+    def test_unloadable_paths_are_relative_to_repo_root(self, repo_root):
+        broken = repo_root / "data" / "work" / "inbox" / "broken.md"
+        broken.parent.mkdir(parents=True, exist_ok=True)
+        broken.write_text('---\nid: broken\ntitle: "unbalanced\ncreated: 2026-04-10\n---\nbody\n')
+        status = snapshot_status(repo_root)
+        for f in status.unloadable_files:
+            assert not f.startswith("/")
+            assert f.startswith("data/")
+
+    def test_unchanged_files_are_not_reparsed_on_repeat_call(self, repo_root, monkeypatch):
+        """Polled every 10s by the UI — unchanged files must not re-open + re-parse."""
+        from gtd_core import snapshot as snapshot_mod
+
+        good = repo_root / "data" / "work" / "inbox" / "good.md"
+        good.parent.mkdir(parents=True, exist_ok=True)
+        good.write_text("---\nid: good\ntitle: ok\ncreated: 2026-04-10\nupdated: 2026-04-10\n---\n")
+
+        snapshot_mod._unloadable_cache.clear()
+        calls = {"n": 0}
+        real_load_item = snapshot_mod.load_item
+
+        def counting_load(*args, **kwargs):
+            calls["n"] += 1
+            return real_load_item(*args, **kwargs)
+
+        monkeypatch.setattr(snapshot_mod, "load_item", counting_load)
+
+        snapshot_status(repo_root)
+        first = calls["n"]
+        snapshot_status(repo_root)
+        # Second call hits the cache — no further loads for unchanged files.
+        assert calls["n"] == first

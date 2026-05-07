@@ -1,8 +1,12 @@
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
 import git
+
+from gtd_core.models import Bucket
+from gtd_core.storage import list_item_paths, load_item, load_project, load_template
 
 DATA_PATHSPEC = "data"
 
@@ -21,6 +25,7 @@ class SnapshotResult:
 class SnapshotStatus:
     dirty_count: int
     dirty_files: list[str] = field(default_factory=list)
+    unloadable_files: list[str] = field(default_factory=list)
 
 
 def snapshot(
@@ -78,4 +83,57 @@ def snapshot_status(repo_root: Path) -> SnapshotStatus:
         if f.startswith(f"{DATA_PATHSPEC}/"):
             dirty.append(f)
 
-    return SnapshotStatus(dirty_count=len(dirty), dirty_files=sorted(set(dirty)))
+    return SnapshotStatus(
+        dirty_count=len(dirty),
+        dirty_files=sorted(set(dirty)),
+        unloadable_files=_scan_unloadable(repo_root),
+    )
+
+
+def _scan_unloadable(repo_root: Path) -> list[str]:
+    """Repo-root-relative paths of `.md` files that fail to parse.
+
+    The frontend polls `snapshot_status` every 10s. Re-parsing every file in
+    every bucket on every poll would dominate CPU as the archive grows, so
+    results are memoized per `(path, mtime_ns)` and only changed files re-load.
+    """
+    data_dir = repo_root / DATA_PATHSPEC
+    if not data_dir.is_dir():
+        return []
+    bad: list[str] = []
+    envs = sorted(p for p in data_dir.iterdir() if p.is_dir() and not p.name.startswith("."))
+    for env_dir in envs:
+        for bucket in Bucket:
+            _collect_unloadable(
+                env_dir / bucket.value, lambda p, b=bucket: load_item(p, b), repo_root, bad
+            )
+        _collect_unloadable(env_dir / "projects", load_project, repo_root, bad)
+        _collect_unloadable(env_dir / "templates", load_template, repo_root, bad)
+    return sorted(set(bad))
+
+
+_unloadable_cache: dict[tuple[str, int], bool] = {}
+
+
+def _collect_unloadable(
+    directory: Path,
+    loader: Callable[[Path], object],
+    repo_root: Path,
+    bad: list[str],
+) -> None:
+    for path in list_item_paths(directory):
+        try:
+            mtime = path.stat().st_mtime_ns
+        except OSError:
+            continue
+        key = (str(path), mtime)
+        cached = _unloadable_cache.get(key)
+        if cached is None:
+            try:
+                loader(path)
+                cached = False
+            except Exception:
+                cached = True
+            _unloadable_cache[key] = cached
+        if cached:
+            bad.append(str(path.relative_to(repo_root)))

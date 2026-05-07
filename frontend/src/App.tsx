@@ -323,9 +323,18 @@ function SyncButton() {
   });
 
   const count = data?.dirty_count ?? 0;
+  const unloadable = data?.unloadable_files ?? [];
 
   return (
     <div className="sync">
+      {unloadable.length > 0 && (
+        <span
+          className="count dirty"
+          title={`Unloadable files (won't appear in lists):\n${unloadable.join("\n")}`}
+        >
+          ⚠ {unloadable.length} unloadable
+        </span>
+      )}
       <span className={count > 0 ? "count dirty" : "count"}>
         {count === 0 ? "clean" : `${count} dirty`}
       </span>

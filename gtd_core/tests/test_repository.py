@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 import pytest
@@ -237,3 +238,72 @@ class TestProjects:
     def test_delete_missing_project_raises(self, repo):
         with pytest.raises(KeyError):
             repo.delete_project("nope")
+
+
+class TestUnloadableFilesAreSkipped:
+    """A single broken YAML file must not 500 every list endpoint.
+
+    Storage parses YAML on load — a quote, tab, or hand-edit mistake in one
+    file would otherwise raise straight out of the list comprehension and
+    take the whole bucket (and the API) down with it.
+    """
+
+    def _write_broken(self, path):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        # Unbalanced quote in the title — yaml will refuse to parse this.
+        path.write_text('---\nid: broken\ntitle: "unbalanced\ncreated: 2026-04-10\n---\nbody\n')
+
+    def test_list_items_skips_unloadable_file(self, repo, data_root, caplog):
+        repo.save(_make_item("good", Bucket.INBOX))
+        self._write_broken(data_root / "work" / "inbox" / "broken.md")
+
+        with caplog.at_level(logging.WARNING, logger="gtd_core.repository"):
+            items = repo.list_items(bucket=Bucket.INBOX)
+
+        assert {i.id for i in items} == {"good"}
+        assert any("broken.md" in rec.message for rec in caplog.records)
+
+    def test_list_items_all_buckets_skips_unloadable(self, repo, data_root):
+        repo.save(_make_item("good_inbox", Bucket.INBOX))
+        repo.save(_make_item("good_next", Bucket.NEXT))
+        self._write_broken(data_root / "work" / "inbox" / "broken.md")
+
+        items = repo.list_items()
+        assert {i.id for i in items} == {"good_inbox", "good_next"}
+
+    def test_list_projects_skips_unloadable(self, repo, data_root, caplog):
+        from gtd_core.models import Project
+
+        good = Project(
+            id="goodproj",
+            title="Good",
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+        )
+        repo.save_project(good)
+        self._write_broken(data_root / "work" / "projects" / "bad.md")
+
+        with caplog.at_level(logging.WARNING, logger="gtd_core.repository"):
+            projects = repo.list_projects()
+
+        assert {p.id for p in projects} == {"goodproj"}
+        assert any("bad.md" in rec.message for rec in caplog.records)
+
+    def test_list_templates_skips_unloadable(self, repo, data_root, caplog):
+        from gtd_core.models import Template
+
+        good = Template(
+            id="goodtpl",
+            title="Good template",
+            body="",
+            recurrence="weekly",
+        )
+        repo.save_template(good)
+        self._write_broken(data_root / "work" / "templates" / "bad.md")
+
+        with caplog.at_level(logging.WARNING, logger="gtd_core.repository"):
+            templates = repo.list_templates()
+
+        assert {t.id for t in templates} == {"goodtpl"}
+        assert any("bad.md" in rec.message for rec in caplog.records)

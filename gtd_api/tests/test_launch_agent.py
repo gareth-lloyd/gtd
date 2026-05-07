@@ -116,7 +116,8 @@ class TestLaunchAgentEndpoint:
         r = api.post(f"/api/envs/work/items/{item_id}/launch-agent/")
 
         assert r.status_code == 204
-        assert "--dangerously-skip-permissions" in mock.cmds[0][2]
+        assert "--permission-mode auto" in mock.cmds[0][2]
+        assert "--dangerously-skip-permissions" not in mock.cmds[0][2]
 
     def test_returns_404_for_unknown_item(self, api, monkeypatch):
         _mock_launcher(monkeypatch)
