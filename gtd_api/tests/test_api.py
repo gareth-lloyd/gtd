@@ -199,6 +199,22 @@ class TestItems:
         assert r.status_code == 400
         assert "context" in r.json()["error"]
 
+    def test_list_invalid_status_returns_400(self, api):
+        """Bogus ?status= should be a client error, not a 500."""
+        r = api.get("/api/envs/work/items/?status=bogus")
+        assert r.status_code == 400
+        assert "bogus" in r.json()["error"]
+
+    def test_list_unknown_env_returns_404(self, api):
+        """GET on an unknown env should 404, not 500/empty-list."""
+        r = api.get("/api/envs/nope/items/")
+        assert r.status_code == 404
+
+    def test_capture_unknown_env_returns_404(self, api):
+        """POST capture on an unknown env should 404, not silently capture into limbo."""
+        r = api.post("/api/envs/nope/items/", {"title": "T"}, format="json")
+        assert r.status_code == 404
+
     def test_move_item(self, api):
         created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
         r = api.post(
@@ -657,6 +673,43 @@ class TestSnapshot:
         r = api.post("/api/snapshot/", {}, format="json")
         assert r.status_code == 200
         assert r.json()["committed"] is False
+
+    def test_snapshot_push_failure_returns_502(self, api, monkeypatch):
+        """A failed push must surface as a network error so the UI's MutationCache toasts."""
+        from gtd_api import views as views_mod
+        from gtd_core.snapshot import SnapshotResult
+
+        def fake_snapshot(*_args, **_kwargs):
+            return SnapshotResult(
+                committed=True,
+                sha="abc123",
+                files_changed=1,
+                message="x",
+                pushed=False,
+                push_error="auth failed",
+            )
+
+        monkeypatch.setattr(views_mod, "snapshot", fake_snapshot)
+        api.post("/api/envs/work/items/", {"title": "T"}, format="json")
+        r = api.post("/api/snapshot/", {"push": True}, format="json")
+        assert r.status_code == 502
+        body = r.json()
+        assert body["pushed"] is False
+        assert body["push_error"] == "auth failed"
+
+    def test_snapshot_push_not_requested_returns_200(self, api, monkeypatch):
+        from gtd_api import views as views_mod
+        from gtd_core.snapshot import SnapshotResult
+
+        def fake_snapshot(*_args, **_kwargs):
+            return SnapshotResult(
+                committed=True, sha="abc123", files_changed=1, message="x", pushed=False
+            )
+
+        monkeypatch.setattr(views_mod, "snapshot", fake_snapshot)
+        api.post("/api/envs/work/items/", {"title": "T"}, format="json")
+        r = api.post("/api/snapshot/", {}, format="json")
+        assert r.status_code == 200
 
     def test_snapshot_clears_expired_defers(self, api):
         captured = api.post("/api/envs/work/items/", {"title": "Deferred"}, format="json").json()

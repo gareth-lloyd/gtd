@@ -1250,3 +1250,77 @@ class TestWorkingOn:
         assert a.id in visible
         assert b.id in visible
         assert c.id not in visible
+
+
+class TestGetItem:
+    def test_returns_item_by_id(self, svc):
+        item = svc.capture("work", "Find me")
+        loaded = svc.get_item("work", item.id)
+        assert loaded is not None
+        assert loaded.id == item.id
+
+    def test_missing_returns_none(self, svc):
+        assert svc.get_item("work", "no-such-item") is None
+
+
+class TestSpawnRecurringWrapper:
+    def test_calls_through_to_recurring_module(self, svc, data_root):
+        from gtd_core.models import Template
+        from gtd_core.repository import EnvRepository
+
+        repo = EnvRepository(data_root, "work")
+        repo.save_template(
+            Template(id="daily-standup", title="Daily standup", body="", recurrence="daily")
+        )
+        spawned = svc.spawn_recurring("work")
+        assert any(i.title == "Daily standup" for i in spawned)
+
+
+class TestClearExpiredDefersWrapper:
+    def test_clears_past_defer_until(self, svc):
+        item = svc.capture("work", "Resurface me")
+        svc.update("work", item.id, {"defer_until": datetime(2026, 4, 9, 9, 0)})
+        cleared = svc.clear_expired_defers("work")
+        assert cleared == 1
+        loaded = svc.get_item("work", item.id)
+        assert loaded is not None
+        assert loaded.defer_until is None
+
+
+class TestLaunchAgentSession:
+    def test_missing_item_raises_keyerror(self, svc):
+        with pytest.raises(KeyError):
+            svc.launch_agent_session("work", "no-such-item")
+
+    def test_calls_launcher_with_built_prompt(self, svc, monkeypatch):
+        captured: dict = {}
+
+        def fake_launch(*, prompt, cwd=None, auto=True):
+            captured["prompt"] = prompt
+            captured["cwd"] = cwd
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
+        item = svc.capture("work", "Review PR #42", body="https://example.com/pr/42")
+        svc.launch_agent_session("work", item.id)
+        assert "Review PR #42" in captured["prompt"]
+        assert "https://example.com/pr/42" in captured["prompt"]
+
+    def test_pins_working_on(self, svc, monkeypatch):
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", lambda **_: None)
+        item = svc.capture("work", "Drive this")
+        svc.launch_agent_session("work", item.id)
+        loaded = svc.get_item("work", item.id)
+        assert loaded is not None
+        assert loaded.working_on is True
+
+    def test_passes_agent_cwd_from_init(self, data_root, tmp_path, monkeypatch):
+        captured: dict = {}
+
+        def fake_launch(*, prompt, cwd=None, auto=True):
+            captured["cwd"] = cwd
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
+        svc = GtdService(data_root, now=lambda: datetime(2026, 4, 10, 9, 15), agent_cwd=tmp_path)
+        item = svc.capture("work", "x")
+        svc.launch_agent_session("work", item.id)
+        assert captured["cwd"] == tmp_path

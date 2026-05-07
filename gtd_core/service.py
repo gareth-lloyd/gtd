@@ -7,6 +7,7 @@ from datetime import date, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from gtd_core.agent_launch import launch_claude_session
 from gtd_core.dates import defer_expired, is_overdue, parse_human_date, parse_human_datetime
 from gtd_core.models import Bucket, Energy, EnvConfig, Item, Priority, Project
 from gtd_core.repository import EnvRepository
@@ -52,9 +53,15 @@ class AiCaptureOutcome:
 
 
 class GtdService:
-    def __init__(self, root: Path, now: Callable[[], datetime] | None = None):
+    def __init__(
+        self,
+        root: Path,
+        now: Callable[[], datetime] | None = None,
+        agent_cwd: Path | None = None,
+    ):
         self.root = Path(root)
         self._now = now or _default_now
+        self._agent_cwd = agent_cwd
 
     def list_envs(self) -> list[str]:
         if not self.root.exists():
@@ -70,6 +77,35 @@ class GtdService:
 
     def config(self, env: str) -> EnvConfig:
         return self.repo(env).load_config()
+
+    def get_item(self, env: str, item_id: str) -> Item | None:
+        return self.repo(env).get(item_id)
+
+    def spawn_recurring(self, env: str) -> list[Item]:
+        from gtd_core.recurring import spawn_recurring as _spawn
+
+        return _spawn(self.repo(env))
+
+    def clear_expired_defers(self, env: str) -> int:
+        from gtd_core.maintenance import clear_expired_defers as _clear
+
+        return _clear(self.repo(env), now=self._now)
+
+    def launch_agent_session(self, env: str, item_id: str) -> None:
+        """Raises `KeyError` if the item is gone — the API translates to 404."""
+        from gtd_core.agent_launch import build_prompt
+
+        repo = self.repo(env)
+        item = repo.get(item_id)
+        if item is None:
+            raise KeyError(item_id)
+        if not item.working_on:
+            item = self.update(env, item_id, {"working_on": True})
+        project = self.get_project(env, item.project) if item.project else None
+        prompt = build_prompt(
+            item, item_path=repo.path_for(item), env_dir=repo.env_root, project=project
+        )
+        launch_claude_session(prompt=prompt, cwd=self._agent_cwd)
 
     # ---- Items ----
 

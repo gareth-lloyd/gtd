@@ -8,8 +8,6 @@ from rest_framework.response import Response
 from gtd_core.agent_launch import (
     AgentLaunchError,
     AgentLaunchNotConfiguredError,
-    build_prompt,
-    launch_claude_session,
 )
 from gtd_core.ai import (
     AiCaptureError,
@@ -17,9 +15,7 @@ from gtd_core.ai import (
     AiCaptureNotConfiguredError,
     AiCaptureUpstreamError,
 )
-from gtd_core.maintenance import clear_expired_defers
 from gtd_core.models import Bucket
-from gtd_core.recurring import spawn_recurring
 from gtd_core.service import GtdService
 from gtd_core.snapshot import snapshot, snapshot_status
 
@@ -39,7 +35,13 @@ from .serializers import (
 
 
 def _service() -> GtdService:
-    return GtdService(settings.GTD_DATA_ROOT)
+    return GtdService(settings.GTD_DATA_ROOT, agent_cwd=settings.GTD_AGENT_CWD)
+
+
+def _require_env(svc: GtdService, env: str) -> Response | None:
+    if env not in svc.list_envs():
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    return None
 
 
 @api_view(["GET"])
@@ -50,8 +52,8 @@ def list_envs(request: Request) -> Response:
 @api_view(["GET"])
 def env_config(request: Request, env: str) -> Response:
     svc = _service()
-    if env not in svc.list_envs():
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    if missing := _require_env(svc, env):
+        return missing
     cfg = svc.config(env)
     return Response(
         {
@@ -66,10 +68,18 @@ def env_config(request: Request, env: str) -> Response:
 @api_view(["GET", "POST"])
 def items(request: Request, env: str) -> Response:
     svc = _service()
+    if missing := _require_env(svc, env):
+        return missing
     if request.method == "GET":
         params = request.query_params
         bucket_name = params.get("status")
-        bucket = Bucket(bucket_name) if bucket_name else None
+        try:
+            bucket = Bucket(bucket_name) if bucket_name else None
+        except ValueError:
+            return Response(
+                {"error": f"unknown bucket: {bucket_name!r}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         # Cap next-bucket lists by each project's `max_next_items`. Callers
         # can override with ?show_all=true to see every item (e.g. review).
         respect_next_cap = bucket is Bucket.NEXT and params.get("show_all") != "true"
@@ -109,8 +119,8 @@ def items(request: Request, env: str) -> Response:
 @api_view(["POST"])
 def items_capture_ai(request: Request, env: str) -> Response:
     svc = _service()
-    if env not in svc.list_envs():
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    if missing := _require_env(svc, env):
+        return missing
     serializer = CaptureAiSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     try:
@@ -148,8 +158,8 @@ DONE_MAX_PAGE_SIZE = 200
 @api_view(["GET"])
 def items_done(request: Request, env: str) -> Response:
     svc = _service()
-    if env not in svc.list_envs():
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    if missing := _require_env(svc, env):
+        return missing
     page = _parse_int(request.query_params.get("page"))
     page_size = _parse_int(request.query_params.get("page_size"))
     if page is None:
@@ -182,7 +192,7 @@ def items_done(request: Request, env: str) -> Response:
 def item_detail(request: Request, env: str, item_id: str) -> Response:
     svc = _service()
     if request.method == "GET":
-        item = svc.repo(env).get(item_id)
+        item = svc.get_item(env, item_id)
         if item is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(ItemSerializer(item).data)
@@ -227,22 +237,10 @@ def item_move(request: Request, env: str, item_id: str) -> Response:
 
 @api_view(["POST"])
 def item_launch_agent(request: Request, env: str, item_id: str) -> Response:
-    svc = _service()
-    repo = svc.repo(env)
-    item = repo.get(item_id)
-    if item is None:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if not item.working_on:
-        item = svc.update(env, item_id, {"working_on": True})
-
-    project = svc.get_project(env, item.project) if item.project else None
-    prompt = build_prompt(
-        item, item_path=repo.path_for(item), env_dir=repo.env_root, project=project
-    )
-
     try:
-        launch_claude_session(prompt=prompt, cwd=settings.GTD_AGENT_CWD)
+        _service().launch_agent_session(env, item_id)
+    except KeyError:
+        return Response(status=status.HTTP_404_NOT_FOUND)
     except AgentLaunchNotConfiguredError as e:
         return Response({"error": str(e)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
     except AgentLaunchError as e:
@@ -340,8 +338,8 @@ def project_reorder(request: Request, env: str, project_id: str) -> Response:
 @api_view(["GET"])
 def templates(request: Request, env: str) -> Response:
     svc = _service()
-    if env not in svc.list_envs():
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    if missing := _require_env(svc, env):
+        return missing
     return Response(TemplateSerializer(svc.list_templates(env), many=True).data)
 
 
@@ -349,17 +347,18 @@ def templates(request: Request, env: str) -> Response:
 def snapshot_endpoint(request: Request) -> Response:
     svc = _service()
     for env_name in svc.list_envs():
-        repo = svc.repo(env_name)
-        spawn_recurring(repo)
-        clear_expired_defers(repo, now=svc._now)
+        svc.spawn_recurring(env_name)
+        svc.clear_expired_defers(env_name)
 
     serializer = SnapshotRequestSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
+    push = serializer.validated_data.get("push", False)
     result = snapshot(
         settings.BASE_DIR,
         message=serializer.validated_data.get("message") or None,
-        push=serializer.validated_data.get("push", False),
+        push=push,
     )
+    http_status = status.HTTP_502_BAD_GATEWAY if push and result.push_error else status.HTTP_200_OK
     return Response(
         {
             "committed": result.committed,
@@ -368,7 +367,8 @@ def snapshot_endpoint(request: Request) -> Response:
             "message": result.message,
             "pushed": result.pushed,
             "push_error": result.push_error,
-        }
+        },
+        status=http_status,
     )
 
 
