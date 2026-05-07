@@ -127,6 +127,27 @@ class TestSpawnRecurring:
         second = spawn_recurring(repo, today=date(2026, 4, 10))
         assert len(second) == 0
 
+    def test_crash_after_template_write_does_not_double_spawn(self, repo, data_root, monkeypatch):
+        """Conservative: missed spawn over duplicate spawn."""
+        repo.save_template(_tmpl("daily", last_spawned=None))
+
+        from gtd_core.repository import EnvRepository
+
+        original_save = EnvRepository.save
+
+        def boom(self, item):
+            raise OSError("simulated mid-spawn crash")
+
+        monkeypatch.setattr(EnvRepository, "save", boom)
+        with pytest.raises(OSError):
+            spawn_recurring(repo, today=date(2026, 4, 10))
+
+        monkeypatch.setattr(EnvRepository, "save", original_save)
+        spawned = spawn_recurring(repo, today=date(2026, 4, 10))
+        assert spawned == []
+        inbox = list(repo.list_items(bucket=Bucket.INBOX))
+        assert inbox == []
+
     def test_spawn_collision_with_existing_item_suffixes(self, repo):
         """If today's user already captured an item that happens to share the
         slug a template would generate, the spawn must not silently overwrite

@@ -22,6 +22,7 @@ class EnvRepository:
         self.root = Path(root)
         self.env = env
         self.env_root = self.root / env
+        self._id_index: dict[str, Bucket] | None = None
 
     # ---- Items ----
 
@@ -59,11 +60,33 @@ class EnvRepository:
         return out
 
     def get(self, item_id: str) -> Item | None:
+        bucket = self._lookup_bucket(item_id)
+        if bucket is None:
+            return None
+        path = self.path_for_id(item_id, bucket)
+        if not path.exists():
+            # Index disagrees with disk (e.g. file moved by an external tool).
+            # Rebuild and try once more — naturally returns None if truly gone.
+            self._id_index = None
+            return self.get(item_id)
+        return load_item(path, bucket)
+
+    def _lookup_bucket(self, item_id: str) -> Bucket | None:
+        if self._id_index is None:
+            self._build_index()
+        assert self._id_index is not None
+        return self._id_index.get(item_id)
+
+    def _build_index(self) -> None:
+        # Earlier buckets win on collision, matching the pre-index `get`
+        # behavior of scanning in `Bucket` declaration order. Crash recovery
+        # relies on this — a relocate that left a corpse in the destination
+        # must still resolve `get` to the live source-bucket file.
+        index: dict[str, Bucket] = {}
         for bucket in Bucket:
-            path = self.path_for_id(item_id, bucket)
-            if path.exists():
-                return load_item(path, bucket)
-        return None
+            for path in list_item_paths(self.env_root / bucket.value):
+                index.setdefault(path.stem, bucket)
+        self._id_index = index
 
     def reserve_id(self, base_id: str) -> str:
         """Return `base_id`, or `base_id-2`/`-3`/... if already taken anywhere.
@@ -81,10 +104,12 @@ class EnvRepository:
         return f"{base_id}-{n}"
 
     def _id_exists(self, item_id: str) -> bool:
-        return any(self.path_for_id(item_id, b).exists() for b in Bucket)
+        return self._lookup_bucket(item_id) is not None
 
     def save(self, item: Item) -> Item:
         dump_item(self.path_for(item), item)
+        if self._id_index is not None:
+            self._id_index[item.id] = item.status
         return item
 
     def move(self, item_id: str, new_bucket: Bucket) -> Item:
@@ -113,15 +138,22 @@ class EnvRepository:
         new_path.parent.mkdir(parents=True, exist_ok=True)
         os.replace(old_path, new_path)
         item.status = new_bucket
+        if self._id_index is not None:
+            self._id_index[item.id] = new_bucket
         return item
 
     def delete(self, item_id: str) -> None:
-        for bucket in Bucket:
-            path = self.path_for_id(item_id, bucket)
-            if path.exists():
-                path.unlink()
-                return
-        raise KeyError(item_id)
+        bucket = self._lookup_bucket(item_id)
+        if bucket is None:
+            raise KeyError(item_id)
+        path = self.path_for_id(item_id, bucket)
+        if not path.exists():
+            # Index disagrees with disk; rebuild and try once more.
+            self._id_index = None
+            return self.delete(item_id)
+        path.unlink()
+        if self._id_index is not None:
+            self._id_index.pop(item_id, None)
 
     # ---- Projects ----
 

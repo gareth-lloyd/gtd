@@ -1,4 +1,5 @@
 import logging
+import os
 from datetime import datetime
 
 import pytest
@@ -307,3 +308,62 @@ class TestUnloadableFilesAreSkipped:
 
         assert {t.id for t in templates} == {"goodtpl"}
         assert any("bad.md" in rec.message for rec in caplog.records)
+
+
+class TestIdIndexCache:
+    """`get` is on the hot path of every PATCH/move — used to scan all 7
+    buckets calling `path.exists()`. The index drops it to O(1) for the
+    common case."""
+
+    def test_get_after_save_finds_item(self, repo):
+        repo.save(_make_item("indexed", Bucket.INBOX))
+        loaded = repo.get("indexed")
+        assert loaded is not None
+        assert loaded.status == Bucket.INBOX
+
+    def test_get_after_relocate_returns_correct_bucket(self, repo):
+        repo.save(_make_item("hops", Bucket.INBOX))
+        item = repo.get("hops")
+        assert item is not None
+        repo.relocate(item, Bucket.NEXT)
+        loaded = repo.get("hops")
+        assert loaded is not None
+        assert loaded.status == Bucket.NEXT
+
+    def test_get_after_delete_returns_none(self, repo):
+        repo.save(_make_item("doomed", Bucket.INBOX))
+        repo.delete("doomed")
+        assert repo.get("doomed") is None
+
+    def test_get_uses_index_does_not_rescan_filesystem(self, repo, monkeypatch):
+        """Once the index is populated, `get` must not rescan bucket dirs."""
+        repo.save(_make_item("cached", Bucket.NEXT))
+        assert repo.get("cached") is not None
+
+        from gtd_core import repository as repo_mod
+
+        called = {"n": 0}
+        original = repo_mod.list_item_paths
+
+        def counted(directory):
+            called["n"] += 1
+            return original(directory)
+
+        monkeypatch.setattr(repo_mod, "list_item_paths", counted)
+        repo.get("cached")
+        assert called["n"] == 0
+
+    def test_get_after_index_drift_falls_back_and_recovers(self, repo, data_root):
+        """If the index says bucket X but the file is in Y (e.g. external mv),
+        `get` should not return None — it must invalidate and rediscover."""
+        repo.save(_make_item("drifted", Bucket.INBOX))
+        # Prime cache.
+        assert repo.get("drifted") is not None
+        # Bypass the API and move the file directly on disk.
+        os.rename(
+            data_root / "work" / "inbox" / "drifted.md",
+            data_root / "work" / "next" / "drifted.md",
+        )
+        loaded = repo.get("drifted")
+        assert loaded is not None
+        assert loaded.status == Bucket.NEXT

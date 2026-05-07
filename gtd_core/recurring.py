@@ -63,10 +63,18 @@ def is_due(template: Template, today: date) -> bool:
 
 
 def spawn_from_template(template: Template, repo: EnvRepository, today: date) -> Item:
+    """Crash-safe in the conservative direction.
+
+    A failure between `save_template` and `repo.save` leaves a missed spawn
+    rather than a duplicate — preferable to silently accumulating items on
+    every retried sync.
+    """
     from datetime import datetime
 
     now = datetime.combine(today, datetime.min.time())
     item_id = repo.reserve_id(make_item_id(now, template.title))
+    template.last_spawned = today
+    repo.save_template(template)
     item = Item(
         id=item_id,
         title=template.title,
@@ -82,8 +90,6 @@ def spawn_from_template(template: Template, repo: EnvRepository, today: date) ->
         tags=list(template.tags),
     )
     repo.save(item)
-    template.last_spawned = today
-    repo.save_template(template)
     return item
 
 
