@@ -9,13 +9,14 @@ due: null
 energy: high
 id: 2026-04-28T1211-my-legacy-on-ent-needs-to-be-to-drive-hard-boundar
 order: 2
-project: 2026-04-16T1348-ideas
+output: ''
+project: 2026-05-05-trusted-portfolios
 source_id: null
 tags: []
 time_minutes: 30
 title: Plan the work to create harder portfolio boundaries. IHG slaesforce, Wyndham
   update etc
-updated: 2026-05-01 14:24:08.558080
+updated: 2026-05-07 14:30:17.021209
 waiting_on: null
 waiting_since: null
 working_on: false
