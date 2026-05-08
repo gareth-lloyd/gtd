@@ -26,11 +26,12 @@ test.describe("workflow", () => {
     await expect(page.locator(".item-title", { hasText: "Call Alice" })).toBeVisible();
     await expect(page.locator(".item-title", { hasText: "Draft wiki" })).toBeVisible();
 
-    // Toggle the @calls checkbox in the filter aside.
+    // Toggle the @calls filter. Clicking the wrapping label avoids the
+    // double-toggle that happens with .check() on checkboxes inside labels.
     await page
       .locator(".filter-section", { hasText: "Contexts" })
-      .getByRole("checkbox", { name: "@calls" })
-      .check();
+      .locator("label", { hasText: "@calls" })
+      .click();
 
     await expect(page).toHaveURL(/contexts=calls/);
     await expect(page.locator(".item-title", { hasText: "Call Alice" })).toBeVisible();
