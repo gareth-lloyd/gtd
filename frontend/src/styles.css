@@ -1970,6 +1970,12 @@ button.quiet.danger {
   margin: 4px 0;
 }
 
+.detail-dates {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
 .detail-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
