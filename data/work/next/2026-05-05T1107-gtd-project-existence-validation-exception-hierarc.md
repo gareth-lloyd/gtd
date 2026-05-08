@@ -7,7 +7,8 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T1107-gtd-project-existence-validation-exception-hierarc
-order: null
+order: 11
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -15,7 +16,7 @@ tags:
 - backend
 time_minutes: 90
 title: 'GTD: project-existence validation + exception hierarchy'
-updated: 2026-05-05 15:14:02.103848
+updated: 2026-05-08 15:22:23.550452
 waiting_on: null
 waiting_since: null
 working_on: false

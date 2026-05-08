@@ -7,7 +7,8 @@ defer_until: null
 due: null
 energy: high
 id: 2026-05-05T1101-gtd-multi-select-and-batch-operations-on-items
-order: null
+order: 6
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -16,7 +17,7 @@ tags:
 - backend
 time_minutes: 240
 title: 'GTD: multi-select and batch operations on items'
-updated: 2026-05-05 15:13:45.793830
+updated: 2026-05-08 15:22:23.550452
 waiting_on: null
 waiting_since: null
 working_on: false

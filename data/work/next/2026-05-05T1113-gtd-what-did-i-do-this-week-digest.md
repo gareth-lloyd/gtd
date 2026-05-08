@@ -8,7 +8,8 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T1113-gtd-what-did-i-do-this-week-digest
-order: null
+order: 12
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -17,7 +18,7 @@ tags:
 - skills
 time_minutes: 90
 title: 'GTD: what did I do this week digest'
-updated: 2026-05-05 15:14:27.944329
+updated: 2026-05-08 15:22:23.550452
 waiting_on: null
 waiting_since: null
 working_on: false

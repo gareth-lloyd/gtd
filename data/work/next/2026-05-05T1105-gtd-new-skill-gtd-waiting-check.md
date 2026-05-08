@@ -7,7 +7,8 @@ defer_until: null
 due: null
 energy: low
 id: 2026-05-05T1105-gtd-new-skill-gtd-waiting-check
-order: null
+order: 9
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -15,7 +16,7 @@ tags:
 - skills
 time_minutes: 60
 title: 'GTD: new skill /gtd-waiting-check'
-updated: 2026-05-05 15:13:57.253822
+updated: 2026-05-08 15:22:23.550452
 waiting_on: null
 waiting_since: null
 working_on: false

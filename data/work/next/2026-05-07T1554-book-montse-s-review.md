@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Book Montse's review
-updated: 2026-05-08 15:00:04.338539
+updated: 2026-05-08 15:28:46.506923
 waiting_on: null
 waiting_since: null
 working_on: false

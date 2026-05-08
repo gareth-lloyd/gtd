@@ -6,13 +6,14 @@ defer_until: null
 due: null
 energy: high
 id: 2026-05-05T0832-build-gtd-doctor-lint-data-dir-for-fk-rot-integrit
-order: null
+order: 4
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags: []
 time_minutes: 180
 title: 'Build gtd-doctor: lint data dir for FK rot + integrity issues'
-updated: 2026-05-05 15:05:35.977303
+updated: 2026-05-08 15:22:23.550452
 waiting_on: null
 waiting_since: null
 working_on: false

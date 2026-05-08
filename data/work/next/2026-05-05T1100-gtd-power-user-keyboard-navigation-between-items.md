@@ -7,7 +7,8 @@ defer_until: null
 due: null
 energy: high
 id: 2026-05-05T1100-gtd-power-user-keyboard-navigation-between-items
-order: null
+order: 5
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -15,7 +16,7 @@ tags:
 - frontend
 time_minutes: 180
 title: 'GTD: tristate item card + power-user keyboard navigation'
-updated: 2026-05-05 15:13:43.300501
+updated: 2026-05-08 15:22:23.550452
 waiting_on: null
 waiting_since: null
 working_on: false
@@ -58,12 +59,15 @@ Setters:
   `ItemList`), clamp at ends, no wrap. Side-effect: clears editingId.
 
 Interactions:
-- Click card → `edit(id)` (preserves today's habit).
+- Click idle card → `select(id)` (collapsed + focus ring, no editor).
+- Click selected card → `edit(id)` (open editor).
+- Click editing card → no-op.
 - `j`/`ArrowDown`, `k`/`ArrowUp` → navigate without entering editor.
 - `Enter` (selected, not in input) → `edit(selectedId)`.
-- `Escape` in input → blur input, leave selection.
-- `Escape` outside input, editing → `stopEditing()`.
-- `Escape` outside input, selected → `select(null)`.
+- `Escape` inside the active editor → `stopEditing()` (single keystroke).
+- `Escape` in any other input (capture, search) → blur, leave selection.
+- `Escape` outside any input, editing → `stopEditing()`.
+- `Escape` outside any input, selected → `select(null)`.
 - Spotlight button click still calls `edit(id)`; URL-driven autospotlight
   uses `select(id)` only (don't force editor open).
 

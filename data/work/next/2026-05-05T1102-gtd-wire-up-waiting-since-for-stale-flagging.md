@@ -7,7 +7,8 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T1102-gtd-wire-up-waiting-since-for-stale-flagging
-order: null
+order: 7
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -15,7 +16,7 @@ tags:
 - backend
 time_minutes: 45
 title: 'GTD: wire up waiting_since for stale-flagging'
-updated: 2026-05-05 15:13:48.798438
+updated: 2026-05-08 15:22:23.550452
 waiting_on: null
 waiting_since: null
 working_on: false

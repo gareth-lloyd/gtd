@@ -7,7 +7,8 @@ defer_until: null
 due: null
 energy: low
 id: 2026-05-05T1106-gtd-stale-item-flagging-in-dashboard
-order: null
+order: 10
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -15,7 +16,7 @@ tags:
 - skills
 time_minutes: 30
 title: 'GTD: stale-item flagging in dashboard'
-updated: 2026-05-05 15:13:59.300237
+updated: 2026-05-08 15:22:23.550452
 waiting_on: null
 waiting_since: null
 working_on: false

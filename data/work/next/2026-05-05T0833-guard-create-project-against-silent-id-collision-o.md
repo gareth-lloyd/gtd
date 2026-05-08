@@ -6,13 +6,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-05-05T0833-guard-create-project-against-silent-id-collision-o
-order: null
+order: 2
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags: []
 time_minutes: 15
 title: Guard create_project against silent ID collision overwrite
-updated: 2026-05-05 15:05:37.509797
+updated: 2026-05-08 15:22:23.550452
 waiting_on: null
 waiting_since: null
 working_on: false
