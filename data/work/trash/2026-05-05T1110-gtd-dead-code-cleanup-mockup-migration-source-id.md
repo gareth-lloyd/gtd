@@ -8,6 +8,7 @@ due: null
 energy: low
 id: 2026-05-05T1110-gtd-dead-code-cleanup-mockup-migration-source-id
 order: null
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -15,7 +16,7 @@ tags:
 - hygiene
 time_minutes: 30
 title: 'GTD: dead-code cleanup (mockup, migration, source_id)'
-updated: 2026-05-05 15:14:17.484821
+updated: 2026-05-08 15:16:22.799040
 waiting_on: null
 waiting_since: null
 working_on: false

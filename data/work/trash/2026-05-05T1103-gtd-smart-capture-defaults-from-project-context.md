@@ -8,6 +8,7 @@ due: null
 energy: medium
 id: 2026-05-05T1103-gtd-smart-capture-defaults-from-project-context
 order: null
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -16,7 +17,7 @@ tags:
 - frontend
 time_minutes: 120
 title: 'GTD: smart-capture defaults from project context'
-updated: 2026-05-05 15:13:52.789934
+updated: 2026-05-08 15:16:22.770212
 waiting_on: null
 waiting_since: null
 working_on: false

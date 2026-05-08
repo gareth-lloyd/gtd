@@ -13,40 +13,81 @@ source_id: null
 tags:
 - gtd-meta
 - frontend
-time_minutes: 90
-title: 'GTD: power-user keyboard navigation between items'
+time_minutes: 180
+title: 'GTD: tristate item card + power-user keyboard navigation'
 updated: 2026-05-05 15:13:43.300501
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
-**Problem.** No keyboard navigation *between* items in lists. To move
-between cards you have to mouse to each one. Power-user gap. Also a
-small UX bug: Escape only deselects when focus is *outside*
-capture/search — it should deselect when not in a text field, and
-blur (without deselecting) when it is.
+**Scope expansion (2026-05-08).** Originally just keyboard nav. During
+plan review surfaced a deeper concern: today selecting an item and
+editing an item are the *same state* — `ItemCard.tsx:65-69` renders the
+editor whenever `selectedId === item.id`. Walking selection with `j`/`k`
+would whip every visited card into edit mode. So this PR bundles a
+**tristate refactor** with the keyboard nav.
+
+**Problem.** Two related gaps:
+
+1. No keyboard navigation *between* items in lists; mouse-only.
+2. Selection and editing are conflated. Clicking a card to highlight it
+   immediately puts it into edit mode. There's no "I just want to point
+   at this row" state — useful for keyboard nav, multi-select (item 8),
+   and any future per-item action key (`.`, `d`, `m`).
+3. Escape is broken inside capture/search inputs — never deselects.
 
 **Approach.**
-- `frontend/src/SelectionContext.tsx` already owns selected/hovered
-  state. Extend it with `selectNext()` / `selectPrev()` driven by the
-  rendered order in `ItemList`.
-- Wire a global handler in `App.tsx` (lives next to existing
-  `C` / `Shift+C` / `A` shortcuts). Bind:
-  - `j` / `ArrowDown` → next, `k` / `ArrowUp` → prev
-  - `Enter` → expand, `Escape` → collapse (if expanded) else deselect
-  - `e` → expand, `.` → toggle `working_on`, `d` → open defer picker
-- Reuse the existing `isEditableTarget()` filter so shortcuts don't
-  fire inside text inputs.
-- Auto-scroll the selected card into view via
-  `scrollIntoView({ block: "nearest" })`.
-- Fix the Escape backwardness while you're in there.
+
+Tristate model in `SelectionContext`:
+
+| State | Condition | Render |
+|---|---|---|
+| idle | not hovered, not selected | `<CollapsedCard>` |
+| hovered | `hoveredId === id && selectedId !== id` | `<CollapsedCard>` + hover affordances |
+| selected | `selectedId === id && editingId !== id` | `<CollapsedCard>` + focus ring |
+| editing | `editingId === id` | `<SelectedInListCard>` (existing editor) |
+
+Invariant: `editingId !== null ⇒ selectedId === editingId`.
+
+Setters:
+- `select(id)` — sets selectedId, **clears editingId**.
+- `edit(id)` — sets both.
+- `stopEditing()` — clears editingId, keeps selection.
+- `selectNext()` / `selectPrev()` — walk `navigableIds` (registered by
+  `ItemList`), clamp at ends, no wrap. Side-effect: clears editingId.
+
+Interactions:
+- Click card → `edit(id)` (preserves today's habit).
+- `j`/`ArrowDown`, `k`/`ArrowUp` → navigate without entering editor.
+- `Enter` (selected, not in input) → `edit(selectedId)`.
+- `Escape` in input → blur input, leave selection.
+- `Escape` outside input, editing → `stopEditing()`.
+- `Escape` outside input, selected → `select(null)`.
+- Spotlight button click still calls `edit(id)`; URL-driven autospotlight
+  uses `select(id)` only (don't force editor open).
+
+`Cmd/Ctrl+Enter` in editor → `stopEditing()` (was `select(null)`).
+
+Reuse existing `isEditableTarget` filter from `CaptureBar.tsx:20`. After
+nav, scroll into view via `data-item-id` selector +
+`scrollIntoView({ block: "nearest" })`.
+
+**Out of scope (file as follow-ups):**
+- `e` toggle, `.` toggle working_on, `d` defer picker.
+- Wrap-around at list ends.
+- Multi-select (item 8 covers it).
 
 **Verification.**
-- New vitest covering `SelectionContext.selectNext/Prev` ordering
-- Playwright spec at `frontend/e2e/keyboard-nav.spec.ts` covering
-  j/k/Enter/Escape with regression for capture/search Escape
-- Manual: load next-actions list, navigate with j/k, expand with
-  Enter, hit `.` to toggle working_on
+- vitest `SelectionContext.test.tsx`: state machine — `select` clears
+  editingId, `edit` sets both, `stopEditing` keeps selection, `selectNext`/
+  `Prev` clamp.
+- vitest `ItemCard.test.tsx`: editing renders editor; selected-not-editing
+  renders collapsed + selected class.
+- Playwright `keyboard-nav.spec.ts`: j/k/Enter/Escape + capture-Escape
+  regression.
+- Playwright `spotlight.spec.ts`: spotlight button still opens editor.
+- Manual: load `/work/next`, walk j/k, Enter to edit, Escape ladder,
+  capture-Escape doesn't lose selection.
 
-**Size.** S (~90 min)
+**Size.** M (~3h).

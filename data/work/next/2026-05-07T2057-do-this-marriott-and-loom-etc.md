@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: do this marriott and loom etc
-updated: 2026-05-08 13:45:50.640636
+updated: 2026-05-08 15:06:44.053475
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://linear.app/canary-technologies/issue/ENT-6117/change-from-marriott-managed-to-non-managed
