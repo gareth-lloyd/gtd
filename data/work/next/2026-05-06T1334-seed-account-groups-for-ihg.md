@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Seed account groups for IHG
-updated: 2026-05-06 16:10:43.011530
+updated: 2026-05-08 14:16:26.126164
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 ```def seed_ihg_account_groups(apps, schema_editor):

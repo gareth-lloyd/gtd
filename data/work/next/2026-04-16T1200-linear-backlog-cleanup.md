@@ -15,8 +15,8 @@ source_id: null
 tags: []
 time_minutes: 60
 title: linear backlog cleanup
-updated: 2026-05-07 14:28:46.327597
+updated: 2026-05-08 13:53:08.854126
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

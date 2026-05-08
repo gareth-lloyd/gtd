@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 5
 title: 'Reply to Justin Ligman re: IHG sync/retro'
-updated: 2026-05-08 13:49:14.398826
+updated: 2026-05-08 14:03:34.288593
 waiting_on: null
 waiting_since: null
 working_on: false
