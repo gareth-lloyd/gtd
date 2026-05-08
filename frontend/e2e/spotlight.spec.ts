@@ -44,8 +44,8 @@ test.describe("spotlight mode", () => {
     await page.goto(`/${ENV}/next?spotlight=${id}`);
 
     await expect(page.locator(".item-list.spotlight-mode")).toBeVisible();
-    // Spotlit item auto-expands, so its title lives in the title input.
-    await expect(page.locator('input[value="Deep link target"]')).toBeVisible();
+    // Spotlit item is auto-selected; only its title shows.
+    await expect(page.locator(".item.selected", { hasText: "Deep link target" })).toBeVisible();
     await expect(page.locator(".item-title", { hasText: "Should be hidden" })).toHaveCount(0);
   });
 

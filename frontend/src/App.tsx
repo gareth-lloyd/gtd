@@ -210,6 +210,7 @@ function AppShell() {
         <ContentArea env={env} />
       </div>
       <WorkingOnShortcut env={env} />
+      <KeyboardNavShortcut />
     </SelectionProvider>
   );
 }
@@ -261,6 +262,40 @@ function SpotlightWorkingOnButton({ env }: { env: string }) {
       🎯 Focus working item
     </button>
   );
+}
+
+// j/k/ArrowDown/ArrowUp/Enter — keyboard navigation between item cards.
+// Lives inside SelectionProvider so it can read/drive selection. Renders nothing.
+function KeyboardNavShortcut() {
+  const { selectedId, editingId, selectNext, selectPrev, edit } = useSelection();
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+      if (isEditableTarget(e.target)) return;
+      if (e.key === "j" || e.key === "ArrowDown") {
+        e.preventDefault();
+        selectNext();
+      } else if (e.key === "k" || e.key === "ArrowUp") {
+        e.preventDefault();
+        selectPrev();
+      } else if (e.key === "Enter") {
+        if (!selectedId || editingId) return;
+        e.preventDefault();
+        edit(selectedId);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [selectedId, editingId, selectNext, selectPrev, edit]);
+
+  // Scroll the selected card into view when selection moves.
+  useEffect(() => {
+    if (!selectedId) return;
+    const el = document.querySelector(`[data-item-id="${CSS.escape(selectedId)}"]`);
+    el?.scrollIntoView({ block: "nearest" });
+  }, [selectedId]);
+
+  return null;
 }
 
 // Lives inside SelectionProvider so it can read selectedId. Renders nothing.

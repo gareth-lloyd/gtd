@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -136,10 +136,15 @@ export function ItemList({ env, items }: { env: string; items: Item[] }) {
   });
   const [listRef] = useAutoAnimate<HTMLUListElement>();
   const { spotlightId, setSpotlight } = useSpotlight();
-  const { select, selectedId } = useSelection();
+  const { select, selectedId, setNavigableIds } = useSelection();
 
   const spotlitItem = spotlightId ? items.find((i) => i.id === spotlightId) : undefined;
-  const visibleItems = spotlitItem ? [spotlitItem] : items;
+  const visibleItems = useMemo(() => (spotlitItem ? [spotlitItem] : items), [spotlitItem, items]);
+
+  useEffect(() => {
+    setNavigableIds(visibleItems.map((i) => i.id));
+    return () => setNavigableIds([]);
+  }, [visibleItems, setNavigableIds]);
 
   // Auto-select on spotlight transition only. Depending on the id (not the
   // object) keeps this stable across TanStack refetches and lets the user

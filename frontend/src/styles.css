@@ -1500,7 +1500,7 @@ button.quiet.danger {
     border-color 0.15s ease;
 }
 
-.item:hover:not(.expanded) {
+.item:hover:not(.selected) {
   border-color: var(--rule-strong);
 }
 
@@ -1547,11 +1547,16 @@ button.quiet.danger {
   box-shadow: 0 0 0 3px var(--accent-bg);
 }
 
-/* Item card selection/hover states */
+/* Item card selection/hover states.
+   `selected` = keyboard focus / action target (collapsed view, focus ring).
+   `editing` = title/body inputs rendered (`SelectedInListCard`); always also `selected`. */
 .item.selected {
-  cursor: default;
   border-color: var(--accent);
-  box-shadow: 0 0 0 1px rgba(15, 109, 115, 0.18);
+  box-shadow: 0 0 0 1px rgba(15, 109, 115, 0.28);
+}
+
+.item.editing {
+  cursor: default;
 }
 
 .item.hovered:not(.selected) {

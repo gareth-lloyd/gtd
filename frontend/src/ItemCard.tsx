@@ -22,8 +22,9 @@ export function ItemCard({
   item: Item;
   projects: Project[] | undefined;
 }) {
-  const { selectedId, hoveredId, select, setHover } = useSelection();
+  const { selectedId, editingId, hoveredId, select, edit, setHover } = useSelection();
   const selected = selectedId === item.id;
+  const editing = editingId === item.id;
   const hovered = hoveredId === item.id;
 
   const onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -39,6 +40,7 @@ export function ItemCard({
   const className = [
     "item",
     selected ? "selected" : "",
+    editing ? "editing" : "",
     hovered && !selected ? "hovered" : "",
     item.working_on ? "working-on" : "",
   ]
@@ -51,18 +53,20 @@ export function ItemCard({
   return (
     <div
       className={className}
+      data-item-id={item.id}
       data-fresh={isFresh ? "true" : undefined}
       onClick={(e) => {
-        if (selected) return;
+        if (editing) return;
         if ((e.target as HTMLElement).closest(".item-actions")) return;
         if ((e.target as HTMLElement).closest("a")) return;
         if ((e.target as HTMLElement).closest(".working-on-toggle")) return;
         if ((e.target as HTMLElement).closest(".spotlight-toggle")) return;
-        select(item.id);
+        if (selected) edit(item.id);
+        else select(item.id);
       }}
       onMouseEnter={onMouseEnter}
     >
-      {selected ? (
+      {editing ? (
         <SelectedInListCard env={env} item={item} />
       ) : (
         <CollapsedCard env={env} item={item} projects={projects} />
@@ -73,7 +77,7 @@ export function ItemCard({
 
 function SpotlightToggle({ id }: { id: string }) {
   const { spotlightId, setSpotlight } = useSpotlight();
-  const { select } = useSelection();
+  const { edit } = useSelection();
   const active = spotlightId === id;
   return (
     <button
@@ -88,7 +92,7 @@ function SpotlightToggle({ id }: { id: string }) {
           setSpotlight(null);
         } else {
           setSpotlight(id);
-          select(id);
+          edit(id);
         }
       }}
     >
@@ -232,7 +236,7 @@ function formatDeferChip(iso: string): string {
 }
 
 function SelectedInListCard({ env, item }: { env: string; item: Item }) {
-  const { select } = useSelection();
+  const { stopEditing } = useSelection();
   const { patch, flush } = useItemPatch(env, item.id);
 
   const [localTitle, setLocalTitle] = useState(item.title);
@@ -248,16 +252,16 @@ function SelectedInListCard({ env, item }: { env: string; item: Item }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.id]);
 
-  const saveAndDeselect = (e: React.KeyboardEvent) => {
+  const saveAndStopEditing = (e: React.KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
       e.preventDefault();
       void flush();
-      select(null);
+      stopEditing();
     }
   };
 
   return (
-    <div className="item-selected-in-list">
+    <div className="item-selected-in-list" data-editing>
       <input
         className="title-input"
         value={localTitle}
@@ -265,7 +269,7 @@ function SelectedInListCard({ env, item }: { env: string; item: Item }) {
           setLocalTitle(e.target.value);
           patch({ title: e.target.value }, { debounce: 500 });
         }}
-        onKeyDown={saveAndDeselect}
+        onKeyDown={saveAndStopEditing}
         placeholder="Title"
         autoFocus
       />
@@ -276,7 +280,7 @@ function SelectedInListCard({ env, item }: { env: string; item: Item }) {
           setLocalBody(e.target.value);
           patch({ body: e.target.value }, { debounce: 500 });
         }}
-        onKeyDown={saveAndDeselect}
+        onKeyDown={saveAndStopEditing}
         placeholder="Notes (markdown)…"
         minRows={4}
         maxHeightRem={EDITOR_BODY_MAX_REM}

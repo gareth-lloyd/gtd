@@ -5,12 +5,15 @@ test.describe("inline editing", () => {
     await seedItemInNext({ title: "Original title", energy: "medium" });
 
     await page.goto(`/${ENV}/next`);
-    const card = page.locator(".item-title", { hasText: "Original title" });
+    const card = page.locator(".item", { hasText: "Original title" });
     await expect(card).toBeVisible();
+    // First click selects, second click opens the editor.
+    await card.click();
     await card.click();
 
-    const titleEditor = page.locator('input[value="Original title"]').first();
+    const titleEditor = page.locator(".title-input").first();
     await expect(titleEditor).toBeVisible();
+    await expect(titleEditor).toHaveValue("Original title");
 
     const patchLanded = page.waitForResponse(
       (r) =>

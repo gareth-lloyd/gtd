@@ -186,21 +186,31 @@ describe("ItemCard collapsed", () => {
     expect(container.querySelector(".clipped-block")).toBeNull();
   });
 
-  it("clicking the card selects it and shows title input", async () => {
+  it("first click selects (collapsed); second click opens the editor", async () => {
     const user = userEvent.setup();
-    renderCard(baseItem);
+    const { container } = renderCard(baseItem);
     await user.click(screen.getByText("Write release notes"));
-    // After selection, the title input should appear
+    expect(screen.queryByDisplayValue("Write release notes")).toBeNull();
+    const card = container.querySelector(".item")!;
+    expect(card.classList.contains("selected")).toBe(true);
+    expect(card.classList.contains("editing")).toBe(false);
+
+    await user.click(screen.getByText("Write release notes"));
     expect(screen.getByDisplayValue("Write release notes")).toBeDefined();
+    expect(card.classList.contains("editing")).toBe(true);
   });
 });
+
+async function clickIntoEditor(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(screen.getByText("Write release notes"));
+  await user.click(screen.getByText("Write release notes"));
+}
 
 describe("ItemCard selected — debounced title", () => {
   it("editing the title issues exactly one debounced PATCH after 500ms", async () => {
     const user = userEvent.setup();
     renderCard(baseItem);
-    // Select the card first
-    await user.click(screen.getByText("Write release notes"));
+    await clickIntoEditor(user);
 
     const input = screen.getByDisplayValue("Write release notes") as HTMLInputElement;
     vi.useFakeTimers();
@@ -226,7 +236,7 @@ describe("ItemCard selected — debounced title", () => {
   it("multiple rapid edits before the debounce window coalesce into one PATCH", async () => {
     const user = userEvent.setup();
     renderCard(baseItem);
-    await user.click(screen.getByText("Write release notes"));
+    await clickIntoEditor(user);
 
     const input = screen.getByDisplayValue("Write release notes") as HTMLInputElement;
     vi.useFakeTimers();
@@ -260,7 +270,7 @@ describe("ItemCard URL link chips", () => {
     // anchor for the URL, so query by the chip class explicitly)
     expect(container.querySelector(".link-chip")).not.toBeNull();
 
-    await user.click(screen.getByText("Write release notes"));
+    await clickIntoEditor(user);
 
     expect(screen.getByDisplayValue("Write release notes")).toBeDefined();
     const chip = container.querySelector(".link-chip") as HTMLAnchorElement | null;
@@ -271,7 +281,7 @@ describe("ItemCard URL link chips", () => {
   it("reflects newly-typed URLs in the body textarea immediately", async () => {
     const user = userEvent.setup();
     const { container } = renderCard(baseItem);
-    await user.click(screen.getByText("Write release notes"));
+    await clickIntoEditor(user);
 
     const textarea = screen.getByPlaceholderText(/Notes/i) as HTMLTextAreaElement;
     fireEvent.change(textarea, {
@@ -297,7 +307,7 @@ describe("ItemCard scheduled items", () => {
     const user = userEvent.setup();
     const scheduled: Item = { ...baseItem, defer_until: localIso(60 * 60 * 1000) };
     renderCard(scheduled);
-    await user.click(screen.getByText("Write release notes"));
+    await clickIntoEditor(user);
 
     expect(screen.getByDisplayValue("Write release notes")).toBeDefined();
     expect(screen.getByPlaceholderText(/Notes/i)).toBeDefined();
@@ -305,11 +315,11 @@ describe("ItemCard scheduled items", () => {
   });
 });
 
-describe("ItemCard deselect triggers", () => {
-  it("Cmd+Enter in the title flushes pending edits and deselects", async () => {
+describe("ItemCard stop-editing triggers", () => {
+  it("Cmd+Enter in the title flushes pending edits and closes the editor", async () => {
     const user = userEvent.setup();
     renderCard(baseItem);
-    await user.click(screen.getByText("Write release notes"));
+    await clickIntoEditor(user);
 
     const input = screen.getByDisplayValue("Write release notes") as HTMLInputElement;
     fireEvent.change(input, { target: { value: "Pending title" } });
@@ -317,16 +327,15 @@ describe("ItemCard deselect triggers", () => {
     expect(api.updateItem).toHaveBeenCalledWith("work", "item-1", {
       title: "Pending title",
     });
-    // After Cmd+Enter, the card should deselect — title input gone, collapsed view shows
     await waitFor(() => {
       expect(screen.queryByDisplayValue("Pending title")).toBeNull();
     });
   });
 
-  it("Ctrl+Enter in the notes textarea flushes and deselects", async () => {
+  it("Ctrl+Enter in the notes textarea flushes and closes the editor", async () => {
     const user = userEvent.setup();
     renderCard(baseItem);
-    await user.click(screen.getByText("Write release notes"));
+    await clickIntoEditor(user);
 
     const textarea = screen.getByPlaceholderText(/Notes/i) as HTMLTextAreaElement;
     fireEvent.change(textarea, { target: { value: "Draft notes" } });
@@ -334,6 +343,21 @@ describe("ItemCard deselect triggers", () => {
     expect(api.updateItem).toHaveBeenCalledWith("work", "item-1", {
       body: "Draft notes",
     });
+  });
+
+  it("after Cmd+Enter the card stays selected (not editing) with the .selected class", async () => {
+    const user = userEvent.setup();
+    const { container } = renderCard(baseItem);
+    await clickIntoEditor(user);
+
+    const input = screen.getByDisplayValue("Write release notes") as HTMLInputElement;
+    fireEvent.keyDown(input, { key: "Enter", metaKey: true });
+    await waitFor(() => {
+      expect(screen.queryByPlaceholderText(/Notes/i)).toBeNull();
+    });
+    const card = container.querySelector(".item");
+    expect(card?.classList.contains("selected")).toBe(true);
+    expect(card?.classList.contains("editing")).toBe(false);
   });
 });
 
