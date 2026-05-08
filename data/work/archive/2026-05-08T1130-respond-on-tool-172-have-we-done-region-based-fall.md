@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 10
 title: 'Respond on TOOL-172: have we done region-based fallback for enterprise?'
-updated: 2026-05-08 11:30:48.254754
+updated: 2026-05-08 13:50:57.731650
 waiting_on: null
 waiting_since: null
 working_on: false

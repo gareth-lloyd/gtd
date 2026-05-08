@@ -1,19 +1,21 @@
 ---
-area: null
-contexts: []
+area: management
+contexts:
+- fun
+- react
 created: 2026-05-07 11:52:11.611020
 defer_until: null
 due: null
-energy: low
+energy: medium
 id: 2026-05-07T1152-watch-cs-instruction-vids
 order: null
 output: ''
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Watch CS instruction vids
-updated: 2026-05-07 14:04:17.515680
+updated: 2026-05-08 13:47:56.671322
 waiting_on: null
 waiting_since: null
 working_on: false

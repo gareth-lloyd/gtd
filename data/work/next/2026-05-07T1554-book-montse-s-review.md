@@ -1,19 +1,20 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-05-07 15:54:52.016475
+contexts:
+- autopilot
+created: 2026-05-07 15:54:52.016475
 defer_until: null
 due: null
 energy: low
 id: 2026-05-07T1554-book-montse-s-review
 order: -2
 output: ''
-project: null
+project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 5
 title: Book Montse's review
-updated: *id001
+updated: 2026-05-08 13:47:36.625298
 waiting_on: null
 waiting_since: null
 working_on: false

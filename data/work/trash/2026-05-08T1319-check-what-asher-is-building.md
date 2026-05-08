@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-07 20:52:34.875381
+created: 2026-05-08 13:19:07.087850
 defer_until: null
 due: null
 energy: low
-id: 2026-05-07T2052-sort-otu-triage-eng-rotation
-order: -6
+id: 2026-05-08T1319-check-what-asher-is-building
+order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Sort otu triage eng rotation
-updated: *id001
+title: check what Asher is building
+updated: 2026-05-08 13:52:38.152739
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Read IHG notes
-updated: 2026-05-07 12:32:05.631724
+updated: 2026-05-08 13:47:40.836803
 waiting_on: null
 waiting_since: null
 working_on: false

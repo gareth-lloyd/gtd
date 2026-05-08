@@ -15,12 +15,12 @@ tags:
 - morning-gtd
 - slack
 - from-awareness
-time_minutes: 30
+time_minutes: 15
 title: 'Read & feedback on: Continuous Upskilling on Agentic Development doc'
-updated: 2026-05-08 12:13:55.036285
+updated: 2026-05-08 13:52:34.682695
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Tyler @channel in #eng-leads asked all eng leads to read and provide feedback. https://www.notion.so/canarytechnologies/Continuous-Upskilling-on-Agentic-Development-34d81468615180f0b7f3fad751b61445 (Slack: https://canarytechnologies.slack.com/archives/C02MVAEJD0Q/p1778173477964119)

@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Answer Sharon Hales in #epd-pms-gateway re: scripted Wyndham updates'
-updated: 2026-05-08 11:30:48.192553
+updated: 2026-05-08 13:48:52.000490
 waiting_on: null
 waiting_since: null
 working_on: false

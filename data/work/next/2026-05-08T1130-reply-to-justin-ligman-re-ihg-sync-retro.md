@@ -4,19 +4,19 @@ contexts:
 - react
 created: 2026-05-08 11:30:48.069299
 defer_until: null
-due: null
+due: 2026-05-08
 energy: low
 id: 2026-05-08T1130-reply-to-justin-ligman-re-ihg-sync-retro
 order: null
 output: ''
-project: null
+project: 2026-04-10T0840-people
 source_id: https://canarytechnologies.slack.com/archives/D098AGZSU86/p1778187086707849
 tags:
 - morning-gtd
 - slack
-time_minutes: 10
+time_minutes: 5
 title: 'Reply to Justin Ligman re: IHG sync/retro'
-updated: 2026-05-08 11:30:48.130024
+updated: 2026-05-08 13:49:14.398826
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-08 10:53:25.248961
+created: 2026-05-08 10:53:25.248961
 defer_until: null
 due: null
-energy: low
+energy: medium
 id: 2026-05-08T1053-important-review-stephanie
 order: -9
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: IMPORTANT review stephanie
-updated: *id001
+updated: 2026-05-08 13:45:38.688464
 waiting_on: null
 waiting_since: null
 working_on: false

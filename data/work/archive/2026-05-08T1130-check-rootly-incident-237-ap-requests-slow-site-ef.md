@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 10
 title: 'Check Rootly incident #237: AP requests slow, site effectively down'
-updated: 2026-05-08 11:30:48.444050
+updated: 2026-05-08 13:48:54.576299
 waiting_on: null
 waiting_since: null
 working_on: false

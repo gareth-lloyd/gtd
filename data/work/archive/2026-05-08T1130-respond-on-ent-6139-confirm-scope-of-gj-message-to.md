@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 5
 title: 'Respond on ENT-6139: confirm scope of GJ message-toggle bug to Marta'
-updated: 2026-05-08 11:30:48.316942
+updated: 2026-05-08 13:49:45.056032
 waiting_on: null
 waiting_since: null
 working_on: false

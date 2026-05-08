@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-07 20:46:24.801120
+created: 2026-05-07 20:46:24.801120
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: guarantee codes for WCP batch
-updated: *id001
+updated: 2026-05-08 13:45:58.447462
 waiting_on: null
 waiting_since: null
 working_on: false
