@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-07 11:52:11.611020
-defer_until: 2026-05-08 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-07T1152-watch-cs-instruction-vids

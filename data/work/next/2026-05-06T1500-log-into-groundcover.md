@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-06 15:00:07.607481
-defer_until: 2026-05-08 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-06T1500-log-into-groundcover

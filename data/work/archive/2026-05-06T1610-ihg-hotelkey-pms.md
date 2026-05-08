@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: IHG hotelkey PMS onboarding workflow - Fix issues with workflow
-updated: 2026-05-07 14:06:01.572778
+updated: 2026-05-07 15:21:14.416775
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 These batches will get created for all pilot, even though no-op

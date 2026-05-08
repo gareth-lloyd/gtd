@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-05 14:42:49.093231
-defer_until: 2026-05-08 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-05T1442-read-ihg-notes

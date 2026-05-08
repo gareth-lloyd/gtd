@@ -9,6 +9,7 @@ due: null
 energy: medium
 id: 2026-05-05T1114-gtd-spotlight-mode-focus-on-one-item
 order: 0
+output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags:
@@ -17,7 +18,7 @@ tags:
 - creative
 time_minutes: 90
 title: 'GTD: spotlight mode (focus on one item)'
-updated: 2026-05-05 15:14:34.107488
+updated: 2026-05-07 15:21:43.109207
 waiting_on: null
 waiting_since: null
 working_on: false

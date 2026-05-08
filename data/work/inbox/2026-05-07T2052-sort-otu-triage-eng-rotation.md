@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-04 11:18:55.874633
+created: &id001 2026-05-07 20:52:34.875381
 defer_until: null
 due: null
 energy: low
-id: 2026-05-04T1118-get-recipes-out
-order: null
+id: 2026-05-07T2052-sort-otu-triage-eng-rotation
+order: -6
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Get recipes out
-updated: 2026-05-07 14:29:06.568571
+title: Sort otu triage eng rotation
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
