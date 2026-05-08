@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Get forwarding config for WCP batch + guarantee codes
-updated: 2026-05-08 14:02:07.362833
+updated: 2026-05-08 14:57:26.521683
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://canarytechnologies.slack.com/archives/C04STT7UPRQ/p1778060241070339
