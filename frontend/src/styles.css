@@ -1505,13 +1505,13 @@ button.quiet.danger {
 }
 
 /* Selected-in-list card (title + notes only) */
-.item-selected-in-list {
+.item-inline-editor {
   display: flex;
   flex-direction: column;
   padding: 0.2rem 0;
 }
 
-.item-selected-in-list .title-input {
+.item-inline-editor .title-input {
   font-size: 1rem;
   font-weight: 500;
   border: none;
@@ -1523,11 +1523,11 @@ button.quiet.danger {
   color: var(--fg);
 }
 
-.item-selected-in-list .title-input:focus {
+.item-inline-editor .title-input:focus {
   outline: none;
 }
 
-.item-selected-in-list .body-input {
+.item-inline-editor .body-input {
   width: 100%;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -1541,7 +1541,7 @@ button.quiet.danger {
   line-height: 1.65;
 }
 
-.item-selected-in-list .body-input:focus {
+.item-inline-editor .body-input:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-bg);

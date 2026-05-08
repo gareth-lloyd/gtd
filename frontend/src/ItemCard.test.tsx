@@ -368,13 +368,15 @@ describe("ItemCard spotlight toggle", () => {
     expect(btn.getAttribute("aria-pressed")).toBe("false");
   });
 
-  it("clicking the toggle writes spotlight=<id> to the URL and expands the card", async () => {
+  it("clicking the toggle writes spotlight=<id> to the URL and selects the card (no editor)", async () => {
     const user = userEvent.setup();
-    const { getLocation } = renderCard(baseItem);
+    const { container, getLocation } = renderCard(baseItem);
     await user.click(screen.getByRole("button", { name: /focus on this item/i }));
     expect(getLocation()!.search).toContain("spotlight=item-1");
-    const titleInput = screen.getByDisplayValue("Write release notes") as HTMLInputElement;
-    expect(titleInput.tagName).toBe("INPUT");
+    const card = container.querySelector(".item")!;
+    expect(card.classList.contains("selected")).toBe(true);
+    expect(card.classList.contains("editing")).toBe(false);
+    expect(screen.queryByDisplayValue("Write release notes")).toBeNull();
   });
 
   it("the toggle reflects the spotlit state and switches to Exit", () => {

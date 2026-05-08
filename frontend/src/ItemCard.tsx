@@ -1,17 +1,19 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 import type { Item, Project } from "./api";
 import { useItemPatch } from "./ItemEdit";
 import { contextChipStyle } from "./context-colors";
 import { Markdown } from "./markdown";
 import { useSelection } from "./SelectionContext";
 import { useSpotlight } from "./spotlight";
+import { ItemLinks } from "./ItemLinks";
+import { ClippedBlock } from "./ClippedBlock";
+import { AutoGrowTextarea } from "./AutoGrowTextarea";
 
 const SESSION_START_MS = Date.now();
 const FRESH_WINDOW_MS = 2000;
 
 const COLLAPSED_BODY_MAX_REM = 14;
 const EDITOR_BODY_MAX_REM = 24;
-const REM_PX = 16;
 
 export function ItemCard({
   env,
@@ -57,17 +59,17 @@ export function ItemCard({
       data-fresh={isFresh ? "true" : undefined}
       onClick={(e) => {
         if (editing) return;
-        if ((e.target as HTMLElement).closest(".item-actions")) return;
+        // Markdown-body anchors don't stop propagation themselves; the
+        // other interactive children (`.item-actions`, `.working-on-toggle`,
+        // `.spotlight-toggle`) already do.
         if ((e.target as HTMLElement).closest("a")) return;
-        if ((e.target as HTMLElement).closest(".working-on-toggle")) return;
-        if ((e.target as HTMLElement).closest(".spotlight-toggle")) return;
         if (selected) edit(item.id);
         else select(item.id);
       }}
       onMouseEnter={onMouseEnter}
     >
       {editing ? (
-        <SelectedInListCard env={env} item={item} />
+        <InlineEditor key={item.id} env={env} item={item} />
       ) : (
         <CollapsedCard env={env} item={item} projects={projects} />
       )}
@@ -77,7 +79,7 @@ export function ItemCard({
 
 function SpotlightToggle({ id }: { id: string }) {
   const { spotlightId, setSpotlight } = useSpotlight();
-  const { edit } = useSelection();
+  const { select } = useSelection();
   const active = spotlightId === id;
   return (
     <button
@@ -92,7 +94,7 @@ function SpotlightToggle({ id }: { id: string }) {
           setSpotlight(null);
         } else {
           setSpotlight(id);
-          edit(id);
+          select(id);
         }
       }}
     >
@@ -118,52 +120,6 @@ function WorkingOnToggle({ env, item }: { env: string; item: Item }) {
     >
       <span aria-hidden>📌</span>
     </button>
-  );
-}
-
-function formatUrl(url: string): string {
-  try {
-    const u = new URL(url);
-    const path = u.pathname.replace(/\/$/, "");
-    if (!path || path === "/") return u.hostname;
-    const segments = path.split("/").filter(Boolean);
-    const short =
-      segments.length <= 2
-        ? segments.join("/")
-        : `${segments[0]}/…/${segments[segments.length - 1]}`;
-    return `${u.hostname}/${short}`;
-  } catch {
-    return url.length > 40 ? url.slice(0, 37) + "…" : url;
-  }
-}
-
-const URL_RE = /https?:\/\/[^\s)<>]+/g;
-
-function extractUrls(text: string): string[] {
-  const matches = text.match(URL_RE);
-  if (!matches) return [];
-  // Deduplicate preserving order
-  return [...new Set(matches)];
-}
-
-function ItemLinks({ body }: { body: string }) {
-  const urls = body ? extractUrls(body) : [];
-  if (urls.length === 0) return null;
-  return (
-    <div className="item-links">
-      {urls.map((url) => (
-        <a
-          key={url}
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="link-chip"
-          title={url}
-        >
-          {formatUrl(url)}
-        </a>
-      ))}
-    </div>
   );
 }
 
@@ -235,22 +191,12 @@ function formatDeferChip(iso: string): string {
   return `${date} ${hh}:${mm}`;
 }
 
-function SelectedInListCard({ env, item }: { env: string; item: Item }) {
+function InlineEditor({ env, item }: { env: string; item: Item }) {
   const { stopEditing } = useSelection();
   const { patch, flush } = useItemPatch(env, item.id);
 
   const [localTitle, setLocalTitle] = useState(item.title);
   const [localBody, setLocalBody] = useState(item.body);
-  const lastItemIdRef = useRef(item.id);
-  useEffect(() => {
-    if (lastItemIdRef.current !== item.id) {
-      setLocalTitle(item.title);
-      setLocalBody(item.body);
-      lastItemIdRef.current = item.id;
-    }
-    // Only reset on id change. Including title/body would clobber in-flight edits.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item.id]);
 
   const saveAndStopEditing = (e: React.KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
@@ -261,7 +207,7 @@ function SelectedInListCard({ env, item }: { env: string; item: Item }) {
   };
 
   return (
-    <div className="item-selected-in-list" data-editing>
+    <div className="item-inline-editor" data-editing>
       <input
         className="title-input"
         value={localTitle}
@@ -286,112 +232,6 @@ function SelectedInListCard({ env, item }: { env: string; item: Item }) {
         maxHeightRem={EDITOR_BODY_MAX_REM}
       />
       <ItemLinks body={localBody} />
-    </div>
-  );
-}
-
-function ShowAllButton({ onExpand }: { onExpand: () => void }) {
-  return (
-    <button
-      type="button"
-      className="clipped-block-expand"
-      onClick={(e) => {
-        e.stopPropagation();
-        onExpand();
-      }}
-    >
-      Show all ↓
-    </button>
-  );
-}
-
-function ClippedBlock({
-  maxHeightRem,
-  contentClassName,
-  contentKey,
-  children,
-}: {
-  maxHeightRem: number;
-  contentClassName?: string;
-  /** Stable string used as the measurement effect's dependency, so we don't
-   * remeasure on every parent re-render that constructs new `children`. */
-  contentKey?: string;
-  children: React.ReactNode;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [expanded, setExpanded] = useState(false);
-  const [clipped, setClipped] = useState(false);
-
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    setClipped(el.scrollHeight > maxHeightRem * REM_PX + 1);
-  }, [contentKey, maxHeightRem]);
-
-  const innerClass = ["clipped-block-content", contentClassName].filter(Boolean).join(" ");
-  return (
-    <div className="clipped-block">
-      <div
-        ref={ref}
-        className={innerClass}
-        style={expanded ? undefined : { maxHeight: `${maxHeightRem}rem`, overflow: "hidden" }}
-      >
-        {children}
-      </div>
-      {clipped && !expanded && <ShowAllButton onExpand={() => setExpanded(true)} />}
-    </div>
-  );
-}
-
-function AutoGrowTextarea({
-  className,
-  value,
-  onChange,
-  onKeyDown,
-  placeholder,
-  minRows,
-  maxHeightRem,
-}: {
-  className?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
-  placeholder?: string;
-  minRows: number;
-  maxHeightRem: number;
-}) {
-  const ref = useRef<HTMLTextAreaElement>(null);
-  const [expanded, setExpanded] = useState(false);
-  const [clipped, setClipped] = useState(false);
-
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    // Reset height so shrinking works, then set to natural content height.
-    el.style.height = "auto";
-    const maxPx = maxHeightRem * REM_PX;
-    const natural = el.scrollHeight;
-    if (!expanded && natural > maxPx) {
-      el.style.height = `${maxPx}px`;
-      setClipped(true);
-    } else {
-      el.style.height = `${natural}px`;
-      setClipped(false);
-    }
-  }, [value, expanded, maxHeightRem]);
-
-  return (
-    <div className="autogrow-wrap">
-      <textarea
-        ref={ref}
-        className={`${className ?? ""} autogrow-textarea`.trim()}
-        rows={minRows}
-        value={value}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        placeholder={placeholder}
-      />
-      {clipped && !expanded && <ShowAllButton onExpand={() => setExpanded(true)} />}
     </div>
   );
 }

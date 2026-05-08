@@ -28,7 +28,7 @@ test.describe("spotlight mode", () => {
     await page.locator(".item", { hasText: "Focus me" }).locator(".spotlight-toggle").click();
     await expect(page).toHaveURL(/spotlight=/);
 
-    // First Escape collapses the auto-expanded editor (SelectionContext).
+    // First Escape deselects the auto-selected card (SelectionContext).
     await page.locator("body").press("Escape");
     // Second Escape exits spotlight.
     await page.locator("body").press("Escape");
