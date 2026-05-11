@@ -22,6 +22,9 @@ frontend/coverage/
 # Django collectstatic output (unused locally)
 staticfiles/
 
+# Service logs (gunicorn access/error + Django app + launchd stdout/stderr)
+logs/
+
 # Editor
 .vscode/
 .idea/

@@ -36,6 +36,33 @@ uv run manage.py runserver 8765
 cd frontend && npm run dev
 ```
 
+## Run as a background service (macOS)
+
+Once GTD has earned a place in your daily workflow, install it as a
+per-user `LaunchAgent` so it starts at login and auto-restarts on crash.
+
+```sh
+make install-service     # installs + starts + verifies via /api/health/
+make service-status      # launchd status + health snapshot
+make service-logs        # tail error + launchd stderr
+make restart-service     # kick the service after manual config changes
+make rebuild-frontend    # rebuild SPA and restart in one shot
+make uninstall-service   # stop + remove
+```
+
+Internals: `scripts/serve.sh` runs gunicorn (1 worker, 4 threads) against
+`gtd_site.wsgi`, with logging routed through Django's `LOGGING` to
+`logs/{gtd,access,error}.log` (rotated, 10 MB × 5 each).
+`scripts/gtd.plist.template` is rendered into
+`~/Library/LaunchAgents/com.glloyd.gtd.plist` at install time with absolute
+paths. The plist's `KeepAlive.Crashed=true` + `ThrottleInterval=10` give
+crash recovery without restart-loop thrash.
+
+Bind is `127.0.0.1:8765` only — service is reachable from this Mac alone.
+
+The active dev workflow (`runserver` + `npm run dev`) is unchanged and still
+recommended for code work; the service is for everyday usage.
+
 ## Snapshot (commit data changes)
 
 ```sh

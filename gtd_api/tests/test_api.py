@@ -34,6 +34,24 @@ def api(tmp_project):
     return APIClient()
 
 
+class TestHealth:
+    def test_health_returns_data_root_and_envs(self, api, tmp_project):
+        r = api.get("/api/health/")
+        assert r.status_code == 200
+        body = r.json()
+        assert body["ok"] is True
+        assert body["data_root"] == str(tmp_project / "data")
+        assert set(body["envs"]) == {"work", "home"}
+
+    def test_health_reports_not_ok_when_data_root_missing(self, api, settings, tmp_path):
+        settings.GTD_DATA_ROOT = tmp_path / "does-not-exist"
+        r = api.get("/api/health/")
+        assert r.status_code == 200
+        body = r.json()
+        assert body["ok"] is False
+        assert body["envs"] == []
+
+
 class TestEnvs:
     def test_list_envs(self, api):
         r = api.get("/api/envs/")

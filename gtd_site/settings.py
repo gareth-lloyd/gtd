@@ -68,9 +68,64 @@ BEAR_DB_PATH = Path(
     )
 ).expanduser()
 
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
+# AI capture shells out to the `claude` CLI which uses the user's Max plan
+# credentials — no ANTHROPIC_API_KEY needed. ANTHROPIC_MODEL picks which model.
 ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-4-6")
 
 # Working dir for `🤖 agent` Terminal launches. Defaults to the canary monorepo
 # so the spawned `claude` session has the right code context out of the box.
 GTD_AGENT_CWD = Path(os.environ.get("GTD_AGENT_CWD", "~/projects/canary")).expanduser()
+
+LOGS_DIR = BASE_DIR / "logs"
+LOGS_DIR.mkdir(parents=True, exist_ok=True)
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "default": {
+            "format": "[%(asctime)s] %(levelname)s %(name)s: %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+        "access": {"format": "%(message)s"},
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "default"},
+        "app_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": str(LOGS_DIR / "gtd.log"),
+            "maxBytes": 10 * 1024 * 1024,
+            "backupCount": 5,
+            "formatter": "default",
+            "delay": True,
+        },
+        "gunicorn_access_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": str(LOGS_DIR / "access.log"),
+            "maxBytes": 10 * 1024 * 1024,
+            "backupCount": 5,
+            "formatter": "access",
+            "delay": True,
+        },
+        "gunicorn_error_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": str(LOGS_DIR / "error.log"),
+            "maxBytes": 10 * 1024 * 1024,
+            "backupCount": 5,
+            "formatter": "default",
+            "delay": True,
+        },
+    },
+    "root": {"handlers": ["console", "app_file"], "level": "INFO"},
+    "loggers": {
+        "gunicorn.access": {
+            "handlers": ["gunicorn_access_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "gunicorn.error": {
+            "handlers": ["gunicorn_error_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}

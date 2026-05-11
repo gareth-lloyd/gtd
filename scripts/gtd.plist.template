@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.glloyd.gtd</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>@ROOT@/scripts/serve.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>@ROOT@</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+        <key>Crashed</key>
+        <true/>
+    </dict>
+
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+
+    <key>ProcessType</key>
+    <string>Interactive</string>
+
+    <key>StandardOutPath</key>
+    <string>@ROOT@/logs/launchd.stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>@ROOT@/logs/launchd.stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>@PATH@</string>
+        <key>GTD_DATA_ROOT</key>
+        <string>@ROOT@/data</string>
+        <key>GTD_HOST</key>
+        <string>127.0.0.1</string>
+        <key>GTD_PORT</key>
+        <string>8765</string>
+        <key>HOME</key>
+        <string>@HOME@</string>
+    </dict>
+</dict>
+</plist>

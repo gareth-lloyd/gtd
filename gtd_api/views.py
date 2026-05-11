@@ -17,6 +17,7 @@ from gtd_core.ai import (
     AiCaptureNotConfiguredError,
     AiCaptureUpstreamError,
 )
+from gtd_core.healthcheck import collect_health
 from gtd_core.models import Bucket
 from gtd_core.service import GtdService
 from gtd_core.snapshot import snapshot, snapshot_status
@@ -54,6 +55,18 @@ def _require_purge_confirmation(request: Request) -> Response | None:
             status=status.HTTP_400_BAD_REQUEST,
         )
     return None
+
+
+@api_view(["GET"])
+def health(request: Request) -> Response:
+    info = collect_health()
+    return Response(
+        {
+            "ok": info.data_root.exists() and bool(info.envs),
+            "data_root": str(info.data_root),
+            "envs": info.envs,
+        }
+    )
 
 
 @api_view(["GET"])
