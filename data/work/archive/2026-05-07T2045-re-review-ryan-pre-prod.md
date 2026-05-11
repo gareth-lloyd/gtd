@@ -146,10 +146,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: RE-review Ryan pre-prod
-updated: 2026-05-08 14:30:39.638494
+updated: 2026-05-08 22:09:42.992127
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://linear.app/canary-technologies/issue/ENT-5912/engineering-design-for-pre-production-wyndham-environment

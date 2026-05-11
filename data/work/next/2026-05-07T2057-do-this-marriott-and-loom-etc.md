@@ -12,11 +12,12 @@ project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
-title: do this marriott and loom etc
-updated: 2026-05-08 15:06:44.053475
+title: dissociate Marriott and build deactivate step
+updated: 2026-05-08 22:17:23.272386
 waiting_on: null
 waiting_since: null
 working_on: true
 ---
 
 https://linear.app/canary-technologies/issue/ENT-6117/change-from-marriott-managed-to-non-managed
+https://canarytechnologies.slack.com/archives/C05E196GGD8/p1778267806249239
