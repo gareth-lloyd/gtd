@@ -16,10 +16,10 @@ tags:
 - github
 time_minutes: 90
 title: 'Address feedback on PR #44510 (ENT-6100 Rollout Recipes) — Ryan blocking issues'
-updated: 2026-05-11 14:31:23.448744
+updated: 2026-05-11 16:42:37.395578
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Ryan CHANGES_REQUESTED 5/5 22:13. Two blockers inline: (1) Population query does not exclude *_DEACTIVATED portfolios; (2) _create_batch_for_stage bypasses [...]. Current branch. https://github.com/canary-technologies-corp/canary/pull/44510

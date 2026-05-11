@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: deep read of laura's complaints. Establish own firm position
-updated: 2026-05-11 14:31:22.121448
+updated: 2026-05-11 21:07:03.612268
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
