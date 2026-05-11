@@ -345,6 +345,11 @@ button.quiet.danger {
   font-weight: 600;
 }
 
+.side-nav-count {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .side-nav-sub {
   display: flex;
   flex-direction: column;

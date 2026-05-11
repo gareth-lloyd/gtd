@@ -175,32 +175,35 @@ describe("Project priority on next view", () => {
 
   it("renders a P1 badge on an item whose project is P1", async () => {
     const { api } = await import("./api");
-    (api.listItems as ReturnType<typeof vi.fn>).mockResolvedValueOnce([
-      {
-        id: "p1-task",
-        title: "Urgent task",
-        body: "",
-        created: "2026-04-10T09:00:00",
-        updated: "2026-04-10T09:00:00",
-        status: "next",
-        contexts: [],
-        energy: null,
-        time_minutes: null,
-        project: "p1proj",
-        project_priority: 1,
-        area: null,
-        tags: [],
-        due: null,
-        overdue: false,
-        defer_until: null,
-        waiting_on: null,
-        waiting_since: null,
-        order: null,
-        source_id: null,
-        working_on: false,
-        output: "",
-      },
-    ]);
+    vi.mocked(api.listItems).mockImplementation(async (_env, params = {}) => {
+      if (params.status === "inbox") return [];
+      return [
+        {
+          id: "p1-task",
+          title: "Urgent task",
+          body: "",
+          created: "2026-04-10T09:00:00",
+          updated: "2026-04-10T09:00:00",
+          status: "next",
+          contexts: [],
+          energy: null,
+          time_minutes: null,
+          project: "p1proj",
+          project_priority: 1,
+          area: null,
+          tags: [],
+          due: null,
+          overdue: false,
+          defer_until: null,
+          waiting_on: null,
+          waiting_since: null,
+          order: null,
+          source_id: null,
+          working_on: false,
+          output: "",
+        },
+      ];
+    });
 
     renderApp();
     const title = await screen.findByText("Urgent task");
@@ -212,32 +215,35 @@ describe("Project priority on next view", () => {
 
   it("omits the badge when the item has no project_priority", async () => {
     const { api } = await import("./api");
-    (api.listItems as ReturnType<typeof vi.fn>).mockResolvedValueOnce([
-      {
-        id: "floating",
-        title: "Floating task",
-        body: "",
-        created: "2026-04-10T09:00:00",
-        updated: "2026-04-10T09:00:00",
-        status: "next",
-        contexts: [],
-        energy: null,
-        time_minutes: null,
-        project: null,
-        project_priority: null,
-        area: null,
-        tags: [],
-        due: null,
-        overdue: false,
-        defer_until: null,
-        waiting_on: null,
-        waiting_since: null,
-        order: null,
-        source_id: null,
-        working_on: false,
-        output: "",
-      },
-    ]);
+    vi.mocked(api.listItems).mockImplementation(async (_env, params = {}) => {
+      if (params.status === "inbox") return [];
+      return [
+        {
+          id: "floating",
+          title: "Floating task",
+          body: "",
+          created: "2026-04-10T09:00:00",
+          updated: "2026-04-10T09:00:00",
+          status: "next",
+          contexts: [],
+          energy: null,
+          time_minutes: null,
+          project: null,
+          project_priority: null,
+          area: null,
+          tags: [],
+          due: null,
+          overdue: false,
+          defer_until: null,
+          waiting_on: null,
+          waiting_since: null,
+          order: null,
+          source_id: null,
+          working_on: false,
+          output: "",
+        },
+      ];
+    });
 
     renderApp();
     const title = await screen.findByText("Floating task");
@@ -262,6 +268,65 @@ describe("Search", () => {
     const inputs = await screen.findAllByPlaceholderText(/search/i);
     // header search + page search input
     expect(inputs.length).toBeGreaterThanOrEqual(1);
+  });
+});
+
+describe("Inbox count in side nav", () => {
+  beforeEach(() => {
+    localStorage.setItem("gtd:env", "work");
+  });
+
+  it("renders the count of inbox items next to the inbox link", async () => {
+    const { api } = await import("./api");
+    const inboxItem = (id: string) => ({
+      id,
+      title: id,
+      body: "",
+      created: "2026-04-10T09:00:00",
+      updated: "2026-04-10T09:00:00",
+      status: "inbox" as const,
+      contexts: [],
+      energy: null,
+      time_minutes: null,
+      project: null,
+      project_priority: null,
+      area: null,
+      tags: [],
+      due: null,
+      overdue: false,
+      defer_until: null,
+      waiting_on: null,
+      waiting_since: null,
+      order: null,
+      source_id: null,
+      working_on: false,
+      output: "",
+    });
+    vi.mocked(api.listItems).mockImplementation(async (_env, params = {}) => {
+      if (params.status === "inbox") {
+        return [inboxItem("a"), inboxItem("b"), inboxItem("c")];
+      }
+      return [];
+    });
+
+    renderApp("/work/next");
+    const inboxLink = await screen.findByRole("link", { name: /inbox/i });
+    await vi.waitFor(() => {
+      expect(inboxLink.textContent).toMatch(/\(3\)/);
+    });
+  });
+
+  it("omits the count when the inbox is empty", async () => {
+    const { api } = await import("./api");
+    vi.mocked(api.listItems).mockResolvedValue([]);
+
+    renderApp("/work/next");
+    const inboxLink = await screen.findByRole("link", { name: /inbox/i });
+    // Give the query a tick to settle.
+    await vi.waitFor(() => {
+      expect(vi.mocked(api.listItems)).toHaveBeenCalled();
+    });
+    expect(inboxLink.textContent).not.toMatch(/\(/);
   });
 });
 

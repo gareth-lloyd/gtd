@@ -104,6 +104,12 @@ function AppShell() {
     queryFn: () => api.getConfig(env),
     enabled: !!env,
   });
+  // Shares cache key with BucketView's default (non-deferred) inbox fetch.
+  const { data: inboxItems } = useQuery({
+    queryKey: ["items", env, "inbox", false],
+    queryFn: () => api.listItems(env, { status: "inbox" }),
+    enabled: !!env,
+  });
 
   useEffect(() => {
     if (env) localStorage.setItem("gtd:env", env);
@@ -195,6 +201,9 @@ function AppShell() {
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 {s}
+                {s === "inbox" && inboxItems && inboxItems.length > 0 && (
+                  <span className="side-nav-count"> ({inboxItems.length})</span>
+                )}
               </NavLink>
               {s === "projects" && <ProjectNavLinks env={env} />}
             </React.Fragment>
