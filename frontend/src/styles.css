@@ -979,9 +979,19 @@ button.quiet.danger {
   background: var(--surface-soft);
 }
 
+.agent-output-header-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid transparent;
+}
+
+.agent-output-header-row:has(.agent-output-header[aria-expanded="true"]) {
+  border-bottom-color: var(--border);
+}
+
 .agent-output-header {
   display: block;
-  width: 100%;
+  flex: 1;
   text-align: left;
   font-size: 0.8rem;
   font-weight: 600;
@@ -989,14 +999,25 @@ button.quiet.danger {
   padding: 0.35rem 0.6rem;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid transparent;
   cursor: pointer;
   user-select: none;
   font-family: inherit;
 }
 
-.agent-output-header[aria-expanded="true"] {
-  border-bottom-color: var(--border);
+.agent-output-copy {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 0.35rem 0.6rem;
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--border);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.agent-output-copy:hover {
+  color: var(--ink);
 }
 
 .agent-output-body {

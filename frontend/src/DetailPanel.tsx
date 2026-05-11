@@ -15,6 +15,7 @@ import { fmtDate, generateProjectId, sortProjects } from "./format";
 import { Button } from "./Button";
 import { WorkflowActions } from "./WorkflowActions";
 import { useSelection } from "./SelectionContext";
+import { toasts } from "./toast";
 
 // Experiment flag: hover renders the full editor; click pins selection.
 const HOVER_SHOWS_FULL_CONTROLS = true;
@@ -238,16 +239,34 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
 
 function AgentLog({ output }: { output: string }) {
   const [expanded, setExpanded] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(output);
+      toasts.show("success", "Agent log copied");
+    } catch {
+      toasts.show("error", "Copy failed");
+    }
+  };
   return (
     <div className="agent-output">
-      <button
-        type="button"
-        className="agent-output-header"
-        aria-expanded={expanded}
-        onClick={() => setExpanded((v) => !v)}
-      >
-        <span aria-hidden>{expanded ? "▾" : "▸"}</span> 🤖 Agent log
-      </button>
+      <div className="agent-output-header-row">
+        <button
+          type="button"
+          className="agent-output-header"
+          aria-expanded={expanded}
+          onClick={() => setExpanded((v) => !v)}
+        >
+          <span aria-hidden>{expanded ? "▾" : "▸"}</span> 🤖 Agent log
+        </button>
+        <button
+          type="button"
+          className="agent-output-copy"
+          aria-label="Copy agent log to clipboard"
+          onClick={copy}
+        >
+          Copy
+        </button>
+      </div>
       {expanded && (
         <div className="agent-output-body">
           <Markdown source={output} />

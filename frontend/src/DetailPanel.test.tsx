@@ -194,6 +194,41 @@ describe("DetailPanel", () => {
     expect(await screen.findByText(/Reviewed PR/)).toBeDefined();
   });
 
+  it("copies the agent log to the clipboard", async () => {
+    const user = userEvent.setup();
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, "clipboard", {
+      value: { writeText },
+      configurable: true,
+    });
+    const itemWithOutput: Item = {
+      ...testItem,
+      output: "## Agent run\n\nLGTM.",
+    };
+    vi.mocked(api.getItem).mockResolvedValue(itemWithOutput);
+
+    const qc = new QueryClient({
+      defaultOptions: { queries: { retry: false, staleTime: Infinity } },
+    });
+    qc.setQueryData(["items", "work", "next", [], "", "", false], [itemWithOutput]);
+    render(
+      <QueryClientProvider client={qc}>
+        <MemoryRouter initialEntries={["/work/next"]} future={ROUTER_FUTURE}>
+          <SelectionProvider>
+            <SelectTrigger itemId="item-1" />
+            <DetailPanel env="work" />
+          </SelectionProvider>
+        </MemoryRouter>
+      </QueryClientProvider>,
+    );
+    await user.click(screen.getByTestId("select-trigger"));
+
+    const copyBtn = await screen.findByRole("button", { name: /Copy agent log/ });
+    await user.click(copyBtn);
+
+    expect(writeText).toHaveBeenCalledWith("## Agent run\n\nLGTM.");
+  });
+
   it("does not render the agent log section when item.output is empty", async () => {
     const user = userEvent.setup();
     renderPanel({ withSelect: "item-1" });
