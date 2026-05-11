@@ -16,7 +16,7 @@ tags:
 - skills
 time_minutes: 60
 title: 'GTD: new skill /gtd-defer for batch deferral'
-updated: 2026-05-08 15:22:23.550452
+updated: 2026-05-11 11:23:18.531851
 waiting_on: null
 waiting_since: null
 working_on: false

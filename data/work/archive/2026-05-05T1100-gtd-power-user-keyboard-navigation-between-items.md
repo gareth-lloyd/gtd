@@ -16,7 +16,7 @@ tags:
 - frontend
 time_minutes: 180
 title: 'GTD: tristate item card + power-user keyboard navigation'
-updated: 2026-05-08 15:22:23.550452
+updated: 2026-05-11 11:22:58.866147
 waiting_on: null
 waiting_since: null
 working_on: false

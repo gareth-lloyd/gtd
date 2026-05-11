@@ -16,7 +16,7 @@ tags:
 - skills
 time_minutes: 60
 title: 'GTD: new skill /gtd-waiting-check'
-updated: 2026-05-08 15:22:23.550452
+updated: 2026-05-11 11:23:16.772056
 waiting_on: null
 waiting_since: null
 working_on: false
