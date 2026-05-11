@@ -4,10 +4,10 @@ contexts:
 - craft
 created: 2026-04-30 00:00:00
 defer_until: null
-due: null
+due: 2026-05-11
 energy: high
 id: 2026-04-30T0000-90-day-review-for-afigueira
-order: 3
+order: 1
 output: "## Agent run 2026-05-07T08:23:27Z\n\nResearched the process and prepped notes.
   Review itself still TODO — handing back.\n\n### Subject\n- **Andrés Figueira** (afigueira@canarytechnologies.com),
   Enterprise pod, SWE.\n- **Start date**: 2026-01-26 → today is **day 101** (90-day
@@ -140,10 +140,10 @@ source_id: null
 tags: []
 time_minutes: 30
 title: 90 day review for afigueira
-updated: 2026-05-07 15:17:42.205178
+updated: 2026-05-11 11:49:17.219607
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 * check notion for process

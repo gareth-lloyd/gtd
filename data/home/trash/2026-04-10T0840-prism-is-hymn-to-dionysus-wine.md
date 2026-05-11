@@ -1,19 +1,20 @@
 ---
 area: null
-contexts: []
-created: &id001 2026-05-11 10:01:37.915616
+contexts:
+- errands
+created: 2026-04-10 08:40:25.123449
 defer_until: null
 due: null
 energy: null
-id: 2026-05-11T1001-rotation-test-trigger-2
+id: 2026-04-10T0840-prism-is-hymn-to-dionysus-wine
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: null
-title: rotation-test-trigger
-updated: *id001
+title: Prism is hymn to Dionysus wine
+updated: 2026-05-11 12:10:56.155203
 waiting_on: null
 waiting_since: null
 working_on: false
