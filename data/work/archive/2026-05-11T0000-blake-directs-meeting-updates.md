@@ -2,7 +2,7 @@
 area: null
 contexts:
 - autopilot
-created: &id001 2026-05-11 00:00:00
+created: 2026-05-11 00:00:00
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Blake directs meeting updates
-updated: *id001
+updated: 2026-05-11 11:19:54.685584
 waiting_on: null
 waiting_since: null
 working_on: false
