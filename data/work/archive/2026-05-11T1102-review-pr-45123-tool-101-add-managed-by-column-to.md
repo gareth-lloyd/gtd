@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 20
 title: 'Review PR #45123: [TOOL-101] add managed by column to users (kcormier-canary)'
-updated: 2026-05-11 11:02:35.195616
+updated: 2026-05-11 14:13:56.099610
 waiting_on: null
 waiting_since: null
 working_on: false

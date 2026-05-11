@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 20
 title: 'Triage ENT-6151: Issue with adding a new property to user''s account'
-updated: 2026-05-11 09:37:22.650635
+updated: 2026-05-11 14:00:30.561553
 waiting_on: null
 waiting_since: null
 working_on: false

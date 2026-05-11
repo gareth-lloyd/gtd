@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Engage with Connor on WCP rollout plan in #wyndham'
-updated: 2026-05-11 09:37:23.145042
+updated: 2026-05-11 13:57:11.268873
 waiting_on: null
 waiting_since: null
 working_on: false

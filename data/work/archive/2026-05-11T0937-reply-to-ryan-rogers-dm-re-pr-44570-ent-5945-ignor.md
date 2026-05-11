@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 5
 title: 'Reply to Ryan Rogers DM re: PR #44570 (ENT-5945 ignored_room_type_codes sync)'
-updated: 2026-05-11 09:37:23.083136
+updated: 2026-05-11 13:58:01.247163
 waiting_on: null
 waiting_since: null
 working_on: false

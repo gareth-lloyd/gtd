@@ -1,20 +1,20 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-08 15:12:49.595603
+created: 2026-05-08 15:12:49.595603
 defer_until: null
-due: null
-energy: low
+due: 2026-05-11
+energy: medium
 id: 2026-05-08T1512-deep-read-of-laura-s-complaints-establish-own-firm
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: deep read of laura's complaints. Establish own firm position
-updated: *id001
+updated: 2026-05-11 14:31:22.121448
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

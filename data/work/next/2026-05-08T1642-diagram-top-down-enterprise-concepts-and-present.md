@@ -1,19 +1,19 @@
 ---
-area: null
+area: management
 contexts: []
-created: &id001 2026-05-08 16:42:01.791214
+created: 2026-05-08 16:42:01.791214
 defer_until: null
-due: null
-energy: low
+due: 2026-05-12
+energy: medium
 id: 2026-05-08T1642-diagram-top-down-enterprise-concepts-and-present
 order: -1
 output: ''
-project: null
+project: 2026-04-10T0840-ent-handover
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 30
 title: Diagram "top-down" enterprise concepts and present
-updated: *id001
+updated: 2026-05-11 13:55:04.899640
 waiting_on: null
 waiting_since: null
 working_on: false

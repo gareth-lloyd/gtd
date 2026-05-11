@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 5
 title: 'Read: Blake → Martijn group DM — Loom on PT/IT AI voice work for board deck'
-updated: 2026-05-11 11:02:35.257786
+updated: 2026-05-11 14:21:18.023485
 waiting_on: null
 waiting_since: null
 working_on: false

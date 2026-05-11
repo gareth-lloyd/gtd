@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: dissociate Marriott and build deactivate step
-updated: 2026-05-08 22:17:23.272386
+updated: 2026-05-11 14:31:14.116540
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://linear.app/canary-technologies/issue/ENT-6117/change-from-marriott-managed-to-non-managed

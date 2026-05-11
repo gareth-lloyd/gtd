@@ -140,10 +140,10 @@ source_id: null
 tags: []
 time_minutes: 30
 title: 90 day review for afigueira
-updated: 2026-05-11 11:49:17.219607
+updated: 2026-05-11 14:46:09.208695
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 * check notion for process

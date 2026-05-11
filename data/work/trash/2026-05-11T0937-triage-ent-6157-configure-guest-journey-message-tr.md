@@ -17,7 +17,7 @@ tags:
 time_minutes: 20
 title: 'Triage ENT-6157: Configure guest journey message translations in Wyndham GJ
   onboarding'
-updated: 2026-05-11 09:37:22.896770
+updated: 2026-05-11 14:12:22.567223
 waiting_on: null
 waiting_since: null
 working_on: false

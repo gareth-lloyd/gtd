@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-08 16:46:58.762297
+created: 2026-05-08 16:46:58.762297
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: WCP onboarding should not fail "move" if no intended phone number known
-updated: *id001
+updated: 2026-05-11 13:47:13.538780
 waiting_on: null
 waiting_since: null
 working_on: false
