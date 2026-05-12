@@ -16,7 +16,7 @@ tags:
 - github
 time_minutes: 30
 title: 'Fix CI on PR #45141: ENT-6028 ex-Wyndham hotels via EX_* HotelAssociationIdType'
-updated: 2026-05-11 21:46:22.807313
+updated: 2026-05-12 10:46:56.518824
 waiting_on: null
 waiting_since: null
 working_on: false
