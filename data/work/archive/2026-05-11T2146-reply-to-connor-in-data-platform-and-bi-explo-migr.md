@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Connor in #data-platform-and-bi: Explo migration FYI'
-updated: 2026-05-11 21:46:23.048472
+updated: 2026-05-12 14:36:55.409336
 waiting_on: null
 waiting_since: null
 working_on: false

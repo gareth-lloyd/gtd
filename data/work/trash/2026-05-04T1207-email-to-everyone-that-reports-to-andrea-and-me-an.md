@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Email to everyone that reports to Andrea and me announcing
-updated: 2026-05-11 16:44:20.471637
+updated: 2026-05-12 14:43:39.742594
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

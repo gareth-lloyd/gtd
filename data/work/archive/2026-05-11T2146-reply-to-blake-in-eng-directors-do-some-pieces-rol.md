@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Blake in #eng-directors: do some pieces roll to me directly vs Andrea?'
-updated: 2026-05-11 21:46:23.108844
+updated: 2026-05-12 14:36:49.097539
 waiting_on: null
 waiting_since: null
 working_on: false
