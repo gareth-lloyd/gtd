@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-13 22:55:58.162199
+created: 2026-05-13 22:55:58.162199
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: respond with clear guidance on investigation agent skills
-updated: *id001
+updated: 2026-05-14 11:51:44.573580
 waiting_on: null
 waiting_since: null
 working_on: false

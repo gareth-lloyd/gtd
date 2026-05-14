@@ -1,19 +1,19 @@
 ---
-area: null
+area: management
 contexts: []
-created: &id001 2026-05-13 20:45:37.001973
+created: 2026-05-13 20:45:37.001973
 defer_until: null
-due: null
-energy: low
+due: 2026-05-14
+energy: medium
 id: 2026-05-13T2045-review-transcripts
 order: -18
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: review transcripts
-updated: *id001
+updated: 2026-05-14 11:47:36.045392
 waiting_on: null
 waiting_since: null
 working_on: false

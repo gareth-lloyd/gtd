@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: chekc upcoming rootly schedules for myself - time off etc
-updated: 2026-05-13 17:12:08.963831
+updated: 2026-05-14 12:00:57.873520
 waiting_on: null
 waiting_since: null
 working_on: false

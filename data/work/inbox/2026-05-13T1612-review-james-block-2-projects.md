@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-13 16:12:50.628479
-defer_until: null
+created: 2026-05-13 16:12:50.628479
+defer_until: 2026-05-15 09:00:00
 due: null
 energy: low
 id: 2026-05-13T1612-review-james-block-2-projects
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Review james block 2 projects
-updated: *id001
+updated: 2026-05-14 11:59:11.758115
 waiting_on: null
 waiting_since: null
 working_on: false
