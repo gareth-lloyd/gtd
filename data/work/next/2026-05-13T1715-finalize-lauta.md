@@ -1,19 +1,18 @@
 ---
 area: null
-contexts:
-- craft
-created: 2026-04-29 11:47:03.645666
+contexts: []
+created: 2026-05-13 17:15:57.759021
 defer_until: null
-due: null
-energy: high
-id: 2026-04-29T1147-finalize-laura
-order: 7
+due: 2026-05-15
+energy: low
+id: 2026-05-13T1715-finalize-lauta
+order: 3
 output: ''
 project: 2026-04-10T0840-people
 source_id: null
 tags: []
-time_minutes: 30
-title: Finalize Laura's review and fill out competency
+time_minutes: 5
+title: Finalize lauta
 updated: 2026-05-13 17:16:07.288161
 waiting_on: null
 waiting_since: null

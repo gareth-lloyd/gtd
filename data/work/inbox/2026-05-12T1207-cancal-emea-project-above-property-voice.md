@@ -12,8 +12,8 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: cancal emea project - above property voice. READ PRD Can Calco
-updated: 2026-05-12 14:35:24.378540
+title: can cal emea project - above property voice. READ PRD Can Calco
+updated: 2026-05-13 12:05:25.296911
 waiting_on: null
 waiting_since: null
 working_on: false

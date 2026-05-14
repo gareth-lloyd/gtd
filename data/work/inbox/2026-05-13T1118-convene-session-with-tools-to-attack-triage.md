@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-13 11:18:22.817837
-defer_until: null
+created: 2026-05-13 11:18:22.817837
+defer_until: 2026-05-18 09:00:00
 due: null
 energy: low
 id: 2026-05-13T1118-convene-session-with-tools-to-attack-triage
@@ -12,8 +12,8 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Convene session with TOOLs to attack triage
-updated: *id001
+title: Follow up on tools triage session. Andrea to book and lead
+updated: 2026-05-13 12:01:55.555118
 waiting_on: null
 waiting_since: null
 working_on: false

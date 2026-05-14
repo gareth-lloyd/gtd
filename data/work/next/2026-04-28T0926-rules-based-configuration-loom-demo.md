@@ -5,7 +5,7 @@ contexts:
 - fun
 created: 2026-04-28 09:26:13.213964
 defer_until: null
-due: 2026-05-12
+due: null
 energy: high
 id: 2026-04-28T0926-rules-based-configuration-loom-demo
 order: 3
@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Rules based configuration - loom demo
-updated: 2026-05-11 11:44:05.226838
+updated: 2026-05-13 14:21:26.629597
 waiting_on: null
 waiting_since: null
 working_on: false
