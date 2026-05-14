@@ -16,10 +16,8 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Jordan Sterling re: stable-APIs oauth split'
-updated: 2026-05-14 09:51:21.309447
+updated: 2026-05-14 12:19:53.361587
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-Jordan: oauth work is 2 sides — one ticket (login page) for my team, second part (portfolio-owned APIs) on his side, looser deadline. https://canarytechnologies.slack.com/archives/D07HCMQU5FY/p1778710486268839

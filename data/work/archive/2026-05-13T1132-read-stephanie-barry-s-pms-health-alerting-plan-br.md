@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Read: Stephanie Barry''s PMS health alerting plan (brand-routed Linear tickets)'
-updated: 2026-05-13 19:59:39.527990
+updated: 2026-05-14 12:32:05.471295
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Stephanie re: Lauta''s capacity for next block'
-updated: 2026-05-13 22:09:19.090436
+updated: 2026-05-14 12:20:42.463481
 waiting_on: null
 waiting_since: null
 working_on: false

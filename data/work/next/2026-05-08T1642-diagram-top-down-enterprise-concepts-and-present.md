@@ -3,7 +3,7 @@ area: management
 contexts: []
 created: 2026-05-08 16:42:01.791214
 defer_until: null
-due: 2026-05-12
+due: null
 energy: medium
 id: 2026-05-08T1642-diagram-top-down-enterprise-concepts-and-present
 order: -1
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Diagram "top-down" enterprise concepts and present
-updated: 2026-05-11 13:55:04.899640
+updated: 2026-05-14 12:35:11.617998
 waiting_on: null
 waiting_since: null
 working_on: false

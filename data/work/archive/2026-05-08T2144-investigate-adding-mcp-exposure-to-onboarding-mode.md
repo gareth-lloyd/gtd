@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: investigate adding mcp exposure to onboarding models
-updated: 2026-05-11 11:05:48.442751
+updated: 2026-05-14 12:31:18.161649
 waiting_on: null
 waiting_since: null
 working_on: false

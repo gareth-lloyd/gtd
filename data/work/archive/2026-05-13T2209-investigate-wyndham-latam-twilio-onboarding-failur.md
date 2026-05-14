@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 20
 title: Investigate Wyndham LATAM Twilio onboarding failures (6 MX hotels)
-updated: 2026-05-13 22:09:19.247291
+updated: 2026-05-14 12:21:03.553530
 waiting_on: null
 waiting_since: null
 working_on: false

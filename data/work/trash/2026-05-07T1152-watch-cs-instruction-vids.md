@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Watch CS instruction vids
-updated: 2026-05-08 13:47:56.671322
+updated: 2026-05-14 12:31:29.995194
 waiting_on: null
 waiting_since: null
 working_on: false

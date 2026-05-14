@@ -14,7 +14,7 @@ tags: []
 time_minutes: 5
 title: Check with Andres what to do to get portfolio extendable reg cards in palce
   for BW
-updated: 2026-05-12 15:44:11.711278
+updated: 2026-05-14 12:32:09.709533
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 30
 title: Review manager reviews for direct reports before conversations
-updated: 2026-05-13 22:09:19.165417
+updated: 2026-05-14 12:20:38.937330
 waiting_on: null
 waiting_since: null
 working_on: false
