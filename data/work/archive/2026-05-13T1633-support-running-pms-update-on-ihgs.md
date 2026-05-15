@@ -14,7 +14,7 @@ tags: []
 time_minutes: 5
 title: Check what Taylor was able to do yetsredya on ihg scripts; support running
   PMS update on IHGs
-updated: 2026-05-14 13:32:34.995952
+updated: 2026-05-14 13:42:47.595135
 waiting_on: null
 waiting_since: null
 working_on: false

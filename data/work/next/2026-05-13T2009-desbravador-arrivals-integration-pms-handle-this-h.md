@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Desbravador arrivals integration PMS handle this hote;
-updated: 2026-05-14 13:32:28.506662
+updated: 2026-05-14 13:54:01.792077
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://linear.app/canary-technologies/issue/ENT-6197/msa-go-live-step-or-acanto-playa-del-carmen-trademark-collection-by
