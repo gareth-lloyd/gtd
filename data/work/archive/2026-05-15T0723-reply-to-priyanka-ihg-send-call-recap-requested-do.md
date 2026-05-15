@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 20
 title: 'Reply to Priyanka (IHG): send call recap + requested documentation'
-updated: 2026-05-15 07:23:46.322928
+updated: 2026-05-15 13:30:32.182532
 waiting_on: null
 waiting_since: null
 working_on: false

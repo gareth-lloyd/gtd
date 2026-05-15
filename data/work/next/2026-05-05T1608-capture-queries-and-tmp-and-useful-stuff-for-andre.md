@@ -7,13 +7,14 @@ due: null
 energy: low
 id: 2026-05-05T1608-capture-queries-and-tmp-and-useful-stuff-for-andre
 order: 1
+output: ''
 project: 2026-04-10T0840-ent-handover
 source_id: null
 tags: []
 time_minutes: 5
-title: Capture queries and tmp and useful stuff for Andrea
-updated: 2026-05-05 16:08:10.444747
+title: Go through the backend/canary/tmp folder, looking in particular at
+updated: 2026-05-15 10:25:40.867555
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

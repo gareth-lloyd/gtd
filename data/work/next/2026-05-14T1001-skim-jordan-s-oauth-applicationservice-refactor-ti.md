@@ -92,13 +92,11 @@ tags:
 - linear
 - from-awareness
 time_minutes: 20
-title: REview Oauth project and choose next step
-updated: 2026-05-15 06:08:00.605108
+title: REview Oauth project and assign outstanding work
+updated: 2026-05-15 11:07:55.951643
 waiting_on: null
 waiting_since: null
 working_on: true
 ---
-
-Related to Jordan's DM on oauth split. Skim the In Review tickets so I can respond to the DM with context. https://linear.app/canary-technologies/issue/ENT-6211/applicationserviceupdate-for-name-status
 
 Jordan: oauth work is 2 sides — one ticket (login page) for my team, second part (portfolio-owned APIs) on his side, looser deadline. https://canarytechnologies.slack.com/archives/D07HCMQU5FY/p1778710486268839
