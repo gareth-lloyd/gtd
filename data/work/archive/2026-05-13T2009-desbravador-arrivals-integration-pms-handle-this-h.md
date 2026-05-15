@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Desbravador arrivals integration PMS handle this hote;
-updated: 2026-05-14 13:54:01.792077
+updated: 2026-05-15 06:11:37.178173
 waiting_on: null
 waiting_since: null
 working_on: false

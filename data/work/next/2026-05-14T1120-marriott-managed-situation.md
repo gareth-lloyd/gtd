@@ -190,10 +190,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Marriott managed situation
-updated: 2026-05-14 14:43:26.127803
+updated: 2026-05-15 06:11:34.714209
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://linear.app/canary-technologies/issue/ENT-6117/change-from-marriott-managed-to-non-managed#comment-011051ff

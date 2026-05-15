@@ -92,9 +92,8 @@ tags:
 - linear
 - from-awareness
 time_minutes: 20
-title: 'Skim: Jordan''s OAuth/ApplicationService refactor tickets (ENT-6209/6210/6211/6212)
-  in review'
-updated: 2026-05-14 13:32:54.801239
+title: REview Oauth project and choose next step
+updated: 2026-05-15 06:08:00.605108
 waiting_on: null
 waiting_since: null
 working_on: true
