@@ -1,22 +1,21 @@
 ---
-area: null
-contexts:
-- react
+area: admin
+contexts: []
 created: 2026-05-18 11:39:29.269820
 defer_until: null
-due: null
-energy: medium
+due: 2026-05-18
+energy: null
 id: 2026-05-18T1139-triage-ent-6251-definitive-list-of-imm-portfolio-p
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://linear.app/canary-technologies/issue/ENT-6251/request-for-definitive-list-of-properties-in-imm-portfolio
 tags:
 - morning-gtd
 - linear
-time_minutes: 30
+time_minutes: 15
 title: 'Triage ENT-6251: definitive list of IMM portfolio properties'
-updated: 2026-05-18 11:39:29.353357
+updated: 2026-05-18 12:19:40.256832
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Follow up with Bree/Kiosk on Brand definition in step configurator
-updated: 2026-05-12 10:46:41.377096
+updated: 2026-05-18 12:19:08.407904
 waiting_on: null
 waiting_since: null
 working_on: false

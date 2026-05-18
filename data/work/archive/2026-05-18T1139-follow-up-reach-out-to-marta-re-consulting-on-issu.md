@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Follow up: reach out to Marta re: consulting on issues'
-updated: 2026-05-18 11:39:29.446973
+updated: 2026-05-18 12:19:13.746638
 waiting_on: null
 waiting_since: null
 working_on: false

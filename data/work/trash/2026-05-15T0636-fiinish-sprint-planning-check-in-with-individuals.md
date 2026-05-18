@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: fiinish sprint planning. DM andres, Ryan, then message on enterprise engineers
-updated: 2026-05-15 21:22:22.179571
+updated: 2026-05-18 11:55:51.901930
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

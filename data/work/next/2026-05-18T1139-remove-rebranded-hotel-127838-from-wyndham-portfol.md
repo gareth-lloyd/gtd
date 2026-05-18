@@ -1,22 +1,23 @@
 ---
-area: null
+area: engineering
 contexts:
 - react
+- autopilot
 created: 2026-05-18 11:39:29.091753
 defer_until: null
-due: null
-energy: low
+due: 2026-05-18
+energy: medium
 id: 2026-05-18T1139-remove-rebranded-hotel-127838-from-wyndham-portfol
 order: null
 output: ''
-project: null
+project: 2026-04-16T1351-ship
 source_id: https://canarytechnologies.slack.com/archives/C07BX379GQK/p1778867385980589?thread_ts=1778842566.238089&cid=C07BX379GQK
 tags:
 - morning-gtd
 - slack
-time_minutes: 15
+time_minutes: 5
 title: Remove rebranded hotel 127838 from Wyndham portfolio (BW rebrand)
-updated: 2026-05-18 11:39:29.164874
+updated: 2026-05-18 12:19:29.665550
 waiting_on: null
 waiting_since: null
 working_on: false
