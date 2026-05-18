@@ -78,6 +78,7 @@ def dump_project(path: Path, project: Project) -> None:
         due=project.due,
         priority=project.priority,
         max_next_items=project.max_next_items,
+        working_dir=project.working_dir,
     )
     _atomic_dump(path, lambda f: frontmatter.dump(post, f))
 
@@ -102,6 +103,7 @@ def load_project(path: Path) -> Project:
         due=_as_date(md.get("due")),
         priority=md.get("priority"),
         max_next_items=md.get("max_next_items"),
+        working_dir=md.get("working_dir"),
     )
 
 

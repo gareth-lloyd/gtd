@@ -66,6 +66,7 @@ const projectA: Project = {
   due: null,
   priority: 1,
   max_next_items: 1,
+  working_dir: null,
 };
 
 const projectB: Project = {
@@ -81,6 +82,7 @@ const projectB: Project = {
   due: null,
   priority: 3,
   max_next_items: null,
+  working_dir: null,
 };
 
 function renderCard(item: Item, initial = "/work/next") {

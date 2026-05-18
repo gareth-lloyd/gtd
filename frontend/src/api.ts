@@ -43,6 +43,7 @@ export interface Project {
   due: string | null;
   priority: number | null;
   max_next_items: number | null;
+  working_dir: string | null;
 }
 
 export type Recurrence =
@@ -205,6 +206,7 @@ export const api = {
       due?: string | null;
       priority?: number | null;
       max_next_items?: number | null;
+      working_dir?: string | null;
     },
   ) =>
     request<Project>(`/envs/${env}/projects/`, {

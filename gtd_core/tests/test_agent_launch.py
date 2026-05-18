@@ -153,6 +153,18 @@ class TestBuildPrompt:
         assert "Quarterly cycle done well" in out
         assert "management" in out
 
+    def test_includes_working_dir_when_set(self, tmp_path):
+        project = Project(
+            id="2026-03-01-code",
+            title="Code",
+            body="",
+            created=datetime(2026, 3, 1),
+            updated=datetime(2026, 3, 1),
+            working_dir="~/projects/foo",
+        )
+        out = build_prompt(self._item("t"), **self._kwargs(tmp_path), project=project)
+        assert "Working directory: ~/projects/foo" in out
+
     def test_omits_project_section_when_no_project(self, tmp_path):
         out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
         assert "Project context" not in out

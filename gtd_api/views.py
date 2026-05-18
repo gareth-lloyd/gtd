@@ -318,6 +318,7 @@ def projects(request: Request, env: str) -> Response:
         due=data.get("due") or None,
         priority=data.get("priority"),
         max_next_items=data.get("max_next_items"),
+        working_dir=data.get("working_dir") or None,
     )
     return Response(ProjectSerializer(project).data, status=status.HTTP_201_CREATED)
 

@@ -141,6 +141,31 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
   move out of the next bucket, and when `defer_until` is set to a future
   datetime. Edits to title/body/contexts/etc leave it alone.
 
+- **Agent launch**: the `🤖 agent` button on an item (next-actions card or
+  detail pane) opens an interactive iTerm session running `claude
+  --permission-mode auto` with a generated prompt. macOS-only — spawns
+  iTerm via `osascript`. Endpoint: `POST /api/envs/<env>/items/<id>/
+  launch-agent/` → `service.launch_agent_session()` →
+  `agent_launch.build_prompt()` + `launch_claude_session()`. Launching
+  sets the item's `working_on: true`. The prompt embeds the item
+  title/body, project context (incl. `working_dir`), any prior `output:`,
+  and strict guardrails: the agent does NOT decide when the task is done
+  and must not make external/outbound writes without explicit in-session
+  approval. Exit protocol the agent follows: append findings to `output:`
+  (a new `## Agent run <ISO>` section if prior runs exist), set
+  `working_on: false`, bump `updated:`, then stop — it never moves/
+  archives/completes the item. The user reads the output and decides next
+  steps. cwd precedence: project `working_dir` → `settings.GTD_AGENT_CWD`
+  → `$HOME`. Errors surface as 503 (no `claude` CLI), 502 (osascript
+  failed), 404 (item gone).
+
+- **Project working dir**: projects carry `working_dir: str | None`. When
+  an agent is launched (`🤖 agent`) for an item linked to a project that
+  has `working_dir` set, the iTerm session `cd`s into that directory
+  (`~` expanded) instead of the default agent cwd. Items not linked to
+  such a project use the default. Editable in the project editor / new-
+  project form.
+
 - **Keyboard shortcuts** (when not focused in an input):
   - `C` — open capture bar (Regular mode)
   - `Shift+C` — open capture bar (Regular ↑ mode: float new item to top of inbox)

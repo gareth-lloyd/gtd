@@ -59,6 +59,7 @@ class ProjectSerializer(serializers.Serializer):
             "due": instance.due.isoformat() if instance.due else None,
             "priority": instance.priority,
             "max_next_items": instance.max_next_items,
+            "working_dir": instance.working_dir,
         }
 
 
@@ -131,6 +132,7 @@ class ProjectCreateSerializer(serializers.Serializer):
     due = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     priority = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=5)
     max_next_items = serializers.IntegerField(required=False, allow_null=True, min_value=1)
+    working_dir = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
 
 class ItemPatchSerializer(serializers.Serializer):
@@ -165,6 +167,7 @@ class ProjectPatchSerializer(serializers.Serializer):
     due = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     priority = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=5)
     max_next_items = serializers.IntegerField(required=False, allow_null=True, min_value=1)
+    working_dir = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
 
 class ProjectReorderSerializer(serializers.Serializer):

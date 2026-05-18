@@ -103,10 +103,13 @@ class GtdService:
         if not item.working_on:
             item = self.update(env, item_id, {"working_on": True})
         project = self.get_project(env, item.project) if item.project else None
+        cwd = self._agent_cwd
+        if project is not None and project.working_dir:
+            cwd = Path(project.working_dir).expanduser()
         prompt = build_prompt(
             item, item_path=repo.path_for(item), env_dir=repo.env_root, project=project
         )
-        launch_claude_session(prompt=prompt, cwd=self._agent_cwd)
+        launch_claude_session(prompt=prompt, cwd=cwd)
 
     # ---- Items ----
 
@@ -468,6 +471,7 @@ class GtdService:
         due: str | None = None,
         priority: Priority | None = None,
         max_next_items: int | None = None,
+        working_dir: str | None = None,
     ) -> Project:
         if max_next_items is not None and max_next_items < 1:
             raise ValueError(f"max_next_items must be >= 1, got {max_next_items}")
@@ -484,6 +488,7 @@ class GtdService:
             due=parse_human_date(due),
             priority=priority,
             max_next_items=max_next_items,
+            working_dir=working_dir,
         )
         self.repo(env).save_project(project)
         return project

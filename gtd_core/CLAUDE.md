@@ -81,6 +81,14 @@ The API layer (`gtd_api`) only talks to `GtdService`. Never skip layers.
   project_id, [ids])` assigns `order: 1..N` — the API's reorder endpoint
   wraps this for drag-and-drop in the UI.
 
+- **Project working dir**: `Project.working_dir: str | None`. When an agent
+  is launched for an item linked to a project with `working_dir` set,
+  `service.launch_agent_session()` passes `Path(working_dir).expanduser()`
+  as the iTerm session's `cwd` instead of the service's default
+  `agent_cwd`. `~` is expanded; no existence check (a bad path makes the
+  iTerm `cd` fail visibly before `claude` starts). `None`/empty falls back
+  to `agent_cwd`. Surfaced to the agent in the prompt's project section.
+
 ## Tests
 
 All in `tests/`. Every test creates a tmp data root — no fixture shares

@@ -29,7 +29,7 @@ handler surfaces these as toast notifications automatically.
 - `ItemPatchSerializer` — write: any mutable item field. Fields only appear
   in `validated_data` when the client sent them, so PATCH semantics are clean
 - `ProjectCreateSerializer` — write: id, title, body, outcome, area, tags,
-  due, priority (1-5), max_next_items (int ≥ 1 or null)
+  due, priority (1-5), max_next_items (int ≥ 1 or null), working_dir
 - `ProjectPatchSerializer` — write: same field set as Create minus id
 - `ProjectReorderSerializer` — write: `item_ids: list[str]`
 - `SnapshotRequestSerializer` — write: optional message, push flag

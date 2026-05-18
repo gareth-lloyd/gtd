@@ -458,6 +458,7 @@ function ProjectEditor({
   const [due, setDue] = useState(project.due ?? "");
   const [priority, setPriority] = useState<string>(project.priority?.toString() ?? "");
   const [maxNextItems, setMaxNextItems] = useState<number | null>(project.max_next_items);
+  const [workingDir, setWorkingDir] = useState(project.working_dir ?? "");
   const [body, setBody] = useState(project.body);
 
   const mut = useMutation({
@@ -468,6 +469,7 @@ function ProjectEditor({
         due: due || null,
         priority: priority ? parseInt(priority, 10) : null,
         max_next_items: maxNextItems,
+        working_dir: workingDir.trim() || null,
         body,
       }),
     onSuccess: () => {
@@ -505,6 +507,15 @@ function ProjectEditor({
       </div>
       <MaxNextItemsField value={maxNextItems} onChange={setMaxNextItems} />
       <label>
+        Working directory
+        <input
+          type="text"
+          value={workingDir}
+          placeholder="~/projects/foo — where agent sessions launch"
+          onChange={(e) => setWorkingDir(e.target.value)}
+        />
+      </label>
+      <label>
         Notes
         <textarea rows={3} value={body} onChange={(e) => setBody(e.target.value)} />
       </label>
@@ -523,6 +534,7 @@ function NewProjectForm({ env }: { env: string }) {
   const [due, setDue] = useState("");
   const [priority, setPriority] = useState<string>("");
   const [maxNextItems, setMaxNextItems] = useState<number | null>(null);
+  const [workingDir, setWorkingDir] = useState("");
 
   const mut = useMutation({
     mutationFn: () =>
@@ -533,6 +545,7 @@ function NewProjectForm({ env }: { env: string }) {
         due: due || undefined,
         priority: priority ? parseInt(priority, 10) : undefined,
         max_next_items: maxNextItems,
+        working_dir: workingDir.trim() || undefined,
       }),
     onSuccess: () => {
       setOpen(false);
@@ -541,6 +554,7 @@ function NewProjectForm({ env }: { env: string }) {
       setDue("");
       setPriority("");
       setMaxNextItems(null);
+      setWorkingDir("");
       invalidateProjectQueries(qc, env);
     },
   });
@@ -575,6 +589,15 @@ function NewProjectForm({ env }: { env: string }) {
         </label>
       </div>
       <MaxNextItemsField value={maxNextItems} onChange={setMaxNextItems} />
+      <label>
+        Working directory
+        <input
+          type="text"
+          value={workingDir}
+          placeholder="~/projects/foo — where agent sessions launch"
+          onChange={(e) => setWorkingDir(e.target.value)}
+        />
+      </label>
       <div className="row">
         <Button
           className="primary"

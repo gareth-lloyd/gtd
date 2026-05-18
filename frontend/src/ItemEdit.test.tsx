@@ -58,6 +58,7 @@ const projectA: Project = {
   due: null,
   priority: 1,
   max_next_items: null,
+  working_dir: null,
 };
 
 function makeWrapper(seed: (qc: QueryClient) => void) {

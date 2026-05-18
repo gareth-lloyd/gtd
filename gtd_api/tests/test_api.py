@@ -628,6 +628,20 @@ class TestProjects:
         assert r.status_code == 200
         assert r.json()["status"] == "complete"
 
+    def test_create_and_patch_project_working_dir(self, api):
+        r = api.post(
+            "/api/envs/work/projects/",
+            {"id": "p1", "title": "P", "working_dir": "~/projects/foo"},
+            format="json",
+        )
+        assert r.status_code == 201
+        assert r.json()["working_dir"] == "~/projects/foo"
+        r = api.patch(
+            "/api/envs/work/projects/p1/", {"working_dir": "~/projects/bar"}, format="json"
+        )
+        assert r.status_code == 200
+        assert r.json()["working_dir"] == "~/projects/bar"
+
     def test_patch_project_invalid_status(self, api):
         api.post("/api/envs/work/projects/", {"id": "p1", "title": "P"}, format="json")
         r = api.patch("/api/envs/work/projects/p1/", {"status": "bogus"}, format="json")

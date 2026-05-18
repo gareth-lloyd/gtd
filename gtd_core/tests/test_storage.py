@@ -233,6 +233,7 @@ class TestProjectRoundTrip:
             area="writing",
             tags=["personal"],
             max_next_items=2,
+            working_dir="~/projects/blog",
         )
         path = tmp_path / "blog.md"
         dump_project(path, p)

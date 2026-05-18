@@ -84,6 +84,7 @@ class Project:
     due: date | None = None
     priority: Priority | None = None
     max_next_items: int | None = None
+    working_dir: str | None = None
 
 
 @dataclass(slots=True)

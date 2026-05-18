@@ -16,6 +16,7 @@ function mkProject(overrides: Partial<Project> = {}): Project {
     due: null,
     priority: null,
     max_next_items: null,
+    working_dir: null,
     ...overrides,
   };
 }

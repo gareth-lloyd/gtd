@@ -145,6 +145,11 @@ def _project_section(project: Project) -> str:
         lines.append(f"Outcome: {project.outcome}")
     if project.area:
         lines.append(f"Area: {project.area}")
+    if project.working_dir:
+        lines.append(
+            f"Working directory: {project.working_dir} "
+            "(this session was launched there — treat it as the project's codebase/root)"
+        )
     return "\n".join(lines)
 
 

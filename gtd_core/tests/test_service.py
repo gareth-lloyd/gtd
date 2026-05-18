@@ -1325,6 +1325,52 @@ class TestLaunchAgentSession:
         svc.launch_agent_session("work", item.id)
         assert captured["cwd"] == tmp_path
 
+    def test_project_working_dir_overrides_agent_cwd(self, data_root, tmp_path, monkeypatch):
+        captured: dict = {}
+
+        def fake_launch(*, prompt, cwd=None, auto=True):
+            captured["cwd"] = cwd
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
+        svc = GtdService(data_root, now=lambda: datetime(2026, 4, 10, 9, 15), agent_cwd=tmp_path)
+        proj_dir = tmp_path / "the-codebase"
+        svc.create_project("work", title="Code", project_id="code", working_dir=str(proj_dir))
+        item = svc.capture("work", "fix bug")
+        svc.update("work", item.id, {"project": "code"})
+        svc.launch_agent_session("work", item.id)
+        assert captured["cwd"] == proj_dir
+
+    def test_project_working_dir_expands_tilde(self, svc, monkeypatch):
+        from pathlib import Path
+
+        captured: dict = {}
+
+        def fake_launch(*, prompt, cwd=None, auto=True):
+            captured["cwd"] = cwd
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
+        svc.create_project("work", title="Code", project_id="code", working_dir="~/projects/foo")
+        item = svc.capture("work", "fix bug")
+        svc.update("work", item.id, {"project": "code"})
+        svc.launch_agent_session("work", item.id)
+        assert captured["cwd"] == Path.home() / "projects/foo"
+
+    def test_falls_back_to_agent_cwd_when_project_has_no_working_dir(
+        self, data_root, tmp_path, monkeypatch
+    ):
+        captured: dict = {}
+
+        def fake_launch(*, prompt, cwd=None, auto=True):
+            captured["cwd"] = cwd
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
+        svc = GtdService(data_root, now=lambda: datetime(2026, 4, 10, 9, 15), agent_cwd=tmp_path)
+        svc.create_project("work", title="Code", project_id="code")
+        item = svc.capture("work", "fix bug")
+        svc.update("work", item.id, {"project": "code"})
+        svc.launch_agent_session("work", item.id)
+        assert captured["cwd"] == tmp_path
+
 
 class TestPurgeAudit:
     """Hard deletes leave a record so an accidental purge can be reconstructed."""
