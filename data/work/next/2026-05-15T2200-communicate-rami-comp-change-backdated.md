@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-15 22:00:53.688485
+created: 2026-05-15 22:00:53.688485
 defer_until: null
-due: null
+due: 2026-05-25
 energy: low
 id: 2026-05-15T2200-communicate-rami-comp-change-backdated
 order: -20
 output: ''
-project: null
+project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 5
 title: communicate Rami comp change, backdated
-updated: *id001
+updated: 2026-05-18 11:52:22.714380
 waiting_on: null
 waiting_since: null
 working_on: false

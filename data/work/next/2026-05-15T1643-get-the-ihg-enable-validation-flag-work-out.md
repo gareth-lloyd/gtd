@@ -1,19 +1,21 @@
 ---
 area: null
-contexts: []
+contexts:
+- autopilot
+- craft
 created: 2026-05-15 16:43:06.610323
 defer_until: null
 due: 2026-05-18
-energy: low
+energy: medium
 id: 2026-05-15T1643-get-the-ihg-enable-validation-flag-work-out
 order: null
 output: ''
-project: null
+project: 2026-04-16T1351-ship
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Get the IHG enable/validation/flag work out
-updated: 2026-05-15 16:43:14.218066
+updated: 2026-05-18 11:50:16.836438
 waiting_on: null
 waiting_since: null
 working_on: false

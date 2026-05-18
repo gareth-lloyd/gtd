@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-15 21:21:36.718854
+created: 2026-05-15 21:21:36.718854
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: get recording of emea sync
-updated: *id001
+updated: 2026-05-18 11:52:28.491098
 waiting_on: null
 waiting_since: null
 working_on: false

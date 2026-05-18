@@ -1,7 +1,8 @@
 ---
-area: null
+area: engineering
 contexts:
 - react
+- craft
 created: 2026-05-18 11:39:29.165763
 defer_until: null
 due: 2026-05-18
@@ -9,14 +10,14 @@ energy: high
 id: 2026-05-18T1139-triage-ent-6244-bad-actor-attempting-to-gain-acces
 order: null
 output: ''
-project: null
+project: 2026-04-16T1351-ship
 source_id: https://linear.app/canary-technologies/issue/ENT-6244/bad-actor-attempting-to-gain-access
 tags:
 - morning-gtd
 - linear
-time_minutes: 45
+time_minutes: 15
 title: 'Triage ENT-6244: Bad actor attempting to gain access (SLA breached)'
-updated: 2026-05-18 11:39:29.268781
+updated: 2026-05-18 11:50:32.348376
 waiting_on: null
 waiting_since: null
 working_on: false
