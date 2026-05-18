@@ -6,14 +6,14 @@ defer_until: null
 due: 2026-05-25
 energy: low
 id: 2026-05-15T2200-communicate-rami-comp-change-backdated
-order: -20
+order: 5
 output: ''
 project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 5
 title: communicate Rami comp change, backdated
-updated: 2026-05-18 11:52:22.714380
+updated: 2026-05-18 13:36:14.951796
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -7,7 +7,7 @@ defer_until: null
 due: 2026-05-15
 energy: low
 id: 2026-05-15T0723-advise-rachel-re-wyndham-whatsapp-number-190291804
-order: null
+order: 1
 output: ''
 project: 2026-04-16T1351-ship
 source_id: https://canarytechnologies.slack.com/archives/C04STT7UPRQ/p1778707537462869?thread_ts=1775646924.310129&cid=C04STT7UPRQ
@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Advise Rachel re: Wyndham WhatsApp number +19029180410'
-updated: 2026-05-15 12:59:02.872708
+updated: 2026-05-18 13:48:00.248108
 waiting_on: null
 waiting_since: null
 working_on: false

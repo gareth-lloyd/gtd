@@ -8,7 +8,7 @@ defer_until: null
 due: 2026-05-18
 energy: medium
 id: 2026-05-18T1139-remove-rebranded-hotel-127838-from-wyndham-portfol
-order: null
+order: 4
 output: ''
 project: 2026-04-16T1351-ship
 source_id: https://canarytechnologies.slack.com/archives/C07BX379GQK/p1778867385980589?thread_ts=1778842566.238089&cid=C07BX379GQK
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 5
 title: Remove rebranded hotel 127838 from Wyndham portfolio (BW rebrand)
-updated: 2026-05-18 12:19:29.665550
+updated: 2026-05-18 14:38:47.111724
 waiting_on: null
 waiting_since: null
 working_on: false

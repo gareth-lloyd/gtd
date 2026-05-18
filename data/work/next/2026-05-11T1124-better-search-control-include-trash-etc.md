@@ -13,8 +13,12 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Better search control (include trash etc)
-updated: 2026-05-11 11:24:50.979677
+updated: 2026-05-18 13:38:57.727106
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+Options:
+* Include done selected by default
+* Include trash - deselected by default

@@ -7,7 +7,7 @@ defer_until: null
 due: 2026-05-18
 energy: high
 id: 2026-05-18T1139-reply-to-andrea-re-ent-6204-oauth-login-pr-review
-order: null
+order: 6
 output: ''
 project: 2026-04-16T1351-ship
 source_id: https://canarytechnologies.slack.com/archives/D061NMRMFB3/p1779084004612329
@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Andrea re: ENT-6204 OAuth login PR review + staging test'
-updated: 2026-05-18 11:50:02.882609
+updated: 2026-05-18 14:38:47.111724
 waiting_on: null
 waiting_since: null
 working_on: false

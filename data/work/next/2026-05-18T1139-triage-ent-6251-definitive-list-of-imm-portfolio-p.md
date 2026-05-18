@@ -2,8 +2,8 @@
 area: admin
 contexts: []
 created: 2026-05-18 11:39:29.269820
-defer_until: null
-due: 2026-05-18
+defer_until: 2026-05-19 09:00:00
+due: null
 energy: null
 id: 2026-05-18T1139-triage-ent-6251-definitive-list-of-imm-portfolio-p
 order: null
@@ -15,7 +15,7 @@ tags:
 - linear
 time_minutes: 15
 title: 'Triage ENT-6251: definitive list of IMM portfolio properties'
-updated: 2026-05-18 12:19:40.256832
+updated: 2026-05-18 13:35:57.451323
 waiting_on: null
 waiting_since: null
 working_on: false

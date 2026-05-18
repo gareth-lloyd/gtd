@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: write eng design for typed portfolios with membership rules
-updated: 2026-05-15 15:59:14.766753
+updated: 2026-05-18 13:39:11.352673
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Typed portfolios

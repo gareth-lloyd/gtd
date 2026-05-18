@@ -6,7 +6,7 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-05-14T1120-marriott-managed-situation
-order: -22
+order: 8
 output: '## Agent run 2026-05-14T13:05Z
 
 
@@ -190,7 +190,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Marriott managed situation
-updated: 2026-05-15 06:11:34.714209
+updated: 2026-05-18 14:38:47.111724
 waiting_on: null
 waiting_since: null
 working_on: true
