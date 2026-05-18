@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Enterprise knowledge base bot for Linear agent
-updated: 2026-05-08 11:34:20.711399
+updated: 2026-05-15 15:58:56.938896
 waiting_on: null
 waiting_since: null
 working_on: false

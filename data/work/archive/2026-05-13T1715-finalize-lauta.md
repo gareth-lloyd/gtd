@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Finalize lauta
-updated: 2026-05-13 17:16:07.288161
+updated: 2026-05-15 15:49:06.058802
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Finalize Martijn's review and fill out competency
-updated: 2026-05-13 17:16:07.288161
+updated: 2026-05-15 22:00:11.154733
 waiting_on: null
 waiting_since: null
 working_on: false
