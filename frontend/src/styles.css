@@ -1115,6 +1115,16 @@ button.quiet.danger {
   padding: 0.25rem 0.6rem;
 }
 
+/* Current bucket, surfaced as a selected (non-actionable) state rather
+   than being hidden — see WorkflowActions. */
+.item-actions button[aria-pressed="true"] {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  opacity: 1;
+  cursor: default;
+}
+
 /* ---- Editor ---- */
 
 .editor {

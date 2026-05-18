@@ -78,13 +78,17 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
         </>
       ) : (
         <>
-          {(["next", "waiting", "someday"] as const)
-            .filter((b) => item.status !== b)
-            .map((b) => (
+          {(["next", "waiting", "someday"] as const).map((b) =>
+            item.status === b ? (
+              <Button key={b} aria-pressed disabled title={`Currently in ${b}`}>
+                {b}
+              </Button>
+            ) : (
               <Button key={b} onClick={() => moveMut.mutate(b)} busy={isMoving(b)} disabled={busy}>
                 → {b}
               </Button>
-            ))}
+            ),
+          )}
           <Button
             data-completing={completeMut.isPending ? "true" : undefined}
             onClick={() => completeMut.mutate()}

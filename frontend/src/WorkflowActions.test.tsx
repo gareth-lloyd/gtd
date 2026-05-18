@@ -77,12 +77,24 @@ afterEach(() => {
 });
 
 describe("WorkflowActions — next bucket", () => {
-  it("renders move buttons for waiting and someday (but not current bucket)", () => {
+  it("renders move buttons for waiting and someday, and the current bucket as a selected (non-move) chip", () => {
     renderActions(nextItem);
     expect(screen.getByRole("button", { name: /→ waiting/ })).toBeDefined();
     expect(screen.getByRole("button", { name: /→ someday/ })).toBeDefined();
-    // Current bucket is next — no "→ next" button should appear
+    // Current bucket is next — shown as a selected, non-actionable button
+    // (no arrow prefix, since it's the current state, not a move target).
     expect(screen.queryByRole("button", { name: /→ next$/ })).toBeNull();
+    const current = screen.getByRole("button", { name: /^next$/ });
+    expect(current).toHaveAttribute("aria-pressed", "true");
+    expect(current).toHaveProperty("disabled", true);
+  });
+
+  it("clicking the selected current-bucket button does not call moveItem", async () => {
+    const user = userEvent.setup();
+    renderActions(nextItem);
+    await user.click(screen.getByRole("button", { name: /^next$/ }));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(api.moveItem).not.toHaveBeenCalled();
   });
 
   it('clicking "→ waiting" calls moveItem with waiting', async () => {
