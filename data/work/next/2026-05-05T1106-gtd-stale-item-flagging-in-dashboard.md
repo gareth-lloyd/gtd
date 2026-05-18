@@ -16,10 +16,10 @@ tags:
 - skills
 time_minutes: 30
 title: 'GTD: stale-item flagging in dashboard'
-updated: 2026-05-18 12:37:40.735393
+updated: 2026-05-18 12:38:59.421745
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 **Problem.** Dashboard surfaces good signals but misses decay:
