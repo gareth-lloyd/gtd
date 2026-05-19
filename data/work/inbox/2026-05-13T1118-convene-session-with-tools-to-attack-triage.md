@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-13 11:18:22.817837
-defer_until: 2026-05-19 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-13T1118-convene-session-with-tools-to-attack-triage
