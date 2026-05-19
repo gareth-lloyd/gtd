@@ -1,19 +1,21 @@
 ---
-area: null
-contexts: []
-created: &id001 2026-05-19 11:36:01.802626
+area: admin
+contexts:
+- react
+- autopilot
+created: 2026-05-19 11:36:01.802626
 defer_until: null
-due: null
+due: 2026-05-20
 energy: low
 id: 2026-05-19T1136-follow-up-on-status-of-iot-product
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: follow up on status of iot product
-updated: *id001
+updated: 2026-05-19 14:56:11.690580
 waiting_on: null
 waiting_since: null
 working_on: false

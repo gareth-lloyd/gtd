@@ -9,14 +9,16 @@ due: null
 energy: high
 id: 2026-04-20T0901-record-loom-of-rules-consistency-demo
 order: 6
+output: ''
 project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 30
 title: Record Loom of rules consistency demo (ENT-5030)
-updated: 2026-04-29 11:54:35.474408
+updated: 2026-05-19 15:01:38.392228
 waiting_on: null
 waiting_since: null
+working_on: true
 ---
 
 ENT-5030.

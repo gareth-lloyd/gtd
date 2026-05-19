@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 20
 title: Follow up on agents framework ownership + prep Wed mtg
-updated: 2026-05-19 09:51:15.385110
+updated: 2026-05-19 14:55:43.547006
 waiting_on: null
 waiting_since: null
 working_on: false

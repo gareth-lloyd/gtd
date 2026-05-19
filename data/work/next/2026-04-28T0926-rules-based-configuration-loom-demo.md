@@ -15,10 +15,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Rules based configuration - loom demo
-updated: 2026-05-18 12:54:37.847458
+updated: 2026-05-19 15:01:21.537097
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Martijn has requested. 

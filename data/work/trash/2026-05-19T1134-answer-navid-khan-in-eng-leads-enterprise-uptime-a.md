@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Answer Navid Khan in #eng-leads: enterprise uptime/availability SLA commitments'
-updated: 2026-05-19 11:34:37.467669
+updated: 2026-05-19 14:55:54.942421
 waiting_on: null
 waiting_since: null
 working_on: false

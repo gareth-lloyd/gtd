@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: . End-to-end testing for Oauth - plan and do what's possible locally
-updated: 2026-05-18 14:38:47.111724
+updated: 2026-05-19 15:01:06.934799
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
