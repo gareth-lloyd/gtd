@@ -176,6 +176,9 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
 
 ## Working rules for Claude
 
+- **Commit to `main` directly.** Do all work on `main` and commit there —
+  do NOT create a feature branch unless the user explicitly asks for one.
+  This overrides the default "branch off the default branch" behaviour.
 - **Red/green TDD**: write a failing test first, then make it pass. This is
   the standard workflow for all code changes in this project.
 - Run `uv run pytest` before committing code changes.
