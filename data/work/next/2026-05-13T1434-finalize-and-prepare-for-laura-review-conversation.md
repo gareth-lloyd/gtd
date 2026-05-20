@@ -15,8 +15,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Finalize and prepare for Laura review conversation (happenign TOMORROW)
-updated: 2026-05-18 13:37:15.892770
+updated: 2026-05-20 12:37:11.453813
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

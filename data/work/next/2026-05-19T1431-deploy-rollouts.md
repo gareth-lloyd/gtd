@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-19 14:31:32.209618
-defer_until: 2026-05-19 16:14:00
+defer_until: null
 due: 2026-05-19
 energy: low
 id: 2026-05-19T1431-deploy-rollouts
