@@ -14,8 +14,8 @@ project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 15
-title: Finalize and prepare for Laura review conversation (happenign TOMORROW)
-updated: 2026-05-20 12:37:11.453813
+title: Finalize and prepare for Laura review conversation
+updated: 2026-05-20 14:45:37.928328
 waiting_on: null
 waiting_since: null
 working_on: true

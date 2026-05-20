@@ -4,7 +4,7 @@ contexts:
 - autopilot
 created: 2026-05-16 16:01:52.726107
 defer_until: null
-due: 2026-05-18
+due: 2026-05-20
 energy: low
 id: 2026-05-16T1601-refere-peter-gao-candidate
 order: -21
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Respond peter gao referral, take recommendation
-updated: 2026-05-18 15:27:26.522286
+updated: 2026-05-20 14:46:55.377493
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

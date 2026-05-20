@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Read thread Stephanie looped me into in #epd-internal-tools (Lauta OOO)'
-updated: 2026-05-20 10:18:45.001499
+updated: 2026-05-20 14:34:40.257851
 waiting_on: null
 waiting_since: null
 working_on: false
