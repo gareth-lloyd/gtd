@@ -13,8 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Use Ani's audit stuff to figure out what CS cares about
-updated: 2026-05-14 11:47:00.578517
+updated: 2026-05-21 12:50:00.269961
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
+
+https://canarytechnologies.slack.com/archives/C0B1DFKN7V1/p1777974956596889

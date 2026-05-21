@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: follow up on status of iot product
-updated: 2026-05-20 14:46:08.009613
+updated: 2026-05-21 12:50:16.583347
 waiting_on: null
 waiting_since: null
 working_on: false

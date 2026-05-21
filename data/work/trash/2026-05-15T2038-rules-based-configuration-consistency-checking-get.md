@@ -14,7 +14,7 @@ tags: []
 time_minutes: 5
 title: Rules-based configuration - consistency checking. Get value for pms integrations.
   Run with internal tools
-updated: 2026-05-20 14:34:08.293771
+updated: 2026-05-21 12:46:31.551204
 waiting_on: null
 waiting_since: null
 working_on: false

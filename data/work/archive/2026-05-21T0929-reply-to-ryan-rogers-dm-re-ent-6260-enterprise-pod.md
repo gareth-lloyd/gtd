@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Ryan Rogers DM re: ENT-6260 enterprise-pod agentic capabilities'
-updated: 2026-05-21 09:29:44.761700
+updated: 2026-05-21 12:40:19.594538
 waiting_on: null
 waiting_since: null
 working_on: false

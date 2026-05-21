@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-19 14:58:01.603820
-defer_until: null
+defer_until: 2026-05-22 09:00:00
 due: null
 energy: low
 id: 2026-05-19T1458-contact-tipping-team-to-find-out-if-there-are-elem
@@ -14,7 +14,7 @@ tags: []
 time_minutes: 5
 title: Contact Tipping team to find out if there are elements of their work that need
   to model regional conditions (rules_based)
-updated: 2026-05-20 14:34:11.738903
+updated: 2026-05-21 12:35:18.794725
 waiting_on: null
 waiting_since: null
 working_on: false
