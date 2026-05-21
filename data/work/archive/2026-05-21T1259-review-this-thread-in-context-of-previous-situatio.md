@@ -57,10 +57,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Review this thread in context of previous situation around linear agent
-updated: 2026-05-21 13:10:35.114416
+updated: 2026-05-21 21:57:12.026261
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://canarytechnologies.slack.com/archives/C0B4B7NR3U3

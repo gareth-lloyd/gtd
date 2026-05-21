@@ -15,8 +15,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Finalize and prepare for Laura review conversation
-updated: 2026-05-21 12:58:39.455433
+updated: 2026-05-21 22:44:53.485881
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

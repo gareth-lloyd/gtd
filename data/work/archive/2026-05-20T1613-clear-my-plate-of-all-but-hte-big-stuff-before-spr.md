@@ -14,8 +14,8 @@ tags: []
 time_minutes: 30
 title: clear my plate of all but hte big stuff before spritn planning. My sprint should
   be sparse
-updated: 2026-05-21 12:50:37.861457
+updated: 2026-05-21 14:17:04.811207
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
