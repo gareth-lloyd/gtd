@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Approve Martijn's end of probation and process in Rippling
-updated: 2026-05-13 11:36:54.125223
+updated: 2026-05-21 13:00:40.198397
 waiting_on: null
 waiting_since: null
 working_on: false

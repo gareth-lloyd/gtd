@@ -57,7 +57,7 @@ time_minutes: 5
 title: Go through the backend/canary/tmp folder, looking in particular at "repeatable"
   code. Pick out candidates for refinement and sharing with a new Enterprise team
   manager.
-updated: 2026-05-18 13:39:30.000111
+updated: 2026-05-21 13:15:15.866545
 waiting_on: null
 waiting_since: null
 working_on: true
@@ -65,3 +65,5 @@ working_on: true
 
 Emphasize more recent items. 
 Look for things that seem relevant and useful
+
+Handover monitoring jobs

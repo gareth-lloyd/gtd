@@ -9,14 +9,14 @@ energy: medium
 id: 2026-05-19T0951-follow-up-on-agents-framework-ownership-prep-wed-m
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C0AL1T2H43V/p1779094772815909?thread_ts=1779094772.815909&cid=C0AL1T2H43V
 tags:
 - morning-gtd
 - slack
 time_minutes: 20
-title: Follow up on agents framework ownership + prep Wed mtg
-updated: 2026-05-19 14:55:43.547006
+title: respond to Laura about meeting thread
+updated: 2026-05-21 13:10:45.551148
 waiting_on: null
 waiting_since: null
 working_on: false

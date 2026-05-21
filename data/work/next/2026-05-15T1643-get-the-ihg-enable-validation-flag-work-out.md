@@ -15,10 +15,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Get the IHG enable/validation/flag work out
-updated: 2026-05-20 14:46:46.856234
+updated: 2026-05-21 12:50:43.419000
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://github.com/canary-technologies-corp/canary/pull/45576
