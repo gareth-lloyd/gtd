@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-15 20:38:53.745534
-defer_until: 2026-05-21 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-15T2038-rules-based-configuration-consistency-checking-get

@@ -92,10 +92,10 @@ tags:
 - from-awareness
 time_minutes: 15
 title: 'Review PRs #43847 and #45628 (Ryan Rogers, enterprise MCP exposure)'
-updated: 2026-05-20 14:37:06.689648
+updated: 2026-05-20 16:12:27.291607
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Ryan asked the enterprise team for review on the foundational agent_context provider PR and the additional cohort/loyalty extensions. https://canarytechnologies.slack.com/archives/C0B1MN8F869/p1779202190630429?thread_ts=1779202190.630429&cid=C0B1MN8F869

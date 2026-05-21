@@ -4,7 +4,7 @@ contexts:
 - craft
 - fun
 created: 2026-04-20 09:01:00
-defer_until: 2026-05-21 09:00:00
+defer_until: null
 due: null
 energy: high
 id: 2026-04-20T0901-record-loom-of-rules-consistency-demo

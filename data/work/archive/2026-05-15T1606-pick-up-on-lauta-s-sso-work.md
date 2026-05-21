@@ -15,8 +15,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Review status of Lauta's SSO projects. Assign engineer ot handle
-updated: 2026-05-20 14:46:20.614459
+updated: 2026-05-20 15:34:08.932128
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

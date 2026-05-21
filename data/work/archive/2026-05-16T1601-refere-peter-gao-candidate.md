@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Respond peter gao referral, take recommendation
-updated: 2026-05-20 14:46:55.377493
+updated: 2026-05-20 15:33:39.896018
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

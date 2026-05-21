@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Diagram "top-down" enterprise concepts and present
-updated: 2026-05-19 15:02:02.487623
+updated: 2026-05-20 15:33:54.156990
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 * Handover usecases

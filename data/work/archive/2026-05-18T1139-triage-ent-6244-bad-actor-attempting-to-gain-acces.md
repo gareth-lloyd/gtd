@@ -17,10 +17,10 @@ tags:
 - linear
 time_minutes: 15
 title: 'Triage ENT-6244: Bad actor attempting to gain access (SLA breached)'
-updated: 2026-05-20 13:27:58.540424
+updated: 2026-05-20 15:48:36.772522
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Security: bad actor impersonating admin Dony Andrian at Crowne Plaza Sydney Burwood (IHG); 3 duplicate user accounts, 2 on IHG SSO. SLA breached 2026-05-17, unassigned, on-call. Need to investigate account activity. https://linear.app/canary-technologies/issue/ENT-6244/bad-actor-attempting-to-gain-access

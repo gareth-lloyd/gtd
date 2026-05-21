@@ -16,10 +16,10 @@ tags:
 - slack
 time_minutes: 15
 title: 'Answer Connor in #epd-core-engineers: fact-check SSO/SAML thread'
-updated: 2026-05-20 14:37:13.206572
+updated: 2026-05-20 15:26:00.391781
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Connor: 'Hey @Gareth @Andrea, could y'all fact check me and Claude here:' — links into #ihg discussion on federated metadata MXL. https://canarytechnologies.slack.com/archives/C08RJU9Q7FV/p1779205140315209
