@@ -177,6 +177,35 @@ class TestItemRoundTrip:
         assert loaded.output == "## Agent run 2026-05-06\n\nReviewed PR. LGTM."
         assert loaded == item
 
+    def test_multiline_output_serialized_as_literal_block(self, tmp_path):
+        """Multi-line `output:` must use `|` style, not single-quoted.
+
+        Single-quoted multi-line scalars require `''` escapes for every
+        apostrophe and break catastrophically if anyone edits the value and
+        disrupts the escapes or the closing quote. The literal block scalar
+        format is append-safe.
+        """
+        item = Item(
+            id="2026-05-22T0900-multiline",
+            title="multiline output",
+            body="",
+            created=datetime(2026, 5, 22, 9, 0),
+            updated=datetime(2026, 5, 22, 9, 0),
+            status=Bucket.NEXT,
+            output=(
+                "## Agent run 2026-05-22\n\n"
+                "Cindy can't log in. Don't reuse the dashboard.\n"
+                "Multiple apostrophes: it's, won't, can't.\n"
+            ),
+        )
+        path = tmp_path / "next" / "out.md"
+        dump_item(path, item)
+        raw = path.read_text()
+        assert "output: |" in raw, f"expected literal block style for output:\n{raw}"
+        assert "''" not in raw, f"unexpected single-quote escape (brittle format):\n{raw}"
+        loaded = load_item(path, Bucket.NEXT)
+        assert loaded.output == item.output
+
     def test_output_defaults_empty_for_legacy_files(self, tmp_path):
         path = tmp_path / "inbox" / "legacy.md"
         path.parent.mkdir(parents=True, exist_ok=True)

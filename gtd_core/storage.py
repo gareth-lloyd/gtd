@@ -7,8 +7,31 @@ from typing import Any
 
 import frontmatter
 import yaml
+from frontmatter.default_handlers import SafeDumper as FrontmatterSafeDumper
 
 from gtd_core.models import Bucket, EnvConfig, Item, Project, Template
+
+
+def _represent_str(dumper: Any, data: str) -> yaml.ScalarNode:
+    """Serialize multi-line strings as literal block scalars (`|`).
+
+    PyYAML's default chooses single-quoted style for multi-line strings,
+    which requires `''` escaping for every apostrophe and breaks
+    catastrophically if an agent or human edits the value and disrupts
+    the escapes or the closing quote. Literal block scalars (`|`) are
+    append-safe: the block ends when indentation drops, no characters
+    are escaped, and embedded apostrophes round-trip verbatim.
+    """
+    if "\n" in data:
+        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data)
+
+
+# Frontmatter ships its own SafeDumper subclass — register on that one
+# (yaml.SafeDumper is unrelated). Also register on yaml.SafeDumper for the
+# direct yaml.safe_dump call in dump_env_config().
+FrontmatterSafeDumper.add_representer(str, _represent_str)
+yaml.SafeDumper.add_representer(str, _represent_str)
 
 
 def _atomic_dump(path: Path, write_fn: Callable[[IOBase], None]) -> None:

@@ -24,6 +24,11 @@ class Command(BaseCommand):
 
         result = snapshot(settings.BASE_DIR, message=message, push=push)
         if not result.committed:
+            if result.unloadable_files:
+                self.stderr.write("snapshot refused: unloadable files (fix or remove first):")
+                for path in result.unloadable_files:
+                    self.stderr.write(f"  - {path}")
+                return
             self.stdout.write("nothing to snapshot")
             return
         assert result.sha is not None  # committed=True implies sha is set

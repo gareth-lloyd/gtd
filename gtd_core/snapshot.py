@@ -19,6 +19,7 @@ class SnapshotResult:
     message: str = ""
     pushed: bool = False
     push_error: str | None = None
+    unloadable_files: list[str] = field(default_factory=list)
 
 
 @dataclass(slots=True)
@@ -34,6 +35,15 @@ def snapshot(
     push: bool = False,
 ) -> SnapshotResult:
     repo = git.Repo(repo_root)
+
+    # Refuse to commit if any item/project/template file fails to parse.
+    # Baking an unloadable file into git silently strands it (the UI hides
+    # it, the service can't update it, only direct file editing can recover)
+    # — better to surface the breakage and let the caller fix it first.
+    unloadable = _scan_unloadable(repo_root)
+    if unloadable:
+        return SnapshotResult(committed=False, unloadable_files=unloadable)
+
     # Stage all changes (additions, modifications, deletions) under data/ only.
     # The "-- data" pathspec in the commit below ensures code files that happen
     # to be staged are NOT included in the snapshot commit.

@@ -399,7 +399,12 @@ def snapshot_endpoint(request: Request) -> Response:
         message=serializer.validated_data.get("message") or None,
         push=push,
     )
-    http_status = status.HTTP_502_BAD_GATEWAY if push and result.push_error else status.HTTP_200_OK
+    if result.unloadable_files:
+        http_status = status.HTTP_409_CONFLICT
+    elif push and result.push_error:
+        http_status = status.HTTP_502_BAD_GATEWAY
+    else:
+        http_status = status.HTTP_200_OK
     return Response(
         {
             "committed": result.committed,
@@ -408,6 +413,7 @@ def snapshot_endpoint(request: Request) -> Response:
             "message": result.message,
             "pushed": result.pushed,
             "push_error": result.push_error,
+            "unloadable_files": result.unloadable_files,
         },
         status=http_status,
     )
