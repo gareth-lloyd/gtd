@@ -13,8 +13,8 @@ project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 30
-title: Got to get my views together on above property voice/chat
-updated: 2026-05-20 14:46:50.420769
+title: Write out thoughts on above property voice/chat
+updated: 2026-05-21 23:03:22.987529
 waiting_on: null
 waiting_since: null
 working_on: false

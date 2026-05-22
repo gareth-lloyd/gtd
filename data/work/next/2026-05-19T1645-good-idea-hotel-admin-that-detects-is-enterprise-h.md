@@ -5,7 +5,7 @@ contexts:
 - deep
 created: 2026-05-19 16:45:58.164116
 defer_until: null
-due: 2026-05-21
+due: null
 energy: high
 id: 2026-05-19T1645-good-idea-hotel-admin-that-detects-is-enterprise-h
 order: -19
@@ -16,7 +16,7 @@ tags: []
 time_minutes: 30
 title: 'good idea: hotel admin that detects is enterprise hotel and makes many fields
   read only (if they match right value)'
-updated: 2026-05-20 14:33:46.142549
+updated: 2026-05-21 23:03:31.084861
 waiting_on: null
 waiting_since: null
 working_on: false
