@@ -264,7 +264,7 @@ output: '## Agent run 2026-05-14T13:05Z
   Hygiene script: find UserProfiles where `sso_organization_id IS NOT NULL` but the
   user has `last_login` post-dating an SSO org change *and* no role grants on any
   hotel currently using that SSO org. These are stranded SSO-linked users from
-  brand transitions. Could be batch-cleared with a confirmation step.
+  brand transitions. Could be batch-cleared with a confirmation step.'
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
