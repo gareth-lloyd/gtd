@@ -9,12 +9,12 @@ energy: null
 id: 2026-05-25T1130-purchases-forstber-bits
 order: null
 output: ''
-project: 2026-05-25T1130-purchases
+project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: null
 title: Forstner bits
-updated: 2026-05-25 11:17:23.294064
+updated: 2026-05-25 11:27:09.221369
 waiting_on: null
 waiting_since: null
 working_on: false
