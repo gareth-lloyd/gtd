@@ -874,6 +874,20 @@ button.quiet.danger {
   gap: 0.25rem;
 }
 
+.item.processed {
+  opacity: 0.5;
+  transition: opacity 120ms ease-out;
+}
+
+/* Full opacity when the user interacts with a processed row so the inline
+   editor and selection ring stay readable. Children of an opacity: 0.5
+   parent inherit that opacity, which otherwise washes out the inputs. */
+.item.processed.selected,
+.item.processed.editing,
+.item.processed:hover {
+  opacity: 1;
+}
+
 .item-title {
   font-weight: 500;
 }

@@ -25,6 +25,7 @@ import { BucketRoute, DoneView, NextActionsView } from "./ItemList";
 import { TemplatesView } from "./TemplatesView";
 import { SelectionProvider, useSelection } from "./SelectionContext";
 import { DetailPanel } from "./DetailPanel";
+import { ProcessedItemsProvider, useProcessedItems } from "./ProcessedItemsContext";
 import { useEnvParam } from "./useEnvParam";
 import { findItemInCache, useItemPatch } from "./ItemEdit";
 import { useSpotlight } from "./spotlight";
@@ -58,7 +59,14 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<RootRedirect />} />
-      <Route path=":env" element={<AppShell />}>
+      <Route
+        path=":env"
+        element={
+          <ProcessedItemsProvider>
+            <AppShell />
+          </ProcessedItemsProvider>
+        }
+      >
         <Route index element={<Navigate to={DEFAULT_SECTION} replace />} />
         <Route path="inbox" element={<BucketRoute bucket="inbox" />} />
         <Route path="next" element={<NextActionsView />} />
@@ -110,6 +118,12 @@ function AppShell() {
     queryFn: () => api.listItems(env, { status: "inbox" }),
     enabled: !!env,
   });
+  // While the user is processing the inbox, the cached list intentionally
+  // still contains rows that have been moved/completed/deleted (they render
+  // greyed out). Subtract those from the badge so the count matches what
+  // the user sees as "still to do".
+  const processed = useProcessedItems();
+  const inboxCount = Math.max(0, (inboxItems?.length ?? 0) - (processed?.processedCount ?? 0));
 
   useEffect(() => {
     if (env) localStorage.setItem("gtd:env", env);
@@ -201,8 +215,8 @@ function AppShell() {
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 {s}
-                {s === "inbox" && inboxItems && inboxItems.length > 0 && (
-                  <span className="side-nav-count"> ({inboxItems.length})</span>
+                {s === "inbox" && inboxCount > 0 && (
+                  <span className="side-nav-count"> ({inboxCount})</span>
                 )}
               </NavLink>
               {s === "projects" && <ProjectNavLinks env={env} />}

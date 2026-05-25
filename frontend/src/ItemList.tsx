@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useQuery, keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { api, type Bucket, type Item } from "./api";
@@ -37,6 +37,7 @@ export function NextActionsView() {
 
 export function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
   const [params, setParams] = useSearchParams();
+  const qc = useQueryClient();
   const includeDeferred = bucket === "inbox" && params.get("include_deferred") === "true";
 
   const listParams: Record<string, string> = { status: bucket };
@@ -46,6 +47,26 @@ export function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
     queryKey: ["items", env, bucket, includeDeferred],
     queryFn: () => api.listItems(env, listParams),
   });
+
+  // Inbox processing greys out moved items rather than removing them, so the
+  // cached list contains items whose true status is no longer "inbox". Mark
+  // the query stale on unmount so the next visit refetches a clean list
+  // (without waiting out the global staleTime).
+  useEffect(() => {
+    if (bucket !== "inbox") return;
+    return () => {
+      qc.invalidateQueries({
+        queryKey: ["items", env, "inbox"],
+        refetchType: "none",
+      });
+    };
+  }, [bucket, env, qc]);
+
+  const body = isLoading ? (
+    <div className="empty">Loading…</div>
+  ) : (
+    <ItemList env={env} items={items ?? []} />
+  );
 
   return (
     <>
@@ -66,11 +87,7 @@ export function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
           </label>
         </div>
       )}
-      {isLoading ? (
-        <div className="empty">Loading…</div>
-      ) : (
-        <ItemList env={env} items={items ?? []} />
-      )}
+      {body}
     </>
   );
 }

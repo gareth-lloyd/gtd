@@ -5,6 +5,7 @@ import { contextChipStyle } from "./context-colors";
 import { Markdown } from "./markdown";
 import { useSelection } from "./SelectionContext";
 import { useSpotlight } from "./spotlight";
+import { useProcessedItems } from "./ProcessedItemsContext";
 import { ItemLinks } from "./ItemLinks";
 import { ClippedBlock } from "./ClippedBlock";
 import { AutoGrowTextarea } from "./AutoGrowTextarea";
@@ -25,6 +26,8 @@ export function ItemCard({
   projects: Project[] | undefined;
 }) {
   const { selectedId, editingId, hoveredId, select, edit, setHover } = useSelection();
+  const processed = useProcessedItems();
+  const isProcessed = processed?.isProcessed(item.id) ?? false;
   const selected = selectedId === item.id;
   const editing = editingId === item.id;
   const hovered = hoveredId === item.id;
@@ -45,6 +48,7 @@ export function ItemCard({
     editing ? "editing" : "",
     hovered && !selected ? "hovered" : "",
     item.working_on ? "working-on" : "",
+    isProcessed ? "processed" : "",
   ]
     .filter(Boolean)
     .join(" ");

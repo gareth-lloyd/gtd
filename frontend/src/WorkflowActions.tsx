@@ -1,15 +1,27 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, type Bucket, type Item } from "./api";
 import { Button } from "./Button";
-import { invalidateItemQueries } from "./ItemEdit";
+import { invalidateItemQueries, invalidateItemQueriesPreservingInbox } from "./ItemEdit";
 import { useSelection } from "./SelectionContext";
+import { useProcessedItems } from "./ProcessedItemsContext";
 
 export function WorkflowActions({ env, item }: { env: string; item: Item }) {
   const qc = useQueryClient();
   const { select } = useSelection();
+  const processed = useProcessedItems();
+  // On the inbox route, treat the action as an inbox-processing step: grey
+  // the item out locally rather than letting the inbox list refetch remove
+  // it. The user can keep scanning the rest of the inbox without items
+  // vanishing under their cursor.
+  const inInboxProcessing = processed?.active === true && item.status === "inbox";
   const invalidate = () => {
-    invalidateItemQueries(qc, env, item.id);
-    select(null); // Clear selection when item moves/completes/deletes
+    if (inInboxProcessing && processed) {
+      invalidateItemQueriesPreservingInbox(qc, env, item.id);
+      processed.markProcessed(item.id);
+    } else {
+      invalidateItemQueries(qc, env, item.id);
+    }
+    select(null); // Clear selection so the user can move to the next item.
   };
 
   const moveMut = useMutation<Item, Error, Bucket>({
@@ -32,7 +44,14 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
     mutationFn: () => api.launchAgent(env, item.id),
   });
 
+  // Once an item has been processed in this inbox session the row stays
+  // visible but the server-side state has moved on; lock the buttons so an
+  // accidental second click doesn't chain another mutation against stale
+  // status. The row is still visible / inspectable; the user navigates
+  // away (or reloads) to drop it.
+  const alreadyProcessed = processed?.isProcessed(item.id) ?? false;
   const busy =
+    alreadyProcessed ||
     moveMut.isPending ||
     completeMut.isPending ||
     deleteMut.isPending ||

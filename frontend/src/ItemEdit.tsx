@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { api, type Item, type Project } from "./api";
 import { toasts } from "./toast";
+import { useProcessedItems } from "./ProcessedItemsContext";
 
 type Snapshot = {
   single: Item | undefined;
@@ -47,6 +48,24 @@ export function invalidateItemQueries(qc: QueryClient, env: string, itemId: stri
   qc.invalidateQueries({ queryKey: ["project", env] });
 }
 
+// Used by the inbox-processing flow: same as invalidateItemQueries but
+// leaves the active inbox list query alone so processed items can remain
+// visible (greyed out) until the next mount/reload.
+export function invalidateItemQueriesPreservingInbox(qc: QueryClient, env: string, itemId: string) {
+  qc.invalidateQueries({
+    predicate: (q) => {
+      const k = q.queryKey;
+      return k[0] === "items" && k[1] === env && k[2] !== "inbox";
+    },
+  });
+  qc.invalidateQueries({ queryKey: ["items-done", env] });
+  qc.invalidateQueries({ queryKey: ["item", env, itemId] });
+  qc.invalidateQueries({ queryKey: ["search-corpus", env], refetchType: "none" });
+  qc.invalidateQueries({ queryKey: ["snapshot-status"] });
+  qc.invalidateQueries({ queryKey: ["projects", env] });
+  qc.invalidateQueries({ queryKey: ["project", env] });
+}
+
 export function invalidateProjectQueries(qc: QueryClient, env: string, projectId?: string) {
   qc.invalidateQueries({ queryKey: ["projects", env] });
   if (projectId) {
@@ -85,9 +104,14 @@ export function findItemInCache(qc: QueryClient, env: string, itemId: string): I
  */
 export function useItemPatch(env: string, itemId: string) {
   const qc = useQueryClient();
+  const processed = useProcessedItems();
   const pendingRef = useRef<Partial<Item>>({});
   const timerRef = useRef<number | null>(null);
   const snapshotRef = useRef<Snapshot>(null);
+  // Keep the latest active flag readable from inside doFlush without
+  // re-creating the callback (which would reset the debounce timer).
+  const activeRef = useRef(processed?.active === true);
+  activeRef.current = processed?.active === true;
 
   const doFlush = useCallback(async () => {
     if (timerRef.current != null) {
@@ -106,7 +130,14 @@ export function useItemPatch(env: string, itemId: string) {
     try {
       const updated = await api.updateItem(env, itemId, patch);
       snapshotRef.current = null;
-      invalidateItemQueries(qc, env, itemId);
+      // On the inbox route, preserve the inbox cache so any rows the user
+      // has already moved/completed (rendered greyed-out via processedIds)
+      // don't get refetched away by an unrelated inline edit.
+      if (activeRef.current) {
+        invalidateItemQueriesPreservingInbox(qc, env, itemId);
+      } else {
+        invalidateItemQueries(qc, env, itemId);
+      }
       if (projectChanged && oldProject !== updated.project) {
         toasts.show("info", projectMoveMessage(qc, env, oldProject, updated.project));
       }

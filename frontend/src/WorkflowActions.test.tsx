@@ -19,6 +19,7 @@ vi.mock("./api", () => ({
 import { api } from "./api";
 import { SelectionProvider } from "./SelectionContext";
 import { WorkflowActions } from "./WorkflowActions";
+import { ProcessedItemsProvider, useProcessedItems } from "./ProcessedItemsContext";
 
 const nextItem: Item = {
   id: "item-1",
@@ -151,6 +152,48 @@ describe("WorkflowActions — inbox bucket", () => {
     expect(screen.getByRole("button", { name: /→ next/ })).toBeDefined();
     expect(screen.getByRole("button", { name: /→ waiting/ })).toBeDefined();
     expect(screen.getByRole("button", { name: /→ someday/ })).toBeDefined();
+  });
+
+  it("marks the item processed (instead of fully invalidating) when moved inside an inbox-processing context", async () => {
+    const user = userEvent.setup();
+    const inboxItem = { ...nextItem, status: "inbox" as const };
+    const qc = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false, staleTime: Infinity },
+        mutations: { retry: false },
+      },
+    });
+    // Seed the inbox list cache so we can verify it is NOT cleared.
+    qc.setQueryData(["items", "work", "inbox", false], [inboxItem]);
+
+    let captured: ReturnType<typeof useProcessedItems> = null;
+    function CaptureCtx() {
+      captured = useProcessedItems();
+      return null;
+    }
+
+    render(
+      <QueryClientProvider client={qc}>
+        <MemoryRouter initialEntries={["/work/inbox"]} future={ROUTER_FUTURE}>
+          <SelectionProvider>
+            <ProcessedItemsProvider>
+              <CaptureCtx />
+              <WorkflowActions env="work" item={inboxItem} />
+            </ProcessedItemsProvider>
+          </SelectionProvider>
+        </MemoryRouter>
+      </QueryClientProvider>,
+    );
+
+    await user.click(screen.getByRole("button", { name: /→ next/ }));
+
+    await waitFor(() => {
+      expect(captured?.isProcessed("item-1")).toBe(true);
+    });
+    // Inbox list cache should still contain the item — the list is preserved
+    // so the row can render greyed out instead of disappearing.
+    const cached = qc.getQueryData<Item[]>(["items", "work", "inbox", false]);
+    expect(cached?.map((i) => i.id)).toContain("item-1");
   });
 });
 
