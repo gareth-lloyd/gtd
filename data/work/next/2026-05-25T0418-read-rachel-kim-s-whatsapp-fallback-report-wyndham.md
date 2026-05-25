@@ -30,7 +30,7 @@ output: |
   - Omni dash Ani shared: https://canarytechnologies.omniapp.co/e/10:114Bb6bs/10
 
   No actions taken on external services. Recommend: (a) search Linear for an existing GJ WhatsApp fallback ticket, (b) if none, file one against the messaging team scoped to the 5 hotels above.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C04STT7UPRQ/p1779389756947469?thread_ts=1779119627.606199&cid=C04STT7UPRQ
 tags:
 - morning-gtd
@@ -38,7 +38,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Read: Rachel Kim''s whatsapp-fallback report (#wyndham)'
-updated: 2026-05-25 12:00:00.000000
+updated: 2026-05-25 12:06:01.223084
 waiting_on: null
 waiting_since: null
 working_on: false
