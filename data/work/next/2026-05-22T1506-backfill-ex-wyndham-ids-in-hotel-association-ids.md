@@ -35,12 +35,56 @@ output: |
 
   ### Sizing note
   This is not actually a 5-minute task — building and validating the backfill script is more like a half-day. The GTD item is a capture; consider promoting to its own next-action (or a Linear ticket) before doing the work. If you want, I can scaffold the script as the next step in a fresh session.
+
+  ## Agent run 2026-05-25T07:30Z (follow-up)
+
+  Wrote the backfill script: `backend/canary/tmp/repeatable/ex_brand_marker_backfill.py`.
+
+  ### What it does
+  Three passes per brand (Wyndham / IHG / Best Western), deduped by hotel:
+  - **Pass A** — `OnboardingScriptBatch(script_type=REMOVE_HOTEL_FROM_PARENT_BRAND)` × brand via `limit_to_parent_brand`, joined to `OnboardingScriptHotel` for hotel ids. Identifier chain: live `HotelAssociationId` → `Hotel.sso_hotel_id` (only when SSO org slug matches brand) → `SHA.account_data.<brand>_site_id`.
+  - **Pass B** — Wyndham only. Latest completed `BatchUpdateRun(WYNDHAM_PROPERTIES)`, rows in `WyndhamUpdateRow.STATUSES_TERMINATED` (8/9/11), matched to Canary hotels with `sso_organization__slug=wyndham`. Padded wid via `fix_numeric_id(min_length=5)`.
+  - **Pass C** — Wyndham only (today). Hotels with cached `account_data.wyndham_site_id` whose hotel is not in any live Wyndham portfolio.
+
+  Skips hotels that already have the live brand id row (still in-brand) or already have the EX row (idempotent). Dedup ranks Pass A > B > C (real REMOVE evidence beats heuristic).
+
+  ### Public API (paste into shell-plus)
+
+      from tmp.repeatable import ex_brand_marker_backfill as bf
+
+      bf.audit()                          # all brands, no writes; prints anchor check
+      bf.audit(brand="wyndham")
+      bf.sample("wyndham", n=10)          # spot-check identifier provenance
+      bf.apply(brand="wyndham", apply=False)   # dry-run preview
+      bf.apply(brand="wyndham", apply=True)    # writes EX rows
+      bf.verify("wyndham")                # post-apply consumer-side smoke
+
+  ### Guardrails
+  - **Wyndham anchor:** `apply()` refuses to write if dedup count < 116 (`WYNDHAM_MIN_ANCHOR`).
+  - **Dry-run default:** must pass `apply=True` explicitly.
+  - **Idempotent:** hotels already EX-marked are skipped up-front.
+
+  ### Validation
+  - `direnv exec . pyright tmp/repeatable/ex_brand_marker_backfill.py` → 0 errors
+  - `direnv exec . ruff check tmp/repeatable/ex_brand_marker_backfill.py` → clean
+  - `ruff format` applied
+
+  ### IHG / BW caveats
+  - `SalesforceHotelAccount.account_data` has no `ihg_inn_code` / `bw_property_id` attributes → Pass C is Wyndham-only.
+  - No daily-CSV equivalent for IHG/BW → Pass B is Wyndham-only.
+  - IHG/BW therefore rely on Pass A. Legacy REMOVE batches without `limit_to_parent_brand` won't be picked up — expect IHG/BW counts to be much smaller than Wyndham.
+
+  ### Suggested next steps for you
+  1. `prod-shell-ro`: `bf.audit()` — confirm Wyndham anchor met, sanity-check IHG/BW counts.
+  2. `bf.sample("wyndham", n=10)` — verify identifier provenance on a handful.
+  3. `prod-shell -m rw` with explicit user-confirmed approval: `bf.apply(brand="wyndham", apply=True)`. Then `bf.verify("wyndham")`.
+  4. Repeat for IHG and BW once Wyndham is signed off.
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: backfill ex wyndham ids in hotel association ids
-updated: 2026-05-25 11:36:52.875834
+updated: 2026-05-25 07:30:00.000000
 waiting_on: null
 waiting_since: null
 working_on: false
