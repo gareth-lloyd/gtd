@@ -3,7 +3,7 @@ area: null
 contexts:
 - react
 created: 2026-05-25 04:15:51.580368
-defer_until: null
+defer_until: 2026-05-26 09:00:00
 due: null
 energy: high
 id: 2026-05-25T0415-reply-to-laura-re-stewardship-feedback-engagement
@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Reply to Laura re: stewardship feedback engagement'
-updated: 2026-05-25 04:15:51.649106
+updated: 2026-05-25 11:57:05.199879
 waiting_on: null
 waiting_since: null
 working_on: false

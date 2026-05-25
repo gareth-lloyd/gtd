@@ -35,12 +35,12 @@ output: |
 
   ### Sizing note
   This is not actually a 5-minute task — building and validating the backfill script is more like a half-day. The GTD item is a capture; consider promoting to its own next-action (or a Linear ticket) before doing the work. If you want, I can scaffold the script as the next step in a fresh session.
-project: null
+project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: backfill ex wyndham ids in hotel association ids
-updated: 2026-05-25 07:00:00.000000
+updated: 2026-05-25 11:36:52.875834
 waiting_on: null
 waiting_since: null
 working_on: false
