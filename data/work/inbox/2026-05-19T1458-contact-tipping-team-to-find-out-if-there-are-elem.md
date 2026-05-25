@@ -14,8 +14,11 @@ tags: []
 time_minutes: 5
 title: Contact Tipping team to find out if there are elements of their work that need
   to model regional conditions (rules_based)
-updated: 2026-05-21 12:35:18.794725
+updated: 2026-05-25 06:12:34.959304
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+contact tyler direct
+Record general rules-based loom to explain
