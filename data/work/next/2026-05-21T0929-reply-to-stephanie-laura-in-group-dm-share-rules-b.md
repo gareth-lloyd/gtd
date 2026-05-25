@@ -17,10 +17,10 @@ tags:
 - slack
 time_minutes: 30
 title: 'Reply to Stephanie & Laura in group DM: share rules-based-configuration work'
-updated: 2026-05-21 12:49:18.376852
+updated: 2026-05-22 14:41:17.317047
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Stephanie: 'Can you share the work on rules-based configuration with us and I'll look for some calendar time to discuss how we can leverage this?'

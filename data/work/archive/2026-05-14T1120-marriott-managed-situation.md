@@ -187,64 +187,54 @@ output: '## Agent run 2026-05-14T13:05Z
 
   ## Agent run 2026-05-21T10:30Z — FIX APPLIED
 
-  ### Revised premise (Taylor in comments, May 14)
-  LAXMP was **never Marriott-managed** — just under the Marriott Enterprise umbrella.
-  Fresh-hotel path does NOT apply to this property. Earlier writeup overscoped.
-  Hotel state confirms it: `sso_organization=None` on the hotel, no Marriott
-  HotelAssociationIds, brand reset to generic Courtyard. Only the *user* record
-  was holding the Marriott SSO link.
+  ### Revised premise (Taylor in comments, May 14) LAXMP was **never Marriott-managed**
+  — just under the Marriott Enterprise umbrella. Fresh-hotel path does NOT apply to
+  this property. Earlier writeup overscoped. Hotel state confirms it: `sso_organization=None`
+  on the hotel, no Marriott HotelAssociationIds, brand reset to generic Courtyard.
+  Only the *user* record was holding the Marriott SSO link.
 
-  ### Root cause
-  `marriottcindydang` (id=4021657) had `userprofile.sso_organization = Marriott
-  (PingFederate)`, `sso_name_id = "cdang397"`, `sso_latest_attributes` carrying
-  `hotels: ["LAXMP"]`, and `has_usable_password = False`. Login flow routed her to
-  Marriott SSO; Marriott IdP returns LAXMP role; no Canary hotel has the Marriott
+  ### Root cause `marriottcindydang` (id=4021657) had `userprofile.sso_organization
+  = Marriott (PingFederate)`, `sso_name_id = "cdang397"`, `sso_latest_attributes`
+  carrying `hotels: ["LAXMP"]`, and `has_usable_password = False`. Login flow routed
+  her to Marriott SSO; Marriott IdP returns LAXMP role; no Canary hotel has the Marriott
   SSO org anymore → no role grants → SSO loop. Andrea Bradshaw correctly diagnosed
   this in her May 15 comment. Taylor''s "no SSO org" claim was looking at the wrong
   field (hotel, not user).
 
-  ### What was done in production shell (2026-05-21 10:30 UTC)
-  1. Nulled `UserProfile.sso_organization`, `sso_name_id`, `sso_latest_attributes`
-     on user `marriottcindydang`.
-  2. Sent password-reset email via `hotels.emails.send_password_reset_request_email`
-     to cindy.dang@aimbridge.com. (Script accidentally ran twice — 2 emails sent,
-     2 distinct `ResetSystemPassword` tokens; either is usable.)
-  3. Verified `sso_organization=None`, `sso_name_id=None`, `sso_latest_attrs=None`
-     post-write.
+  ### What was done in production shell (2026-05-21 10:30 UTC) 1. Nulled `UserProfile.sso_organization`,
+  `sso_name_id`, `sso_latest_attributes` on user `marriottcindydang`. 2. Sent password-reset
+  email via `hotels.emails.send_password_reset_request_email` to cindy.dang@aimbridge.com.
+  (Script accidentally ran twice — 2 emails sent, 2 distinct `ResetSystemPassword`
+  tokens; either is usable.) 3. Verified `sso_organization=None`, `sso_name_id=None`,
+  `sso_latest_attrs=None` post-write.
 
-  ### Why this approach over the alternatives
-  - Andrea''s in-place SSO-strip > Lautaro''s new-user-creation: preserves all her
-    role grants and CHU rows; less data sprawl; reversible if it doesn''t work.
-  - No SF-association stripping needed (Taylor confirmed: not a managed property,
-    keep the SF Account linkage as-is).
-  - No hotel archive needed (same reason).
+  ### Why this approach over the alternatives - Andrea''s in-place SSO-strip > Lautaro''s
+  new-user-creation: preserves all her role grants and CHU rows; less data sprawl;
+  reversible if it doesn''t work. - No SF-association stripping needed (Taylor confirmed:
+  not a managed property, keep the SF Account linkage as-is). - No hotel archive needed
+  (same reason).
 
-  ### Loose ends — not done, not blocking login
-  1. **Marriott IdP cleanup.** Marriott''s PingFederate probably still maps
-     cindy.dang@aimbridge.com → LAXMP. If she ever re-hits Marriott SSO, Canary
-     will create a *new* user (current one no longer matches by org) with no role
-     grants. Ask Ashley to request Marriott Identity Admin drop LAXMP from their
-     IdP for Aimbridge users. Harmless if not done, but cleaner.
-  2. **Stale IHG SSO links on 2 other @aimbridge.com users on this hotel:**
-     `sarasoto` and `tonyawilkerson` have `sso_organization = IHG Production` set
-     but `sso_name_id = None` and usable passwords. They can already log in via
-     password. Likely leftover from prior IHG-branded properties under Aimbridge.
-     Not in scope; flag for hygiene sweep later.
-  3. **Username `marriottcindydang` is cosmetically ugly** post-Marriott. Renaming
-     would break impersonation links / audit references. Recommend leaving.
-  4. **ENT-6117 implementation (the codified runbook for Marriott-managed →
-     franchised transitions) is still valid work** — just doesn''t apply to LAXMP
-     because LAXMP was never managed. Keep the branch / ticket; first real customer
-     will be a different hotel. Could be deprioritized until the next actual managed
-     transition lands.
+  ### Loose ends — not done, not blocking login 1. **Marriott IdP cleanup.** Marriott''s
+  PingFederate probably still maps cindy.dang@aimbridge.com → LAXMP. If she ever re-hits
+  Marriott SSO, Canary will create a *new* user (current one no longer matches by
+  org) with no role grants. Ask Ashley to request Marriott Identity Admin drop LAXMP
+  from their IdP for Aimbridge users. Harmless if not done, but cleaner. 2. **Stale
+  IHG SSO links on 2 other @aimbridge.com users on this hotel:** `sarasoto` and `tonyawilkerson`
+  have `sso_organization = IHG Production` set but `sso_name_id = None` and usable
+  passwords. They can already log in via password. Likely leftover from prior IHG-branded
+  properties under Aimbridge. Not in scope; flag for hygiene sweep later. 3. **Username
+  `marriottcindydang` is cosmetically ugly** post-Marriott. Renaming would break impersonation
+  links / audit references. Recommend leaving. 4. **ENT-6117 implementation (the codified
+  runbook for Marriott-managed → franchised transitions) is still valid work** — just
+  doesn''t apply to LAXMP because LAXMP was never managed. Keep the branch / ticket;
+  first real customer will be a different hotel. Could be deprioritized until the
+  next actual managed transition lands.
 
-  ### Suggested reply to ticket (draft only — NOT posted)
-  ```
-  Fixed. Root cause was on Cindy''s user, not the hotel:
+  ### Suggested reply to ticket (draft only — NOT posted) ``` Fixed. Root cause was
+  on Cindy''s user, not the hotel:
 
-  - userprofile.sso_organization was still Marriott (PingFederate)
-  - sso_name_id "cdang397" still set
-  - has_usable_password = False (could only log in via SSO)
+  - userprofile.sso_organization was still Marriott (PingFederate) - sso_name_id "cdang397"
+  still set - has_usable_password = False (could only log in via SSO)
 
   Cleared all three SSO fields on user marriottcindydang (id 4021657) and triggered
   password-reset emails to cindy.dang@aimbridge.com. She''ll see one (or two — script
@@ -260,17 +250,16 @@ output: '## Agent run 2026-05-14T13:05Z
   her is the existing /hotels/courtyard-by-marriott-los-angeles-monterey-park42/...
   ```
 
-  ### Followup ticket idea (not filed)
-  Hygiene script: find UserProfiles where `sso_organization_id IS NOT NULL` but the
-  user has `last_login` post-dating an SSO org change *and* no role grants on any
-  hotel currently using that SSO org. These are stranded SSO-linked users from
-  brand transitions. Could be batch-cleared with a confirmation step.'
+  ### Followup ticket idea (not filed) Hygiene script: find UserProfiles where `sso_organization_id
+  IS NOT NULL` but the user has `last_login` post-dating an SSO org change *and* no
+  role grants on any hotel currently using that SSO org. These are stranded SSO-linked
+  users from brand transitions. Could be batch-cleared with a confirmation step.'
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 15
 title: Marriott managed situation
-updated: 2026-05-21 10:35:00.000000
+updated: 2026-05-22 14:42:42.928866
 waiting_on: null
 waiting_since: null
 working_on: false

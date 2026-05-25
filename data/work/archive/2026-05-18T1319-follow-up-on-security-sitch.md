@@ -71,7 +71,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Follow up on security sitch
-updated: 2026-05-18 14:42:00
+updated: 2026-05-22 14:41:39.909081
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 5
 title: Remove rebranded hotel 127838 from Wyndham portfolio (BW rebrand)
-updated: 2026-05-18 14:38:47.111724
+updated: 2026-05-22 14:42:17.419805
 waiting_on: null
 waiting_since: null
 working_on: false
