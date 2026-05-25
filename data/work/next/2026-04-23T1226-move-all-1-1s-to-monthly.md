@@ -13,9 +13,8 @@ project: 2026-04-16-admin
 source_id: null
 tags: []
 time_minutes: 15
-title: Move all 1-1s to monthly; Add for Asher, Marta, Adil, Andrea. Laura, Martijn
-  -> 45m
-updated: 2026-05-22 14:43:50.550663
+title: Add monthly skip level for Asher, Marta, Adil
+updated: 2026-05-25 06:43:35.891868
 waiting_on: null
 waiting_since: null
 working_on: true
