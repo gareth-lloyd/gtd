@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Blake directs meeting updates
-updated: 2026-05-25 04:41:24.615722
+updated: 2026-05-26 13:40:19.178352
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

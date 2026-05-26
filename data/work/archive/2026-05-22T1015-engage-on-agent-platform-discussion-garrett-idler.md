@@ -16,10 +16,10 @@ tags:
 - slack
 time_minutes: 15
 title: 'Engage on agent platform discussion (Garrett Idler #eng-enablement)'
-updated: 2026-05-25 11:36:43.762706
+updated: 2026-05-26 16:48:49.148476
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Garrett cc'd Laura + me as relevant to yesterday's agent platform decision. https://canarytechnologies.slack.com/archives/C09D2A5LYN9/p1779374056704639

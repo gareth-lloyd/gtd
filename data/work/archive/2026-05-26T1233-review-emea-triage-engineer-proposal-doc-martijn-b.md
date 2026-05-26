@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 30
 title: Review EMEA Triage Engineer proposal doc (Martijn) before tomorrow's meeting
-updated: 2026-05-26 12:33:40.870110
+updated: 2026-05-26 13:12:28.594063
 waiting_on: null
 waiting_since: null
 working_on: false

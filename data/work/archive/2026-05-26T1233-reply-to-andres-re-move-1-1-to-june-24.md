@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 5
 title: 'Reply to Andres re: move 1-1 to June 24'
-updated: 2026-05-26 12:33:40.800426
+updated: 2026-05-26 13:12:16.551696
 waiting_on: null
 waiting_since: null
 working_on: false
