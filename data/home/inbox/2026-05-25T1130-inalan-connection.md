@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-25 11:30:00
-defer_until: 2026-05-26 09:00:00
+defer_until: null
 due: 2026-05-28
 energy: null
 id: 2026-05-25T1130-inalan-connection

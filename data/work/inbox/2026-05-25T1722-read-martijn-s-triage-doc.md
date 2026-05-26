@@ -1,20 +1,19 @@
 ---
 area: null
-contexts:
-- autopilot
-created: 2026-05-25 00:00:00
+contexts: []
+created: &id001 2026-05-25 17:22:35.728199
 defer_until: null
 due: null
 energy: low
-id: 2026-05-25T0000-blake-directs-meeting-updates
+id: 2026-05-25T1722-read-martijn-s-triage-doc
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Blake directs meeting updates
-updated: 2026-05-25 04:41:24.615722
+title: read martijn's triage doc
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
