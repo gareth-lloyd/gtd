@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-27 09:41:25.598460
-defer_until: null
+defer_until: 2026-05-27 17:03:00
 due: null
 energy: low
 id: 2026-05-27T0941-communicate-laura-comp-change-backdated
@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Communicate Laura comp change backdated
-updated: 2026-05-27 09:41:43.673743
+updated: 2026-05-27 14:03:30.409211
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

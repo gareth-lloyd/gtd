@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Follow up on: Martin Rodriguez ask for support on CC-2419 (per-channel is_enabled
   flags on MessageVariant)'
-updated: 2026-05-27 10:20:21.790908
+updated: 2026-05-27 13:35:36.569421
 waiting_on: null
 waiting_since: null
 working_on: false

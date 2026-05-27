@@ -15,8 +15,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Expand on missing elements in senior for rami review
-updated: 2026-05-27 10:09:45.038026
+updated: 2026-05-27 15:03:25.831407
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

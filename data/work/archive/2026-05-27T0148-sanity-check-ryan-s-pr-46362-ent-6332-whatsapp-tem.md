@@ -46,7 +46,7 @@ output: |
   > Sanity check passed. Plan-layer fix is correctly targeted — verified the downstream gate at guest_journey_message.py:314/530 only checks the body, so the flag-only fix was definitely insufficient. Service-layer gate is good defense-in-depth.
   >
   > One small thing: the variant builder path in configure_guest_journey_messages.py:457-458 also sets only the flag (no body clear). Safe today because `_create_whatsapp_template_if_enabled` gates on both, but worth mirroring the body-clear for symmetry — otherwise the same bug-shape can re-emerge if someone refactors the variant downstream. Not a blocker.
-
+project: null
 source_id: https://canarytechnologies.slack.com/archives/D07MJEGGV19/p1779835233661579
 tags:
 - morning-gtd
@@ -54,7 +54,7 @@ tags:
 - from-awareness
 time_minutes: 25
 title: 'Sanity-check Ryan''s PR #46362 (ENT-6332 WhatsApp template guardrails)'
-updated: 2026-05-27 07:08:53
+updated: 2026-05-27 14:03:10.919995
 waiting_on: null
 waiting_since: null
 working_on: false

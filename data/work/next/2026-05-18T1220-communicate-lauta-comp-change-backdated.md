@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-18 12:20:36.607462
-defer_until: null
+defer_until: 2026-05-27 17:14:00
 due: null
 energy: low
 id: 2026-05-18T1220-communicate-lauta-comp-change-backdated
@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Communicate Lauta comp change, backdated
-updated: 2026-05-27 09:41:28.028399
+updated: 2026-05-27 14:14:43.681189
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

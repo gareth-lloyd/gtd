@@ -88,13 +88,14 @@ output: |
 
   ### Pending user action
   - Approve / edit / reject the Linear reply above. I have NOT posted to Linear.
+project: null
 source_id: https://linear.app/canary-technologies/issue/STAY-3604/upsells-set-rate-code-for-live-availability-to-rrod-for-all-existing
 tags:
 - morning-gtd
 - linear
 time_minutes: 15
 title: 'Respond on STAY-3604: IDS_NEXT special treatment in Wyndham onboarding script'
-updated: 2026-05-27 10:30:00.000000
+updated: 2026-05-27 13:57:57.097399
 waiting_on: null
 waiting_since: null
 working_on: false
