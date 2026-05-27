@@ -53,7 +53,7 @@ tags: []
 time_minutes: 5
 title: Clicking defer in inbox no longer hides the item (probably result of the new
   "grey out" behavior
-updated: 2026-05-27 15:13:00.000000
+updated: 2026-05-27 15:28:51.671130
 waiting_on: null
 waiting_since: null
 working_on: false

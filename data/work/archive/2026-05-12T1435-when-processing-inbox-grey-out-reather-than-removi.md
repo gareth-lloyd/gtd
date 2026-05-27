@@ -71,7 +71,7 @@ tags: []
 time_minutes: 5
 title: When processing inbox, grey out reather than removing entries for deferred,
   next etc
-updated: 2026-05-25 11:42:30.000000
+updated: 2026-05-27 15:28:40.718883
 waiting_on: null
 waiting_since: null
 working_on: false
