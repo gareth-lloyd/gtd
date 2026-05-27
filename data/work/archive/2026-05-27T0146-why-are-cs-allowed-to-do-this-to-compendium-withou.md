@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: why are cs allowed to do this to compendium without SAPs?
-updated: 2026-05-27 13:58:36.650930
+updated: 2026-05-27 20:57:23.614950
 waiting_on: null
 waiting_since: null
 working_on: false

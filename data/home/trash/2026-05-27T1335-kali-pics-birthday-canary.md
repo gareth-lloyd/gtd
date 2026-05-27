@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-27 13:35:54.777105
+created: 2026-05-27 13:35:54.777105
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: kali pics birthday canary
-updated: *id001
+updated: 2026-05-27 21:58:35.749221
 waiting_on: null
 waiting_since: null
 working_on: false
