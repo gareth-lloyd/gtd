@@ -17,7 +17,7 @@ tags:
 time_minutes: 10
 title: 'Reply to Tyler Minard re: pooled tip disbursement enforced rules in rules
   engine'
-updated: 2026-05-27 10:13:11.723326
+updated: 2026-05-27 13:24:30.057170
 waiting_on: null
 waiting_since: null
 working_on: false
