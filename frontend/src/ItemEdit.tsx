@@ -112,6 +112,8 @@ export function useItemPatch(env: string, itemId: string) {
   // re-creating the callback (which would reset the debounce timer).
   const activeRef = useRef(processed?.active === true);
   activeRef.current = processed?.active === true;
+  const markProcessedRef = useRef(processed?.markProcessed);
+  markProcessedRef.current = processed?.markProcessed;
 
   const doFlush = useCallback(async () => {
     if (timerRef.current != null) {
@@ -135,6 +137,16 @@ export function useItemPatch(env: string, itemId: string) {
       // don't get refetched away by an unrelated inline edit.
       if (activeRef.current) {
         invalidateItemQueriesPreservingInbox(qc, env, itemId);
+        // Treat a defer-into-future as inbox processing: grey out the row
+        // the same way workflow actions do. Gated on `"defer_until" in patch`
+        // so unrelated edits (e.g. title) on an already-deferred item visible
+        // via ?include_deferred=true don't get spuriously greyed.
+        if (
+          "defer_until" in patch &&
+          isHiddenByDefer({ defer_until: updated.defer_until, overdue: updated.overdue })
+        ) {
+          markProcessedRef.current?.(itemId);
+        }
       } else {
         invalidateItemQueries(qc, env, itemId);
       }

@@ -1,8 +1,11 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { PropsWithChildren } from "react";
+import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Item, Project } from "./api";
+import { ProcessedItemsProvider, useProcessedItems } from "./ProcessedItemsContext";
+import { ROUTER_FUTURE } from "./routerConfig";
 
 vi.mock("./api", () => ({
   api: {
@@ -240,6 +243,125 @@ describe("useItemPatch — unmount safety", () => {
     });
     // Reaching this line without an unhandled rejection is the assertion.
     expect(true).toBe(true);
+  });
+});
+
+describe("useItemPatch — defer on inbox marks processed", () => {
+  function renderWithInbox(seed: (qc: QueryClient) => void, pathname = "/work/inbox") {
+    const qc = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false, staleTime: Infinity },
+        mutations: { retry: false },
+      },
+    });
+    seed(qc);
+    let captured: ReturnType<typeof useProcessedItems> = null;
+    function CaptureCtx() {
+      captured = useProcessedItems();
+      return null;
+    }
+    const Wrapper = ({ children }: PropsWithChildren) => (
+      <QueryClientProvider client={qc}>
+        <MemoryRouter initialEntries={[pathname]} future={ROUTER_FUTURE}>
+          <ProcessedItemsProvider>
+            <CaptureCtx />
+            {children}
+          </ProcessedItemsProvider>
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+    return { qc, Wrapper, getCaptured: () => captured };
+  }
+
+  it("marks the item processed when defer_until is set to a future time on the inbox route", async () => {
+    const future = new Date(Date.now() + 3_600_000).toISOString();
+    const inboxItem = { ...baseItem, status: "inbox" as const };
+    const { Wrapper, getCaptured } = renderWithInbox((qc) => {
+      qc.setQueryData(["item", "work", "item-1"], inboxItem);
+    });
+    vi.mocked(api.updateItem).mockResolvedValue({ ...inboxItem, defer_until: future });
+
+    const { result } = renderHook(() => useItemPatch("work", "item-1"), { wrapper: Wrapper });
+
+    await act(async () => {
+      result.current.patch({ defer_until: future });
+      await result.current.flush();
+    });
+
+    await waitFor(() => {
+      expect(getCaptured()?.isProcessed("item-1")).toBe(true);
+    });
+  });
+
+  it("does not mark processed when not on the inbox route", async () => {
+    const future = new Date(Date.now() + 3_600_000).toISOString();
+    const { Wrapper, getCaptured } = renderWithInbox(
+      (qc) => qc.setQueryData(["item", "work", "item-1"], baseItem),
+      "/work/next",
+    );
+    vi.mocked(api.updateItem).mockResolvedValue({ ...baseItem, defer_until: future });
+
+    const { result } = renderHook(() => useItemPatch("work", "item-1"), { wrapper: Wrapper });
+
+    await act(async () => {
+      result.current.patch({ defer_until: future });
+      await result.current.flush();
+    });
+
+    expect(getCaptured()?.isProcessed("item-1")).toBe(false);
+  });
+
+  it("does not mark processed when defer_until is cleared", async () => {
+    const inboxItem = { ...baseItem, status: "inbox" as const, defer_until: "2030-01-01T00:00:00" };
+    const { Wrapper, getCaptured } = renderWithInbox((qc) => {
+      qc.setQueryData(["item", "work", "item-1"], inboxItem);
+    });
+    vi.mocked(api.updateItem).mockResolvedValue({ ...inboxItem, defer_until: null });
+
+    const { result } = renderHook(() => useItemPatch("work", "item-1"), { wrapper: Wrapper });
+
+    await act(async () => {
+      result.current.patch({ defer_until: null });
+      await result.current.flush();
+    });
+
+    expect(getCaptured()?.isProcessed("item-1")).toBe(false);
+  });
+
+  it("does not mark processed when editing an already-deferred item's title (defer_until untouched)", async () => {
+    const future = new Date(Date.now() + 3_600_000).toISOString();
+    const inboxItem = { ...baseItem, status: "inbox" as const, defer_until: future };
+    const { Wrapper, getCaptured } = renderWithInbox((qc) => {
+      qc.setQueryData(["item", "work", "item-1"], inboxItem);
+    });
+    vi.mocked(api.updateItem).mockResolvedValue({ ...inboxItem, title: "Edited" });
+
+    const { result } = renderHook(() => useItemPatch("work", "item-1"), { wrapper: Wrapper });
+
+    await act(async () => {
+      result.current.patch({ title: "Edited" });
+      await result.current.flush();
+    });
+
+    expect(getCaptured()?.isProcessed("item-1")).toBe(false);
+  });
+
+  it("does not mark processed when defer_until is set to a past time", async () => {
+    const past = new Date(Date.now() - 3_600_000).toISOString();
+    const inboxItem = { ...baseItem, status: "inbox" as const };
+    const { Wrapper, getCaptured } = renderWithInbox((qc) => {
+      qc.setQueryData(["item", "work", "item-1"], inboxItem);
+    });
+    vi.mocked(api.updateItem).mockResolvedValue({ ...inboxItem, defer_until: past });
+
+    const { result } = renderHook(() => useItemPatch("work", "item-1"), { wrapper: Wrapper });
+
+    await act(async () => {
+      result.current.patch({ defer_until: past });
+      await result.current.flush();
+    });
+
+    expect(getCaptured()?.isProcessed("item-1")).toBe(false);
   });
 });
 
