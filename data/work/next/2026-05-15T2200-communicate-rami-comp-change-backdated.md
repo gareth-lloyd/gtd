@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-15 22:00:53.688485
-defer_until: 2026-05-27 17:03:00
+defer_until: null
 due: 2026-05-25
 energy: low
 id: 2026-05-15T2200-communicate-rami-comp-change-backdated

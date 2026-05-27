@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-18 12:20:36.607462
-defer_until: 2026-05-27 17:14:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-18T1220-communicate-lauta-comp-change-backdated

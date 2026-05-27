@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-27 01:46:42.090233
-defer_until: 2026-05-27 16:58:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-27T0146-why-are-cs-allowed-to-do-this-to-compendium-withou
