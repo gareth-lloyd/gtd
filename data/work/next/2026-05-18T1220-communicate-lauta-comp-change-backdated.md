@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Communicate Lauta comp change, backdated
-updated: 2026-05-26 16:48:11.579125
+updated: 2026-05-27 09:41:28.028399
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

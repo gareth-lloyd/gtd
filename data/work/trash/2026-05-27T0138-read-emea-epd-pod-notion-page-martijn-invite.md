@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 10
 title: Read EMEA EPD Pod Notion page (Martijn invite)
-updated: 2026-05-27 01:38:03.734530
+updated: 2026-05-27 10:06:33.524087
 waiting_on: null
 waiting_since: null
 working_on: false

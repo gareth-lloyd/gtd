@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: send follow up to meeting email
-updated: 2026-05-26 15:36:57.735205
+updated: 2026-05-27 10:00:40.405842
 waiting_on: null
 waiting_since: null
 working_on: false
@@ -21,3 +21,4 @@ working_on: false
 
 * screen recording
 * dont' send login now
+* meet friday

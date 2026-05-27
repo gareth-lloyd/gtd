@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 30
 title: Investigate BW MSA validate batch failures (~9 hotels, validate_pms_configuration)
-updated: 2026-05-27 01:38:03.807306
+updated: 2026-05-27 10:06:22.955965
 waiting_on: null
 waiting_since: null
 working_on: false

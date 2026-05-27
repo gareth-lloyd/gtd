@@ -2,8 +2,8 @@
 area: null
 contexts: []
 created: 2026-05-20 16:09:07.564739
-defer_until: null
-due: 2026-05-21
+defer_until: 2026-05-27 11:07:00
+due: null
 energy: medium
 id: 2026-05-20T1609-salvage-pr-and-get-slaesforce-sync-working
 order: -19
@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: salvage PR and get slaesforce sync working
-updated: 2026-05-21 12:50:33.044244
+updated: 2026-05-27 10:07:34.824940
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://github.com/canary-technologies-corp/canary/pull/45154

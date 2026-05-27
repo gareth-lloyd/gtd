@@ -17,10 +17,10 @@ tags:
 time_minutes: 20
 title: 'Review PR #46289: ENT-6076 Programmatically set Wyndham OHIP guarantee_codes
   during onboarding'
-updated: 2026-05-27 01:38:03.284881
+updated: 2026-05-27 10:06:59.660923
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Author Martin Rodriguez — personally requested. Gateway PATCH endpoint + onboarding script. https://github.com/canary-technologies-corp/canary/pull/46289

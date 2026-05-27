@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: communicate Rami comp change, backdated
-updated: 2026-05-26 16:48:11.579125
+updated: 2026-05-27 09:41:53.478165
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
