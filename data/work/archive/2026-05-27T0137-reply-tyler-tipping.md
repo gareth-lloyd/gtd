@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-27 01:37:36.871047
+created: 2026-05-27 01:37:36.871047
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: reply tyler tipping
-updated: *id001
+updated: 2026-05-27 12:37:56.817309
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -14,8 +14,8 @@ project: 2026-04-10T0840-people
 source_id: null
 tags: []
 time_minutes: 15
-title: Finalize Rami review
-updated: 2026-05-27 09:41:10.182039
+title: Expand on missing elements in senior for rami review
+updated: 2026-05-27 10:09:45.038026
 waiting_on: null
 waiting_since: null
 working_on: true

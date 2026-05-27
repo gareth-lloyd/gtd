@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-20 16:09:07.564739
-defer_until: 2026-05-27 11:07:00
+defer_until: null
 due: null
 energy: medium
 id: 2026-05-20T1609-salvage-pr-and-get-slaesforce-sync-working
