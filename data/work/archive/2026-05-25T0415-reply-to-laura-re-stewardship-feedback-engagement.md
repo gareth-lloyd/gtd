@@ -16,10 +16,10 @@ tags:
 - slack
 time_minutes: 30
 title: 'Reply to Laura re: stewardship feedback engagement'
-updated: 2026-05-27 10:13:46.215971
+updated: 2026-05-27 19:56:14.699133
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Saved DM 2026-05-23. Laura wants substantive engagement on 2026 AI narrative + stewardship feedback gap. https://canarytechnologies.slack.com/archives/D07U6KK5W1G/p1779489923905749
