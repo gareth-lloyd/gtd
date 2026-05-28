@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: gtd-mobile
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    region: frankfurt
+    branch: main
+    # CI gates deploys (the deploy job curls the deploy hook on green main),
+    # so don't auto-deploy on every push.
+    autoDeploy: false
+    healthCheckPath: /api/health/
+    envVars:
+      - key: GTD_DEBUG
+        value: "0"
+      - key: GTD_ROOT_URLCONF
+        value: gtd_site.urls_cloud
+      - key: GTD_CLOUD_SYNC
+        value: "1"
+      - key: GTD_DATA_ROOT
+        value: /app/data
+      - key: GTD_FRONTEND_DIR
+        value: /app/frontend-mobile/dist
+      - key: GTD_ALLOWED_HOSTS
+        # Render injects RENDER_EXTERNAL_HOSTNAME, which settings.py appends
+        # automatically; set extra hosts here if you add a custom domain.
+        sync: false
+      - key: GTD_SECRET_KEY
+        generateValue: true
+      - key: GTD_CLOUD_TOKEN
+        sync: false # the shared-secret passphrase
+      - key: GITHUB_TOKEN
+        sync: false # PAT with contents:write
+      - key: GTD_GIT_REMOTE
+        sync: false # owner/repo
+      - key: GTD_GIT_USER_NAME
+        value: gtd-mobile
+      - key: GTD_GIT_USER_EMAIL
+        sync: false

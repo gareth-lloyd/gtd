@@ -28,3 +28,12 @@ def on_starting(server) -> None:  # pyright: ignore[reportMissingParameterType]
         info.data_root,
         ",".join(info.envs),
     )
+    # cloud_sync serializes git ops with an in-process lock, which only works
+    # with a single worker. More than one worker means separate processes
+    # racing on the same .git index — surface that misconfiguration loudly.
+    if settings.GTD_CLOUD_SYNC and server.cfg.workers > 1:
+        server.log.error(
+            "GTD_CLOUD_SYNC=1 requires --workers 1 (got %s); concurrent git ops "
+            "across processes will corrupt the working tree.",
+            server.cfg.workers,
+        )

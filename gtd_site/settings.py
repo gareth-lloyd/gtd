@@ -3,9 +3,23 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "local-dev-only-not-secret"
-DEBUG = True
-ALLOWED_HOSTS = ["*"]
+SECRET_KEY = os.environ.get("GTD_SECRET_KEY", "local-dev-only-not-secret")
+DEBUG = os.environ.get("GTD_DEBUG", "1") == "1"
+
+# Host validation. Explicit GTD_ALLOWED_HOSTS always wins. Otherwise: on Render
+# (RENDER_EXTERNAL_HOSTNAME present) restrict to that host — a public DEBUG=False
+# deploy must NOT fall back to the "*" wildcard. Only pure local dev defaults to
+# "*". Render injects its hostname at runtime, so it's always folded in.
+_render_host = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+_allowed = os.environ.get("GTD_ALLOWED_HOSTS")
+if _allowed:
+    ALLOWED_HOSTS = [h.strip() for h in _allowed.split(",") if h.strip()]
+elif _render_host:
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = ["*"]
+if _render_host and _render_host not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(_render_host)
 
 INSTALLED_APPS = [
     "django.contrib.staticfiles",
@@ -21,7 +35,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
 ]
 
-ROOT_URLCONF = "gtd_site.urls"
+ROOT_URLCONF = os.environ.get("GTD_ROOT_URLCONF", "gtd_site.urls")
 
 TEMPLATES = [
     {
@@ -48,7 +62,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-FRONTEND_DIR = BASE_DIR / "frontend" / "dist"
+# Cloud points this at frontend-mobile/dist; local default is the desktop SPA.
+FRONTEND_DIR = Path(os.environ.get("GTD_FRONTEND_DIR", BASE_DIR / "frontend" / "dist"))
 STATICFILES_DIRS = [FRONTEND_DIR] if FRONTEND_DIR.exists() else []
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -60,6 +75,13 @@ REST_FRAMEWORK = {
 }
 
 GTD_DATA_ROOT = Path(os.environ.get("GTD_DATA_ROOT", BASE_DIR / "data"))
+
+# Cloud (mobile) deployment knobs. All default to "off" so local dev is
+# unaffected. GTD_CLOUD_SYNC enables git pull-on-read / commit-and-push-on-
+# capture in the mobile views; GTD_CLOUD_TOKEN is the shared-secret passphrase
+# guarding the mobile endpoints (empty = gate disabled).
+GTD_CLOUD_SYNC = os.environ.get("GTD_CLOUD_SYNC") == "1"
+GTD_CLOUD_TOKEN = os.environ.get("GTD_CLOUD_TOKEN", "")
 
 BEAR_DB_PATH = Path(
     os.environ.get(

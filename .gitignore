@@ -18,6 +18,9 @@ frontend/e2e/.tmp/
 frontend/test-results/
 frontend/playwright-report/
 frontend/coverage/
+frontend-mobile/node_modules/
+frontend-mobile/dist/
+frontend-mobile/coverage/
 
 # Django collectstatic output (unused locally)
 staticfiles/
