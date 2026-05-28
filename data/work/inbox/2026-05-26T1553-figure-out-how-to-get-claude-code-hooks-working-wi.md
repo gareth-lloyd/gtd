@@ -12,12 +12,12 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Figure out how to get claude code hooks working with rules based
-updated: 2026-05-27 15:08:42.158902
+title: Look for opportunities to get claude code hooks into use for Enterprise concerns
+updated: 2026-05-28 11:58:31.052814
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
-* explore generally
-* what's possible?
+* explore how hooks work - what's possible?
+* Explore how to map this to Enterprise concerns: /onboarding app, /rules_based_configuration app, etc
