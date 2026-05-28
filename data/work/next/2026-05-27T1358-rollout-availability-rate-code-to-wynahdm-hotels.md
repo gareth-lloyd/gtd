@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Rollout availability_rate_code to Wynahdm hotels
-updated: 2026-05-27 13:58:23.948759
+updated: 2026-05-28 12:19:17.279385
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://linear.app/canary-technologies/issue/ENT-6337/upsells-set-rate-code-for-live-availability-to-rrod-for-all-existing
