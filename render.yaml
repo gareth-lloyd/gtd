@@ -2,8 +2,9 @@ services:
   - type: web
     name: gtd-mobile
     runtime: docker
+    repo: https://github.com/gareth-lloyd/gtd
     dockerfilePath: ./Dockerfile
-    plan: starter
+    plan: free
     region: frankfurt
     branch: main
     # CI gates deploys (the deploy job curls the deploy hook on green main),
