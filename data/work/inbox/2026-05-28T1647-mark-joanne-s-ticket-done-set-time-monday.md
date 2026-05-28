@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-27 22:47:39.950491
+created: &id001 2026-05-28 16:47:14.166538
 defer_until: null
 due: null
 energy: low
-id: 2026-05-27T2247-bring-back-neutral-oil-from-shop
+id: 2026-05-28T1647-mark-joanne-s-ticket-done-set-time-monday
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: bring back neutral oil from shop
+title: Mark Joanne's ticket done, set time monday
 updated: *id001
 waiting_on: null
 waiting_since: null

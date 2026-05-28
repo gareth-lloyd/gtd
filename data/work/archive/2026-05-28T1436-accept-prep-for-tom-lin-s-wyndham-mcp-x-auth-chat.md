@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 10
 title: Accept + prep for Tom Lin's Wyndham / MCP x Auth chat (Fri May 29 4:30pm EEST)
-updated: 2026-05-28 14:36:07.334122
+updated: 2026-05-28 14:47:40.350164
 waiting_on: null
 waiting_since: null
 working_on: false

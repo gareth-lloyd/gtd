@@ -2,19 +2,19 @@
 area: null
 contexts:
 - craft
-created: &id001 2026-05-28 12:19:17.870962
+created: 2026-05-28 12:19:17.870962
 defer_until: null
 due: null
 energy: high
 id: 2026-05-28T1219-build-claude-code-hook-b1-rbc-config-blast-radius
 order: null
 output: ''
-project: null
+project: 2026-04-16T1348-ideas
 source_id: null
 tags: []
 time_minutes: 90
 title: 'Build Claude Code hook (B1): rbc config blast-radius diff on rule edits'
-updated: *id001
+updated: 2026-05-28 14:46:27.148249
 waiting_on: null
 waiting_since: null
 working_on: false

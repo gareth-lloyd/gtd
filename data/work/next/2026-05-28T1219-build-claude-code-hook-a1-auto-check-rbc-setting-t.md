@@ -2,19 +2,19 @@
 area: null
 contexts:
 - craft
-created: &id001 2026-05-28 12:19:17.841054
+created: 2026-05-28 12:19:17.841054
 defer_until: null
 due: null
 energy: medium
 id: 2026-05-28T1219-build-claude-code-hook-a1-auto-check-rbc-setting-t
 order: null
 output: ''
-project: null
+project: 2026-04-16T1348-ideas
 source_id: null
 tags: []
 time_minutes: 30
 title: 'Build Claude Code hook (A1): auto-check rbc setting-type codegen staleness'
-updated: *id001
+updated: 2026-05-28 14:46:22.756098
 waiting_on: null
 waiting_since: null
 working_on: false

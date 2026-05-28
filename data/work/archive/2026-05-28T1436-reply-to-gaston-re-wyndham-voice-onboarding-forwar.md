@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Gaston re: Wyndham voice onboarding forward_call_to catch-all extraction'
-updated: 2026-05-28 14:36:07.191299
+updated: 2026-05-28 14:49:15.557883
 waiting_on: null
 waiting_since: null
 working_on: false

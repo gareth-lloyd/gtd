@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 20
 title: 'Confirm config values + secondary indices on canary-kubernetes PR #2532'
-updated: 2026-05-28 14:36:07.263707
+updated: 2026-05-28 15:02:36.922825
 waiting_on: null
 waiting_since: null
 working_on: false

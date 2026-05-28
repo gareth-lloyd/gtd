@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Ryan Rogers re: allow_send_whatsapp on US Wyndham hotels (PR #46421)'
-updated: 2026-05-28 14:36:07.119992
+updated: 2026-05-28 14:49:20.689765
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,19 +2,19 @@
 area: null
 contexts:
 - craft
-created: &id001 2026-05-28 12:19:17.900215
+created: 2026-05-28 12:19:17.900215
 defer_until: null
 due: null
 energy: medium
 id: 2026-05-28T1219-build-claude-code-hook-c1-onboarding-plan-registry
 order: null
 output: ''
-project: null
+project: 2026-04-16T1348-ideas
 source_id: null
 tags: []
 time_minutes: 60
 title: 'Build Claude Code hook (C1): onboarding plan registry-coherence Stop check'
-updated: *id001
+updated: 2026-05-28 14:46:30.161640
 waiting_on: null
 waiting_since: null
 working_on: false
