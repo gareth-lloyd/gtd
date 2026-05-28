@@ -151,3 +151,18 @@ LOGGING = {
         },
     },
 }
+
+# On Render the filesystem is ephemeral and only stdout/stderr reaches the log
+# dashboard, so the rotating-file handlers would hide gunicorn access/error and
+# app logs. When GTD_LOG_TO_STDOUT=1, redirect every file handler to the
+# console so logs are visible (and not lost on restart).
+if os.environ.get("GTD_LOG_TO_STDOUT") == "1":
+    LOGGING["handlers"]["app_file"] = {"class": "logging.StreamHandler", "formatter": "default"}
+    LOGGING["handlers"]["gunicorn_access_file"] = {
+        "class": "logging.StreamHandler",
+        "formatter": "access",
+    }
+    LOGGING["handlers"]["gunicorn_error_file"] = {
+        "class": "logging.StreamHandler",
+        "formatter": "default",
+    }

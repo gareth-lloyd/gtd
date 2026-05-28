@@ -1,0 +1,23 @@
+# Keep the build context lean and never let host-built artifacts overwrite what
+# the image builds itself. .git is intentionally NOT ignored — push-back needs
+# a working tree with an origin remote.
+.venv/
+**/node_modules/
+**/dist/
+**/__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+.coverage.*
+staticfiles/
+logs/
+frontend/coverage/
+frontend/test-results/
+frontend/playwright-report/
+frontend/e2e/.tmp/
+frontend-mobile/coverage/
+.DS_Store

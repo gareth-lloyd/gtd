@@ -18,18 +18,24 @@ git config --global user.email "${GTD_GIT_USER_EMAIL:-gtd-mobile@users.noreply.g
 
 if [[ -n "${GITHUB_TOKEN:-}" && -n "${GTD_GIT_REMOTE:-}" ]]; then
   git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GTD_GIT_REMOTE}.git"
-  # Fresh container: align to the latest remote state. The container filesystem
-  # is ephemeral, so durability relies entirely on captures having been pushed
-  # to origin — the capture endpoint surfaces a `synced:false` flag when a push
-  # fails so the client knows the item isn't yet durable.
-  git fetch origin "$BRANCH"
-  git checkout -B "$BRANCH" "origin/$BRANCH"
-  git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
+  # Align to the latest remote state. The container filesystem is ephemeral, so
+  # durability relies on captures having been pushed to origin — the capture
+  # endpoint returns `synced:false` when a push fails so the client knows the
+  # item isn't yet durable. This alignment is best-effort: a transient fetch
+  # failure must not crash-loop the service, which already has a working tree
+  # (and committed data/) baked into the image at build time.
+  if git fetch origin "$BRANCH" && git checkout -B "$BRANCH" "origin/$BRANCH"; then
+    git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
+  else
+    echo "WARNING: could not align to origin/$BRANCH — serving build-time data." >&2
+  fi
 else
   echo "WARNING: GITHUB_TOKEN/GTD_GIT_REMOTE unset — git push-back disabled." >&2
 fi
 
-exec uv run gunicorn gtd_site.wsgi:application \
+# --no-sync: deps are already installed in the image; don't re-resolve against
+# the network (or fail on a read-only fs) on every boot.
+exec uv run --no-sync gunicorn gtd_site.wsgi:application \
   --config scripts/gunicorn_config.py \
   --bind "0.0.0.0:${PORT:-8000}" \
   --workers 1 \

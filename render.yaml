@@ -13,6 +13,8 @@ services:
     envVars:
       - key: GTD_DEBUG
         value: "0"
+      - key: GTD_LOG_TO_STDOUT
+        value: "1" # surface gunicorn/app logs in Render's dashboard
       - key: GTD_ROOT_URLCONF
         value: gtd_site.urls_cloud
       - key: GTD_CLOUD_SYNC

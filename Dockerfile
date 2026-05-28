@@ -33,7 +33,9 @@ RUN cd frontend-mobile && npm ci
 COPY . .
 
 # Build the mobile SPA and collect static assets for WhiteNoise.
+# --no-sync: reuse the no-dev venv from `uv sync` above; a bare `uv run` would
+# re-resolve and pull the dev group into the image.
 RUN cd frontend-mobile && npm run build
-RUN uv run manage.py collectstatic --noinput
+RUN uv run --no-sync manage.py collectstatic --noinput
 
 CMD ["./scripts/render-entrypoint.sh"]
