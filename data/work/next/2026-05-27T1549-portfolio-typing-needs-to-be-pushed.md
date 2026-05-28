@@ -1,10 +1,11 @@
 ---
 area: null
-contexts: []
+contexts:
+- craft
 created: 2026-05-27 15:49:39.043474
 defer_until: null
-due: null
-energy: low
+due: 2026-05-28
+energy: medium
 id: 2026-05-27T1549-portfolio-typing-needs-to-be-pushed
 order: null
 output: |
@@ -115,12 +116,12 @@ output: |
   2. 30-min sync with Project Owner of the rules-config doc to resolve a real tension — I'm taking the position that typed Portfolios and `GroupAttributes` should be coupled; the Notion doc explicitly decouples them. That needs settling before either ships.
 
   Set `working_on: false`. Did not move the file or change body / title.
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Sketch the product document proposing modeling "types" of Portfolios
-updated: 2026-05-27 21:05:00.000000
+updated: 2026-05-28 11:47:18.902701
 waiting_on: null
 waiting_since: null
 working_on: false

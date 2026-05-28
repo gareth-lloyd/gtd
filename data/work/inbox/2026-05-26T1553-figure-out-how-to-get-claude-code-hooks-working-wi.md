@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-26 15:53:38.292563
-defer_until: 2026-05-28 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-26T1553-figure-out-how-to-get-claude-code-hooks-working-wi

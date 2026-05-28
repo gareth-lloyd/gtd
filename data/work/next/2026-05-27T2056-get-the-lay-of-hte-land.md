@@ -1,10 +1,12 @@
 ---
 area: null
-contexts: []
+contexts:
+- deep
+- consume
 created: 2026-05-27 20:56:03.997090
 defer_until: null
-due: null
-energy: low
+due: 2026-05-28
+energy: medium
 id: 2026-05-27T2056-get-the-lay-of-hte-land
 order: null
 output: |
@@ -79,12 +81,12 @@ output: |
   - Raise the WHGServices audience gap with Terry/Dylan — it's the actual blocker for V2, not OAuth 2.1 spec questions.
   - Confirm with Dylan whether V1-no-auth is the agreed path. If yes, the immediate "OAuth Q&A" ask is much smaller and may not need a meeting at all.
   - Andrea still hasn't engaged — worth a direct ping if you want her in.
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Wyndham OAuth thread - react, comment on PRD
-updated: 2026-05-27 21:58:09.189954
+updated: 2026-05-28 11:47:34.922867
 waiting_on: null
 waiting_since: null
 working_on: false

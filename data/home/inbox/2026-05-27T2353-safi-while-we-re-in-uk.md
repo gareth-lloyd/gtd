@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-25 11:30:00
+created: &id001 2026-05-27 23:53:20.921948
 defer_until: null
 due: null
-energy: null
-id: 2026-05-25T1130-inalan-connection
+energy: low
+id: 2026-05-27T2353-safi-while-we-re-in-uk
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
-time_minutes: null
-title: INALAN connection
-updated: 2026-05-27 11:53:50.284958
+time_minutes: 5
+title: safi while we're in uk?
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

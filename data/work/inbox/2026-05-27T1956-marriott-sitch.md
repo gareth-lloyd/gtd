@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-27 19:56:03.080514
+created: 2026-05-27 19:56:03.080514
 defer_until: null
 due: null
 energy: low
@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: marriott sitch
-updated: *id001
+updated: 2026-05-28 11:47:42.778930
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://linear.app/canary-technologies/issue/ENT-6255/managed-to-franchise-transition#comment-606df030

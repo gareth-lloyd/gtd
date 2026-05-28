@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-26 15:49:21.410764
+created: &id001 2026-05-27 22:47:39.950491
 defer_until: null
 due: null
 energy: low
-id: 2026-05-26T1549-how-should-we-prototype-prompted-analytics
+id: 2026-05-27T2247-bring-back-neutral-oil-from-shop
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: How should we prototype prompted analytics?
-updated: 2026-05-27 12:35:47.136521
+title: bring back neutral oil from shop
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
