@@ -6,14 +6,14 @@ defer_until: null
 due: 2026-05-27
 energy: medium
 id: 2026-05-27T1358-rollout-availability-rate-code-to-wynahdm-hotels
-order: null
+order: 2
 output: ''
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 15
-title: Rollout availability_rate_code to Wynahdm hotels
-updated: 2026-05-28 12:19:17.279385
+title: Describe the process, create rollout recipe, hand off to Andrea?
+updated: 2026-05-28 12:27:17.302418
 waiting_on: null
 waiting_since: null
 working_on: true

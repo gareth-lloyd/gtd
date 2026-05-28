@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 15
 title: 'Follow up on: Lautaro Mena re SSO disclaimer / product call before merging'
-updated: 2026-05-27 13:42:31.938050
+updated: 2026-05-28 12:21:44.362946
 waiting_on: null
 waiting_since: null
 working_on: false

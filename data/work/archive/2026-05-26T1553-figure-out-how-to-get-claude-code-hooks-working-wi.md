@@ -194,7 +194,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Look for opportunities to get claude code hooks into use for Enterprise concerns
-updated: 2026-05-28 09:03:29
+updated: 2026-05-28 12:19:51.414022
 waiting_on: null
 waiting_since: null
 working_on: false

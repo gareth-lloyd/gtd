@@ -8,7 +8,7 @@ defer_until: null
 due: null
 energy: high
 id: 2026-04-17T0940-merge-pr-40386-ent-5310-dedupe-wyndham-check-in-me
-order: 9
+order: 5
 output: ''
 project: 2026-04-16T1351-ship
 source_id: null
@@ -17,7 +17,7 @@ tags:
 - github
 time_minutes: 15
 title: 'Merge PR #40386: ENT-5310 Dedupe Wyndham check-in message use cases'
-updated: 2026-05-18 14:38:47.111724
+updated: 2026-05-28 12:27:17.302418
 waiting_on: null
 waiting_since: null
 working_on: false
