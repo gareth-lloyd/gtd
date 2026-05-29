@@ -69,7 +69,7 @@ tags: []
 time_minutes: 5
 title: Solve the issue of non-idempotent rollouts. Allow config providers to supply
   different config on first and subsequent runs
-updated: 2026-05-29 11:20:16.153959
+updated: 2026-05-29 11:52:17.956330
 waiting_on: null
 waiting_since: null
 working_on: false

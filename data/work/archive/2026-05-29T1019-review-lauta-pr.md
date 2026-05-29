@@ -72,7 +72,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review lauta pr
-updated: 2026-05-29T10:23:50
+updated: 2026-05-29 11:44:09.121698
 waiting_on: null
 waiting_since: null
 working_on: false
