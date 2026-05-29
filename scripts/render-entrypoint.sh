@@ -17,14 +17,23 @@ git config --global user.name "${GTD_GIT_USER_NAME:-gtd-mobile}"
 git config --global user.email "${GTD_GIT_USER_EMAIL:-gtd-mobile@users.noreply.github.com}"
 
 if [[ -n "${GITHUB_TOKEN:-}" && -n "${GTD_GIT_REMOTE:-}" ]]; then
-  git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GTD_GIT_REMOTE}.git"
+  REMOTE_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GTD_GIT_REMOTE}.git"
+  # Render's Docker build context excludes .git, so the image carries the repo
+  # files but no git metadata. Recreate a repo pointed at origin so push-back
+  # works; the data files (baked in via COPY) become tracked after checkout,
+  # while untracked build artifacts (dist/, staticfiles/) are left in place.
+  if [[ ! -d .git ]]; then
+    git init -q
+    git remote add origin "$REMOTE_URL"
+  else
+    git remote set-url origin "$REMOTE_URL"
+  fi
   # Align to the latest remote state. The container filesystem is ephemeral, so
   # durability relies on captures having been pushed to origin — the capture
   # endpoint returns `synced:false` when a push fails so the client knows the
-  # item isn't yet durable. This alignment is best-effort: a transient fetch
-  # failure must not crash-loop the service, which already has a working tree
-  # (and committed data/) baked into the image at build time.
-  if git fetch origin "$BRANCH" && git checkout -B "$BRANCH" "origin/$BRANCH"; then
+  # item isn't yet durable. Best-effort: a transient fetch failure must not
+  # crash-loop the service (it can still serve the build-time data).
+  if git fetch origin "$BRANCH" && git checkout -f -B "$BRANCH" "origin/$BRANCH"; then
     git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
   else
     echo "WARNING: could not align to origin/$BRANCH — serving build-time data." >&2
