@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Find cables for marg's monitors
-updated: 2026-05-29 07:26:50.042653
+updated: 2026-05-29 10:38:38.183746
 waiting_on: null
 waiting_since: null
 working_on: false

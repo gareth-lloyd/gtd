@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-27 23:53:20.921948
+created: 2026-05-27 23:53:20.921948
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: safi while we're in uk?
-updated: *id001
+updated: 2026-05-29 10:38:34.164434
 waiting_on: null
 waiting_since: null
 working_on: false
