@@ -98,7 +98,7 @@ tags: []
 time_minutes: 5
 title: 'BW settings change: Explore whether scripts can "do the right thing" as described
   in the thread'
-updated: 2026-05-28 12:31:31.000000
+updated: 2026-05-29 13:47:41.320507
 waiting_on: null
 waiting_since: null
 working_on: false

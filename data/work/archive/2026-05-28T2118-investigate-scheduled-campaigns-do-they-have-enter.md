@@ -1,10 +1,10 @@
 ---
-area: null
+area: management
 contexts: []
 created: 2026-05-28 21:18:53.287373
 defer_until: null
-due: null
-energy: low
+due: 2026-05-29
+energy: medium
 id: 2026-05-28T2118-investigate-scheduled-campaigns-do-they-have-enter
 order: -2
 output: |
@@ -125,12 +125,12 @@ output: |
   - Production send path + gate: guest_journey/services/guest_journey_message.py:1436
     (variant resolve 1439-1448; NO_MATCH suppression 1461-1473; spec fallback 1509+)
   - rollout flag default=True: hotels migration 0732_hotel_rollout_message_variants_default_true
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: INVESTIGATE scheduled campaigns - do they have enterprise impact?
-updated: 2026-05-28 22:10:00.000000
+updated: 2026-05-29 13:58:07.532745
 waiting_on: null
 waiting_since: null
 working_on: false
