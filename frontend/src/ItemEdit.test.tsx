@@ -5,6 +5,7 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Item, Project } from "./api";
 import { ProcessedItemsProvider, useProcessedItems } from "./ProcessedItemsContext";
+import { SelectionProvider, useSelection } from "./SelectionContext";
 import { ROUTER_FUTURE } from "./routerConfig";
 
 vi.mock("./api", () => ({
@@ -291,6 +292,48 @@ describe("useItemPatch — defer on inbox marks processed", () => {
     await waitFor(() => {
       expect(getCaptured()?.isProcessed("item-1")).toBe(true);
     });
+  });
+
+  it("clears selection when deferring into the future on the inbox route", async () => {
+    const future = new Date(Date.now() + 3_600_000).toISOString();
+    const inboxItem = { ...baseItem, status: "inbox" as const };
+    const qc = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false, staleTime: Infinity },
+        mutations: { retry: false },
+      },
+    });
+    qc.setQueryData(["item", "work", "item-1"], inboxItem);
+    let selection: ReturnType<typeof useSelection> | null = null;
+    function CaptureSelection() {
+      selection = useSelection();
+      return null;
+    }
+    const Wrapper = ({ children }: PropsWithChildren) => (
+      <QueryClientProvider client={qc}>
+        <MemoryRouter initialEntries={["/work/inbox"]} future={ROUTER_FUTURE}>
+          <SelectionProvider>
+            <ProcessedItemsProvider>
+              <CaptureSelection />
+              {children}
+            </ProcessedItemsProvider>
+          </SelectionProvider>
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+    vi.mocked(api.updateItem).mockResolvedValue({ ...inboxItem, defer_until: future });
+
+    const { result } = renderHook(() => useItemPatch("work", "item-1"), { wrapper: Wrapper });
+
+    act(() => selection!.select("item-1"));
+    expect(selection!.selectedId).toBe("item-1");
+
+    await act(async () => {
+      result.current.patch({ defer_until: future });
+      await result.current.flush();
+    });
+
+    expect(selection!.selectedId).toBeNull();
   });
 
   it("does not mark processed when not on the inbox route", async () => {

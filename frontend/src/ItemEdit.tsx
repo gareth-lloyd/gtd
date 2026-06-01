@@ -3,6 +3,7 @@ import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { api, type Item, type Project } from "./api";
 import { toasts } from "./toast";
 import { useProcessedItems } from "./ProcessedItemsContext";
+import { useSelection } from "./SelectionContext";
 
 type Snapshot = {
   single: Item | undefined;
@@ -114,6 +115,9 @@ export function useItemPatch(env: string, itemId: string) {
   activeRef.current = processed?.active === true;
   const markProcessedRef = useRef(processed?.markProcessed);
   markProcessedRef.current = processed?.markProcessed;
+  const { select } = useSelection();
+  const selectRef = useRef(select);
+  selectRef.current = select;
 
   const doFlush = useCallback(async () => {
     if (timerRef.current != null) {
@@ -146,6 +150,11 @@ export function useItemPatch(env: string, itemId: string) {
           isHiddenByDefer({ defer_until: updated.defer_until, overdue: updated.overdue })
         ) {
           markProcessedRef.current?.(itemId);
+          // Clear selection so the row actually greys out, mirroring the
+          // WorkflowActions "→ next" flow. Without this the row stays
+          // `.processed.selected`, which CSS pins at full opacity, so the
+          // user sees no visual confirmation that the defer landed.
+          selectRef.current?.(null);
         }
       } else {
         invalidateItemQueries(qc, env, itemId);
