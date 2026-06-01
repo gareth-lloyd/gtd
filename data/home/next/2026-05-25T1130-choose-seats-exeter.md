@@ -3,7 +3,7 @@ area: null
 contexts:
 - computer
 created: 2026-05-25 11:30:00
-defer_until: 2026-06-01 09:00:00
+defer_until: null
 due: 2026-06-19
 energy: null
 id: 2026-05-25T1130-choose-seats-exeter

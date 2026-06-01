@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: defer from inbox doesn't do the proper "grey out" behavior
-updated: 2026-05-29 11:52:52.232487
+updated: 2026-06-01 15:13:10.684160
 waiting_on: null
 waiting_since: null
 working_on: false

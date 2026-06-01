@@ -3,7 +3,7 @@ area: null
 contexts:
 - craft
 created: 2026-04-10 08:40:18.621860
-defer_until: 2026-06-01 09:00:00
+defer_until: null
 due: null
 energy: medium
 id: 2026-04-10T0840-eng-lead-for-ryan-rogers-next-steps
