@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 10
 title: Answer anais on ENT-6367 re Salesforce rule frequency
-updated: 2026-06-02 07:17:51.656632
+updated: 2026-06-02 14:06:01.519077
 waiting_on: null
 waiting_since: null
 working_on: false

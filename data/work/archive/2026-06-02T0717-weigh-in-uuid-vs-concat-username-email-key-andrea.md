@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Weigh in: uuid vs CONCAT(username,email) key (Andrea/Jordan DM)'
-updated: 2026-06-02 07:17:51.595929
+updated: 2026-06-02 14:12:17.836345
 waiting_on: null
 waiting_since: null
 working_on: false

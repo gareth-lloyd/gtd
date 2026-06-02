@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-02 12:09:27.828469
-defer_until: null
+created: 2026-06-02 12:09:27.828469
+defer_until: 2026-06-03 09:00:00
 due: null
 energy: low
 id: 2026-06-02T1209-prep-handover-for-wcp
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Prep handover for WCP
-updated: *id001
+updated: 2026-06-02 14:12:47.886217
 waiting_on: null
 waiting_since: null
 working_on: false

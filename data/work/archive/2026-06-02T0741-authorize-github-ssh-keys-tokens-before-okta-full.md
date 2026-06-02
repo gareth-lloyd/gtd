@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Authorize GitHub SSH keys & tokens before Okta full enforcement (Mon)
-updated: 2026-06-02 07:41:51.378179
+updated: 2026-06-02 14:12:21.059146
 waiting_on: null
 waiting_since: null
 working_on: false
