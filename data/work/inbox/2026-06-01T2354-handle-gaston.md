@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-27 15:39:54.693115
+created: 2026-06-01 23:54:11.034799
 defer_until: null
 due: null
 energy: low
-id: 2026-05-27T1539-explore-omni-chat-interface-for-omni
+id: 2026-06-01T2354-handle-gaston
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: explore omni chat interface for omni
-updated: 2026-06-01 15:08:26.699073
+title: handle gaston as promised to andrea
+updated: 2026-06-02 00:28:24.023487
 waiting_on: null
 waiting_since: null
 working_on: false

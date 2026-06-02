@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-29 11:52:13.887809
-defer_until: 2026-06-02 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-29T1152-deprecate-this-ihg-ticket

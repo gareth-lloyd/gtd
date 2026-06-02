@@ -3,7 +3,7 @@ area: null
 contexts:
 - consume
 created: 2026-05-31 07:53:13.184601
-defer_until: 2026-06-02 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-31T0753-read-archer-sso-handover-doc-lauta-pto-may-june
