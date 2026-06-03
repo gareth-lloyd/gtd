@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-03 11:21:51.605609
+created: 2026-06-03 11:21:51.605609
 defer_until: null
 due: null
 energy: low
@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: catch up on IoT slack channel generally
-updated: *id001
+updated: 2026-06-03 12:27:41.462559
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://canarytechnologies.slack.com/archives/C02JKFTV7K9/p1778718190577629

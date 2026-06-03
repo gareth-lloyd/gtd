@@ -79,6 +79,102 @@ output: |
   Read-only digest only — no code reviewed for correctness, nothing pushed, no
   Slack/Linear/GitHub writes made. Notion PRD body not read (MCP not
   authenticated this session) — open the link directly if the narrative is needed.
+
+  ## Agent run 2026-06-03T12:18 — backend review + architecture critique
+
+  Reviewed the 3 backend PRs (#46600/#46602/#46603) in full + read the actual
+  Notion PRD this time. Conclusion escalated from "good stack, some questions" to
+  "the stack has a fundamental category error rooted in the PRD."
+
+  ### The core finding — category error
+  Onboarding scripts are INTERNAL Canary-staff tooling for configuring hotels
+  (Salesforce-account-keyed, batch/run records, dashboards). The Integrations tab
+  is a CUSTOMER/hotel-staff surface. PR #46603 wires the Integrations-tab "save"
+  to literally trigger an onboarding SCRIPT RUN: it manufactures
+  OnboardingScriptBatch/Hotel/Run rows and calls script_run_attempt ->
+  onboard_hotel_from_salesforce_account -> ConfigureVoicePlan. So a customer
+  action drives the staff onboarding engine. Tells: SFDC-keyed (hard-fails with no
+  SF metadata), creates onboarding records in staff dashboards, Wyndham path
+  routes through script_type BASE_CONFIGURATION_NEW (a forwarding-number edit
+  going through the "base config / new hotel" stage).
+
+  ### Is it Gaston's bad impl, or the PRD's seed? -> The PRD seeds it.
+  PRD says 3x: UI "triggers the onboarding flow" / "triggering the voice
+  onboarding flow" / "Hotel admin can add a forwarding number to trigger the
+  onboarding flow." Its mental model = "Integrations tab is a new front door onto
+  the EXISTING onboarding flow." It conflates a CAPABILITY (provision voice for a
+  hotel) with a MECHANISM (the staff onboarding script), and asks to expose the
+  mechanism to a 2nd audience. Easy mistake because today they're the same object.
+  Gaston implemented that framing faithfully — too literally (synthetic batch) —
+  and confirmed it in Slack: "the integrations tab form is a wrapper to the config
+  script." So: PRD plants the error, implementation entrenches it. Fix needs a
+  PRD-level reframe, not just code review.
+
+  ### Correct seam (recommended direction)
+  Extract a voice-domain provisioning service: voice/services/voice_provisioning.py
+  `provision_voice(hotel, *, forward_call_to, inbound_number=None, forwarding=None)`
+  — hotel-keyed, no Salesforce, no batch/run records; does the Twilio purchase +
+  LiveKit + writes voice.Configuration. BOTH callers depend on it: the staff
+  onboarding ConfigureVoicePlan delegates to it (unchanged externally), and the
+  Integrations-tab save calls it directly (never enters onboarding). Two callers of
+  one capability, not one flow with two front doors. This also dissolves most of
+  the validation concern (voice values stop being OnboardingValues on an SFDC key).
+
+  ### Smaller-scope options also discussed (if full reseam is deferred)
+  Validation (concern: voice rules + blast radius landed in onboarding/services/values.py):
+  - A1 (small): revert validate_data to generic type-check; move E.164/forwarding
+    rules to a voice-owned validator; voice validates at its boundaries. Kills the
+    CSV/SF-sync blast radius; voice rules live in voice.
+  - A2 (bigger): make validate_data a pure dispatcher to a per-kind validator
+    registry that each domain registers into (inverts onboarding->voice import).
+    Cleans ownership for ALL branded kinds but keeps central blast radius.
+  Execution (concern: synthetic batch + inline run on web thread):
+  - B1: call onboard_hotel_from_salesforce_account directly, no batch rows. NOTE:
+    superseded by the provision_voice seam — B1 still rides onboarding machinery.
+  - B2: create a real SCHEDULED-style batch, run async via worker, modal polls
+    status -> "Connected". PRD-native (PRD's "Connected" terminal state fits async);
+    removes web-thread timeout risk + long lock. Keeps the batch though.
+
+  ### Other review points (from full backend read)
+  - Auth: activate endpoint gated on hotel-facing VOICE_HAS_SETTINGS_ACCESS. After
+    reading PRD this is INTENDED (PRD: hotel admins trigger via forwarding number).
+    Caveat: when non-US inbound-number entry lands (CS-only per PRD), ensure hotel
+    admins can't set the Twilio number.
+  - Inline run blocks the web request through Twilio/LiveKit calls (timeout risk).
+    lock_instance is a DISTRIBUTED lock (not select_for_update) so no DB pinning.
+  - Failed run leaves the synthetic batch IN_PROGRESS (success path finalizes via
+    mark_as_processed_if_batch_is_complete; fail_run doesn't). Cron only picks up
+    SCHEDULED so likely just dashboard noise — confirm.
+  - #46602 moves KIND_SCHEMAS validation into validate_data -> now runs on EVERY
+    upsert caller (CSV import, SF sync), not just admin. Confirm those paths emit
+    conformant data.
+
+  ### PRD coverage gaps (vs the 5 PRs)
+  - Hotel-FACING Integrations row not in this stack — all 5 PRs are adminland-only
+    (frontend/adminland/...). PRD shows customer-facing screens; this ships the
+    CS/adminland half only. Confirm hotel-facing piece is a later phase.
+  - Non-US/CAN inbound (Twilio) number not enforced server-side: the hook exists
+    (required_onboarding_value_kinds_for_hotel) but DefaultVoiceConfigProvider
+    doesn't override by country -> returns [FORWARD_CALL_TO] regardless.
+  - Incident coverage: fully closes Meritage class (missing/malformed). Only
+    PARTIALLY the Dupont Circle class (wrong-but-valid number) — real fix is
+    VOX-2512 (validate voice_number against Twilio subaccount), not in this stack.
+
+  ### Urgency / impact
+  - SPLIT the stack. Safety core (#46727 + #46600 = make forward_call_to required,
+    fail fast) is the urgent, low-risk Meritage fix -> ship on its own, fast.
+  - Streamlining layer (#46602/#46603/#46604) is valuable but deferrable (no live
+    outage; preventive). It carries ALL the architecture concerns above -> take the
+    time to land it on the correct seam. PRD gives latitude (doesn't mandate the
+    script machinery). Project target 2026-05-29 already passed; pressure is "finish
+    in-flight," not "ship tonight."
+
+  ### Suggested next actions (NOT taken — need my go-ahead)
+  - Raise the category-error / provision_voice reframe with Gaston (+ likely the
+    PRD owner) before more of the stack merges.
+  - Greenlight #46727+#46600 to merge independently as the safety fix.
+  - Decide: full reseam now vs A1+B2 interim. Capture non-US + hotel-facing gaps as
+    their own tickets. No PR/Linear/Slack comments drafted or posted yet.
 project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C047K6WSUJY/p1780081180659859?thread_ts=1780081180.659859&cid=C047K6WSUJY
 tags:
@@ -87,7 +183,7 @@ tags:
 - from-awareness
 time_minutes: 15
 title: 'Read: voice onboarding streamlining PRD + PRs #46600-46604'
-updated: 2026-06-02 23:05:17.925957
+updated: 2026-06-03 12:18:32.337517
 waiting_on: null
 waiting_since: null
 working_on: false

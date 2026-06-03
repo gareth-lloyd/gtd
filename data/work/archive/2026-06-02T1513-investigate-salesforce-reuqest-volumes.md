@@ -68,12 +68,66 @@ output: |
 
   NOTE: did not check Groundcover — Airbyte runs on EC2 and logs to Datadog, where
   the answer was conclusive. Slack thread images (Gerson's screenshots) not opened.
+
+  ## Agent run 2026-06-03 (owner + fix routing + drafted reply)
+
+  ### Owner / routing
+  - Airbyte data-warehouse instance (Postgres CDC + Salesforce source -> S3) =
+    pod-platform (CODEOWNERS: /backend/canary/data_warehouse/ -> pod-platform).
+    Route the fix here.
+  - In-app SF integration (/backend/canary/salesforce/) = pod-enterprise — loop in
+    for context, but not the broken component.
+  - Actual Airbyte connection config (streams, SF creds, connector version) lives
+    in terraform workspace prd-uswest2-core0-data-warehouse (infra repo, NOT this
+    repo). Worker image observed: airbyte/worker:0.50.44 (old).
+
+  ### Root-cause hypothesis for the fix
+  "Invalid date-time: Invalid timezone offset: 0000" = classic Airbyte SF-source
+  bug: a SF datetime field returns a zero/invalid TZ offset, schema validator
+  rejects it, Bulk query job fails, connector falls back to per-record REST.
+  Fix order: (1) upgrade Airbyte SF source connector; (2) exclude offending
+  stream/field; (3) short-term pause/slow the connection to stop burning quota.
+
+  ### Slack reply — DRAFTED, NOT SENT (awaiting Gareth's go-ahead)
+  Destination: thread in C08RJU9Q7FV (reply to Stephanie/Martin). Content covers:
+  not cohorts; Airbyte SF source Bulk->REST fallback since ~May 18 (~2,400/day);
+  likely breached API limit May 27 (~07:00-12:00 UTC dip); these are READS not
+  updates; trigger = malformed datetime; fix sits with pod-platform.
+
+  ### Slack reply — SENT 2026-06-03
+  Posted to thread C08RJU9Q7FV:
+  https://canarytechnologies.slack.com/archives/C08RJU9Q7FV/p1780478971046909
+
+  ### Linear search for existing reports (done 2026-06-03)
+  NO open ticket covers this specific issue (SF source Bulk->REST fallback since
+  ~May 18 -> API-limit breach May 27). Closest:
+  - DATA-752 (In Progress, Data Platform, Incident) = Airbyte pod scheduling +
+    Snowflake-destination Crossplane errors. DIFFERENT failure, not a dup, but the
+    active Airbyte-health incident.
+  - PLAT-3562 (Backlog) = Upgrade Airbyte to 2.0 — relevant to the FIX (worker is
+    old 0.50.44; datetime-parse bug fixed upstream).
+  - DATA-73 (Done Jan 2026) = SF OpportunityLineItem sync silently broke before
+    (precedent). DATA-77 (Done) = prior SF/Airbyte error sweep.
+  - Backend SF rate-limit theme recurring + unsolved: TOOL-35 ("long term solution
+    for SF rate limiting") was CANCELLED; ENT-1984/ENT-5353 cancelled/dup.
+
+  ### Ownership CORRECTION (supersedes "pod-platform" above)
+  Live Airbyte connections/pipeline operated by DATA PLATFORM team (DATA-* issues;
+  Carmela Beiro / Johannes Schmidt / Maycon Viana Bordin; "Airbyte improvements"
+  project) — NOT pod-platform. pod-platform owns only backend data_warehouse/ code.
+  Route the fix to Data Platform.
+
+  ### Still open
+  - Groundcover corroboration (task body asks for it) — NOT yet done.
+  - ENT-6367 read-only SalesforceContact prod lookup — NOT done (needs approval).
+  - File new Data Platform ticket ("Airbyte improvements" project) for the SF
+    source bulk-fallback fix — pending Gareth approval.
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: null
 title: Investigate salesforce reuqest volumes
-updated: 2026-06-03 12:15:05.491649
+updated: 2026-06-03 12:30:11.911833
 waiting_on: null
 waiting_since: null
 working_on: true
