@@ -87,10 +87,10 @@ tags:
 - from-awareness
 time_minutes: 15
 title: 'Read: voice onboarding streamlining PRD + PRs #46600-46604'
-updated: 2026-06-02 14:48:18.622737
+updated: 2026-06-02 23:05:17.925957
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Gaston's voice onboarding (Integrations Tab) streamlining — PRD + backend/frontend PRs.

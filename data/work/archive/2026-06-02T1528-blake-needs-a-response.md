@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-02 15:28:00.431702
+created: 2026-06-02 15:28:00.431702
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Blake needs a response
-updated: *id001
+updated: 2026-06-03 10:21:14.276143
 waiting_on: null
 waiting_since: null
 working_on: false

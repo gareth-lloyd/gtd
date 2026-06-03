@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-02 15:58:40.441056
+created: 2026-06-03 02:17:29.133657
 defer_until: null
 due: null
 energy: low
-id: 2026-06-02T1558-review-jordan-s-soa-architecture-doc
+id: 2026-06-03T0217-might-need-to-say-more-to-gaston
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: review jordan's soa architecture doc
-updated: *id001
+title: might need to say more to gaston
+updated: 2026-06-03 10:25:48.415770
 waiting_on: null
 waiting_since: null
 working_on: false

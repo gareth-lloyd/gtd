@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-02 15:11:42.503154
+created: 2026-06-02 15:11:42.503154
 defer_until: null
 due: null
 energy: low
@@ -12,8 +12,8 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: peter gao conversations
-updated: *id001
+title: Set up peter gao conversations
+updated: 2026-06-03 10:25:12.633389
 waiting_on: null
 waiting_since: null
 working_on: false

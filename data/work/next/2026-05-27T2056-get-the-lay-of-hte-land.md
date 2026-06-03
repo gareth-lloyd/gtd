@@ -86,10 +86,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Wyndham OAuth thread - react, comment on PRD
-updated: 2026-05-28 12:27:39.174969
+updated: 2026-06-03 10:26:51.250488
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://canarytechnologies.slack.com/archives/C04STT7UPRQ/p1779903198286139

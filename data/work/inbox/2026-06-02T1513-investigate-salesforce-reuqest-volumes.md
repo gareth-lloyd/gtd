@@ -71,8 +71,8 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: investigate salesforce reuqest volumes
-updated: 2026-06-02 15:45:00.000000
+title: Investigate salesforce reuqest volumes
+updated: 2026-06-03 10:25:37.352919
 waiting_on: null
 waiting_since: null
 working_on: false
@@ -80,4 +80,4 @@ working_on: false
 
 https://canarytechnologies.slack.com/archives/C08RJU9Q7FV/p1780067490269399
 
-Tincho's don't line up. look for other factors in datadog/groundcover
+Current hypotheses don't line up. look for other factors in groundcover
