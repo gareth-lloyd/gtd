@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-27 10:01:56.193099
+created: 2026-05-28 12:08:13.770106
 defer_until: null
 due: null
 energy: low
-id: 2026-05-27T1001-reply-aggeliki
+id: 2026-05-28T1208-maggie-wedding-present
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: reply Aggeliki
-updated: *id001
+title: maggie wedding present
+updated: 2026-06-03 11:58:45.580225
 waiting_on: null
 waiting_since: null
 working_on: false

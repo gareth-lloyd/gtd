@@ -1,10 +1,11 @@
 ---
-area: null
-contexts: []
+area: engineering
+contexts:
+- craft
 created: 2026-06-02 15:13:58.050184
 defer_until: null
-due: null
-energy: low
+due: 2026-06-03
+energy: medium
 id: 2026-06-02T1513-investigate-salesforce-reuqest-volumes
 order: null
 output: |
@@ -67,15 +68,15 @@ output: |
 
   NOTE: did not check Groundcover — Airbyte runs on EC2 and logs to Datadog, where
   the answer was conclusive. Slack thread images (Gerson's screenshots) not opened.
-project: null
+project: 2026-04-16T1351-ship
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: null
 title: Investigate salesforce reuqest volumes
-updated: 2026-06-03 10:25:37.352919
+updated: 2026-06-03 12:15:05.491649
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://canarytechnologies.slack.com/archives/C08RJU9Q7FV/p1780067490269399

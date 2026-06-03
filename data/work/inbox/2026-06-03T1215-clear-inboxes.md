@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-25 11:30:00
+created: &id001 2026-06-03 12:15:24.436720
 defer_until: null
 due: null
-energy: null
-id: 2026-05-25T1130-prism-dionysus
+energy: low
+id: 2026-06-03T1215-clear-inboxes
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
-time_minutes: null
-title: Prism is a hymn to Dionysus wine
-updated: 2026-05-25 11:23:20.088354
+time_minutes: 5
+title: clear inboxes
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

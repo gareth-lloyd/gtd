@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-05-27 23:55:15.423873
+created: 2026-05-27 23:55:15.423873
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: easyjet baggage
-updated: *id001
+updated: 2026-06-03 12:14:05.275033
 waiting_on: null
 waiting_since: null
 working_on: false
