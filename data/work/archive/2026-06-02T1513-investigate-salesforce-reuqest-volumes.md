@@ -120,8 +120,30 @@ output: |
   ### Still open
   - Groundcover corroboration (task body asks for it) — NOT yet done.
   - ENT-6367 read-only SalesforceContact prod lookup — NOT done (needs approval).
-  - File new Data Platform ticket ("Airbyte improvements" project) for the SF
-    source bulk-fallback fix — pending Gareth approval.
+  - File new Data Platform ticket — DONE: DATA-862 (High, Triage, no assignee,
+    Incident label, Airbyte improvements project; related DATA-752/PLAT-3562/DATA-73)
+    https://linear.app/canary-technologies/issue/DATA-862
+  - Groundcover corroboration (task body asks for it) — NOT yet done.
+  - ENT-6367 read-only SalesforceContact prod lookup — NOT done (needs approval).
+
+  ## Agent run 2026-06-03 (assumption challenge — CORRECTIONS)
+  Adversarial re-check broke several earlier claims; DATA-862 rewritten to match:
+  - "Began ~May 18" = FALSE. Log-retention artifact (airbyte-worker hot logs ~15d;
+    floor slid May 18 -> May 19 overnight). Onset unknown, likely older.
+  - Concrete bulk failure = HTTP 400 Bad Request on Salesforce Bulk API v2
+    /services/data/v57.0/jobs/query -> REST fallback. NOT a rate-limit. Airbyte
+    never logs 429/403/REQUEST_LIMIT; governor breach known only Salesforce-side.
+  - May 27 "dip = throttling" = UNSUPPORTED; worker was actively syncing + hitting
+    400s during the dip.
+  - Backend is ALSO a heavy SF consumer: @logger:canary.salesforce ~100k-190k
+    events/day (canary, canary-celery-onboarding, canary-incidents-handler).
+    Earlier "backend negligible" was wrong (searched wrong service names).
+  - No May 27 spike in Airbyte OR backend; load flat -> multi-factor / chronically
+    near daily ceiling. Airbyte = a contributing factor, NOT proven sole cause.
+  - DateTimeValidator "Invalid timezone offset: 0000" may be independent of the 400.
+  NET: identified A real issue (chronic Airbyte bulk-API failure -> REST fallback),
+  not provably THE cause of May 27. Missing: 400 response body (root cause) +
+  per-consumer API-call quantification.
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []

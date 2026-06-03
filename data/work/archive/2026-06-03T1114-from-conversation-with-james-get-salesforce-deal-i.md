@@ -102,7 +102,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: 'From conversation with james: get salesforce deal into linear triage'
-updated: 2026-06-03 13:18:00.000000
+updated: 2026-06-03 14:18:22.021163
 waiting_on: null
 waiting_since: null
 working_on: false

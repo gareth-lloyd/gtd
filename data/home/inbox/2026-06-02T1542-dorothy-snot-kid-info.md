@@ -1,9 +1,9 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-02 15:42:52.398580
-defer_until: null
-due: null
+created: 2026-06-02 15:42:52.398580
+defer_until: 2026-06-04 09:00:00
+due: 2026-06-04
 energy: low
 id: 2026-06-02T1542-dorothy-snot-kid-info
 order: null
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: dorothy snot kid info
-updated: *id001
+updated: 2026-06-03 13:49:21.262216
 waiting_on: null
 waiting_since: null
 working_on: false

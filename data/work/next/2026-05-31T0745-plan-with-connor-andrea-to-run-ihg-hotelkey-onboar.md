@@ -104,22 +104,180 @@ output: |
     (Needs a read-only prod check — get explicit OK first.)
   - Has HK re-activated V4 for FHKEX since the mid-May 401 storm? (Mohak/Yauheni)
   - Are FreedomPay store/terminal IDs for FHKEX delivered yet? (Lilly)
+
+  ## Agent run 2026-06-03T14:05:00
+
+  Acted on the CHANGED requirements: (1) produce the exact onboarding-value spec to
+  create, (2) a /debug_in_shell drift check, (3) extract values from the new Google
+  Sheet. Items 1 & 2 done and verified against current code. Item 3 is BLOCKED — see
+  end. NOTHING was written to prod or any external service; no credentials fabricated.
+
+  ### 1) Onboarding values to create — VERIFIED against current code
+  Both are `OnboardingValue` rows, `IdType = SF_ACCOUNT_ID`, keyed by the Salesforce
+  account id with checksum (`add_sf_id_checksum` is applied automatically by both the
+  admin form and `OnboardingValueService.upsert`). Both kinds are in `SECRET_VALUE_KINDS`.
+  Code refs (this branch):
+  - Kinds/IdType: onboarding/models/onboarding_values.py (HOTEL_KEY_CREDENTIALS,
+    FREEDOMPAY_CREDENTIALS; both -> SALESFORCE_ACCOUNT_ID; both in SECRET_VALUE_KINDS).
+  - Schemas: onboarding/configuration_providers/integrations_schemas/hotelkey.py
+    and .../freedompay.py. Read by .../ihg/pms_config_provider.py and
+    .../ihg/payment_gateway_config_provider.py.
+
+  HOTEL_KEY_CREDENTIALS — data is a JSON object; ALL 9 fields required, each non-empty
+  (validate.Length(min=1)):
+    property_id, property_code, api_host, username, password,
+    webhook_username, webhook_password, brand_identifier, environment_name
+  (No defaults — if any field is missing/empty the IHG PMS provider raises
+  ERROR_MISSING_HOTEL_KEY_CREDENTIALS and the batch fails.)
+
+  FREEDOMPAY_CREDENTIALS — data is a JSON object:
+    store_id      (required, non-empty)
+    terminal_id   (required, non-empty)
+    token_type    (OPTIONAL — IHG provider IHGFreedomPayCredentialsSchema defaults "99";
+                   you can omit it for IHG)
+    enable_charging (OPTIONAL bool, default true -> also wires the charging vendor)
+  If this row is ABSENT the payment-gateway plan no-ops ("Skipped ... no vendor config")
+  and the batch still succeeds — so absence is a valid explicit choice, not a failure.
+
+  How to create (two supported paths):
+  A) Admin CSV upload: /admin/onboarding/onboardingvalue/upload-csv/
+     - Pick onboarding_type = IHG_PILOT, kind = the kind, then map columns.
+     - CSV header = `account_id` + one column per schema field above (exact field names).
+     - The flow checksums account_id for you.
+  B) Programmatic (in a shell, WITH approval — this is a prod WRITE):
+       from onboarding.models.onboarding_values import OnboardingValue
+       from onboarding.services.values import OnboardingValueService
+       OnboardingValueService.upsert(SF_ACCOUNT_ID,
+           OnboardingValue.Kind.HOTEL_KEY_CREDENTIALS, { ...9 fields... })
+       OnboardingValueService.upsert(SF_ACCOUNT_ID,
+           OnboardingValue.Kind.FREEDOMPAY_CREDENTIALS, { store_id, terminal_id })
+     upsert() validates type + applies the checksum; update_or_create on (account_id,kind).
+
+  ### 2) Drift check via /debug_in_shell — DONE (read-only, copied to clipboard)
+  Strictly read-only snippet for the CANARY prod shell. Set HOTEL_SLUG (default "fhkex").
+  It prints, with try/except around every network/lookup so a missing account can't abort:
+  - hotel id/uuid + hotel.sfdc_account_id (raw);
+  - PMSGatewayService.get_account(hotel): account.type, account.hotelkey
+    (property_id/property_code/is_enabled), account_groups, ignored_room_type_codes,
+    capabilities. KEY GATE: create-plan upserts creds only when account.hotelkey is None
+    (create_configuration_plan.py:82, getattr(account, Vendor.HOTEL_KEY.value="hotelkey")).
+    If hotelkey EXISTS, credential upsert is SILENTLY SKIPPED -> drift persists.
+    NOTE: the canary /accounts/me API only exposes property_id/property_code/is_enabled —
+    username/password/webhook/api_host/brand_identifier/environment_name are NOT visible
+    from canary; deep credential drift must be checked in the PMS-GATEWAY shell/DB.
+  - payment: check_in_configuration.payment_gateway_config_id; if set,
+    GatewayConfigService.get_config(uuid).tokenizing_vendor/charging_vendor +
+    get_tokenizing/charging_vendor_config -> FreedomPay store_id/terminal_id. Flags when a
+    NON-FreedomPay vendor is present (payment plan would reset/recreate, orphaning child rows).
+  - check_in_configuration.is_tokenizing_with_hotel_payment_gateway.
+  - existing HOTEL_KEY/FREEDOMPAY OnboardingValue rows (prints field-key NAMES only, never
+    secret values), keyed by both raw and checksummed sfdc_account_id.
+  The 130-line snippet is on the clipboard now; re-generate any time from this item.
+
+  ### 3) Extract credentials from the Google Sheet — BLOCKED (needs you)
+  Sheet: docs.google.com/spreadsheets/d/1qj6ohH9al_tf2IYORdVHbdQXFRsP0B9YpG_jIzTD1Q0
+  (gid=623900634). This is a DIFFERENT sheet from the earlier master sheet (1xvcbeohp...).
+  I cannot read it: WebFetch returns HTTP 401 (auth-gated) and I have no authenticated
+  Google path. I did NOT fabricate or guess any credential values.
+  To unblock, either:
+   - paste the relevant row(s) for the in-scope hotel(s) here (or export the tab to CSV and
+     share it), OR
+   - tell me the column->field mapping and the values, and I'll assemble the exact JSON /
+     CSV for each OnboardingValue and (only with your explicit OK) load them.
+  When you share it I need, per hotel: the SF account id, then the 9 HotelKey fields and
+  (if FreedomPay this run) store_id + terminal_id.
+
+  ### Scope reminder (unchanged from prior run)
+  In-scope-for-script today = HotelKey properties only (prior run: FHKEX). The 9 ENT-6357
+  Opera sites are manual and the IHG provider no-ops them (SF PMS not "hotelkey"). Confirm
+  the current HotelKey hotel list before loading values — requirements changed, so re-verify
+  whether it's still just FHKEX or more HotelKey sites are now ready.
+
+  ### Not done / needs your call
+  - No prod writes, no external-service writes, no Linear/Slack/GitHub posts.
+  - Real credential values: blocked on sheet access above.
+  - Running the drift snippet against prod is your action (paste in shell); I can analyze
+    the output if you paste it back.
+
+  ## Agent run 2026-06-03T14:30:00 — LIVE drift results for FHKEX (prod, read-only)
+
+  Ran the read-only drift check against prod. Hotel resolved: id=18519
+  "Holiday Inn Express Fishkill, an IHG Hotel", sso_hotel_id=fhkex, org=ihg,
+  sfdc_account_id=001f200001m5lP3AAI, pms-gateway account uuid 45a377df-...619da.
+  (Secret credential values are NOT recorded here on purpose.)
+
+  HEADLINE: FHKEX is ALREADY fully live. Running the onboarding script on it has NO
+  upside and ONE verified destructive side effect. Recommend NOT running it as-is.
+
+  Live state:
+  - account.type = hotelkey. account.hotelkey EXISTS, is_enabled=True, with the full
+    9-field credential set already populated and consistent with the IHG pattern
+    (property_code FHKEX, username canary-fhkex, webhook_username hotelkey-FHKEX,
+    brand_identifier ihg, environment_name "IHG - PRODUCTION 2-WAY", api_host us-west-2
+    hkclients). => There is NO HotelKey credential drift to fix.
+  - Because account.hotelkey is not None, the create-config plan SKIPS the credential
+    upsert entirely (verified). So loading a HOTEL_KEY_CREDENTIALS value canNOT overwrite
+    the live creds — good, but also means the value achieves nothing for FHKEX.
+  - account.ignored_room_type_codes = ['PF','PI','PS','PM'] (live, non-empty).
+  - account.account_groups = []  (provider expects ONBOARDING_IHG + BRAND_IHG).
+  - Payment gateway ALREADY configured: FreedomPay, tokenizing+charging,
+    store_id 16453041002 / terminal_id 26917094000; check_in_configuration
+    .is_tokenizing_with_hotel_payment_gateway = True.
+  - No HOTEL_KEY/FREEDOMPAY OnboardingValue rows exist yet for the account.
+  - Also present: a disabled Opera v5_on_prem config (hotel_code FHKEX, is_enabled=False)
+    and HotelKey validations "fetch_reservation"/"authenticate" still "incomplete".
+
+  *** VERIFIED DESTRUCTIVE DRIFT (this IS Connor's "don't overwrite" concern) ***
+  To run the script you MUST first create a HOTEL_KEY_CREDENTIALS value (else the IHG
+  provider raises ERROR_MISSING_HOTEL_KEY_CREDENTIALS and the batch fails). Once that
+  value exists, config.configs is non-empty, so the create-config plan calls
+  PMSGatewayService.update_account on the already-existing account with the IHG provider's
+  hardcoded ignored_room_type_codes=[] (ihg/pms_config_provider.py builds
+  PmsIntegrationConfig(ignored_room_type_codes=[])). pms-gateway treats [] as an explicit
+  CLEAR — `ignored_room_type_codes` is in ACCOUNT_ALLOWED_FALSY_FIELDS
+  (accounts/services/account.py:56, comment says "[] should be updated to empty array").
+  => Running the script would WIPE FHKEX's live ['PF','PI','PS','PM'] to []. There is no
+  OnboardingValue knob to prevent this; it's hardcoded in the provider.
+
+  Other mutations the run would make:
+  - account_groups: [] -> [IHG Onboarding Project, IHG] (additive; benign/arguably desired).
+  - payment: only if a FREEDOMPAY_CREDENTIALS value is created — same-vendor in-place update
+    of FreedomPay store/terminal (overwrites live values with whatever you load; no reset
+    since vendor family matches).
+
+  Recommendation:
+  - Do NOT run the onboarding script against FHKEX. Creds already present; the only net
+    effect is wiping ignored_room_type_codes (regression) for no config gain.
+  - If the two account_groups genuinely need to be set, do it surgically (admin/targeted
+    update), not via the full script.
+  - The real open item for FHKEX is HotelKey-side: validations still "incomplete" — that's
+    a HotelKey activation/validation matter (Mohak), not a Canary onboarding-value gap.
+  - For any OTHER HotelKey property that is NOT yet configured, the script + freshly created
+    values is the right path AND the destructive-wipe risk does not apply (no pre-existing
+    ignored_room_type_codes to clobber). So re-confirm the current ready-to-onboard HotelKey
+    list before creating values.
+
+  Code refs for the wipe finding (this branch):
+  - onboarding/configuration_providers/ihg/pms_config_provider.py (ignored_room_type_codes=[])
+  - onboarding/plans/configure_pms_integration_create_configuration_plan.py:61-67 (update_account
+    on existing account) and :82 (skip cred upsert when account.hotelkey not None)
+  - pms_gateway/services/pms_gateway.py update_account (passes [] through)
+  - (pms-gateway) accounts/services/account.py:56 ACCOUNT_ALLOWED_FALSY_FIELDS includes
+    ignored_room_type_codes; patch() writes it.
 project: 2026-04-16T1210-unblock-team
 source_id: https://linear.app/canary-technologies/issue/ENT-6357/ihg-properties-to-be-added-to-pilot-poc
 tags:
 - morning-gtd
 - linear
 time_minutes: 15
-title: Plan with Connor & Andrea to run IHG HotelKey onboarding script (ENT-6357)
-updated: 2026-06-01 16:42:06.956332
+title: Onboarding values for scripts - ENT-6357
+updated: 2026-06-03 14:30:00.000000
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
-Connor: let's do this together Monday; not pressing. FHKEX (Holiday Inn Express Fishkill) now ready for the script.
-https://linear.app/canary-technologies/issue/ENT-6357/ihg-properties-to-be-added-to-pilot-poc
-
-Notes:
-* Requires onboarding values - list required for hotel key pms config and payment gateway
-* check hotel state beforehand for drift
+Requirements have changed:
+* Just create the needed onboarding values - list required for hotel key pms config and payment gateway
+* check hotel state beforehand for drift via /debug_in_shell
+* Extract credentials / values from https://docs.google.com/spreadsheets/d/1qj6ohH9al_tf2IYORdVHbdQXFRsP0B9YpG_jIzTD1Q0/edit?gid=623900634#gid=623900634
