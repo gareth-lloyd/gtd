@@ -264,6 +264,27 @@ output: |
   - pms_gateway/services/pms_gateway.py update_account (passes [] through)
   - (pms-gateway) accounts/services/account.py:56 ACCOUNT_ALLOWED_FALSY_FIELDS includes
     ignored_room_type_codes; patch() writes it.
+
+  ## Agent run 2026-06-03T15:00:00 — credential availability check + ticket comment posted
+
+  Requirement shifted to: build the OnboardingValue CSV for the ENT-6357 hotels from the
+  Google Sheet (1qj6ohH9, gid 623900634). Read the sheet via the authenticated Google Drive
+  connector (WebFetch was 401). Findings:
+  - ENT-6357 = 9 IHG **Opera** sites (BTVSA, TMBPW, MLBWP, MCOSW, SRQJB, ACTIN, TIWWA, PFNBH,
+    SJCDA) + FHKEX. Ticket (Dianna) says handle manually, hold the script til Taylor's back.
+  - CSV mechanics confirmed: admin upload needs account_id = **Salesforce account id** (for
+    IHG_PILOT the tool does NO id translation — create_hotel_identifier_map returns identity).
+    Header = account_id + schema fields. Both kinds in SECRET_VALUE_KINDS.
+  - The sheet does NOT contain loadable IHG 2-way creds for these hotels: 5 of 9 absent
+    entirely; TMBPW/MCOSW only property_id->hotel mappings; MLBWP/TIWWA only their existing
+    LEGACY integrations under different codes (MLBWP<->BWICH env-2 1-way; TIWWA<->66143 on
+    the Best Western env). No FreedomPay store/terminal, no SF account ids for any.
+  - tmp/investigations/ENT-6032-consolidated.csv also lacks them (9 absent; FHKEX present but
+    webhook-only). So creds are nowhere available yet — they must come from HotelKey (Mohak)
+    + FreedomPay (Lilly). FHKEX is the only HotelKey site and is already fully configured.
+  - Did NOT fabricate or build a populated CSV (data absent + Opera sites no-op the script).
+  - POSTED a comment to ENT-6357 (with user approval) stating the above blocker. Linear
+    comment id 7818ce22-cfca-45db-ad96-23d0d32ad8e5.
 project: 2026-04-16T1210-unblock-team
 source_id: https://linear.app/canary-technologies/issue/ENT-6357/ihg-properties-to-be-added-to-pilot-poc
 tags:
@@ -271,7 +292,7 @@ tags:
 - linear
 time_minutes: 15
 title: Onboarding values for scripts - ENT-6357
-updated: 2026-06-03 14:30:00.000000
+updated: 2026-06-03 15:01:10.447146
 waiting_on: null
 waiting_since: null
 working_on: false

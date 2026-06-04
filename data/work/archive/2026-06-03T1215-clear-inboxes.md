@@ -1,20 +1,20 @@
 ---
 area: null
 contexts: []
-created: 2026-06-03 11:01:08.525272
+created: 2026-06-03 12:15:24.436720
 defer_until: null
 due: null
 energy: low
-id: 2026-06-03T1101-peter-gao-cv-referral
+id: 2026-06-03T1215-clear-inboxes
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Peter gao cv referral
-updated: 2026-06-03 14:59:34.450728
+title: clear inboxes
+updated: 2026-06-03 14:59:36.522661
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

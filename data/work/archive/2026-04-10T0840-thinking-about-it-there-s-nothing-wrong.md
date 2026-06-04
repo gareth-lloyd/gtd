@@ -9,15 +9,17 @@ due: null
 energy: medium
 id: 2026-04-10T0840-thinking-about-it-there-s-nothing-wrong
 order: 3
+output: ''
 project: 2026-04-16T1348-ideas
 source_id: null
 tags:
 - focus
 time_minutes: 15
 title: Write up one-level-hierarchy idea
-updated: 2026-04-29 11:50:00.566318
+updated: 2026-06-03 15:23:22.270921
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 Enforced one-level hierarchies are fine — sometimes the constraint is the feature.

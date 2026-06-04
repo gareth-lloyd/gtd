@@ -1,10 +1,11 @@
 ---
-area: null
-contexts: []
+area: engineering
+contexts:
+- deep
 created: 2026-05-27 15:39:54.693115
 defer_until: null
 due: null
-energy: low
+energy: high
 id: 2026-05-27T1539-explore-omni-chat-interface-for-omni
 order: null
 output: |
@@ -63,12 +64,12 @@ output: |
   - https://omni.co/blog/introducing-ai-hub
   - https://omni.co/blog/2025-product-highlights
   - https://omni.co/blog/press-release-omni-series-c-funding
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 30
 title: Evaluate omni chat interface for omni
-updated: 2026-06-03 12:45:00.000000
+updated: 2026-06-03 14:36:29.535837
 waiting_on: null
 waiting_since: null
 working_on: false

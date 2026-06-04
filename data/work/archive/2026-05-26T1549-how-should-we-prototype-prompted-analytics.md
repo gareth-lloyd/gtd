@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: How should we prototype prompted analytics?
-updated: 2026-05-28 11:48:33.762344
+updated: 2026-06-03 15:01:28.562646
 waiting_on: null
 waiting_since: null
 working_on: false

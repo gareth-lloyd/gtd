@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Marking deposit as paid - did not update the state of the booking
-updated: 2026-06-03 10:52:20.599736
+updated: 2026-06-03 23:17:42.896822
 waiting_on: null
 waiting_since: null
 working_on: false

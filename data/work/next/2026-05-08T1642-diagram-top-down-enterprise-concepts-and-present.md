@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Diagram "top-down" enterprise concepts and present
-updated: 2026-05-20 15:33:54.156990
+updated: 2026-06-03 16:49:41.449831
 waiting_on: null
 waiting_since: null
 working_on: false
@@ -22,3 +22,5 @@ working_on: false
 * Handover usecases
 * Handover rules-based
 * Handover portfolio extendable reg cards
+
+final deliverable
