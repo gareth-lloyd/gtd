@@ -16,11 +16,11 @@ tags:
 - linear
 time_minutes: 15
 title: 'Respond on ENT-6360 to Nico re: overriding existing rate-code values'
-updated: 2026-06-01 16:42:19.176374
+updated: 2026-06-04 13:16:14.440559
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
-My in-progress ticket (current branch). Nico: ok to override since Wyndhams can't set this; only risk is mis-tagging a non-Wyndham hotel. Confirm the guard scopes strictly to Wyndham before backfill.
+Nico replied (Jun 3) and is waiting: he thought we were enabling on all Wyndham-branded properties, not just MSA. You confirmed only live non-demo Wyndham MSA hotels with has_addons=True have the new rate code, and asked whether to blanket-set it on all Wyndhams (no side effects?). Decide MSA-only vs all-Wyndham + reply.
 https://linear.app/canary-technologies/issue/ENT-6360/set-rate-code-for-live-availability-for-all-existing-wyndham-hotels
