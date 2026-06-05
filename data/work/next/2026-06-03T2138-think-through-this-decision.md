@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-03 21:38:03.070973
+created: 2026-06-03 21:38:03.070973
 defer_until: null
 due: null
 energy: low
 id: 2026-06-03T2138-think-through-this-decision
 order: null
 output: ''
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 5
 title: think through this decision
-updated: *id001
+updated: 2026-06-04 15:53:54.725512
 waiting_on: null
 waiting_since: null
 working_on: false

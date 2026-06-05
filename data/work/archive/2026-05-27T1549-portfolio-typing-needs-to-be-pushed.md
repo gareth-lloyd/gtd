@@ -284,7 +284,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Sketch the product document proposing modeling "types" of Portfolios
-updated: 2026-06-03 15:23:51.335669
+updated: 2026-06-04 16:28:52.012742
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -66,7 +66,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Follow up on demo-filter decision: filter on hotels, not SalesforceHotelAccount'
-updated: 2026-06-04 13:26:30.000000
+updated: 2026-06-04 15:48:16.915558
 waiting_on: null
 waiting_since: null
 working_on: false

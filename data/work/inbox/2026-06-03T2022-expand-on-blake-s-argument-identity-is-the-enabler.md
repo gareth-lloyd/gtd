@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-03 20:22:42.158430
+created: 2026-06-03 20:22:42.158430
 defer_until: null
 due: null
 energy: low
@@ -13,8 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: 'Expand on blake''s argument: identity is the enabler for AI acceleration.'
-updated: *id001
+updated: 2026-06-05 14:06:49.397279
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+Not allowed to share the LLM demo until grappled iwth this

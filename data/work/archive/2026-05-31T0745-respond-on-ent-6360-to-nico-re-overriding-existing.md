@@ -16,10 +16,10 @@ tags:
 - linear
 time_minutes: 15
 title: 'Respond on ENT-6360 to Nico re: overriding existing rate-code values'
-updated: 2026-06-04 13:16:14.440559
+updated: 2026-06-05 15:12:58.525447
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Nico replied (Jun 3) and is waiting: he thought we were enabling on all Wyndham-branded properties, not just MSA. You confirmed only live non-demo Wyndham MSA hotels with has_addons=True have the new rate code, and asked whether to blanket-set it on all Wyndhams (no side effects?). Decide MSA-only vs all-Wyndham + reply.
