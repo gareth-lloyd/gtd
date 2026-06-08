@@ -50,7 +50,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: catch up on eng leads meeting 20260604
-updated: 2026-06-05 16:24:05.864940
+updated: 2026-06-08 12:56:27.607687
 waiting_on: null
 waiting_since: null
 working_on: false

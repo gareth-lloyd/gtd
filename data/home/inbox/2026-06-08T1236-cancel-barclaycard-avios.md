@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-08 11:15:27.003999
+created: &id001 2026-06-08 12:36:40.727400
 defer_until: null
 due: null
 energy: low
-id: 2026-06-08T1115-do-a-basic-geo-analysis-and-share-results
+id: 2026-06-08T1236-cancel-barclaycard-avios
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: DO A BASIC GEO ANALYSIS AND SHARE RESULTS
+title: Cancel barclaycard avios
 updated: *id001
 waiting_on: null
 waiting_since: null

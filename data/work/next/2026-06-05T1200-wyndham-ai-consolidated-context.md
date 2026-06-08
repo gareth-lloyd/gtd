@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-05 12:00:00
+created: 2026-06-05 12:00:00
 defer_until: null
 due: null
 energy: medium
 id: 2026-06-05T1200-wyndham-ai-consolidated-context
 order: null
 output: ''
-project: 2025-03-28T0000-wyndham
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: null
 title: Wyndham AI Work — Consolidated Context (incl. MCP OAuth)
-updated: *id001
+updated: 2026-06-08 13:01:42.703644
 waiting_on: null
 waiting_since: null
 working_on: false
