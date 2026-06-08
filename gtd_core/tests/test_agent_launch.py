@@ -137,6 +137,13 @@ class TestBuildPrompt:
         assert "Slack" in out
         assert "ASK FIRST" in out
 
+    def test_mentions_review_pr_and_debug_shell_commands(self, tmp_path):
+        out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
+        # The agent should know these helper commands exist so it can reach
+        # for them when the task calls for a PR review or a backend repro.
+        assert "/pr-review-toolkit:review-pr" in out
+        assert "/debug_in_shell" in out
+
     def test_includes_project_section_when_project_given(self, tmp_path):
         project = Project(
             id="2026-03-01-people",

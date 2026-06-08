@@ -113,6 +113,20 @@ def build_prompt(
             "Set it back to `false` as part of your exit protocol — that's the "
             "signal that you've finished and handed back to the user."
         ),
+        "## Helper commands you can reach for",
+        (
+            "Two slash commands are available in this session when the task fits — "
+            "use them rather than reinventing the workflow:\n"
+            "- `/pr-review-toolkit:review-pr` — comprehensive PR review using "
+            "specialized agents. Reach for it when the task is to review a pull "
+            "request.\n"
+            "- `/debug_in_shell` — writes debug code to paste into a Django shell "
+            "connected to the Canary backend. Reach for it when the task needs a "
+            "backend repro or to inspect live data.\n\n"
+            "These are aids, not triggers — only invoke one when the work actually "
+            "calls for it, and the external-write and task-completion rules above "
+            "still apply to anything they do."
+        ),
     ]
     if project is not None:
         sections.extend(["## Project context", _project_section(project)])
