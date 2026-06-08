@@ -79,13 +79,12 @@ output: |
   conclusion is from a full grep of enable_standard_monitoring / enable_monitors callers
   (only test usages found). Worth a 5-min confirm with whoever owns the onboarding go-live
   plan before replying on the ticket.
-
 project: null
 source_id: null
 tags: []
 time_minutes: 5
 title: Find out about the "has standard monitoring" flag
-updated: 2026-06-04 16:55:22.219330
+updated: 2026-06-05 15:26:30.200398
 waiting_on: null
 waiting_since: null
 working_on: false

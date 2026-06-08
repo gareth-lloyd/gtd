@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-03 22:41:19.623230
+created: &id001 2026-06-08 10:54:58.139612
 defer_until: null
 due: null
 energy: low
-id: 2026-06-03T2241-get-threads-from-ani-for-next-step-of-wyndham-conv
+id: 2026-06-08T1054-register-class-dojo-for-dorothy
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Get threads from Ani for next step of wyndham convo
+title: register class dojo for dorothy
 updated: *id001
 waiting_on: null
 waiting_since: null

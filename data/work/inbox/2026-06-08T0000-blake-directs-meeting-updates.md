@@ -1,19 +1,20 @@
 ---
 area: null
-contexts: []
-created: 2026-06-03 22:45:57.343002
+contexts:
+- autopilot
+created: &id001 2026-06-08 00:00:00
 defer_until: null
 due: null
 energy: low
-id: 2026-06-03T2245-blake-directs-wyndham-oauth-convo
+id: 2026-06-08T0000-blake-directs-meeting-updates
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: blake directs - wyndham oauth convo?
-updated: 2026-06-03 22:46:00.781145
+title: Blake directs meeting updates
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

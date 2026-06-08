@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Sudarshan re: Wyndham MCP auth'
-updated: 2026-06-05 13:52:10.984790
+updated: 2026-06-05 16:08:01.070051
 waiting_on: null
 waiting_since: null
 working_on: false

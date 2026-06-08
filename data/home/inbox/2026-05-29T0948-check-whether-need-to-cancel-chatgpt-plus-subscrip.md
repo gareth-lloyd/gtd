@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-05-29 09:48:23.129478
-defer_until: 2026-06-07 09:48:00
+defer_until: null
 due: null
 energy: low
 id: 2026-05-29T0948-check-whether-need-to-cancel-chatgpt-plus-subscrip

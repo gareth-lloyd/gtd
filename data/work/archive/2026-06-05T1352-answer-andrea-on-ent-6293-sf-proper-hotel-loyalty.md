@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 15
 title: 'Answer Andrea on ENT-6293: SF Proper Hotel loyalty portfolio'
-updated: 2026-06-05 13:52:11.048765
+updated: 2026-06-05 15:28:05.225046
 waiting_on: null
 waiting_since: null
 working_on: false

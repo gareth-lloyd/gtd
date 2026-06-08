@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-25 11:30:00
+created: &id001 2026-06-05 16:57:22.376648
 defer_until: null
 due: null
-energy: null
-id: 2026-05-25T1130-start-shopping-roof-box
+energy: low
+id: 2026-06-05T1657-easyjet-check-in
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
-time_minutes: null
-title: Start shopping for roof box
-updated: 2026-06-03 11:39:58.631759
+time_minutes: 5
+title: easyjet check in
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

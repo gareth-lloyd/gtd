@@ -13,10 +13,11 @@ source_id: null
 tags: []
 time_minutes: 5
 title: 'Expand on blake''s argument: identity is the enabler for AI acceleration.'
-updated: 2026-06-05 14:06:49.397279
+updated: 2026-06-06 06:39:09.589181
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
 Not allowed to share the LLM demo until grappled iwth this
+https://app.notion.com/p/canarytechnologies/Canary-Identity-Auth-Landscape-Brief-Private-377814686151819fa8a7e17b373bf5c6?source=copy_link
