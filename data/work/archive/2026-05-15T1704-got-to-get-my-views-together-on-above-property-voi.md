@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Write out thoughts on above property voice/chat
-updated: 2026-05-21 23:03:22.987529
+updated: 2026-06-08 12:16:19.166903
 waiting_on: null
 waiting_since: null
 working_on: false
