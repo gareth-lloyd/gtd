@@ -85,6 +85,7 @@ class TestLockedSurface:
             ("post", "/api/envs/home/items/capture-ai/"),
             ("post", "/api/snapshot/"),
             ("get", "/api/snapshot/status/"),
+            ("post", "/api/pull/"),
             ("get", "/bear-api/notes/"),
         ],
     )
@@ -126,8 +127,9 @@ class TestCloudSyncWiring:
         calls = []
         monkeypatch.setattr(
             "gtd_api.mobile_views.commit_and_push",
-            lambda root, message=None: calls.append(root)
-            or SnapshotResult(committed=True, pushed=True),
+            lambda root, message=None: (
+                calls.append(root) or SnapshotResult(committed=True, pushed=True)
+            ),
         )
         monkeypatch.setattr("gtd_api.mobile_views.pull_latest", lambda root: calls.append("pull"))
         r = api.post("/api/envs/home/capture/", {"title": "x"}, format="json")

@@ -97,6 +97,12 @@ export interface SnapshotResult {
   push_error: string | null;
 }
 
+export interface PullResult {
+  pulled: boolean;
+  changed: boolean;
+  error: string | null;
+}
+
 const API_BASE = "/api";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -256,4 +262,6 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ message, push }),
     }),
+  // Fetch remote (e.g. phone) captures into the local working tree.
+  pull: () => request<PullResult>("/pull/", { method: "POST" }),
 };

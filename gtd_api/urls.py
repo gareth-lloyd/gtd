@@ -20,4 +20,5 @@ urlpatterns = [
     path("envs/<str:env>/templates/", views.templates),
     path("snapshot/", views.snapshot_endpoint),
     path("snapshot/status/", views.snapshot_status_endpoint),
+    path("pull/", views.pull_endpoint),
 ]

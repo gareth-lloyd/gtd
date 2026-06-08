@@ -1,3 +1,4 @@
+import threading
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -9,6 +10,14 @@ from gtd_core.models import Bucket
 from gtd_core.storage import list_item_paths, load_item, load_project, load_template
 
 DATA_PATHSPEC = "data"
+
+# Serializes every working-tree git mutation (commit / pull / status) so
+# concurrent requests can't collide on `.git/index.lock`. The desktop runs on
+# Django's threaded dev server, where a focus-triggered pull can overlap a Sync
+# commit+push; on the cloud the single gunicorn worker still benefits. Reentrant
+# so cloud_sync.commit_and_push (which holds the lock) can call snapshot()
+# (which re-acquires it) on the same thread without deadlocking.
+_git_lock = threading.RLock()
 
 
 @dataclass(slots=True)
@@ -29,10 +38,58 @@ class SnapshotStatus:
     unloadable_files: list[str] = field(default_factory=list)
 
 
+@dataclass(slots=True)
+class PullResult:
+    pulled: bool  # a pull was attempted against a configured remote
+    changed: bool  # HEAD moved — new commits (e.g. phone captures) came in
+    error: str | None = None
+
+
+def pull(repo_root: Path) -> PullResult:
+    """Rebase the working tree onto its remote, surfacing whether anything new
+    arrived.
+
+    Used by the desktop to fetch captures pushed from the mobile app. Best-
+    effort: a missing remote, an unborn branch (no commits yet), a transient
+    network failure, or a non-repo path returns a result rather than raising — a
+    failed background sync must never break the UI. ``--autostash`` preserves
+    uncommitted local edits across the rebase; phone captures are always new
+    uniquely-named files, so the rebase is effectively conflict-free.
+
+    Takes the shared git lock so a focus-triggered pull can't collide with a
+    concurrent commit/push on the same working tree.
+    """
+    try:
+        with _git_lock:
+            repo = git.Repo(repo_root)
+            if not repo.remotes:
+                return PullResult(pulled=False, changed=False)
+            # An unborn HEAD (remote configured before the first commit) has no
+            # commit to read — head.commit would raise ValueError, which is not
+            # a GitError. Guard it so the best-effort contract holds.
+            before = repo.head.commit.hexsha if repo.head.is_valid() else None
+            repo.git.pull("--rebase", "--autostash")
+            after = repo.head.commit.hexsha if repo.head.is_valid() else None
+            return PullResult(pulled=True, changed=after != before)
+    except git.GitError as exc:
+        detail = str(exc).strip() or exc.__class__.__name__
+        return PullResult(pulled=False, changed=False, error=detail)
+
+
 def snapshot(
     repo_root: Path,
     message: str | None = None,
     push: bool = False,
+) -> SnapshotResult:
+    # Serialize against concurrent pull/status on the same working tree.
+    with _git_lock:
+        return _snapshot_locked(repo_root, message, push)
+
+
+def _snapshot_locked(
+    repo_root: Path,
+    message: str | None,
+    push: bool,
 ) -> SnapshotResult:
     repo = git.Repo(repo_root)
 
@@ -83,21 +140,24 @@ def snapshot(
 
 
 def snapshot_status(repo_root: Path) -> SnapshotStatus:
-    repo = git.Repo(repo_root)
-    dirty: list[str] = []
+    # Read the index under the lock so a concurrent pull/commit (which rewrites
+    # it) can't surface a transient git error during the 10s status poll.
+    with _git_lock:
+        repo = git.Repo(repo_root)
+        dirty: list[str] = []
 
-    changed = repo.git.diff("--name-only", "--", DATA_PATHSPEC)
-    dirty.extend(line for line in changed.splitlines() if line)
+        changed = repo.git.diff("--name-only", "--", DATA_PATHSPEC)
+        dirty.extend(line for line in changed.splitlines() if line)
 
-    for f in repo.untracked_files:
-        if f.startswith(f"{DATA_PATHSPEC}/"):
-            dirty.append(f)
+        for f in repo.untracked_files:
+            if f.startswith(f"{DATA_PATHSPEC}/"):
+                dirty.append(f)
 
-    return SnapshotStatus(
-        dirty_count=len(dirty),
-        dirty_files=sorted(set(dirty)),
-        unloadable_files=_scan_unloadable(repo_root),
-    )
+        return SnapshotStatus(
+            dirty_count=len(dirty),
+            dirty_files=sorted(set(dirty)),
+            unloadable_files=_scan_unloadable(repo_root),
+        )
 
 
 def _scan_unloadable(repo_root: Path) -> list[str]:

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -75,6 +75,8 @@ vi.mock("./api", () => ({
     captureItemAi: vi.fn(),
     updateItem: vi.fn(),
     moveItem: vi.fn(),
+    snapshot: vi.fn(),
+    pull: vi.fn().mockResolvedValue({ pulled: false, changed: false, error: null }),
   },
 }));
 
@@ -92,6 +94,40 @@ function renderApp(initialEntry = "/work/next") {
     </QueryClientProvider>,
   );
 }
+
+describe("focus pull (desktop fetches remote captures)", () => {
+  beforeEach(() => {
+    localStorage.setItem("gtd:env", "work");
+  });
+
+  it("pulls on window focus and refetches when the remote changed", async () => {
+    const { api } = await import("./api");
+    vi.mocked(api.listItems).mockClear();
+    vi.mocked(api.pull).mockResolvedValue({ pulled: true, changed: true, error: null });
+    renderApp("/work/next");
+    await screen.findByText("Test item");
+    const before = vi.mocked(api.listItems).mock.calls.length;
+
+    fireEvent.focus(window);
+
+    await waitFor(() => expect(api.pull).toHaveBeenCalled());
+    await waitFor(() => expect(vi.mocked(api.listItems).mock.calls.length).toBeGreaterThan(before));
+  });
+
+  it("does not refetch when the pull reports no change", async () => {
+    const { api } = await import("./api");
+    vi.mocked(api.listItems).mockClear();
+    vi.mocked(api.pull).mockResolvedValue({ pulled: true, changed: false, error: null });
+    renderApp("/work/next");
+    await screen.findByText("Test item");
+    const before = vi.mocked(api.listItems).mock.calls.length;
+
+    fireEvent.focus(window);
+    await waitFor(() => expect(api.pull).toHaveBeenCalled());
+    await new Promise((r) => setTimeout(r, 0));
+    expect(vi.mocked(api.listItems).mock.calls.length).toBe(before);
+  });
+});
 
 describe("Context colors in the UI", () => {
   beforeEach(() => {

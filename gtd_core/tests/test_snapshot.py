@@ -1,7 +1,7 @@
 import git
 import pytest
 
-from gtd_core.snapshot import snapshot, snapshot_status
+from gtd_core.snapshot import PullResult, pull, snapshot, snapshot_status
 
 
 def _item_md(slug: str, body: str = "") -> str:
@@ -29,6 +29,117 @@ def repo_root(tmp_path):
     repo.index.add([str(code)])
     repo.index.commit("initial")
     return tmp_path
+
+
+def _configure(repo: git.Repo, email: str = "test@example.com", name: str = "Test") -> None:
+    with repo.config_writer() as cw:
+        cw.set_value("user", "email", email)
+        cw.set_value("user", "name", name)
+
+
+@pytest.fixture
+def remote_and_clone(tmp_path):
+    """A bare 'origin' plus a working clone tracking origin/main."""
+    origin = tmp_path / "origin.git"
+    git.Repo.init(origin, bare=True)
+    work = tmp_path / "work"
+    repo = git.Repo.clone_from(origin, work)
+    _configure(repo)
+    (work / "data" / "home" / "inbox").mkdir(parents=True)
+    (work / "README.md").write_text("seed\n")
+    repo.index.add(["README.md"])
+    repo.index.commit("initial")
+    repo.git.branch("-M", "main")
+    repo.remote("origin").push("main", set_upstream=True)
+    return origin, work
+
+
+def _push_from_second_clone(origin, slug: str) -> None:
+    """Simulate a phone capture: a second clone pushes a new inbox file."""
+    other = origin.parent / f"other-{slug}"
+    other_repo = git.Repo.clone_from(origin, other)
+    _configure(other_repo, email="phone@example.com", name="Phone")
+    inbox = other / "data" / "home" / "inbox"
+    inbox.mkdir(parents=True, exist_ok=True)
+    (inbox / f"{slug}.md").write_text(_item_md(slug))
+    other_repo.index.add([f"data/home/inbox/{slug}.md"])
+    other_repo.index.commit(f"capture {slug}")
+    other_repo.remote("origin").push("main")
+    other_repo.close()
+
+
+class TestPull:
+    def test_applies_remote_commit_and_reports_changed(self, remote_and_clone):
+        origin, work = remote_and_clone
+        _push_from_second_clone(origin, "fromphone")
+
+        assert not (work / "data" / "home" / "inbox" / "fromphone.md").exists()
+        result = pull(work)
+
+        assert result.pulled is True
+        assert result.changed is True
+        assert result.error is None
+        assert (work / "data" / "home" / "inbox" / "fromphone.md").exists()
+
+    def test_nothing_new_reports_unchanged(self, remote_and_clone):
+        _origin, work = remote_and_clone
+        result = pull(work)
+        assert result.pulled is True
+        assert result.changed is False
+
+    def test_autostashes_local_edits(self, remote_and_clone):
+        """An uncommitted local edit survives a pull that brings remote commits."""
+        origin, work = remote_and_clone
+        (work / "README.md").write_text("local edit not yet committed\n")
+        _push_from_second_clone(origin, "phoneitem")
+
+        result = pull(work)
+
+        assert result.changed is True
+        assert (work / "data" / "home" / "inbox" / "phoneitem.md").exists()
+        assert (work / "README.md").read_text() == "local edit not yet committed\n"
+
+    def test_no_remote_is_noop(self, repo_root):
+        result = pull(repo_root)
+        assert result.pulled is False
+        assert result.changed is False
+        assert result.error is None
+
+    def test_invalid_repo_returns_error_not_raises(self, tmp_path):
+        plain = tmp_path / "plain"
+        plain.mkdir()
+        result = pull(plain)  # must not raise
+        assert result.pulled is False
+        assert result.error is not None
+
+    def test_unborn_head_with_remote_does_not_raise(self, tmp_path):
+        """A remote configured before the first commit must not crash pull().
+
+        repo.head.commit raises ValueError (not GitError) on an unborn branch;
+        the best-effort contract requires a PullResult, never an exception.
+        """
+        work = tmp_path / "unborn"
+        repo = git.Repo.init(work)
+        _configure(repo)
+        origin = tmp_path / "empty-origin.git"
+        git.Repo.init(origin, bare=True)
+        repo.create_remote("origin", str(origin))
+
+        result = pull(work)  # would raise ValueError before the is_valid() guard
+        assert isinstance(result, PullResult)
+
+
+def test_git_lock_shared_and_reentrant():
+    """commit_and_push holds the lock and calls snapshot(), which re-acquires it.
+
+    That only works if (a) both use the same lock object and (b) it is reentrant.
+    """
+    import gtd_core.cloud_sync as cloud_sync
+    from gtd_core import snapshot as snap
+
+    assert cloud_sync._git_lock is snap._git_lock
+    with snap._git_lock, snap._git_lock:  # RLock: same-thread re-entry must not deadlock
+        pass
 
 
 class TestSnapshot:

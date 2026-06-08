@@ -101,6 +101,42 @@ describe("authenticated requests", () => {
     expect(within(list).getByText("calls")).toBeInTheDocument();
   });
 
+  it("shows a truncated body and extracts followable links on list items", async () => {
+    const longBody =
+      "Read the spec carefully before starting. ".repeat(20) +
+      "Details at https://example.com/spec?q=1.";
+    fetchMock.mockImplementation((url: string) => {
+      if (url === "/api/envs/home/inbox/")
+        return Promise.resolve(
+          jsonResponse([
+            {
+              id: "1",
+              title: "task one",
+              body: longBody,
+              contexts: [],
+              project: null,
+              overdue: false,
+            },
+          ]),
+        );
+      return Promise.resolve(jsonResponse([{ name: "home" }]));
+    });
+    render(<App />);
+    await userEvent.click(await screen.findByRole("button", { name: "inbox" }));
+    const list = await screen.findByRole("list");
+
+    // The URL is extracted into a followable link, with the trailing period stripped.
+    const link = within(list).getByRole("link", { name: /example\.com/i });
+    expect(link).toHaveAttribute("href", "https://example.com/spec?q=1");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+
+    // The body is shown but truncated well below the full length.
+    const body = list.querySelector(".body");
+    expect(body).not.toBeNull();
+    expect(body!.textContent!.length).toBeLessThan(longBody.length);
+  });
+
   it("switches env, refetches, and persists the choice", async () => {
     fetchMock.mockImplementation((url: string) => {
       if (url === "/api/envs/")

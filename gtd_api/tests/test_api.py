@@ -773,12 +773,51 @@ class TestSnapshot:
         assert r.status_code == 200
         assert r.json()["committed"] is False
 
+    def test_pull_endpoint_returns_result_shape(self, api):
+        r = api.post("/api/pull/", {}, format="json")
+        assert r.status_code == 200
+        body = r.json()
+        assert set(body) >= {"pulled", "changed", "error"}
+        # tmp_project is a repo with no remote → nothing to pull, no error.
+        assert body["pulled"] is False
+        assert body["changed"] is False
+
+    def test_snapshot_with_push_commits_pulls_and_pushes(self, api, monkeypatch):
+        """Bidirectional Sync routes through commit_and_push (commit→pull→push)."""
+        from gtd_api import views as views_mod
+        from gtd_core.snapshot import SnapshotResult
+
+        calls: list = []
+
+        def fake_commit_and_push(root, message=None):
+            calls.append(root)
+            return SnapshotResult(committed=True, sha="abc123", files_changed=1, pushed=True)
+
+        monkeypatch.setattr(views_mod, "commit_and_push", fake_commit_and_push)
+        api.post("/api/envs/work/items/", {"title": "T"}, format="json")
+        r = api.post("/api/snapshot/", {"push": True}, format="json")
+        assert r.status_code == 200
+        assert r.json()["pushed"] is True
+        assert len(calls) == 1  # commit_and_push invoked exactly once for the push
+
+    def test_snapshot_without_push_does_not_push(self, api, monkeypatch):
+        """A plain (push=false) snapshot must not pull or push — local commit only."""
+        from gtd_api import views as views_mod
+
+        calls: list = []
+        monkeypatch.setattr(
+            views_mod, "commit_and_push", lambda root, message=None: calls.append(root)
+        )
+        api.post("/api/envs/work/items/", {"title": "T"}, format="json")
+        api.post("/api/snapshot/", {}, format="json")
+        assert not calls
+
     def test_snapshot_push_failure_returns_502(self, api, monkeypatch):
         """A failed push must surface as a network error so the UI's MutationCache toasts."""
         from gtd_api import views as views_mod
         from gtd_core.snapshot import SnapshotResult
 
-        def fake_snapshot(*_args, **_kwargs):
+        def fake_commit_and_push(root, message=None):
             return SnapshotResult(
                 committed=True,
                 sha="abc123",
@@ -788,7 +827,7 @@ class TestSnapshot:
                 push_error="auth failed",
             )
 
-        monkeypatch.setattr(views_mod, "snapshot", fake_snapshot)
+        monkeypatch.setattr(views_mod, "commit_and_push", fake_commit_and_push)
         api.post("/api/envs/work/items/", {"title": "T"}, format="json")
         r = api.post("/api/snapshot/", {"push": True}, format="json")
         assert r.status_code == 502

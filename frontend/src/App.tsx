@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useState, useSyncExternalStore } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import {
   Link,
   Navigate,
@@ -124,6 +124,8 @@ function AppShell() {
   // the user sees as "still to do".
   const processed = useProcessedItems();
   const inboxCount = Math.max(0, (inboxItems?.length ?? 0) - (processed?.processedCount ?? 0));
+
+  useRemotePull();
 
   useEffect(() => {
     if (env) localStorage.setItem("gtd:env", env);
@@ -361,6 +363,51 @@ function EnvTabs({ envs, env }: { envs: EnvSummary[]; env: string }) {
   );
 }
 
+// ---- Remote sync ----
+
+// Don't hit the remote more than this often on focus — alt-tabbing shouldn't
+// fire a git pull every time the window regains focus.
+const FOCUS_PULL_MIN_INTERVAL_MS = 15_000;
+
+// Refresh what a pulled/committed change can affect, without forcing a full
+// search-corpus refetch + MiniSearch rebuild (mark it stale instead — it
+// re-indexes lazily on next use). Env-agnostic prefix matches: a sync touches
+// every env, not just the current one. Mirrors invalidateItemQueries.
+function invalidateAfterSync(qc: QueryClient) {
+  qc.invalidateQueries({ queryKey: ["items"] });
+  qc.invalidateQueries({ queryKey: ["items-done"] });
+  qc.invalidateQueries({ queryKey: ["item"] });
+  qc.invalidateQueries({ queryKey: ["projects"] });
+  qc.invalidateQueries({ queryKey: ["project"] });
+  qc.invalidateQueries({ queryKey: ["snapshot-status"] });
+  qc.invalidateQueries({ queryKey: ["search-corpus"], refetchType: "none" });
+}
+
+// Fetch captures made from the mobile app whenever the desktop window regains
+// focus, refreshing the views only when something actually changed. Best-
+// effort: a failed background pull is swallowed (the explicit Sync button
+// surfaces real errors). The throttle lives in the effect closure so it resets
+// per mount.
+function useRemotePull() {
+  const qc = useQueryClient();
+  useEffect(() => {
+    let lastPull = 0;
+    const onFocus = async () => {
+      const now = Date.now();
+      if (now - lastPull < FOCUS_PULL_MIN_INTERVAL_MS) return;
+      lastPull = now;
+      try {
+        const result = await api.pull();
+        if (result.changed) invalidateAfterSync(qc);
+      } catch {
+        // Background sync is silent; the Sync button is the explicit path.
+      }
+    };
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [qc]);
+}
+
 // ---- Sync button ----
 
 function SyncButton() {
@@ -371,8 +418,10 @@ function SyncButton() {
     refetchInterval: 10_000,
   });
   const snap = useMutation({
-    mutationFn: () => api.snapshot(),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["snapshot-status"] }),
+    // Bidirectional: commit + push local changes AND pull remote (phone)
+    // captures in one click; refresh the affected views so pulled items appear.
+    mutationFn: () => api.snapshot(undefined, true),
+    onSuccess: () => invalidateAfterSync(qc),
   });
 
   const count = data?.dirty_count ?? 0;

@@ -17,10 +17,11 @@ from gtd_core.ai import (
     AiCaptureNotConfiguredError,
     AiCaptureUpstreamError,
 )
+from gtd_core.cloud_sync import commit_and_push
 from gtd_core.healthcheck import collect_health
 from gtd_core.models import Bucket
 from gtd_core.service import GtdService
-from gtd_core.snapshot import snapshot, snapshot_status
+from gtd_core.snapshot import pull, snapshot, snapshot_status
 
 from .serializers import (
     CaptureAiSerializer,
@@ -394,11 +395,15 @@ def snapshot_endpoint(request: Request) -> Response:
     serializer = SnapshotRequestSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     push = serializer.validated_data.get("push", False)
-    result = snapshot(
-        settings.BASE_DIR,
-        message=serializer.validated_data.get("message") or None,
-        push=push,
-    )
+    message = serializer.validated_data.get("message") or None
+    if push:
+        # Bidirectional sync: commit, then pull --rebase, then push — pulling
+        # *between* commit and push (not before) keeps the push fast-forward
+        # even if a phone capture lands mid-sync, and folds remote captures
+        # into the working tree. Shares the git lock with snapshot()/pull().
+        result = commit_and_push(settings.BASE_DIR, message=message)
+    else:
+        result = snapshot(settings.BASE_DIR, message=message)
     if result.unloadable_files:
         http_status = status.HTTP_409_CONFLICT
     elif push and result.push_error:
@@ -429,6 +434,18 @@ def snapshot_status_endpoint(request: Request) -> Response:
             "unloadable_files": result.unloadable_files,
         }
     )
+
+
+@api_view(["POST"])
+def pull_endpoint(request: Request) -> Response:
+    """Fetch remote (e.g. phone) captures into the local working tree.
+
+    The desktop calls this on window focus so items captured from the mobile
+    app appear without a manual git pull. Returns whether anything changed so
+    the client can refresh its views only when needed.
+    """
+    result = pull(settings.BASE_DIR)
+    return Response({"pulled": result.pulled, "changed": result.changed, "error": result.error})
 
 
 def _qstr(value: object) -> str | None:

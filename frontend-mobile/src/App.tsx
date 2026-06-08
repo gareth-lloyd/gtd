@@ -14,7 +14,46 @@ import {
 } from "./api";
 
 const ENV_KEY = "gtd:env";
+const BODY_MAX = 240;
 type Tab = "capture" | "inbox" | "next";
+
+// Trailing punctuation (a period ending a sentence, a closing bracket, etc.) is
+// almost never part of the URL, so peel it off before linking.
+const URL_RE = /https?:\/\/[^\s<>]+/g;
+const TRAILING_PUNCT_RE = /[.,;:!?)\]}'"]+$/;
+
+function stripTrailingPunct(url: string): string {
+  return url.replace(TRAILING_PUNCT_RE, "");
+}
+
+// All unique URLs in `text`, surfaced as a links row so a URL truncated out of
+// the visible body is still followable.
+function extractUrls(text: string): string[] {
+  const matches = text.match(URL_RE) ?? [];
+  return Array.from(new Set(matches.map(stripTrailingPunct)));
+}
+
+// A compact display label for a link chip: hostname (+ a hint of the path).
+function linkLabel(url: string): string {
+  try {
+    const { hostname, pathname } = new URL(url);
+    const host = hostname.replace(/^www\./, "");
+    return pathname.length > 1 ? `${host}…` : host;
+  } catch {
+    return url;
+  }
+}
+
+// Truncate to roughly BODY_MAX chars, backing up to the last word boundary so
+// we don't cut mid-word. Returns whether anything was dropped.
+function truncate(text: string, max: number): { text: string; truncated: boolean } {
+  const trimmed = text.trim();
+  if (trimmed.length <= max) return { text: trimmed, truncated: false };
+  const slice = trimmed.slice(0, max);
+  const lastSpace = slice.lastIndexOf(" ");
+  const cut = lastSpace > max * 0.6 ? slice.slice(0, lastSpace) : slice;
+  return { text: cut.trimEnd(), truncated: true };
+}
 
 export default function App() {
   const [token, setTokenState] = useState<string | null>(getToken());
@@ -237,6 +276,7 @@ function ListTab({
       {items.map((item) => (
         <li key={item.id}>
           <span className="title">{item.title}</span>
+          <ItemBody body={item.body} />
           <span className="chips">
             {item.project && <span className="chip project">{item.project}</span>}
             {item.contexts.map((c) => (
@@ -249,5 +289,32 @@ function ListTab({
         </li>
       ))}
     </ul>
+  );
+}
+
+// Read-only body preview: a truncated snippet plus a row of followable link
+// chips. Links come from the full body, not the truncated snippet, so a URL
+// past the cutoff is still reachable.
+function ItemBody({ body }: { body: string | undefined }) {
+  const raw = body?.trim();
+  if (!raw) return null;
+  const { text, truncated } = truncate(raw, BODY_MAX);
+  const urls = extractUrls(raw);
+  return (
+    <>
+      <p className="body">
+        {text}
+        {truncated && "…"}
+      </p>
+      {urls.length > 0 && (
+        <span className="links">
+          {urls.map((u) => (
+            <a key={u} className="link-chip" href={u} target="_blank" rel="noopener noreferrer">
+              🔗 {linkLabel(u)}
+            </a>
+          ))}
+        </span>
+      )}
+    </>
   );
 }

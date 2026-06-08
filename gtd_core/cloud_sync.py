@@ -14,17 +14,18 @@ one place.
 """
 
 import logging
-import threading
 import time
 from pathlib import Path
 
 import git
 
-from gtd_core.snapshot import SnapshotResult, snapshot
+from gtd_core.snapshot import SnapshotResult, _git_lock, snapshot
 
 logger = logging.getLogger(__name__)
 
-_git_lock = threading.Lock()
+# Reuse the one reentrant lock that guards every working-tree git mutation (see
+# gtd_core.snapshot). commit_and_push holds it while calling snapshot(), which
+# re-acquires it — safe because it's an RLock on the same thread.
 
 # Reads pull-rebase so the phone sees local edits, but a GET shouldn't trigger a
 # GitHub round-trip more than this often — rapid tab-switching would otherwise
