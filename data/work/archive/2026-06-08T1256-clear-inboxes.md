@@ -1,20 +1,20 @@
 ---
 area: null
 contexts: []
-created: 2026-06-05 16:57:22.376648
+created: 2026-06-08 12:56:54.577709
 defer_until: null
 due: null
 energy: low
-id: 2026-06-05T1657-easyjet-check-in
+id: 2026-06-08T1256-clear-inboxes
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: easyjet check in
-updated: 2026-06-09 01:56:00.068798
+title: clear inboxes
+updated: 2026-06-08 14:23:24.580591
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

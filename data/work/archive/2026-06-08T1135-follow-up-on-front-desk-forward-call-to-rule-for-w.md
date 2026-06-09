@@ -72,7 +72,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Follow up on front_desk = forward_call_to rule for Wyndhams
-updated: 2026-06-08 12:06:37
+updated: 2026-06-08 14:45:52.222594
 waiting_on: null
 waiting_since: null
 working_on: false

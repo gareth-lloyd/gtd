@@ -18,7 +18,7 @@ tags:
 time_minutes: 20
 title: 'Progress ENT-6354: how to target a whole portfolio for pre-arrival email (all
   BW)'
-updated: 2026-06-08 11:35:20.626291
+updated: 2026-06-08 14:31:13.865843
 waiting_on: null
 waiting_since: null
 working_on: false

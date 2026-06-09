@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-01 23:00:08.605126
+created: &id001 2026-06-08 21:49:40.565583
 defer_until: null
 due: null
 energy: low
-id: 2026-06-01T2300-buy-long-beachwear-for-kali
+id: 2026-06-08T2149-process-sync-recording
 order: null
 output: ''
-project: 2026-05-25T1130-purchases
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: buy long beachwear for kali
-updated: 2026-06-03 11:40:23.133912
+title: process sync recording.
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

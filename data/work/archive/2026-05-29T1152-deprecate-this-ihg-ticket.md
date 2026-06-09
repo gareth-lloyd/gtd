@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Deprecate this IHG ticket; replace with new approach
-updated: 2026-06-05 14:46:24.097172
+updated: 2026-06-08 13:10:56.887655
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -12,8 +12,8 @@ project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: 5
-title: workshop thermometer
-updated: 2026-06-03 11:40:28.794840
+title: workshop thermometer. consider tp-link tapo
+updated: 2026-06-09 01:02:29.684049
 waiting_on: null
 waiting_since: null
 working_on: false
