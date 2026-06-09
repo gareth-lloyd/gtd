@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Check whether need to cancel Chatgpt plus subscription that was never confirmed
-updated: 2026-05-29 09:48:37.439623
+updated: 2026-06-09 14:06:57.187465
 waiting_on: null
 waiting_since: null
 working_on: false
