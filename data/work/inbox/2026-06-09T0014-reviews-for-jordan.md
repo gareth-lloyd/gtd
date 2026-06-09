@@ -91,10 +91,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: reviews for jordan
-updated: 2026-06-09 00:16:49.093245
+updated: 2026-06-09 11:37:38.961216
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://canarytechnologies.slack.com/archives/C047K6WSUJY/p1780950221959999
