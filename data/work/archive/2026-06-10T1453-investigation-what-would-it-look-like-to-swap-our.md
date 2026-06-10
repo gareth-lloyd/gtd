@@ -118,10 +118,10 @@ tags: []
 time_minutes: 5
 title: 'investigation: what would it look like to swap our SSO and audit logging (Events)
   for work os'
-updated: 2026-06-10 14:59:02.041060
+updated: 2026-06-10 16:47:01.143289
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://canarytechnologies.slack.com/archives/C02MVAEJD0Q/p1781092277820879

@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: fix rate card priority
-updated: 2026-06-10 14:50:53.598668
+updated: 2026-06-10 17:57:47.540155
 waiting_on: null
 waiting_since: null
 working_on: false

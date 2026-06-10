@@ -71,7 +71,7 @@ tags:
 time_minutes: 20
 title: 'Review PR #47444: [ENT-6460] Make deactivate_product_permissions idempotent
   on role-name collision'
-updated: 2026-06-10 15:45:00.000000
+updated: 2026-06-10 16:37:57.484343
 waiting_on: null
 waiting_since: null
 working_on: false

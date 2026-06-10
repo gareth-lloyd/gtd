@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-09 15:27:46.845601
+created: &id001 2026-06-10 16:59:57.293608
 defer_until: null
 due: null
 energy: low
-id: 2026-06-09T1527-ask-to-swap-august-ic-weeks-with-ian
+id: 2026-06-10T1659-i-really-need-to-do-that-above-property-templates
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: ask to swap august IC weeks with julius
-updated: 2026-06-09 16:03:02.457160
+title: I really need to do that above property templates PRD
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

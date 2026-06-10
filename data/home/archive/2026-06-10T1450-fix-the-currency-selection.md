@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-10 15:22:02.713420
+created: 2026-06-10 14:50:31.109816
 defer_until: null
 due: null
 energy: low
-id: 2026-06-10T1522-send-aggeliki-receipt-to-marg
+id: 2026-06-10T1450-fix-the-currency-selection
 order: null
 output: ''
-project: null
+project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: send aggeliki receipt to marg
-updated: *id001
+title: Fix the currency selection
+updated: 2026-06-10 17:57:49.488220
 waiting_on: null
 waiting_since: null
 working_on: false
