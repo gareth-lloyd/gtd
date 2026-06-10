@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Find a source on jack dorsey block
-updated: 2026-05-11 12:11:12.431533
+updated: 2026-06-09 15:28:33.652639
 waiting_on: null
 waiting_since: null
 working_on: false

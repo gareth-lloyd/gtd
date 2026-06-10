@@ -91,7 +91,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Read: flow-builder step-configurator POC (Leandro)'
-updated: 2026-06-09 12:05:00.000000
+updated: 2026-06-09 15:20:41.913167
 waiting_on: null
 waiting_since: null
 working_on: false

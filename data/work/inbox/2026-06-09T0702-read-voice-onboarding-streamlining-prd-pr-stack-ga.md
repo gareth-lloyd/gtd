@@ -80,6 +80,80 @@ output: |
     Ani — Connor confirmed the front_desk rule; no further ENT sign-off recorded in-thread.
 
   Nothing here required an external write; no comments posted. This is a read-only briefing.
+
+  ## Agent run 2026-06-09T12:40Z — /review-pr (5 specialized agents, read-only)
+
+  Reviewed the new stack (46727 / 47408 / 47420 / 47421 / 47422). Nothing posted to GitHub.
+  Headline: the rework genuinely delivers your three feedback points (a) no onboarding-values
+  coupling, (b) no provider base class / works through VoiceAIConfig, (c) activation hoisted
+  into a shared VoiceActivationService called by both paths — code-reviewer + type-analyzer
+  verified the import graph and the deleted base class. BUT the new adminland activation
+  boundary has serious, independently-corroborated safety gaps the old 46603 stack guarded
+  and this rework DROPPED.
+
+  ### CRITICAL (block merge)
+  - C1 Irreversible Twilio purchase inside a rollback-able transaction. voice_setup.py:~128
+    wraps VoiceActivationService.activate in transaction.atomic(), but
+    voice_activation.py::_provision_voice_number -> twilio_voice_configuration.py
+    buy_voice_number_if_necessary makes a billable, non-transactional Twilio purchase inside
+    it. Any later failure (LiveKit/geocode/forward-number IntegrityError) rolls back the DB but
+    not the purchase -> orphaned paid number; the Configuration row that recorded it is gone.
+  - C2 No re-POST / concurrency guard on activate. activate_voice_for_hotel never re-checks
+    is_configured and takes no select_for_update lock — can_activate is computed only in the
+    STATUS endpoint (advisory, separate request). Double-click / concurrent POST re-runs the
+    Twilio buy + create_forward_numbers + LiveKit + WhatsApp dispatch -> second number bought,
+    duplicate forward rows, last-writer-wins, both requests return success. Two agents flagged
+    independently. This is the fail-fast/lock guarantee the old 46603 stack had; rework regressed it.
+  - C3 Duplicate/conflicting migration. 47408 adds 0149_alter_onboardingvalue_kind AND edits
+    onboarding_values.py to add VOICE_AI_FORWARD_CALL_TO; 46727 adds 0146 + the IDENTICAL model
+    edit. Both landing => textual conflict + two AlterFields on `kind`. 47408 should depend on
+    46727, or close 46727.
+  - C4 (frontend) en.json deletes two in-use keys segmentConditions.groupCodeHelper.exists /
+    .notExists, still referenced at useSegmentConditions.ts:660,663. Unrelated — bad rebase. Restore.
+
+  ### IMPORTANT
+  - Twilio configure errors (MissingTwilioSubAccountError, PhoneNumberNotFoundError) not in the
+    translated catch sets -> generic 500 in adminland (not the 422 the frontend expects),
+    untranslated in script path. Make them VoiceActivationError subclasses or add to both catches.
+  - voice_wiring drift test under-covers: pins only one of two Wyndham wirings
+    (property_configuration_processes.py:559-560 AND 1102-1103); doesn't tie portfolio->onboarding_type.
+  - _enable_livekit_for_hotel broad `except Exception` collapses programming bugs (AttributeError)
+    and transient outages into one non-retryable LiveKitConfigurationFailed — Sentry can't distinguish.
+  - Wyndham field-error remap: forwarding_configuration and forward_call_to map to the same form
+    key in a dict comprehension; one error message silently clobbers the other.
+  - ForwardNumberSpecData anemic: no validation mirroring ForwardNumber.clean (CUSTOM requires
+    display_name/description; missing sip_address). Invalid specs pass validate_forwarding_specs and
+    blow up at save() AFTER the Twilio number is bought.
+  - on_commit WhatsApp dispatch is caller-dependent — safe today (both callers atomic) but fires
+    immediately if activate is ever called non-atomically. Assert connection.in_atomic_block or self-wrap.
+  - i18n regression (frontend): Call Settings strings, previously localized in ForwardNumbersLegacy.vue,
+    now hardcoded English in shared ForwardNumbers.vue + VoiceSetupModal.vue.
+  - Test gaps that let a real regression ship: rollback boundary (partial writes after LiveKit
+    failure), re-POST/duplicate activation, on_commit under the real transaction wrapper, and
+    script-path vs adminland PARITY (equivalent inputs -> field-for-field equal configs, esp. Wyndham
+    front-desk derivation) — all untested.
+
+  ### SUGGESTIONS
+  - Default/Wyndham subclasses are no-field factory buckets; `is WyndhamVoiceAIConfig` switching at
+    3 sites makes polymorphism decorative. Prefer separate *Inputs types -> one VoiceAIConfig, or at
+    least move Wyndham invariants into __post_init__ (currently only enforced in build(), bypassable
+    by direct construction).
+  - _to_specs reports only the first bad forwarding category, short-circuiting the accumulate model.
+  - Frontend activate uses raw axios.post instead of a Bridge ActivateVoiceSetup action.
+
+  ### VERIFIED CLEAN
+  Decoupling (a)(b)(c) achieved; VoiceAIConfig.__post_init__ accumulates AND raises per-field errors;
+  ConfigureVoicePlan error translation lossless for handled categories; pms_config_schemas split is a
+  legit cycle break; Wyndham forward_call_to-from-FRONT_DESK preserved; Call Settings behavior preserved;
+  frontend error handling loud (no swallowed activation errors); country_code (not free-text country) used.
+
+  ### CAVEAT
+  C1/C2 specifics came mainly from the silent-failure agent's read of twilio_voice_configuration.py;
+  duplicate-activation (C2) corroborated separately by the test agent. Concrete with file:line, but worth
+  Gaston confirming the exact transaction boundary before framing as definitive. The MISSING
+  already-configured/lock guard is unambiguous regardless.
+
+  Follow-up offered (not yet done): draft review comments for 47421 for your approval before posting.
 project: null
 source_id: https://canarytechnologies.slack.com/archives/C047K6WSUJY/p1780081180659859?thread_ts=1780081180.659859&cid=C047K6WSUJY
 tags:
@@ -88,7 +162,7 @@ tags:
 - from-awareness
 time_minutes: 15
 title: 'Read: voice onboarding streamlining PRD + PR stack (Gaston)'
-updated: 2026-06-09T11:55:00Z
+updated: 2026-06-09 16:10:00+00:00
 waiting_on: null
 waiting_since: null
 working_on: false

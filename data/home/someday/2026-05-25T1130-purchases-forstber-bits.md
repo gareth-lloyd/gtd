@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: null
 id: 2026-05-25T1130-purchases-forstber-bits
-order: 6
+order: 11
 output: ''
 project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: null
 title: Forstner bits
-updated: 2026-05-29 07:26:50.042653
+updated: 2026-06-09 15:23:51.713517
 waiting_on: null
 waiting_since: null
 working_on: false

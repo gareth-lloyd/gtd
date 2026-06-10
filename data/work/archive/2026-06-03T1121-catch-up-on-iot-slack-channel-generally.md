@@ -176,7 +176,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: catch up on IoT slack channel generally
-updated: 2026-06-03 15:01:19.688350
+updated: 2026-06-09 15:28:13.528263
 waiting_on: null
 waiting_since: null
 working_on: false

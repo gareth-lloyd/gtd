@@ -3,8 +3,8 @@ area: null
 contexts: []
 created: 2026-06-04 16:03:49.648218
 defer_until: null
-due: null
-energy: low
+due: 2026-06-09
+energy: high
 id: 2026-06-04T1603-review-check-in-v2-prd-the-perspective-is-about-ho
 order: null
 output: |
@@ -99,16 +99,16 @@ output: |
 
   (No external writes made — Slack thread + Notion PRD read-only. Did not comment on
   the PRD; raise these directly with Leandro if useful.)
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 30
 title: Review check-in v2 PRD. The perspective is about how this affects enterprise
   MSA hotels which are configured via onboarding scripts.
-updated: 2026-06-04 16:32:00.000000
+updated: 2026-06-09 15:03:15.084832
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://canarytechnologies.slack.com/archives/C0B4QD01GP8/p1780491110778609

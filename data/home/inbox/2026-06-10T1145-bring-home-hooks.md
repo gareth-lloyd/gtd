@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-25 11:19:39.767641
+created: &id001 2026-06-10 11:45:39.928021
 defer_until: null
 due: null
 energy: low
-id: 2026-05-25T1119-vice
-order: 4
+id: 2026-06-10T1145-bring-home-hooks
+order: null
 output: ''
-project: 2026-05-25-workshop
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: vice
-updated: 2026-06-09 15:23:57.756591
+title: bring home hooks
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

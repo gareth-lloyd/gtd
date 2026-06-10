@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: null
 id: 2026-05-25T1130-wifi-fire-alarm
-order: 1
+order: 3
 output: ''
 project: 2026-05-25-workshop
 source_id: null
@@ -15,7 +15,7 @@ tags:
 - focus
 time_minutes: null
 title: Install WiFi fire alarm
-updated: 2026-05-29 07:26:50.042653
+updated: 2026-06-09 15:23:57.756591
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-25 11:19:39.767641
+created: 2026-06-08 22:10:20.785114
 defer_until: null
 due: null
 energy: low
-id: 2026-05-25T1119-vice
-order: 4
+id: 2026-06-08T2210-check-in-on-wcp
+order: null
 output: ''
-project: 2026-05-25-workshop
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: vice
-updated: 2026-06-09 15:23:57.756591
+title: check in on wcp
+updated: 2026-06-09 15:01:18.339448
 waiting_on: null
 waiting_since: null
 working_on: false

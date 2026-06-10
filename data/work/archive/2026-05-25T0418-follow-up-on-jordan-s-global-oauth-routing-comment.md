@@ -17,10 +17,10 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Follow up on Jordan's global OAuth routing comment (group DM)
-updated: 2026-05-25 12:05:47.923720
+updated: 2026-06-09 15:28:02.828658
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Long-term optimization: global OAuth URL routing to nearest Canary instance for latency. https://canarytechnologies.slack.com/archives/C0B5597H1FC/p1779328724095099

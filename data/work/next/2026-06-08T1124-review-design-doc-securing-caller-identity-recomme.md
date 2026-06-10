@@ -4,8 +4,8 @@ contexts:
 - consume
 created: 2026-06-08 11:24:12.894573
 defer_until: null
-due: null
-energy: high
+due: 2026-06-09
+energy: medium
 id: 2026-06-08T1124-review-design-doc-securing-caller-identity-recomme
 order: null
 output: |
@@ -122,14 +122,129 @@ output: |
   These are review comments, not blockers to the idea. If you want, I can post a condensed
   version (verdict + items 1-3 + the Wyndham MCP question) as a Notion comment on the doc —
   needs your explicit go-ahead before I post anything externally.
-project: null
+
+  ## Agent run 2026-06-09T15:20
+
+  Two follow-ups this pass: (A) traced the MCP ingress path the prior run flagged as
+  unverified; (B) reviewed the 1-1 transcript with the author (Daga, Jun 9). Nothing
+  posted anywhere — all drafted here.
+
+  ### A. MCP ingress trace — RESOLVED. The good news: MCP does NOT use the broken path.
+  The prior run flagged "I did not trace the MCP ingress path." I have now. Conclusion:
+  the in-repo MCP surface is auth-INDEPENDENT of the internal `Bearer id_xxx` phantom
+  token, so the Phase 0 cutover does NOT break it by construction.
+
+  - The MCP app (`backend/canary/canary_mcp/`) authenticates via its OWN DRF backends, not
+    the principal middleware's `resolve_bearer`:
+    - `TeleportJwtAuthentication` (canary_mcp/auth.py:24-136): requires `X-Teleport-Jwt` +
+      `X-MCP-Internal-Secret` matching `MCP_INTERNAL_SECRET`. The JWT itself is decoded
+      WITHOUT signature verification (auth.py:125-136) — trust comes entirely from the
+      shared `MCP_INTERNAL_SECRET` proving the request came from the MCP server. So this
+      path has its own "trust by shared secret" model, separate from id_xxx.
+    - `AgentTokenAuthentication` (auth.py:139-209): static per-agent bearer tokens
+      (`MCP_AGENT_TOKEN_{AGENT}`, e.g. devin), constant-time compared. Also not id_xxx.
+  - `McpBaseView` (views.py:46-57) pins `authentication_classes = [TeleportJwtAuthentication,
+    AgentTokenAuthentication]` and is read-only (http_method_names = get/head/options;
+    read-only also enforced in the auth backends and by a CI test per the docstring).
+  - There is NO Wyndham-specific MCP code path. `grep wyndham + mcp` only hits settings
+    files (deployment domain lists), not a distinct auth/ingress route. The MCP URL set
+    (canary_mcp/urls.py) is hotel-analytics / voice / KB / portfolio-analytics endpoints,
+    all behind McpBaseView.
+
+  Net: whatever "Wyndham MCP" denotes operationally, if it reaches Canary through the MCP
+  server it arrives with a Teleport JWT + internal secret (or an agent token), NOT a raw
+  `Bearer id_xxx`. Phase 0's signed-only flip changes the id_xxx path; it leaves the MCP
+  backends untouched. So the prior run's worst-case ("MCP auth 401s on cutover") does NOT
+  materialise for the canary_mcp surface. This downgrades the Wyndham-MCP concern from
+  "verify before cutover" to "confirmed not on the affected path."
+
+  CAVEAT — one residual question worth a sentence to the author: the MCP endpoints call
+  into monolith services/selectors IN-PROCESS (they're Django views in the monolith, e.g.
+  HotelAnalyticsService, HotelSelector), so there's no second internal hop using id_xxx
+  from within an MCP request. IF any MCP view is ever changed to make an east-west HTTP
+  call to another internal service on the user's behalf, THAT hop would mint/forward a
+  token and re-enter the id_xxx story. Not the case today; flag it as a "keep MCP in-process
+  or use token-exchange when you don't" note, not a current break.
+
+  ### B. Review of the 1-1 transcript (Daga, Jun 9)
+  The call confirms the prior code review and adds org + design facts that change two of my
+  recommendations. Verbatim-grounded takeaways:
+
+  CONFIRMS (matches what I verified in code):
+  - Author states the exact defect: "unsalted hash of type and reference… you can frame
+    this thing as long as you know the ID number and the mechanism," and the endpoint
+    "only checking that identity_sid is present, we trust that." This is precisely
+    sid.py:92-117 + principal.py:33-55. Diagnosis is sound and self-consistent.
+  - Author confirms it's theory-now-not-yet-exploited: id_sid "is only traveling within our
+    VPC, never sent to the client" but "someday it may be leaked… we're not treating this
+    as a secret." Matches my item-6 (residual replay) and the "becomes real when the API
+    goes public" framing. Good — he's not overselling current exposure.
+  - Author confirms the Phase 0 mechanism is exactly "identity_sid as a JWT claim"
+    ("it's still going to be identity_sid, but in JWT form… identity_sid as claim"). Aligns
+    with the doc and my read.
+
+  NEW — changes my recommendations:
+  - On my item-4 (de-bundle sid-hardening): the transcript VALIDATES de-bundling. The author
+    frames the fix as purely "send a JWT of the same thing" — the sid stays derivable inside
+    the signed token and that's fine. He does NOT propose making the sid non-derivable as
+    part of this work. So Phase 0 = signature only; sid-hardening is not even on his path.
+    My "pull it out of Phase 0" recommendation is consistent with the author's own framing —
+    I'd now state it as "confirm sid-hardening is explicitly OUT of scope" rather than "argue
+    to remove it."
+  - DEV ESCAPE HATCH = new security item, not in my prior review. Author: "if DEBUG is true,
+    we do expect that it can be without JWT as well" + "a make command wrapper." This is a
+    classic footgun: a debug-only auth bypass that must be PROVABLY unreachable in prod
+    (not just `if settings.DEBUG`, which has bitten teams when DEBUG leaks true, or when the
+    bypass keys off an env var an attacker can influence). Concrete ask for the doc: specify
+    the escape hatch as fail-CLOSED (default deny; bypass requires an explicit dev-only
+    signal that cannot exist in prod images), and add a CI/startup assertion that the bypass
+    is disabled when not DEBUG. Add this to the "risks to resolve before Phase 0" list.
+  - JWT SECRET ROTATION is the actual blocking dependency. Author: "right now I'm just
+    waiting for approval from platform… specifically the JWT secret rotation piece. Once
+    we're aligned on that, my next move is creating a project." So the doc's rotation section
+    (which I praised) is also the critical-path gate — the thing platform must sign off. If
+    Gareth wants this to move, the lever is getting platform alignment on rotation, not more
+    review of the core idea.
+
+  ORG / OWNERSHIP signal (relevant to the possible identity pod):
+  - Author is PIVOTING OFF this in June. Request-framework pod is redirecting to AI tooling
+    ("now that Tyler is also not there"). He explicitly will NOT implement: "I would not be
+    able to do all of the implementation… create a project for that and then maybe hand over
+    to some other person." He wants the IDEA + design doc approved, then a project created
+    and handed off.
+  - This is the load-bearing org fact: if a dedicated identity pod is real and lands with
+    Gareth, this work arrives as an APPROVED-DESIGN-BUT-UNOWNED implementation project. The
+    risk is not the design (it's sound) — it's the handoff gap: the person who holds the
+    context is leaving the work. Recommend capturing Daga's context NOW (he offered: "ping
+    me if you have follow-ups") and treating the enumeration (items 1-2) + escape-hatch
+    hardening + platform rotation sign-off as the concrete project scope to inherit.
+  - Genesis of the defect (for the record): author says it was a deliberate DX tradeoff
+    called out in the services doc and discussed with Jordan — "to keep it simple… we can
+    simply curl it, need not generate a new token." So it was a known, signed-off simplicity
+    choice, not an accident. Reversing it has a DX cost the author plans to absorb with a
+    make-command wrapper — which is why the escape hatch exists, which is why the escape
+    hatch needs the hardening above.
+
+  ### Updated bottom line
+  Endorse unchanged. The transcript strengthens the case (author's framing matches the code
+  and my review) and resolves the Wyndham-MCP worry (not on the affected path). Two additions
+  to the "before Phase 0" list: (a) the DEBUG escape hatch must be provably-prod-unreachable
+  and fail-closed; (b) platform sign-off on JWT secret rotation is the real gate. One org
+  flag for the pod question: the design is owned by someone leaving the work — plan the
+  handoff, capture context before June.
+
+  ### Suggested next step (unchanged, still needs your go-ahead)
+  I can post a condensed Notion comment (verdict + enumeration ask + escape-hatch hardening
+  + Wyndham-MCP "confirmed not affected"). I have NOT posted anything. Say the word and I'll
+  draft the exact comment text for your approval before sending.
+project: 2026-04-10T0840-ticket
 source_id: https://mail.google.com/mail/u/0/#inbox/19e98426b872f374
 tags:
 - morning-gtd
 - gmail
-time_minutes: 30
+time_minutes: 15
 title: 'Review design doc: Securing Caller Identity — Recommendation & Industry Context'
-updated: 2026-06-08 12:11:57.045517
+updated: 2026-06-09 15:20:00.000000
 waiting_on: null
 waiting_since: null
 working_on: false

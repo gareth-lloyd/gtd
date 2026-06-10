@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-08 21:49:40.565583
+created: &id001 2026-06-10 11:46:03.852247
 defer_until: null
 due: null
 energy: low
-id: 2026-06-08T2149-process-sync-recording
+id: 2026-06-10T1146-check-ba-refund
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: process sync recording.
+title: check ba refund
 updated: *id001
 waiting_on: null
 waiting_since: null
