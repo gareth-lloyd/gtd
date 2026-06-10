@@ -97,6 +97,13 @@ def build_prompt(
             "- Append your summary to the `output:` field as a multi-line string. "
             "If `output:` already has content, append a new `## Agent run "
             "<ISO timestamp>` section so prior runs aren't overwritten.\n"
+            "- Include links — they make your output far more useful. Whenever "
+            "you reference a PR, Slack message, Notion doc, Linear issue, or "
+            "similar, include its URL. Prefer the link alongside the other "
+            "reference, e.g. `PR #4012 (https://github.com/org/repo/pull/4012)` "
+            "rather than a bare `PR #4012`. The user acts on your output later — "
+            "Slack messages and Notion docs are especially painful to re-find "
+            "without a link.\n"
             "- Bump `updated:` to the current ISO timestamp on every edit.\n"
             "- Never change `id` or `created`."
         ),

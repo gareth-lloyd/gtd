@@ -137,6 +137,16 @@ class TestBuildPrompt:
         assert "Slack" in out
         assert "ASK FIRST" in out
 
+    def test_instructs_including_links_in_output(self, tmp_path):
+        out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
+        # Output is far more useful when references are clickable — the agent
+        # must include URLs for PRs, Slack messages, Notion docs, etc., not
+        # just bare identifiers like "PR #4012".
+        assert "Include links" in out
+        assert "Slack messages" in out
+        assert "Notion docs" in out
+        assert "alongside" in out
+
     def test_mentions_review_pr_and_debug_shell_commands(self, tmp_path):
         out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
         # The agent should know these helper commands exist so it can reach
