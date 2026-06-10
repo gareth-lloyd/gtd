@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-09 19:31:31.673077
+created: 2026-06-10 14:51:04.015677
 defer_until: null
 due: null
 energy: low
-id: 2026-06-09T1931-switch-with-julius
+id: 2026-06-10T1451-images-for-staging
 order: null
 output: ''
-project: null
+project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: switch with julius
-updated: *id001
+title: images for staging
+updated: 2026-06-10 14:51:04.030508
 waiting_on: null
 waiting_since: null
 working_on: false

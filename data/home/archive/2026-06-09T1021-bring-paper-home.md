@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-10 11:46:03.852247
-defer_until: 2026-06-15 09:00:00
+created: 2026-06-09 10:21:58.372808
+defer_until: null
 due: null
 energy: low
-id: 2026-06-10T1146-check-ba-refund
+id: 2026-06-09T1021-bring-paper-home
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: check ba refund
-updated: 2026-06-10 13:00:22.638003
+title: bring paper home
+updated: 2026-06-10 13:00:01.830662
 waiting_on: null
 waiting_since: null
 working_on: false

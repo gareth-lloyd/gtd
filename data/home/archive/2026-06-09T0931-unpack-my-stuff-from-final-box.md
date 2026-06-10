@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-10 11:46:03.852247
-defer_until: 2026-06-15 09:00:00
+created: 2026-06-09 09:31:26.522541
+defer_until: null
 due: null
 energy: low
-id: 2026-06-10T1146-check-ba-refund
+id: 2026-06-09T0931-unpack-my-stuff-from-final-box
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: check ba refund
-updated: 2026-06-10 13:00:22.638003
+title: unpack my stuff from final box
+updated: 2026-06-10 12:59:51.798104
 waiting_on: null
 waiting_since: null
 working_on: false

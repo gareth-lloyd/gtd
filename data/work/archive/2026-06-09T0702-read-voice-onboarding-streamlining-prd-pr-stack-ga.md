@@ -162,7 +162,7 @@ tags:
 - from-awareness
 time_minutes: 15
 title: 'Read: voice onboarding streamlining PRD + PR stack (Gaston)'
-updated: 2026-06-09 16:10:00+00:00
+updated: 2026-06-10 14:49:19.619715
 waiting_on: null
 waiting_since: null
 working_on: false

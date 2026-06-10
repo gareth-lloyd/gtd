@@ -77,7 +77,7 @@ tags:
 - from-awareness
 time_minutes: 20
 title: 'Review PR #47321: ENT-6177 Portfolio-scoped staging credentials (rrgrs)'
-updated: 2026-06-09 14:44:55.501547
+updated: 2026-06-10 15:03:37.561263
 waiting_on: null
 waiting_since: null
 working_on: false

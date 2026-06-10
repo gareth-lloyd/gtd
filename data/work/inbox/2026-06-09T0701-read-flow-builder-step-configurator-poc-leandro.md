@@ -3,7 +3,7 @@ area: null
 contexts:
 - consume
 created: 2026-06-09 07:01:12.676483
-defer_until: null
+defer_until: 2026-06-11 09:00:00
 due: null
 energy: low
 id: 2026-06-09T0701-read-flow-builder-step-configurator-poc-leandro
@@ -91,7 +91,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Read: flow-builder step-configurator POC (Leandro)'
-updated: 2026-06-09 15:20:41.913167
+updated: 2026-06-10 14:49:10.076961
 waiting_on: null
 waiting_since: null
 working_on: false

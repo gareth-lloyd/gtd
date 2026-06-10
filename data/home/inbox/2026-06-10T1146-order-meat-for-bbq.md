@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-10 11:46:10.102670
-defer_until: null
+created: 2026-06-10 11:46:10.102670
+defer_until: 2026-06-11 09:00:00
 due: null
 energy: low
 id: 2026-06-10T1146-order-meat-for-bbq
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: order meat for bbq
-updated: *id001
+updated: 2026-06-10 13:00:17.757284
 waiting_on: null
 waiting_since: null
 working_on: false

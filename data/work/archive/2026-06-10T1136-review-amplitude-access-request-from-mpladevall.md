@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 5
 title: Review Amplitude access request from mpladevall
-updated: 2026-06-10 11:36:37.426068
+updated: 2026-06-10 15:03:16.789405
 waiting_on: null
 waiting_since: null
 working_on: false

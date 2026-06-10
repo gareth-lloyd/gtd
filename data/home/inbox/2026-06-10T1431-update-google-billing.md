@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-05 01:21:58.819374
+created: &id001 2026-06-10 14:31:54.861400
 defer_until: null
 due: null
 energy: low
-id: 2026-06-05T0121-cancel-nord-vpn
+id: 2026-06-10T1431-update-google-billing
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: cancel nord vpn
+title: update google billing
 updated: *id001
 waiting_on: null
 waiting_since: null
