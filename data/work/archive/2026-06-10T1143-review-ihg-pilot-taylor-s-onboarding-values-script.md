@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Review IHG pilot: Taylor''s onboarding values + script test on HotelKey 2-way
   site'
-updated: 2026-06-10 11:43:19.259175
+updated: 2026-06-10 15:15:23.354484
 waiting_on: null
 waiting_since: null
 working_on: false

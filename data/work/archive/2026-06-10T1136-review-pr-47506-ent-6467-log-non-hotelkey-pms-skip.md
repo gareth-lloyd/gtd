@@ -16,7 +16,7 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #47506: [ENT-6467] Log non-HotelKey PMS skip as error in IHGPmsConfigProvider'
-updated: 2026-06-10 11:36:37.005364
+updated: 2026-06-10 15:35:41.130861
 waiting_on: null
 waiting_since: null
 working_on: false
