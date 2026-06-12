@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-10 16:24:11.014959
-defer_until: null
+created: 2026-06-10 16:24:11.014959
+defer_until: 2026-06-15 09:00:00
 due: null
 energy: low
 id: 2026-06-10T1624-watch-kiosk-overview
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: watch kiosk overview
-updated: *id001
+updated: 2026-06-11 16:05:32.505798
 waiting_on: null
 waiting_since: null
 working_on: false
