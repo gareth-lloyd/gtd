@@ -81,7 +81,7 @@ tags:
 time_minutes: 20
 title: Investigate Ramada Encore by Wyndham Konya Selcuklu onboarding failures (validate_pms_configuration
   + configure_room_upgrades)
-updated: 2026-06-15 12:55:00.000000
+updated: 2026-06-15 13:40:38.775566
 waiting_on: null
 waiting_since: null
 working_on: false

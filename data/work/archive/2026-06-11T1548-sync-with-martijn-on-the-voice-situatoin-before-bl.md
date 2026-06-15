@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Sync with Martijn on the voice situatoin before blake directs
-updated: 2026-06-11 15:48:11.333722
+updated: 2026-06-15 13:40:29.938104
 waiting_on: null
 waiting_since: null
 working_on: false
