@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-06-11 15:48:06.790214
-defer_until: 2026-06-15 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-11T1548-sync-with-martijn-on-the-voice-situatoin-before-bl

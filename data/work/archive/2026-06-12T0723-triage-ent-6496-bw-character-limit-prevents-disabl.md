@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 20
 title: 'Triage ENT-6496: BW character limit prevents disabling check-in message'
-updated: 2026-06-12 07:23:20.634519
+updated: 2026-06-12 07:47:52.464235
 waiting_on: null
 waiting_since: null
 working_on: false

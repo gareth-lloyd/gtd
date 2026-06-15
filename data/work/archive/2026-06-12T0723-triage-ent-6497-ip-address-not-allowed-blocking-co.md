@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 20
 title: 'Triage ENT-6497: IP address not allowed blocking corporate users'
-updated: 2026-06-12 07:23:20.566855
+updated: 2026-06-12 07:47:55.306064
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,20 @@
 ---
 area: null
-contexts: []
-created: 2026-05-25 11:30:00
+contexts:
+- computer
+created: &id001 2026-06-15 00:00:00
 defer_until: null
 due: null
 energy: null
-id: 2026-05-25T1130-start-shopping-roof-box
+id: 2026-06-15T0000-full-review-nirvana-sweep
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: null
-title: Start shopping for roof box
-updated: 2026-06-10 13:00:28.761978
+title: Full review (Nirvana sweep)
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

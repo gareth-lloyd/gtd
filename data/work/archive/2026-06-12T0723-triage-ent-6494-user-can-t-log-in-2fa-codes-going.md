@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 20
 title: 'Triage ENT-6494: User can''t log in (2FA codes going to old phone)'
-updated: 2026-06-12 07:23:20.769593
+updated: 2026-06-12 07:47:41.823460
 waiting_on: null
 waiting_since: null
 working_on: false

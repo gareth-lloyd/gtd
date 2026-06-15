@@ -1,19 +1,20 @@
 ---
 area: null
-contexts: []
-created: 2026-06-10 12:59:44.850237
+contexts:
+- autopilot
+created: &id001 2026-06-15 00:00:00
 defer_until: null
 due: null
 energy: low
-id: 2026-06-10T1259-buy-stud-detector
+id: 2026-06-15T0000-blake-directs-meeting-updates
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: buy stud detector
-updated: 2026-06-10 13:00:20.645225
+title: Blake directs meeting updates
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

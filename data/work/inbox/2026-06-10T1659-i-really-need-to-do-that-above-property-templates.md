@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-06-10 16:59:57.293608
-defer_until: 2026-06-15 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-10T1659-i-really-need-to-do-that-above-property-templates

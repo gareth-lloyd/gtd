@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-06-10 11:46:03.852247
-defer_until: 2026-06-15 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-10T1146-check-ba-refund

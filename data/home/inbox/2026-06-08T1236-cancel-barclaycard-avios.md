@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-06-08 12:36:40.727400
-defer_until: 2026-06-15 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-08T1236-cancel-barclaycard-avios
