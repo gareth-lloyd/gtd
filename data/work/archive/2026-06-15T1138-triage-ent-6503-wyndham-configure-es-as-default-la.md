@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 20
 title: 'Triage ENT-6503: Wyndham - configure ES as default language for Uruguay'
-updated: 2026-06-15 11:38:19.251526
+updated: 2026-06-15 12:42:56.137593
 waiting_on: null
 waiting_since: null
 working_on: false

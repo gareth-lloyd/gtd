@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: Authorize GitHub SSO / Okta before Tue Jun 16 (or lose org access)
-updated: 2026-06-15 11:38:19.333341
+updated: 2026-06-15 12:43:55.311276
 waiting_on: null
 waiting_since: null
 working_on: false

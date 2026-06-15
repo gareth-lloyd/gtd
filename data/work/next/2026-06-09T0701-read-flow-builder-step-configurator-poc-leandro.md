@@ -83,7 +83,7 @@ output: |
   weigh in on Matt's "any new thoughts" question, or push on how N-level nesting
   (ID-inside-additional-guest) should resolve before this primitive is locked in.
   Did NOT watch the Loom (can't process video) or post anything to Slack/GitHub.
-project: null
+project: 2026-04-10T0840-ticket
 source_id: https://canarytechnologies.slack.com/archives/C0A5Z7LE5AL/p1780952564125569?thread_ts=1780952564.125569&cid=C0A5Z7LE5AL
 tags:
 - morning-gtd
@@ -91,7 +91,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Read: flow-builder step-configurator POC (Leandro)'
-updated: 2026-06-11 16:05:29.529702
+updated: 2026-06-15 13:39:11.830360
 waiting_on: null
 waiting_since: null
 working_on: false
