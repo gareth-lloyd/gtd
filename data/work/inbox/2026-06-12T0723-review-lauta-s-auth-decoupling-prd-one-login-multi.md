@@ -16,10 +16,10 @@ tags:
 - slack
 time_minutes: 20
 title: Review Lauta's auth-decoupling PRD (one login, multiple account profiles)
-updated: 2026-06-12 07:23:20.836520
+updated: 2026-06-15 12:22:32.608862
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Lauta asked Andrea/Connor/me directly to review his draft addressing recurring tickets (ENT-6474, ENT-6484).
