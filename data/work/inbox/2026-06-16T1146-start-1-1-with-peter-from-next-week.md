@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-10 11:45:50.279602
+created: &id001 2026-06-16 11:46:00.083816
 defer_until: null
 due: null
 energy: low
-id: 2026-06-10T1145-update-splitwise-iwth-ab-etc
+id: 2026-06-16T1146-start-1-1-with-peter-from-next-week
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Update splitwise iwth AB etc, plus car
-updated: 2026-06-11 15:54:49.558011
+title: start 1-1 with peter from next week
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
