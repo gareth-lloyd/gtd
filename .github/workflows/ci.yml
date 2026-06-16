@@ -36,13 +36,5 @@ jobs:
       - run: npm test
       - run: npm run build
 
-  deploy:
-    needs: [backend, frontend-mobile]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      # Render autoDeploy is off, so only green main triggers a deploy.
-      - name: Trigger Render deploy
-        run: curl -fsS -X POST "$RENDER_DEPLOY_HOOK_URL"
-        env:
-          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+  # Deployment is handled by Render's autoDeploy on every push to main
+  # (see render.yaml). CI is an advisory check, not a deploy gate.

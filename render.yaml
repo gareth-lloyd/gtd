@@ -7,9 +7,9 @@ services:
     plan: free
     region: frankfurt
     branch: main
-    # CI gates deploys (the deploy job curls the deploy hook on green main),
-    # so don't auto-deploy on every push.
-    autoDeploy: false
+    # Render redeploys automatically on every push to main; CI is an
+    # advisory check, not a deploy gate.
+    autoDeploy: true
     healthCheckPath: /api/health/
     envVars:
       - key: GTD_DEBUG
