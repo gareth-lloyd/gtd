@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-16 04:20:16.333524
+created: 2026-06-16 04:20:16.333524
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: why is gtd CI failing
-updated: *id001
+updated: 2026-06-16 13:40:12.277735
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 15
 title: 'Respond on DATA-862: Salesforce Bulk API job-limit fallback (Airbyte)'
-updated: 2026-06-16 11:31:36.323800
+updated: 2026-06-16 13:26:22.439339
 waiting_on: null
 waiting_since: null
 working_on: false

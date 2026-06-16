@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-16 12:59:54.235274
+created: 2026-06-16 12:59:54.235274
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Laura - report Andy's updte on security policy
-updated: *id001
+updated: 2026-06-16 13:45:37.319882
 waiting_on: null
 waiting_since: null
 working_on: false

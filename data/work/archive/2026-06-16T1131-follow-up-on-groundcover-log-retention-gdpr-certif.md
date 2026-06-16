@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Follow up on: Groundcover log retention / GDPR certification'
-updated: 2026-06-16 11:31:36.387778
+updated: 2026-06-16 13:28:44.742598
 waiting_on: null
 waiting_since: null
 working_on: false
