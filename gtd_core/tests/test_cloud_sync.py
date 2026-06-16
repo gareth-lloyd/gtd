@@ -33,7 +33,9 @@ def _configure(repo: git.Repo) -> None:
 def remote_and_clone(tmp_path):
     """A bare 'origin' plus a working clone with a committed data/ tree."""
     origin = tmp_path / "origin.git"
-    git.Repo.init(origin, bare=True)
+    # Pin the initial branch so the fixture doesn't depend on the host's
+    # init.defaultBranch (CI runners default to "master", not "main").
+    git.Repo.init(origin, bare=True, initial_branch="main")
 
     work = tmp_path / "work"
     repo = git.Repo.clone_from(origin, work)
