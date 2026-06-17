@@ -8,14 +8,14 @@ defer_until: 2026-07-01 12:17:00
 due: null
 energy: medium
 id: 2026-05-25T1139-check-linear-backlogs-for-issues-labeled-apac
-order: null
+order: 7
 output: ''
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 15
 title: Check linear backlogs for issues labeled APAC
-updated: 2026-06-08 12:17:18.959028
+updated: 2026-06-17 12:37:52.193908
 waiting_on: null
 waiting_since: null
 working_on: false

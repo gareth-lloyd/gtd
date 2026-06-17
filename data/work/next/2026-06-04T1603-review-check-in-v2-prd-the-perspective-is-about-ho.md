@@ -6,7 +6,7 @@ defer_until: null
 due: 2026-06-16
 energy: high
 id: 2026-06-04T1603-review-check-in-v2-prd-the-perspective-is-about-ho
-order: null
+order: 1
 output: |
   ## Agent run 2026-06-04T16:32:00
 
@@ -105,7 +105,7 @@ tags: []
 time_minutes: 30
 title: Review check-in v2 PRD. The perspective is about how this affects enterprise
   MSA hotels which are configured via onboarding scripts.
-updated: 2026-06-16 15:58:34.418313
+updated: 2026-06-17 12:37:57.463557
 waiting_on: null
 waiting_since: null
 working_on: true

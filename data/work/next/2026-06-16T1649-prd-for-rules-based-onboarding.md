@@ -6,15 +6,15 @@ defer_until: null
 due: 2026-06-17
 energy: high
 id: 2026-06-16T1649-prd-for-rules-based-onboarding
-order: null
+order: 6
 output: ''
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 30
 title: PRD for rules based onboarding
-updated: 2026-06-17 10:23:13.930895
+updated: 2026-06-17 12:37:52.193908
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
