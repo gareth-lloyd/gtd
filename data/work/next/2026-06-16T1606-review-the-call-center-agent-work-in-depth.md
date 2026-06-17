@@ -7,7 +7,7 @@ defer_until: null
 due: 2026-06-17
 energy: high
 id: 2026-06-16T1606-review-the-call-center-agent-work-in-depth
-order: 3
+order: 4
 output: |-
   # Call Center Agent Work — In-Depth Review
 
@@ -78,7 +78,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review the call center agent work in-depth
-updated: 2026-06-17 12:37:57.463557
+updated: 2026-06-17 12:38:30.371855
 waiting_on: null
 waiting_since: null
 working_on: true

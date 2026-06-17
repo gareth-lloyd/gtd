@@ -1,10 +1,11 @@
 ---
-area: null
-contexts: []
+area: engineering
+contexts:
+- deep
 created: 2026-06-16 16:24:56.442407
 defer_until: null
-due: null
-energy: low
+due: 2026-06-17
+energy: medium
 id: 2026-06-16T1624-re-review-gaston-s-big-pr
 order: null
 output: |
@@ -97,12 +98,12 @@ output: |
   > away from the operator. The field-level clean gives an immediate per-row error and
   > normalizes the number, and it already uses the shared `format_strict_e164`
   > primitive so there's no duplicated rule. Happy as-is.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Re-review GAston's big PR
-updated: 2026-06-16 13:27:35.241862
+updated: 2026-06-17 13:24:44.970396
 waiting_on: null
 waiting_since: null
 working_on: false
