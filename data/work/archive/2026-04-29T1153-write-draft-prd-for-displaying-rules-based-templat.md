@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 60
 title: Write draft PRD for displaying rules-based templates in above property dashboard
-updated: 2026-05-07 14:04:34.434875
+updated: 2026-06-16 15:53:22.748852
 waiting_on: null
 waiting_since: null
 working_on: false

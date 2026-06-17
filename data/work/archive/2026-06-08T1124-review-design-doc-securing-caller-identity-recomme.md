@@ -244,7 +244,7 @@ tags:
 - gmail
 time_minutes: 15
 title: 'Review design doc: Securing Caller Identity — Recommendation & Industry Context'
-updated: 2026-06-09 15:20:00.000000
+updated: 2026-06-16 15:53:10.706307
 waiting_on: null
 waiting_since: null
 working_on: false

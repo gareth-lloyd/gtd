@@ -69,7 +69,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Evaluate omni chat interface for omni
-updated: 2026-06-03 14:36:29.535837
+updated: 2026-06-16 15:59:02.384423
 waiting_on: null
 waiting_since: null
 working_on: false

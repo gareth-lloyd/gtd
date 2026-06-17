@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: salvage PR and get slaesforce sync working
-updated: 2026-05-27 14:15:53.300642
+updated: 2026-06-16 15:58:24.991791
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://github.com/canary-technologies-corp/canary/pull/45154

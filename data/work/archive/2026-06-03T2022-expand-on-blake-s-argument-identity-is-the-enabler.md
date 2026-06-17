@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: 'Expand on blake''s argument: identity is the enabler for AI acceleration.'
-updated: 2026-06-09 15:03:03.639340
+updated: 2026-06-16 15:52:50.469334
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Not allowed to share the LLM demo until grappled iwth this

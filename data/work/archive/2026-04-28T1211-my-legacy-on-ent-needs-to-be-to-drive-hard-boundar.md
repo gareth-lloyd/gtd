@@ -16,7 +16,7 @@ tags: []
 time_minutes: 30
 title: Plan the work to create harder portfolio boundaries. IHG slaesforce, Wyndham
   update etc
-updated: 2026-05-07 14:30:17.021209
+updated: 2026-06-16 15:53:17.793245
 waiting_on: null
 waiting_since: null
 working_on: false

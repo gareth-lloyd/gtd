@@ -38,7 +38,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Read: Rachel Kim''s whatsapp-fallback report (#wyndham)'
-updated: 2026-05-25 12:06:01.223084
+updated: 2026-06-16 15:58:43.548835
 waiting_on: null
 waiting_since: null
 working_on: false

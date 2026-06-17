@@ -88,7 +88,7 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #47477: [TOOL-34] Track all non-PII Hotel fields via CONFIG_FIELDS'
-updated: 2026-06-15 12:56:00.000000
+updated: 2026-06-16 13:58:06.424466
 waiting_on: null
 waiting_since: null
 working_on: false

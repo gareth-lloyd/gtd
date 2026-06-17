@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 60
 title: review jordan's soa architecture doc
-updated: 2026-06-03 10:26:09.627184
+updated: 2026-06-16 15:53:04.839250
 waiting_on: null
 waiting_since: null
 working_on: false
