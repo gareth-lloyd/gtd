@@ -1,10 +1,11 @@
 ---
-area: null
-contexts: []
+area: engineering
+contexts:
+- deep
 created: 2026-06-16 16:06:32.609636
 defer_until: null
-due: null
-energy: low
+due: 2026-06-17
+energy: high
 id: 2026-06-16T1606-review-the-call-center-agent-work-in-depth
 order: null
 output: |-
@@ -72,12 +73,12 @@ output: |-
   - Confirm KB ownership: `call_center` FK on the KB entry model + `owner=CallCenter` / `property_tag` in `KnowledgeBaseSearchService` are net-new and not in Design 1's scope.
 
   *(Review based on the two Notion designs and open PRs as of 2026-06-16.)*
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 30
 title: Review the call center agent work in-depth
-updated: 2026-06-16 16:11:14.002510
+updated: 2026-06-17 10:22:45.086560
 waiting_on: null
 waiting_since: null
 working_on: false

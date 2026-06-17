@@ -1,10 +1,10 @@
 ---
-area: null
+area: engineering
 contexts: []
 created: 2026-06-10 16:59:57.293608
 defer_until: null
-due: null
-energy: low
+due: 2026-06-17
+energy: medium
 id: 2026-06-10T1659-i-really-need-to-do-that-above-property-templates
 order: null
 output: |
@@ -109,12 +109,12 @@ output: |
 
   ### Round-2 bottom line
   Direction still approved. Pre-ticketing must-fixes: **(A)** finally resolve the RF-v2/portfolio.py citation (cite `billing/views/billing_contact.py`, drop portfolio.py); **(B)** specify multi-brand-portfolio tree selection; **(C)** carve out MSA-gated roots (BW) from the "always resolves" simulator claim. Precision fixes before an implementer starts: **(D)** explicit payload→`HotelAttributes` field map (incl. `canary_region`→`region`), **(E)** check against `get_all_fields()` not the `.pyi`, **(F)** record provenance source at the definition point. **(G)** are one-line awareness notes. No architectural objections; the engine claims and provenance algorithm verified accurate. No Notion edits made this round (review only — would need explicit approval to apply any of the above to the doc).
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Review this above property dashboard rules based configuration proposal
-updated: 2026-06-16 18:30:00
+updated: 2026-06-17 10:22:27.956857
 waiting_on: null
 waiting_since: null
 working_on: false
