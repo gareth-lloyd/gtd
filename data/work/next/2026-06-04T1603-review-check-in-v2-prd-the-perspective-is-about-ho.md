@@ -105,10 +105,10 @@ tags: []
 time_minutes: 30
 title: Review check-in v2 PRD. The perspective is about how this affects enterprise
   MSA hotels which are configured via onboarding scripts.
-updated: 2026-06-17 12:37:57.463557
+updated: 2026-06-17 15:25:33.626482
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://canarytechnologies.slack.com/archives/C0B4QD01GP8/p1780491110778609

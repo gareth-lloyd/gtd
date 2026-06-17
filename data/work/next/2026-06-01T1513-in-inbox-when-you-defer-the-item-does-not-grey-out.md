@@ -6,7 +6,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-06-01T1513-in-inbox-when-you-defer-the-item-does-not-grey-out
-order: null
+order: 17
 output: |
   ## Agent run 2026-06-01T15:18
 
@@ -46,7 +46,7 @@ tags: []
 time_minutes: 5
 title: In inbox, when you defer, the item does not "grey out" like it does when adding
   to next
-updated: 2026-06-01 15:18:30.000000
+updated: 2026-06-17 13:53:06.260581
 waiting_on: null
 waiting_since: null
 working_on: false

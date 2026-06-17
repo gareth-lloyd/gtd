@@ -3,11 +3,11 @@ area: engineering
 contexts:
 - deep
 created: 2026-06-16 16:06:32.609636
-defer_until: null
-due: 2026-06-17
+defer_until: 2026-06-18 09:00:00
+due: null
 energy: high
 id: 2026-06-16T1606-review-the-call-center-agent-work-in-depth
-order: 4
+order: 3
 output: |-
   # Call Center Agent Work — In-Depth Review
 
@@ -78,8 +78,8 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review the call center agent work in-depth
-updated: 2026-06-17 12:38:30.371855
+updated: 2026-06-17 16:14:25.732672
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

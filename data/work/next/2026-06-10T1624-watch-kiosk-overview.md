@@ -7,14 +7,14 @@ defer_until: null
 due: 2026-06-16
 energy: low
 id: 2026-06-10T1624-watch-kiosk-overview
-order: null
+order: 3
 output: ''
 project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 15
 title: watch kiosk overview
-updated: 2026-06-16 15:58:36.419742
+updated: 2026-06-17 13:59:20.770903
 waiting_on: null
 waiting_since: null
 working_on: false

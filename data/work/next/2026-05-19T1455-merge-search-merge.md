@@ -6,14 +6,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-05-19T1455-merge-search-merge
-order: -22
+order: 1
 output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags: []
 time_minutes: 5
 title: merge -> search -> merge
-updated: 2026-06-08 14:41:27.211302
+updated: 2026-06-17 13:53:06.260581
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -6,7 +6,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-06-16T1340-why-is-ci-consistently-failing-on-github-for-this
-order: null
+order: 19
 output: |
   ## Agent run 2026-06-16T13:50
 
@@ -158,7 +158,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: why is CI consistently failing on Github for this project?
-updated: 2026-06-16 14:35:00.000000
+updated: 2026-06-17 13:53:06.260581
 waiting_on: null
 waiting_since: null
 working_on: false

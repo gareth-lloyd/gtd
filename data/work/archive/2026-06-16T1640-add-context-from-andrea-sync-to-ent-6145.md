@@ -8,16 +8,65 @@ due: 2026-06-17
 energy: low
 id: 2026-06-16T1640-add-context-from-andrea-sync-to-ent-6145
 order: 5
-output: ''
+output: |
+  ## Agent run 2026-06-17T14:05:00
+
+  Extracted the ENT-6145 context from the 2026-06-16 Andrea Bradshaw sync
+  (transcript lines 110-114) and POSTED a comment to the ticket (approved by
+  user, with an added value/effort caveat).
+  Comment: https://linear.app/canary-technologies/issue/ENT-6145#comment-21d123e4
+
+  Ticket: ENT-6145 "Onboarding scripts: Conditional add to child"
+  https://linear.app/canary-technologies/issue/ENT-6145/onboarding-scripts-conditional-add-to-child
+  Current state: Backlog, Low priority, labels [Feature request, Needs scoping],
+  project "Eng Improvements", milestone "Onboarding Improvements". Description is
+  thin (HotelKey-only config, no way to tell hotel type when adding next_stages,
+  no-op for most). The sync fills in the missing "why" + a proposed approach.
+
+  --- DRAFT COMMENT FOR ENT-6145 ---
+
+  **Context from team sync (2026-06-16)**
+
+  **Where this comes from:** IHG HotelKey onboarding changed the shape of the
+  go-live flow. The old process was: run configuration → straight to go-live.
+  With IHG it became: initial configuration → PMS creation → PMS validation →
+  go-live.
+
+  **The problem:** Unlike Wyndham or Best Western — where *every* hotel needs to
+  go through PMS creation — the IHG batches mix hotel types. Some are HotelKey
+  (need PMS creation + validation), but many are OHIP / Hapi and don't need those
+  stages at all. Today every hotel in the batch gets the PMS-creation/validation
+  stages added to its `next_stages` regardless, so for the non-HotelKey hotels
+  those stages are no-ops.
+
+  **Proposed approach:** At the hotel level (at the end of a batch/hotel run),
+  branch on the hotel: if it's HotelKey → add the PMS-configuration stages; else
+  → go straight to go-live. Effectively a small flow-chart / conditional through
+  the onboarding stages.
+
+  **Implementation preference:** Rather than keeping the plan in the list and
+  having its internal logic short-circuit to a no-op, the cleaner version is to
+  *conditionally not include the plan in `next_stages`* at all when it doesn't
+  apply.
+
+  **Priority note:** Low-value / nice-to-have — removes wasted no-op stages and
+  tidies the flow, but isn't blocking IHG onboarding.
+
+  --- END DRAFT ---
+
+  Posted version added a "Priority / cost note" flagging that this is a specific
+  (mixed-PMS IHG) situation that may not generalize, low value, and a significant
+  jump in onboarding-plan-flow complexity (hotel-level conditional branching vs.
+  today's linear flow).
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: Add context from andrea sync to ENT-6145
-updated: 2026-06-17 13:51:53.485091
+updated: 2026-06-17 16:14:34.736235
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://linear.app/canary-technologies/issue/ENT-6145/onboarding-scripts-conditional-add-to-child

@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 30
 title: PRD for rules based onboarding
-updated: 2026-06-17 12:37:52.193908
+updated: 2026-06-17 15:51:19.406446
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

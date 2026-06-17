@@ -7,7 +7,7 @@ defer_until: null
 due: 2026-06-17
 energy: medium
 id: 2026-06-16T1624-re-review-gaston-s-big-pr
-order: null
+order: 7
 output: |
   ## Agent run 2026-06-16T13:27:35Z
 
@@ -103,7 +103,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Re-review GAston's big PR
-updated: 2026-06-17 13:24:44.970396
+updated: 2026-06-17 15:23:42.082423
 waiting_on: null
 waiting_since: null
 working_on: false

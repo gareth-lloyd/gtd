@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-06-09T0701-read-flow-builder-step-configurator-poc-leandro
-order: null
+order: 5
 output: |
   ## Agent run 2026-06-09T12:05Z — read & digest
 
@@ -91,7 +91,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Read: flow-builder step-configurator POC (Leandro)'
-updated: 2026-06-15 13:39:11.830360
+updated: 2026-06-17 13:59:17.677691
 waiting_on: null
 waiting_since: null
 working_on: false

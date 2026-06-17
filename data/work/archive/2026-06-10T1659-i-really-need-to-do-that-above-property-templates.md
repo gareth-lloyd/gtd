@@ -6,7 +6,7 @@ defer_until: null
 due: 2026-06-17
 energy: medium
 id: 2026-06-10T1659-i-really-need-to-do-that-above-property-templates
-order: null
+order: 1
 output: |
   ## Agent run 2026-06-15T13:05Z — Review of "Rules Browser: Above-Property UI for Rules-Based Configuration"
 
@@ -107,6 +107,18 @@ output: |
   - `break_tie` has **two** `InvalidConformityTreeError` raise paths, not one: equal weights to parent (doc covers this) AND a direct override edge existing between two applicable siblings (conformity.py:421-426). Both are the same exception, so catching `InvalidConformityTreeError` for the 422 covers both — but the doc's framing ("tie on weight") is incomplete; the 422 `{groups, setting}` shape and "latent tree bug" log apply to both.
   - Dropping numeric weights from serialization (good hotelier call) means the **static Rules Tree tab can't express relative precedence among siblings that co-override the same parent** — direction-only "takes precedence over X" is ambiguous when two children both override one parent. Only the What-If/provenance view reveals who wins. Acceptable for v1; worth one sentence so it's a known limitation, not a surprise.
 
+  ### Applied to the Notion doc (user-approved, 2026-06-17)
+  User accepted the recommendation (edits 1–7; skipped optional #8). Applied seven `update_content` edits to the doc:
+  1. §3 opening — RF citation fixed: now points to **Request Framework** (`shared.request_framework`) + a real RF reference (`billing/views/billing_contact.py`), and explicitly flags `portfolio.py` as legacy "do not copy" (resolves original correction #1 at last).
+  2. §3 Tree selection — reframed as an **open problem: no definitive portfolio→brand link** (`Portfolio` has no brand field; brand only derivable transitively/non-uniquely via the `hotels` M2M); defines the 0/1/>1-brand rule with >1 left undecided.
+  3. Open-decisions table — new row #4 capturing the portfolio→brand/tree-selection decision (Eng + Enterprise PM; must resolve before Milestone 2).
+  4. §2 `explain_resolution` — added the provenance-source precision (source = last *definer* along the winning path, recorded at the `new_value is not NO_VALUE_DEFINED` point, not the deepest matched group).
+  5. §3 resolve — added the explicit payload→`HotelAttributes` field-map warning (`canary_region`→`region`, singular/plural cardinality inversion, avoid `HotelAttributes(**payload)`). Required a follow-up fix: first pass nested a `**payload` code span inside bold and mangled the markdown; corrected by pulling the code span out of the bold span — verified clean on re-fetch.
+  6. §1 system checks — key-existence check now validates against `SettingTypeGeneratorService.get_all_fields()` (runtime introspection) rather than the static `conformity.pyi` artifact.
+  7. §3 simulator — light caveat that "always resolves" holds for brand-only roots (Wyndham/IHG) but not MSA-gated roots (Best Western, keyed `msa=BEST_WESTERN_GMS`) — tracked separately per user.
+
+  Severity assessment recorded with the user: A/B/F = must-fix before ticketing; D = medium (silent-drop trap); E = low–medium; G = low/awareness (G not applied). Finding C (BW MSA-gated roots) deferred to its own follow-up per user; only the light pointer (edit 7) added.
+
   ### Round-2 bottom line
   Direction still approved. Pre-ticketing must-fixes: **(A)** finally resolve the RF-v2/portfolio.py citation (cite `billing/views/billing_contact.py`, drop portfolio.py); **(B)** specify multi-brand-portfolio tree selection; **(C)** carve out MSA-gated roots (BW) from the "always resolves" simulator claim. Precision fixes before an implementer starts: **(D)** explicit payload→`HotelAttributes` field map (incl. `canary_region`→`region`), **(E)** check against `get_all_fields()` not the `.pyi`, **(F)** record provenance source at the definition point. **(G)** are one-line awareness notes. No architectural objections; the engine claims and provenance algorithm verified accurate. No Notion edits made this round (review only — would need explicit approval to apply any of the above to the doc).
 project: 2026-04-10T0840-ticket
@@ -114,7 +126,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Review this above property dashboard rules based configuration proposal
-updated: 2026-06-17 10:22:27.956857
+updated: 2026-06-17 15:37:39.991952
 waiting_on: null
 waiting_since: null
 working_on: false
