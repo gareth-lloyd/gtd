@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Update Blake on Adrian Golan, and move forward
-updated: 2026-06-17 13:50:16.390150
+updated: 2026-06-17 22:17:54.122344
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: resolve Jordan / Ryan pre-prod situation. Ownership of API authentication project
-updated: 2026-06-17 19:46:30.271387
+updated: 2026-06-18 10:44:46.605682
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-06-17 14:36:25.149335
-defer_until: null
+defer_until: 2026-06-22 09:00:00
 due: null
 energy: low
 id: 2026-06-17T1436-review-open-linear-tickets-assigned-to-me
@@ -88,7 +88,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review open linear tickets assigned to me
-updated: 2026-06-17 15:52:52.219488
+updated: 2026-06-18 16:10:35.180305
 waiting_on: null
 waiting_since: null
 working_on: false

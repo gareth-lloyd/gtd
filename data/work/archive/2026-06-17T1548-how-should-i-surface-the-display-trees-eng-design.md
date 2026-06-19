@@ -12,8 +12,9 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: how should i surface the "display trees" eng design?
-updated: 2026-06-17 15:48:21.481622
+title: send display trees design and onboarding scripts design to Andrea, plus ihg
+  work for review
+updated: 2026-06-18 16:10:22.210209
 waiting_on: null
 waiting_since: null
 working_on: false

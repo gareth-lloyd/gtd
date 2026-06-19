@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Review the RBC onboarding scripts document
-updated: 2026-06-17 17:00:51.562250
+updated: 2026-06-18 14:05:52.404495
 waiting_on: null
 waiting_since: null
 working_on: false

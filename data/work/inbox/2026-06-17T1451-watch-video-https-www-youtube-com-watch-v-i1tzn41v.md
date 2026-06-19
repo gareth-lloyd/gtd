@@ -2,7 +2,7 @@
 area: null
 contexts:
 - consume
-created: &id001 2026-06-17 14:51:03.275762
+created: 2026-06-17 14:51:03.275762
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: 'Watch video: https://www.youtube.com/watch?v=i1tZN41VKcE'
-updated: *id001
+updated: 2026-06-18 13:54:54.758948
 waiting_on: null
 waiting_since: null
 working_on: false

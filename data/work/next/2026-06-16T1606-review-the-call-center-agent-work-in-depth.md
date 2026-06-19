@@ -3,7 +3,7 @@ area: engineering
 contexts:
 - deep
 created: 2026-06-16 16:06:32.609636
-defer_until: 2026-06-18 09:00:00
+defer_until: null
 due: null
 energy: high
 id: 2026-06-16T1606-review-the-call-center-agent-work-in-depth
