@@ -3,7 +3,7 @@ area: null
 contexts:
 - react
 created: 2026-06-18 09:11:15.013170
-defer_until: 2026-06-22 09:00:00
+defer_until: null
 due: null
 energy: medium
 id: 2026-06-18T0911-clarify-ownership-of-the-api-authentication-projec

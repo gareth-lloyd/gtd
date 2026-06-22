@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-16 11:46:00.083816
+created: &id001 2026-06-21 10:03:55.731890
 defer_until: null
 due: null
 energy: low
-id: 2026-06-16T1146-start-1-1-with-peter-from-next-week
+id: 2026-06-21T1003-ship-seb-to-ben
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: start 1-1 with peter from next week
-updated: 2026-06-17 10:21:17.640631
+title: ship seb to ben
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,20 @@
 ---
 area: null
-contexts: []
-created: 2026-06-16 11:46:00.083816
+contexts:
+- autopilot
+created: &id001 2026-06-22 00:00:00
 defer_until: null
 due: null
 energy: low
-id: 2026-06-16T1146-start-1-1-with-peter-from-next-week
+id: 2026-06-22T0000-blake-directs-meeting-updates
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: start 1-1 with peter from next week
-updated: 2026-06-17 10:21:17.640631
+title: Blake directs meeting updates
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

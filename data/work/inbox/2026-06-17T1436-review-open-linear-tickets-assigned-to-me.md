@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-06-17 14:36:25.149335
-defer_until: 2026-06-22 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-17T1436-review-open-linear-tickets-assigned-to-me

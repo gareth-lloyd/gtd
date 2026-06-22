@@ -100,11 +100,13 @@ tags: []
 time_minutes: 5
 title: REview slack thread from linked message. read notion doc. interactively explore
   this work
-updated: 2026-06-18 21:10:00.000000
+updated: 2026-06-19 15:40:14.116696
 waiting_on: null
 waiting_since: null
 working_on: true
 ---
+
+"Create Linear tickets: portfolios in the global dynamo + APIs for them"
 
 https://canarytechnologies.slack.com/archives/D07HCMQU5FY/p1781758493678979
 

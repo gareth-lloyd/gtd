@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 25
 title: 'Create Linear tickets: portfolios in the global dynamo + APIs for them'
-updated: 2026-06-19 14:33:22.786026
+updated: 2026-06-19 15:40:16.787214
 waiting_on: null
 waiting_since: null
 working_on: false
