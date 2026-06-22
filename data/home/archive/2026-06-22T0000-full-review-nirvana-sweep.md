@@ -2,7 +2,7 @@
 area: null
 contexts:
 - computer
-created: &id001 2026-06-22 00:00:00
+created: 2026-06-22 00:00:00
 defer_until: null
 due: null
 energy: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Full review (Nirvana sweep)
-updated: *id001
+updated: 2026-06-22 12:36:44.038975
 waiting_on: null
 waiting_since: null
 working_on: false
