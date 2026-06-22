@@ -17,7 +17,7 @@ tags:
 time_minutes: 20
 title: Follow up on ownership question (Andrea/Connor group DM) + review Tincho's
   drift eng design
-updated: 2026-06-19 14:33:22.856679
+updated: 2026-06-22 14:46:56.453258
 waiting_on: null
 waiting_since: null
 working_on: false

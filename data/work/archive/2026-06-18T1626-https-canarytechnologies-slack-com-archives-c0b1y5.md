@@ -101,7 +101,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: https://canarytechnologies.slack.com/archives/C0B1Y5K9AMC/p1781789131712189
-updated: 2026-06-18 16:31:34.847211
+updated: 2026-06-22 14:36:17.874439
 waiting_on: null
 waiting_since: null
 working_on: false

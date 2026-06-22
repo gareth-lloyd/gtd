@@ -94,13 +94,104 @@ output: |
   Exploration done; no tickets created (external writes need explicit approval). Presented
   synthesis to user and asked for direction (draft ticket set locally vs. nail the routing
   decision vs. pull related design docs). Awaiting user steer.
+
+  ## Agent run 2026-06-22T14:53:05
+
+  Re-ran to advance toward ticket creation. Verified the moving facts, resolved the routing
+  question against a live precedent, and drafted the full ticket set. No external writes —
+  surfaced the gating decisions for sign-off.
+
+  ### Verification (since 2026-06-19)
+  - In-flight uuid series UNCHANGED, all still **In Review**: ENT-6373 (list endpoint, PR
+    https://github.com/canary-technologies-corp/canary/pull/48214), ENT-6374 (backfill),
+    ENT-6375 (promote-to-required, PR
+    https://github.com/canary-technologies-corp/canary/pull/48220). ENT-6372 + ENT-6177
+    Deployed. None merged yet -> part-4 ("bad tickets") is still catchable before
+    portfolio_uuid fully cements.
+  - **No existing "portfolio global dynamo / registry" ticket exists** — searched Linear;
+    only hits are the region-local Above-Property portfolio API series (ENT-1820..1825, done
+    2024) and the application-uuid series. This is greenfield.
+  - Adjacent ticket: ENT-6398 "Canary admin pages for applications" (Backlog, OAuth Global
+    Login project, https://linear.app/canary-technologies/issue/ENT-6398) — a consumer of
+    the same APIs, not a dependency.
+
+  ### Routing question — RESOLVED by precedent
+  Prior run's open question (is a global identifier region-pinned/routable, or
+  region-spanning?) is answered by the live `hotel-slug-routing` global DynamoDB table:
+  - Keyed on a stable string (`slug`); attrs `region`, `hotel_uuid`, `is_current`,
+    `updated_at`. post_save signal + `sync_hotel_slugs_to_dynamodb.py` upsert per-item,
+    stamping the OWNING region, with a conflict guard that SKIPS the write if the key is
+    already owned by another region (unless `--force-overwrite`). Reader resolves slug ->
+    region + uuid; fail-open on dynamo error.
+  - cites: hotels/management/commands/sync_hotel_slugs_to_dynamodb.py;
+    hotels/services/hotel_slug_routing.py; api_gateway/selectors/
+    api_gateway_dynamo_db_selector.py (hotel_slug_routing accessor); setting
+    HOTEL_SLUG_ROUTING_TABLE; applications GSI portfolio_uuid-created_at-index in
+    shared/aws/public_api_dynamo_db.py.
+  => Model the global portfolio **identifier** as region-pinned-and-routable (slug-style:
+  1 identifier -> exactly 1 owning region, conflict-avoided). The "spans regions for access
+  control" need is met by the identifier being globally *resolvable*, not by one identifier
+  having impls in many regions. The registry is a near 1:1 copy of hotel-slug-routing.
+
+  ### Proposed ticket set (4 workstreams, ~12 tickets) — DRAFT, NOT created
+  Mirrors Jordan's stacked-isolated-ticket style (cf. ENT-6371..6376). Suggest a new Linear
+  project "Global Portfolio Registry" under the Identity/Auth initiative, or fold into the
+  existing "Api Authentication" project (ab6b9cb6-9414-440a-a6d5-e4ba3232c586).
+
+  A. Identifier becomes a real, universal field (Jordan asks 1+2)
+  - A1 Decouple Portfolio.identifier from the hardcoded TextChoices enum -> free-form slug
+    (keep format + unique-partial constraint). Migration. [hotels/models/portfolio.py:21-78,199]
+  - A2 Identifier generation + backfill: every portfolio gets a stable global identifier
+    (named ones keep their name; rest auto-gen a stable slug). Idempotent backfill command.
+  - A3 Promote identifier to NOT NULL / required at create (PortfolioService.create
+    generates it). Depends A1,A2. (pattern = ENT-6375)
+
+  B. Global registry table + sync (Jordan ask 3 — storage)
+  - B1 Create `portfolio-registry` global DynamoDB table + selector accessor. PK
+    `identifier`; attrs region, portfolio_uuid, name, parent_identifier, status, updated_at.
+    New setting PORTFOLIO_REGISTRY_TABLE; global endpoint. No data yet.
+    (pattern = hotel-slug-routing table + ENT-6371)
+  - B2 Sync portfolios -> registry: Portfolio post_save signal upsert w/ cross-region
+    conflict guard + idempotent backfill command. Fail-open reads. Depends A3, B1.
+
+  C. Portfolio APIs over the registry (Jordan ask 3 — APIs; the GTD task headline)
+  - C1 Selector+service: resolve portfolio by identifier from registry (get + list),
+    cross-region. PortfolioRegistryService. Depends B1.
+  - C2 HTTP GET /v1/portfolios/{identifier} + GET /v1/portfolios (list, cursor pagination,
+    InternalServiceAuthValidator). Depends C1. (pattern = ENT-6373)
+  - C3 HTTP POST /v1/portfolios (create region-pinned + register globally; identifier
+    required + globally unique, 409 on cross-region collision). Depends C1, A3.
+    (pattern = ENT-6376 / OK-310)
+  - C4 (DEFER) PATCH/update + membership endpoints — flag as follow-up, not in first slice.
+
+  D. Repoint applications portfolio_uuid -> portfolio_identifier (Jordan ask 4 — "fix the
+  bad tickets")
+  - D1 Add portfolio_identifier attr + GSI to applications; dual-write w/ portfolio_uuid.
+    (additive; pattern = ENT-6371)
+  - D2 Backfill portfolio_identifier on existing application rows (resolve via uuid ->
+    registry). (pattern = ENT-6374)
+  - D3 Switch reads/filters to portfolio_identifier: repoint ENT-6373 list filter + ENT-6177
+    staging-credential scoping; then retire portfolio_uuid. (pattern = ENT-6375)
+
+  ### Open decisions (asked interactively this session)
+  1. Routing model — recommend region-pinned slug (above).
+  2. In-flight uuid tickets (ENT-6373/74/75, all In Review, NOT merged): let them land and
+     do workstream D as a follow-on migration, vs redirect them now to identifier before
+     merge. Time-sensitive.
+  3. What to produce now: full ticket set in Linear / just a design+decision ticket for
+     Jordan to ratify / hold as local draft.
+
+  ### Status
+  Verified + routing resolved + full ticket set drafted. No Linear writes performed (await
+  explicit approval per rules). Awaiting answers to the 3 decisions; on approval I create
+  the chosen scope.
 project: null
 source_id: null
 tags: []
 time_minutes: 5
 title: REview slack thread from linked message. read notion doc. interactively explore
   this work
-updated: 2026-06-19 15:40:14.116696
+updated: 2026-06-22 14:53:05.000000
 waiting_on: null
 waiting_since: null
 working_on: true
