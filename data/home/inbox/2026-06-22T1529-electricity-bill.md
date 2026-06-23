@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-09 15:23:40.193441
+created: &id001 2026-06-22 15:29:20.257042
 defer_until: null
 due: null
 energy: low
-id: 2026-06-09T1523-disassemble-shelves
-order: 2
+id: 2026-06-22T1529-electricity-bill
+order: null
 output: ''
-project: 2026-05-25-workshop
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: disassemble shelves
-updated: 2026-06-09 15:23:57.756591
+title: electricity bill
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

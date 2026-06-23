@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-16 11:46:00.083816
+created: &id001 2026-06-22 18:51:10.174017
 defer_until: null
 due: null
 energy: low
-id: 2026-06-16T1146-start-1-1-with-peter-from-next-week
+id: 2026-06-22T1851-are-show-and-tells-recorded
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: start 1-1 with peter from next week
-updated: 2026-06-22 13:22:40.481356
+title: are show and tells recorded?
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

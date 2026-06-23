@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-16 11:46:00.083816
+created: &id001 2026-06-23 10:00:35.386613
 defer_until: null
 due: null
 energy: low
-id: 2026-06-16T1146-start-1-1-with-peter-from-next-week
+id: 2026-06-23T1000-prep-for-review-evidence-of-progress
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: start 1-1 with peter from next week
-updated: 2026-06-22 13:22:40.481356
+title: prep for review. evidence of progress
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -15,8 +15,8 @@ tags:
 - focus
 time_minutes: null
 title: Install WiFi fire alarm
-updated: 2026-06-09 15:23:57.756591
+updated: 2026-06-22 21:19:19.959934
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

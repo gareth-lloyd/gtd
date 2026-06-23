@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-16 11:46:00.083816
+created: &id001 2026-06-22 18:53:41.037578
 defer_until: null
 due: null
 energy: low
-id: 2026-06-16T1146-start-1-1-with-peter-from-next-week
+id: 2026-06-22T1853-canary-librarian-idea-the-corpus-the-knowledge-bas
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: start 1-1 with peter from next week
-updated: 2026-06-22 13:22:40.481356
+title: Canary librarian idea. the corpus, the knowledge base
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-09 14:09:41.077111
+created: &id001 2026-06-22 20:33:01.797909
 defer_until: null
 due: null
 energy: low
-id: 2026-06-09T1409-ikea-2
-order: 5
+id: 2026-06-22T2033-balance-chequebook
+order: null
 output: ''
-project: 2026-05-25-workshop
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: ikea 2
-updated: 2026-06-09 15:23:57.756591
+title: balance chequebook
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
