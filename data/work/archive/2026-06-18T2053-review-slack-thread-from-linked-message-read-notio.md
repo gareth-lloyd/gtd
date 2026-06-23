@@ -204,10 +204,10 @@ tags: []
 time_minutes: 30
 title: REview slack thread from linked message. read notion doc. interactively explore
   this work
-updated: 2026-06-23 13:34:34.706736
+updated: 2026-06-23 16:10:18.799608
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 "Create Linear tickets: portfolios in the global dynamo + APIs for them"
