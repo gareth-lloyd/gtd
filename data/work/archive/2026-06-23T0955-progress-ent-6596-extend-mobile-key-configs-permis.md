@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 60
 title: 'Progress ENT-6596: Extend Mobile Key Configs permission to CSMs'
-updated: 2026-06-23 09:55:30.765489
+updated: 2026-06-23 13:37:23.947950
 waiting_on: null
 waiting_since: null
 working_on: false

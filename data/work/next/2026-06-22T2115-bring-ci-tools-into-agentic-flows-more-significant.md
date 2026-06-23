@@ -8,12 +8,12 @@ energy: low
 id: 2026-06-22T2115-bring-ci-tools-into-agentic-flows-more-significant
 order: null
 output: ''
-project: null
+project: 2026-04-16T1348-ideas
 source_id: null
 tags: []
 time_minutes: 5
 title: Bring CI dep tools into agentic flows more significantly
-updated: 2026-06-22 21:15:43.392867
+updated: 2026-06-23 13:35:27.124317
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -17,10 +17,10 @@ tags:
 time_minutes: 10
 title: 'Respond on Notion: is CC aware of the GJM auto-translation project? (Sudarshan
   @mention)'
-updated: 2026-06-23 09:54:59.787535
+updated: 2026-06-23 13:37:06.313573
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Sudarshan Muralidhar @-mentioned me on the 'Blake Directs' page re: Peter starting auto-translation of GJMs, asking 'is CC aware of this project?'. https://mail.google.com/mail/u/0/#inbox/19ef086818c3979c

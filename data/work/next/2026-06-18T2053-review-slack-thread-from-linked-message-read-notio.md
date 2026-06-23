@@ -3,8 +3,8 @@ area: null
 contexts: []
 created: 2026-06-18 20:53:30.511699
 defer_until: null
-due: null
-energy: low
+due: 2026-06-23
+energy: medium
 id: 2026-06-18T2053-review-slack-thread-from-linked-message-read-notio
 order: null
 output: |
@@ -198,13 +198,13 @@ output: |
   ahead, draft full Linear-ready bodies for T1-T8 and/or share the note with Jordan. The
   4 open decisions (membership regional; cancel 6374/6375; partner-app ownership; registry
   now-vs-later) are Jordan/team calls.
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 30
 title: REview slack thread from linked message. read notion doc. interactively explore
   this work
-updated: 2026-06-23 09:50:24.000000
+updated: 2026-06-23 13:34:34.706736
 waiting_on: null
 waiting_since: null
 working_on: true

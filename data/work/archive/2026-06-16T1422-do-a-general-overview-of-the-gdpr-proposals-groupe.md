@@ -13,11 +13,11 @@ project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 60
-title: Do a general overview of the GDPR proposals, grouped
-updated: 2026-06-17 12:37:57.463557
+title: Do a general overview of the GDPR aud
+updated: 2026-06-23 13:39:32.700925
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Taxonomic work to get this straight in own head

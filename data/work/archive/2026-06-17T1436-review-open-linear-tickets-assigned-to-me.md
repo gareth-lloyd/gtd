@@ -88,7 +88,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review open linear tickets assigned to me
-updated: 2026-06-18 16:10:35.180305
+updated: 2026-06-23 13:34:17.051029
 waiting_on: null
 waiting_since: null
 working_on: false
