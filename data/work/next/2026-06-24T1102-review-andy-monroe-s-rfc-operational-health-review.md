@@ -1,23 +1,23 @@
 ---
-area: null
+area: admin
 contexts:
 - consume
 created: 2026-06-24 11:02:30.072048
 defer_until: null
-due: null
+due: 2026-06-24
 energy: medium
 id: 2026-06-24T1102-review-andy-monroe-s-rfc-operational-health-review
 order: null
 output: ''
-project: null
+project: 2026-04-10T0840-ticket
 source_id: https://canarytechnologies.slack.com/archives/C09UN3697KK/p1782237738024519
 tags:
 - morning-gtd
 - slack
 - from-awareness
-time_minutes: 20
+time_minutes: 15
 title: 'Review Andy Monroe''s RFC: Operational Health Reviews (OHRs)'
-updated: 2026-06-24 11:02:30.140262
+updated: 2026-06-24 11:32:42.297519
 waiting_on: null
 waiting_since: null
 working_on: false
