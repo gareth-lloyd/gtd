@@ -25,6 +25,7 @@ import { BucketRoute, DoneView, NextActionsView } from "./ItemList";
 import { TemplatesView } from "./TemplatesView";
 import { SelectionProvider, useSelection } from "./SelectionContext";
 import { DetailPanel } from "./DetailPanel";
+import { AgentLogView } from "./AgentLogView";
 import { ProcessedItemsProvider, useProcessedItems } from "./ProcessedItemsContext";
 import { useEnvParam } from "./useEnvParam";
 import { findItemInCache, useItemPatch } from "./ItemEdit";
@@ -79,6 +80,7 @@ export default function App() {
         <Route path="projects/:projectId" element={<ProjectDetailView />} />
         <Route path="templates" element={<TemplatesView />} />
         <Route path="items/:itemId" element={<ItemDetailView />} />
+        <Route path="items/:itemId/agent" element={<AgentLogView />} />
         <Route path="search" element={<SearchView />} />
       </Route>
     </Routes>

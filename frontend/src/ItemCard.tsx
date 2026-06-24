@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import type { Item, Project } from "./api";
 import { useItemPatch } from "./ItemEdit";
 import { contextChipStyle } from "./context-colors";
@@ -157,9 +158,14 @@ function CollapsedCard({
       <ItemLinks body={item.body} />
       <div className="item-meta">
         {item.output && (
-          <span className="chip" title="Agent log present — expand to read">
+          <Link
+            to={`/${env}/items/${item.id}/agent`}
+            className="chip chip-link"
+            title="Open the agent log in a focused reading view"
+            onClick={(e) => e.stopPropagation()}
+          >
             🤖 log
-          </span>
+          </Link>
         )}
         {item.status !== "next" && <span className="chip">{item.status}</span>}
         {project && <span className="chip project-chip">📁 {project.title}</span>}

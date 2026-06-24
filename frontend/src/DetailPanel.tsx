@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, type Energy, type Project } from "./api";
 import {
@@ -96,7 +97,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
 
   return (
     <div className="detail-meta">
-      {item.output && <AgentLog key={item.id} output={item.output} />}
+      {item.output && <AgentLog key={item.id} env={env} itemId={item.id} output={item.output} />}
       <div className="detail-section">
         <span className="detail-label">Project</span>
         <ChipToggleGroup<string>
@@ -237,7 +238,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
   );
 }
 
-function AgentLog({ output }: { output: string }) {
+function AgentLog({ env, itemId, output }: { env: string; itemId: string; output: string }) {
   const [expanded, setExpanded] = useState(false);
   const copy = async () => {
     try {
@@ -258,6 +259,14 @@ function AgentLog({ output }: { output: string }) {
         >
           <span aria-hidden>{expanded ? "▾" : "▸"}</span> 🤖 Agent log
         </button>
+        <Link
+          to={`/${env}/items/${itemId}/agent`}
+          className="agent-output-copy"
+          aria-label="Open the agent log in a focused reading view"
+          title="Open in focused reading view"
+        >
+          ⤢ Full view
+        </Link>
         <button
           type="button"
           className="agent-output-copy"

@@ -2031,6 +2031,80 @@ button.quiet.danger {
   margin-top: 4px;
 }
 
+/* ---- Agent log focused view ---- */
+
+.agent-log-view {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 60rem;
+}
+
+.agent-log-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.agent-log-title {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+
+.agent-log-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.agent-log-dates {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.agent-log-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-soft);
+}
+
+.agent-log-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.agent-log-panel-body {
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.agent-log-panel-body > *:first-child {
+  margin-top: 0;
+}
+
+.agent-log-panel-body > *:last-child {
+  margin-bottom: 0;
+}
+
+.chip-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.chip-link:hover {
+  filter: brightness(0.97);
+}
+
 .detail-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
