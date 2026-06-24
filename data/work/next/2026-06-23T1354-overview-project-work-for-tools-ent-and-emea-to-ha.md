@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-23 13:54:28.766842
+created: 2026-06-23 13:54:28.766842
 defer_until: null
-due: null
-energy: low
+due: 2026-06-24
+energy: medium
 id: 2026-06-23T1354-overview-project-work-for-tools-ent-and-emea-to-ha
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: overview project work for tools, ent and emea to have familiarity before review
-updated: *id001
+updated: 2026-06-24 10:32:43.517266
 waiting_on: null
 waiting_since: null
 working_on: false
