@@ -1313,6 +1313,31 @@ class TestLaunchAgentSession:
         assert loaded is not None
         assert loaded.working_on is True
 
+    def test_prompt_clears_pin_when_not_previously_working_on(self, svc, monkeypatch):
+        captured: dict = {}
+
+        def fake_launch(*, prompt, cwd=None, auto=True):
+            captured["prompt"] = prompt
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
+        item = svc.capture("work", "Fresh task")
+        svc.launch_agent_session("work", item.id)
+        assert "`working_on: false`" in captured["prompt"]
+        assert "`working_on: true`" not in captured["prompt"]
+
+    def test_prompt_restores_prior_pin_when_already_working_on(self, svc, monkeypatch):
+        captured: dict = {}
+
+        def fake_launch(*, prompt, cwd=None, auto=True):
+            captured["prompt"] = prompt
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
+        item = svc.capture("work", "Already active")
+        svc.update("work", item.id, {"working_on": True})
+        svc.launch_agent_session("work", item.id)
+        assert "`working_on: true`" in captured["prompt"]
+        assert "`working_on: false`" not in captured["prompt"]
+
     def test_passes_agent_cwd_from_init(self, data_root, tmp_path, monkeypatch):
         captured: dict = {}
 

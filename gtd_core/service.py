@@ -100,6 +100,7 @@ class GtdService:
         item = repo.get(item_id)
         if item is None:
             raise KeyError(item_id)
+        prior_working_on = item.working_on
         if not item.working_on:
             item = self.update(env, item_id, {"working_on": True})
         project = self.get_project(env, item.project) if item.project else None
@@ -107,7 +108,11 @@ class GtdService:
         if project is not None and project.working_dir:
             cwd = Path(project.working_dir).expanduser()
         prompt = build_prompt(
-            item, item_path=repo.path_for(item), env_dir=repo.env_root, project=project
+            item,
+            item_path=repo.path_for(item),
+            env_dir=repo.env_root,
+            project=project,
+            prior_working_on=prior_working_on,
         )
         launch_claude_session(prompt=prompt, cwd=cwd)
 

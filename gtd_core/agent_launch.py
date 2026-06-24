@@ -37,6 +37,7 @@ def build_prompt(
     item_path: Path,
     env_dir: Path,
     project: Project | None = None,
+    prior_working_on: bool = False,
 ) -> str:
     """Compose the prompt sent to `claude` from a GTD item.
 
@@ -44,7 +45,12 @@ def build_prompt(
     `env_dir` is the env data directory (parent of the bucket directories).
     Including both lets the agent edit YAML directly and `mv` between buckets
     without going through the HTTP API.
+
+    `prior_working_on` is the item's `working_on` value *before* launch pinned
+    it. The exit protocol restores this state rather than always clearing the
+    flag — an item the user had already pinned stays pinned after the run.
     """
+    working_on_target = "true" if prior_working_on else "false"
     sections = [
         "You were launched from a GTD next-action item. Do the work described at "
         "the bottom of this prompt, write your findings into the item's `output:` "
@@ -66,8 +72,8 @@ def build_prompt(
             "- Edit `body`, `title`, `due`, `defer_until`, `project`, or other "
             "user-authored fields\n\n"
             "What you SHOULD do when finished: append your work to `output:`, set "
-            "`working_on: false`, bump `updated:`, then stop. That's the entire "
-            "exit protocol. Don't ask 'should I archive this?' — just stop."
+            f"`working_on: {working_on_target}`, bump `updated:`, then stop. That's "
+            "the entire exit protocol. Don't ask 'should I archive this?' — just stop."
         ),
         "## STRICT: do not touch external services without explicit approval",
         (
@@ -116,9 +122,17 @@ def build_prompt(
         ),
         "## Working on",
         (
-            "The user pinned this item with `working_on: true` when launching you. "
-            "Set it back to `false` as part of your exit protocol — that's the "
-            "signal that you've finished and handed back to the user."
+            "Launching pinned this item to the working-on list. As part of your "
+            f"exit protocol, set `working_on: {working_on_target}` — restore the "
+            "state the item was in when you picked it up, not a blanket clear."
+            + (
+                " The user had already pinned this item before launching you, so "
+                "leave it pinned — clearing it would drop it off their active list."
+                if prior_working_on
+                else " It was not pinned before launch, so clearing it back to "
+                "`false` is the signal that you've finished and handed back to "
+                "the user."
+            )
         ),
         "## Helper commands you can reach for",
         (

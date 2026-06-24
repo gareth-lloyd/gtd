@@ -117,6 +117,20 @@ class TestBuildPrompt:
         out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
         assert "working_on" in out
 
+    def test_exit_clears_working_on_when_not_previously_pinned(self, tmp_path):
+        # Default: the item was not pinned before launch, so finishing means
+        # clearing the flag back to false.
+        out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
+        assert "`working_on: false`" in out
+        assert "`working_on: true`" not in out
+
+    def test_exit_restores_prior_pin_when_already_working_on(self, tmp_path):
+        # The user had already pinned this item before launching the agent.
+        # Finishing must restore it to that state (true), not blindly clear it.
+        out = build_prompt(self._item("t"), **self._kwargs(tmp_path), prior_working_on=True)
+        assert "`working_on: true`" in out
+        assert "`working_on: false`" not in out
+
     def test_forbids_unilateral_task_completion(self, tmp_path):
         out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
         # Past behavior: agent autonomously archived after completing work.
