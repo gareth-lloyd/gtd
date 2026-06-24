@@ -96,16 +96,15 @@ output: |
   - **Data-hygiene flags for you to chase:** (a) EMEA-349 & SEC-382 canceled but still written up as live in the
     PMS project body; (b) EMEA-328 (Stripe/Marketo/Asana) referenced in Downstream body but no ticket exists;
     (c) EMEA-360 ownership overlap between this project and the User-input project.
-
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 30
 title: Create an overview of the work already tracked in GDPR projects
-updated: 2026-06-24 13:05:00.000000
+updated: 2026-06-24 13:43:56.658934
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://linear.app/canary-technologies/project/gdpr-downstream-systems-anonymisation-c5110566cbb5/overview

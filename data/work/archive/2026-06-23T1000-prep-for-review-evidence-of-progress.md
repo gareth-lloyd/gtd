@@ -15,8 +15,8 @@ tags: []
 time_minutes: 30
 title: Prepare for review. Show evidence of progress on rules-based. Show strategy
   on portfolio identity.
-updated: 2026-06-24 10:56:35.046342
+updated: 2026-06-24 14:12:33.383438
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

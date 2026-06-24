@@ -9,14 +9,14 @@ energy: medium
 id: 2026-05-05T1039-follow-up-on-wyndham-non-standard-payment-slots
 order: 6
 output: ''
-project: 2026-04-16T1351-ship
+project: 2026-05-05-trusted-portfolios
 source_id: https://canarytechnologies.slack.com/archives/C04STT7UPRQ/p1777917249062239?thread_ts=1777497151.022479&cid=C04STT7UPRQ
 tags:
 - morning-gtd
 - slack
 time_minutes: 15
 title: Follow up on Wyndham non-standard payment slots
-updated: 2026-05-28 12:27:17.302418
+updated: 2026-06-24 14:13:48.440195
 waiting_on: null
 waiting_since: null
 working_on: false
