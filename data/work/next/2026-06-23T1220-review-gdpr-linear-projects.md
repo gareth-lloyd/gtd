@@ -96,15 +96,156 @@ output: |
   - **Data-hygiene flags for you to chase:** (a) EMEA-349 & SEC-382 canceled but still written up as live in the
     PMS project body; (b) EMEA-328 (Stripe/Marketo/Asana) referenced in Downstream body but no ticket exists;
     (c) EMEA-360 ownership overlap between this project and the User-input project.
+    [Correction from the 2026-06-24T15 run below: EMEA-328 DOES exist — it's filed in the umbrella
+    "Deletion of all PII data" project, not in the Downstream project, which is why it didn't show
+    in the Downstream issue list.]
+
+  ## Agent run 2026-06-24T15:10Z — Audit cross-reference: is every finding tracked? + structure critique
+
+  Read the full PII Storage Org-Wide Audit (2026-06-04), all of Parts 1–7
+  (https://app.notion.com/p/3758146861518135add9eaed3bc2cda1) and cross-referenced every finding
+  against Linear, including the two parent projects and the fifth sibling project.
+
+  ### Framing correction (important)
+  The audit spawned **FIVE** child projects, not four, all under the umbrella **Deletion of all PII data**
+  (https://linear.app/canary-technologies/project/deletion-of-all-pii-data-287fcf6516b1 — status Eng Design,
+  target 2026-09-30). The fifth — and the FLAGSHIP — is **GDPR: User input data anonymisation**
+  (https://linear.app/canary-technologies/project/gdpr-user-input-data-anonymisation-ef83a5a80e32), which
+  builds the shared `ObfuscatableField` framework (EMEA-354) and owns audit §5.1, the single largest section
+  (tickets EMEA-354–364). It is NOT in the four-project list this task was scoped to, but any judgment of
+  "do the projects match the audit" must include it.
+
+  ### Coverage map (audit part -> ticket -> status)
+  TRACKED & well-covered:
+  - 1.2 Twilio (CRITICAL) -> EMEA-325 (Backlog, Urgent)
+  - 1.3 Amplitude -> EMEA-322 (Backlog, Urgent)
+  - 1.7/1.8 Stripe/Marketo + 5.4 Travel-Agents (plaintext CC+CVV, PCI) -> EMEA-328 (Backlog; in umbrella project)
+  - 1.10 Asana + 2.2 scrapers + Part 6 scrapers AdminJS -> EMEA-327 deprecate PMS Scrapers (Backlog)
+  - 2.1 App logs (CRITICAL) -> SEC-383 (In Progress), SEC-388, SEC-389, EMEA-320, +SEC-422 (the only active code work)
+  - 2.4 Travel-Agents logs -> EMEA-328
+  - 3.1 S3 (9 buckets, no CMK/lifecycle) -> SEC-391; travel-agents S3 -> EMEA-328
+  - 4.1-4.4 Snowflake (13 cols, voice transcripts, RAW, blobs) -> EMEA-326
+  - 5.1.1-5.1.3 / 5.1.7 / guest-side 5.1.8 -> EMEA-355/356/357/358/359 (User-input project)
+  - 5.1.4 chat -> EMEA-360
+  - 5.1 cross-cutting -> EMEA-361 (EventableModel), EMEA-362 (non-res-linked), EMEA-363 (CI linter),
+    EMEA-364 (enablement), EMEA-354 (framework), EMEA-308 (design, In Review)
+  - 5.2 PMS retention + adoption -> EMEA-348, EMEA-350
+  - 7.1/7.2 SQS + DB queue, and all NONE-rated vendors (Deepgram/Rekognition/Incode/ElevenLabs/Livekit/Opensearch)
+    -> no action needed (bounded/self-expiring)
+
+  NOT tracked (gaps) — ranked by significance:
+  1. **Sentry (Part 1.6, rated CRITICAL)** — NO dedicated ticket. Folded into "logs" but the leak is SDK-config
+     (send_default_pii, request-body/cookie/IP auto-capture, beforeSend) — orthogonal to scrubbing log strings;
+     SEC-383/388/389 do NOT fix it. A CRITICAL finding with no owner = clearest miss.
+  2. **Mindee** — umbrella calls it "highest strategic priority" (no removal endpoint -> accelerate in-house OCR),
+     but exists only as a TODO. Strategic and unowned. (Also 1.1 OpenAI/Groq ZDR verification = TODO only.)
+  3. **Part 6 admin interfaces (main monorepo + integrations-gateway)** — ccnumber/cvv in QueenFormModelAdmin
+     list_display + NO audit logging on PII access. Untracked (only the scrapers AdminJS slice is, via EMEA-327).
+  4. **Kafka CDC retention (7.3)** — untracked open item. Small GitOps check, but CDC carries full reservation
+     payloads and the umbrella itself flags CDC-replay re-landing PII after anonymisation as load-bearing.
+  5. **Guest Insights (5.5)** — GuestProfile + RawFullContact/RawClearBit JSON. Untracked; confirm if product live.
+  6. **5.1.6 Payments guest PII** — cardholder identity/billing-address plaintext, WalletProfile DOB not clearly in
+     EMEA-355–359. Some legitimately out of scope (VGS tokenises PAN, CVV not stored, staff-billing excluded) but
+     guest cardholder identity IS in-scope — confirm deferred vs dropped.
+  7. **Voice source-model implementation (5.1.5)** — only design EMEA-303 (Todo); no impl ticket yet (early-stage, expected).
+
+  STALE / needs reconciliation:
+  - **EMEA-349 (PMS obfuscation coverage, §5.2 Gap 2) is CANCELED** — it was the only ticket covering Gap 2.
+    EMEA-348 covers deletion/cleanup, NOT obfuscation of retained-but-needed records. Either deletion now
+    supersedes obfuscation for those stores (fine — say so) or Gap 2 is silently unowned.
+  - **SEC-382 (PMS PII audit, Urgent) CANCELED** — confirm completed-then-closed vs abandoned.
+
+  Net: the high-volume / high-severity findings (logs, S3, Snowflake, §5.1 models, PMS adoption) are ALL tracked.
+  Misses cluster in the long tail (vendors beyond the top two, admin tooling, queue config, niche products).
+  Two are significant by their STATED severity, not size: Sentry (CRITICAL) and Mindee ("highest priority").
+
+  ### Structure critique — do I agree with the project layout?
+  Largely yes. The Track 1A (source models) / 1B (downstream copies) / vendor split mirrors the audit's own model,
+  and the remediation owners/techniques genuinely differ (obfuscation framework vs DBT masking vs vendor console
+  vs IaC). PMS Gateway as its own project is correct (separate ObfuscationPolicy framework + unique ~99% no-op
+  adoption story). Carving free-text comms (5.1.4/5.1.5) out into Webchat/Voice is defensible (can't column-mask
+  free text). Dependency spine is clean: EMEA-354 blocks every 1A impl ticket; cross-cutting risks live once in the umbrella.
+
+  Three reservations:
+  1. **"Downstream systems" is overloaded** — bundles vendor-console (Twilio/Amplitude), app-code log scrubbing
+     (the only ACTIVE work), S3 Terraform, Snowflake DBT, and Kafka: 4 teams/skill sets under one banner. The
+     app-logs leg (Part 2) is mature enough to deserve its own project rather than sitting in dormant vendor backlog.
+  2. **Snowflake placement contradicts a stated principle** — umbrella says Snowflake "must be part of the CORE
+     obfuscation flow, NOT a follow-up," yet EMEA-326 sits in 1B/Downstream Backlog (Aug–Sep) like any vendor.
+  3. **Consent management is the odd one out — not from this audit at all.** This audit is storage/masking/retention;
+     consent (opt-in/out, reg-card consent config, GJM/upsell) is a different workstream. No PRD, no lead, no dates,
+     0 issues, no audit section maps to it. Fine as a FUTURE project, but listing it among four audit-derived ones
+     overstates how much is scoped — it's a placeholder with zero audit backing.
+
+  ### Suggested next actions (not yet created — awaiting go-ahead)
+  Draft tickets to fill the significant gaps: (a) Sentry SDK PII config; (b) Part 6 admin access-logging + PAN/CVV
+  display; (c) Kafka CDC retention cap; (d) Guest Insights retention. Plus reconcile EMEA-349/SEC-382 cancellations.
+  NOTHING has been written to Linear — read-only research only.
+
+  ## Agent run 2026-06-24T15:40Z — Verification pass (two subagents: Linear audit + codebase audit)
+
+  Verified the three "untracked" findings above with one subagent searching Linear exhaustively (all teams,
+  not just GDPR projects) and one reading the canary monorepo at file:line level. One finding was materially
+  CORRECTED; two held up.
+
+  ### Finding 1 — Sentry (CORRECTED — my earlier "clearest miss / no owner" was OVERSTATED)
+  Refined verdict: **PARTIALLY TRACKED, with a not-yet-merged fix and a residual gap.**
+  - SEC-383 DOES scope the two headline Sentry SDK risks the audit named. Its confirmed-leak table lists
+    `settings/sentry.py:62 send_default_pii: True` and `canary/sentry.py:45-49 with_sentry_context decodes the
+    full request body into Sentry context`, and its acceptance criteria (checkboxes ticked) are
+    "[x] send_default_pii flipped to False" and "[x] with_sentry_context no longer captures raw request bodies".
+    So the "client IP / cookies / full request bodies" SDK risks ARE owned by SEC-383 — contradicting my claim
+    that SEC-383/388/389 don't fix Sentry.
+  - BUT two real caveats remain: (i) **the fix is not actually merged** — code still shows
+    `settings/sentry.py:62 send_default_pii: True` and SEC-383 is only *In Progress*, so the ticked acceptance
+    boxes are ahead of the codebase; verify before trusting. (ii) The `_before_send` hook in `settings/sentry.py`
+    does **no PII scrubbing** (only filters ddtrace-429 and LiveKit-teardown noise), and the structlog
+    redactor (`redact_sensitive_query_parameters`, wired only into `STRUCTLOG_SHARED_PROCESSORS` at
+    `settings/base.py:1329`) is narrow — redacts only `token`/`signature` query params on request_started/finished
+    log lines and never runs over SDK-captured events (unhandled exceptions, breadcrumbs, local variables).
+  - SEC-388 explicitly EXCLUDES the already-fixed sentry call sites; SEC-389 doesn't mention Sentry. Two old
+    dedicated Sentry-PII tickets (ENT-36 2022, PAY-57 2023) are both Canceled.
+  - **Net:** the headline Sentry SDK fix is owned (SEC-383, pending merge); the residual — a PII-scrubbing
+    `before_send` for SDK-captured events/breadcrumbs — is genuinely untracked, but it's a smaller, lower-severity
+    gap than I first wrote. Downgrade Sentry from "clearest miss" to "verify SEC-383 lands + optional residual ticket".
+
+  ### Finding 2 — Admin interfaces (CONFIRMED true & untracked, with one caveat)
+  - Code confirms `QueenFormModelAdmin.list_display` (`authorization/admin/admin.py:386-389`) includes
+    `nameoncard, ccnumber, expiration, cvv`, backed by **unencrypted** `CharField`s (`models.py:1370,1372`).
+    `DoubletreeFormModelAdmin` is identical. CAVEAT: both models are docstring-marked `"""Demo-only"""`
+    (`models.py:1358`) — so the raw PAN/CVV changelist exposure is on demo forms; weigh severity accordingly.
+  - Real guest PII IS broadly exposed in other admins: `GenericAuthInformationAdmin`, `CreditCardAdmin`
+    (cardholder_name + name/address search_fields), `GeneratedFormAdmin` (client name/email) — all in
+    list_display/search_fields.
+  - No read-access audit logging exists: the only audit path is `HistoryService` (`canary/admin/history.py`)
+    writing Django `LogEntry` rows on ADDITION/CHANGE/DELETION only — i.e. **writes, never views**. Confirmed.
+  - Linear: NO dedicated ticket. EMEA-327 = scrapers AdminJS only; SRE-333 (Separate Django Admin) is a
+    memory/cost split; TOOL-330 captures acting-admin only for one Auto-Config save flow. Finding stands.
+
+  ### Finding 3 — Kafka CDC retention (CONFIRMED untracked; one detail unverifiable here)
+  - Linear: NO dedicated ticket to cap/confirm CDC topic retention. Nearby tickets are provisioning
+    (TOOL-325/342 define KafkaTopic CRs in `apps/canary/kafka/values/_shared/topics.yaml` for Auto-Config),
+    monitoring (SRE-298), or Groundcover retention (SRE-314) — none set/cap Kafka topic retention. Finding stands.
+  - Code: this monorepo has no Strimzi `KafkaTopic` CRs, no `*.tf`, and no `retention.ms` anywhere — only
+    Kafka producers/consumers + `docs/kafka-cdc.md`. So "retention isn't in this repo" is confirmed, but the
+    audit's specific "lives in GitOps, not Terraform" claim CANNOT be verified from here (that infra config is
+    in a separate repo). The untracked-ness is solid; the GitOps-location detail is plausible but unconfirmed.
+
+  ### Verification bottom line
+  - Finding 2 (admin) and Finding 3 (Kafka) verified — genuinely untracked. Admin caveat: headline ccnumber/cvv
+    exposure is on demo-only models, but the no-view-audit-logging gap and real-guest-PII admins are valid.
+  - Finding 1 (Sentry) was the one I got wrong: it's PARTIALLY tracked by SEC-383 (pending merge), not unowned.
+    Action shifts from "file a Sentry ticket" to "confirm SEC-383's Sentry changes actually land, then decide if
+    the residual before_send scrubbing warrants its own ticket."
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 30
 title: Create an overview of the work already tracked in GDPR projects
-updated: 2026-06-24 13:43:56.658934
+updated: 2026-06-24 15:40:00.000000
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://linear.app/canary-technologies/project/gdpr-downstream-systems-anonymisation-c5110566cbb5/overview
