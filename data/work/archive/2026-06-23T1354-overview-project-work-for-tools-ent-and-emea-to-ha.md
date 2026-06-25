@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: overview project work for tools, ent and emea to have familiarity before review
-updated: 2026-06-24 10:32:43.517266
+updated: 2026-06-24 16:07:35.503157
 waiting_on: null
 waiting_since: null
 working_on: false

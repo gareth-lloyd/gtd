@@ -91,10 +91,10 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Overview the audit results
-updated: 2026-06-24 13:43:53.847439
+updated: 2026-06-24 16:04:33.000708
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://www.notion.so/canarytechnologies/PII-Storage-Organization-Wide-Audit-2026-06-04-3758146861518135add9eaed3bc2cda1?source=copy_link

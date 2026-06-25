@@ -3,7 +3,7 @@ area: null
 contexts: []
 created: 2026-06-04 16:03:49.648218
 defer_until: null
-due: 2026-06-16
+due: null
 energy: high
 id: 2026-06-04T1603-review-check-in-v2-prd-the-perspective-is-about-ho
 order: 1
@@ -105,7 +105,7 @@ tags: []
 time_minutes: 30
 title: Review check-in v2 PRD. The perspective is about how this affects enterprise
   MSA hotels which are configured via onboarding scripts.
-updated: 2026-06-17 15:25:33.626482
+updated: 2026-06-24 16:07:31.670804
 waiting_on: null
 waiting_since: null
 working_on: false
