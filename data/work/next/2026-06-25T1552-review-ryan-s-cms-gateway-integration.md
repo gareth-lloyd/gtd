@@ -13,8 +13,11 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review Ryan's CMS gateway integration
-updated: 2026-06-25 15:53:04.366172
+updated: 2026-06-25 16:35:24.503183
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+* review in light of existing BW integration
+* review abstractions
