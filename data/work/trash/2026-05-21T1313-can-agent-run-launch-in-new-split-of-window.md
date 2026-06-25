@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Can agent run launch in new split of window
-updated: 2026-06-25 12:17:52.404939
+updated: 2026-06-25 23:08:11.633307
 waiting_on: null
 waiting_since: null
 working_on: false
