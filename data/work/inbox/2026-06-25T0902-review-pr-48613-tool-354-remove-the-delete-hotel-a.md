@@ -16,10 +16,10 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #48613: [TOOL-354] Remove the "Delete hotel and recreate" button'
-updated: 2026-06-25 09:02:06.077845
+updated: 2026-06-25 09:26:18.292763
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Rami requested your review (personal). Removes staff-facing hard-delete capability + DELETE /onboarding/hotels/<id> endpoint.
