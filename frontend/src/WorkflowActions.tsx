@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, type Bucket, type Item } from "./api";
+import { api, type AgentTarget, type Bucket, type Item } from "./api";
 import { Button } from "./Button";
 import { invalidateItemQueries, invalidateItemQueriesPreservingInbox } from "./ItemEdit";
 import { useSelection } from "./SelectionContext";
@@ -40,9 +40,11 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
     mutationFn: () => api.purgeItem(env, item.id),
     onSuccess: invalidate,
   });
-  const launchMut = useMutation({
-    mutationFn: () => api.launchAgent(env, item.id),
+  const launchMut = useMutation<void, Error, AgentTarget>({
+    mutationFn: (target) => api.launchAgent(env, item.id, target),
   });
+  const isLaunching = (target: AgentTarget) =>
+    launchMut.isPending && launchMut.variables === target;
 
   // Once an item has been processed in this inbox session the row stays
   // visible but the server-side state has moved on; lock the buttons so an
@@ -117,12 +119,20 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
             ✓ done
           </Button>
           <Button
-            onClick={() => launchMut.mutate()}
-            busy={launchMut.isPending}
+            onClick={() => launchMut.mutate("iterm")}
+            busy={isLaunching("iterm")}
             disabled={busy}
             title="Launch a Claude Code session in iTerm with this item as the prompt"
           >
             🤖 agent
+          </Button>
+          <Button
+            onClick={() => launchMut.mutate("desktop")}
+            busy={isLaunching("desktop")}
+            disabled={busy}
+            title="Open a Claude Code session in the Claude desktop app with this item as the prompt"
+          >
+            🖥️ desktop agent
           </Button>
           <Button
             className="danger"

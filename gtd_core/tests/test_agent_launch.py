@@ -11,6 +11,7 @@ import subprocess
 import tempfile
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import quote
 
 import pytest
 
@@ -20,6 +21,7 @@ from gtd_core.agent_launch import (
     AgentLaunchUpstreamError,
     build_prompt,
     launch_claude_session,
+    launch_desktop_session,
 )
 from gtd_core.models import Bucket, Item, Project
 
@@ -347,3 +349,84 @@ class TestLaunchClaudeSession:
 
         assert "--permission-mode" not in cmds[0][2]
         assert "--dangerously-skip-permissions" not in cmds[0][2]
+
+
+def _mock_which_open(monkeypatch, *, opener: str | None = "/usr/bin/open"):
+    """which() that only knows about `open` — claude/osascript are absent."""
+
+    def fake_which(name):
+        return opener if name == "open" else None
+
+    monkeypatch.setattr("gtd_core.agent_launch.shutil.which", fake_which)
+
+
+class TestLaunchDesktopSession:
+    def test_opens_claude_code_deep_link(self, monkeypatch, tmp_path):
+        _mock_which_open(monkeypatch)
+        cmds = _mock_subprocess(monkeypatch)
+
+        launch_desktop_session(prompt="Review this PR", cwd=tmp_path)
+
+        assert len(cmds) == 1
+        cmd = cmds[0]
+        assert cmd[0] == "/usr/bin/open"
+        # Routed explicitly to the desktop app's bundle so the CLI's competing
+        # claude:// handler can't intercept it.
+        assert cmd[1] == "-b"
+        assert cmd[2] == "com.anthropic.claudefordesktop"
+        url = cmd[-1]
+        assert url.startswith("claude://code/new?")
+        assert "q=Review%20this%20PR" in url
+        assert f"folder={quote(str(tmp_path), safe='')}" in url
+
+    def test_url_encodes_special_chars(self, monkeypatch, tmp_path):
+        _mock_which_open(monkeypatch)
+        cmds = _mock_subprocess(monkeypatch)
+
+        launch_desktop_session(prompt='a "tricky" & prompt', cwd=tmp_path)
+
+        url = cmds[0][-1]
+        # Nothing that would break the URL or be read as a param separator may
+        # leak through unencoded.
+        assert " " not in url
+        assert '"' not in url
+        assert "a%20%22tricky%22%20%26%20prompt" in url
+
+    def test_does_not_require_claude_cli(self, monkeypatch, tmp_path):
+        # _mock_which_open returns None for "claude" — desktop launch only needs
+        # `open` and the registered desktop-app handler, never the CLI.
+        _mock_which_open(monkeypatch)
+        cmds = _mock_subprocess(monkeypatch)
+
+        launch_desktop_session(prompt="hi", cwd=tmp_path)
+
+        assert len(cmds) == 1
+
+    def test_default_cwd_is_home(self, monkeypatch):
+        _mock_which_open(monkeypatch)
+        cmds = _mock_subprocess(monkeypatch)
+
+        launch_desktop_session(prompt="hi")
+
+        assert f"folder={quote(str(Path.home()), safe='')}" in cmds[0][-1]
+
+    def test_missing_open_raises_not_configured(self, monkeypatch, tmp_path):
+        _mock_which_open(monkeypatch, opener=None)
+        _mock_subprocess(monkeypatch)
+
+        with pytest.raises(AgentLaunchNotConfiguredError, match="open"):
+            launch_desktop_session(prompt="hi", cwd=tmp_path)
+
+    def test_open_failure_raises_upstream(self, monkeypatch, tmp_path):
+        _mock_which_open(monkeypatch)
+        _mock_subprocess(monkeypatch, returncode=1, stderr="no handler")
+
+        with pytest.raises(AgentLaunchUpstreamError, match="no handler"):
+            launch_desktop_session(prompt="hi", cwd=tmp_path)
+
+    def test_open_timeout_raises_upstream(self, monkeypatch, tmp_path):
+        _mock_which_open(monkeypatch)
+        _mock_subprocess(monkeypatch, raise_exc=subprocess.TimeoutExpired(cmd="open", timeout=10))
+
+        with pytest.raises(AgentLaunchUpstreamError, match="timed out"):
+            launch_desktop_session(prompt="hi", cwd=tmp_path)

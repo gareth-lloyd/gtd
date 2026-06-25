@@ -64,6 +64,8 @@ def _mock_launcher(
             return claude
         if name == "osascript":
             return "/usr/bin/osascript"
+        if name == "open":
+            return "/usr/bin/open"
         return None
 
     monkeypatch.setattr("gtd_core.agent_launch.tempfile.mkstemp", fake_mkstemp)
@@ -191,3 +193,56 @@ class TestLaunchAgentEndpoint:
 
         assert r.status_code == 502
         assert "not allowed" in r.json()["error"]
+
+    def test_no_target_defaults_to_iterm(self, api, monkeypatch):
+        mock = _mock_launcher(monkeypatch)
+        item_id = _capture_item(api, "anything")
+
+        r = api.post(f"/api/envs/work/items/{item_id}/launch-agent/")
+
+        assert r.status_code == 204
+        assert "iTerm" in mock.cmds[0][2]
+
+    def test_launches_desktop_agent_via_deep_link(self, api, monkeypatch):
+        mock = _mock_launcher(monkeypatch)
+        item_id = _capture_item(api, "Review PR")
+
+        r = api.post(
+            f"/api/envs/work/items/{item_id}/launch-agent/",
+            {"target": "desktop"},
+            format="json",
+        )
+
+        assert r.status_code == 204
+        assert len(mock.cmds) == 1
+        cmd = mock.cmds[0]
+        assert cmd[0] == "/usr/bin/open"
+        assert "com.anthropic.claudefordesktop" in cmd
+        assert cmd[-1].startswith("claude://code/new?")
+
+    def test_desktop_target_sets_working_on_true(self, api, monkeypatch):
+        _mock_launcher(monkeypatch)
+        item_id = _capture_item(api, "anything")
+
+        r = api.post(
+            f"/api/envs/work/items/{item_id}/launch-agent/",
+            {"target": "desktop"},
+            format="json",
+        )
+        assert r.status_code == 204
+
+        after = api.get(f"/api/envs/work/items/{item_id}/").json()
+        assert after["working_on"] is True
+
+    def test_rejects_unknown_target(self, api, monkeypatch):
+        _mock_launcher(monkeypatch)
+        item_id = _capture_item(api, "anything")
+
+        r = api.post(
+            f"/api/envs/work/items/{item_id}/launch-agent/",
+            {"target": "bogus"},
+            format="json",
+        )
+
+        assert r.status_code == 400
+        assert "bogus" in r.json()["error"]

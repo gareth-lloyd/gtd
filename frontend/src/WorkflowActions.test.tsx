@@ -125,12 +125,21 @@ describe("WorkflowActions — next bucket", () => {
     });
   });
 
-  it('clicking "🤖 agent" calls launchAgent', async () => {
+  it('clicking "🤖 agent" calls launchAgent with the iterm target', async () => {
     const user = userEvent.setup();
     renderActions(nextItem);
-    await user.click(screen.getByRole("button", { name: /agent/ }));
+    await user.click(screen.getByRole("button", { name: /🤖 agent/ }));
     await waitFor(() => {
-      expect(api.launchAgent).toHaveBeenCalledWith("work", "item-1");
+      expect(api.launchAgent).toHaveBeenCalledWith("work", "item-1", "iterm");
+    });
+  });
+
+  it('clicking "🖥️ desktop agent" calls launchAgent with the desktop target', async () => {
+    const user = userEvent.setup();
+    renderActions(nextItem);
+    await user.click(screen.getByRole("button", { name: /desktop agent/ }));
+    await waitFor(() => {
+      expect(api.launchAgent).toHaveBeenCalledWith("work", "item-1", "desktop");
     });
   });
 

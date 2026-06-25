@@ -18,6 +18,13 @@ from gtd_core.models import Bucket, Item, Project
 
 _BUCKET_NAMES = ", ".join(b.value for b in Bucket)
 
+# The Claude desktop app's bundle id. We route desktop deep links to it
+# explicitly (`open -b`) rather than relying on default `claude://` scheme
+# resolution: the Claude Code CLI installs its own URL handler that also
+# claims `claude:`, and when it wins the race `open claude://…` opens a
+# terminal instead of the desktop app.
+_DESKTOP_BUNDLE_ID = "com.anthropic.claudefordesktop"
+
 
 class AgentLaunchError(Exception):
     """Raised when the iTerm launch fails."""
@@ -264,3 +271,51 @@ def launch_claude_session(*, prompt: str, cwd: Path | None = None, auto: bool = 
 def _applescript_escape(s: str) -> str:
     """Escape a string for inclusion inside an AppleScript double-quoted literal."""
     return s.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def _desktop_deep_link(prompt: str, folder: Path) -> str:
+    """Build a `claude://code/new` deep link for the Claude desktop app.
+
+    Both values are fully percent-encoded (``safe=""``) so spaces, quotes, and
+    `&`/`?` in the prompt can't break the URL or be misread as separators.
+    """
+    from urllib.parse import quote
+
+    return f"claude://code/new?q={quote(prompt, safe='')}&folder={quote(str(folder), safe='')}"
+
+
+def launch_desktop_session(*, prompt: str, cwd: Path | None = None) -> None:
+    """Open a new Claude Code session in the Claude desktop app via deep link.
+
+    Fires the `claude://code/new` URL scheme through the macOS `open` command,
+    routed explicitly to the desktop app's bundle (`open -b`) so the CLI's
+    competing `claude://` handler can't intercept it. Unlike
+    `launch_claude_session`, this needs no `claude` CLI on PATH — only the
+    Claude desktop app installed.
+
+    Note: the desktop app pre-fills the prompt but does NOT send it — the user
+    reviews the text and presses Enter to start the agent. (This differs from
+    the iTerm launcher, which runs `claude` with the prompt as initial input.)
+    """
+    opener = shutil.which("open")
+    if not opener:
+        raise AgentLaunchNotConfiguredError("open not found — desktop agent launch requires macOS")
+
+    cwd = cwd or Path.home()
+    url = _desktop_deep_link(prompt, cwd)
+
+    try:
+        result = subprocess.run(
+            [opener, "-b", _DESKTOP_BUNDLE_ID, url],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+    except subprocess.TimeoutExpired as err:
+        raise AgentLaunchUpstreamError("open timed out after 10s") from err
+
+    if result.returncode != 0:
+        raise AgentLaunchUpstreamError(
+            "open failed (is the Claude desktop app installed?): "
+            f"{result.stderr.strip() or result.stdout.strip()}"
+        )

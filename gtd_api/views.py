@@ -272,10 +272,19 @@ def item_move(request: Request, env: str, item_id: str) -> Response:
     return Response(ItemSerializer(item).data)
 
 
+_AGENT_TARGETS = ("iterm", "desktop")
+
+
 @api_view(["POST"])
 def item_launch_agent(request: Request, env: str, item_id: str) -> Response:
+    target = _qstr(request.data.get("target")) or "iterm"
+    if target not in _AGENT_TARGETS:
+        return Response(
+            {"error": f"unknown target: {target!r} (expected one of {_AGENT_TARGETS})"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
     try:
-        _service().launch_agent_session(env, item_id)
+        _service().launch_agent_session(env, item_id, target=target)
     except KeyError:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except AgentLaunchNotConfiguredError as e:

@@ -1,5 +1,7 @@
 export type Bucket = "inbox" | "next" | "waiting" | "someday" | "reference" | "archive" | "trash";
 export type Energy = "low" | "medium" | "high";
+/** Where an agent session opens: a supervised iTerm window, or the Claude desktop app. */
+export type AgentTarget = "iterm" | "desktop";
 export type ProjectStatus = "active" | "on_hold" | "complete" | "dropped";
 
 export interface Item {
@@ -183,8 +185,11 @@ export const api = {
     }),
   completeItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/complete/`, { method: "POST" }),
-  launchAgent: (env: string, id: string) =>
-    request<void>(`/envs/${env}/items/${id}/launch-agent/`, { method: "POST" }),
+  launchAgent: (env: string, id: string, target: AgentTarget = "iterm") =>
+    request<void>(`/envs/${env}/items/${id}/launch-agent/`, {
+      method: "POST",
+      body: JSON.stringify({ target }),
+    }),
   deleteItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/`, { method: "DELETE" }),
   purgeItem: (env: string, id: string) =>

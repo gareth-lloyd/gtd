@@ -7,7 +7,7 @@ from datetime import date, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from gtd_core.agent_launch import launch_claude_session
+from gtd_core.agent_launch import launch_claude_session, launch_desktop_session
 from gtd_core.audit import log_purge
 from gtd_core.dates import defer_expired, is_overdue, parse_human_date, parse_human_datetime
 from gtd_core.models import Bucket, Energy, EnvConfig, Item, Priority, Project
@@ -92,8 +92,14 @@ class GtdService:
 
         return _clear(self.repo(env), now=self._now)
 
-    def launch_agent_session(self, env: str, item_id: str) -> None:
-        """Raises `KeyError` if the item is gone — the API translates to 404."""
+    def launch_agent_session(self, env: str, item_id: str, *, target: str = "iterm") -> None:
+        """Raises `KeyError` if the item is gone — the API translates to 404.
+
+        `target` selects the surface: ``"iterm"`` (default) spawns a supervised
+        terminal session running the `claude` CLI; ``"desktop"`` opens a new
+        Claude Code session in the Claude desktop app via the `claude://code/new`
+        deep link. Both pin the item with `working_on: True` first.
+        """
         from gtd_core.agent_launch import build_prompt
 
         repo = self.repo(env)
@@ -114,7 +120,10 @@ class GtdService:
             project=project,
             prior_working_on=prior_working_on,
         )
-        launch_claude_session(prompt=prompt, cwd=cwd)
+        if target == "desktop":
+            launch_desktop_session(prompt=prompt, cwd=cwd)
+        else:
+            launch_claude_session(prompt=prompt, cwd=cwd)
 
     # ---- Items ----
 
