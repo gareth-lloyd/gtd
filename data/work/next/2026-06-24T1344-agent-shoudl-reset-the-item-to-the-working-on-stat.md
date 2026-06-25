@@ -6,7 +6,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-06-24T1344-agent-shoudl-reset-the-item-to-the-working-on-stat
-order: null
+order: 20
 output: |
   ## Agent run 2026-06-24T14:05
 
@@ -62,7 +62,7 @@ tags: []
 time_minutes: 5
 title: agent shoudl reset the item to the working-on state encountered WHEN it picked
   up the ticket, not always reset to "not working on"
-updated: 2026-06-24 14:05:00.000000
+updated: 2026-06-25 12:17:49.616303
 waiting_on: null
 waiting_since: null
 working_on: false

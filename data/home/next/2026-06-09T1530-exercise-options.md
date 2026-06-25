@@ -1,19 +1,19 @@
 ---
-area: null
+area: finances
 contexts: []
-created: &id001 2026-06-09 15:30:47.608586
+created: 2026-06-09 15:30:47.608586
 defer_until: null
-due: null
-energy: low
+due: 2026-06-25
+energy: medium
 id: 2026-06-09T1530-exercise-options
 order: null
 output: ''
-project: null
+project: 2026-05-25-admin
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: exercise options
-updated: *id001
+updated: 2026-06-25 12:07:26.878775
 waiting_on: null
 waiting_since: null
 working_on: false

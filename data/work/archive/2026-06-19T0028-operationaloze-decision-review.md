@@ -65,10 +65,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Operationaloze decision review
-updated: 2026-06-24 20:37:12
+updated: 2026-06-25 12:18:15.919961
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 The idea is: PR review should be reconceptualized as decision review. 

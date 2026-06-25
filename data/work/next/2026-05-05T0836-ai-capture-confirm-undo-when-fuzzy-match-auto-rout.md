@@ -6,14 +6,14 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T0836-ai-capture-confirm-undo-when-fuzzy-match-auto-rout
-order: 9
+order: 10
 output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags: []
 time_minutes: 45
 title: 'AI capture: confirm/undo when fuzzy-match auto-routes'
-updated: 2026-06-17 13:53:06.260581
+updated: 2026-06-25 12:17:49.616303
 waiting_on: null
 waiting_since: null
 working_on: false

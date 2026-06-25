@@ -89,17 +89,18 @@ output: "## Agent run 2026-06-24T10:40Z\n\nReviewed the Notion reqs doc + Slack 
   plans. The real scoping risk is\nupstream data (SF records exist? branding source?)
   and the CRS-config question —\nnot the script mechanics. Recommend the Thu sync
   lock down Q1–Q3 above before\ncommitting to the build.\n\n## Agent run 2026-06-24T17:32Z
-  — channel read + design sketch\n\nRead #wyndham-voiceai-internal (the Voice pod working
-  channel, C0AJ1ENFSSU) and\nchased the key threads. This sharpens the END STATE materially.\n\n###
-  The end-state driver is concrete: cross-property booking\nThe 1,800-hotel onboarding
-  is a PREREQUISITE for cross-property booking, not a\nstandalone task. Project: 'Gen
-  Res · Booking without points across properties'\n(Linear, team VOX, lead Arjun, status
-  Implementation, target 2026-07-14, under the\nEnhanced Voice AI initiative):\nhttps://linear.app/canary-technologies/project/gen-res-booking-without-points-across-properties-e69349e68cf4\n-
-  It extends the booking flow from single-property to ACROSS properties (~4% of\n  global
-  automation rate). Once the GenRes line books at any Wyndham property, every\n  property
-  — including the ~1,800 not modeled — needs a Hotel to generate the branded\n  auth
-  form. Stephen confirmed cross-property is in this release and reflected in the\n  SOW
-  doc (thread: https://canarytechnologies.slack.com/archives/C0AJ1ENFSSU/p1782237313759629).\n-
+  — channel read + design sketch\n\nRead #wyndham-voiceai-internal (the Voice pod
+  working channel, C0AJ1ENFSSU) and\nchased the key threads. This sharpens the END
+  STATE materially.\n\n### The end-state driver is concrete: cross-property booking\nThe
+  1,800-hotel onboarding is a PREREQUISITE for cross-property booking, not a\nstandalone
+  task. Project: 'Gen Res · Booking without points across properties'\n(Linear, team
+  VOX, lead Arjun, status Implementation, target 2026-07-14, under the\nEnhanced Voice
+  AI initiative):\nhttps://linear.app/canary-technologies/project/gen-res-booking-without-points-across-properties-e69349e68cf4\n-
+  It extends the booking flow from single-property to ACROSS properties (~4% of\n
+  \ global automation rate). Once the GenRes line books at any Wyndham property, every\n
+  \ property — including the ~1,800 not modeled — needs a Hotel to generate the branded\n
+  \ auth form. Stephen confirmed cross-property is in this release and reflected in
+  the\n  SOW doc (thread: https://canarytechnologies.slack.com/archives/C0AJ1ENFSSU/p1782237313759629).\n-
   Timeline lines up: project target Jul 14 ⇒ Arjun's onboarding-by-end-of-next-week\n
   \ (~Jul 3), before Call Center booking go-live. The onboarding script is on the\n
   \ critical path for this release.\n\n### Other relevant signals from the channel\n-
@@ -118,28 +119,29 @@ output: "## Agent run 2026-06-24T10:40Z\n\nReviewed the Notion reqs doc + Slack 
   \ (LATAM/EMEA/SEAPR) is a separate track — the 1,800 is US/CA only.\n\n### Design
   sketch — minimal subset of the Wyndham onboarding flow\nFull sketch written to plan
   file: ~/.claude/plans/functional-swinging-falcon.md\nThe full WYNDHAM_MSA flow runs
-  ~18 plans in BASE_CONFIGURATION_NEW + Twilio + PMS\ncreate/validate + membership gateway
-  + room upgrades + GOLIVE. The minimal subset is a\nNEW OnboardingType (e.g. WYNDHAM_CALL_CENTER_BOOKING)
-  with can_create_new_hotels=True,\na SINGLE BASE_CONFIGURATION_NEW stage, and NO go-live
-  (terminal_stage = initial_stage,\nmirroring the WYNDHAM_AI_VOICE single-stage pattern).
-  Maps each Notion requirement to one\nexisting plan (no new plans needed — pure config
-  assembly):\n- HotelInfoPlan + WyndhamHotelInfoProvider → core fields; slug wyndham-{site_id},
-  currency, timezone, country (required)\n- SetBrandingPlan + DefaultBrandingConfigProvider
-  → branding is brand-level by BrandId, not per-property (required)\n- CreateHotelAssociationIdsPlan
-  + WyndhamHotelAssociationIdConfigProvider → Wyndham Site ID association (required)\n-
-  CRSGatewayPlan + WyndhamCRSGatewayConfigProvider → CRSAccount + Mulesoft config (required*;
-  * = the open CRS-scope question Q2)\n- AddToPortfolioPlan + WyndhamPortfolioConfigProvider
-  → WYNDHAM portfolio membership (REQUIRED, not just tagging)\n- ConfigureHotelImagePlan
-  + WyndhamHotelImageProvider → header image (optional)\n- AuthorizationConfiguration
-  → auto-created on first access, no plan\nKey find: the per-hotel Voice path we are
-  AVOIDING is voice/management/commands/\nsetup_voice_booking_authform.py — it requires
-  voice_configuration (livekit) + a\nBookingGatewayConfig + Wyndham portfolio membership,
-  then points the shared\nWYNDHAM_PAYMENT_GATEWAY_UUID. Voice runs that at the call-center
-  level; the onboarding\nscript does not. But it checks WYNDHAM portfolio membership
-  to route to the shared\ngateway — which is why AddToPortfolioPlan must stay in the
-  subset.\nWiring a new type also touches: onboarding_type.py (enum), services/types.py
-  (SF\nopportunity→deployment→type mapping, if driven via SF), KNOWN_PLANS (all six already\nregistered),
-  and a migration for the OnboardingScriptBatch/Cohort choices.\n"
+  ~18 plans in BASE_CONFIGURATION_NEW + Twilio + PMS\ncreate/validate + membership
+  gateway + room upgrades + GOLIVE. The minimal subset is a\nNEW OnboardingType (e.g.
+  WYNDHAM_CALL_CENTER_BOOKING) with can_create_new_hotels=True,\na SINGLE BASE_CONFIGURATION_NEW
+  stage, and NO go-live (terminal_stage = initial_stage,\nmirroring the WYNDHAM_AI_VOICE
+  single-stage pattern). Maps each Notion requirement to one\nexisting plan (no new
+  plans needed — pure config assembly):\n- HotelInfoPlan + WyndhamHotelInfoProvider
+  → core fields; slug wyndham-{site_id}, currency, timezone, country (required)\n-
+  SetBrandingPlan + DefaultBrandingConfigProvider → branding is brand-level by BrandId,
+  not per-property (required)\n- CreateHotelAssociationIdsPlan + WyndhamHotelAssociationIdConfigProvider
+  → Wyndham Site ID association (required)\n- CRSGatewayPlan + WyndhamCRSGatewayConfigProvider
+  → CRSAccount + Mulesoft config (required*; * = the open CRS-scope question Q2)\n-
+  AddToPortfolioPlan + WyndhamPortfolioConfigProvider → WYNDHAM portfolio membership
+  (REQUIRED, not just tagging)\n- ConfigureHotelImagePlan + WyndhamHotelImageProvider
+  → header image (optional)\n- AuthorizationConfiguration → auto-created on first
+  access, no plan\nKey find: the per-hotel Voice path we are AVOIDING is voice/management/commands/\nsetup_voice_booking_authform.py
+  — it requires voice_configuration (livekit) + a\nBookingGatewayConfig + Wyndham
+  portfolio membership, then points the shared\nWYNDHAM_PAYMENT_GATEWAY_UUID. Voice
+  runs that at the call-center level; the onboarding\nscript does not. But it checks
+  WYNDHAM portfolio membership to route to the shared\ngateway — which is why AddToPortfolioPlan
+  must stay in the subset.\nWiring a new type also touches: onboarding_type.py (enum),
+  services/types.py (SF\nopportunity→deployment→type mapping, if driven via SF), KNOWN_PLANS
+  (all six already\nregistered), and a migration for the OnboardingScriptBatch/Cohort
+  choices.\n"
 project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C047K6WSUJY/p1782230014192569?thread_ts=1782230014.192569&cid=C047K6WSUJY
 tags:
@@ -147,10 +149,10 @@ tags:
 - slack
 time_minutes: 15
 title: Scope Wyndham Call Center booking onboarding (~1800 non-onboarded Wyndhams)
-updated: 2026-06-24 20:32:49.454718
+updated: 2026-06-25 14:39:05.302526
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 original request: https://canarytechnologies.slack.com/archives/C047K6WSUJY/p1782230014192569

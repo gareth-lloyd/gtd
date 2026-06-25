@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Survey trailing linear tickets, move forward or re-write for triage
-updated: 2026-06-25 08:58:15.661100
+updated: 2026-06-25 14:59:31.280787
 waiting_on: null
 waiting_since: null
 working_on: false

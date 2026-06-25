@@ -6,14 +6,14 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-05-05T0830-validate-item-project-fk-cascade-on-project-delete
-order: 7
+order: 8
 output: ''
 project: 2026-04-27-gtd
 source_id: null
 tags: []
 time_minutes: 60
 title: Validate item.project FK + cascade on project delete
-updated: 2026-06-17 13:53:06.260581
+updated: 2026-06-25 12:17:49.616303
 waiting_on: null
 waiting_since: null
 working_on: false

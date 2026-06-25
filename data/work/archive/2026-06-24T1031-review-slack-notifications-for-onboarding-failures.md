@@ -60,7 +60,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: review slack notifications for onboarding failures PR
-updated: 2026-06-24 10:33:42.732216
+updated: 2026-06-25 12:18:36.850915
 waiting_on: null
 waiting_since: null
 working_on: false

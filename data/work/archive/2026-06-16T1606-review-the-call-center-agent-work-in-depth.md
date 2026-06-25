@@ -78,7 +78,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review the call center agent work in-depth
-updated: 2026-06-17 16:14:25.732672
+updated: 2026-06-25 12:59:15.044947
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-24 22:05:32.764405
+created: 2026-06-24 22:18:41.916788
 defer_until: null
 due: null
 energy: low
-id: 2026-06-24T2205-arket
+id: 2026-06-24T2218-confirm-elsa-and-next-week
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: arket
-updated: *id001
+title: confirm elsa and next week
+updated: 2026-06-25 12:06:34.633492
 waiting_on: null
 waiting_since: null
 working_on: false
