@@ -78,7 +78,7 @@ tags: []
 time_minutes: 5
 title: Catch up on martin rodriguez's shipped and unshipped work on the wyndham amb
   rollout check linear tickets and github prs
-updated: 2026-06-25 23:18:10.568151
+updated: 2026-06-26 11:36:18.177275
 waiting_on: null
 waiting_since: null
 working_on: true

@@ -2,14 +2,22 @@
 area: null
 contexts:
 - consume
+created: &id001 2026-06-29 00:00:00
+defer_until: null
+due: null
 energy: low
-id: 2026-06-23T1336-review-friday-show-and-tell-recording
-last_spawned: 2026-06-29
+id: 2026-06-29T0000-review-friday-s-show-tell-recording
+order: null
+output: ''
 project: null
-recurrence: weekly
+source_id: null
 tags: []
 time_minutes: 30
 title: Review Friday's show & tell recording
+updated: *id001
+waiting_on: null
+waiting_since: null
+working_on: false
 ---
 
 Watch this week's Friday Demos / Show & Tell recording.

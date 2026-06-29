@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-22 20:33:01.797909
+created: 2026-06-22 20:33:01.797909
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: balance chequebook
-updated: *id001
+updated: 2026-06-26 11:28:20.803677
 waiting_on: null
 waiting_since: null
 working_on: false

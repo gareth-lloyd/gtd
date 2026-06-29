@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Feedback to Andy on eng leads on code freeze
-updated: 2026-06-25 16:35:33.666851
+updated: 2026-06-26 11:41:19.080023
 waiting_on: null
 waiting_since: null
 working_on: false

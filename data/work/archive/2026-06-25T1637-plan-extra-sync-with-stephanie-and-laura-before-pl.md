@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: plan extra sync with stephanie and laura before planning
-updated: 2026-06-25 16:37:57.914412
+updated: 2026-06-26 11:41:21.534119
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-06-19 00:28:37.033936
-defer_until: 2026-06-29 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-19T0028-grooming-for-safi
