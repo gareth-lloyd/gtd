@@ -1,22 +1,22 @@
 ---
 area: null
 contexts: []
-created: 2026-06-18 22:57:58.625910
+created: 2026-06-30 23:17:11.133075
 defer_until: null
 due: null
 energy: low
-id: 2026-06-18T2257-read
+id: 2026-06-30T2317-decide-elsa-saturday-hours
 order: null
 output: ''
-project: 2026-04-10T0840-ticket
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: read
-updated: 2026-06-30 15:46:35.045056
+title: decide elsa saturday hours
+updated: 2026-06-30 23:17:19.870205
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
-https://aicoding.leaflet.pub/
+discussed 10-5pm

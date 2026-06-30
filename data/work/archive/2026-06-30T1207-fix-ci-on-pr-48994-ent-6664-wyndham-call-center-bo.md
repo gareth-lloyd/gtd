@@ -32,6 +32,21 @@ output: |
 
   **Next:** watch the new run complete — the format job should now pass. Nothing else in the
   diff was touched. Did NOT merge (per your manual-merge preference).
+
+  ## Agent run 2026-06-30T10:00 (follow-up: "check ci")
+
+  After the push, the format job passed but "OpenAPI specs" failed again — this time NOT a
+  superseded cascade. Root cause was **CI infra flakiness**: the "Discover OpenAPI services"
+  job hung on its initial `git fetch` of the PR merge ref (started 09:35:22, killed by the
+  10-minute job timeout at 09:45:17 — "The operation was canceled"). That cancellation
+  cascaded into the OpenAPI specs gate (gate exits 1 when discover is cancelled). Nothing to
+  do with the diff.
+
+  **Action:** re-ran the failed jobs (`gh run rerun 28434722479 --failed`). On re-run all four
+  OpenAPI jobs passed (Discover / Check changed files / staleness+stability / specs gate).
+
+  **Final state:** PR #48994 head `63dc182854b` — all checks green, 0 running, 0 failures,
+  mergeable=MERGEABLE. Still NOT merged (your call).
 project: null
 source_id: https://github.com/canary-technologies-corp/canary/pull/48994
 tags:
@@ -40,7 +55,7 @@ tags:
 time_minutes: 20
 title: 'Fix CI on PR #48994: ENT-6664 Wyndham call-center booking onboarding type
   + seed'
-updated: 2026-06-30 12:45:00.000000
+updated: 2026-06-30 15:42:43.498853
 waiting_on: null
 waiting_since: null
 working_on: false

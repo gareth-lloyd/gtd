@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Follow up on Leandro''s group DM: AD to own config→check-in-flow translator
   (V3)'
-updated: 2026-06-30 12:19:46.294618
+updated: 2026-06-30 15:44:35.630925
 waiting_on: null
 waiting_since: null
 working_on: false

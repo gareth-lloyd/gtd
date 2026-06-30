@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: exercise options
-updated: 2026-06-26 11:28:41.265255
+updated: 2026-07-01 01:02:37.398054
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

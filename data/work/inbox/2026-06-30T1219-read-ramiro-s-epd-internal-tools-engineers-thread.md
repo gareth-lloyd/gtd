@@ -3,7 +3,7 @@ area: null
 contexts:
 - consume
 created: 2026-06-30 12:19:46.152790
-defer_until: null
+defer_until: 2026-07-01 09:00:00
 due: null
 energy: low
 id: 2026-06-30T1219-read-ramiro-s-epd-internal-tools-engineers-thread
@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Read Ramiro''s #epd-internal-tools-engineers thread: revive Salesforce-vs-Canary
   reconciliation'
-updated: 2026-06-30 12:19:46.222567
+updated: 2026-06-30 15:44:41.834336
 waiting_on: null
 waiting_since: null
 working_on: false

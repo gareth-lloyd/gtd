@@ -1,22 +1,20 @@
 ---
 area: null
 contexts: []
-created: 2026-06-19 00:28:37.033936
+created: &id001 2026-06-30 15:06:51.315759
 defer_until: null
 due: null
 energy: low
-id: 2026-06-19T0028-grooming-for-safi
+id: 2026-06-30T1506-car-insurance-renewal-plan-1-month-in-advance
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: grooming for safi
-updated: 2026-06-30 23:18:00.772465
+title: car insurance renewal - plan 1 month in advance
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-book morning, marg to pick up

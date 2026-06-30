@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: 'log in bugs: have to do twice, page title'
-updated: 2026-06-18 16:35:13.931988
+updated: 2026-06-30 15:36:03.827190
 waiting_on: null
 waiting_since: null
 working_on: false

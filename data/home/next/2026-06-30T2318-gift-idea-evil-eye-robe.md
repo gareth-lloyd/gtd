@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-29 14:32:58.280071
-defer_until: 2026-07-04 15:28:00
+created: 2026-06-30 23:18:16.460310
+defer_until: null
 due: null
 energy: low
-id: 2026-06-29T1432-check-data-buy-more
+id: 2026-06-30T2318-gift-idea-evil-eye-robe
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: check data, buy more
-updated: 2026-06-30 15:28:44.179610
+title: 'gift idea: evil eye robe'
+updated: 2026-06-30 23:19:44.517619
 waiting_on: null
 waiting_since: null
 working_on: false

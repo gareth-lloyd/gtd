@@ -113,7 +113,7 @@ tags:
 - linear
 time_minutes: 15
 title: 'Respond on ENT-6604: decouple Portfolio.identifier — rrogers proposes splitting'
-updated: 2026-06-30 12:50:00.000000
+updated: 2026-06-30 15:43:42.256224
 waiting_on: null
 waiting_since: null
 working_on: false
