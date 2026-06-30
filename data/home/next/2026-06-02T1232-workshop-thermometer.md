@@ -6,15 +6,18 @@ defer_until: null
 due: null
 energy: low
 id: 2026-06-02T1232-workshop-thermometer
-order: 10
+order: 8
 output: ''
 project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: 5
-title: workshop thermometer. consider tp-link tapo
-updated: 2026-06-09 15:23:57.756591
+title: workshop smart home hub. consider tp-link tapo
+updated: 2026-06-30 12:31:56.981217
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+https://www.skroutz.gr/s/57664077/TP-LINK-Tapo-T30-Kit-Autonomous-Wireless-Alarm-System-with-Hub-RF-38634.html
+temperature sensor

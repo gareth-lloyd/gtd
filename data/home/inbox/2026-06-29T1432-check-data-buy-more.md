@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-25 11:27:27.376004
+created: &id001 2026-06-29 14:32:58.280071
 defer_until: null
 due: null
 energy: low
-id: 2026-05-25T1127-3d-printer
-order: 5
+id: 2026-06-29T1432-check-data-buy-more
+order: null
 output: ''
-project: 2026-05-25-workshop
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: 3d printer
-updated: 2026-06-30 11:42:57.916299
+title: check data, buy more
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

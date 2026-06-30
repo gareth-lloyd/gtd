@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-05-25 11:27:27.376004
+created: 2026-06-29 11:57:44.218504
 defer_until: null
 due: null
 energy: low
-id: 2026-05-25T1127-3d-printer
-order: 5
+id: 2026-06-29T1157-read-peter-s-design-docs
+order: null
 output: ''
-project: 2026-05-25-workshop
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: 3d printer
-updated: 2026-06-30 11:42:57.916299
+title: read peter's design docs
+updated: 2026-06-29 12:29:03.156228
 waiting_on: null
 waiting_since: null
 working_on: false

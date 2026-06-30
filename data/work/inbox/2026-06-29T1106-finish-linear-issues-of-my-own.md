@@ -1,19 +1,18 @@
 ---
 area: null
-contexts:
-- autopilot
-created: &id001 2026-06-29 00:00:00
+contexts: []
+created: &id001 2026-06-29 11:06:39.781182
 defer_until: null
 due: null
 energy: low
-id: 2026-06-29T0000-blake-directs-meeting-updates
+id: 2026-06-29T1106-finish-linear-issues-of-my-own
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Blake directs meeting updates
+title: finish linear issues of my own
 updated: *id001
 waiting_on: null
 waiting_since: null
