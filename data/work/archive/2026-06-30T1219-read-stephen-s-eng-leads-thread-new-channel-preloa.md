@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Read Stephen''s #eng-leads thread: new channel, preload before going public'
-updated: 2026-06-30 12:19:46.085443
+updated: 2026-06-30 14:40:42.746525
 waiting_on: null
 waiting_since: null
 working_on: false
