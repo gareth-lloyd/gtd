@@ -138,17 +138,22 @@ output: |
      *output* is 100% guest-facing (it's the message guests receive) — only the
      trigger is staff-side. This is the most important point.
 
-  2. **Silent overwrite of hand-tuned translations is now an accepted risk —
-     confirm it's intended.** Doc decided: editing English + clicking overwrites
-     the stored translations for that field, and a "needs review"/stale workflow
-     is explicitly in Scope Creep. Concrete failure: a CSM hand-corrects the
-     Spanish body; later someone edits the English and clicks Translate → the
-     hand-tuned Spanish is silently overwritten by machine output, no warning.
-     Prior run flagged this; the doc has now chosen NOT to protect it. Combined
+  2. **Silent overwrite of hand-tuned translations — an unaddressed gap, not a
+     documented trade-off.** What the doc states explicitly: "editing the English
+     source brings the button back, and clicking it overwrites the stored
+     translations for that field" (Goals), and "A 'needs review' or 'stale'
+     workflow" is in Scope Creep. What it does NOT address: the overwrite is
+     described as clobbering "the stored translations" with no distinction
+     between machine-generated and human-edited content. Concrete failure: a CSM
+     hand-corrects the Spanish body; later someone edits English and clicks
+     Translate → the hand-tuned Spanish is silently overwritten, no warning. The
+     doc never mentions this case — so it's a blind spot, not an acknowledged
+     "acceptable for v1" call. (Correcting my own earlier phrasing: I first wrote
+     this was an "explicitly accepted risk" — it isn't; the overwrite behavior is
+     explicit, the human-override consequence is simply unmentioned.) Combined
      with #1 (no flag), both the quality risk and this data-loss path go live
-     unguarded. Worth an explicit "yes, acceptable for v1" rather than leaving it
-     implicit. Cheapest guard if not: only overwrite languages that are still
-     machine-generated / unedited for that field.
+     unguarded. Cheapest guard: only overwrite languages still machine-generated
+     / unedited for that field.
 
   3. **Partial-language failure UX is unspecified.** Guardrails store per-language
      and "return an error for that language." So one click can yield ES+FR stored
@@ -180,7 +185,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Read GJ auto-translate prototype + give feedback
-updated: 2026-07-01 11:34:40
+updated: 2026-07-01 15:07:15.246617
 waiting_on: null
 waiting_since: null
 working_on: false

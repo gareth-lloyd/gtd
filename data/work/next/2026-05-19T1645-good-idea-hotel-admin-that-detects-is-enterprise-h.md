@@ -16,10 +16,10 @@ tags: []
 time_minutes: 30
 title: 'good idea: hotel admin that detects is enterprise hotel and makes many fields
   read only (if they match right value)'
-updated: 2026-05-21 23:03:31.084861
+updated: 2026-07-01 15:31:16.086859
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 * Create a new django admin superclass that can conditionally make fields readonly if they're controlled by rules-based config
