@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-18 22:55:18.345044
+created: 2026-07-01 02:37:50.941439
 defer_until: null
 due: null
 energy: low
-id: 2026-06-18T2255-turn-on-remote-by-default
+id: 2026-07-01T0237-signals-review
 order: null
 output: ''
-project: 2026-05-25-admin
+project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: turn on remote by default
-updated: 2026-07-01 02:24:07.442521
+title: signals review
+updated: 2026-07-01 02:37:50.971817
 waiting_on: null
 waiting_since: null
 working_on: false
