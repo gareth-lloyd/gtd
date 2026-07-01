@@ -74,7 +74,7 @@ tags:
 time_minutes: 15
 title: 'Answer Leandro & Andrea: do onboarding scripts use LOCKED/final to prevent
   admin/UI field edits?'
-updated: 2026-07-01 15:40:00.000000
+updated: 2026-07-01 16:30:55.066133
 waiting_on: null
 waiting_since: null
 working_on: false

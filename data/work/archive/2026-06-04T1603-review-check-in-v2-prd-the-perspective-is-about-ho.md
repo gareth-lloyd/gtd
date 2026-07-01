@@ -105,7 +105,7 @@ tags: []
 time_minutes: 30
 title: Review check-in v2 PRD. The perspective is about how this affects enterprise
   MSA hotels which are configured via onboarding scripts.
-updated: 2026-06-24 16:07:31.670804
+updated: 2026-07-01 16:31:43.093495
 waiting_on: null
 waiting_since: null
 working_on: false
