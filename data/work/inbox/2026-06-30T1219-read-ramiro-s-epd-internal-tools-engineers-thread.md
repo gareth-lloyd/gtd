@@ -3,7 +3,7 @@ area: null
 contexts:
 - consume
 created: 2026-06-30 12:19:46.152790
-defer_until: 2026-07-01 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-30T1219-read-ramiro-s-epd-internal-tools-engineers-thread
