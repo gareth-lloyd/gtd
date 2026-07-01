@@ -4,7 +4,7 @@ contexts:
 - craft
 - autopilot
 created: 2026-05-25 11:39:55.053904
-defer_until: 2026-07-01 12:17:00
+defer_until: null
 due: null
 energy: medium
 id: 2026-05-25T1139-check-linear-backlogs-for-issues-labeled-apac
