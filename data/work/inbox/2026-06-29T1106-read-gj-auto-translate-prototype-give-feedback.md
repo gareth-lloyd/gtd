@@ -99,6 +99,79 @@ output: |
   > the starter ships Email + SMS only and we run the WhatsApp/Twilio re-approval
   > spike in parallel rather than gating on it. Happy to dig in on the
   > re-translation/override policy (open decision #1) since it drives editor scope.
+
+  ## Agent run 2026-07-01T11:34:00Z
+
+  Re-read the Notion design doc fresh (it was last edited 2026-07-01T08:41,
+  Status = IN REVIEW). **The doc has moved a lot since the 06-29 run — most of
+  that feedback is now baked in.** Did NOT post anything. Updated draft below.
+
+  Doc: https://app.notion.com/p/38881468615180aeac9ddd2e3b3b4c3f
+
+  ### What the doc now resolves (prior feedback that's landed — don't re-raise)
+  - **Option A** is committed; A/B/C moved to "Alternative solutions". (prior #1)
+  - **Two axes untangled**: Compendium + Reg Card are explicitly in "Scope
+    Creep"; trigger vs. surfaces no longer conflated. (prior #2)
+  - **Backend hard scope is now spelled out**: translation service reusing
+    `PromptGatewayService` (Google Translate fallback), guardrails that check
+    merge-tag set match / URL + opt-out keyword preservation / email HTML /
+    SMS length, per-language i18n fields, send-time selection by reservation
+    language with English fallback. (prior #3 — largely addressed)
+  - **WhatsApp cut from v1**: Email + SMS first; WhatsApp/Meta re-approval is a
+    held-back follow-up spike, plus Expedia + Booking.com. (prior #4)
+  - **"In-line" clarified**: button only appears when a field changes, click to
+    translate — not per-keystroke. (prior #6)
+  - v1 tickets exist: EMEA-394 (guardrails) → 395 (service) → 396 (endpoint) →
+    397 (Option A button) + 398 (observability).
+
+  ### NEW issues in the current draft (the substance for this pass)
+
+  1. **Feature-flag contradiction — and dropping the flag is the risky call.**
+     The Goals bullet still says it "ships behind a feature flag so we can pilot
+     with a few properties before rolling out widely," but the rollout section
+     AND the v1-scope line now say the opposite: "no feature flag… releasing it
+     across the board once it's ready." These directly contradict — one has to
+     go. More importantly, the doc's own #1 risk is "output may be off, and it
+     goes live without review." Removing the flag removes the one blast-radius
+     control for exactly that risk. I'd push back: keep at least a pilot flag or
+     a kill switch. "Not guest-facing" is the justification given, but the
+     *output* is 100% guest-facing (it's the message guests receive) — only the
+     trigger is staff-side. This is the most important point.
+
+  2. **Silent overwrite of hand-tuned translations is now an accepted risk —
+     confirm it's intended.** Doc decided: editing English + clicking overwrites
+     the stored translations for that field, and a "needs review"/stale workflow
+     is explicitly in Scope Creep. Concrete failure: a CSM hand-corrects the
+     Spanish body; later someone edits the English and clicks Translate → the
+     hand-tuned Spanish is silently overwritten by machine output, no warning.
+     Prior run flagged this; the doc has now chosen NOT to protect it. Combined
+     with #1 (no flag), both the quality risk and this data-loss path go live
+     unguarded. Worth an explicit "yes, acceptable for v1" rather than leaving it
+     implicit. Cheapest guard if not: only overwrite languages that are still
+     machine-generated / unedited for that field.
+
+  3. **Partial-language failure UX is unspecified.** Guardrails store per-language
+     and "return an error for that language." So one click can yield ES+FR stored
+     but DE failed. What does the button do then — stay, offering a retry for
+     just the failed language(s)? The per-language partial-success state isn't
+     described in the UI section and is worth pinning down before EMEA-397.
+
+  4. Minor: Goals says translations "save immediately" while Proposed solution
+     says the endpoint "runs asynchronously with a loading state." Not a
+     contradiction (async completes → saved) but the wording could align.
+
+  ### Updated draft comment (NOT posted — Notion comment or Slack reply)
+  > Doc's in good shape — Option A, backend guardrails, WhatsApp-as-follow-up
+  > all read well. Two things I'd resolve before build: (1) the feature-flag
+  > decision contradicts itself — Goals says "pilot behind a flag," rollout says
+  > "no flag, across the board." Given your own #1 risk is bad output going live
+  > without review, I'd keep at least a pilot flag or kill switch; the trigger is
+  > staff-side but the translated output is 100% guest-facing. (2) Overwriting
+  > stored translations on re-translate will silently clobber any hand-tuned
+  > language for that field — fine if that's an explicit v1 call, but worth
+  > stating it, or only overwriting still-machine-generated languages. Minor:
+  > spec the partial-failure UX when some languages pass guardrails and others
+  > fail on the same click.
 project: null
 source_id: https://canarytechnologies.slack.com/archives/C0AB9E7AE59/p1782205770503279
 tags:
@@ -107,10 +180,10 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Read GJ auto-translate prototype + give feedback
-updated: 2026-06-29 15:05:00.000000
+updated: 2026-07-01 11:34:40
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
-James Saram shared the guest-journey auto-translate prototype; proposes scoping tightly to Option A for the starter project, later expanding to Option B + reg-card/compendium fields. https://canarytechnologies.slack.com/archives/C0AB9E7AE59/p1782205770503279
+https://app.notion.com/p/canarytechnologies/Auto-translate-GJ-template-messages-38881468615180aeac9ddd2e3b3b4c3f

@@ -49,7 +49,7 @@ tags: []
 time_minutes: 5
 title: 'research how Laura is plannign to allow linear agent to hand off to investigation
   agent:'
-updated: 2026-06-30 21:10:00.000000
+updated: 2026-07-01 14:40:13.917186
 waiting_on: null
 waiting_since: null
 working_on: false
