@@ -89,6 +89,14 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
             ↺ uncomplete
           </Button>
           <Button
+            onClick={() => moveMut.mutate("reference")}
+            busy={isMoving("reference")}
+            disabled={busy}
+            title="File this completed item as reference"
+          >
+            → reference
+          </Button>
+          <Button
             className="danger"
             onClick={() => deleteMut.mutate()}
             busy={deleteMut.isPending}
@@ -99,7 +107,7 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
         </>
       ) : (
         <>
-          {(["next", "waiting", "someday"] as const).map((b) =>
+          {(["next", "waiting", "someday", "reference"] as const).map((b) =>
             item.status === b ? (
               <Button key={b} aria-pressed disabled title={`Currently in ${b}`}>
                 {b}

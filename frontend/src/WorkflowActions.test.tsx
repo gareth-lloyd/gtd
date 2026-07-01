@@ -116,6 +116,15 @@ describe("WorkflowActions — next bucket", () => {
     });
   });
 
+  it('clicking "→ reference" calls moveItem with reference', async () => {
+    const user = userEvent.setup();
+    renderActions(nextItem);
+    await user.click(screen.getByRole("button", { name: /→ reference/ }));
+    await waitFor(() => {
+      expect(api.moveItem).toHaveBeenCalledWith("work", "item-1", "reference");
+    });
+  });
+
   it('clicking "✓ done" calls completeItem', async () => {
     const user = userEvent.setup();
     renderActions(nextItem);
@@ -207,12 +216,26 @@ describe("WorkflowActions — inbox bucket", () => {
 });
 
 describe("WorkflowActions — archive bucket", () => {
-  it("hides move buttons and the complete button (item is already done)", () => {
+  it("hides bucket-move and complete buttons but offers filing to reference (item is already done)", () => {
     renderActions({ ...nextItem, status: "archive" });
-    expect(screen.queryByRole("button", { name: /→/ })).toBeNull();
+    // No re-bucketing to next/waiting/someday, and no re-completing.
+    expect(screen.queryByRole("button", { name: /→ waiting/ })).toBeNull();
+    expect(screen.queryByRole("button", { name: /→ someday/ })).toBeNull();
     expect(screen.queryByRole("button", { name: /✓ done/ })).toBeNull();
+    // A completed item can still be filed as reference or uncompleted.
+    expect(screen.getByRole("button", { name: /→ reference/ })).toBeDefined();
+    expect(screen.getByRole("button", { name: /↺ uncomplete/ })).toBeDefined();
     // Still offers soft delete.
     expect(screen.getByRole("button", { name: /^Delete$/ })).toBeDefined();
+  });
+
+  it('clicking "→ reference" on a completed item calls moveItem with reference', async () => {
+    const user = userEvent.setup();
+    renderActions({ ...nextItem, status: "archive" });
+    await user.click(screen.getByRole("button", { name: /→ reference/ }));
+    await waitFor(() => {
+      expect(api.moveItem).toHaveBeenCalledWith("work", "item-1", "reference");
+    });
   });
 });
 
