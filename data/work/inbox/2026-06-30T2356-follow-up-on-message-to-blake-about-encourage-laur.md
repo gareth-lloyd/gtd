@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-06-30 23:56:07.634992
-defer_until: 2026-07-02 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-30T2356-follow-up-on-message-to-blake-about-encourage-laur

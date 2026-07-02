@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-06-30 23:17:25.953947
+created: 2026-06-30 18:30:30.100628
 defer_until: null
-due: 2026-07-01
+due: null
 energy: low
-id: 2026-06-30T2317-kostas-menu
+id: 2026-06-30T1830-coal-tar-shampooo
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: kostas menu
-updated: 2026-07-01 22:56:10.890986
+title: coal tar shampooo
+updated: 2026-07-01 22:56:19.354658
 waiting_on: null
 waiting_since: null
 working_on: false

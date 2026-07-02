@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-06-29 11:06:39.781182
-defer_until: 2026-07-02 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-29T1106-finish-linear-issues-of-my-own

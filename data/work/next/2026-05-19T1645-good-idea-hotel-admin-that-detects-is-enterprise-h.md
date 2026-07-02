@@ -52,13 +52,50 @@ output: |
   3. Engineering/superuser bypass, or is "a conforming FINAL value never needs hand-editing" enough?
 
   Local design/plan artifact: /Users/garethlloyd/.claude/plans/refactored-prancing-nova.md
+
+  ## Agent run 2026-07-01T17:06 — cross-pod context (Check-In V3 configurator)
+
+  Followed up on how this admin-lock idea connects to Leandro Alvarez's (A&D) Check-In V3
+  Configuration work. Read the Slack group DM (Gareth/Leandro/Andrea Bradshaw) + Leandro's two
+  design docs, and verified an onboarding-lens review of his tech spec against the code.
+
+  ### The connection (why this idea matters beyond Django admin)
+  - Leandro is building a **configurator**: a typed facade over existing config models
+    (CheckInConfiguration, RegistrationCard, auth/payment) giving CS a UI to edit check-in v3
+    config. It gates writes via per-field, per-audience **Exposure** (EDITABLE/READ_ONLY/HIDDEN).
+  - His write path and this admin-lock idea need the **same missing primitive**: "which keys are
+    FINAL for this hotel, enforced at a human write boundary." This design's proposed
+    `get_final_setting_keys_for_hotel_attributes` is exactly what his Exposure gating would consume.
+  - **Two surfaces, deliberately different FINAL semantics:**
+    - *Admin (this doc):* lock a FINAL field only when the hotel already **conforms**, so an
+      operator can still hand-fix a drifted value.
+    - *Configurator (his):* refuse **all** writes to FINAL fields regardless of value, so CS can
+      never *create* drift. Same helper, stricter policy.
+
+  ### Ground truth verified in code (corrects a common misconception)
+  - **Rules framework is NOT run at onboarding.** Seeding is done by imperative onboarding
+    scripts / config-providers (AddRegistrationCardPlan + brand providers). `rules_based_configuration`
+    only *validates* later — `apply_portfolio_settings` is a manual mgmt command (only self-refs;
+    zero refs from onboarding/).
+  - **Conformity save-signal is warn-only + admin-only** (`rules_based_configuration/signals.py`,
+    fires on `hotel_admin_saved`, "Does not block saving"). Would not fire on a configurator API write.
+  - **Onboarding never sets v3**; the v3 flow only materializes via a separate migration step.
+  - **Additional-guests is a hard v3 blocker** (`v3_migration.py:70`: additional_guests_step != DISABLED).
+
+  ### New gap surfaced (not covered by this doc)
+  - **No provenance** anywhere ("set by rules/onboarding" vs "edited by hand"). Onboarding plans are
+    idempotent/re-runnable, so a re-run silently clobbers CS edits. A manual-edit marker (or
+    merge-based seeding) is a prerequisite before re-runnable seeding + human edits can coexist —
+    worth its own capture. Relates to the same FINAL/FREE enforcement theme.
+
+  No external writes made (no Notion/Linear/Slack). Handed the analysis back to Gareth in-session.
 project: 2026-04-16T1348-ideas
 source_id: null
 tags: []
 time_minutes: 30
 title: 'good idea: hotel admin that detects is enterprise hotel and makes many fields
   read only (if they match right value)'
-updated: 2026-07-01 16:02:53.550857
+updated: 2026-07-01 17:06:59.505000
 waiting_on: null
 waiting_since: null
 working_on: false
