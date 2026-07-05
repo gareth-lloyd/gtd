@@ -4,7 +4,7 @@ contexts:
 - computer
 energy: null
 id: 2026-05-25T1130-tmpl-pay-kiddy
-last_spawned: 2026-06-05
+last_spawned: 2026-07-05
 project: null
 recurrence: monthly
 tags: []

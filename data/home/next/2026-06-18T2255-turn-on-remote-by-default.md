@@ -6,14 +6,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-06-18T2255-turn-on-remote-by-default
-order: null
+order: 16
 output: ''
 project: 2026-05-25-admin
 source_id: null
 tags: []
 time_minutes: 5
 title: turn on remote by default
-updated: 2026-07-01 02:24:07.442521
+updated: 2026-07-02 15:35:44.149945
 waiting_on: null
 waiting_since: null
 working_on: false

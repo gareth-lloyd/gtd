@@ -6,14 +6,14 @@ defer_until: null
 due: null
 energy: null
 id: 2026-05-25T1130-start-shopping-roof-box
-order: null
+order: 14
 output: ''
 project: 2026-05-25-admin
 source_id: null
 tags: []
 time_minutes: null
 title: Start shopping for roof box
-updated: 2026-06-15 11:38:15.839782
+updated: 2026-07-02 15:35:44.149945
 waiting_on: null
 waiting_since: null
 working_on: false

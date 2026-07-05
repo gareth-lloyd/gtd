@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-06-30 23:20:02.698042
+created: 2026-06-30 23:20:02.698042
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: research what safi needs for fleas etc, and get it on skroutz
-updated: *id001
+updated: 2026-07-02 12:38:54.738384
 waiting_on: null
 waiting_since: null
 working_on: false
