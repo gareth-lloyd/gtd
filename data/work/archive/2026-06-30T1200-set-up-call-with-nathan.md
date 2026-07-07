@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Set up call with Nathan, emea cs
-updated: 2026-07-02 13:40:08.067497
+updated: 2026-07-07 11:34:50.677767
 waiting_on: null
 waiting_since: null
 working_on: false
