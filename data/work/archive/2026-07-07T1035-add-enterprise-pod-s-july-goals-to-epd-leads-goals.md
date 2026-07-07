@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Add Enterprise pod''s July goals to #epd-leads goals thread'
-updated: 2026-07-07 10:35:47.358775
+updated: 2026-07-07 13:19:44.571022
 waiting_on: null
 waiting_since: null
 working_on: false

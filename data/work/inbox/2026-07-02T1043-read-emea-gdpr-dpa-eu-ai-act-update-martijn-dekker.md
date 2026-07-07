@@ -3,7 +3,7 @@ area: null
 contexts:
 - consume
 created: 2026-07-02 10:43:04.504934
-defer_until: null
+defer_until: 2026-07-08 09:00:00
 due: null
 energy: low
 id: 2026-07-02T1043-read-emea-gdpr-dpa-eu-ai-act-update-martijn-dekker
@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Read EMEA GDPR/DPA + EU AI Act update (Martijn Dekker)
-updated: 2026-07-06 14:09:35.581137
+updated: 2026-07-07 13:20:01.557647
 waiting_on: null
 waiting_since: null
 working_on: false
