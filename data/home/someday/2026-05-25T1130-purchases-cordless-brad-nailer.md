@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: null
 id: 2026-05-25T1130-purchases-cordless-brad-nailer
-order: 6
+order: 5
 output: ''
 project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: null
 title: cordless brad nailer
-updated: 2026-06-30 11:42:57.916299
+updated: 2026-07-07 10:45:21.019006
 waiting_on: null
 waiting_since: null
 working_on: false

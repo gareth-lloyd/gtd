@@ -4,7 +4,7 @@ contexts:
 - craft
 - autopilot
 created: 2026-05-25 11:39:55.053904
-defer_until: 2026-07-06 09:00:00
+defer_until: 2026-07-13 09:00:00
 due: null
 energy: medium
 id: 2026-05-25T1139-check-linear-backlogs-for-issues-labeled-apac
@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Check linear backlogs for issues labeled APAC
-updated: 2026-07-01 14:31:54.608087
+updated: 2026-07-06 14:09:27.990488
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -6,14 +6,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-01T1756-3d-print-push-chair-part
-order: 11
+order: 4
 output: ''
 project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: 5
 title: 3d print push chair partf - front wheel gaskety thing
-updated: 2026-07-02 15:07:48.049485
+updated: 2026-07-07 10:45:21.019006
 waiting_on: null
 waiting_since: null
 working_on: false

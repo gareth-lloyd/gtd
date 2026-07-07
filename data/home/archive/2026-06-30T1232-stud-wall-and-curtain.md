@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Stud wall and curtain
-updated: 2026-07-02 15:07:51.641895
+updated: 2026-07-07 10:45:06.377552
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

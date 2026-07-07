@@ -6,14 +6,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-06-02T1232-workshop-thermometer
-order: 8
+order: 7
 output: ''
 project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: 5
 title: workshop smart home hub. consider tp-link tapo
-updated: 2026-06-30 12:31:56.981217
+updated: 2026-07-07 10:45:21.019006
 waiting_on: null
 waiting_since: null
 working_on: false

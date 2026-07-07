@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-03 10:38:53.792885
+created: &id001 2026-07-06 14:56:05.199545
 defer_until: null
 due: null
 energy: low
-id: 2026-07-03T1038-book-safi-rabies
+id: 2026-07-06T1456-read-through-emea-projects-before-call
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: book safi rabies
+title: Read through EMEA projects before call
 updated: *id001
 waiting_on: null
 waiting_since: null
