@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-07 13:19:34.533354
+created: 2026-07-08 14:49:55.245438
 defer_until: null
 due: null
 energy: low
-id: 2026-07-07T1319-respond-jordan
+id: 2026-07-08T1449-get-latest-dump
 order: null
 output: ''
-project: null
+project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: respond jordan
-updated: *id001
+title: get latest dump
+updated: 2026-07-08 14:49:55.278057
 waiting_on: null
 waiting_since: null
 working_on: false

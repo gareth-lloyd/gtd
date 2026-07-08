@@ -48,7 +48,6 @@ output: |
   > For placement I'd put the check in the IHG onboarding config providers + the brand-change flow so it fails loud during config. +1 to Andrea's "alert if the id didn't change during a brand transition" as a complement — that catches the forgot-to-update case regardless of format. And the only thing that catches a valid-but-wrong code is reconciling the InnCode against IHG's actual property list, which is a bigger lift — the highest-leverage fix is still stopping it at the SF entry point (what you're chasing with Stacy).
 
   Not sent. If you want it posted, say the word and I'll post it (or you can paste/edit).
-
 project: null
 source_id: https://canarytechnologies.slack.com/archives/C0B1MN8F869/p1783439627731099?thread_ts=1783438349.025529&cid=C0B1MN8F869
 tags:
@@ -57,7 +56,7 @@ tags:
 time_minutes: 10
 title: 'Reply to Connor in #epd-enterprise-engineers: error on 5-digit numeric IHG
   InnCode?'
-updated: 2026-07-08 10:20:00.000000
+updated: 2026-07-08 15:10:47.336749
 waiting_on: null
 waiting_since: null
 working_on: false

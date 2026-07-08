@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: I should be charging forward wiht GDPR
-updated: 2026-07-06 16:02:40.719891
+updated: 2026-07-08 14:50:47.989470
 waiting_on: null
 waiting_since: null
 working_on: false

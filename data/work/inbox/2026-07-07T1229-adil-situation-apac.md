@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-07 12:29:50.044709
-defer_until: null
+created: 2026-07-07 12:29:50.044709
+defer_until: 2026-07-09 09:00:00
 due: null
 energy: low
 id: 2026-07-07T1229-adil-situation-apac
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Adil situation - apac
-updated: *id001
+updated: 2026-07-08 14:51:52.765871
 waiting_on: null
 waiting_since: null
 working_on: false

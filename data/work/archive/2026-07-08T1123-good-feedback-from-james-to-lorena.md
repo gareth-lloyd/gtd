@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-07 16:35:33.043117
+created: 2026-07-08 11:23:37.589094
 defer_until: null
 due: null
 energy: low
-id: 2026-07-07T1635-content-gateways-as-service
+id: 2026-07-08T1123-good-feedback-from-james-to-lorena
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Content gateways as service. Share SoA docs with Andrea
-updated: 2026-07-07 16:44:14.176338
+title: good feedback from james to Lorena
+updated: 2026-07-08 15:13:34.219062
 waiting_on: null
 waiting_since: null
 working_on: false
