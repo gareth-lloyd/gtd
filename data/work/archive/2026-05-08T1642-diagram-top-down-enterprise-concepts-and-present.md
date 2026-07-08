@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Diagram "top-down" enterprise concepts and present
-updated: 2026-06-03 16:49:41.449831
+updated: 2026-07-07 14:05:27.831739
 waiting_on: null
 waiting_since: null
 working_on: false

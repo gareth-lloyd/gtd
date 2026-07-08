@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Record Loom of rules consistency demo (ENT-5030)
-updated: 2026-05-20 14:45:56.586419
+updated: 2026-07-07 14:05:42.358287
 waiting_on: null
 waiting_since: null
 working_on: false

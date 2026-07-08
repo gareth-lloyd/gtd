@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 90
 title: 'Build Claude Code hook (B1): rbc config blast-radius diff on rule edits'
-updated: 2026-05-28 14:46:27.148249
+updated: 2026-07-07 14:06:20.747086
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 60
 title: 'Build Claude Code hook (C1): onboarding plan registry-coherence Stop check'
-updated: 2026-05-28 14:46:30.161640
+updated: 2026-07-07 14:06:22.479618
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-07 10:46:52.693772
+created: 2026-07-07 16:35:33.043117
 defer_until: null
 due: null
 energy: low
-id: 2026-07-07T1046-pay-electric-home
+id: 2026-07-07T1635-content-gateways-as-service
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: pay electric home
-updated: *id001
+title: Content gateways as service. Share SoA docs with Andrea
+updated: 2026-07-07 16:44:14.176338
 waiting_on: null
 waiting_since: null
 working_on: false

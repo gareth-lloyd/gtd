@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Convert onboarding failure email notifications into slack channel messages
-updated: 2026-05-21 13:05:36.869692
+updated: 2026-07-07 14:06:14.186038
 waiting_on: null
 waiting_since: null
 working_on: false

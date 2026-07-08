@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Bring CI dep tools into agentic flows more significantly
-updated: 2026-06-23 13:35:27.124317
+updated: 2026-07-07 14:06:31.691642
 waiting_on: null
 waiting_since: null
 working_on: false

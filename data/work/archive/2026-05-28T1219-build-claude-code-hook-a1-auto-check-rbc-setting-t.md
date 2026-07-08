@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: 'Build Claude Code hook (A1): auto-check rbc setting-type codegen staleness'
-updated: 2026-05-28 14:46:22.756098
+updated: 2026-07-07 14:06:17.938727
 waiting_on: null
 waiting_since: null
 working_on: false

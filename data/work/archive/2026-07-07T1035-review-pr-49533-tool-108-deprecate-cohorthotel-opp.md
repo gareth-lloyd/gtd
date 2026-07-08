@@ -86,7 +86,7 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #49533: [TOOL-108] Deprecate CohortHotel opportunity-mirror fields'
-updated: 2026-07-07 08:41:00.000000
+updated: 2026-07-07 13:49:45.244064
 waiting_on: null
 waiting_since: null
 working_on: false

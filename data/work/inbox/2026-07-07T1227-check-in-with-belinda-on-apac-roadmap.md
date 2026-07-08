@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-07 12:27:16.861473
-defer_until: null
+created: 2026-07-07 12:27:16.861473
+defer_until: 2026-07-13 09:00:00
 due: null
 energy: low
 id: 2026-07-07T1227-check-in-with-belinda-on-apac-roadmap
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Check in with Belinda on APAC roadmap
-updated: *id001
+updated: 2026-07-07 13:49:57.452422
 waiting_on: null
 waiting_since: null
 working_on: false

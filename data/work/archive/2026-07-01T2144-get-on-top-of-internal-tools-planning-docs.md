@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: get on top of internal tools planning docs and linear projects
-updated: 2026-07-02 16:07:57.781959
+updated: 2026-07-07 14:22:42.447189
 waiting_on: null
 waiting_since: null
 working_on: false

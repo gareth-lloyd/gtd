@@ -3,7 +3,7 @@ area: null
 contexts:
 - consume
 created: 2026-07-02 10:43:04.504934
-defer_until: 2026-07-08 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-02T1043-read-emea-gdpr-dpa-eu-ai-act-update-martijn-dekker
