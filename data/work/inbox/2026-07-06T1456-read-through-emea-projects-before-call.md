@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-06 14:56:05.199545
-defer_until: 2026-07-09 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-06T1456-read-through-emea-projects-before-call

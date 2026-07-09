@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-07 12:13:50.944290
-defer_until: 2026-07-09 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-07T1213-come-prepped-to-discuss-volume-of-gdpr-work-and-re
