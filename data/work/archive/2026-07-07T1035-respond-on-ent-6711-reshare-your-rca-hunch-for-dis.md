@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-07T1035-respond-on-ent-6711-reshare-your-rca-hunch-for-dis
-order: null
+order: 3
 output: |
   ## Agent run 2026-07-07T11:45 (draft — NOT yet posted)
 
@@ -94,14 +94,14 @@ output: |
     canary/onboarding/plans/configure_pms_integration_validate_plan.py:52-91;
     canary/onboarding/checks/configuration_completed.py;
     vendors/integrations/oracle_ohip/admin.py enable()
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://linear.app/canary-technologies/issue/ENT-6711/run-root-cause-analysis-for-disabled-integrations
 tags:
 - morning-gtd
 - linear
 time_minutes: 10
 title: 'Respond on ENT-6711: reshare your RCA hunch for disabled integrations'
-updated: 2026-07-07 13:49:19.679126
+updated: 2026-07-09 13:48:04.993329
 waiting_on: null
 waiting_since: null
 working_on: false

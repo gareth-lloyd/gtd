@@ -1,12 +1,12 @@
 ---
-area: null
+area: management
 contexts: []
 created: 2026-07-07 16:31:37.431367
 defer_until: null
-due: null
-energy: low
+due: 2026-07-09
+energy: medium
 id: 2026-07-07T1631-read-through-andrea-s
-order: null
+order: 4
 output: |
   ## Agent run 2026-07-08T06:59:34Z
 
@@ -98,13 +98,12 @@ output: |
   ship first on identifier matching and migrate later — the execution plan currently assumes the latter.
 
   No edits or comments made to any Notion doc (read-only).
-
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
-title: Read through Andrea's new design docs mentioned in latest 1-1 notes
-updated: 2026-07-08 06:59:34.000000
+time_minutes: 15
+title: Read through Andrea's new design docs mentioned in latest 1-1 notes. plan work
+updated: 2026-07-09 13:53:32.129201
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-08 22:50:37.888301
+created: &id001 2026-07-09 14:16:45.777386
 defer_until: null
 due: null
 energy: low
-id: 2026-07-08T2250-incorporate-daily-notion-agent-into-gtd
+id: 2026-07-09T1416-scope-work-to-highlight-when-checks-have-been-skip
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: incorporate daily notion agent into /gtd
+title: Scope work to highlight when checks have been skipped
 updated: *id001
 waiting_on: null
 waiting_since: null

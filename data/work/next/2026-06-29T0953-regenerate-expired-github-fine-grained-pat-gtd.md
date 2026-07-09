@@ -3,8 +3,8 @@ area: null
 contexts:
 - autopilot
 created: 2026-06-29 09:53:21.810051
-defer_until: null
-due: 2026-07-02
+defer_until: 2026-07-10 09:00:00
+due: null
 energy: low
 id: 2026-06-29T0953-regenerate-expired-github-fine-grained-pat-gtd
 order: null
@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 5
 title: Regenerate expired GitHub fine-grained PAT (gtd)
-updated: 2026-07-02 16:07:43.527460
+updated: 2026-07-09 13:46:15.399802
 waiting_on: null
 waiting_since: null
 working_on: false

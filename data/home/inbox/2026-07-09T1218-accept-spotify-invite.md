@@ -1,22 +1,22 @@
 ---
 area: null
 contexts: []
-created: 2026-06-29 11:54:27.849616
+created: 2026-07-09 12:18:18.551051
 defer_until: 2026-07-10 09:00:00
 due: null
 energy: low
-id: 2026-06-29T1154-buy-roof-bars
+id: 2026-07-09T1218-accept-spotify-invite
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: buy roof bars
-updated: 2026-07-09 13:21:59.374735
+title: accept spotify invite
+updated: 2026-07-09 12:58:40.096212
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
-https://maps.app.goo.gl/bFXUqvWv1yd4AwT58
+https://www.spotify.com/gr/duo/join/invite/858573B29a3c2ZX/

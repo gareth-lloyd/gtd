@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Read EMEA GDPR/DPA + EU AI Act update (Martijn Dekker)
-updated: 2026-07-07 13:20:01.557647
+updated: 2026-07-09 13:41:22.355592
 waiting_on: null
 waiting_since: null
 working_on: false

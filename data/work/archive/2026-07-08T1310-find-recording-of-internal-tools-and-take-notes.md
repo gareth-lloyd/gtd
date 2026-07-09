@@ -88,7 +88,7 @@ tags: []
 time_minutes: 5
 title: find recording of internal tools q3 block A planning meeting . Meeting took
   place tuesday 7th july. Should be in notion
-updated: 2026-07-08 15:45:00.000000
+updated: 2026-07-09 13:19:39.938015
 waiting_on: null
 waiting_since: null
 working_on: false

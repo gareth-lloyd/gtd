@@ -128,7 +128,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review what golem is
-updated: 2026-07-08 20:05:00.000000
+updated: 2026-07-09 13:37:31.521781
 waiting_on: null
 waiting_since: null
 working_on: false
