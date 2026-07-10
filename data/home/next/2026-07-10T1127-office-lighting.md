@@ -1,20 +1,18 @@
 ---
-area: house
-contexts:
-- home
-created: 2026-05-25 11:30:00
+area: null
+contexts: []
+created: 2026-07-10 11:27:28.620409
 defer_until: null
 due: null
-energy: null
-id: 2026-05-25T1130-wifi-fire-alarm
-order: 5
+energy: low
+id: 2026-07-10T1127-office-lighting
+order: 4
 output: ''
 project: 2026-05-25-workshop
 source_id: null
-tags:
-- focus
-time_minutes: null
-title: Install WiFi fire alarm
+tags: []
+time_minutes: 5
+title: Office lighting
 updated: 2026-07-10 15:24:27.155096
 waiting_on: null
 waiting_since: null

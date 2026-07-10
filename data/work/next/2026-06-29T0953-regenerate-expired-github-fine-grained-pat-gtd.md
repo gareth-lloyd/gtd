@@ -3,7 +3,7 @@ area: null
 contexts:
 - autopilot
 created: 2026-06-29 09:53:21.810051
-defer_until: 2026-07-10 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-06-29T0953-regenerate-expired-github-fine-grained-pat-gtd

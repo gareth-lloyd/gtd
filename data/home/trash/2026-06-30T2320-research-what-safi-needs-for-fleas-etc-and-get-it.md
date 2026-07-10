@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: research what safi needs for fleas etc, and get it on skroutz
-updated: 2026-07-02 12:38:54.738384
+updated: 2026-07-10 11:23:22.481193
 waiting_on: null
 waiting_since: null
 working_on: false

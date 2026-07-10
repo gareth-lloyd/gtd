@@ -13,10 +13,12 @@ source_id: null
 tags: []
 time_minutes: 5
 title: CS team are routinely skipping validate PMS
-updated: 2026-07-09 14:18:34.170072
+updated: 2026-07-10 12:00:56.788998
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
 remove as an option, force the issue
+Which brands / PMSes are failing?
+Try to get the signal back

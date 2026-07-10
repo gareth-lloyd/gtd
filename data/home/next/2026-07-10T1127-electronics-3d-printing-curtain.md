@@ -1,20 +1,20 @@
 ---
 area: null
 contexts: []
-created: 2026-07-01 17:56:53.943161
+created: 2026-07-10 11:27:45.954900
 defer_until: null
 due: null
 energy: low
-id: 2026-07-01T1756-3d-print-push-chair-part
-order: 3
+id: 2026-07-10T1127-electronics-3d-printing-curtain
+order: 1
 output: ''
 project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: 5
-title: 3d print push chair partf - front wheel gaskety thing
+title: Electronics / 3d printing curtain
 updated: 2026-07-10 15:24:24.322188
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

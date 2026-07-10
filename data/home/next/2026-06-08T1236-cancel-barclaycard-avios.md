@@ -13,8 +13,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Cancel barclaycard avios
-updated: 2026-07-02 15:35:44.149945
+updated: 2026-07-10 11:20:50.240636
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-08 16:04:07.147818
-defer_until: 2026-07-10 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-08T1604-know-the-key-metrics-for-my-teams-internal-tool

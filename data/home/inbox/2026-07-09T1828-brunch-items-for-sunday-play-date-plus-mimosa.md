@@ -1,22 +1,20 @@
 ---
 area: null
 contexts: []
-created: 2026-07-09 12:18:18.551051
+created: 2026-07-09 18:28:39.392356
 defer_until: 2026-07-11 09:00:00
 due: null
 energy: low
-id: 2026-07-09T1218-accept-spotify-invite
+id: 2026-07-09T1828-brunch-items-for-sunday-play-date-plus-mimosa
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: accept spotify invite
-updated: 2026-07-10 11:24:22.120256
+title: brunch items for sunday play date, plus mimosa
+updated: 2026-07-10 11:24:27.003721
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-https://www.spotify.com/gr/duo/join/invite/858573B29a3c2ZX/

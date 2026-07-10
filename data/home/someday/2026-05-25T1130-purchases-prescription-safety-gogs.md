@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: null
 id: 2026-05-25T1130-purchases-prescription-safety-gogs
-order: 6
+order: 9
 output: ''
 project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: null
 title: Prescription safety gogs
-updated: 2026-07-07 10:45:21.019006
+updated: 2026-07-10 15:24:27.155096
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-09 14:16:45.777386
+created: 2026-07-09 20:29:34.918088
 defer_until: null
 due: null
 energy: low
-id: 2026-07-09T1416-scope-work-to-highlight-when-checks-have-been-skip
+id: 2026-07-09T2029-reply-to-all-nick-emails
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Scope work to highlight when checks have been skipped
-updated: *id001
+title: reply to all nick emails
+updated: 2026-07-10 11:54:39.054592
 waiting_on: null
 waiting_since: null
 working_on: false
