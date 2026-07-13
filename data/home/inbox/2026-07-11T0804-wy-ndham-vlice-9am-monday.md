@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-09 13:45:23.721028
+created: &id001 2026-07-11 08:04:23.261498
 defer_until: null
 due: null
 energy: low
-id: 2026-07-09T1345-set-a-time-to-review-the-xmas-meetup-ent-team-visi
+id: 2026-07-11T0804-wy-ndham-vlice-9am-monday
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Set a time to review the xmas meetup ent team vision
+title: WY NDHAM VLICE 9am monday
 updated: *id001
 waiting_on: null
 waiting_since: null

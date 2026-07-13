@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Connor Swords re: Omni API integration vs building a replacement'
-updated: 2026-07-10 11:37:07.341613
+updated: 2026-07-10 16:48:47.927978
 waiting_on: null
 waiting_since: null
 working_on: false

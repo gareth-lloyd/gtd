@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-08 15:30:08.273138
-defer_until: 2026-07-13 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-08T1530-add-self-to-strategic-accounts-call-recommend-pete

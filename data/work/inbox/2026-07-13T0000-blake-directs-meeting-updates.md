@@ -1,19 +1,20 @@
 ---
 area: null
-contexts: []
-created: 2026-07-07 12:27:16.861473
+contexts:
+- autopilot
+created: &id001 2026-07-13 00:00:00
 defer_until: null
 due: null
 energy: low
-id: 2026-07-07T1227-check-in-with-belinda-on-apac-roadmap
+id: 2026-07-13T0000-blake-directs-meeting-updates
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Check in with Belinda on APAC roadmap
-updated: 2026-07-07 13:49:57.452422
+title: Blake directs meeting updates
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

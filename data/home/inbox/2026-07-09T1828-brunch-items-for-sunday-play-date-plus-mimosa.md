@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-09 18:28:39.392356
-defer_until: 2026-07-11 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-09T1828-brunch-items-for-sunday-play-date-plus-mimosa

@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Reply to Andrew Monroe re: Engineering All Hands proposal'
-updated: 2026-07-10 14:15:50.492782
+updated: 2026-07-10 16:51:16.961098
 waiting_on: null
 waiting_since: null
 working_on: false
