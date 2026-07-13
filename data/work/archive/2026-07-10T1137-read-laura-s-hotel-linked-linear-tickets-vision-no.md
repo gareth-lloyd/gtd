@@ -57,7 +57,7 @@ tags:
 - gmail
 time_minutes: 15
 title: 'Read Laura''s ''Hotel-linked Linear tickets: vision'' Notion page'
-updated: 2026-07-13 14:10:00.000000
+updated: 2026-07-13 14:19:24.620044
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -56,7 +56,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Connor re: ENT-6844 — CSMs adding/removing properties from portfolios'
-updated: 2026-07-13 11:42:24
+updated: 2026-07-13 14:23:36.449131
 waiting_on: null
 waiting_since: null
 working_on: false
