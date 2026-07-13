@@ -2,8 +2,8 @@
 area: null
 contexts: []
 created: 2026-06-19 00:28:37.033936
-defer_until: null
-due: 2026-07-02
+defer_until: 2026-07-20 09:00:00
+due: null
 energy: medium
 id: 2026-06-19T0028-grooming-for-safi
 order: 3
@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: grooming for safi
-updated: 2026-07-02 20:20:36.597681
+updated: 2026-07-13 10:40:13.872313
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 book morning, marg to pick up
