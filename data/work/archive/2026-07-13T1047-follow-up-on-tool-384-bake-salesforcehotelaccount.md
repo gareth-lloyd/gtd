@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Follow up on TOOL-384: bake SalesforceHotelAccount deletion into deactivation
   process'
-updated: 2026-07-13 10:47:59.780086
+updated: 2026-07-13 14:06:38.482054
 waiting_on: null
 waiting_since: null
 working_on: false

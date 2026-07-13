@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-02 16:34:07.448349
-defer_until: null
+defer_until: 2026-07-14 09:00:00
 due: null
 energy: low
 id: 2026-07-02T1634-schedule-call-with-daniel-choy-intro-to-martijn
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: schedule call with Daniel Choy, intro to Martijn
-updated: 2026-07-07 11:34:04.077141
+updated: 2026-07-13 13:58:10.477344
 waiting_on: null
 waiting_since: null
 working_on: false

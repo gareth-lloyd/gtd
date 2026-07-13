@@ -17,7 +17,7 @@ tags:
 time_minutes: 20
 title: 'Triage ENT-6819: deactivation/cut-parent-ties left GJ messaging enabled on
   ~80 Wyndham sites'
-updated: 2026-07-10 11:37:07.272269
+updated: 2026-07-13 14:01:15.071446
 waiting_on: null
 waiting_since: null
 working_on: false

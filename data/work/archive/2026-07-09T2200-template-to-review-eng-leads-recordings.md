@@ -22,7 +22,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Create a /gtd template to review eng leads recordings
-updated: 2026-07-13 10:45:00.000000
+updated: 2026-07-13 14:00:18.763386
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 20
 title: 'Read: Support ID design doc (consistent immutable external hotel ID)'
-updated: 2026-07-13 10:47:59.712198
+updated: 2026-07-13 14:07:58.043479
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Follow up with Connor on the BW contact change (Kevin Velez departure)
-updated: 2026-07-13 10:47:59.643332
+updated: 2026-07-13 14:07:30.945751
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Consider a mid-year review against the Year End Narrative
-updated: 2026-07-10 14:15:50.629678
+updated: 2026-07-13 14:01:29.059778
 waiting_on: null
 waiting_since: null
 working_on: false

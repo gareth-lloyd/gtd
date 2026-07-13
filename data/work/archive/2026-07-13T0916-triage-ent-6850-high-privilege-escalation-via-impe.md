@@ -49,7 +49,12 @@ output: |
   ### Verification status
   Code-read only — I did **not** run the test suite, and did **not** attempt a live repro (would require a staff session; out of scope for triage and against the repo's remote-env rules). The claims above about who controls the session are from reading the view + middleware + validator, which is sufficient to refute the stated exploit path. The two "what is real" items are flagged as *unverified* and would need their own look.
 
-  **No external writes made.** No Linear comment posted, no status/priority changed, nothing assigned — the severity downgrade and reroute above are recommendations awaiting your call.
+  ### External writes
+
+  Triage comment **posted** to ENT-6850 with the findings above, on explicit user approval:
+  https://linear.app/canary-technologies/issue/ENT-6850#comment-f13b2f9e-2600-4f37-bab0-5d20c5319c44
+
+  Nothing else changed — priority is still HIGH, status still Triage, still unassigned. The downgrade, reroute and AC rewrite remain recommendations awaiting a decision.
 project: null
 source_id: https://linear.app/canary-technologies/issue/ENT-6850
 tags:
@@ -58,7 +63,7 @@ tags:
 time_minutes: 20
 title: 'Triage ENT-6850: [HIGH] Privilege escalation via impersonation to staff-only
   endpoints'
-updated: 2026-07-13 12:05:00.000000
+updated: 2026-07-13 14:06:06.972786
 waiting_on: null
 waiting_since: null
 working_on: false
