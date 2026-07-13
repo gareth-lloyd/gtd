@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-11 08:04:23.261498
+created: 2026-07-09 18:28:39.392356
 defer_until: null
 due: null
 energy: low
-id: 2026-07-11T0804-wy-ndham-vlice-9am-monday
+id: 2026-07-09T1828-brunch-items-for-sunday-play-date-plus-mimosa
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: WY NDHAM VLICE 9am monday
-updated: *id001
+title: brunch items for sunday play date, plus mimosa
+updated: 2026-07-13 10:38:37.310571
 waiting_on: null
 waiting_since: null
 working_on: false
