@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review Friday's show & tell recording
-updated: 2026-07-13 14:17:04.257001
+updated: 2026-07-14 14:40:33.977283
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -4,12 +4,12 @@ contexts:
 - consume
 created: 2026-07-14 11:46:51.278063
 defer_until: null
-due: null
-energy: medium
+due: 2026-07-14
+energy: high
 id: 2026-07-14T1146-read-and-give-feedback-on-blake-s-a-product-proces
 order: null
 output: ''
-project: null
+project: 2026-04-10T0840-ticket
 source_id: https://canarytechnologies.slack.com/archives/C0AJW6KHE1E/p1783769548648799?thread_ts=1783769548.648799&cid=C0AJW6KHE1E
 tags:
 - morning-gtd
@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 30
 title: Read and give feedback on Blake's 'A Product Process a Machine Can Read'
-updated: 2026-07-14 11:46:51.346482
+updated: 2026-07-14 15:01:03.703064
 waiting_on: null
 waiting_since: null
 working_on: false

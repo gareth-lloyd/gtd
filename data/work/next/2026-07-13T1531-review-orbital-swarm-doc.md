@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-13 15:31:12.236077
+created: 2026-07-13 15:31:12.236077
 defer_until: null
-due: null
-energy: low
+due: 2026-07-14
+energy: medium
 id: 2026-07-13T1531-review-orbital-swarm-doc
 order: null
 output: ''
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: review orbital swarm doc
-updated: *id001
+updated: 2026-07-14 15:00:54.965612
 waiting_on: null
 waiting_since: null
 working_on: false

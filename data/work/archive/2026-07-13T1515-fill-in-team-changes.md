@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-13 15:15:35.622230
+created: 2026-07-13 15:15:35.622230
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Fill in team changes
-updated: *id001
+updated: 2026-07-14 14:40:55.287264
 waiting_on: null
 waiting_since: null
 working_on: false

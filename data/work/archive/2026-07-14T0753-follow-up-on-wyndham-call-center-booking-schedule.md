@@ -17,7 +17,7 @@ tags:
 time_minutes: 5
 title: 'Follow up on: Wyndham call-center booking — schedule creation of ~1800 non-onboarded
   hotels'
-updated: 2026-07-14 07:53:56.233745
+updated: 2026-07-14 14:41:08.256384
 waiting_on: null
 waiting_since: null
 working_on: false
