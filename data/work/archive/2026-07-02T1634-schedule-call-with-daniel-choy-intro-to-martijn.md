@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: schedule call with Daniel Choy, intro to Martijn
-updated: 2026-07-13 13:58:10.477344
+updated: 2026-07-14 14:25:21.014629
 waiting_on: null
 waiting_since: null
 working_on: false
