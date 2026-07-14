@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-07 12:27:16.861473
+created: &id001 2026-07-13 15:35:15.972469
 defer_until: null
 due: null
 energy: low
-id: 2026-07-07T1227-check-in-with-belinda-on-apac-roadmap
+id: 2026-07-13T1535-check-airbnb-cot-situation
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Check in with Belinda on APAC roadmap
-updated: 2026-07-13 10:39:08.851556
+title: check airbnb cot situation
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
