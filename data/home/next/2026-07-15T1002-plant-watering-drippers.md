@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-14 12:09:48.869942
+created: 2026-07-15 10:02:50.879144
 defer_until: null
 due: null
 energy: low
-id: 2026-07-14T1209-set-20th-expectation-for-peter
+id: 2026-07-15T1002-plant-watering-drippers
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: set 20th expectation for peter
-updated: 2026-07-14 14:48:34.689605
+title: Plant watering drippers
+updated: 2026-07-15 10:02:50.916441
 waiting_on: null
 waiting_since: null
 working_on: false

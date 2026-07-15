@@ -3,7 +3,7 @@ area: engineering
 contexts: []
 created: 2026-06-25 09:24:54.576735
 defer_until: null
-due: 2026-06-25
+due: 2026-07-14
 energy: medium
 id: 2026-06-25T0924-ship-slack-notifications-with-recommended-channel
 order: null
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: ship slack notifications with recommended channel
-updated: 2026-06-25 12:18:06.323262
+updated: 2026-07-14 15:01:43.070643
 waiting_on: null
 waiting_since: null
 working_on: false

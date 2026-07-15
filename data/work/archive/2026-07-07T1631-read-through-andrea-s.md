@@ -3,7 +3,7 @@ area: management
 contexts: []
 created: 2026-07-07 16:31:37.431367
 defer_until: null
-due: null
+due: 2026-07-14
 energy: medium
 id: 2026-07-07T1631-read-through-andrea-s
 order: 4
@@ -103,7 +103,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Read through Andrea's new design docs mentioned in latest 1-1 notes. plan work
-updated: 2026-07-13 14:43:18.688996
+updated: 2026-07-14 16:15:53.787642
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-13 15:35:15.972469
-defer_until: 2026-07-15 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-13T1535-check-airbnb-cot-situation

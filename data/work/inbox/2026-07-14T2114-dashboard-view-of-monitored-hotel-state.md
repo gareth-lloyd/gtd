@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-14 12:09:48.869942
+created: 2026-07-14 21:14:37.613965
 defer_until: null
 due: null
 energy: low
-id: 2026-07-14T1209-set-20th-expectation-for-peter
+id: 2026-07-14T2114-dashboard-view-of-monitored-hotel-state
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: set 20th expectation for peter
-updated: 2026-07-14 14:48:34.689605
+title: DAshboard view of monitored hotel state - propose to Andrea
+updated: 2026-07-14 21:15:33.865301
 waiting_on: null
 waiting_since: null
 working_on: false

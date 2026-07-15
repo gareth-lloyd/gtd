@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: requote villa based on changing scopes
-updated: 2026-07-02 20:22:27.243854
+updated: 2026-07-14 20:45:34.925519
 waiting_on: null
 waiting_since: null
 working_on: false
