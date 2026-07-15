@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-09 21:00:08.620551
-defer_until: null
+defer_until: 2026-07-16 09:00:00
 due: null
 energy: low
 id: 2026-07-09T2100-figure-out-urgency-of-wyndham-voice-work-and-then
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Figure out urgency of wyndham voice work and then prompt for reviews
-updated: 2026-07-14 15:00:42.866792
+updated: 2026-07-15 15:41:30.278468
 waiting_on: null
 waiting_since: null
 working_on: false

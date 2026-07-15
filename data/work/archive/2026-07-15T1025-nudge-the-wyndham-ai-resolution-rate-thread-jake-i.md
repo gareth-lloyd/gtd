@@ -17,7 +17,7 @@ tags:
 time_minutes: 5
 title: Nudge the Wyndham AI Resolution Rate thread — Jake is waiting on Ani's Omni
   link
-updated: 2026-07-15 10:25:21.468585
+updated: 2026-07-15 14:04:00.657146
 waiting_on: null
 waiting_since: null
 working_on: false

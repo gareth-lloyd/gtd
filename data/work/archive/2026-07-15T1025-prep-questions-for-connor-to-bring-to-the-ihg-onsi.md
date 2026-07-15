@@ -16,7 +16,7 @@ tags:
 - notion
 time_minutes: 10
 title: Prep questions for Connor to bring to the IHG onsite
-updated: 2026-07-15 10:25:21.327017
+updated: 2026-07-15 13:40:09.470532
 waiting_on: null
 waiting_since: null
 working_on: false

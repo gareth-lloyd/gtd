@@ -16,7 +16,7 @@ tags:
 - notion
 time_minutes: 15
 title: Confirm Connor has everything he needs for the IHG onsite (today)
-updated: 2026-07-15 10:25:21.256010
+updated: 2026-07-15 13:40:06.658109
 waiting_on: null
 waiting_since: null
 working_on: false

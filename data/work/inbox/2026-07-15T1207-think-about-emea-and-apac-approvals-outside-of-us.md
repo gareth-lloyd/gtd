@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-14 12:09:48.869942
+created: 2026-07-15 12:07:15.859560
 defer_until: 2026-07-16 09:00:00
 due: null
 energy: low
-id: 2026-07-14T1209-set-20th-expectation-for-peter
+id: 2026-07-15T1207-think-about-emea-and-apac-approvals-outside-of-us
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: set 20th expectation for peter
-updated: 2026-07-15 15:41:36.856591
+title: think about emea and apac approvals outside of us hoours, hotfix
+updated: 2026-07-15 14:05:20.843295
 waiting_on: null
 waiting_since: null
 working_on: false

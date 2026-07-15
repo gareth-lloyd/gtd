@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-14 13:52:11.418501
-defer_until: null
+defer_until: 2026-07-16 09:00:00
 due: null
 energy: low
 id: 2026-07-14T1352-notify-blake-peter-concerns
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: notify blake peter concerns
-updated: 2026-07-14 13:52:16.158899
+updated: 2026-07-15 15:41:40.060470
 waiting_on: null
 waiting_since: null
 working_on: false
