@@ -39,7 +39,7 @@ tags:
 time_minutes: 10
 title: 'Review ENT-6863: Wyndham permission ''regressions'' closed as user error —
   sanity-check before next cycle'
-updated: 2026-07-15 14:07:38.234790
+updated: 2026-07-15 16:20:41.258835
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -76,7 +76,7 @@ tags:
 - from-awareness
 time_minutes: 15
 title: 'Read: GDPR DPIA thread (biometric verification) — you''re CC''d, v0.2 attached'
-updated: 2026-07-15 14:06:42
+updated: 2026-07-15 16:27:57.456685
 waiting_on: null
 waiting_since: null
 working_on: false

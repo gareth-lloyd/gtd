@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-09 21:00:08.620551
-defer_until: 2026-07-16 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-09T2100-figure-out-urgency-of-wyndham-voice-work-and-then

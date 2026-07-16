@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-15 10:21:25.497507
+created: 2026-07-15 10:21:25.497507
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: respond andra
-updated: *id001
+updated: 2026-07-15 15:45:54.882103
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -34,7 +34,7 @@ tags:
 time_minutes: 10
 title: 'Read: BW loyalty enrollment thread — OHIP reg card fields + bw-63012/bw-41096
   kiosk failures'
-updated: 2026-07-15 14:10:30.000000
+updated: 2026-07-15 16:25:12.929115
 waiting_on: null
 waiting_since: null
 working_on: false

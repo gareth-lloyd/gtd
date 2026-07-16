@@ -45,7 +45,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: 'Read: Enterprise Forecast — IHG full MSA rewrite, Q3 line of sight $22.6M'
-updated: 2026-07-15 14:04:59.208868
+updated: 2026-07-15 16:27:54.220282
 waiting_on: null
 waiting_since: null
 working_on: false

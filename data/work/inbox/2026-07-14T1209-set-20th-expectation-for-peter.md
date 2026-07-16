@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-14 12:09:48.869942
-defer_until: 2026-07-16 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-14T1209-set-20th-expectation-for-peter
