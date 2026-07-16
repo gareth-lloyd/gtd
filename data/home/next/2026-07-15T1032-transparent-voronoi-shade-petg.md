@@ -12,8 +12,8 @@ project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: transparent voronoi shade petg
-updated: 2026-07-15 10:32:18.683108
+title: transparent voronoi shade petg - test
+updated: 2026-07-16 14:14:05.533771
 waiting_on: null
 waiting_since: null
 working_on: false

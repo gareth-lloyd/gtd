@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-16 12:40:24.080718
+created: 2026-07-16 12:40:24.080718
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review eng design
-updated: *id001
+updated: 2026-07-16 15:10:35.613991
 waiting_on: null
 waiting_since: null
 working_on: false

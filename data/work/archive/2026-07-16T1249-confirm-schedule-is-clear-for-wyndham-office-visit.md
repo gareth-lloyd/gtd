@@ -16,7 +16,7 @@ tags:
 - notion
 time_minutes: 5
 title: Confirm schedule is clear for Wyndham office visit Thu Jul 23
-updated: 2026-07-16 12:49:55.276205
+updated: 2026-07-16 14:45:46.696442
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-16 12:02:32.198483
+created: 2026-07-15 10:02:50.879144
 defer_until: null
 due: null
 energy: low
-id: 2026-07-16T1202-set-20th-expectation-for-adil
+id: 2026-07-15T1002-plant-watering-drippers
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: Set 20th expectation for Adil
-updated: *id001
+title: Plant watering drippers
+updated: 2026-07-16 14:13:48.221129
 waiting_on: null
 waiting_since: null
 working_on: false

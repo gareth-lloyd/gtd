@@ -16,7 +16,7 @@ tags:
 - notion
 time_minutes: 15
 title: Follow up with Ani and Marta on Wyndham check-in UX concerns
-updated: 2026-07-16 12:49:55.199997
+updated: 2026-07-16 14:45:49.849394
 waiting_on: null
 waiting_since: null
 working_on: false

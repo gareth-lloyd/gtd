@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-14 21:14:37.613965
-defer_until: null
+defer_until: 2026-07-17 09:00:00
 due: null
 energy: low
 id: 2026-07-14T2114-dashboard-view-of-monitored-hotel-state
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: DAshboard view of monitored hotel state - propose to Andrea
-updated: 2026-07-14 21:15:33.865301
+updated: 2026-07-16 14:45:36.296113
 waiting_on: null
 waiting_since: null
 working_on: false

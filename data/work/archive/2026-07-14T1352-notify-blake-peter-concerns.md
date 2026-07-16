@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-15 10:02:50.879144
+created: 2026-07-14 13:52:11.418501
 defer_until: null
 due: null
 energy: low
-id: 2026-07-15T1002-plant-watering-drippers
+id: 2026-07-14T1352-notify-blake-peter-concerns
 order: null
 output: ''
-project: 2026-07-15-prints
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Plant watering drippers
-updated: 2026-07-15 10:02:50.916441
+title: notify blake peter concerns
+updated: 2026-07-16 14:34:58.418834
 waiting_on: null
 waiting_since: null
 working_on: false

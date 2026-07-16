@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 20
 title: 'Triage ENT-6890: user not appearing in Canary after Four Seasons SSO login'
-updated: 2026-07-16 12:49:55.649370
+updated: 2026-07-16 14:48:51.628868
 waiting_on: null
 waiting_since: null
 working_on: false

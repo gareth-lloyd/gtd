@@ -16,7 +16,7 @@ tags:
 - notion
 time_minutes: 20
 title: Update the IHG Pilot Weekly with new action items from the onsite
-updated: 2026-07-16 12:49:55.051154
+updated: 2026-07-16 14:49:49.088349
 waiting_on: null
 waiting_since: null
 working_on: false

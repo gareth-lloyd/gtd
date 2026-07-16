@@ -16,7 +16,7 @@ tags:
 - notion
 time_minutes: 20
 title: Get a debrief from Connor on the IHG onsite
-updated: 2026-07-16 12:49:54.975714
+updated: 2026-07-16 14:45:52.496243
 waiting_on: null
 waiting_since: null
 working_on: false
