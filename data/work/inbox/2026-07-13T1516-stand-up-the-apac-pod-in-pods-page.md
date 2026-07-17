@@ -12,8 +12,8 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Stand up the APAC pod in pods page
-updated: 2026-07-13 15:17:03.300189
+title: Stand up the APAC pod in pods page, eng annoucne
+updated: 2026-07-16 18:50:19.569334
 waiting_on: null
 waiting_since: null
 working_on: false

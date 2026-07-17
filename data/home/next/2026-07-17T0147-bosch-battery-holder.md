@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-14 13:51:07.659554
+created: 2026-07-17 01:47:52.630308
 defer_until: null
 due: null
 energy: low
-id: 2026-07-14T1351-respond-nick
+id: 2026-07-17T0147-bosch-battery-holder
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: respond nick and ben
-updated: 2026-07-17 03:01:10.774915
+title: Bosch battery holder
+updated: 2026-07-17 01:47:52.658907
 waiting_on: null
 waiting_since: null
 working_on: false

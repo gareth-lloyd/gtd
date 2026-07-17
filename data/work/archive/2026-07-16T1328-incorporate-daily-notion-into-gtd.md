@@ -7,7 +7,51 @@ due: null
 energy: low
 id: 2026-07-16T1328-incorporate-daily-notion-into-gtd
 order: null
-output: ''
+output: |
+  ## Agent run 2026-07-16T15:45:00+01:00
+
+  Modified ~/.claude/skills/gtd/SKILL.md. Compared the Morning brief agent prompt
+  against the skill, kept what was genuinely new, and removed the skill's direct
+  dependency on the brief's Notion content (the old Phase 1.7 fetched the
+  "Morning briefs hub" page daily — interpreted "do not directly include content
+  from my Notion agent" as: stop pulling that page and bake the useful prompt
+  ideas in natively instead).
+
+  Already covered, no change needed:
+  - The prompt's 15 important Slack channels exactly match PRIORITY_CHANNELS in
+    ~/.claude/skills/triage-slack/fetch_unread.py (reused by the gtd Slack fetcher).
+  - "Approved PRs ready to merge" / "PRs needing my review" — github.py fetcher
+    kinds mine_action_needed / review_personal already cover these.
+  - "Always link" — permalinks are already mandatory on every item/awareness line.
+  - Notion mentions — covered as far as tooling allows via the Gmail
+    notion_mention path (Notion MCP has no notifications API); kept.
+
+  Incorporated from the prompt (SKILL.md changes):
+  1. New "Priority lens" section: Enterprise-lead role context; Wyndham /
+     Best Western / IHG items get first claim on the Phase 2 dive budget, win
+     ACTIONABLE tie-breaks, lead their awareness sections, and anchor the TL;DR.
+  2. Phase 1.7 replaced: was "Morning Brief (Notion)" content pull; now a
+     bounded "Missed-yesterday sweep" (max 6 MCP calls) — 24h look-back on
+     key-account channels that contributed nothing to breadth, plus a search for
+     my unanswered questions from yesterday. Emits normal Slack items with
+     facts.missed_yesterday=true. This natively replaces the brief's "Things I
+     Missed Yesterday" section, which unread-state breadth couldn't see.
+  3. Phase 3: brief_priority/brief_note kinds removed; missed_yesterday
+     classification rules added; explicit tie-break rule (key account ->
+     ACTIONABLE, otherwise prefer AWARE since awareness is promotable).
+  4. Phase 4: notion brief template row removed; slack missed_yesterday row added.
+  5. Phase 6 awareness report: now opens with a self-authored TL;DR line
+     ("if I read nothing else, what matters today?"), leads with a "Missed
+     yesterday" section when non-empty, and carries the prompt's style rules
+     (calm, scannable, bold the key action, one line per item).
+
+  No script changes were needed — grep confirmed brief handling lived only in
+  SKILL.md. Files touched: ~/.claude/skills/gtd/SKILL.md only.
+
+  Note: the Notion "Morning brief" agent itself was not modified or disabled;
+  if you retire it, nothing in /gtd will notice. If you instead wanted the
+  skill to keep reading the brief page, say so and I'll restore old Phase 1.7
+  (it's in git-less history via this output's description, or I can rewrite it).
 project: null
 source_id: null
 tags: []
@@ -15,10 +59,10 @@ time_minutes: 5
 title: Modify the local /gtd skill. Do not reach directly include content from my
   Notion agent "Morning brief", but instead inspect its prompt to see if there are
   useful things to incorporate.
-updated: 2026-07-16 15:16:04.302340
+updated: 2026-07-16 15:47:45.754336
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 <START PROMPT>
