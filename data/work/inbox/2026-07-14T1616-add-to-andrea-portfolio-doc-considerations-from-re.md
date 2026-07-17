@@ -1,8 +1,8 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-14 16:16:42.608571
-defer_until: null
+created: 2026-07-14 16:16:42.608571
+defer_until: 2026-07-20 09:00:00
 due: null
 energy: low
 id: 2026-07-14T1616-add-to-andrea-portfolio-doc-considerations-from-re
@@ -14,7 +14,7 @@ tags: []
 time_minutes: 5
 title: 'Add to Andrea portfolio doc: considerations from real-world Salesforce data
   misalignment'
-updated: *id001
+updated: 2026-07-17 12:06:56.673679
 waiting_on: null
 waiting_since: null
 working_on: false

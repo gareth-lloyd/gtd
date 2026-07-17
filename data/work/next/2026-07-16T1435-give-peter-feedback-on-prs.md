@@ -3,17 +3,17 @@ area: null
 contexts: []
 created: 2026-07-16 14:35:46.248130
 defer_until: null
-due: null
+due: 2026-07-17
 energy: low
 id: 2026-07-16T1435-give-peter-feedback-on-prs
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: Give Peter feedback on PRs
-updated: 2026-07-16 14:36:53.880631
+updated: 2026-07-17 12:09:25.963246
 waiting_on: null
 waiting_since: null
 working_on: false

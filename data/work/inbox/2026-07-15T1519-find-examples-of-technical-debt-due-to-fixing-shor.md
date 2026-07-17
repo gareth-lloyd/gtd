@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-15 15:19:03.600215
-defer_until: null
+defer_until: 2026-07-20 09:00:00
 due: null
 energy: low
 id: 2026-07-15T1519-find-examples-of-technical-debt-due-to-fixing-shor
@@ -124,7 +124,7 @@ tags: []
 time_minutes: 5
 title: Find examples of technical debt due to fixing short term problems for EMEA
   clients
-updated: 2026-07-16 14:45:39.694616
+updated: 2026-07-17 12:07:03.539024
 waiting_on: null
 waiting_since: null
 working_on: false

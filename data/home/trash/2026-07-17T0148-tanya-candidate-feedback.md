@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-16 21:15:06.553270
+created: 2026-07-17 01:48:26.292674
 defer_until: null
 due: null
 energy: low
-id: 2026-07-16T2115-set-up-watering
+id: 2026-07-17T0148-tanya-candidate-feedback
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: set up watering
-updated: *id001
+title: Tanya candidate feedback
+updated: 2026-07-17 11:58:37.147658
 waiting_on: null
 waiting_since: null
 working_on: false
