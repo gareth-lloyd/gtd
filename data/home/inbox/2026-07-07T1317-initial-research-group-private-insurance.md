@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-07 13:17:17.373452
-defer_until: 2026-07-20 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-07T1317-initial-research-group-private-insurance

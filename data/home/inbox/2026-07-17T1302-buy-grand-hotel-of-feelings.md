@@ -1,22 +1,20 @@
 ---
 area: null
 contexts: []
-created: 2026-06-29 11:54:27.849616
+created: &id001 2026-07-17 13:02:46.956565
 defer_until: null
 due: null
 energy: low
-id: 2026-06-29T1154-buy-roof-bars
+id: 2026-07-17T1302-buy-grand-hotel-of-feelings
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: buy roof bars
-updated: 2026-07-17 03:01:03.839565
+title: buy grand hotel of feelings
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-https://maps.app.goo.gl/bFXUqvWv1yd4AwT58

@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-17 12:39:15.209045
+created: 2026-07-17 12:40:24.680349
 defer_until: null
-due: null
+due: 2026-07-17
 energy: low
-id: 2026-07-17T1239-sign-contract
+id: 2026-07-17T1240-request-latest-data-dump-from-ben
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: sign contract
-updated: *id001
+title: request latest data dump from Ben
+updated: 2026-07-17 13:00:24.311125
 waiting_on: null
 waiting_since: null
 working_on: false

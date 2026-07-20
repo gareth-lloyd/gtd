@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-16 19:19:46.006165
-defer_until: 2026-07-20 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-16T1919-say-bye-to-justin

@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Follow up on: WhatsApp template classifications dashboard from Sebastian'
-updated: 2026-07-17 10:40:20.139792
+updated: 2026-07-17 13:08:17.455474
 waiting_on: null
 waiting_since: null
 working_on: false
