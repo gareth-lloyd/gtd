@@ -16,7 +16,7 @@ tags:
 - gmail
 time_minutes: 15
 title: Give Laura DeWald feedback follow-up (Lattice notification)
-updated: 2026-07-20 11:18:41.539043
+updated: 2026-07-20 13:49:02.950391
 waiting_on: null
 waiting_since: null
 working_on: false

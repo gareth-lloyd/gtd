@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 30
 title: Prep GDPR call with Martijn (11:45 today) — decide disclosure scope
-updated: 2026-07-20 11:18:41.309581
+updated: 2026-07-20 13:47:11.997856
 waiting_on: null
 waiting_since: null
 working_on: false

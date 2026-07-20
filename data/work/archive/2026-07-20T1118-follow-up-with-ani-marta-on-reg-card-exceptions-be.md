@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 15
 title: Follow up with Ani + Marta on reg card exceptions being overwritten
-updated: 2026-07-20 11:18:41.695356
+updated: 2026-07-20 14:52:41.880907
 waiting_on: null
 waiting_since: null
 working_on: false

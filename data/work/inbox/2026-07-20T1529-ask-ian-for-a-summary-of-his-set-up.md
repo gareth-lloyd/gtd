@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-13 15:16:55.427024
+created: &id001 2026-07-20 15:29:50.461847
 defer_until: null
 due: null
 energy: low
-id: 2026-07-13T1516-stand-up-the-apac-pod-in-pods-page
+id: 2026-07-20T1529-ask-ian-for-a-summary-of-his-set-up
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Stand up the APAC pod in pods page, eng annoucne
-updated: 2026-07-16 18:50:19.569334
+title: ask Ian for a summary of his set up
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
