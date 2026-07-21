@@ -1,10 +1,10 @@
 ---
-area: null
+area: engineering
 contexts: []
 created: 2026-07-20 15:36:12.138116
 defer_until: null
-due: null
-energy: low
+due: 2026-07-21
+energy: medium
 id: 2026-07-20T1536-review-this-document
 order: null
 output: |
@@ -96,12 +96,12 @@ output: |
   boot/CI enumeration as the merge-output invariant check, in place of the weaker
   "template values through admin `clean()`" CI check. Item (a) is a straight correctness
   gap; (b) is a design suggestion.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: review this document
-updated: 2026-07-21 11:10:58.808910
+updated: 2026-07-21 14:52:34.607513
 waiting_on: null
 waiting_since: null
 working_on: true

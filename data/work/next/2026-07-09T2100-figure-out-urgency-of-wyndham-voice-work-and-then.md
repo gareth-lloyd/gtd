@@ -12,8 +12,8 @@ project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
-title: Figure out urgency of wyndham voice work and then prompt for reviews
-updated: 2026-07-17 12:09:16.392267
+title: Get my Wyndham voice work merged
+updated: 2026-07-21 14:53:26.558767
 waiting_on: null
 waiting_since: null
 working_on: false

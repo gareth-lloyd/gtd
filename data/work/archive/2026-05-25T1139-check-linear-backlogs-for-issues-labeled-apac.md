@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Direct Peter and Belinda to review issues labeled APAC in Linear
-updated: 2026-07-21 11:10:30.317661
+updated: 2026-07-21 14:23:29.369764
 waiting_on: null
 waiting_since: null
 working_on: false

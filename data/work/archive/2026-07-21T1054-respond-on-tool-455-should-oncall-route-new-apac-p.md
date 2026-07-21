@@ -16,7 +16,7 @@ tags:
 - linear
 time_minutes: 10
 title: 'Respond on TOOL-455: should Oncall route new APAC pod items there?'
-updated: 2026-07-21 10:54:00.264819
+updated: 2026-07-21 12:11:18.501067
 waiting_on: null
 waiting_since: null
 working_on: false

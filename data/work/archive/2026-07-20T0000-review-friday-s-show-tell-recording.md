@@ -2,7 +2,7 @@
 area: null
 contexts:
 - consume
-created: &id001 2026-07-20 00:00:00
+created: 2026-07-20 00:00:00
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review Friday's show & tell recording
-updated: *id001
+updated: 2026-07-21 14:37:45.243302
 waiting_on: null
 waiting_since: null
 working_on: false

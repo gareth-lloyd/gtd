@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 30
 title: Comment/approve the Typed Portfolios eng design (Andrea flagged urgent)
-updated: 2026-07-21 10:54:00.331653
+updated: 2026-07-21 14:29:54.750482
 waiting_on: null
 waiting_since: null
 working_on: false
