@@ -2,14 +2,22 @@
 area: null
 contexts:
 - consume
+created: &id001 2026-07-21 00:00:00
+defer_until: null
+due: null
 energy: low
-id: 2026-07-16T1404-check-ent-sync
-last_spawned: 2026-07-21
+id: 2026-07-21T0000-check-ent-sync-transcripts
+order: null
+output: ''
 project: null
-recurrence: weekly
+source_id: null
 tags: []
 time_minutes: 10
 title: Check ENT sync transcripts
+updated: *id001
+waiting_on: null
+waiting_since: null
+working_on: false
 ---
 
 Review the latest ENT sync meeting transcript — action items, decisions, and topics.

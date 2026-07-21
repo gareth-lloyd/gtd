@@ -15,7 +15,7 @@ tags:
 - focus
 time_minutes: null
 title: Read Yaris Cross manual
-updated: 2026-07-02 15:35:44.149945
+updated: 2026-07-21 10:39:06.497503
 waiting_on: null
 waiting_since: null
 working_on: false

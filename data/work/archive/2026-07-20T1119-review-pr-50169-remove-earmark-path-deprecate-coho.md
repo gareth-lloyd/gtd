@@ -117,7 +117,7 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #50169: Remove earmark path, deprecate CohortHotel.onboarding_type'
-updated: 2026-07-20 13:52:06.166637
+updated: 2026-07-20 17:04:25.566096
 waiting_on: null
 waiting_since: null
 working_on: false

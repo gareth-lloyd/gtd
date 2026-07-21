@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: 'Spike: Step-configurator -> nationality -> configuration'
-updated: 2026-07-14 15:01:48.811080
+updated: 2026-07-21 11:11:39.191286
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 * Config step:

@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-02 15:42:42.952021
-defer_until: 2026-07-21 00:00:00
+defer_until: null
 due: null
 energy: null
 id: 2026-07-02T1542-sam-kariu-s-birthday

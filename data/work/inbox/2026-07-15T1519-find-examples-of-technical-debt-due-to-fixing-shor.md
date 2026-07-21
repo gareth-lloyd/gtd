@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-15 15:19:03.600215
-defer_until: 2026-07-21 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-15T1519-find-examples-of-technical-debt-due-to-fixing-shor

@@ -101,10 +101,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review this document
-updated: 2026-07-20 16:05:00.000000
+updated: 2026-07-21 11:10:58.808910
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://app.notion.com/p/canarytechnologies/Capability-Driven-PMS-Config-39181468615180238a31da976288eb14?source=copy_link
