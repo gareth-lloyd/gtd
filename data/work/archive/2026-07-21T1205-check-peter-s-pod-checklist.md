@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: check peter's pod checklist
-updated: 2026-07-21 14:28:20.407546
+updated: 2026-07-22 14:23:21.023833
 waiting_on: null
 waiting_since: null
 working_on: false

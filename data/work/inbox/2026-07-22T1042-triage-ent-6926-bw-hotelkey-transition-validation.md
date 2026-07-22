@@ -17,10 +17,10 @@ tags:
 time_minutes: 20
 title: 'Triage ENT-6926: BW Hotelkey transition — validation failed despite fetch
   run completing'
-updated: 2026-07-22 10:42:23.655411
+updated: 2026-07-22 15:19:39.984504
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 ENT team, in Triage, unassigned. Best Western Hotelkey transition blocker.

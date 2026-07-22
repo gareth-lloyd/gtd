@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-20 11:34:12.435367
+created: 2026-07-22 15:18:51.582032
 defer_until: null
 due: null
 energy: low
-id: 2026-07-20T1134-push-peter-to-get-hsi-work-merged
+id: 2026-07-22T1518-ac-remote-skadis
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: push peter to get hsi work merged
-updated: 2026-07-21 14:25:45.536120
+title: ac remote skadis
+updated: 2026-07-22 15:18:51.609628
 waiting_on: null
 waiting_since: null
 working_on: false
