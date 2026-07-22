@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-21 12:21:32.074550
-defer_until: 2026-07-22 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-21T1221-review-emea-resourcing-plan-when-martijn-is-ready

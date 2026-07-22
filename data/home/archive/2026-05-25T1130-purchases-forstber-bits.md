@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Forstner bits
-updated: 2026-07-10 15:24:27.155096
+updated: 2026-07-22 11:22:50.335571
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-14 14:25:31.132139
-defer_until: 2026-07-22 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-14T1425-intro-daniel-to-martijn-after-call

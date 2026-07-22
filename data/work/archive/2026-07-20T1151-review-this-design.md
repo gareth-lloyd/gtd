@@ -95,10 +95,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: review this design, and recommend other reviewers. Kiosk?
-updated: 2026-07-21 14:53:06.554870
+updated: 2026-07-21 15:50:08.557455
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://canarytechnologies.slack.com/archives/C0AB9E7AE59/p1784537452382449
