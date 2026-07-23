@@ -12,8 +12,8 @@ project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: Nick loom feedback email
-updated: 2026-07-22 14:01:40.235123
+title: Work through latest Nick feedback email
+updated: 2026-07-23 00:10:38.695231
 waiting_on: null
 waiting_since: null
 working_on: false

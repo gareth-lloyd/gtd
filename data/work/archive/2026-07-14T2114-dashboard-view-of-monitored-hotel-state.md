@@ -213,17 +213,16 @@ output: |
     critical AND flappy — main source of remaining transition churn; consider debounce.
   - Stuck-transition backlog cleanup (~686 rows) — the deferred opt-in script from #49638;
     size by DISTINCT hotels (PR cited 157 hotels; my count was transition rows).
-
 project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 5
 title: 'Explore the Monitored Hotel State platform, along with monitored check transitions.
   Output: recommend useful datadog dashboard outputs for awareness and monitoring.'
-updated: 2026-07-21 16:03:44.244760
+updated: 2026-07-22 16:40:28.745281
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 /debug_in_shell if necessary to check real values.

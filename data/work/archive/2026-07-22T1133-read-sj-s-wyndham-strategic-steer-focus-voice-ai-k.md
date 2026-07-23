@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Read SJ''s Wyndham strategic steer: focus Voice AI + Kiosk, light pulse on
   Hapi'
-updated: 2026-07-22 11:33:38.873081
+updated: 2026-07-22 15:45:00.600275
 waiting_on: null
 waiting_since: null
 working_on: false

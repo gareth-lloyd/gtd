@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-03 10:13:38.394238
+created: 2026-07-23 10:44:45.688464
 defer_until: null
 due: null
 energy: low
-id: 2026-07-03T1013-watch-looms-to-see-the-current-rate-definition-flo
+id: 2026-07-23T1044-deploy-zoho-send-test-requests-see-them-arrive-com
 order: null
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: Watch looms to see the current rate definition flow compared to proposal
-updated: 2026-07-04 07:14:40.933677
+title: Deploy zoho, send test requests, see them arrive, communicate
+updated: 2026-07-23 10:44:45.739531
 waiting_on: null
 waiting_since: null
 working_on: false

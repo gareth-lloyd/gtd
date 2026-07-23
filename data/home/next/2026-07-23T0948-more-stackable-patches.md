@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-22 15:17:30.020190
+created: 2026-07-23 09:48:09.893230
 defer_until: null
 due: null
 energy: low
-id: 2026-07-22T1517-box-cutter-skadis
+id: 2026-07-23T0948-more-stackable-patches
 order: null
 output: ''
-project: 2026-07-15-prints
+project: 2026-07-23-eurorack
 source_id: null
 tags: []
 time_minutes: 5
-title: box cutter skadis
-updated: 2026-07-22 15:17:30.048516
+title: more stackable patches
+updated: 2026-07-23 09:48:09.937191
 waiting_on: null
 waiting_since: null
 working_on: false

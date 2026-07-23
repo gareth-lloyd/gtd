@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-22 14:42:52.859770
+created: 2026-07-23 09:40:28.743022
 defer_until: null
 due: null
 energy: low
-id: 2026-07-22T1442-hydrogen-peroxide
+id: 2026-07-23T0940-right-angled-patch-cables
 order: null
 output: ''
-project: null
+project: 2026-07-23-eurorack
 source_id: null
 tags: []
 time_minutes: 5
-title: hydrogen peroxide
-updated: *id001
+title: Right angled patch cables
+updated: 2026-07-23 09:40:28.783910
 waiting_on: null
 waiting_since: null
 working_on: false

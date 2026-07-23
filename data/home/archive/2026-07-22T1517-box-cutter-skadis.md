@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-08 12:49:04.371608
+created: 2026-07-22 15:17:30.020190
 defer_until: null
 due: null
 energy: low
-id: 2026-07-08T1249-invoice-nick
+id: 2026-07-22T1517-box-cutter-skadis
 order: null
 output: ''
-project: 2026-05-25-villa-collective
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: invoice nick
-updated: 2026-07-08 12:49:04.404651
+title: box cutter skadis
+updated: 2026-07-23 09:30:21.704402
 waiting_on: null
 waiting_since: null
 working_on: false

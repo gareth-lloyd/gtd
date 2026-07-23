@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-20 16:49:33.789587
+created: 2026-07-22 15:18:46.325816
 defer_until: null
-due: 2026-07-21
+due: null
 energy: low
-id: 2026-07-20T1649-follow-up-ben
+id: 2026-07-22T1518-scraper-skadis
 order: null
 output: ''
-project: 2026-05-25-villa-collective
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: follow up ben
-updated: 2026-07-21 10:39:26.472696
+title: scraper skadis
+updated: 2026-07-23 09:30:37.119699
 waiting_on: null
 waiting_since: null
 working_on: false

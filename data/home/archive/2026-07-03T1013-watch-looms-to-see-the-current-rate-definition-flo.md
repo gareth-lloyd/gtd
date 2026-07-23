@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-08 14:49:55.245438
+created: 2026-07-03 10:13:38.394238
 defer_until: null
 due: null
 energy: low
-id: 2026-07-08T1449-get-latest-dump
+id: 2026-07-03T1013-watch-looms-to-see-the-current-rate-definition-flo
 order: null
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: Chase wordpress files and latest dump - ben
-updated: 2026-07-23 00:11:18.615538
+title: Watch looms to see the current rate definition flow compared to proposal
+updated: 2026-07-23 00:06:25.474934
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: velcro strip curtain
-updated: 2026-07-15 11:50:22.688863
+updated: 2026-07-23 00:26:04.178273
 waiting_on: null
 waiting_since: null
 working_on: false

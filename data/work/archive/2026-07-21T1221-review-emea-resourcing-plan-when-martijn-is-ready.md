@@ -84,7 +84,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: review EMEA resourcing plan
-updated: 2026-07-22 14:23:32.864877
+updated: 2026-07-22 15:58:04.499545
 waiting_on: null
 waiting_since: null
 working_on: false
