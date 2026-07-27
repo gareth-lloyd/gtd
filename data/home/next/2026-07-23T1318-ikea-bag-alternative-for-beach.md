@@ -8,12 +8,12 @@ energy: low
 id: 2026-07-23T1318-ikea-bag-alternative-for-beach
 order: null
 output: ''
-project: null
+project: 2026-05-25-admin
 source_id: null
 tags: []
 time_minutes: 5
 title: ikea bag alternative for beach
-updated: 2026-07-24 21:24:03.084476
+updated: 2026-07-27 12:37:30.447526
 waiting_on: null
 waiting_since: null
 working_on: false

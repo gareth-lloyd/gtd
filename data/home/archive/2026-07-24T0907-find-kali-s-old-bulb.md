@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-24 09:07:47.756455
+created: 2026-07-24 09:07:47.756455
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: find kali's old bulb
-updated: *id001
+updated: 2026-07-27 12:37:38.772913
 waiting_on: null
 waiting_since: null
 working_on: false
