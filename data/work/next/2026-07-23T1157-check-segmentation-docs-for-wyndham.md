@@ -31,10 +31,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Read Wyndham segmentation eng design + PRD docs and review
-updated: 2026-07-24 10:29:13.769202
+updated: 2026-07-27 13:35:44.979417
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Read these docs and review:

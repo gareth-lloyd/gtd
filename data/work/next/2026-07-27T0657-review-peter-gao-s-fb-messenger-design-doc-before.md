@@ -1,25 +1,26 @@
 ---
-area: null
+area: engineering
 contexts:
 - react
+- deep
 created: 2026-07-27 06:57:52.428453
 defer_until: null
 due: 2026-07-27
-energy: medium
+energy: high
 id: 2026-07-27T0657-review-peter-gao-s-fb-messenger-design-doc-before
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/D0B7ZNDSKQ9/p1784884303783759
 tags:
 - morning-gtd
 - slack
-time_minutes: 30
+time_minutes: 15
 title: Review Peter Gao's FB Messenger design doc before his Chetna deep-dive
-updated: 2026-07-27 06:57:52.495408
+updated: 2026-07-27 13:35:40.095262
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 WIP doc reconciles PRD vs Linear tickets vs vibe-coded PRs; his technical deep-dive with Chetna is Monday (today). Primary risk he flags: Twilio vs native API dependency.

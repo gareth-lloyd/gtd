@@ -1,7 +1,7 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-23 15:11:46.154631
+created: 2026-07-23 15:11:46.154631
 defer_until: null
 due: null
 energy: low
@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Watch looms from jason
-updated: *id001
+updated: 2026-07-27 13:35:13.303480
 waiting_on: null
 waiting_since: null
 working_on: false

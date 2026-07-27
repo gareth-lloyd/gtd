@@ -14,7 +14,7 @@ tags: []
 time_minutes: 5
 title: Check martijn has meeting with peter for in-room compendium, and emphasize
   the intent
-updated: 2026-07-21 14:27:46.558675
+updated: 2026-07-27 12:45:04.921250
 waiting_on: null
 waiting_since: null
 working_on: false

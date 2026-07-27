@@ -17,10 +17,10 @@ tags:
 - from-awareness
 time_minutes: 20
 title: Review Dana Levine's new PR interview question
-updated: 2026-07-24 10:28:48.337202
+updated: 2026-07-27 14:24:35.803426
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 First revision of Dana's new PR question in #blake-directs; sample PR linked, offer to generate you a repo to run the question yourself.

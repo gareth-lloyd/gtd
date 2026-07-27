@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 5
 title: 'Reply to Belinda re: rescheduling Tuesday 1:1'
-updated: 2026-07-27 06:57:52.427737
+updated: 2026-07-27 12:43:41.872188
 waiting_on: null
 waiting_since: null
 working_on: false

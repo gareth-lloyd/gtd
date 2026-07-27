@@ -98,7 +98,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Review Andrea''s design: Safe 1-way→2-way HotelKey cutover pipeline'
-updated: 2026-07-24 10:23:00.333805
+updated: 2026-07-27 13:35:50.609581
 waiting_on: null
 waiting_since: null
 working_on: false

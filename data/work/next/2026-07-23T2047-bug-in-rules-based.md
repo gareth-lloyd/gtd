@@ -3,7 +3,7 @@ area: null
 contexts: []
 created: 2026-07-23 20:47:56.803924
 defer_until: null
-due: null
+due: 2026-07-27
 energy: low
 id: 2026-07-23T2047-bug-in-rules-based
 order: null
@@ -72,12 +72,12 @@ output: |
   3. `direnv exec . make check-fix` from backend/canary; commit linter fixes as `lint`.
 
   Full plan file: /Users/garethlloyd/.claude/plans/plan-the-fix-kind-backus.md
-project: null
+project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: bug in rules-based
-updated: 2026-07-24 10:34:11.173486
+updated: 2026-07-27 14:05:21.235536
 waiting_on: null
 waiting_since: null
 working_on: false

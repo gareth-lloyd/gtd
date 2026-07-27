@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 10
 title: Follow up on Andrea's vendor-migration note (migration plan details, then iframes)
-updated: 2026-07-24 10:28:48.404318
+updated: 2026-07-27 12:45:19.029245
 waiting_on: null
 waiting_since: null
 working_on: false
