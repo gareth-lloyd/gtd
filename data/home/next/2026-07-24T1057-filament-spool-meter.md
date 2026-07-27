@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-16 19:19:46.006165
+created: 2026-07-24 10:57:06.323449
 defer_until: null
 due: null
 energy: low
-id: 2026-07-16T1919-say-bye-to-justin
+id: 2026-07-24T1057-filament-spool-meter
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: say bye to justin
-updated: 2026-07-20 13:48:33.281817
+title: filament spool meter
+updated: 2026-07-24 10:57:06.355050
 waiting_on: null
 waiting_since: null
 working_on: false

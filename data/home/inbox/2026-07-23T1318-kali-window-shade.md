@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-16 19:19:46.006165
+created: &id001 2026-07-23 13:18:07.608366
 defer_until: null
 due: null
 energy: low
-id: 2026-07-16T1919-say-bye-to-justin
+id: 2026-07-23T1318-kali-window-shade
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: say bye to justin
-updated: 2026-07-20 13:48:33.281817
+title: kali window shade
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

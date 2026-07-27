@@ -45,6 +45,39 @@ output: |
   ### Suggested next steps (for you, not done by me)
   - Watch the two Nest Looms before replying — Blake explicitly asked for thoughts on them and I couldn't view video.
   - Post the feedback: quick take in the Slack thread + the specific points as Notion comments on the relevant sections (the doc already has open discussions on "The one document", "Nest", and "What we're actually doing" callouts).
+
+  ## Agent run 2026-07-23T15:04:58
+
+  Re-checked the Slack thread and Notion doc for movement since the Jul 14 run. Nothing posted anywhere by me. The ask is still open — you haven't replied in the thread yet, and the doc discussion has grown around you.
+
+  ### What's new since Jul 14
+
+  **Slack thread** (https://canarytechnologies.slack.com/archives/C0AJW6KHE1E/p1783769548648799): one new reply. Blake (Jul 16) says the doc "lines up well with the article Gareth posted" — your Dex Horthy / context-engineering post in #ai-eng (https://canarytechnologies.slack.com/archives/C08VCEMGYG7/p1784187754229409). So he's now explicitly waiting on your take and has handed you the hook for it.
+
+  **Notion discussions** (all still unresolved; Blake replied to each):
+  - Ian Clark on "What we're actually doing": two classes of expensive problems — designing the wrong thing (this doc) vs architecting badly — and he's not convinced a "mega harness" can do the second. Blake (Jul 16): doc doesn't deprioritize Eng Design, promised to clean up language to make each box clearly human-in-the-loop.
+  - Sudarshan Muralidhar on "The one document": docs written for AI look very different than docs for humans (length, depth). Blake (Jul 16): proposes two segments — human-oriented top, AI-oriented supplemental bottom — that AI keeps coherent.
+  - Sudarshan on "Nest": what does this solve vs existing prototyping tooling? Blake (Jul 13): existing prototyping loses intent — designers won't translate back to Figma, and a prototype without a spec is painful for engineers.
+
+  **Doc content**: essentially unchanged from the Jul 14 read. Section 04 now stresses each stage is "a mix of human-in-the-loop co-piloting and heavily agentic work" — likely Blake's promised cleanup from the Ian thread. All prior draft points still apply.
+
+  ### How this changes the draft feedback
+
+  - Draft points 1 (postmortem cuts both ways), 2 (buried bet), 3 (no ask), and 7 (no baseline/target) are still un-raised by anyone — these are your highest-value unique contributions.
+  - Points 4/5/6 now partially overlap with the Ian and Sudarshan threads and Blake's replies — better delivered as replies inside those existing discussions than as fresh comments.
+  - New angle Blake explicitly invited: he claims the doc lines up with the Dex Horthy episode. Mostly true (Dex's "find the leverage points" ≈ the gates; human belongs at design; the dark-factory failure is exactly why the gates exist). But there is one direct conflict worth naming: Dex's strongest operational claim is "throw the docs away after use — nobody has found keeping specs and code in sync worth it; code is the source of truth," while the doc's central artifact is a durable spec coupled to a frozen prototype branch that must NOT drift. Either Blake thinks the coupling mechanism beats everyone else's failed attempts (worth saying how), or the spec is disposable per-project input and "coupled so the two can't drift apart" overstates it. This is the sharpest, most on-topic reply you can make and it lands as engagement, not criticism.
+
+  ### Ready-to-adapt Slack reply (short version)
+
+  > Finally read it properly. Big picture I'm bought in — the "human bridges a messy handoff by force of will; AI can't" line is the whole argument and it's right. Three things I'd push on:
+  > 1. On it lining up with the Dex episode — mostly yes (gates = his "leverage points", human at design, his dark-factory story is the argument FOR the gates). But one real conflict: his hardest-won lesson was "nobody has found keeping specs and code in sync worth it — code is the source of truth", and our central artifact is a durable spec coupled to a frozen prototype. What's the mechanism that makes our coupling survive where everyone else's didn't? If there isn't one yet, that's fine, but the doc asserts it.
+  > 2. The guest-app run is cited as proof of capability, but the postmortem shows it's really proof that spec quality is now the constraint — the swarm hit every bar the contract encoded and missed every bar it didn't. Reframed that way it's the strongest evidence for the Prototype & Spec stage you have.
+  > 3. For SJ specifically: the doc has no ask (what decision/resource do you need?) and the validation bet ("faster than Figma on Nest") has no success criteria or timeframe. Execs read for those two things first.
+  > Detailed nits as Notion comments.
+
+  ### Suggested next steps
+  - Watch the two Looms (still unviewable by me) — then adapt and post the Slack reply above, and drop points 4/5/6 from the Jul 14 draft as replies into the existing Ian/Sudarshan Notion discussions rather than new threads.
+  - The presentation-level nits from the Jul 14 draft (jargon, unsourced 65%/8% stat, header echo) are all still valid against the current doc if you want to include them as Notion comments.
 project: 2026-04-10T0840-ticket
 source_id: https://canarytechnologies.slack.com/archives/C0AJW6KHE1E/p1783769548648799?thread_ts=1783769548.648799&cid=C0AJW6KHE1E
 tags:
@@ -52,8 +85,8 @@ tags:
 - slack
 - from-awareness
 time_minutes: 30
-title: Read and give feedback on Blake's 'A Product Process a Machine Can Read'c
-updated: 2026-07-20 14:51:21.814394
+title: Read 'A Product Process a Machine Can Read'
+updated: 2026-07-23 15:55:34.975856
 waiting_on: null
 waiting_since: null
 working_on: true

@@ -3,17 +3,17 @@ area: null
 contexts: []
 created: 2026-07-09 21:00:08.620551
 defer_until: null
-due: 2026-07-17
+due: null
 energy: low
 id: 2026-07-09T2100-figure-out-urgency-of-wyndham-voice-work-and-then
-order: null
+order: 6
 output: ''
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: Get my Wyndham voice work merged
-updated: 2026-07-21 14:53:26.558767
+updated: 2026-07-23 14:27:21.086485
 waiting_on: null
 waiting_since: null
 working_on: false

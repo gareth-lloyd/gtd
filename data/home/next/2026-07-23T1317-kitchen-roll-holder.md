@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-16 19:19:46.006165
+created: 2026-07-23 13:17:32.855782
 defer_until: null
 due: null
 energy: low
-id: 2026-07-16T1919-say-bye-to-justin
+id: 2026-07-23T1317-kitchen-roll-holder
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: say bye to justin
-updated: 2026-07-20 13:48:33.281817
+title: kitchen roll holder
+updated: 2026-07-23 13:17:32.884923
 waiting_on: null
 waiting_since: null
 working_on: false
