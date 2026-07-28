@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: think through this decision
-updated: 2026-06-17 13:59:17.677691
+updated: 2026-07-28 12:55:59.953167
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -17,7 +17,7 @@ tags:
 - from-awareness
 time_minutes: 15
 title: 'Read Jordan Sterling''s #eng-directors thread: eng communicating limitations/tradeoffs'
-updated: 2026-07-24 10:30:06.376917
+updated: 2026-07-28 12:50:43.906627
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -14,10 +14,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Plan next steps for Wyndham payment methods based on debugging work
-updated: 2026-06-17 13:59:20.770903
+updated: 2026-07-28 12:55:43.352587
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://linear.app/canary-technologies/issue/ENT-5610/hotels-failing-ohip-payment-posting-payment-method-is-not-valid#comment-ffab4f5b

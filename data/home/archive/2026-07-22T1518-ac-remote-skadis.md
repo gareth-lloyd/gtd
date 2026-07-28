@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-24 09:10:12.164952
+created: 2026-07-22 15:18:51.582032
 defer_until: null
 due: null
 energy: low
-id: 2026-07-24T0910-organize-prints
+id: 2026-07-22T1518-ac-remote-skadis
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: organize prints
-updated: *id001
+title: ac remote skadis
+updated: 2026-07-28 11:09:07.282560
 waiting_on: null
 waiting_since: null
 working_on: false

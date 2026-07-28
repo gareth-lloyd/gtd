@@ -1,22 +1,20 @@
 ---
 area: null
 contexts: []
-created: 2026-06-18 22:57:58.625910
+created: &id001 2026-07-28 12:43:13.831615
 defer_until: null
 due: null
 energy: low
-id: 2026-06-18T2257-read
+id: 2026-07-28T1243-buy-board-games-ship-to-ben
 order: null
 output: ''
-project: 2026-04-10T0840-ticket
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: read
-updated: 2026-06-30 15:46:35.045056
+title: buy board games, ship to ben
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-https://aicoding.leaflet.pub/

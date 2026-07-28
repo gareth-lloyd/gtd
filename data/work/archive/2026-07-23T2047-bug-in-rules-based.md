@@ -77,7 +77,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: bug in rules-based
-updated: 2026-07-27 14:05:21.235536
+updated: 2026-07-28 14:09:25.660749
 waiting_on: null
 waiting_since: null
 working_on: false

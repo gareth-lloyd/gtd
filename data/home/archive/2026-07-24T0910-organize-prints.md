@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: &id001 2026-07-23 10:47:13.336923
+created: 2026-07-24 09:10:12.164952
 defer_until: null
 due: null
 energy: low
-id: 2026-07-23T1047-follow-up-ent-5610
+id: 2026-07-24T0910-organize-prints
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Follow up ENT-5610
-updated: *id001
+title: organize prints
+updated: 2026-07-28 13:35:07.092192
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,7 +2,7 @@
 area: engineering
 contexts: []
 created: 2026-06-25 09:24:54.576735
-defer_until: null
+defer_until: 2026-07-29 09:00:00
 due: 2026-07-23
 energy: medium
 id: 2026-06-25T0924-ship-slack-notifications-with-recommended-channel
@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: ship slack notifications with recommended channel and runbooks
-updated: 2026-07-27 16:24:06.905994
+updated: 2026-07-28 15:09:54.585811
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Also need runbooks
