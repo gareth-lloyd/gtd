@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: umbrella drinks holder
-updated: 2026-07-23 13:17:45.387754
+updated: 2026-07-27 16:17:31.774036
 waiting_on: null
 waiting_since: null
 working_on: false

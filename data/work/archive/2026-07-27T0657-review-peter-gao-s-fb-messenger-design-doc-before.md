@@ -17,10 +17,10 @@ tags:
 - slack
 time_minutes: 15
 title: Review Peter Gao's FB Messenger design doc before his Chetna deep-dive
-updated: 2026-07-27 13:35:40.095262
+updated: 2026-07-27 16:23:31.221658
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 WIP doc reconciles PRD vs Linear tickets vs vibe-coded PRs; his technical deep-dive with Chetna is Monday (today). Primary risk he flags: Twilio vs native API dependency.

@@ -2,8 +2,8 @@
 area: null
 contexts: []
 created: 2026-07-23 11:57:30.682215
-defer_until: null
-due: 2026-07-27
+defer_until: 2026-07-29 14:25:00
+due: null
 energy: low
 id: 2026-07-23T1157-check-segmentation-docs-for-wyndham
 order: null
@@ -31,10 +31,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Read Wyndham segmentation eng design + PRD docs and review
-updated: 2026-07-27 13:35:44.979417
+updated: 2026-07-27 14:26:01.396637
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Read these docs and review:

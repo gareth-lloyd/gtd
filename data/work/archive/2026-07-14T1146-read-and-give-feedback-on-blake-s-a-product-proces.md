@@ -86,10 +86,10 @@ tags:
 - from-awareness
 time_minutes: 30
 title: Read 'A Product Process a Machine Can Read'
-updated: 2026-07-23 15:55:34.975856
+updated: 2026-07-27 16:15:56.416479
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Blake in #agentic-dev-leads (Jul 11): wants thoughts on both the ideas and presentation (aimed at SJ/PM/non-technical). Doc: https://pages.cnry.cloud/7yhkzegpth (Notion for comments: https://www.notion.so/canarytechnologies/A-Product-Process-a-Machine-Can-Read-39a81468615180cb8c8ad021c77f73ef) + Jason's Nest demos.

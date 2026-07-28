@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: grooming for safi
-updated: 2026-07-13 10:40:13.872313
+updated: 2026-07-27 16:00:09.217332
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 book morning, marg to pick up

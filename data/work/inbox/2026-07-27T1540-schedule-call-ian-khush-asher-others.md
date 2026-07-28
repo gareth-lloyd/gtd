@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-23 16:23:20.421615
+created: &id001 2026-07-27 15:40:04.845310
 defer_until: null
 due: null
 energy: low
-id: 2026-07-23T1623-mini-skadis
+id: 2026-07-27T1540-schedule-call-ian-khush-asher-others
 order: null
 output: ''
-project: 2026-07-15-prints
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: mini skadis
-updated: 2026-07-23 16:23:20.458606
+title: 'Schedule call: Ian, Khush, Asher + others'
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

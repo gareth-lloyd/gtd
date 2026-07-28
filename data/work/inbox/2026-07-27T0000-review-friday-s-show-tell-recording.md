@@ -3,7 +3,7 @@ area: null
 contexts:
 - consume
 created: 2026-07-27 00:00:00
-defer_until: 2026-07-28 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-27T0000-review-friday-s-show-tell-recording
