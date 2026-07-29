@@ -6,14 +6,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-01T0105-image-naming-per-ben-email
-order: 11
+order: 6
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: 'Capture: image naming per ben email'
-updated: 2026-07-02 20:24:52.852644
+updated: 2026-07-29 11:20:27.490574
 waiting_on: null
 waiting_since: null
 working_on: false

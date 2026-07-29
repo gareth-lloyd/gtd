@@ -1,18 +1,18 @@
 ---
 area: null
 contexts: []
-created: 2026-07-03 10:16:43.892709
+created: 2026-07-29 11:08:01.807935
 defer_until: null
 due: null
 energy: low
-id: 2026-07-03T1016-test-changeover-override
-order: 7
+id: 2026-07-29T1108-tweak-php-for-authentication-propose-to-ben
+order: 11
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: test changeover override
+title: Tweak php for authentication, propose to Ben
 updated: 2026-07-29 11:20:27.490574
 waiting_on: null
 waiting_since: null

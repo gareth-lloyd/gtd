@@ -6,7 +6,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-08T1156-when-editing-features-requires-a-explicit-save-sho
-order: null
+order: 8
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
@@ -14,7 +14,7 @@ tags: []
 time_minutes: 5
 title: When editing features, requires a explicit save. Should be flagged that data
   has changed, and no navigate without explicit reject changes
-updated: 2026-07-08 11:56:56.079961
+updated: 2026-07-29 11:20:27.490574
 waiting_on: null
 waiting_since: null
 working_on: false
