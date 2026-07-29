@@ -72,6 +72,48 @@ output: |
 
   Next step: say "post it" (optionally after edits) and I'll reply in the
   #eng-general thread; or post it yourself.
+
+  ## Agent run 2026-07-28T13:35:00+03:00
+
+  Snowflake SSO now working — ran the coverage queries (read-only,
+  analytics.analytics.hotels_hotel_clean deduped per id, US + EU regions).
+  **country_code is well-populated; the draft below supersedes the earlier
+  one.** (Item was archived by user mid-run; results recorded here for the
+  record.)
+
+  ### Prod numbers (active, non-demo hotels)
+  - US region: 20,120 hotels, 349 blank country_code (1.7%). Live-only:
+    16,231 hotels, 44 blank (0.27%).
+  - EU region: 834 hotels, 20 blank (2.4%). Live-only: 484 hotels, 4 blank (0.8%).
+  - Hotels an EU-27 country_code gate would catch: 189 (US region) + 421
+    (EU region) ≈ 610 total. Top: IT 152, ES 117, FR 72, DE 53.
+  - Couldn't cross-check blanks against free-text `country` — that column is
+    PII-masked in Snowflake.
+
+  ### Final draft reply for #eng-general (needs approval to post)
+  > Late addition on the "is it generally accurate?" part since that didn't get
+  > answered with data: yes — `country_code` is reliable. It's constrained to
+  > the `Country` enum (so never garbage when set) and onboarding populates it
+  > from Salesforce billing country. I checked prod: of active non-demo hotels
+  > it's blank for ~1.7% (US region) / ~2.4% (EU region), and for *live* hotels
+  > only 0.27% / 0.8% — so gate on it confidently, just decide what blank means
+  > (I'd fail safe: show the disclosure when blank, with your hotel-level
+  > config as the override). Don't use `hotel.country` — free text, no choices;
+  > if you ever must parse it, `shared.geo.country.get_country()` handles
+  > codes/names/aliases. `COUNTRY_GROUP_MEMBERS[CountryGroup.EUROPEAN_UNION]`
+  > is the right membership check per Martijn in #epd-emea-gdpr (AI Act = EU
+  > list; note that group correctly excludes EEA/UK, which only matter if this
+  > ever extends to GDPR proper). FWIW that gate catches ~610 hotels today.
+  > Precedent for the same pattern:
+  > `onetime_wyndham_disable_id_capture_gdpr.py` filters
+  > `country_code__in=[...]` for Wyndham ID capture.
+
+  ## Agent run 2026-07-28T14:25:00+03:00
+
+  POSTED (user-approved) a shortened reply — prod numbers + method only — to
+  the #eng-general thread:
+  https://canarytechnologies.slack.com/archives/C019TQLQDJP/p1785242588649429?thread_ts=1785180037.712559&cid=C019TQLQDJP
+  Task fully done.
 project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C019TQLQDJP/p1785180037712559?thread_ts=1785180037.712559&cid=C019TQLQDJP
 tags:
@@ -80,7 +122,7 @@ tags:
 - from-awareness
 time_minutes: 5
 title: 'Answer Matías in #eng-general: is hotel.country_code accurate for GDPR liability?'
-updated: 2026-07-28 14:08:46.697568
+updated: 2026-07-28 14:25:00.000000
 waiting_on: null
 waiting_since: null
 working_on: false

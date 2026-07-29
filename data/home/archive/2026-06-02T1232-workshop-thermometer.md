@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: workshop smart home hub. consider tp-link tapo
-updated: 2026-07-10 15:24:27.155096
+updated: 2026-07-28 21:10:18.198869
 waiting_on: null
 waiting_since: null
 working_on: false

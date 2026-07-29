@@ -164,12 +164,52 @@ output: |
   Source: Notion (Guest Profiles PRD + EMEA GDPR Alignment Map). Legal points attributed to
   the Cooley/Tanya Chib counsel notes as summarised in the Alignment Map — confirm verbatim
   with the source before quoting to counsel.
+
+  ## Agent run 2026-07-28T15:23 — summary of the Alignment Map doc (intent + content)
+
+  Doc: **EMEA GDPR Program vs Guest Memory Strategy — Alignment Map**
+  (https://app.notion.com/p/39e814686151814d95cde39f7a0d5caf), dated Jul 15 2026.
+
+  **Intent:** a strategy alignment memo answering one question — does Canary's EMEA GDPR
+  compliance program conflict with, or enable, the Guest Profiles product direction? Its
+  practical goal is to land three specific design changes in the EMEA PII-purge framework
+  **before implementation starts Jul 23** (after which they become expensive migrations, not
+  cheap config). Written to persuade the GDPR program owner (Martijn Dekker) that compliance
+  work and the profile product should be co-designed, not treated as opposed.
+
+  **Content:**
+  - *What the EMEA program is:* Track 1A (Jul 23 -> Aug 28) = a reusable ObfuscationPolicy
+    framework + PII Purge Service that irreversibly overwrites guest PII (name, email, phone,
+    address, DOB, ID, signature) after a configurable, **reservation-anchored** retention
+    window (X days after departure/check-in/submission — no inactivity anchor). Config is
+    Canary-staff-only; hotel dashboard read-only; EU accounts default to 7 days via a region
+    rule engine. Track 4 (to scope) purges chat/voice/GMS content. Current stance: exclude
+    EMEA from cross-property profiles. Open blocker Q7: post-anonymisation a checked-out guest
+    can't be identified for a folio request (Voice AI / historical lookups break).
+  - *The three asks (heart of the doc):* (1) per-layer retention clocks + a new "months after
+    last activity" anchor + a distill-before-purge hook, so one anchor doesn't nuke everything;
+    (2) a non-obfuscatable consent/suppression store so the purge can't sever STOP/opt-out
+    state (TCPA/ePrivacy/Art 21), plus an inventory ticket before Track 1A ships; (3) turn the
+    EU 7-day default (argued to be the strictest adopter's schedule, not a legal requirement)
+    into a recommended baseline the hotel formally elects, preserving Canary's Art 28 posture.
+  - *Two decisions to revisit:* the "exclude EMEA from profiles" call is stale because post-stay
+    rebooking is now committed on the roadmap (durable profile = product dependency), and Cooley
+    (2026-05-13) already ruled opt-in profiles GDPR-compliant, intra-portfolio reuse fine with
+    consent, ~3yr+reminder retention recommended. And Q7 (the program's own blocker) is solved
+    by a minimal surviving profile — the profile is the answer to the compliance program's
+    hardest open question, not a competing priority.
+  - *Timing/next steps:* push for 30 min with Martijn this week (pre-Jul-23), get into Track 4
+    scoping (EMEA-303), and reopen the Cooley guest-profiles thread with an actual product spec.
+
+  **One line:** the purge program and Guest Profiles are complementary; the doc asks for three
+  cheap pre-Jul-23 design hooks (profile retention clock, consent carve-out, recorded election)
+  so compliance work enables — rather than forecloses — durable guest memory in EMEA.
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 15
 title: Review the guest profiles document thorugh a GDPR lens
-updated: 2026-07-23 13:40:02.612570
+updated: 2026-07-28 15:23:00.000000
 waiting_on: null
 waiting_since: null
 working_on: false

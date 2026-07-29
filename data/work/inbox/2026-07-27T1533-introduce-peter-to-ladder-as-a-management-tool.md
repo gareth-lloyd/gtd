@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-27 15:33:44.209974
-defer_until: 2026-07-29 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-27T1533-introduce-peter-to-ladder-as-a-management-tool

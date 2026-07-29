@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-28 12:52:26.903823
-defer_until: 2026-07-29 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-28T1252-pass-sudarshan-s-feedback-on-adil-to-peter

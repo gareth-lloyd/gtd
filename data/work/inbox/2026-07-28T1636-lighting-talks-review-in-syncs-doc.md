@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-14 20:31:47.419733
+created: &id001 2026-07-28 16:36:59.725984
 defer_until: null
 due: null
 energy: low
-id: 2026-07-14T2031-print-air-intake-for-ac
+id: 2026-07-28T1636-lighting-talks-review-in-syncs-doc
 order: null
 output: ''
-project: 2026-05-25-workshop
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: print air intake for AC
-updated: 2026-07-14 20:31:47.453600
+title: Lighting talks - review in syncs doc
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

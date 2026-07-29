@@ -73,10 +73,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: read pms foundations document
-updated: 2026-07-28 14:13:36.621720
+updated: 2026-07-28 15:14:21.865548
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://www.notion.so/canarytechnologies/GFS-Reservation-Guest-Data-Migration-Plan-3a5814686151811db820f7ca99b7aacf?source=copy_link

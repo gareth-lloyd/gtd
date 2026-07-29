@@ -2,7 +2,7 @@
 area: engineering
 contexts: []
 created: 2026-06-25 09:24:54.576735
-defer_until: 2026-07-29 09:00:00
+defer_until: null
 due: 2026-07-23
 energy: medium
 id: 2026-06-25T0924-ship-slack-notifications-with-recommended-channel
