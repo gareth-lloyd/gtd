@@ -13,7 +13,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Introduce Peter to ladder as a management tool
-updated: 2026-07-28 09:53:38.560583
+updated: 2026-07-29 11:33:39.727379
 waiting_on: null
 waiting_since: null
 working_on: false
