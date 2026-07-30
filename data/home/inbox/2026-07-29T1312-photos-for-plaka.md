@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-28 14:42:00.646398
+created: &id001 2026-07-29 13:12:54.517773
 defer_until: null
 due: null
 energy: low
-id: 2026-07-28T1442-share-a-pages
+id: 2026-07-29T1312-photos-for-plaka
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Brainstorm a pages analysis I could share
-updated: 2026-07-29 15:13:31.866136
+title: photos for plaka
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

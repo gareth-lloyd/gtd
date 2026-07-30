@@ -53,12 +53,64 @@ output: |
   can hard-set hotels=caesars-sso-sandbox and roles=general_manager for Cat and
   Kristie in the Okta app now — no need to wait on the group/identifier decision;
   that decision only gates production rollout, where three-letter codes work for us."
+
+  ## Agent run 2026-07-29T15:52:03+03:00
+
+  Re-assessed with the correct source email: the Dec 2024 - Jan 2025 thread
+  "Re: Re-authentication flow for SSO providers" (Blake/Aman/Brad/Charles/Gareth) —
+  this, not the Caesars Okta thread, is the "email from jan last year". Question:
+  pci_heartbeat still has exceptions for Wyndham + Best Western — impact? remove?
+
+  ### Current state of EXCLUDED_SSO_ORG_SLUGS (["wyndham", "bestwestern"])
+  - Used in two places: validate_pci_session (backend 401 enforcement on CC reveal,
+    user management, check-in dashboard card, hotel-staff endpoints) and
+    HeartbeatView (tells the frontend active/idle).
+  - Marriott, Four Seasons cut from the list Jan 2026 (#36692, by Gareth); Drury
+    removed 2025 (#28242). Only wyndham + bestwestern remain.
+
+  ### Finding 1: the Best Western entry is a typo no-op
+  Real SSO org slug is `best-western` (hyphenated; confirmed in prod logs — no
+  `bestwestern` slug exists). The exclusion has NEVER matched. BW (877 SSO
+  login-redirects/7d) has had full PCI idle enforcement all along, with no known
+  complaints. Removing the entry changes nothing in behavior.
+
+  ### Finding 2: the Wyndham exemption is half-dead (heartbeat regression)
+  PLAT-1424 (commit e007d23a3f5, Dec 3 2024) inserted `if authenticated_user.is_staff:`
+  between the exclusion `if` and the idle-check `elif` in heartbeat.py, breaking the
+  chain: for non-staff excluded users the second chain overwrites status back to IDLE.
+  So for ~20 months the frontend has been told "idle" for Wyndham users and has been
+  showing them the SSO re-auth modal before CC reveals anyway. Only the backend
+  hard-block (validate_pci_session) still honors the exemption.
+
+  ### Empirical impact (7d prod logs)
+  - `validate_pci_session.excluded_hotel`: 2,872 hits, all wyndham, across 543
+    hotels. Only 5 requests (0.17%) had session age >15 min; median age 5s, p95 142s.
+    I.e. the exemption almost never actually exempts anyone — the (accidentally live)
+    modal UX already forces re-auth first.
+  - Wyndham completes /sso/login_redirect/wyndham ~919x/7d; reauthentication_success
+    page ~7.3k hits/7d overall — the SSO re-auth popup flow demonstrably works for
+    Wyndham.
+
+  ### Recommendation: remove the exception
+  - User-visible impact ~zero: Wyndham already sees the re-auth modal; removal only
+    closes the backend enforcement hole (~5 requests/week would newly 401 with
+    pci_reauthentication_required, which the axios interceptor handles by showing
+    the same modal).
+  - Closes the PCI DSS 4.0 Req 8.2.8 gap on our largest SSO org (89k requests/day).
+  - The product sign-off the old thread was waiting on (Brad's customer calls) never
+    happened — but 20 months of the modal accidentally live for Wyndham with no
+    complaints is stronger evidence than those calls would have been.
+  - Cleanup scope: delete pci_session/constants.py, both exclusion branches + TODOs,
+    the excluded_hotel log; while there, fix the broken if/elif chain in heartbeat.py
+    (keep the is_staff branch — PLAT-1767 still open).
+  - Watch after removal: 401 rate on pci-guarded endpoints for wyndham
+    (expect ~5/week).
 project: null
 source_id: null
 tags: []
 time_minutes: 5
 title: Claude analysis of SSO login
-updated: 2026-07-28 16:22:09.692901
+updated: 2026-07-29 15:52:03.622381
 waiting_on: null
 waiting_since: null
 working_on: false

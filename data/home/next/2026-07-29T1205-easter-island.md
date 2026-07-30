@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-28 14:42:00.646398
+created: 2026-07-29 12:05:36.229288
 defer_until: null
 due: null
 energy: low
-id: 2026-07-28T1442-share-a-pages
+id: 2026-07-29T1205-easter-island
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: Brainstorm a pages analysis I could share
-updated: 2026-07-29 15:13:31.866136
+title: Easter island
+updated: 2026-07-29 12:05:36.283067
 waiting_on: null
 waiting_since: null
 working_on: false

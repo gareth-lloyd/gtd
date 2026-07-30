@@ -1,20 +1,20 @@
 ---
 area: null
 contexts: []
-created: 2026-07-22 14:01:40.202796
+created: 2026-07-08 14:49:55.245438
 defer_until: null
 due: null
 energy: low
-id: 2026-07-22T1401-nick-loom-feedback-email
-order: 3
+id: 2026-07-08T1449-get-latest-dump
+order: 10
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: Work through latest Nick feedback email
-updated: 2026-07-29 14:42:39.734382
+title: Chase wordpress files and latest dump - ben
+updated: 2026-07-29 14:40:41.000450
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

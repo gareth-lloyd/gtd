@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-28 14:42:00.646398
+created: 2026-07-22 15:17:51.302565
 defer_until: null
 due: null
 energy: low
-id: 2026-07-28T1442-share-a-pages
+id: 2026-07-22T1517-oscilloscope-skadis
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: Brainstorm a pages analysis I could share
-updated: 2026-07-29 15:13:31.866136
+title: oscilloscope skadis
+updated: 2026-07-29 15:32:39.340998
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,20 +1,20 @@
 ---
 area: null
 contexts: []
-created: 2026-07-28 14:42:00.646398
+created: 2026-07-29 13:51:09.234499
 defer_until: null
 due: null
 energy: low
-id: 2026-07-28T1442-share-a-pages
+id: 2026-07-29T1351-remember-safi-grooming-drop-230pm
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Brainstorm a pages analysis I could share
-updated: 2026-07-29 15:13:31.866136
+title: Remember safi grooming, drop 230pm
+updated: 2026-07-29 13:52:12.369177
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

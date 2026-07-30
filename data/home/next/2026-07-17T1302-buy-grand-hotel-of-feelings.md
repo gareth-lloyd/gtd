@@ -1,19 +1,19 @@
 ---
 area: null
 contexts: []
-created: 2026-07-28 14:42:00.646398
+created: 2026-07-17 13:02:46.956565
 defer_until: null
 due: null
 energy: low
-id: 2026-07-28T1442-share-a-pages
+id: 2026-07-17T1302-buy-grand-hotel-of-feelings
 order: null
 output: ''
-project: null
+project: 2026-05-25T1130-purchases
 source_id: null
 tags: []
 time_minutes: 5
-title: Brainstorm a pages analysis I could share
-updated: 2026-07-29 15:13:31.866136
+title: buy grand hotel of feelings
+updated: 2026-07-29 13:51:33.934533
 waiting_on: null
 waiting_since: null
 working_on: false

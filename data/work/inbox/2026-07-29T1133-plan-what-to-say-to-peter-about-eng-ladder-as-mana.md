@@ -2,7 +2,7 @@
 area: null
 contexts: []
 created: 2026-07-29 11:33:52.277778
-defer_until: 2026-07-30 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-29T1133-plan-what-to-say-to-peter-about-eng-ladder-as-mana
