@@ -1,10 +1,10 @@
 ---
-area: null
+area: admin
 contexts: []
 created: 2026-07-30 15:32:23.240362
 defer_until: null
-due: null
-energy: low
+due: 2026-07-31
+energy: medium
 id: 2026-07-30T1532-review-ian-s-investigation-agent-analysis
 order: null
 output: |
@@ -63,12 +63,12 @@ output: |
     evidence for Ian's "it's losing out by not having access to data" point.
 
   No external writes made (no Slack/Linear/Notion posts).
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: Review Ian's investigation agent analysis
-updated: 2026-07-30 15:46:00.000000
+updated: 2026-07-31 12:47:27.815164
 waiting_on: null
 waiting_since: null
 working_on: false

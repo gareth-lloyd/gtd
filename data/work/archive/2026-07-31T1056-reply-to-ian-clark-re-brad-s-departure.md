@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 5
 title: 'Reply to Ian Clark re: Brad''s departure'
-updated: 2026-07-31 10:56:46.586849
+updated: 2026-07-31 11:15:32.719821
 waiting_on: null
 waiting_since: null
 working_on: false

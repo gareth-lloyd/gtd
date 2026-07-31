@@ -42,6 +42,7 @@ due: null
 defer_until: null
 waiting_on: null
 waiting_since: null
+completed_at: null
 order: null
 ---
 
@@ -54,6 +55,11 @@ Moving `inbox/foo.md` to `next/foo.md` changes the item's status.
 `order` is only meaningful when the item's project has a `max_next_items`
 cap set. It sorts the project's actions and controls which N items surface
 on the next-actions list (N = `max_next_items`).
+
+`completed_at` records when the item was finished. It's stamped on any
+move to `archive/` or `reference/` (filing an unfinished item as reference
+counts as completing it) and cleared when the item moves back to an active
+bucket. Grep for it to find completed work living in `reference/`.
 
 ## Project file format
 

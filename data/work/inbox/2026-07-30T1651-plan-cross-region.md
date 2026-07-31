@@ -13,10 +13,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: plan cross-region
-updated: 2026-07-30 16:51:46.713866
+updated: 2026-07-31 12:46:37.831433
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 - Cross-Region property selector
