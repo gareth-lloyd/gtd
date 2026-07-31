@@ -109,8 +109,8 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Claude analysis of SSO login
-updated: 2026-07-29 15:52:03.622381
+title: Remove SSO exceptions doing nothing, and finally archive email
+updated: 2026-07-30 14:40:01.629512
 waiting_on: null
 waiting_since: null
 working_on: false
