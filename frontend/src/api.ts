@@ -24,6 +24,8 @@ export interface Item {
   defer_until: string | null;
   waiting_on: string | null;
   waiting_since: string | null;
+  /** Stamped on completion (archive) or on filing an unfinished item as reference. */
+  completed_at: string | null;
   order: number | null;
   source_id: string | null;
   /** Pin to top of next-actions; auto-cleared on completion, future defer, or move out of next. */

@@ -300,6 +300,24 @@ class TestItems:
         assert r.status_code == 200
         assert r.json()["status"] == "archive"
 
+    def test_complete_stamps_completed_at(self, api):
+        created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
+        assert created["completed_at"] is None
+        done = api.post(f"/api/envs/work/items/{created['id']}/complete/").json()
+        assert done["completed_at"] is not None
+
+    def test_move_to_reference_marks_unfinished_item_complete(self, api):
+        created = api.post("/api/envs/work/items/", {"title": "T"}, format="json").json()
+        r = api.post(
+            f"/api/envs/work/items/{created['id']}/move/",
+            {"to": "reference"},
+            format="json",
+        )
+        assert r.status_code == 200
+        body = r.json()
+        assert body["status"] == "reference"
+        assert body["completed_at"] is not None
+
     def test_done_list_returns_only_archive_items(self, api):
         a = api.post("/api/envs/work/items/", {"title": "A"}, format="json").json()
         b = api.post("/api/envs/work/items/", {"title": "B"}, format="json").json()

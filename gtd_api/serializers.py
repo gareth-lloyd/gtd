@@ -37,6 +37,7 @@ class ItemSerializer(serializers.Serializer):
             "defer_until": instance.defer_until.isoformat() if instance.defer_until else None,
             "waiting_on": instance.waiting_on,
             "waiting_since": instance.waiting_since.isoformat() if instance.waiting_since else None,
+            "completed_at": instance.completed_at.isoformat() if instance.completed_at else None,
             "order": instance.order,
             "source_id": instance.source_id,
             "working_on": instance.working_on,

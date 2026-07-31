@@ -161,6 +161,36 @@ class TestItemRoundTrip:
         loaded = load_item(path, Bucket.INBOX)
         assert loaded.working_on is False
 
+    def test_completed_at_round_trip(self, tmp_path):
+        item = Item(
+            id="2026-05-01T0900-done-ref",
+            title="Finished reference",
+            body="",
+            created=datetime(2026, 5, 1, 9, 0),
+            updated=datetime(2026, 5, 1, 9, 0),
+            status=Bucket.REFERENCE,
+            completed_at=datetime(2026, 5, 2, 18, 30),
+        )
+        path = tmp_path / "reference" / "done.md"
+        dump_item(path, item)
+        loaded = load_item(path, Bucket.REFERENCE)
+        assert loaded.completed_at == datetime(2026, 5, 2, 18, 30)
+        assert loaded == item
+
+    def test_completed_at_defaults_none_for_legacy_files(self, tmp_path):
+        path = tmp_path / "archive" / "legacy.md"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            "---\n"
+            "id: 2026-04-01T0900-legacy\n"
+            "title: Legacy item\n"
+            "created: 2026-04-01 09:00:00\n"
+            "updated: 2026-04-01 09:00:00\n"
+            "---\n"
+        )
+        loaded = load_item(path, Bucket.ARCHIVE)
+        assert loaded.completed_at is None
+
     def test_output_round_trip(self, tmp_path):
         item = Item(
             id="2026-05-06T0900-with-output",

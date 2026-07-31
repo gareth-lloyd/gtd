@@ -142,6 +142,60 @@ class TestComplete:
         assert completed.status == Bucket.ARCHIVE
 
 
+class TestCompletedAt:
+    """Completion is stamped durably in `completed_at`, not just implied by
+    the archive bucket. Filing a not-yet-finished item as reference counts
+    as completing it; moving back to an active bucket clears the stamp."""
+
+    FIXED_NOW = datetime(2026, 4, 10, 9, 15)
+
+    def test_complete_stamps_completed_at(self, svc):
+        item = svc.capture("work", "Do thing")
+        svc.move("work", item.id, Bucket.NEXT)
+        done = svc.complete("work", item.id)
+        assert done.completed_at == self.FIXED_NOW
+
+    def test_move_to_reference_marks_unfinished_item_complete(self, svc):
+        item = svc.capture("work", "Review doc")
+        svc.move("work", item.id, Bucket.NEXT)
+        filed = svc.move("work", item.id, Bucket.REFERENCE)
+        assert filed.status == Bucket.REFERENCE
+        assert filed.completed_at == self.FIXED_NOW
+
+    def test_move_to_reference_keeps_original_completion_time(self, data_root):
+        first = datetime(2026, 4, 10, 9, 0)
+        svc_then = GtdService(data_root, now=lambda: first)
+        item = svc_then.capture("work", "Already done")
+        svc_then.complete("work", item.id)
+        svc_later = GtdService(data_root, now=lambda: datetime(2026, 4, 11, 10, 0))
+        filed = svc_later.move("work", item.id, Bucket.REFERENCE)
+        assert filed.completed_at == first
+
+    def test_uncomplete_clears_completed_at(self, svc):
+        item = svc.capture("work", "Ticked too soon")
+        svc.complete("work", item.id)
+        revived = svc.move("work", item.id, Bucket.NEXT)
+        assert revived.completed_at is None
+
+    def test_reactivating_reference_item_clears_completed_at(self, svc):
+        item = svc.capture("work", "Reference back to action")
+        svc.move("work", item.id, Bucket.REFERENCE)
+        revived = svc.move("work", item.id, Bucket.NEXT)
+        assert revived.completed_at is None
+
+    def test_moves_between_active_buckets_leave_it_unset(self, svc):
+        item = svc.capture("work", "Delegated thing")
+        svc.move("work", item.id, Bucket.NEXT)
+        moved = svc.move("work", item.id, Bucket.WAITING)
+        assert moved.completed_at is None
+
+    def test_trash_preserves_completion_stamp(self, svc):
+        item = svc.capture("work", "Done then trashed")
+        svc.complete("work", item.id)
+        trashed = svc.delete("work", item.id)
+        assert trashed.completed_at == self.FIXED_NOW
+
+
 class TestListDone:
     """`list_done` returns archive items sorted by `updated` desc, paginated."""
 

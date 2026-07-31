@@ -17,6 +17,10 @@ Item fields:
   defer_until   datetime|None GTD tickler — hidden from default lists until this moment
   waiting_on    str|None  who/what (meaningful when status=waiting)
   waiting_since date|None when we started waiting
+  completed_at  datetime|None when the item was finished. Stamped on any move to
+                          archive or reference (filing an unfinished item as
+                          reference counts as completing it); cleared on moves
+                          back to an active bucket; preserved through trash
   source_id     str|None  stable external ref (PR url, Linear ID, Slack permalink) for dedup
   working_on    bool      pin to top of next-actions; auto-cleared when the item leaves NEXT
                           or gets a future defer_until
@@ -61,6 +65,7 @@ class Item:
     defer_until: datetime | None = None
     waiting_on: str | None = None
     waiting_since: date | None = None
+    completed_at: datetime | None = None
     order: int | None = None
     source_id: str | None = None
     working_on: bool = False

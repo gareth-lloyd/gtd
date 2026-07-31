@@ -113,7 +113,15 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
                 {b}
               </Button>
             ) : (
-              <Button key={b} onClick={() => moveMut.mutate(b)} busy={isMoving(b)} disabled={busy}>
+              <Button
+                key={b}
+                onClick={() => moveMut.mutate(b)}
+                busy={isMoving(b)}
+                disabled={busy}
+                title={
+                  b === "reference" ? "File as reference — also marks the item complete" : undefined
+                }
+              >
                 → {b}
               </Button>
             ),

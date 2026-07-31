@@ -97,6 +97,14 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
 - **Soft delete**: `service.delete()` moves to trash. `service.purge()` is
   the irreversible hard delete. API DELETE returns the trashed item.
 
+- **Completion stamp**: items carry `completed_at: datetime | None` in
+  frontmatter. Any move to archive or reference stamps it (filing a
+  not-yet-finished item as reference counts as completing it; an
+  already-completed item keeps its original stamp). Moving back to an
+  active bucket (inbox/next/waiting/someday) clears it; trash preserves
+  it. Lets tooling find completed work that lives in `reference/`, not
+  just `archive/`.
+
 - **Natural-language dates**: `due` accepts strings like "next friday", "2w",
   "end of month", or ISO dates (`parse_human_date` → `date`). `defer_until`
   additionally supports hour-level precision ("in 2 hours", "3h", "tomorrow

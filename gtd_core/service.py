@@ -254,6 +254,16 @@ class GtdService:
         # (complete, defer-via-move, re-bucket) clears it.
         if item.status is Bucket.NEXT and to is not Bucket.NEXT:
             item.working_on = False
+        # Completion is stamped durably, not just implied by the bucket:
+        # archiving completes, and filing a not-yet-finished item as
+        # reference completes it too (already-finished items keep their
+        # original stamp). Moving back to an active bucket un-completes.
+        # Trash preserves whatever state the item died in.
+        if to in (Bucket.ARCHIVE, Bucket.REFERENCE):
+            if item.completed_at is None:
+                item.completed_at = self._now()
+        elif to is not Bucket.TRASH:
+            item.completed_at = None
         # Save first (atomic write at source) then relocate (atomic rename) —
         # a crash between still leaves the item recoverable in its source bucket.
         repo.save(item)

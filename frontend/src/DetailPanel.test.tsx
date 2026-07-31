@@ -50,6 +50,7 @@ const testItem: Item = {
   order: null,
   source_id: null,
   working_on: false,
+  completed_at: null,
   output: "",
 };
 
