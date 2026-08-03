@@ -48,10 +48,10 @@ tags:
 time_minutes: 15
 title: 'Reply in #tmp-check-in-configuration-location: Vibhor''s answers on configurator
   permissions'
-updated: 2026-07-30 15:12:18.685681
+updated: 2026-07-31 12:54:39.016474
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Vibhor addressed my questions by name: CS/admin needs more access than hotel users; post-setup tweaks are frequent; OK with hotel-admin home if Canary users keep elevated access without extra hoops.

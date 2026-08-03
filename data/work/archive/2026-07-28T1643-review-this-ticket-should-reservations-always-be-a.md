@@ -64,7 +64,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Review this ticket - should reservations always be archived?
-updated: 2026-07-30 15:11:30.446115
+updated: 2026-07-31 12:54:21.390196
 waiting_on: null
 waiting_since: null
 working_on: false

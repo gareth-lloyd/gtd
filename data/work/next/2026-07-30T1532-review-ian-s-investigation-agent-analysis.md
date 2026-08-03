@@ -68,10 +68,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Review Ian's investigation agent analysis
-updated: 2026-07-31 12:47:27.815164
+updated: 2026-07-31 12:54:24.789288
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://claude.ai/code/artifact/a2be0f41-be43-4b4c-b7dc-5ae2f0e96299

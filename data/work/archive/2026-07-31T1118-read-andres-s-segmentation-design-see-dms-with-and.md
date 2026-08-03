@@ -62,7 +62,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Read Andres's segmentation design (see DMs with Andres Figueiro)
-updated: 2026-07-31 12:47:16.392838
+updated: 2026-07-31 13:10:59.663026
 waiting_on: null
 waiting_since: null
 working_on: false

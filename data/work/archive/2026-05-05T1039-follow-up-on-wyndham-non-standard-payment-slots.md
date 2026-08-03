@@ -16,7 +16,7 @@ tags:
 - slack
 time_minutes: 15
 title: Follow up on Wyndham non-standard payment slots
-updated: 2026-06-24 14:13:48.440195
+updated: 2026-07-31 12:54:04.795042
 waiting_on: null
 waiting_since: null
 working_on: false
