@@ -1,8 +1,9 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-29 15:13:44.547012
-defer_until: 2026-08-03 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-29T1513-watch-andrea-s-pms-lightning-talk

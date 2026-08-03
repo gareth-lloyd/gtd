@@ -1,8 +1,9 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-28 12:42:49.413438
-defer_until: 2026-08-03 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-07-28T1242-soap-stone-dishes

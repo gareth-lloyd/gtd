@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: 2026-08-03 10:31:08.767516
 contexts: []
 created: 2026-07-30 16:51:23.289273
 defer_until: null
@@ -125,7 +126,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: plan cross-region
-updated: 2026-07-31 13:40:00.000000
+updated: 2026-08-03 10:31:08.767051
 waiting_on: null
 waiting_since: null
 working_on: false
