@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-04 14:04:39.370083
 contexts:
 - react
 created: 2026-08-04 10:41:27.819175
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Answer Andrea in #epd-enterprise-engineers: portfolio type classification'
-updated: 2026-08-04 10:41:27.888989
+updated: 2026-08-04 14:04:39.370063
 waiting_on: null
 waiting_since: null
 working_on: false

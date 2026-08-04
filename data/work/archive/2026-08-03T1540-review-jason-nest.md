@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-04 13:19:07.336257
 contexts: []
-created: &id001 2026-08-03 15:40:48.644621
+created: 2026-08-03 15:40:48.644621
 defer_until: null
 due: null
 energy: low
@@ -13,8 +13,8 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: review jason nest
-updated: *id001
+title: Investigate the nature of N
+updated: 2026-08-04 13:19:07.336252
 waiting_on: null
 waiting_since: null
 working_on: false

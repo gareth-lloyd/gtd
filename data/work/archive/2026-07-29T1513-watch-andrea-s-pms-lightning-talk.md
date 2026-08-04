@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-04 13:18:27.012832
 contexts: []
 created: 2026-07-29 15:13:44.547012
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Watch Andrea's pms lightning talk
-updated: 2026-08-03 13:08:06.250256
+updated: 2026-08-04 13:18:27.012825
 waiting_on: null
 waiting_since: null
 working_on: false

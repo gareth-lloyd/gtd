@@ -117,17 +117,17 @@ output: |
   ships on top of this", not "before this merges" — consider asking Rami to log them on the
   milestone rather than expanding this PR, since the whole point is that the refactor ships
   clean and separate from behaviour fixes.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://github.com/canary-technologies-corp/canary/pull/51493
 tags:
 - morning-gtd
 - github
 time_minutes: 20
 title: 'Review PR #51493: [TOOL-483] Make every HotelProductsPlan write skippable'
-updated: 2026-08-03 13:35:00.000000
+updated: 2026-08-04 14:40:23.709820
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Personally requested (rami + ldewald + pod-enterprise). +192/-51, REVIEW_REQUIRED, mergeable.

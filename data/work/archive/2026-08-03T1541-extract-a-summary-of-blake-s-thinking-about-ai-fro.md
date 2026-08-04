@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-04 14:28:11.116335
 contexts: []
-created: &id001 2026-08-03 15:41:40.390707
+created: 2026-08-03 15:41:40.390707
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: extract a summary of blake's thinking about AI from blake directs transcript
-updated: *id001
+updated: 2026-08-04 14:28:11.116317
 waiting_on: null
 waiting_since: null
 working_on: false

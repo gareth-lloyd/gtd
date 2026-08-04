@@ -128,17 +128,17 @@ output: |
   - `backend/canary/onboarding/testing.py`
   - `docs/django/backwards-compatible-migrations.md`
   - `backend/canary/authorization/migrations/0362_...` (precedent)
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://github.com/canary-technologies-corp/canary/pull/51430
 tags:
 - morning-gtd
 - github
 time_minutes: 15
 title: 'Review PR #51430: [TOOL-396] Drop CohortHotel.onboarding_type column'
-updated: 2026-08-03 13:18:50.400877
+updated: 2026-08-04 14:40:27.580334
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Personally requested (rami, with abrad). Final phase of TOOL-396, +22/-12, still REVIEW_REQUIRED since 2026-07-30.

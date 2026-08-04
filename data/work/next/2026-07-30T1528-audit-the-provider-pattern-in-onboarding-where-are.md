@@ -97,13 +97,13 @@ output: |
     returning "skipped".
   - Consider a provider `build_config(hotel)` phase (or pass hotel into config construction)
     to eliminate class C's config mutation inside the hook.
-project: null
+project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: Audit the plan / provider pattern in onboarding. Where are we violating? What's
   the implication?
-updated: 2026-08-03 14:44:21.717722
+updated: 2026-08-04 13:18:36.522128
 waiting_on: null
 waiting_since: null
 working_on: false
