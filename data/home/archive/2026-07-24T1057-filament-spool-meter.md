@@ -1,19 +1,20 @@
 ---
 area: null
+completed_at: 2026-08-03 12:13:53.798863
 contexts: []
-created: 2026-07-23 13:17:39.047727
+created: 2026-07-24 10:57:06.323449
 defer_until: null
 due: null
 energy: low
-id: 2026-07-23T1317-ac-air-inlet
+id: 2026-07-24T1057-filament-spool-meter
 order: null
 output: ''
 project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: AC air inlet
-updated: 2026-07-23 13:17:39.091334
+title: filament spool meter
+updated: 2026-08-03 12:13:53.798800
 waiting_on: null
 waiting_since: null
 working_on: false

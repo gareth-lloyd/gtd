@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-07-29 15:13:44.547012
+created: &id001 2026-08-03 15:41:40.390707
 defer_until: null
 due: null
 energy: low
-id: 2026-07-29T1513-watch-andrea-s-pms-lightning-talk
+id: 2026-08-03T1541-extract-a-summary-of-blake-s-thinking-about-ai-fro
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Watch Andrea's pms lightning talk
-updated: 2026-08-03 13:08:06.250256
+title: extract a summary of blake's thinking about AI from blake directs transcript
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

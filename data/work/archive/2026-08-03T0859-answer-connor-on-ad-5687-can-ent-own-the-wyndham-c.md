@@ -1,12 +1,12 @@
 ---
-area: null
-completed_at: null
+area: engineering
+completed_at: 2026-08-03 14:39:33.063139
 contexts:
 - react
 created: 2026-08-03 08:59:34.446915
 defer_until: null
 due: 2026-08-03
-energy: medium
+energy: high
 id: 2026-08-03T0859-answer-connor-on-ad-5687-can-ent-own-the-wyndham-c
 order: null
 output: |
@@ -145,15 +145,31 @@ output: |
     currently working at all, and it changes the urgency framing.
   - Connor offered to create a separate ENT ticket with Marta. Worth saying yes for parts
     2+3, but only after part 1's shape is decided, since it determines what the backfill is.
-project: null
+
+  ## Agent run 2026-08-03T11:35Z — implementation + comms update
+
+  - Built the portfolio-based quick fix on branch `glloyd/ent-7066-wyndham-hide-china-territories`;
+    PR up: [#51975](https://github.com/canary-technologies-corp/canary/pull/51975).
+    Trigger: `wyndham` + `wyndham_staging`. Hides TW/HK/MO (RE dropped per Connor),
+    CN relabels to China/中国/中國, stored values preserved, country-of-issue fields
+    exempt (incl. the legacy slug path, fixed after review feedback in b706bf3d5a8).
+  - CI: all blocking checks green except Playwright Critical, which died on a Docker
+    build-cache 500 (0 tests ran — infra). Needs a rerun; user approval pending.
+    3 non-blocking E2E shards flaky on new self-hosted runners (unrelated timeouts).
+  - Posted the user-approved non-technical summary to the Slack thread:
+    [message](https://canarytechnologies.slack.com/archives/C04STT7UPRQ/p1785757097061489?thread_ts=1785715264.112599&cid=C04STT7UPRQ).
+    The earlier drafted reply below is superseded — thread had already resolved
+    Réunion (keep available) and the Taiwan-property question (apply uniformly).
+  - Follow-on config work ticketed as AD-8146 (created by user in-thread).
+project: 2026-04-16T1210-unblock-team
 source_id: https://linear.app/canary-technologies/issue/AD-5687/reg-remove-chinese-territories-from-country-dropdown
 tags:
 - morning-gtd
 - linear
-time_minutes: 20
+time_minutes: 30
 title: 'Answer Connor on AD-5687: can ENT own the Wyndham Chinese-territories country-list
   fix?'
-updated: 2026-08-03 10:27:10.000000
+updated: 2026-08-03 14:39:33.063130
 waiting_on: null
 waiting_since: null
 working_on: false

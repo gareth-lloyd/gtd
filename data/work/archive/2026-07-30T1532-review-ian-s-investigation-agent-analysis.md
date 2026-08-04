@@ -1,5 +1,6 @@
 ---
 area: admin
+completed_at: 2026-08-03 15:59:15.932536
 contexts: []
 created: 2026-07-30 15:32:23.240362
 defer_until: null
@@ -68,10 +69,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Review Ian's investigation agent analysis
-updated: 2026-07-31 12:54:24.789288
+updated: 2026-08-03 15:59:15.932530
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://claude.ai/code/artifact/a2be0f41-be43-4b4c-b7dc-5ae2f0e96299

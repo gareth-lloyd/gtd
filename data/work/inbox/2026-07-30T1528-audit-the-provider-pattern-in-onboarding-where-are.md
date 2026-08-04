@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-30 15:28:02.557778
 defer_until: null
@@ -102,7 +103,7 @@ tags: []
 time_minutes: 5
 title: Audit the plan / provider pattern in onboarding. Where are we violating? What's
   the implication?
-updated: 2026-07-31 13:06:00.000000
+updated: 2026-08-03 14:44:21.717722
 waiting_on: null
 waiting_since: null
 working_on: false
