@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-04 15:10:27.138001
 contexts: []
 created: 2026-08-04 11:56:28.562964
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Prep to talk about CN work with andrea
-updated: 2026-08-04 14:40:18.096965
+updated: 2026-08-04 15:10:27.137996
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

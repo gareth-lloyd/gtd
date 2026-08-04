@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-04 15:09:41.015333
 contexts:
 - react
 created: 2026-08-04 10:41:27.746095
@@ -17,10 +17,10 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Garrett Idler re: Applied AI pod prioritization input'
-updated: 2026-08-04 14:04:55.594898
+updated: 2026-08-04 15:09:41.015328
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 DM: Applied AI pod wants visibility into upcoming enterprise work they could support in their next block. 'No need to come up with anything' but a good hook — candidates: rules-based config, account health drift tooling.

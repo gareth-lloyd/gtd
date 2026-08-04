@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-04 15:09:38.366015
 contexts:
 - react
 created: 2026-08-03 10:06:38.148192
@@ -128,6 +128,31 @@ output: |
   - `backend/canary/onboarding/testing.py`
   - `docs/django/backwards-compatible-migrations.md`
   - `backend/canary/authorization/migrations/0362_...` (precedent)
+
+  ## Agent run 2026-08-04T14:47:00Z
+
+  Re-verification only — nothing has changed since the 08-03 review, so all findings
+  and the recommendation stand. Nothing posted anywhere.
+
+  Checked:
+  - PR https://github.com/canary-technologies-corp/canary/pull/51430 is untouched:
+    still OPEN / REVIEW_REQUIRED, same single commit `6e33da4ad76` (2026-07-27), zero
+    human reviews or comments — only the bot comments already covered (linear-linkback,
+    canary-linter `warn_on_column_deprecation`, migration-SQL, E2E-pass, and Macroscope,
+    which independently flags "Needs human review" because drop-column migrations are
+    on its hard deny-list). No rebase has happened.
+  - Fetched fresh `origin/master`: latest onboarding migration is still
+    `0161_alter_cohort_onboarding_type_and_more` — nobody has taken `0162`, so the
+    migration-number collision blocker and the "rebase → regenerate as 0162" fix are
+    still exactly right.
+  - Linear TOOL-396
+    (https://linear.app/canary-technologies/issue/TOOL-396/delete-the-onboarding-type-field-on-cohorthotel)
+    has zero comments — the 7,437-row merge-gate question remains unanswered there too.
+
+  Still blocked on you: the draft comment in the 08-03 run above is ready to post to
+  the PR (asks for the rebase + poses the earmark-rows question). Say the word and I'll
+  send it; alternatively raise it with rami/abrad directly. The PR cannot merge until
+  the rebase happens regardless.
 project: 2026-04-16T1210-unblock-team
 source_id: https://github.com/canary-technologies-corp/canary/pull/51430
 tags:
@@ -135,10 +160,10 @@ tags:
 - github
 time_minutes: 15
 title: 'Review PR #51430: [TOOL-396] Drop CohortHotel.onboarding_type column'
-updated: 2026-08-04 14:40:27.580334
+updated: 2026-08-04 15:09:38.366008
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Personally requested (rami, with abrad). Final phase of TOOL-396, +22/-12, still REVIEW_REQUIRED since 2026-07-30.

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-04 15:06:08.652124
 contexts:
 - react
 created: 2026-08-03 08:59:34.528584
@@ -124,10 +124,10 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #51493: [TOOL-483] Make every HotelProductsPlan write skippable'
-updated: 2026-08-04 14:40:23.709820
+updated: 2026-08-04 15:06:08.652096
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Personally requested (rami + ldewald + pod-enterprise). +192/-51, REVIEW_REQUIRED, mergeable.

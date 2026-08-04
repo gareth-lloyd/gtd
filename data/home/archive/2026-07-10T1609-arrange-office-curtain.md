@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: 2026-08-04 15:39:55.375643
 contexts: []
 created: 2026-07-10 16:09:56.448040
 defer_until: null
@@ -13,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Arrange office curtain
-updated: 2026-07-28 21:10:29.548826
+updated: 2026-08-04 15:39:55.375624
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
