@@ -2,22 +2,22 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-08-04 16:37:50.483199
+created: &id001 2026-08-05 14:33:42.376566
 defer_until: null
 due: null
 energy: low
-id: 2026-08-04T1637-review-vis
+id: 2026-08-05T1433-review-strate-accounts
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Review vis
+title: review strate accounts
 updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
-https://claude.ai/code/artifact/11eedd65-c69d-4c93-be8c-79c4f1339225?via=auto_preview
+https://canarytechnologies.slack.com/archives/C083M6Q65PX/p1785869629660919

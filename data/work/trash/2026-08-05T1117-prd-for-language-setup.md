@@ -2,20 +2,22 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-07-23 13:17:29.137104
+created: 2026-08-05 11:17:17.871974
 defer_until: null
 due: null
 energy: low
-id: 2026-07-23T1317-sofa-arm-tray
-order: 4
+id: 2026-08-05T1117-prd-for-language-setup
+order: null
 output: ''
-project: 2026-07-15-prints
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Sofa arm tray
-updated: 2026-08-05 10:03:03.161239
+title: Na
+updated: 2026-08-05 13:55:47.334492
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+what buttons to push?

@@ -13,11 +13,16 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: write a rules-based one-pager to describe the system
-updated: 2026-08-04 20:47:33.395163
+title: Decide where a description of the rules-based config system should live.
+updated: 2026-08-05 13:33:16.332917
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
-Asher's visualization?
+Where do docs describing aspects of our system live? Where should they live.
+Lean on Asher's visualization
+
+short explanation justifying the "write final values to config objects" approach?
+why a diamond tree? To avoid endlessly repeating group definitions to express the divergence:
+* Wyndham case: EU and US share most config, but not all

@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-31 12:43:40.443507
 defer_until: null
@@ -46,8 +47,12 @@ source_id: null
 tags: []
 time_minutes: 5
 title: If an item is not finished, clicking "Reference" should also mark it as complete
-updated: 2026-07-31 12:55:02
+updated: 2026-08-05 15:22:09.227400
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+This is not working as intended. My request:
+* new button "Done + reference".Visible if item is not complete
+* Marks complete, moves to reference

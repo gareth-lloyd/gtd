@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-05 13:22:54.845153
 contexts:
 - react
 created: 2026-08-05 07:19:55.461569
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Asher: meeting feedback + schedule the 1:1'
-updated: 2026-08-05 07:19:55.530541
+updated: 2026-08-05 13:22:54.845133
 waiting_on: null
 waiting_since: null
 working_on: false

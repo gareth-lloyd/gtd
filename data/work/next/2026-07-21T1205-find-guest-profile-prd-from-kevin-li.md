@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-21 12:05:23.120983
 defer_until: null
@@ -204,12 +205,12 @@ output: |
   **One line:** the purge program and Guest Profiles are complementary; the doc asks for three
   cheap pre-Jul-23 design hooks (profile retention clock, consent carve-out, recorded election)
   so compliance work enables — rather than forecloses — durable guest memory in EMEA.
-project: 2026-04-16T1210-unblock-team
+project: 2026-07-20-gdpr
 source_id: null
 tags: []
 time_minutes: 15
 title: Review the guest profiles document thorugh a GDPR lens
-updated: 2026-07-28 15:23:00.000000
+updated: 2026-08-05 14:34:07.124119
 waiting_on: null
 waiting_since: null
 working_on: false

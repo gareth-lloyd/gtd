@@ -45,12 +45,12 @@ output: |
   - Old umbrella tickets EMEA-348/349, PMS-9789, SEC-382, EMEA-305 (Track 2A purge-after-sync, Danubius-specific) are all canceled — superseded by the PMS-98xx breakdown above. Eng design EMEA-307 is Done.
   - Project has no milestones and no status updates posted yet.
   - Forcing functions: Danubius (€80k + ~€500k Ensana upside) and IHG.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: PMS gateway/EMEA team Linear project for GDPR. Look through the work ahead
-updated: 2026-08-04 14:49:20.028290
+updated: 2026-08-05 14:34:17.010008
 waiting_on: null
 waiting_since: null
 working_on: false
