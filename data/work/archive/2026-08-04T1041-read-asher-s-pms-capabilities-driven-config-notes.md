@@ -1,6 +1,6 @@
 ---
 area: management
-completed_at: null
+completed_at: 2026-08-04 15:59:25.243173
 contexts:
 - consume
 created: 2026-08-04 10:41:27.889744
@@ -37,10 +37,10 @@ tags:
 - slack
 time_minutes: 30
 title: Read Asher's PMS-capabilities-driven-config notes before today's meeting
-updated: 2026-08-04 14:40:13.627886
+updated: 2026-08-04 15:59:25.243161
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Asher @mentioned me + Ian: skim the high-level overview of resolved decisions and open questions before the sync (eng design doc optional). Docs: 'Sync on PMS capabilities driven configuration' + 'Capability-Driven Config Drift Detection' in Notion.

@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-07-28 14:42:00.646398
+created: 2026-08-04 22:22:01.117100
 defer_until: null
 due: null
 energy: low
-id: 2026-07-28T1442-share-a-pages
+id: 2026-08-04T2222-baby-proofing
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: Brainstorm a pages analysis I could share
-updated: 2026-08-04 11:54:47.374706
+title: baby proofing
+updated: 2026-08-04 22:22:01.151015
 waiting_on: null
 waiting_since: null
 working_on: false

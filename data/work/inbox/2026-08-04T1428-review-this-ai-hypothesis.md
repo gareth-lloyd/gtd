@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-04 14:28:30.405455
-defer_until: 2026-08-05 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-08-04T1428-review-this-ai-hypothesis
