@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 13:42:19.555986
 contexts:
 - deep
 created: 2026-08-06 11:56:55.424812
@@ -18,7 +18,7 @@ tags:
 time_minutes: 90
 title: 'Bring fully-formed thoughts to #eng-directors on Identity pod owning SSO +
   RBAC'
-updated: 2026-08-06 11:56:55.493883
+updated: 2026-08-06 13:42:19.555977
 waiting_on: null
 waiting_since: null
 working_on: false

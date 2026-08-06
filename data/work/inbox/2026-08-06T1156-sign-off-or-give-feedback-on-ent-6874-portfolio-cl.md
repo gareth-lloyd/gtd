@@ -17,10 +17,10 @@ tags:
 - linear
 time_minutes: 30
 title: Sign off or give feedback on ENT-6874 portfolio classification results
-updated: 2026-08-06 11:56:55.355525
+updated: 2026-08-06 13:42:59.536270
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Andrea @mentioned me and Connor: "current logic results ... Please provide feedback or sign off." Spreadsheet of classified portfolios from the additive-only backfill command.

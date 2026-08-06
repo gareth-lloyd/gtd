@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 13:42:35.501156
 contexts:
 - react
 created: 2026-08-06 11:56:55.494596
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 20
 title: Confirm to Stephanie which ENT user-management pieces are in progress or planned
-updated: 2026-08-06 11:56:55.562262
+updated: 2026-08-06 13:42:35.501148
 waiting_on: null
 waiting_since: null
 working_on: false

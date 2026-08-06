@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 13:26:57.698546
 contexts: []
-created: &id001 2026-08-05 23:47:25.651443
+created: 2026-08-05 23:47:25.651443
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Announce holiday
-updated: *id001
+updated: 2026-08-06 13:26:57.698526
 waiting_on: null
 waiting_since: null
 working_on: false

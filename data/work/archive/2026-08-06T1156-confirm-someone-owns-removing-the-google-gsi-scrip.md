@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 13:42:30.880187
 contexts:
 - react
 created: 2026-08-06 11:56:55.562908
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: Confirm someone owns removing the Google GSI script from guest-facing pages
-updated: 2026-08-06 11:56:55.634115
+updated: 2026-08-06 13:42:30.880181
 waiting_on: null
 waiting_since: null
 working_on: false
