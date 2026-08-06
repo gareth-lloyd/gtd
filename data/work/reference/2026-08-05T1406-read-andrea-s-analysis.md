@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: 2026-08-05 15:07:22.681524
+completed_at: 2026-08-05 16:13:16.677497
 contexts: []
 created: 2026-08-05 14:06:57.939538
 defer_until: null
@@ -57,7 +57,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: read andrea's analysis
-updated: 2026-08-05 15:09:32.005083
+updated: 2026-08-05 16:13:16.677491
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -5,7 +5,7 @@ contexts:
 - deep
 created: 2026-08-04 16:00:16.245615
 defer_until: null
-due: 2026-08-05
+due: null
 energy: high
 id: 2026-08-04T1600-review-pms-capabilities-eng-design
 order: null
@@ -85,7 +85,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review PMS capabilities eng design
-updated: 2026-08-05 13:29:47.482423
+updated: 2026-08-05 16:10:33.180582
 waiting_on: null
 waiting_since: null
 working_on: false

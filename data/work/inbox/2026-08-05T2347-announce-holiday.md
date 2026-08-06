@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-08-05 10:03:00.155695
+created: &id001 2026-08-05 23:47:25.651443
 defer_until: null
 due: null
 energy: low
-id: 2026-08-05T1003-powerstrip
-order: 1
+id: 2026-08-05T2347-announce-holiday
+order: null
 output: ''
-project: 2026-07-15-prints
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: powerstrip
-updated: 2026-08-05 10:03:03.161239
+title: Announce holiday
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

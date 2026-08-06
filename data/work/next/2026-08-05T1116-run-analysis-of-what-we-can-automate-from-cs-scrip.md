@@ -54,16 +54,53 @@ output: |
   The big-picture gap: for a DEFAULT hotel the script's single stage omits Twilio, guest-journey messages, chat settings, upsells, payment gateway, languages, PMS, and go-live plans — that list IS the manual CS workload. The plans all exist (enterprise paths use them); the work is authoring default/country-generic providers for them, in roughly this value order: languages → Twilio/messaging registration → reg card by country (in flight) → voice defaults → guest-journey defaults.
 
   Full agent reports available in session transcripts; codebase refs are in backend/canary/onboarding (property_configuration_processes.py:2576-2744 for the DEFAULT stage).
+
+  ## Agent run 2026-08-05T20:35
+
+  Follow-on task: quick, low-risk changes we can specify today. I re-verified the key codebase claims from the prior run against the repo (configure_supported_languages_plan.py, the DEFAULT stage in property_configuration_processes.py:2576-2744, SupportedLanguagesConfig, the BW provider, hotel_products_plan.py:80-83) — all hold. Specs below are concrete enough to hand to an engineer or turn into Linear tickets.
+
+  ### Why these are low-risk by construction
+
+  Everything below only changes what the onboarding script stamps on NEW hotels at onboarding time — zero effect on existing hotels. Plans are idempotent, run in a transaction, and (for #1) come with built-in post-run monitoring checks. CS retains the Onboarding App to override anything after the script runs.
+
+  ### Tier 1 — spec is complete, buildable immediately
+
+  **1. Wire ConfigureSupportedLanguagesPlan into the DEFAULT stage** (the single cheapest country-conditional win; delivers checklist items "Language Settings" + "supports_guest_language_preference=Yes" in one PR)
+  - The plan (plans/configure_supported_languages_plan.py) is already fully generic: it consumes a `SupportedLanguagesConfig` dataclass = {hotel_country, default_guest_communication_language_by_country, additional_language_by_country} and sets hotel.supported_languages, default_guest_language, supports_guest_language_preference=True, rollout_staff_language_selection. It also registers three MonitoredCheckTypes (SUPPORTED_LANGUAGES_CONFIGURED, DEFAULT_GUEST_LANGUAGE_CONFIGURED, STAFF_LANGUAGE_SELECTION_CONFIGURED) — monitoring for free.
+  - Build: (a) a `DefaultSupportedLanguagesProvider` — a ~20-line copy of `BestWesternSupportedLanguagesProvider` (configuration_providers/best_western/best_western_supported_languages_provider.py) pointing at a new generic country→language table; (b) one `PlanFactory(plan=ConfigureSupportedLanguagesPlan, config_provider=DefaultSupportedLanguagesProvider)` entry appended to the DEFAULT BASE_CONFIGURATION_NEW plans list (property_configuration_processes.py:2585-2718). The plan is already in KNOWN_PLANS and the batch choices migration (0088).
+  - Seed the table only with countries CS has documented: ES (en+es, default es), GR (en+el, default el), GB (en), AU (en), IT (en+it, default it) — cross-check against BW's existing `language_definitions.py` table, which already encodes the same mapping for ~dozens of countries and could simply be promoted to shared/default.
+  - Failure mode for unlisted countries is exactly today's behavior (English-only) plus a structured warning log ("configure_supported_languages.country_not_configured") that tells us which country table entries to add next. Behavior change is opt-in per table row.
+
+  **2. supports_guest_language_preference = True for all new hotels** — comes free with #1; the plan sets it unconditionally whenever a provider is present, matching the "always Yes" line in every country checklist. No separate work needed.
+
+  ### Tier 2 — small builds, each needs one product decision first
+
+  **3. Voice forwarding-number default.** DefaultVoiceConfigProvider hard-requires the `VOICE_AI_FORWARD_CALL_TO` OnboardingValue; CS's own runbook (https://app.notion.com/p/33481468615180f59f01f6a76f99f540) says the placeholder is always the hotel's own phone. Change: fall back to hotel phone when the OnboardingValue is absent. Scope is tiny (one provider, ad-hoc CONFIGURE_VOICE stage that CS triggers deliberately). Decision needed: confirm hotel-phone fallback can't create a forwarding loop on any telephony path.
+  - **4. GDPR ID purge for EU/UK** — set `purge_id_on_reservation_status_change=True` when hotel_country is in an EU/UK list. Prescribed in both the Spain and UK checklists. Decision needed: sign-off on the documented trade-off (purged IDs unavailable for chargeback evidence). Mechanically trivial once approved — a country-conditional field-set in an existing or new small plan.
+  - **5. Check-in/check-out times** — HotelInfoPlan already supports them; DefaultSalesforceHotelInfoProvider never sets them. Decision needed: confirm the Salesforce account/opportunity actually carries these fields for non-enterprise deals; if yes, it's a 5-line provider change.
+
+  ### Specify now, build next (not "today", but the spec can be written this week)
+
+  - **6. DEFAULT Twilio stage** — DEFAULT has no ConfigureTwilioPlan wiring at all (BW/Wyndham do), yet every A2P form field CS fills is deterministic boilerplate ("Low Volume Mixed", "Canary Messages", standard samples, Canary Support fallback) and interim provisioning is already an admin button. This is the biggest CS-hours item after languages; spec = add CONFIGURE_TWILIO as an ad-hoc stage for DEFAULT reusing the existing plan + a default provider carrying the boilerplate.
+  - **7. Webchat + portfolio constants** — welcome/error templates, booking-link param string, "Set up Dashboard=True"/"Grant User Management=True" are documented constants; fold into existing plans when chat settings get a DEFAULT plan.
+
+  Suggested sequencing: ship #1/#2 as one PR pair (table+provider PR, wiring PR) this sprint; open decisions for #3-#5 in parallel; write the Twilio spec while those land. If useful next step: I can draft the Linear tickets (as local drafts for your review — I won't post anything).
+
+  ## Agent run 2026-08-05T20:50 — expansion of item #7 (webchat + portfolio constants)
+
+  **Webchat constants.** After the DEFAULT script runs, the Webchat runbook has a CSA hand-configure settings that are documented constants: welcome/off-hours/error message templates, and the booking-link parameter string (`adults={adults}&children={children}&checkin_date=...`) appended to the hotel's booking engine URL. `ChatSettingsPlan` (backend/canary/onboarding/plans/chat_settings_plan.py) already handles all of it — auto-respond hours + off-hours message, AI flags (has_ai, is_ai_responding_enabled, has_managed_ai_answers), booking_url_prefix via BookingLinkConfigurationService, staff signatures, notification sound, escalation scope, preset message templates. Every ChatConfig field is nullable and the plan stamps only what the provider supplies, so a default provider can start minimal (boilerplate messages + preset templates only). Gap: the plan is wired only into enterprise paths (ChatConfigProviders exist for IHG and Best Western only); DEFAULT doesn't include it. Spec: a `DefaultChatConfigProvider` carrying the runbook constants, wired into DEFAULT, ideally gated on a messaging product being purchased. Caveat: the booking-link params string is per-booking-engine (Synxis vs Direct-book vs WindsurferCRS: currency/locale/date-format differ), so the default provider should stamp only engine-agnostic constants and leave the params template manual until PMS/booking-engine identity is plumbed into OnboardingPlanData (the Job 4 dependency).
+
+  **Portfolio constants.** Probably NOT an onboarding-script change. The CS User Access runbook's "Set up Dashboard=True" / "Grant User Management=True" are defaults on the portfolio *creation* flow (admin/Onboarding App form), not per-hotel config — the quick win is pre-ticking those two boxes on the creation form, a tiny frontend/admin change. The script-side counterpart, `AddToPortfolioPlan` (plans/add_to_portfolio_plan.py), does a different job — attaching a hotel to an *existing* portfolio with exclusivity rules — and is wired only for enterprise/management-company paths (IHG, BW, MVW, Pyramid, Aimbridge, Crestline providers). DEFAULT hotels mostly lack a portfolio at script time, so scripted attachment would require resolving/auto-creating portfolios from the Salesforce account — a bigger decision, deliberately excluded from the "today" tiers.
 project: 2026-08-05-strategy
 source_id: null
 tags: []
 time_minutes: 5
 title: Run analysis of CS onboarding activities after the basic, non-enterprise onboarding
   scripts run
-updated: 2026-08-05 15:09:11.410254
+updated: 2026-08-05 20:52:00.000000
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://canarytechnologies.slack.com/archives/D0B3K8BU0F3/p1785917736028909
@@ -78,3 +115,7 @@ Job 2: Narrow focus on country and language settings. What is set conditional on
 Job 3: Look at the settings they're commonly changing. Are there any low-hanging fruit "always set this" type changes we can just build into default onboarding scripts?
 
 Job 4: A more sophisticated analysis that's not limited by the current onboarding scripts. What conditionals (which product, which PMS integration, which payment gateway, etc) guide their actions?
+
+
+Follow on agent task:
+* Summarize quick, low-risk changes that we can specify today

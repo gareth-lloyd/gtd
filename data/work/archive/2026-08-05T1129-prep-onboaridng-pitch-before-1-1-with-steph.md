@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-05 16:15:12.295397
 contexts: []
 created: 2026-08-05 11:29:21.196924
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: prep onboaridng pitch before 1-1 with steph
-updated: 2026-08-05 14:00:07.434636
+updated: 2026-08-05 16:15:12.295390
 waiting_on: null
 waiting_since: null
 working_on: false

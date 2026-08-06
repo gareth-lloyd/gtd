@@ -50,7 +50,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: PMS gateway/EMEA team Linear project for GDPR. Look through the work ahead
-updated: 2026-08-05 14:34:17.010008
+updated: 2026-08-05 16:10:42.898582
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,11 +1,11 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-05 20:29:58.612753
 contexts:
 - consume
 created: 2026-08-05 07:19:55.531305
 defer_until: null
-due: 2026-08-05
+due: null
 energy: medium
 id: 2026-08-05T0719-read-stephanie-s-q3b-internal-tools-planning-doc-b
 order: null
@@ -40,7 +40,7 @@ tags:
 - slack
 time_minutes: 20
 title: Read Stephanie's Q3B Internal Tools planning doc before today's 4pm 1:1
-updated: 2026-08-05 15:12:00.000000
+updated: 2026-08-05 20:29:58.612746
 waiting_on: null
 waiting_since: null
 working_on: false

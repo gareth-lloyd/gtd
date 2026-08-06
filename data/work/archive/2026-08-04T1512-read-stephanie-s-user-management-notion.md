@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-05 20:30:10.608217
 contexts: []
 created: 2026-08-04 15:12:27.373761
 defer_until: null
@@ -58,12 +58,47 @@ output: |
   and the ~50 chain-SSO tickets ENT absorbs today that option C would drain.
   Option D is the near-term unlock and is only blocked on sign-off. Note the
   doc has an open discussion thread on the data table ("Value" column).
+
+  ## Agent run 2026-08-05T14:00 — opinion on the proposals (after reading
+  Lauta's proposal and Stephanie's L2 1-pager in full)
+
+  Verdict: D now, B as the destination SAG grows into (not a rival build),
+  C stays parked. A and B are a false dichotomy.
+
+  - D (L2 + single intake) is the right first move: cheap, reversible,
+    blocked only on Blake sign-off, and it tests the load-bearing hypothesis
+    (trained humans + SAG clears the routine 83%). Push for sign-off. Its
+    pilot should explicitly measure what share of the L2 queue STALLS on
+    SAG's limits (bulk, portfolio, merges) — that number is the business
+    case for B.
+  - A vs B: Lauta's critique of impersonation-as-mechanism is substantively
+    right (all-or-nothing 24h PM access; support actors leaking into
+    customer-facing code; bulk = 24-38% of volume that one-hotel-at-a-time
+    SAG can't touch; portfolio-add can't be exposed to end users at all).
+    But B as scoped is a big build with an unresolved legal question. The
+    synthesis: keep SAG's request/approve/audit plumbing and incrementally
+    add pre-defined internal actions behind it (bulk first). Drop the
+    three-tier opt-in legal model from v1 — Lauta himself concedes the
+    tooling+ownership win stands without it.
+  - Lauta's sharpest point deserves adoption regardless: SAG should audit
+    actions performed DURING a session, not just the grant — scope creep
+    ("approved for X, also did Y") is otherwise invisible.
+  - C (SCIM): right lever for the ~50 chain-SSO tickets but correctly low
+    priority — needs Marriott/Wyndham/IHG cooperation to realize anything.
+    Don't fund implementation until a chain commits.
+  - Data caveat before sign-off: the headline numbers are Claude-classified
+    from titles/labels with little hand-validation, and the 1-pager's ~500
+    baseline is flagged "needs validation". Hand-validate a sample first;
+    the whole Q3 metric story rests on it.
+  - Unowned residue: duplicate-account merges (#8) and permission-model
+    bugs (#9) have no owner in any proposal, and nobody owns the "CS
+    coaches customers to self-serve" deflection play.
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: Read Stephanie's user management Notion
-updated: 2026-08-05 13:41:00.000000
+updated: 2026-08-05 20:30:10.608194
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-05 13:41:49.495862
-defer_until: 2026-08-06 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-08-05T1341-read-james-s-prioritization-doc

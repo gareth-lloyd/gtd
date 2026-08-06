@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-04 16:44:49.925644
-defer_until: 2026-08-06 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-08-04T1644-find-a-venue-for-hte-country-conversation-hiding-t
