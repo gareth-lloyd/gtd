@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 12:57:22.613844
 contexts: []
 created: 2026-08-05 14:33:42.376566
 defer_until: null
@@ -59,7 +59,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review strate accounts
-updated: 2026-08-05 15:34:10.000000
+updated: 2026-08-06 12:57:22.613836
 waiting_on: null
 waiting_since: null
 working_on: false

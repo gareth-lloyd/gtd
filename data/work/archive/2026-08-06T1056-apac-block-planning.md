@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 11:57:20.739996
 contexts: []
 created: 2026-08-06 10:56:05.823899
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: APAC block planning schedule
-updated: 2026-08-06 10:56:15.617847
+updated: 2026-08-06 11:57:20.739982
 waiting_on: null
 waiting_since: null
 working_on: false

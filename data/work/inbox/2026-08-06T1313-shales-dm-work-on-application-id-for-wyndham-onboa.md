@@ -2,18 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-08-05 21:28:11.722232
+created: &id001 2026-08-06 13:13:16.434210
 defer_until: null
 due: null
 energy: low
-id: 2026-08-05T2128-update-core-knowledge-base-support-access-period-g
+id: 2026-08-06T1313-shales-dm-work-on-application-id-for-wyndham-onboa
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: update core knowledge base support access period -> grant
+title: Shales DM - work on application Id for wyndham onboarding
 updated: *id001
 waiting_on: null
 waiting_since: null

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 12:57:28.888935
 contexts: []
 created: 2026-08-05 14:41:09.003687
 defer_until: null
@@ -47,7 +47,7 @@ tags: []
 time_minutes: 5
 title: Search Notion engineering workspace for a general directory of descriptions
   of current features and systems.
-updated: 2026-08-05 15:06:00
+updated: 2026-08-06 12:57:28.888922
 waiting_on: null
 waiting_since: null
 working_on: false

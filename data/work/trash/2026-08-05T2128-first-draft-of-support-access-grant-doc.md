@@ -2,7 +2,7 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-08-05 21:28:00.464454
+created: 2026-08-05 21:28:00.464454
 defer_until: null
 due: null
 energy: low
@@ -13,8 +13,8 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: First draft of support access grant doc
-updated: *id001
+title: Descript
+updated: 2026-08-06 13:06:48.117603
 waiting_on: null
 waiting_since: null
 working_on: false

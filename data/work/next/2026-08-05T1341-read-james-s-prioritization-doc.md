@@ -4,17 +4,17 @@ completed_at: null
 contexts: []
 created: 2026-08-05 13:41:49.495862
 defer_until: null
-due: null
+due: 2026-08-06
 energy: low
 id: 2026-08-05T1341-read-james-s-prioritization-doc
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: Read James's prioritization doc
-updated: 2026-08-05 14:03:02.509977
+updated: 2026-08-06 12:51:46.572832
 waiting_on: null
 waiting_since: null
 working_on: false

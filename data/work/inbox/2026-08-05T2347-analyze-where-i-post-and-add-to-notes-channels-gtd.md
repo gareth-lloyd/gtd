@@ -2,7 +2,7 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-08-05 23:47:18.538527
+created: 2026-08-05 23:47:18.538527
 defer_until: null
 due: null
 energy: low
@@ -15,8 +15,14 @@ tags: []
 time_minutes: 5
 title: Analyze where I post and add to notes channels gtd add Current projects in
   gtd
-updated: *id001
+updated: 2026-08-06 13:11:27.157192
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
+
+Do an analysis of my sent messages on slack. 
+Where do I post most?
+Analyze current and completed messages that are/were "saved for later / reminded". Where are most of these?
+
+Output: suggestions for edits to /gtd skill slack attention guidance.

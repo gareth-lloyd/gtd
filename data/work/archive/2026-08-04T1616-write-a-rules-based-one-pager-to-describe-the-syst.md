@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 12:51:11.613695
 contexts: []
 created: 2026-08-04 16:16:13.839720
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Decide where a description of the rules-based config system should live.
-updated: 2026-08-05 13:33:16.332917
+updated: 2026-08-06 12:51:11.613689
 waiting_on: null
 waiting_since: null
 working_on: false
