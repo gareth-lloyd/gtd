@@ -1,19 +1,20 @@
 ---
 area: null
+completed_at: null
 contexts: []
-created: 2026-07-23 09:40:28.743022
+created: 2026-08-06 10:56:05.823899
 defer_until: null
 due: null
 energy: low
-id: 2026-07-23T0940-right-angled-patch-cables
+id: 2026-08-06T1056-apac-block-planning
 order: null
 output: ''
-project: 2026-07-23-eurorack
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Right angled patch cables
-updated: 2026-07-23 09:40:28.783910
+title: APAC block planning schedule
+updated: 2026-08-06 10:56:15.617847
 waiting_on: null
 waiting_since: null
 working_on: false

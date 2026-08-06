@@ -1,5 +1,6 @@
 ---
 area: house
+completed_at: 2026-08-06 10:36:26.624550
 contexts:
 - errands
 created: 2026-05-25 11:30:00
@@ -14,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Prescription safety gogs
-updated: 2026-07-28 21:10:29.548826
+updated: 2026-08-06 10:36:26.624521
 waiting_on: null
 waiting_since: null
 working_on: false
