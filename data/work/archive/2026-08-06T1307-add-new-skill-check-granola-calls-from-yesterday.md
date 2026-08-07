@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 15:02:18.856536
 contexts: []
 created: 2026-08-06 13:07:10.155570
 defer_until: null
@@ -49,9 +49,9 @@ output: |
      **tomorrow, Fri 7 Aug**. *(James Saram 1-1)*
   3. **Clarify with Martine how firm Blake's "no" was on Hotel Kit** — already DMed her;
      needed before block planning. *(James Saram 1-1)*
-  4. **Review Belinda's test plan + get local stack running** — bug bash is **Fri 7 Aug**,
-     you said you'd test **Thursday = today**. Martine has the management command.
-     *(APAC standup)*
+  4. ~~**Review Belinda's test plan + get local stack running**~~ — **RETRACTED, see the
+     13:35 correction below.** Not yours; the commitment sits in a `Them:` block and
+     Gareth confirmed he didn't say it. *(APAC standup)*
   5. **Get front-end enablement to do the final China PR review.** ← this is the branch
      you're on now, `glloyd/ent-7078-modify-country-china-to-greater-china`. Dylan reviewed
      yesterday. *(APAC standup)*
@@ -98,13 +98,76 @@ output: |
   ### Not done (yours to call)
   Nothing captured into GTD — capture is opt-in and needs your say-so. Tell me which
   numbers you want and I'll create them.
+
+  ## Agent run 2026-08-06T13:35 — attribution fix
+
+  Gareth flagged that item 4 above ("you said you'd test today") was not something he
+  said. He was right, and the root cause is now handled in the skill.
+
+  ### What Granola transcripts actually support
+
+  Checked two transcripts directly:
+
+  - Speaker labels are only **`Me:`** (note-taker) and **`Them:`** (everyone else pooled).
+    Named labels are rare; `known_participants` usually lists only the note creator, so
+    there's no roster to map `Them` onto.
+  - **Group calls merge consecutive different speakers into one `Them:` block.** In the
+    APAC standup a single `Them:` turn carries three people in conversation. Unsplittable.
+  - The bug-bash line *"I'll take a look at the test plan… I can probably help out and
+    test this on Thursday"* sits **inside a `Them:` block**. Granola's AI summary asserted
+    "Gareth may be able to help test Thursday" regardless — that owner name was an **LLM
+    inference over an unattributable transcript**, and the first run passed it through.
+  - **`Me:` is not complete either** — diarisation absorbs the note-taker's speech into
+    `Them:` blocks, so absence from `Me:` doesn't prove he didn't say it. It only means
+    it can't be confirmed.
+  - **1-1s are the reliable case.** The Belinda 1-1 is clean alternating `Me:`/`Them:`,
+    and with two participants `Them` has exactly one referent.
+
+  ### Skill changes
+
+  New "Attribution — read this first" section, and a verify step between extract and
+  report. Three confidence tiers, every action gets one:
+
+  - **Confirmed** — explicit first-person `Me:` turn, or a named speaker label.
+  - **Likely** — a 1-1, where `Them` resolves by elimination.
+  - **Unattributed** — group call, or the claim exists only in the summary's Next Steps.
+
+  Rules: a Next Step marked `(Gareth)` is a hypothesis, not evidence — for group calls
+  the skill now pulls the transcript and looks for a matching `Me:` turn, promoting or
+  demoting accordingly. Group calls default to unattributed. Never write "you said you'd
+  X" without quoting the `Me:` line. And never silently capture an unattributed action
+  into GTD — either confirm first, or word the item as `Confirm whether you own X`, so a
+  bad inference costs a two-minute check instead of a phantom commitment.
+
+  ### Re-graded list from Wed 5 Aug
+
+  **Confirmed yours** (transcript-verified `Me:` turns):
+  - **China PR — get final front-end enablement review.** *"Nothing in particular, Dylan,
+    thanks for the review yesterday on the China thing. I'll get final review from
+    front-end enablement."* (was item 5)
+  - **Recover prior thinking on portfolio-level inbox.** *"I can go away and recover any
+    existing work and thinking that's been done on that."* (was item 12)
+  - **Review the APAC roadmap/backlog.** *"I'll take a look at that."* (was item 13)
+
+  **Likely yours** — 1-1s, summary-attributed, transcripts not yet checked: items 2, 3
+  (James Saram 1-1) and 6, 7, 8, 9, 10, 14 (Stephanie 1-1).
+
+  **Unattributed** — group calls, owner unverifiable: items 1 and 11 (Six Senses, APAC
+  strategic). Item 1 carried **no owner at all** in the summary; the first run inferred
+  Gareth from the fact he took the notes. Weak — confirm before acting.
+
+  **Retracted:** item 4.
+
+  Offered next: pull the four remaining transcripts (Stephanie 1-1, James 1-1, APAC
+  strategic, Ent CS sync) to promote or demote the Likely/Unattributed items. Not done
+  yet — awaiting Gareth's call.
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: Add new user-level claude skill - check granola calls from yesterday. or check
   specifc  call.
-updated: 2026-08-06 13:20:00.000000
+updated: 2026-08-06 15:02:18.856530
 waiting_on: null
 waiting_since: null
 working_on: false

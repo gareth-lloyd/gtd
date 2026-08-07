@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-07 11:48:33.209469
 contexts: []
-created: 2026-07-30 15:30:24.338027
+created: 2026-07-28 12:42:49.413438
 defer_until: null
 due: null
 energy: low
-id: 2026-07-30T1530-finish-ent-5695
+id: 2026-07-28T1242-soap-stone-dishes
 order: null
 output: ''
-project: 2026-04-16T1351-ship
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Finish ENT-5695
-updated: 2026-08-06 15:07:29.347494
+title: soap stone dishes
+updated: 2026-08-07 11:48:33.209430
 waiting_on: null
 waiting_since: null
 working_on: false

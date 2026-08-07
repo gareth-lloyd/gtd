@@ -8,9 +8,9 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-06T1241-read-ihg-environment-onboarding-contract-chain-cod
-order: null
+order: 7
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C03V5P4B48P/p1785937180532009?thread_ts=1785850461.696089&cid=C03V5P4B48P
 tags:
 - morning-gtd
@@ -19,7 +19,7 @@ tags:
 time_minutes: 10
 title: Read IHG environment onboarding contract — chain code, OPERA URL, hotel code,
   Business Event Streaming
-updated: 2026-08-06 12:41:38.170911
+updated: 2026-08-06 15:01:39.151089
 waiting_on: null
 waiting_since: null
 working_on: false

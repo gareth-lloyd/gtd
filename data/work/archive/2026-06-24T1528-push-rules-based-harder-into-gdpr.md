@@ -1,5 +1,6 @@
 ---
 area: management
+completed_at: 2026-08-06 15:02:43.511966
 contexts:
 - craft
 created: 2026-06-24 15:28:18.526581
@@ -14,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: push rules based harder into gdpr
-updated: 2026-07-07 14:05:15.007581
+updated: 2026-08-06 15:02:43.511961
 waiting_on: null
 waiting_since: null
 working_on: false

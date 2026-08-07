@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-05T1635-apac-strategic-accounts-notion-familiarize
-order: null
+order: 4
 output: ''
 project: 2026-08-05-strategy
 source_id: null
 tags: []
 time_minutes: 5
 title: APAC strategic accounts notion - familiarize
-updated: 2026-08-06 12:59:43.432861
+updated: 2026-08-06 15:03:37.078228
 waiting_on: null
 waiting_since: null
 working_on: false

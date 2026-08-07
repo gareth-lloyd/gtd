@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-29 20:11:57.584861
 defer_until: null
@@ -14,8 +15,8 @@ tags: []
 time_minutes: 5
 title: Flag to Nick etc that Zoho can't reproduce non-propotional commission due to
   non-commissionable extras
-updated: 2026-07-29 20:12:01.466754
+updated: 2026-08-06 14:07:35.159222
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

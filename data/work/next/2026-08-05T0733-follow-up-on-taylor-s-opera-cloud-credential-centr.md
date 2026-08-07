@@ -56,7 +56,6 @@ output: |
   got an answer — who owns payment gateway config for OCIM sites? (2) Fred's streaming
   doc has no screenshots — is it customer-ready enough for Neil, or do we need a pass
   with Oracle's own portal docs?"
-
 project: 2026-04-16T1351-ship
 source_id: slack:C03V5P4B48P:ocim-centralization-2026-08-04
 tags:
@@ -65,10 +64,10 @@ tags:
 - from-awareness
 time_minutes: 15
 title: Follow up on Taylor's Opera Cloud credential centralization (IHG, with Neil)
-updated: 2026-08-05 13:59:28
+updated: 2026-08-06 15:08:04.140749
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Taylor asked Sharon (CC Connor) to validate Canary's required Opera Cloud access and the account-provisioning flow as properties sign up; OCIM chain-admin adds + store/terminal IDs in bulk are the open pieces.

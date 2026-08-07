@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-08-06 13:35:24.272876
+created: 2026-08-06 13:35:24.272876
 defer_until: null
 due: null
 energy: low
 id: 2026-08-06T1335-vioce-onboarding-spec
-order: null
+order: 3
 output: ''
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 5
 title: Vioce onboarding spec
-updated: *id001
+updated: 2026-08-06 15:08:16.424020
 waiting_on: null
 waiting_since: null
 working_on: false

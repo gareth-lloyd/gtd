@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-07-21 12:05:23.120983
 defer_until: null
-due: 2026-07-23
+due: null
 energy: high
 id: 2026-07-21T1205-find-guest-profile-prd-from-kevin-li
 order: 2
@@ -210,7 +210,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Review the guest profiles document thorugh a GDPR lens
-updated: 2026-08-05 14:34:07.124119
+updated: 2026-08-06 15:07:27.200349
 waiting_on: null
 waiting_since: null
 working_on: false

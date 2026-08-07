@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts:
 - consume
 created: 2026-06-10 16:24:11.014959
@@ -7,14 +8,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-06-10T1624-watch-kiosk-overview
-order: 3
+order: 5
 output: ''
 project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 15
 title: watch kiosk overview
-updated: 2026-06-24 10:56:27.403167
+updated: 2026-08-06 15:02:48.880846
 waiting_on: null
 waiting_since: null
 working_on: false

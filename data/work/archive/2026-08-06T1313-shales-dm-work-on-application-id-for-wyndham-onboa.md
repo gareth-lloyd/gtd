@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 14:18:25.738509
 contexts: []
 created: 2026-08-06 13:13:16.434210
 defer_until: null
@@ -108,13 +108,12 @@ output: |
       `OhipBulkEditForm` already does the bulk flip by chain code
     - fail-loud vs silent fallback when a chain code has no app_key
     - UAT/staging cutover ordering; Wyndham-vs-BW schedule; sizing of the chain-code list
-
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: Shales DM - clarify and improve ticket on application Id for wyndham onboarding
-updated: 2026-08-06 14:20:00.000000
+updated: 2026-08-06 14:18:25.738500
 waiting_on: null
 waiting_since: null
 working_on: false

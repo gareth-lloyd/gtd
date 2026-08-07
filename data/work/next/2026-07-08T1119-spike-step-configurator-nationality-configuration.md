@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-07-08 11:19:07.209596
 defer_until: null
-due: 2026-08-06
+due: null
 energy: medium
 id: 2026-07-08T1119-spike-step-configurator-nationality-configuration
 order: 3
@@ -14,10 +14,10 @@ source_id: null
 tags: []
 time_minutes: 15
 title: 'Spike: Step-configurator -> nationality -> configuration'
-updated: 2026-08-05 14:29:38.492287
+updated: 2026-08-07 12:20:37.001908
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 * Config step:

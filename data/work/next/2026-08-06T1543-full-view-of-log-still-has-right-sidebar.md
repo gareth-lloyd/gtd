@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-07-30 15:30:24.338027
+created: 2026-08-06 15:43:05.668557
 defer_until: null
 due: null
 energy: low
-id: 2026-07-30T1530-finish-ent-5695
+id: 2026-08-06T1543-full-view-of-log-still-has-right-sidebar
 order: null
 output: ''
-project: 2026-04-16T1351-ship
+project: 2026-04-27-gtd
 source_id: null
 tags: []
 time_minutes: 5
-title: Finish ENT-5695
-updated: 2026-08-06 15:07:29.347494
+title: Full view of log still has right sidebar
+updated: 2026-08-06 15:43:05.814455
 waiting_on: null
 waiting_since: null
 working_on: false

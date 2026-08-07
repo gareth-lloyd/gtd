@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-05T1116-run-analysis-of-what-we-can-automate-from-cs-scrip
-order: null
+order: 3
 output: |
   ## Agent run 2026-08-05T14:04
 
@@ -97,7 +97,7 @@ tags: []
 time_minutes: 5
 title: Run analysis of CS onboarding activities after the basic, non-enterprise onboarding
   scripts run
-updated: 2026-08-05 20:52:00.000000
+updated: 2026-08-06 15:03:37.078228
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,13 +1,13 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-06 15:41:26.096469
 contexts: []
 created: 2026-08-04 12:06:07.984538
-defer_until: null
-due: null
+defer_until: 2026-08-07 09:00:00
+due: 2026-08-06
 energy: low
 id: 2026-08-04T1206-pms-gateway-project-for-gdpr-take-a-look
-order: null
+order: 1
 output: |
   ## Agent run 2026-08-04T14:15
 
@@ -50,7 +50,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: PMS gateway/EMEA team Linear project for GDPR. Look through the work ahead
-updated: 2026-08-05 16:10:42.898582
+updated: 2026-08-06 15:41:26.096460
 waiting_on: null
 waiting_since: null
 working_on: false

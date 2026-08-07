@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-05T1547-review-connor-s-prd
-order: null
+order: 9
 output: |
   ## Agent run 2026-08-06T10:01:34Z
 
@@ -112,7 +112,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review connor's PRD
-updated: 2026-08-06 13:04:12.000000
+updated: 2026-08-06 15:01:39.151089
 waiting_on: null
 waiting_since: null
 working_on: false
