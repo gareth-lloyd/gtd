@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-07 13:42:25.260120
 contexts: []
 created: 2026-08-06 20:34:33.079850
 defer_until: null
@@ -101,7 +101,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Check transcript
-updated: 2026-08-07 12:05:10.000000
+updated: 2026-08-07 13:42:25.260114
 waiting_on: null
 waiting_since: null
 working_on: false

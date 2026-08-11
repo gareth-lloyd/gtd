@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-07 13:42:21.929280
 contexts: []
 created: 2026-08-06 20:49:47.128643
 defer_until: null
@@ -133,7 +133,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Find Lauta's documents on SSO in /manage that is apparently blocking integrations.
-updated: 2026-08-07 12:05:21.616892
+updated: 2026-08-07 13:42:21.929268
 waiting_on: null
 waiting_since: null
 working_on: false

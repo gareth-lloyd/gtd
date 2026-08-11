@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-07 15:06:44.864371
 contexts: []
 created: 2026-08-05 21:26:26.201560
 defer_until: null
@@ -230,10 +230,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Draft PRD for adding typed behaviors.
-updated: 2026-08-06 15:30:00.000000
+updated: 2026-08-07 15:06:44.864362
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Check https://canarytechnologies.slack.com/archives/C0BKDAG8FMY on slack. 

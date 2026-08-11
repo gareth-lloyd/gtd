@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-28 13:37:25.827321
 defer_until: null
@@ -13,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: buy roof bar straps
-updated: 2026-07-29 13:51:56.195852
+updated: 2026-08-11 10:02:56.922280
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-07 14:37:22.821841
 contexts:
 - consume
 created: 2026-08-06 12:43:12.863311
@@ -127,10 +127,10 @@ tags:
 - from-awareness
 time_minutes: 15
 title: Read Laura DeWald's doc on what the triage agent should do when missing context
-updated: 2026-08-06 16:06:09.939251
+updated: 2026-08-07 14:37:22.821834
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Laura prepared this to discuss what happens when the agent lacks the context it needs to act — directly relevant to the ENT triage-automation lever I'm arguing in #eng-directors.

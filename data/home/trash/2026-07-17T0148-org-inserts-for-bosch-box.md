@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-08-07 10:24:28.290657
+created: 2026-07-17 01:48:08.246197
 defer_until: null
 due: null
 energy: low
-id: 2026-08-07T1024-more-hooks
-order: null
+id: 2026-07-17T0148-org-inserts-for-bosch-box
+order: 2
 output: ''
 project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: more hooks
-updated: 2026-08-07 10:24:28.332272
+title: org inserts for bosch box
+updated: 2026-08-07 13:45:48.350227
 waiting_on: null
 waiting_since: null
 working_on: false

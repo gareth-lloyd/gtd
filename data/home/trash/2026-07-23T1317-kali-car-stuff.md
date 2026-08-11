@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: kali car stuff
-updated: 2026-08-05 10:03:03.161239
+updated: 2026-08-07 13:45:50.719704
 waiting_on: null
 waiting_since: null
 working_on: false

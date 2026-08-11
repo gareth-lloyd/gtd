@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-10 19:00:27.125364
 contexts: []
 created: 2026-08-05 14:02:52.083195
 defer_until: null
@@ -271,10 +271,10 @@ tags: []
 time_minutes: 5
 title: Decide my opinion on whether HotelKey integration should be executed by EMEA
   team
-updated: 2026-08-07 12:20:20.946905
+updated: 2026-08-10 19:00:27.125354
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Next agent task:

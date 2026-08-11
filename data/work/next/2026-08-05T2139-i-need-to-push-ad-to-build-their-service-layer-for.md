@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-05 21:39:09.185453
-defer_until: 2026-08-10 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-08-05T2139-i-need-to-push-ad-to-build-their-service-layer-for
