@@ -2,8 +2,8 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-08-10 11:32:32.566884
-defer_until: null
+created: 2026-08-10 11:32:32.566884
+defer_until: 2026-08-13 09:00:00
 due: null
 energy: low
 id: 2026-08-10T1132-plan-handovers
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: plan handovers
-updated: *id001
+updated: 2026-08-12 10:39:43.335407
 waiting_on: null
 waiting_since: null
 working_on: false
