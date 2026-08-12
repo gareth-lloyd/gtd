@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-06T1038-utilities-attenuators-mults-switchable
-order: null
+order: 9
 output: ''
 project: 2026-07-23-eurorack
 source_id: null
 tags: []
 time_minutes: 5
 title: Utilities, attenuators, mults, switchable
-updated: 2026-08-06 10:38:01.811334
+updated: 2026-08-12 08:44:02.067041
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-11 10:04:40.429876
 contexts:
 - autopilot
 created: 2026-08-11 08:15:10.331693
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: Add my slides to the ENT Elevator Pitches doc
-updated: 2026-08-11 08:15:10.399375
+updated: 2026-08-11 10:04:40.429866
 waiting_on: null
 waiting_since: null
 working_on: false

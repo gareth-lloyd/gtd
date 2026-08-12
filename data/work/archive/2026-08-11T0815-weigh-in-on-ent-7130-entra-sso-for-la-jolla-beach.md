@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-11 10:05:24.598487
 contexts:
 - react
 created: 2026-08-11 08:15:28.531373
@@ -17,7 +17,7 @@ tags:
 - linear
 time_minutes: 10
 title: 'Weigh in on ENT-7130: Entra SSO for La Jolla Beach & Tennis Club + Shores'
-updated: 2026-08-11 08:15:28.597332
+updated: 2026-08-11 10:05:24.598477
 waiting_on: null
 waiting_since: null
 working_on: false

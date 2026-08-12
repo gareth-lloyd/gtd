@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-11 10:04:53.336631
 contexts:
 - react
 created: 2026-08-11 08:15:10.263968
@@ -17,7 +17,7 @@ tags:
 - linear
 time_minutes: 10
 title: Get ENT-7153 (Hilton loyalty levels) picked up before Thursday's Hilton demo
-updated: 2026-08-11 08:15:10.331031
+updated: 2026-08-11 10:04:53.336622
 waiting_on: null
 waiting_since: null
 working_on: false
