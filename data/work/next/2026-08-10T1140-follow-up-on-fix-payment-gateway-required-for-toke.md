@@ -5,7 +5,7 @@ contexts:
 - react
 created: 2026-08-10 11:40:43.176856
 defer_until: null
-due: null
+due: 2026-08-12
 energy: low
 id: 2026-08-10T1140-follow-up-on-fix-payment-gateway-required-for-toke
 order: null
@@ -446,7 +446,7 @@ tags:
 time_minutes: 10
 title: 'Follow up on: fix payment_gateway_required_for_tokenization referencing a
   dead field'
-updated: 2026-08-10 18:59:47.110510
+updated: 2026-08-12 13:47:30.516066
 waiting_on: null
 waiting_since: null
 working_on: true

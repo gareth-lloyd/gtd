@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-12 11:47:07.286648
 contexts:
 - react
 created: 2026-08-10 11:40:43.106123
@@ -257,10 +257,10 @@ tags:
 - slack
 time_minutes: 30
 title: Craft feedback on Leandro's tickets
-updated: 2026-08-10 18:55:43.770506
+updated: 2026-08-12 11:47:07.286642
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 I said "Thank you! I'll review" on Aug 7. Canary-staff-only check-in config permissions, re-gating adminland endpoints, granting the advanced-configuration role to training users (+ open question on a backfill command for existing users).

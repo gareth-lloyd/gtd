@@ -64,10 +64,10 @@ tags:
 - from-awareness
 time_minutes: 15
 title: Follow up on Taylor's Opera Cloud credential centralization (IHG, with Neil)
-updated: 2026-08-06 15:08:04.140749
+updated: 2026-08-12 11:47:20.900159
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Taylor asked Sharon (CC Connor) to validate Canary's required Opera Cloud access and the account-provisioning flow as properties sign up; OCIM chain-admin adds + store/terminal IDs in bulk are the open pieces.

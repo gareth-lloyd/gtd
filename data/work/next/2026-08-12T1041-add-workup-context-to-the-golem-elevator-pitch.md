@@ -4,17 +4,17 @@ completed_at: null
 contexts: []
 created: 2026-08-12 10:41:02.783523
 defer_until: null
-due: null
+due: 2026-08-12
 energy: low
 id: 2026-08-12T1041-add-workup-context-to-the-golem-elevator-pitch
 order: null
 output: ''
-project: null
+project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: Add workup context to the golem elevator pitch
-updated: 2026-08-12 10:41:34.393453
+updated: 2026-08-12 11:46:05.302742
 waiting_on: null
 waiting_since: null
 working_on: false

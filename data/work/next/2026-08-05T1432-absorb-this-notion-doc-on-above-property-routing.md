@@ -107,12 +107,12 @@ output: |
 
   No external writes made. Nothing posted to Notion — the three open comments are still
   unanswered; if you want to reply to Miguel's routing challenge, that's yours to write.
-project: 2026-04-16T1210-unblock-team
+project: 2026-08-05-strategy
 source_id: null
 tags: []
 time_minutes: 5
 title: Absorb this notion doc on above property routing
-updated: 2026-08-06 15:01:39.151089
+updated: 2026-08-12 13:47:45.733149
 waiting_on: null
 waiting_since: null
 working_on: false

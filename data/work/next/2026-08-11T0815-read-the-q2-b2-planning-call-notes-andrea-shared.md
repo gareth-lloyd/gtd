@@ -5,19 +5,19 @@ contexts:
 - consume
 created: 2026-08-11 08:15:10.400043
 defer_until: null
-due: null
+due: 2026-08-12
 energy: low
 id: 2026-08-11T0815-read-the-q2-b2-planning-call-notes-andrea-shared
 order: null
 output: ''
-project: null
+project: 2026-04-10T0840-ticket
 source_id: https://canarytechnologies.slack.com/archives/C0B1Y5K9AMC/p1786393770047909
 tags:
 - morning-gtd
 - slack
 time_minutes: 15
 title: Read the Q2-B2 planning call notes Andrea shared
-updated: 2026-08-11 08:15:10.468282
+updated: 2026-08-12 11:46:59.638910
 waiting_on: null
 waiting_since: null
 working_on: false

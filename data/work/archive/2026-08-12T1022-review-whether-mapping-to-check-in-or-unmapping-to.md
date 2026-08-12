@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-12 11:45:55.455379
 contexts: []
-created: &id001 2026-08-12 10:22:10.487847
+created: 2026-08-12 10:22:10.487847
 defer_until: null
 due: null
 energy: low
@@ -15,7 +15,7 @@ tags: []
 time_minutes: 5
 title: Review whether mapping to check-in or unmapping to a different concept for
   staff-only intended perms makes sense
-updated: *id001
+updated: 2026-08-12 11:45:55.455363
 waiting_on: null
 waiting_since: null
 working_on: false

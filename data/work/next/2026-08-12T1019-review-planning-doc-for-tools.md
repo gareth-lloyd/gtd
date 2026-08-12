@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-08-12 10:19:54.868287
+created: 2026-08-12 10:19:54.868287
 defer_until: null
-due: null
+due: 2026-08-12
 energy: low
 id: 2026-08-12T1019-review-planning-doc-for-tools
 order: null
 output: ''
-project: null
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 5
 title: review planning doc for tools
-updated: *id001
+updated: 2026-08-12 11:47:46.634686
 waiting_on: null
 waiting_since: null
 working_on: false

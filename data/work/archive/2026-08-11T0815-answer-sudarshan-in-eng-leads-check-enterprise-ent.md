@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-12 11:44:56.558662
 contexts:
 - react
 created: 2026-08-11 08:15:10.197411
@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Answer Sudarshan in #eng-leads: check Enterprise entries on the technical-interviewer
   list'
-updated: 2026-08-11 08:15:10.263220
+updated: 2026-08-12 11:44:56.558652
 waiting_on: null
 waiting_since: null
 working_on: false

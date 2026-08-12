@@ -107,12 +107,12 @@ output: |
   - No comment posted to Notion. If wanted, the above needs rewriting by a human before posting.
   - Did not assess whether Wyndham's amenity codes are actually accurate — that's a Wyndham-side data
     question the PRD correctly treats as a premise.
-project: 2026-04-16T1210-unblock-team
+project: 2026-04-10T0840-ticket
 source_id: null
 tags: []
 time_minutes: 5
 title: review connor's PRD
-updated: 2026-08-06 15:01:39.151089
+updated: 2026-08-12 13:47:48.734255
 waiting_on: null
 waiting_since: null
 working_on: false
