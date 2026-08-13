@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 08:03:14.603749
 contexts:
 - deep
 created: 2026-08-13 07:57:17.478300
@@ -18,7 +18,7 @@ tags:
 time_minutes: 60
 title: 'Follow up in #eng-directors: fully-formed thoughts on Ent user-access triage
   load vs Identity pod'
-updated: 2026-08-13 07:57:17.550573
+updated: 2026-08-13 08:03:14.603743
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 08:13:26.683596
 contexts:
 - react
 created: 2026-08-13 07:57:17.618895
@@ -17,7 +17,7 @@ tags:
 - gmail
 time_minutes: 20
 title: 'Respond on the Notion SOA doc: replies to my comment on per-service databases'
-updated: 2026-08-13 07:57:17.688279
+updated: 2026-08-13 08:13:26.683577
 waiting_on: null
 waiting_since: null
 working_on: false

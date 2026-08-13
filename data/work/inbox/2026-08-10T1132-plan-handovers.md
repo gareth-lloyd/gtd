@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-10 11:32:32.566884
-defer_until: 2026-08-13 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-08-10T1132-plan-handovers

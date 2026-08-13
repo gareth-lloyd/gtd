@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 08:13:44.539717
 contexts:
 - deep
 created: 2026-08-13 07:57:17.407511
@@ -18,7 +18,7 @@ tags:
 time_minutes: 45
 title: Triage the validate_pms_configuration onboarding-failure wave (Best Western
   + Wyndham)
-updated: 2026-08-13 07:57:17.477537
+updated: 2026-08-13 08:13:44.539709
 waiting_on: null
 waiting_since: null
 working_on: false
