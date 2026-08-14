@@ -590,6 +590,33 @@ class TestActionsForProject:
         results = svc.actions_for_project("work", "p1")
         assert {r.id for r in results} == {a.id}
 
+    def test_excludes_reference_items(self, svc):
+        # Complete an item (→ archive), then file it as reference from the
+        # done view: it must not resurface as a project action.
+        svc.save_project(
+            "work",
+            Project(
+                id="p1",
+                title="P1",
+                body="",
+                created=datetime(2026, 3, 1),
+                updated=datetime(2026, 3, 1),
+            ),
+        )
+        live = svc.capture("work", "Live")
+        svc.move("work", live.id, Bucket.NEXT)
+        svc.update("work", live.id, {"project": "p1"})
+        filed = svc.capture("work", "Filed")
+        svc.move("work", filed.id, Bucket.NEXT)
+        svc.update("work", filed.id, {"project": "p1"})
+        svc.complete("work", filed.id)
+        svc.move("work", filed.id, Bucket.REFERENCE)
+        results = svc.actions_for_project("work", "p1")
+        assert {r.id for r in results} == {live.id}
+        # Deferral flag must not re-admit reference items either.
+        results = svc.actions_for_project("work", "p1", include_deferred=True)
+        assert {r.id for r in results} == {live.id}
+
     def _seed_project_with_deferred(self, svc):
         svc.save_project(
             "work",

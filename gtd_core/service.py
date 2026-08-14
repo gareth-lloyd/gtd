@@ -405,10 +405,14 @@ class GtdService:
     ) -> list[Item]:
         now = self._now()
         today = now.date()
+        # Reference is an end state (filing there stamps completed_at), so a
+        # project-linked item in reference is done-with, not an action.
         items = [
             i
             for i in self.repo(env).list_items()
-            if i.project == project_id and (include_deferred or not _is_hidden_by_defer(i, now))
+            if i.project == project_id
+            and i.status is not Bucket.REFERENCE
+            and (include_deferred or not _is_hidden_by_defer(i, now))
         ]
         return sorted(items, key=lambda i: _item_sort_key(i, today))
 
