@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-05T1432-absorb-this-notion-doc-on-above-property-routing
-order: 8
+order: 2
 output: |
   ## Agent run 2026-08-06T14:23
 
@@ -112,7 +112,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Absorb this notion doc on above property routing
-updated: 2026-08-12 13:47:45.733149
+updated: 2026-08-14 07:12:20.632675
 waiting_on: null
 waiting_since: null
 working_on: false

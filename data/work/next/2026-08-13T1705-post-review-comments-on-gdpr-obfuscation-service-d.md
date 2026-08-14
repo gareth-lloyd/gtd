@@ -3,20 +3,20 @@ area: null
 completed_at: null
 contexts:
 - craft
-created: &id001 2026-08-13 17:05:54.262064
+created: 2026-08-13 17:05:54.262064
 defer_until: null
 due: null
 energy: medium
 id: 2026-08-13T1705-post-review-comments-on-gdpr-obfuscation-service-d
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 30
 title: Post review comments on GDPR Obfuscation Service design doc before sealing
   approval
-updated: *id001
+updated: 2026-08-14 06:57:18.647785
 waiting_on: null
 waiting_since: null
 working_on: false

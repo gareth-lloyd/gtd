@@ -305,13 +305,13 @@ output: |
   ### Not resolved in the meeting
   - HotelKit ownership
   - Martin's Q4 headcount increase
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: check last friday transcript (emea resourcing ) extract action points
-updated: 2026-08-13 17:34:10.000000
+updated: 2026-08-14 06:57:48.987169
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

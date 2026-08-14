@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: 2026-08-14 07:12:01.283129
 contexts: []
 created: 2026-07-20 14:51:33.245967
 defer_until: null
@@ -13,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: GDPR issues - get the measure
-updated: 2026-07-20 14:51:42.192852
+updated: 2026-08-14 07:12:01.283123
 waiting_on: null
 waiting_since: null
 working_on: false

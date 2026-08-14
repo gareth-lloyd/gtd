@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-14 07:01:12.053798
 contexts: []
 created: 2026-08-10 11:32:32.566884
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: plan handovers
-updated: 2026-08-13 15:24:16.090752
+updated: 2026-08-14 07:01:12.053788
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-08-06 13:35:33.929205
 defer_until: null
-due: 2026-08-06
+due: null
 energy: low
 id: 2026-08-06T1335-default-onboarding-quick-wins-tickets
 order: 2
@@ -415,7 +415,7 @@ time_minutes: 5
 title: Draft eng design for quick win default onboarding improvements that would impact
   customer success creating individual hotels (non-enterprise) and adding products
   to existing hotels via onboarding scripts
-updated: 2026-08-12 11:47:11.731661
+updated: 2026-08-14 07:01:42.086288
 waiting_on: null
 waiting_since: null
 working_on: false
