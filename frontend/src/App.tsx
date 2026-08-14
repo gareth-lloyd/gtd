@@ -244,12 +244,15 @@ function AppShell() {
 
 function ContentArea({ env }: { env: string }) {
   const { clearHover } = useSelection();
+  // The agent log is a read-only single-item view — the detail panel would
+  // only duplicate what's already on screen, so give the log the full width.
+  const onAgentLog = useMatch(":env/items/:itemId/agent") != null;
   return (
     <div className="content-area" onMouseLeave={clearHover}>
       <main onScroll={clearHover}>
         <Outlet />
       </main>
-      <DetailPanel env={env} />
+      {!onAgentLog && <DetailPanel env={env} />}
     </div>
   );
 }

@@ -2033,11 +2033,15 @@ button.quiet.danger {
 
 /* ---- Agent log focused view ---- */
 
+/* The detail panel is suppressed on this route (see ContentArea), so the log
+ * gets the whole content column — capped at a readable width and centred. */
 .agent-log-view {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  max-width: 60rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .agent-log-overview {

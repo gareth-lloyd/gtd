@@ -85,6 +85,20 @@ describe("AgentLogView", () => {
     expect(screen.getByText("30m")).toBeInTheDocument();
   });
 
+  it("hides the right detail panel so the log gets the full content width", async () => {
+    const { container } = renderAt("/work/items/agent-item/agent");
+
+    await screen.findByTestId("agent-log-panel");
+    expect(container.querySelector(".detail-panel")).toBeNull();
+  });
+
+  it("keeps the detail panel on other routes", async () => {
+    const { container } = renderAt("/work/next");
+
+    await screen.findByText("inbox");
+    expect(container.querySelector(".detail-panel")).not.toBeNull();
+  });
+
   it("shows an empty state when the item has no agent log", async () => {
     const { api } = await import("./api");
     const base = await api.getItem("work", "agent-item");
