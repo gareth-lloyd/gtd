@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 10:02:19.282604
 contexts:
 - react
 created: 2026-08-12 07:20:04.148450
@@ -106,7 +106,7 @@ tags:
 - gmail
 time_minutes: 15
 title: Reply to Andrea's Notion comment on "Segmentation for Wyndham"
-updated: 2026-08-12 11:47:40.947142
+updated: 2026-08-13 10:02:19.282599
 waiting_on: null
 waiting_since: null
 working_on: false

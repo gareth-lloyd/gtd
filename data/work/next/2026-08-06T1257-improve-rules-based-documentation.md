@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-06T1257-improve-rules-based-documentation
-order: null
+order: 9
 output: ''
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: Improve rules-based documentation
-updated: 2026-08-06 12:57:57.004193
+updated: 2026-08-13 16:21:30.470748
 waiting_on: null
 waiting_since: null
 working_on: false

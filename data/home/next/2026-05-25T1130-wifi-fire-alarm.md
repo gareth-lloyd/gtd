@@ -1,5 +1,6 @@
 ---
 area: house
+completed_at: null
 contexts:
 - home
 created: 2026-05-25 11:30:00
@@ -15,8 +16,8 @@ tags:
 - focus
 time_minutes: null
 title: Install WiFi fire alarm
-updated: 2026-07-28 21:10:29.548826
+updated: 2026-08-14 06:48:27.180181
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

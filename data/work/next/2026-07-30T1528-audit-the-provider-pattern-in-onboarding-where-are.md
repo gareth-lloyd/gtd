@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-30T1528-audit-the-provider-pattern-in-onboarding-where-are
-order: null
+order: 6
 output: |
   ## Agent run 2026-07-31T13:05:00
 
@@ -103,7 +103,7 @@ tags: []
 time_minutes: 5
 title: Audit the plan / provider pattern in onboarding. Where are we violating? What's
   the implication?
-updated: 2026-08-04 13:18:36.522128
+updated: 2026-08-13 16:21:30.470748
 waiting_on: null
 waiting_since: null
 working_on: false

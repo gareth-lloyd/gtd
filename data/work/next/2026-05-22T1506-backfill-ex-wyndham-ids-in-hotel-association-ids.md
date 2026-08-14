@@ -1,12 +1,13 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-05-22 15:06:39.751009
 defer_until: null
 due: null
 energy: low
 id: 2026-05-22T1506-backfill-ex-wyndham-ids-in-hotel-association-ids
-order: 7
+order: 3
 output: |
   ## Agent run 2026-05-25T07:00Z
 
@@ -84,7 +85,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: backfill ex wyndham ids in hotel association ids
-updated: 2026-07-23 13:40:38.357539
+updated: 2026-08-13 16:21:30.470748
 waiting_on: null
 waiting_since: null
 working_on: false

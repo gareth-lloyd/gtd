@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 16:31:30.873059
 contexts:
 - react
 created: 2026-08-10 11:40:43.176856
@@ -446,10 +446,10 @@ tags:
 time_minutes: 10
 title: 'Follow up on: fix payment_gateway_required_for_tokenization referencing a
   dead field'
-updated: 2026-08-12 13:47:30.516066
+updated: 2026-08-13 16:31:30.873054
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 I parked my own reply in #epd-enterprise on Aug 5: told Joshua the consistency rules are the linter layer, and "Good catch on payment gateay. We'll fix that." payment_gateway_config_id doesn't exist so the rule can't fire.

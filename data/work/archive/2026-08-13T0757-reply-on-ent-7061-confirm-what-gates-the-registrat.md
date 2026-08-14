@@ -1,14 +1,14 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 15:26:36.319206
 contexts:
 - react
 created: 2026-08-13 07:57:17.333632
 defer_until: null
-due: null
+due: 2026-08-13
 energy: low
 id: 2026-08-13T0757-reply-on-ent-7061-confirm-what-gates-the-registrat
-order: null
+order: 6
 output: |
   ## Agent run 2026-08-13T05:08:40Z
 
@@ -117,7 +117,66 @@ output: |
   Draft Linear reply prepared but **NOT posted** — awaiting your approval. Draft text
   is in the session transcript; ask me to re-print it.
 
-project: null
+  ## Agent run 2026-08-13T12:28:45Z — verification pass
+
+  Re-read ticket + comments and independently re-verified every code claim above
+  (did not rely on the subagent reports). **All code facts confirmed.** Corrections
+  are to framing, plus three things missed on the first pass.
+
+  ### Independently re-verified (all CONFIRMED)
+
+  - `AdminSidebar.vue:679-682` — v-if is exactly `hotel.has_check_in && hotel.check_in_configuration?.has_registration_card_settings`. Read the literal source.
+  - `AdminSidebar.vue:685-689` — `!hotel.is_free && registrationCardAccessLevel !== NONE` is in `enabled-for-user`, NOT the v-if.
+  - `SidebarItem.vue:100-101` — `disabled = !enabledForUser || !enabledForHotel`; applies `--disabled` class (:129/:281), nulls href (:151), swallows click (:163), shows contact-admin (:137) + tooltip (:190). `hidden` is a SEPARATE prop and the reg-card item never passes it. So disabled != hidden. Crux claim holds.
+  - `check_in/models/configuration.py` — `has_registration_card_settings` default **False**; `has_registration_card_canary_ui` default True; `registration_card_step` default REQUIRED. Read verbatim.
+  - `grep -rn "has_registration_card" onboarding/configuration_providers/ihg/ enterprise_ihg/` -> **zero matches**. Stronger than first reported.
+  - BW `enable_msa_products_provider.py:84-85`, Wyndham `wyndham_enable_msa_products_provider.py:133-134`, `enterprise_wyndham/configs/wyndham.py:233-234` — all set both flags. Confirmed.
+  - `registration_card_plans.py:70` — `if self.config_provider.config.check_in_configuration_updates:` guard; IHG provider `:57` builds `RegistrationCardConfig(brand=data.brand_id)` with no updates -> falsy -> zero config writes. Confirmed.
+  - `default_role.py:90` sits inside `PROPERTY_MANAGER` frozenset (block 52-138); `PROPERTY_STAFF` is 22-51 with no match. Confirmed.
+  - `permission.py:514` sits inside `PermissionStrength.ADMIN` frozenset (block 510-541); `ADMIN_EQUIVALENT_PERMISSIONS` = that set at :615. Admin-strength claim holds.
+
+  ### Products discrepancy — STRENGTHENED, not weakened
+
+  I initially cited only the legacy per-user block (`canary_products.py:82-83`). There
+  are two paths. `Hotel.available_products` (`hotels/models/hotel.py:1889-1893`) ->
+  `get_available_products` -> `PRODUCT_ACTIVATION_RULES` (:288), and the reg-card rule
+  (:344-348) is `_hotel_field_rule(..., "check_in_configuration__has_registration_card_settings", ...)`.
+  **Neither path checks `has_check_in`**, while the sidebar v-if does. The
+  inconsistency is real under the live path, not just the legacy one.
+
+  ### Correction to my framing of Andrea's list
+
+  I was unfair to it in the first draft. Andrea's list came "per claude" and item 5 was
+  explicitly labelled **"Optional behavior knobs"** — it never claimed those were gates.
+  Calling it "REFUTED" attacked a strawman. Andrea's actual ask was *"I don't understand
+  point 5"*, so the reply should EXPLAIN point 5, not rebut it.
+
+  Items 1-4 are all genuine conditions for a user to *use* the page. The list's only real
+  gap is that it doesn't separate **hidden** (1-2) from **greyed out** (3-4) — and that
+  distinction is exactly what identifies the IHG cause. Andrea's "role/permission issue?"
+  guess is a reasonable hypothesis about a real gate; it just isn't the one failing here,
+  because for IHG the item is entirely absent rather than greyed.
+
+  ### Missed on first pass
+
+  - **Related ticket ENT-7124** "IHG - All Regions - Default Registration Card Policies"
+    (https://linear.app/canary-technologies/issue/ENT-7124/ihg-all-regions-default-registration-card-policies),
+    same "Registration Cards" milestone, links ENT-7061 and ENT-7062. Defines default
+    policy text for new IHG properties — complementary to this ticket.
+  - **The IHG script already builds the reg card content.** `IHGRegistrationCardProvider.perform_hotel_configuration()`
+    creates the CHECK_IN + KIOSK `RegistrationCard` schema rows. IHG hotels *have*
+    registration cards — only the hotel-facing settings surface is hidden. That reframes
+    the ticket as "expose the existing thing", matching Connor's title.
+  - **No branch/commits exist yet** for ENT-7061 (`git branch --list "*7061*"` empty; the
+    `gitBranchName` on the ticket is Linear's auto-generated suggestion).
+
+  ### Net conclusion (unchanged)
+
+  Root cause is `has_registration_card_settings` defaulting to False with no IHG script
+  ever setting it. Fix mirrors BW/Wyndham. Permission side is a separate, genuine
+  follow-up needing a decision, because the permission is admin-equivalent and IHG roles
+  come from SSO mappings configured as data.
+project: 2026-04-16T1210-unblock-team
 source_id: https://linear.app/canary-technologies/issue/ENT-7061/expose-registration-card-in-product-settingsadminland-when-we-run-ihg
 tags:
 - morning-gtd
@@ -125,7 +184,7 @@ tags:
 time_minutes: 15
 title: 'Reply on ENT-7061: confirm what gates the Registration Card settings page
   (IHG scripts)'
-updated: 2026-08-13 08:08:40.590537
+updated: 2026-08-13 15:28:45.723342
 waiting_on: null
 waiting_since: null
 working_on: false

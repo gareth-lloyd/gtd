@@ -2,18 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-08-12 08:40:53.447697
+created: &id001 2026-08-14 06:22:48.931875
 defer_until: null
 due: null
-energy: null
-id: 2026-08-12T0840-create-a-plan-for-feather-claim
+energy: low
+id: 2026-08-14T0622-install-watering
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
-time_minutes: null
-title: Create a plan for Feather Claim
+time_minutes: 5
+title: install watering
 updated: *id001
 waiting_on: null
 waiting_since: null

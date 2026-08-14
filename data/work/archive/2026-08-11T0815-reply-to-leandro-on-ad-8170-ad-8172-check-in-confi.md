@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 16:15:37.873678
 contexts:
 - react
 created: 2026-08-11 08:15:10.129996
@@ -8,7 +8,7 @@ defer_until: null
 due: 2026-08-12
 energy: medium
 id: 2026-08-11T0815-reply-to-leandro-on-ad-8170-ad-8172-check-in-confi
-order: null
+order: 3
 output: |
   ## Agent run 2026-08-12T11:04
 
@@ -161,10 +161,10 @@ tags:
 - linear
 time_minutes: 20
 title: Reply to Leandro on AD-8170 / AD-8172 check-in configuration permissions
-updated: 2026-08-12 13:48:00.826806
+updated: 2026-08-13 16:15:37.873657
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 He answered both review points: gatekeeper changed to HotelUserGatekeeper(hotel_permissions=...), and he found that create_admin_roles_for_products builds the Admin role from the whole PERMISSIONS_BY_PRODUCT[CHECK_IN] set without filtering by strength — so staff-only perms leak to admins. AD-8171 also needs a call on backfilling existing users.

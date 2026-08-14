@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 16:21:17.172119
 contexts:
 - react
 created: 2026-08-05 07:33:38.020648
@@ -64,7 +64,7 @@ tags:
 - from-awareness
 time_minutes: 15
 title: Follow up on Taylor's Opera Cloud credential centralization (IHG, with Neil)
-updated: 2026-08-12 11:47:20.900159
+updated: 2026-08-13 16:21:17.172114
 waiting_on: null
 waiting_since: null
 working_on: false

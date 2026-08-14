@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-29 11:47:22.924434
 defer_until: null
@@ -13,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: buy fitting for standing lamp
-updated: 2026-07-29 13:52:03.364967
+updated: 2026-08-13 14:49:48.839092
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

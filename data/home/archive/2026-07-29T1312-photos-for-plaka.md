@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: 2026-08-13 14:52:59.549360
 contexts: []
 created: 2026-07-29 13:12:54.517773
 defer_until: null
@@ -13,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: photos for plaka
-updated: 2026-07-30 11:27:50.597440
+updated: 2026-08-13 14:52:59.549339
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

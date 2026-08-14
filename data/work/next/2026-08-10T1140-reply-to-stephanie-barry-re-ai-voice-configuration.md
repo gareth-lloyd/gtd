@@ -8,7 +8,7 @@ defer_until: null
 due: 2026-08-12
 energy: low
 id: 2026-08-10T1140-reply-to-stephanie-barry-re-ai-voice-configuration
-order: null
+order: 2
 output: ''
 project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/D09Q1PTAMTR/p1786116050284199
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Stephanie Barry re: AI Voice configuration research doc'
-updated: 2026-08-12 11:47:31.644986
+updated: 2026-08-13 15:24:16.090752
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,12 +1,13 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-01 01:05:37.435411
 defer_until: null
 due: null
 energy: low
 id: 2026-07-01T0105-image-naming-per-ben-email
-order: 7
+order: 6
 output: |-
   ## Agent run 2026-07-29T14:45
 
@@ -29,7 +30,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: 'Capture as gap todo: image naming per ben email'
-updated: 2026-07-29 14:45:06.172387
+updated: 2026-08-13 14:58:45.732781
 waiting_on: null
 waiting_since: null
 working_on: false

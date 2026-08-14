@@ -4,11 +4,11 @@ completed_at: null
 contexts:
 - deep
 created: 2026-08-07 12:20:48.460461
-defer_until: null
+defer_until: 2026-08-14 09:00:00
 due: null
 energy: high
 id: 2026-08-07T1220-review-peteygao-s-fb-messenger-pr-stack-7-prs-5242
-order: null
+order: 9
 output: ''
 project: 2026-04-16T1210-unblock-team
 source_id: https://github.com/canary-technologies-corp/canary/pull/52425
@@ -17,7 +17,7 @@ tags:
 - github
 time_minutes: 185
 title: 'Review peteygao''s FB Messenger PR stack (7 PRs, #52425 first)'
-updated: 2026-08-07 13:42:37.568157
+updated: 2026-08-13 16:11:20.507805
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,5 +1,6 @@
 ---
 area: finances
+completed_at: null
 contexts: []
 created: 2026-06-08 12:36:40.727400
 defer_until: null
@@ -13,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Cancel barclaycard avios
-updated: 2026-07-10 11:20:50.240636
+updated: 2026-08-13 14:49:50.458975
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

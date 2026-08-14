@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 14:41:31.823438
 contexts:
 - react
 created: 2026-08-13 07:57:17.250687
@@ -108,7 +108,7 @@ tags:
 time_minutes: 20
 title: 'Reply to Bryan in #epd-enterprise re: blocking marketing pop-ups for enterprise
   brands'
-updated: 2026-08-13 08:03:02.360313
+updated: 2026-08-13 14:41:31.823421
 waiting_on: null
 waiting_since: null
 working_on: false

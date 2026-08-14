@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 15:21:34.872763
 contexts: []
 created: 2026-08-12 07:56:11.503481
 defer_until: null
@@ -9,7 +9,179 @@ energy: low
 id: 2026-08-12T0756-talk-to-blake-about-reporting-lines-workup-etc
 order: null
 output: |
-  ## Agent run 2026-08-12T15:40 — SUPERSEDES the 15:05 draft below
+  ## SENT 2026-08-13 — message went to Blake, and he replied at length
+
+  Gareth sent his own version (not the drafts below) — shorter, more direct, named the
+  worry outright: *"I'm worried that you're managing around me rather than through me on
+  Workup / MCP. I want to check that I had not shaken your confidence on this piece of
+  work."* Plus the Laura-as-vehicle framing, the SJ-supersedes-development-plan
+  concession, and *"I want to make sure that you push SJ's agenda for AI through me once
+  I'm back."*
+
+  ### Blake's reply — substance
+
+  **Denies working around, specifically and credibly.** *"Definitely not intending to work
+  around you or any reflection on your ability to sort of move here."* Also volunteers
+  *"Laura has done a really good job."*
+
+  **Names three lanes he's taken, all genuinely VP-only:**
+  1. **Cross-team org change** — bringing Nancy along; the CSA team routing issues straight
+     to on-call instead of through support (Mattie found it via workup). *"that's the exact
+     problem space I want to be in to help do the organizational change across these
+     boundaries."*
+  2. **Security cut-through** — *"workup has to have the same workbench as a senior engineer
+     at Canary, and we must move on that quickly, and I know that I can cut through all of
+     the layers and actually make the decisions to force that through in a way that you,
+     you just can't do as quickly."* Reason: he's the final decision maker; Bernard or Z
+     would escalate to him anyway.
+  3. **Budget** — *"I can push and and pull on the budgeting in a way that if I'm attached
+     directly, I can move."*
+
+  **Explains the next-step metric doc** — wrote it himself for metric clarity, drawing on
+  the voice-agent mess (handle rate vs containment rate) where bad metrics made it hard to
+  even discuss AI progress. Acknowledges *"the next step design could be looked at as like
+  superseding sort of the development plans."* So the Laura point landed.
+
+  **His lens:** *"how can I get AI to take more of this end to end, specifically focused on
+  messaging and comms, core problem spaces."*
+
+  **Macro mandate:** *"I've been tasked with transforming EPD to be more AI native over
+  time."* Ingredients he's setting direction on: triage, bug fixing, project building
+  (product → design → build).
+
+  ### The two load-bearing lines
+
+  1. *"It didn't even cross my mind that I could be working around you, or that it could be
+     perceived as working around you… the fact that Gareth might not be the right person
+     here. It totally kind of disconnected from my mind."*
+     → Better than deliberate exclusion on intent, worse on salience. Not weighed and set
+     aside — simply absent from the model. That is the actual problem to fix.
+
+  2. *"I will think more on should we have you lean in harder and how, **I don't have a
+     great idea there**, but I do think we should talk live. So let's make sure we find time
+     when you're back to feeling good."*
+     → The role question is genuinely open and he has no proposal. If Gareth arrives
+     without one, the default is that nothing changes.
+
+  ### NEW INFORMATION — Overlord is under build-vs-buy evaluation
+
+  *"I needed to be way closer to the agent's platform we're actually building to
+  understand. Do we need to invest further in the agent platform? This is like overlord and
+  all of those pieces. Is this overbuilding and we should have actually just gone out to
+  market and bought something? That's why I did like warp demos, etc."*
+
+  Blake is personally evaluating whether Laura's platform should exist. He's gathering the
+  answer himself because nobody has given him one. Gareth is arguably better placed than
+  Laura to answer it — knows the platform and the cost model, didn't build it, so less
+  conflicted. This did not appear in any prior source.
+
+  ### The opening Blake handed over without noticing
+
+  His stated #2 priority — give workup "the same workbench as a senior engineer", moving
+  fast "through a space of like opening up" — **is the Canary MCP SQL tool.** The thing
+  that makes opening it approvable is the guarded query-watcher design Gareth specced on
+  10 Aug (definitive string-based blocking for sensitive queries, LLM layer for ambiguous
+  review). Blake is about to spend VP capital forcing through a decision that Gareth's
+  existing work is the safety case for. Most concrete reconnection point available.
+
+  ### Status / open thread for when Gareth is back
+
+  - Role question: **OPEN**, deferred to a live conversation.
+  - Onus is on Gareth to bring the proposal. Blake explicitly has none.
+  - Candidate asks, strongest first: (a) own the Overlord build-vs-buy answer;
+    (b) own the guarded-access safety case that unblocks Blake's security push;
+    (c) own making Blake's six-week org changes stick after he rotates off.
+  - Only pre-vacation action worth taking: get the live conversation into the diary rather
+    than leaving it as "when you're back to feeling good."
+  - The two letter drafts below were NOT sent and are now historical.
+
+  ---
+
+  ## Agent run 2026-08-13 — Internal Tools block planning call, 11 Aug (Zoom VTT)
+
+  Source: `~/Downloads/GMT20260811-143221_Recording.transcript.vtt`.
+  Attendees: Blake, Stephanie Barry, Laura DeWald, Connor Swords, Asher Davidson,
+  Kevin Cormier. **Gareth not present.**
+
+  ### Outcome
+
+  Workup is top priority for the block, all hands — but scope narrowed hard. SJ told
+  Blake not to go wide; focus is messaging + Comms Core only. Order: next-step metric →
+  Canary MCP takeover from Dylan → accuracy push → knowledge base → interactive
+  investigations → model benchmark (last, since Sonnet held intro pricing). Blake asked
+  to join the team's syncs for the next couple of weeks. User management: Blake rejected
+  the trained-support-L2 plan as the #1 breach surface; Stephanie to rethink. IHG
+  compendium automation is the other immediate push. SAG types approved as a small lift.
+  PMS capabilities explicitly lowest priority / stretch. Cost-to-serve: Stephanie to get
+  finance numbers, Blake to push AJ within 3 weeks.
+
+  ### THIS BREAKS THE v2 LETTER'S CENTRAL ASK — do not send as drafted
+
+  1. **The adoption ask is the thing leadership just vetoed.** v2 asks to own "pushing
+     pods through Patterns and gatherers." Blake, verbatim: *"the thing that SJ doesn't
+     want is us going too wide and getting sort of distracted by all the different things
+     of all the different teams, and instead just laser focus on really having an impact
+     on communications and, our compcore and messaging."* Org-wide staged rollout is
+     deprioritised for the block. As written you'd be bidding for cancelled work.
+
+  2. **The argument underneath it has been superseded.** v2 argues rollout is the lever
+     that makes a second domain surface the PMS-shaped assumptions. Ian already did it
+     solo from payments: *"he used the investigate tool on some of the triage, and out the
+     back of that, realized, like, oh, a lot of this is pretty PMS-specific… he's gonna
+     send over a doc."* One staff engineer, no rollout programme. Keep the insight, drop
+     the mechanism.
+
+  3. **Blake asked for a standing seat covering exactly the two weeks out:** *"if you try
+     and include me on those sync cadences, I think that'd be super helpful for the next
+     couple weeks, at least."* Laura: *"Yep. Do that."* The "will he go direct?" question
+     is answered — he asked, and it's already agreed.
+
+  ### MCP — the steer landed, the attribution didn't
+
+  Internal Tools is taking Canary MCP over from Dylan/Applied AI. Confirmed on the call.
+  Traces directly to the 10 Aug EMEA directors steer. Blake scoped it tight for this
+  block — accuracy/triage only: *"I have the engineers take over ownership of this… rather
+  than just being full dependent on applied AI. But then it becomes a tool in your tool
+  chest."* The guarded-SQL architecture (string-block + LLM review) was **not mentioned in
+  the room**; it lives in the Q3B doc unattributed.
+
+  ### Perception read — resolves both ways at once
+
+  - Asher, to Blake, in absentia: *"unfortunately, Gareth is a blocker there"* (eng design
+    review cycle, PMS capabilities — the lowest-priority item, so low stakes).
+  - Asher, positively: *"That was Gareth's main pushback"* (drift detection platform choice).
+  - Stephanie, twice: *"Gareth has been super helpful on the plans to build out types for
+    support access grants"* / *"Gareth has helped us out, so we're already partially there."*
+  - **Visible fingerprints are on SAG types and PMS capabilities — not on Workup.**
+    Workup credit: *"Laura's been doing a bulk of the work, which is amazing."*
+    Canary Pages: *"Canary Pages is awesome. Thank you, Laura."*
+    Connor's closing praise: *"Laura, Steph, and team."* Gareth unnamed.
+
+  → The team IS getting the glory. Gareth is not in the frame for it. Both halves of the
+  subtext confirmed in one call.
+
+  ### Other
+
+  - **User Management pillar sent back to the drawing board.** Blake: it's the *"number one
+    breach surface"*, approvers get worn out above ~1/day. Stephanie: *"Let's take a step
+    back and reevaluate how we're going to approach this solution."* Redirect is toward AI
+    execution + concrete thresholds rather than a trained L2 human.
+  - Blake wants Internal Tools *"completely unresponsible for that side of the equation"*
+    on team-enablement cost — sampling / managed trigger runs so teams self-serve.
+  - Direction of travel: away from Claude Code harness toward OpenRouter, when the harness
+    next needs a push.
+  - Kevin surfaced profanity collisions in guest-facing alphanumeric IDs; Blake asked
+    Stephanie to fix within a couple of months.
+
+  ### Next step (NOT taken — awaiting your call)
+
+  v2 needs its "What I want" section reworked around a scope leadership actually wants.
+  The obvious candidate is depth on messaging/Comms Core end-to-end rather than breadth
+  across pods, but that's your judgement, not mine.
+
+  ---
+
+  ## Agent run 2026-08-12T15:40 — letter draft v2 (ask now needs rework, see above)
 
   Pulled the verbatim Aug 3 "Blake Directs" transcript
   (Granola meeting `6c96439f-69b3-48d2-b9e3-5b84c2e7b41b`) to check a claim in the first
@@ -265,10 +437,10 @@ tags: []
 time_minutes: 5
 title: 'Task: "letter" to blake about Workup (new name for the investigation agent
   work) and my role under him managing laura. How to play the next few weeks.'
-updated: 2026-08-12 15:40:00.000000
+updated: 2026-08-13 15:21:34.872749
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 goal: constructive communication, not more than 400 words. For Blake's eyes only. Sell the real work I've been doing behind the scenes to develop laura and internal tools team, while recognizing that he has been tasked with driving this work forward by company leadership. 

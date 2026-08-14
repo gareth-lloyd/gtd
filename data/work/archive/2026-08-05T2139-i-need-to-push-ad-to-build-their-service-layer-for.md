@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 15:22:15.387173
 contexts: []
 created: 2026-08-05 21:39:09.185453
 defer_until: null
@@ -123,7 +123,7 @@ tags: []
 time_minutes: 5
 title: Decide the next action for making sure AD team are building the service layer
   for Check-in V3 interaction
-updated: 2026-08-07 12:20:07.377638
+updated: 2026-08-13 15:22:15.387168
 waiting_on: null
 waiting_since: null
 working_on: false

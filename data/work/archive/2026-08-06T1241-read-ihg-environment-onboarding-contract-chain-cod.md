@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 15:22:28.051970
 contexts:
 - consume
 created: 2026-08-06 12:41:38.106116
@@ -19,7 +19,7 @@ tags:
 time_minutes: 10
 title: Read IHG environment onboarding contract — chain code, OPERA URL, hotel code,
   Business Event Streaming
-updated: 2026-08-06 15:01:39.151089
+updated: 2026-08-13 15:22:28.051964
 waiting_on: null
 waiting_since: null
 working_on: false

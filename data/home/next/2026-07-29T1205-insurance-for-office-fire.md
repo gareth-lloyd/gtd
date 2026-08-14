@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-07-29 12:05:13.485025
 defer_until: null
@@ -13,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: insurance for office - fire
-updated: 2026-07-29 13:52:08.635353
+updated: 2026-08-13 14:49:52.175198
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

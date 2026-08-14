@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 16:30:13.157946
 contexts:
 - react
 created: 2026-08-11 09:56:34.775834
@@ -8,7 +8,7 @@ defer_until: null
 due: 2026-08-12
 energy: medium
 id: 2026-08-11T0956-look-at-ent-7018-wyndham-crs-only-booking-config
-order: null
+order: 4
 output: |
   ## Agent run 2026-08-12T08:03:03Z
 
@@ -113,7 +113,7 @@ tags:
 - from-awareness
 time_minutes: 20
 title: 'Look at ENT-7018: Wyndham CRS-only booking config'
-updated: 2026-08-12 11:47:36.286238
+updated: 2026-08-13 16:30:13.157938
 waiting_on: null
 waiting_since: null
 working_on: false

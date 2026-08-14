@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-13 16:21:24.895026
 contexts: []
 created: 2026-08-07 13:42:11.505680
 defer_until: null
@@ -116,7 +116,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Assess Lauta's comment that auth api work needs to change
-updated: 2026-08-07 13:47:10.000000
+updated: 2026-08-13 16:21:24.895019
 waiting_on: null
 waiting_since: null
 working_on: false
