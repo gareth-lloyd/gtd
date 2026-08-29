@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-07 16:18:38.144156
-defer_until: 2026-08-17 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-08-07T1618-familiarize-self-with-singapore-tourist-board-work

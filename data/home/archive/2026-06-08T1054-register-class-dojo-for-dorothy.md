@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: 2026-08-29 15:05:10.080886
 contexts: []
 created: 2026-06-08 10:54:58.139612
 defer_until: null
@@ -13,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: register class dojo for dorothy
-updated: 2026-07-02 20:20:34.223676
+updated: 2026-08-29 15:05:10.080862
 waiting_on: null
 waiting_since: null
 working_on: false

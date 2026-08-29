@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - deep
 created: 2026-08-07 12:20:48.460461
-defer_until: 2026-08-14 09:00:00
+defer_until: null
 due: null
 energy: high
 id: 2026-08-07T1220-review-peteygao-s-fb-messenger-pr-stack-7-prs-5242
