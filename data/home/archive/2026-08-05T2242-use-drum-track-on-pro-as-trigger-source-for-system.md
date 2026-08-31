@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-31 06:04:09.802861
 contexts: []
 created: 2026-08-05 22:42:25.705740
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Use drum track on pro as trigger source for system
-updated: 2026-08-12 08:44:02.067041
+updated: 2026-08-31 06:04:09.802843
 waiting_on: null
 waiting_since: null
 working_on: false

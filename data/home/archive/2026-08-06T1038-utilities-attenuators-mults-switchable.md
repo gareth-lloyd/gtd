@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-08-31 06:04:12.646433
 contexts: []
 created: 2026-08-06 10:38:01.770054
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Utilities, attenuators, mults, switchable
-updated: 2026-08-12 08:44:02.067041
+updated: 2026-08-31 06:04:12.646401
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-07-24 10:09:28.143312
-defer_until: null
+defer_until: 2026-09-01 09:00:00
 due: null
 energy: low
 id: 2026-07-24T1009-check-back-on-teh-idea-of-having-chetna-join-apac
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Check back on teh idea of having Chetna join apac or emea
-updated: 2026-07-24 10:09:34.089422
+updated: 2026-08-31 07:18:07.547658
 waiting_on: null
 waiting_since: null
 working_on: false
