@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-01T0335-show-client-tags-on-quote-builder
-order: 3
+order: 4
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: show client tags on quote builder
-updated: 2026-08-13 14:58:47.818829
+updated: 2026-08-31 10:44:05.116058
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -5,7 +5,7 @@ contexts:
 - react
 created: 2026-08-10 11:40:43.245843
 defer_until: null
-due: 2026-08-12
+due: null
 energy: low
 id: 2026-08-10T1140-reply-to-stephanie-barry-re-ai-voice-configuration
 order: 2
@@ -149,7 +149,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Stephanie Barry re: AI Voice configuration research doc'
-updated: 2026-08-14 07:22:40.000000
+updated: 2026-08-31 12:49:03.042738
 waiting_on: null
 waiting_since: null
 working_on: false

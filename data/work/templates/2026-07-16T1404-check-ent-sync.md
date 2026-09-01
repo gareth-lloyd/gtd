@@ -4,7 +4,7 @@ contexts:
 - consume
 energy: low
 id: 2026-07-16T1404-check-ent-sync
-last_spawned: 2026-08-11
+last_spawned: 2026-09-01
 project: null
 recurrence: weekly
 tags: []

@@ -1,0 +1,23 @@
+---
+area: null
+completed_at: 2026-08-31 12:49:15.676774
+contexts: []
+created: 2026-08-12 10:19:54.868287
+defer_until: null
+due: 2026-08-12
+energy: low
+id: 2026-08-12T1019-review-planning-doc-for-tools
+order: null
+output: ''
+project: 2026-04-10T0840-ticket
+source_id: null
+tags: []
+time_minutes: 5
+title: review planning doc for tools
+updated: 2026-08-31 12:49:15.676769
+waiting_on: null
+waiting_since: null
+working_on: false
+---
+
+https://app.notion.com/p/canarytechnologies/Planning-Internal-Tools-Q3B-Internal-Notes-3b1814686151816cb470da06f103f965?source=copy_link

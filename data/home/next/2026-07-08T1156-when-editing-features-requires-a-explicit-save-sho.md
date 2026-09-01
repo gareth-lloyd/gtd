@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-08T1156-when-editing-features-requires-a-explicit-save-sho
-order: 8
+order: 9
 output: |
   ## Agent run 2026-07-29T14:43
 
@@ -31,7 +31,7 @@ time_minutes: 5
 title: 'Capture as gap todo: When editing property features, requires a explicit save.
   Should be flagged that data has changed, and no navigate without explicit reject
   changes'
-updated: 2026-08-13 14:58:45.732781
+updated: 2026-08-31 10:44:02.076999
 waiting_on: null
 waiting_since: null
 working_on: false

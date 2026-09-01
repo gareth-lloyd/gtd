@@ -1,0 +1,27 @@
+---
+area: null
+completed_at: 2026-08-31 12:49:13.149160
+contexts:
+- consume
+created: 2026-08-11 08:15:10.400043
+defer_until: null
+due: 2026-08-12
+energy: low
+id: 2026-08-11T0815-read-the-q2-b2-planning-call-notes-andrea-shared
+order: null
+output: ''
+project: 2026-04-10T0840-ticket
+source_id: https://canarytechnologies.slack.com/archives/C0B1Y5K9AMC/p1786393770047909
+tags:
+- morning-gtd
+- slack
+time_minutes: 15
+title: Read the Q2-B2 planning call notes Andrea shared
+updated: 2026-08-31 12:49:13.149154
+waiting_on: null
+waiting_since: null
+working_on: false
+---
+
+Group DM with Andrea and Connor, last night. Her framing: "the action items don't seem useful to me, but the rest might be".
+https://canarytechnologies.slack.com/archives/C0B1Y5K9AMC/p1786393770047909

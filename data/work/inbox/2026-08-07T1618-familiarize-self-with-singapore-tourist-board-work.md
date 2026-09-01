@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-07 16:18:38.144156
-defer_until: null
+defer_until: 2026-09-07 09:00:00
 due: null
 energy: low
 id: 2026-08-07T1618-familiarize-self-with-singapore-tourist-board-work
@@ -15,7 +15,7 @@ tags: []
 time_minutes: 5
 title: Familiarize self with Singapore Tourist Board work in APAC team (notion search
   etc)
-updated: 2026-08-12 10:39:41.113566
+updated: 2026-08-31 13:02:17.931612
 waiting_on: null
 waiting_since: null
 working_on: false

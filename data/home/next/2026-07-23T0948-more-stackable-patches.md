@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-23T0948-more-stackable-patches
-order: 7
+order: 6
 output: ''
 project: 2026-07-23-eurorack
 source_id: null
 tags: []
 time_minutes: 5
-title: more stackable patches
-updated: 2026-08-12 08:44:02.067041
+title: more stackable patch cables. More cables
+updated: 2026-08-31 12:58:08.088052
 waiting_on: null
 waiting_since: null
 working_on: false

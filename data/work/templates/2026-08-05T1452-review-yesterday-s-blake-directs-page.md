@@ -4,7 +4,7 @@ contexts:
 - consume
 energy: low
 id: 2026-08-05T1452-review-yesterday-s-blake-directs-page
-last_spawned: 2026-08-11
+last_spawned: 2026-09-01
 project: null
 recurrence: weekly
 tags: []

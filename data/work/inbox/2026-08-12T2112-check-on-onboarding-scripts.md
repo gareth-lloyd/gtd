@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-12 21:12:50.368560
-defer_until: 2026-08-31 14:43:00
+defer_until: null
 due: null
 energy: low
 id: 2026-08-12T2112-check-on-onboarding-scripts
