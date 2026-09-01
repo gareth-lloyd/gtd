@@ -3,8 +3,8 @@ area: null
 completed_at: null
 contexts:
 - consume
-created: &id001 2026-09-01 00:00:00
-defer_until: null
+created: 2026-09-01 00:00:00
+defer_until: 2026-09-02 09:00:00
 due: null
 energy: low
 id: 2026-09-01T0000-review-yesterday-s-blake-directs-page
@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 10
 title: Review yesterday's Blake Directs page
-updated: *id001
+updated: 2026-09-01 15:33:53.290387
 waiting_on: null
 waiting_since: null
 working_on: false

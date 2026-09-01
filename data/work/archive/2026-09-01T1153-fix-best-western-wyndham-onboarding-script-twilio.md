@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-01 15:34:18.011120
 contexts:
 - react
 created: 2026-09-01 11:53:02.930916
@@ -17,7 +17,7 @@ tags:
 - gmail
 time_minutes: 30
 title: Fix Best Western / Wyndham onboarding script Twilio + PMS failures
-updated: 2026-09-01 11:53:03.007535
+updated: 2026-09-01 15:34:18.011106
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-08-14 07:10:44.687998
-defer_until: null
+defer_until: 2026-09-02 09:00:00
 due: null
 energy: medium
 id: 2026-08-14T0710-prioritise-and-assign-ent-7201-consistency-rules-c
@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Prioritise and assign ENT-7201: consistency rules can''t express null-presence
   invariants'
-updated: 2026-08-31 13:13:05.048703
+updated: 2026-09-01 15:15:03.455875
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-01 15:33:59.494993
 contexts:
 - deep
 created: 2026-09-01 11:53:02.698222
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 60
 title: Decide Enterprise staffing for Best Western Staff App SSO
-updated: 2026-09-01 11:53:02.775543
+updated: 2026-09-01 15:33:59.494987
 waiting_on: null
 waiting_since: null
 working_on: false

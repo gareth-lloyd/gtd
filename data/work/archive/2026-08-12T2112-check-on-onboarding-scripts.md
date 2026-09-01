@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-01 15:14:53.765941
 contexts: []
 created: 2026-08-12 21:12:50.368560
 defer_until: null
@@ -93,7 +93,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Check on onboarding scripts. Context from yesterday 1-1 Andrea granola
-updated: 2026-08-13 15:24:16.090752
+updated: 2026-09-01 15:14:53.765934
 waiting_on: null
 waiting_since: null
 working_on: false

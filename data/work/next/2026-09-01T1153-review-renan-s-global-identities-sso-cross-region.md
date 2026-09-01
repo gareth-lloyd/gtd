@@ -10,14 +10,14 @@ energy: high
 id: 2026-09-01T1153-review-renan-s-global-identities-sso-cross-region
 order: null
 output: ''
-project: null
+project: 2026-09-01-bw-global-sso
 source_id: https://canarytechnologies.slack.com/archives/C0BET8YEKB4/p1788203721883719
 tags:
 - morning-gtd
 - slack
 time_minutes: 45
 title: Review Renan's Global Identities SSO cross-region design
-updated: 2026-09-01 11:53:02.852917
+updated: 2026-09-01 15:35:00.403597
 waiting_on: null
 waiting_since: null
 working_on: false
