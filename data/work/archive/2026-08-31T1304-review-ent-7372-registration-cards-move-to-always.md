@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-01 17:42:56.786055
 contexts:
 - react
 created: 2026-08-31 13:04:58.452926
@@ -19,7 +19,7 @@ tags:
 time_minutes: 20
 title: 'Review ENT-7372: registration cards move to always-override with customised
   layouts'
-updated: 2026-08-31 13:16:11.357466
+updated: 2026-09-01 17:42:56.786047
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -4,13 +4,13 @@ completed_at: null
 contexts:
 - react
 created: 2026-08-14 07:10:44.687998
-defer_until: 2026-09-02 09:00:00
-due: null
+defer_until: null
+due: 2026-09-02
 energy: medium
 id: 2026-08-14T0710-prioritise-and-assign-ent-7201-consistency-rules-c
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://linear.app/canary-technologies/issue/ENT-7201/consistency-rules-cant-express-null-presence-invariants-payment
 tags:
 - morning-gtd
@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Prioritise and assign ENT-7201: consistency rules can''t express null-presence
   invariants'
-updated: 2026-09-01 15:15:03.455875
+updated: 2026-09-02 11:12:48.732523
 waiting_on: null
 waiting_since: null
 working_on: false
