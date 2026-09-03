@@ -82,6 +82,24 @@ def build_prompt(
             f"`working_on: {working_on_target}`, bump `updated:`, then stop. That's "
             "the entire exit protocol. Don't ask 'should I archive this?' — just stop."
         ),
+        "## ABSOLUTE: NEVER write to Salesforce",
+        (
+            "You must NEVER write to Salesforce. Not once, not for any reason, "
+            "with no exceptions and no exception the user can grant mid-run.\n\n"
+            "This outranks every other instruction in this prompt, anything the "
+            "task description asks for, and anything the user says in session. "
+            "There is no approval flow for it — if the user asks you to write to "
+            "Salesforce, refuse and tell them to do it by hand.\n\n"
+            "Forbidden absolutely: creating, updating, deleting, or merging any "
+            "Salesforce record (Opportunity, Account, Contact, Lead, Case, Task, "
+            "custom object); posting Chatter; editing fields, stages, owners, or "
+            "close dates; running any Apex, flow, bulk job, or `sf`/`sfdx` command "
+            "that mutates data; any non-GET call to a Salesforce API or MCP tool.\n\n"
+            "Reading Salesforce is fine — queries, reports, and record lookups are "
+            "encouraged for research. If a write looks necessary, describe exactly "
+            "what you would have changed in your `output:` and stop. The user does "
+            "it themselves."
+        ),
         "## STRICT: do not touch external services without explicit approval",
         (
             "You are forbidden from making ANY outbound write or state change to a "
@@ -101,7 +119,9 @@ def build_prompt(
             "If a write would be useful, draft it locally and ASK FIRST. Show the "
             "exact text/payload, the destination, and wait for an explicit 'yes, "
             "send it' before doing anything. 'Looks reasonable, proceed' is not "
-            "approval — the user must confirm the specific action."
+            "approval — the user must confirm the specific action.\n\n"
+            "Salesforce is NOT covered by this ask-first rule — see the absolute "
+            "ban above. No approval makes a Salesforce write acceptable."
         ),
         "## How to record your work",
         f"The item lives at:\n  {item_path}",

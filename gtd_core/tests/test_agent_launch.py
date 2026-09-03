@@ -153,6 +153,15 @@ class TestBuildPrompt:
         assert "Slack" in out
         assert "ASK FIRST" in out
 
+    def test_absolutely_forbids_salesforce_writes(self, tmp_path):
+        out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
+        # Salesforce is a hard NEVER, not an ask-first surface: it is the
+        # company's system of record and a stray write is not recoverable
+        # by the user.
+        assert "NEVER" in out
+        assert "Salesforce" in out
+        assert "no exception" in out.lower()
+
     def test_instructs_including_links_in_output(self, tmp_path):
         out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
         # Output is far more useful when references are clickable — the agent
