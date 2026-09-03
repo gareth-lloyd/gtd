@@ -2,18 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-01 18:42:42.942087
+created: &id001 2026-09-03 10:48:21.442971
 defer_until: null
 due: null
 energy: low
-id: 2026-09-01T1842-org-cables-by-type-order-more
+id: 2026-09-03T1048-skip-level-iwth-kevin-and-sam
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: org cables by type, order more
+title: skip level iwth kevin and sam
 updated: *id001
 waiting_on: null
 waiting_since: null

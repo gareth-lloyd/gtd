@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-08-31 13:12:32.944759
 defer_until: null
-due: null
+due: 2026-09-02
 energy: low
 id: 2026-08-31T1312-review-eng-design
 order: null
@@ -64,15 +64,15 @@ output: |
 
   ### Suggested next step (nothing sent anywhere)
   Nothing has been posted to Notion or Slack. If you want to leave this as a review, points 2, 3 and 4 are the ones worth Asher seeing before Bernard signs off; 1 is a judgement call worth voicing but not worth blocking on; 5 and 6 are cheap adds. Say the word and I'll draft comment text for you to edit and post yourself.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: Review eng design.
-updated: 2026-08-31 15:06:08.985693
+updated: 2026-09-02 14:02:37.405037
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://canarytechnologies.slack.com/archives/C0AL1T2H43V/p1787843117696999

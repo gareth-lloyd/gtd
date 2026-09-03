@@ -5,7 +5,7 @@ contexts:
 - react
 created: 2026-08-31 06:55:56.247733
 defer_until: null
-due: 2026-08-31
+due: null
 energy: medium
 id: 2026-08-31T0655-answer-the-zendesk-one-click-sso-url-question-on-e
 order: null
@@ -90,10 +90,10 @@ tags:
 time_minutes: 20
 title: Answer the Zendesk one-click SSO URL question on ENT-7027 before Blake's EoD
   Tuesday fallback
-updated: 2026-08-31 14:39:10.093510
+updated: 2026-09-02 14:34:52.404184
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Blake, 28 Aug: if not resolved by EoD Tuesday they will make the help centre page PUBLIC temporarily until SSO is solved. Now assigned to kcormier, but Nensy's @glloyd question on the eu./ap. sso/idp/zendesk?return_to= link format is still unanswered. Weigh in on the format and on whether temporarily public is acceptable.

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-02 11:49:26.735071
 contexts:
 - react
 created: 2026-09-02 11:17:45.350984
@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Catch up on SJ''s #ihg-onboarding-checklist thread and ticket (IHG in-product
   checklist)'
-updated: 2026-09-02 11:17:45.418566
+updated: 2026-09-02 11:49:26.735057
 waiting_on: null
 waiting_since: null
 working_on: false

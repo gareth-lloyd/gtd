@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-02 11:48:57.023107
 contexts:
 - react
 created: 2026-09-02 11:17:45.419185
@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: Find Enterprise cover for the Americas on-call gaps (Fri 4 Sep 5pm-12am ET,
   Sat-Sun 5-6 Sep 9am-12am ET)
-updated: 2026-09-02 11:17:45.486115
+updated: 2026-09-02 11:48:57.023097
 waiting_on: null
 waiting_since: null
 working_on: false

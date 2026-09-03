@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-02 18:52:18.191682
 contexts:
 - craft
 created: 2026-08-13 17:05:54.262064
@@ -16,7 +16,7 @@ tags: []
 time_minutes: 30
 title: Post review comments on GDPR Obfuscation Service design doc before sealing
   approval
-updated: 2026-08-14 06:57:18.647785
+updated: 2026-09-02 18:52:18.191676
 waiting_on: null
 waiting_since: null
 working_on: false

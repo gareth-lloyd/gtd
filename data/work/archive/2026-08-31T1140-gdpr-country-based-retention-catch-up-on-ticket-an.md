@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-02 18:52:29.179691
 contexts: []
 created: 2026-08-31 11:40:42.813502
 defer_until: null
@@ -64,7 +64,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: gdpr country based retention - catch up on EMEA linear project and design
-updated: 2026-08-31 14:46:54.126548
+updated: 2026-09-02 18:52:29.179685
 waiting_on: null
 waiting_since: null
 working_on: false

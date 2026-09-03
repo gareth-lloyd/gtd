@@ -2,8 +2,8 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-01 12:00:43.473975
-defer_until: null
+created: 2026-09-01 12:00:43.473975
+defer_until: 2026-09-04 09:00:00
 due: null
 energy: low
 id: 2026-09-01T1200-go-back-to-capacity-planning-notes-blake-martijn
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: go back to capacity planning notes blake / martijn
-updated: *id001
+updated: 2026-09-03 13:37:09.484075
 waiting_on: null
 waiting_since: null
 working_on: false

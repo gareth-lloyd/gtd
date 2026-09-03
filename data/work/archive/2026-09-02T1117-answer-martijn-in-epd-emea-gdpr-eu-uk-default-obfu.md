@@ -1,10 +1,10 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-03 13:37:37.028382
 contexts:
 - react
 created: 2026-09-02 11:17:45.219052
-defer_until: null
+defer_until: 2026-09-03 09:00:00
 due: null
 energy: medium
 id: 2026-09-02T1117-answer-martijn-in-epd-emea-gdpr-eu-uk-default-obfu
@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Answer Martijn in #epd-emea-gdpr: EU/UK default obfuscation retention (30d
   check-in, 30d messages, 5y logs, 6y consent)'
-updated: 2026-09-02 11:17:45.285153
+updated: 2026-09-03 13:37:37.028377
 waiting_on: null
 waiting_since: null
 working_on: false

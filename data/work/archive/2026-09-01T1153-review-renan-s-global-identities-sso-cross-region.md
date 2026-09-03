@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-03 11:17:14.340483
 contexts:
 - deep
 created: 2026-09-01 11:53:02.776502
@@ -17,11 +17,8 @@ tags:
 - slack
 time_minutes: 45
 title: Review Renan's Global Identities SSO cross-region design
-updated: 2026-09-01 15:35:00.403597
+updated: 2026-09-03 11:17:14.340475
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-Mermaid flow + Notion doc 'Global Identities SSO: Immutable Identity, Cross-Region Linking' posted in #eng-identity, tagging me. Identifier-first login, regional fan-out lookup, global DynamoDB grants. I already pushed back in Lauta's sibling thread that email-domain routing won't generalise (multiple SSO orgs can share a domain).
-https://canarytechnologies.slack.com/archives/C0BET8YEKB4/p1788203721883719

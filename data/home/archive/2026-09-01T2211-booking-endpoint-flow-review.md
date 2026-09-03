@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-02 12:16:43.329258
 contexts: []
 created: 2026-09-01 22:11:38.409417
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: booking endpoint flow review
-updated: 2026-09-01 22:12:08.203878
+updated: 2026-09-02 12:16:43.329230
 waiting_on: null
 waiting_since: null
 working_on: false

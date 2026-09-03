@@ -2,18 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-08-06 13:59:01.214255
+created: &id001 2026-09-02 17:54:14.962154
 defer_until: null
 due: null
 energy: low
-id: 2026-08-06T1359-invest
+id: 2026-09-02T1754-ikea-order-filament-storage-adn-lighting
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: invest
+title: ikea order filament storage adn lighting
 updated: *id001
 waiting_on: null
 waiting_since: null

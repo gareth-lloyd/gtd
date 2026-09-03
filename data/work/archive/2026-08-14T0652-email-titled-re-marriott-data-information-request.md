@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-02 18:52:26.507031
 contexts: []
 created: 2026-08-14 06:52:20.330206
 defer_until: null
@@ -116,7 +116,7 @@ tags: []
 time_minutes: 5
 title: 'Email titled: "Re: Marriott data information request - STG Oxford street churn
   risk"'
-updated: 2026-08-14 06:58:16.005656
+updated: 2026-09-02 18:52:26.507027
 waiting_on: null
 waiting_since: null
 working_on: false

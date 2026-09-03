@@ -3,21 +3,21 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-01 14:51:58.920317
-defer_until: 2026-09-03 09:00:00
-due: null
+defer_until: null
+due: 2026-09-03
 energy: low
 id: 2026-09-01T1451-plan-discussion-for-blake-directs-gdpr-retention-p
 order: null
 output: ''
-project: null
+project: 2026-07-20-gdpr
 source_id: null
 tags: []
 time_minutes: 5
 title: 'Plan discussion for Blake directs: GDPR retention policies and implications'
-updated: 2026-09-02 11:13:18.260557
+updated: 2026-09-03 13:37:28.961237
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://canarytechnologies.slack.com/archives/C0B3EUYPRL4/p1787299618453699

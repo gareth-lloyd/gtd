@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-31 15:45:26.587294
-defer_until: null
+defer_until: 2026-09-04 09:00:00
 due: null
 energy: low
 id: 2026-08-31T1545-emea-apac-code-review-it-s-my-problem
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: EMEA APAC code review. It's my problem.
-updated: 2026-09-01 15:15:19.827306
+updated: 2026-09-03 12:55:26.588604
 waiting_on: null
 waiting_since: null
 working_on: false
