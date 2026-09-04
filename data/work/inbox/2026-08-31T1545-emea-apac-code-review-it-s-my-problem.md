@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-08-31 15:45:26.587294
-defer_until: 2026-09-04 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-08-31T1545-emea-apac-code-review-it-s-my-problem

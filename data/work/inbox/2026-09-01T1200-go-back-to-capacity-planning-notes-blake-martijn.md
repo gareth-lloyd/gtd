@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-01 12:00:43.473975
-defer_until: 2026-09-04 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-09-01T1200-go-back-to-capacity-planning-notes-blake-martijn

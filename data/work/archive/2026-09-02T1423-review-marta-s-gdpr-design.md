@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-03 17:02:06.496017
 contexts: []
 created: 2026-09-02 14:23:22.130835
 defer_until: null
@@ -46,10 +46,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Review Marta's GDPR design
-updated: 2026-09-03 13:37:46.282925
+updated: 2026-09-03 17:02:06.496013
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://app.notion.com/p/canarytechnologies/GDPR-Country-based-default-retention-3ce8146861518059934ec78cf2f98777?source=copy_link

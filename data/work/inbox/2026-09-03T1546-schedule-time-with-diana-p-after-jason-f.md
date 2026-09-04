@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-03 10:48:14.289922
+created: 2026-09-03 15:46:07.657693
 defer_until: 2026-09-07 09:00:00
 due: null
 energy: low
-id: 2026-09-03T1048-set-up-skip-level-with-adil
+id: 2026-09-03T1546-schedule-time-with-diana-p-after-jason-f
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: set up skip level with adil
-updated: 2026-09-03 14:06:57.625954
+title: schedule time with Diana P after jason F
+updated: 2026-09-03 17:15:28.577466
 waiting_on: null
 waiting_since: null
 working_on: false

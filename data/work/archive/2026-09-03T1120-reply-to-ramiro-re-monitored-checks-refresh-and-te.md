@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-03 13:45:32.755218
 contexts:
 - deep
 created: 2026-09-03 11:20:28.523967
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Reply to Ramiro re: monitored-checks refresh and terminal-stage logic'
-updated: 2026-09-03 11:20:28.591861
+updated: 2026-09-03 13:45:32.755196
 waiting_on: null
 waiting_since: null
 working_on: false

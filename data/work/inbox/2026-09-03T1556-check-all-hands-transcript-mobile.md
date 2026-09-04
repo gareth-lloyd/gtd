@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-08-06 11:07:46.576718
+created: &id001 2026-09-03 15:56:38.441147
 defer_until: null
 due: null
 energy: low
-id: 2026-08-06T1107-plan-for-3d-printing-downstairs
+id: 2026-09-03T1556-check-all-hands-transcript-mobile
 order: null
 output: ''
-project: 2026-05-25-workshop
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Plan for 3d Printing downstairs
-updated: 2026-08-06 11:07:46.621106
+title: check all hands transcript mobile
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

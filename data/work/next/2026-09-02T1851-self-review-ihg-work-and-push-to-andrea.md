@@ -14,10 +14,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Self review IHG work and push to andrea
-updated: 2026-09-03 13:37:55.757563
+updated: 2026-09-03 17:15:14.359662
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://github.com/canary-technologies-corp/canary/pull/55157

@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-08-31 13:12:32.944759
 defer_until: null
-due: 2026-09-02
+due: null
 energy: low
 id: 2026-08-31T1312-review-eng-design
 order: null
@@ -69,10 +69,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Review eng design.
-updated: 2026-09-02 14:02:37.405037
+updated: 2026-09-03 17:14:59.235257
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://canarytechnologies.slack.com/archives/C0AL1T2H43V/p1787843117696999
