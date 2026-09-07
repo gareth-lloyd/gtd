@@ -1,20 +1,21 @@
 ---
 area: null
 completed_at: null
-contexts: []
-created: 2026-08-28 19:26:02.950679
+contexts:
+- autopilot
+created: &id001 2026-09-07 00:00:00
 defer_until: null
 due: null
 energy: low
-id: 2026-08-28T1926-synths
+id: 2026-09-07T0000-blake-directs-meeting-updates
 order: null
 output: ''
-project: 2026-07-15-prints
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: synths
-updated: 2026-08-28 19:26:02.997768
+title: Blake directs meeting updates
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-04 12:06:02.720643
 contexts:
 - react
 created: 2026-09-04 10:20:36.807435
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 20
 title: Post overdue Linear project updates (2 projects you lead)
-updated: 2026-09-04 10:20:36.873904
+updated: 2026-09-04 12:06:02.720638
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-04 12:06:11.545384
 contexts:
 - react
 created: 2026-09-04 10:20:36.874541
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: Reply to Andrea Bradshaw on IHG/Marriott brand validation
-updated: 2026-09-04 10:20:36.940055
+updated: 2026-09-04 12:06:11.545378
 waiting_on: null
 waiting_since: null
 working_on: false

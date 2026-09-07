@@ -9,13 +9,13 @@ energy: low
 id: 2026-09-01T1200-go-back-to-capacity-planning-notes-blake-martijn
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: go back to capacity planning notes blake / martijn
-updated: 2026-09-03 13:37:09.484075
+updated: 2026-09-04 15:10:00.994315
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

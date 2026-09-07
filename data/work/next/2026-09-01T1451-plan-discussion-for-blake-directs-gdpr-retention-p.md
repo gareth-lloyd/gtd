@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-01 14:51:58.920317
-defer_until: 2026-09-07 09:00:00
+defer_until: null
 due: 2026-09-07
 energy: low
 id: 2026-09-01T1451-plan-discussion-for-blake-directs-gdpr-retention-p
