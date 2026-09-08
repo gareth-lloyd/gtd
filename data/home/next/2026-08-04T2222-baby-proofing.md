@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-04T2222-baby-proofing
-order: 5
+order: 3
 output: ''
 project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
 title: baby proofing
-updated: 2026-08-05 10:03:03.161239
+updated: 2026-09-07 21:53:44.020224
 waiting_on: null
 waiting_since: null
 working_on: false
