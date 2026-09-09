@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-09 12:13:02.383943
 contexts:
 - react
 created: 2026-09-09 09:06:25.570570
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Prepare for 13:00 with Martijn: resourcing discussion'
-updated: 2026-09-09 10:11:52.870281
+updated: 2026-09-09 12:13:02.383738
 waiting_on: null
 waiting_since: null
 working_on: false

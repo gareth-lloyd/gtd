@@ -64,12 +64,12 @@ output: |
 
   ### Suggested next step (nothing sent anywhere)
   Nothing has been posted to Notion or Slack. If you want to leave this as a review, points 2, 3 and 4 are the ones worth Asher seeing before Bernard signs off; 1 is a judgement call worth voicing but not worth blocking on; 5 and 6 are cheap adds. Say the word and I'll draft comment text for you to edit and post yourself.
-project: 2026-04-16T1210-unblock-team
+project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: 5
 title: Review eng design.
-updated: 2026-09-08 13:28:07.248839
+updated: 2026-09-09 13:53:53.074853
 waiting_on: null
 waiting_since: null
 working_on: true

@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - deep
 created: 2026-08-31 13:51:49.869556
-defer_until: null
+defer_until: 2026-09-10 09:00:00
 due: null
 energy: high
 id: 2026-08-31T1351-check-in-v3-migration-onboarding-cannot-set-checki
@@ -16,7 +16,7 @@ tags: []
 time_minutes: 30
 title: 'Check-in V3 migration: onboarding cannot set checkin_version=v3 + 5 related
   gaps'
-updated: 2026-09-04 15:09:40.029183
+updated: 2026-09-09 10:58:38.207756
 waiting_on: null
 waiting_since: null
 working_on: false

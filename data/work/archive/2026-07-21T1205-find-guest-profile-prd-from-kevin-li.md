@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-09 10:56:18.401725
 contexts: []
 created: 2026-07-21 12:05:23.120983
 defer_until: null
@@ -210,7 +210,7 @@ source_id: null
 tags: []
 time_minutes: 15
 title: Review the guest profiles document thorugh a GDPR lens
-updated: 2026-08-06 15:07:27.200349
+updated: 2026-09-09 10:56:18.401715
 waiting_on: null
 waiting_since: null
 working_on: false

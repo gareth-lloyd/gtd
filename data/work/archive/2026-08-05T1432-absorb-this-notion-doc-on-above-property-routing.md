@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-09 13:53:03.622776
 contexts: []
 created: 2026-08-05 14:32:21.010177
 defer_until: null
@@ -112,7 +112,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Absorb this notion doc on above property routing
-updated: 2026-08-14 07:12:20.632675
+updated: 2026-09-09 13:53:03.622769
 waiting_on: null
 waiting_since: null
 working_on: false

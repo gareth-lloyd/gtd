@@ -79,15 +79,15 @@ output: |
   - The rest of Ryan's "Be aware of workup" sentence is truncated in Bear search; open the note directly.
   - Dashboard numbers were not pulled (agents.cnry.land needs your browser session); the figures above are Laura's from 26 Aug.
   - No external writes were made. Nothing posted to Slack, Linear, Notion or GitHub.
-project: 2026-08-05-strategy
+project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: 5
 title: I need to be more on top of workup. I'm behind the curve. Plan a catch-up investigation
-updated: 2026-09-02 14:32:00.000000
+updated: 2026-09-09 10:56:48.235365
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://docs.google.com/document/d/19XTmIdZfr7jU1cMNlcwoFRBLJFnIz3qibO4LwviTtxA/edit?tab=t.t81tvqup3p4s

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-09 13:52:34.333381
 contexts:
 - deep
 created: 2026-09-09 09:06:25.480349
@@ -177,7 +177,7 @@ tags:
 time_minutes: 40
 title: Read Ramiro's 'Different levels of Support Access Grant' eng design before
   his final pass
-updated: 2026-09-09T10:12:57.990976
+updated: 2026-09-09 13:52:34.333360
 waiting_on: null
 waiting_since: null
 working_on: false
