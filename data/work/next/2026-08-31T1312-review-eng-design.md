@@ -69,10 +69,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Review eng design.
-updated: 2026-09-03 17:14:59.235257
+updated: 2026-09-08 13:28:07.248839
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://canarytechnologies.slack.com/archives/C0AL1T2H43V/p1787843117696999

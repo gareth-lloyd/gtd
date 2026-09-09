@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-03 15:46:07.657693
-defer_until: null
+defer_until: 2026-09-10 09:00:00
 due: null
 energy: low
 id: 2026-09-03T1546-schedule-time-with-diana-p-after-jason-f
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: schedule time with Diana P after jason F
-updated: 2026-09-03 17:15:28.577466
+updated: 2026-09-09 10:12:06.670026
 waiting_on: null
 waiting_since: null
 working_on: false

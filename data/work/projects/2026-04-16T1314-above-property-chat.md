@@ -6,8 +6,9 @@ id: 2026-04-16T1314-above-property-chat
 max_next_items: 1
 outcome: null
 priority: null
-status: active
+status: complete
 tags: []
 title: Above property chat
-updated: 2026-04-16 10:14:35.267377
+updated: 2026-09-08 13:25:25.565411
+working_dir: null
 ---

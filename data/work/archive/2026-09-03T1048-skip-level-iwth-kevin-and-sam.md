@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-08 13:20:19.341552
 contexts: []
-created: 2026-09-01 23:16:54.907640
+created: 2026-09-03 10:48:21.442971
 defer_until: null
 due: null
 energy: low
-id: 2026-09-01T2316-glass-table-leg-plan
+id: 2026-09-03T1048-skip-level-iwth-kevin-and-sam
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: glass table leg - inspect closely
-updated: 2026-09-09 09:52:34.598419
+title: skip level iwth kevin and sam
+updated: 2026-09-08 13:20:19.341543
 waiting_on: null
 waiting_since: null
 working_on: false

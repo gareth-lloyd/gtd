@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-01 23:16:54.907640
+created: 2026-09-09 09:02:17.239510
 defer_until: null
 due: null
 energy: low
-id: 2026-09-01T2316-glass-table-leg-plan
+id: 2026-09-09T0902-better-gridfinity-organization-bins
 order: null
 output: ''
-project: null
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: glass table leg - inspect closely
-updated: 2026-09-09 09:52:34.598419
+title: Better Gridfinity organization bins
+updated: 2026-09-09 09:02:17.277284
 waiting_on: null
 waiting_since: null
 working_on: false

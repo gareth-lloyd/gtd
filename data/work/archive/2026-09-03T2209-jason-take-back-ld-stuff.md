@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-08 13:20:46.484934
 contexts: []
-created: 2026-09-01 23:16:54.907640
+created: 2026-09-03 22:09:56.637794
 defer_until: null
 due: null
 energy: low
-id: 2026-09-01T2316-glass-table-leg-plan
+id: 2026-09-03T2209-jason-take-back-ld-stuff
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: glass table leg - inspect closely
-updated: 2026-09-09 09:52:34.598419
+title: Jason - take back LD stuff
+updated: 2026-09-08 13:20:46.484929
 waiting_on: null
 waiting_since: null
 working_on: false
