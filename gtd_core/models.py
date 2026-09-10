@@ -113,3 +113,8 @@ class EnvConfig:
     contexts: list[str]
     areas: list[str]
     default_energy: Energy = "medium"
+    # Which Claude Code account this env's `claude` shell-outs (agent launch,
+    # AI capture) run under. Exported as CLAUDE_CONFIG_DIR; `~` is expanded.
+    # None means the default account (~/.claude). The home env points at
+    # ~/.claude-personal so personal tasks never go through the work account.
+    claude_config_dir: str | None = None

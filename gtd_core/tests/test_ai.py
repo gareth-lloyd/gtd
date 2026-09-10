@@ -7,6 +7,7 @@ which mocks `subprocess.run`.
 """
 
 from datetime import date, datetime
+from pathlib import Path
 
 import pytest
 
@@ -355,3 +356,56 @@ class TestAiCaptureStub:
                 sample_actions={},
                 today=date(2026, 4, 20),
             )
+
+
+# ---------------- ai_capture: CLAUDE_CONFIG_DIR ----------------
+
+
+class TestAiCaptureClaudeConfigDir:
+    """AI capture shells out to `claude -p`; it must run under the same account
+    as the env's interactive sessions (cfg.claude_config_dir)."""
+
+    def _cfg(self, config_dir: str | None) -> EnvConfig:
+        return EnvConfig(
+            name="home",
+            contexts=["home"],
+            areas=["house"],
+            claude_config_dir=config_dir,
+        )
+
+    def _run_capture(self, monkeypatch, cfg: EnvConfig) -> dict:
+        import subprocess
+
+        captured: dict = {}
+
+        def fake_run(cmd, **kwargs):
+            captured["cmd"] = cmd
+            captured["kwargs"] = kwargs
+            return subprocess.CompletedProcess(
+                cmd, returncode=0, stdout='{"title": "x", "summary": "y"}', stderr=""
+            )
+
+        monkeypatch.delenv("GTD_AI_STUB_RESPONSE", raising=False)
+        monkeypatch.delenv("CLAUDE_CONFIG_DIR", raising=False)
+        monkeypatch.setattr(ai_mod.subprocess, "run", fake_run)
+        monkeypatch.setattr(ai_mod.shutil, "which", lambda _: "/usr/local/bin/claude")
+        ai_capture(
+            text="fix the shed",
+            cfg=cfg,
+            projects=[],
+            sample_actions={},
+            today=date(2026, 9, 10),
+        )
+        return captured
+
+    def test_sets_claude_config_dir_in_subprocess_env(self, monkeypatch):
+        captured = self._run_capture(monkeypatch, self._cfg("~/.claude-personal"))
+        env = captured["kwargs"]["env"]
+        assert env["CLAUDE_CONFIG_DIR"] == str(Path("~/.claude-personal").expanduser())
+        # Rest of the environment is inherited, not replaced.
+        assert "PATH" in env
+
+    def test_leaves_env_untouched_when_not_configured(self, monkeypatch):
+        captured = self._run_capture(monkeypatch, self._cfg(None))
+        env = captured["kwargs"].get("env")
+        assert env is None or "CLAUDE_CONFIG_DIR" not in env

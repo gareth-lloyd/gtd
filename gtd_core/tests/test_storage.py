@@ -383,3 +383,32 @@ class TestAtomicDump:
         (tmp_path / f"orphan.md.{12345}.tmp").write_bytes(b"junk")
         listed = list_item_paths(tmp_path)
         assert listed == [path]
+
+
+class TestEnvConfigClaudeConfigDir:
+    """`claude_config_dir` selects which Claude Code account an env's shell-outs
+    use (via CLAUDE_CONFIG_DIR). Optional — absent means the default account."""
+
+    def test_round_trips_claude_config_dir(self, tmp_path):
+        cfg = EnvConfig(
+            name="home",
+            contexts=["home"],
+            areas=["house"],
+            claude_config_dir="~/.claude-personal",
+        )
+        path = tmp_path / "config.yml"
+        dump_env_config(path, cfg)
+        assert load_env_config(path) == cfg
+        assert "claude_config_dir: ~/.claude-personal" in path.read_text()
+
+    def test_defaults_to_none_when_absent(self, tmp_path):
+        path = tmp_path / "config.yml"
+        path.write_text("name: work\ncontexts: [deep]\nareas: [engineering]\n")
+        cfg = load_env_config(path)
+        assert cfg.claude_config_dir is None
+
+    def test_dump_omits_key_when_none(self, tmp_path):
+        cfg = EnvConfig(name="work", contexts=["deep"], areas=["engineering"])
+        path = tmp_path / "config.yml"
+        dump_env_config(path, cfg)
+        assert "claude_config_dir" not in path.read_text()

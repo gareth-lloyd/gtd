@@ -215,7 +215,13 @@ def _project_section(project: Project) -> str:
     return "\n".join(lines)
 
 
-def launch_claude_session(*, prompt: str, cwd: Path | None = None, auto: bool = True) -> None:
+def launch_claude_session(
+    *,
+    prompt: str,
+    cwd: Path | None = None,
+    auto: bool = True,
+    config_dir: Path | None = None,
+) -> None:
     """Open iTerm and run `claude` with the given prompt as initial input.
 
     The iTerm session is interactive — the agent stays running so the user
@@ -226,6 +232,11 @@ def launch_claude_session(*, prompt: str, cwd: Path | None = None, auto: bool = 
     (outbound writes, destructive tools, etc.). Suitable for the GTD use
     case where the user is launching trusted tasks they intend to be
     hands-off but does not want a fully unconstrained shell.
+
+    `config_dir`, when given, is exported as CLAUDE_CONFIG_DIR for the
+    session so it runs under that Claude Code account (login, settings,
+    history) instead of the default `~/.claude`. This mirrors the user's
+    `pclaude` shell function for the personal account.
     """
     if not shutil.which("claude"):
         raise AgentLaunchNotConfiguredError(
@@ -243,13 +254,14 @@ def launch_claude_session(*, prompt: str, cwd: Path | None = None, auto: bool = 
         f.write(prompt)
 
     auto_flag = " --permission-mode auto" if auto else ""
+    env_prefix = f"CLAUDE_CONFIG_DIR={shlex.quote(str(config_dir))} " if config_dir else ""
     file_q = shlex.quote(str(prompt_file))
     # `trap` ensures the prompt file is removed even if the user closes the
     # iTerm window mid-session (SIGHUP) — bare `; rm` would leak in that case.
     bash_cmd = (
         f"trap 'rm -f {file_q}' EXIT && "
         f"cd {shlex.quote(str(cwd))} && "
-        f'claude{auto_flag} "$(cat {file_q})"'
+        f'{env_prefix}claude{auto_flag} "$(cat {file_q})"'
     )
     # Open in a new tab of the current window when iTerm is already running;
     # fall back to a new window when no iTerm window exists yet.

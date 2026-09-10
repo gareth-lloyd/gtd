@@ -8,6 +8,7 @@ import shutil
 import subprocess
 from dataclasses import dataclass
 from datetime import date
+from pathlib import Path
 
 from gtd_core.models import EnvConfig, Item, Project
 
@@ -96,12 +97,22 @@ def ai_capture(
     if model:
         cmd.extend(["--model", model])
 
+    # Run under the env's Claude account (see EnvConfig.claude_config_dir) so
+    # e.g. home captures never go through the work account.
+    env = None
+    if cfg.claude_config_dir:
+        env = {
+            **os.environ,
+            "CLAUDE_CONFIG_DIR": str(Path(cfg.claude_config_dir).expanduser()),
+        }
+
     try:
         result = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
             timeout=30,
+            env=env,
         )
     except subprocess.TimeoutExpired as err:
         raise AiCaptureUpstreamError("Claude CLI timed out after 30s") from err

@@ -167,6 +167,16 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
   → `$HOME`. Errors surface as 503 (no `claude` CLI), 502 (osascript
   failed), 404 (item gone).
 
+- **Per-env Claude account**: `config.yml` may set `claude_config_dir`
+  (e.g. `~/.claude-personal`). Every `claude` shell-out for that env — the
+  iTerm agent launch and AI capture — then runs with `CLAUDE_CONFIG_DIR`
+  set to it, so the session uses that account's login/settings/history.
+  This is the same mechanism as the `pclaude` zsh function. `home` points
+  at the personal account; `work` leaves it unset and uses the default
+  `~/.claude`. The desktop-app launch target (`claude://` deep link) can't
+  carry an env var, so it always uses whichever account the desktop app is
+  signed into.
+
 - **Project working dir**: projects carry `working_dir: str | None`. When
   an agent is launched (`🤖 agent`) for an item linked to a project that
   has `working_dir` set, the iTerm session `cd`s into that directory

@@ -123,7 +123,9 @@ class GtdService:
         if target == "desktop":
             launch_desktop_session(prompt=prompt, cwd=cwd)
         else:
-            launch_claude_session(prompt=prompt, cwd=cwd)
+            cfg = repo.load_config()
+            config_dir = Path(cfg.claude_config_dir).expanduser() if cfg.claude_config_dir else None
+            launch_claude_session(prompt=prompt, cwd=cwd, config_dir=config_dir)
 
     # ---- Items ----
 

@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from pathlib import Path
 
 import pytest
 
@@ -1376,7 +1377,7 @@ class TestLaunchAgentSession:
     def test_calls_launcher_with_built_prompt(self, svc, monkeypatch):
         captured: dict = {}
 
-        def fake_launch(*, prompt, cwd=None, auto=True):
+        def fake_launch(*, prompt, cwd=None, auto=True, config_dir=None):
             captured["prompt"] = prompt
             captured["cwd"] = cwd
 
@@ -1397,7 +1398,7 @@ class TestLaunchAgentSession:
     def test_prompt_clears_pin_when_not_previously_working_on(self, svc, monkeypatch):
         captured: dict = {}
 
-        def fake_launch(*, prompt, cwd=None, auto=True):
+        def fake_launch(*, prompt, cwd=None, auto=True, config_dir=None):
             captured["prompt"] = prompt
 
         monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
@@ -1409,7 +1410,7 @@ class TestLaunchAgentSession:
     def test_prompt_restores_prior_pin_when_already_working_on(self, svc, monkeypatch):
         captured: dict = {}
 
-        def fake_launch(*, prompt, cwd=None, auto=True):
+        def fake_launch(*, prompt, cwd=None, auto=True, config_dir=None):
             captured["prompt"] = prompt
 
         monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
@@ -1422,7 +1423,7 @@ class TestLaunchAgentSession:
     def test_passes_agent_cwd_from_init(self, data_root, tmp_path, monkeypatch):
         captured: dict = {}
 
-        def fake_launch(*, prompt, cwd=None, auto=True):
+        def fake_launch(*, prompt, cwd=None, auto=True, config_dir=None):
             captured["cwd"] = cwd
 
         monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
@@ -1434,7 +1435,7 @@ class TestLaunchAgentSession:
     def test_project_working_dir_overrides_agent_cwd(self, data_root, tmp_path, monkeypatch):
         captured: dict = {}
 
-        def fake_launch(*, prompt, cwd=None, auto=True):
+        def fake_launch(*, prompt, cwd=None, auto=True, config_dir=None):
             captured["cwd"] = cwd
 
         monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
@@ -1451,7 +1452,7 @@ class TestLaunchAgentSession:
 
         captured: dict = {}
 
-        def fake_launch(*, prompt, cwd=None, auto=True):
+        def fake_launch(*, prompt, cwd=None, auto=True, config_dir=None):
             captured["cwd"] = cwd
 
         monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
@@ -1466,7 +1467,7 @@ class TestLaunchAgentSession:
     ):
         captured: dict = {}
 
-        def fake_launch(*, prompt, cwd=None, auto=True):
+        def fake_launch(*, prompt, cwd=None, auto=True, config_dir=None):
             captured["cwd"] = cwd
 
         monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
@@ -1562,3 +1563,39 @@ class TestDeleteProjectGuard:
         assert log.exists()
         assert "project" in log.read_text()
         assert project_id in log.read_text()
+
+
+class TestLaunchAgentSessionClaudeConfigDir:
+    """The env's `claude_config_dir` (config.yml) decides which Claude account
+    the launched session runs under. home → personal, work → default."""
+
+    def _launch_capture(self, monkeypatch) -> dict:
+        captured: dict = {}
+
+        def fake_launch(*, prompt, cwd=None, auto=True, config_dir=None):
+            captured["config_dir"] = config_dir
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
+        return captured
+
+    def test_passes_expanded_config_dir_from_env_config(self, data_root, monkeypatch):
+        from gtd_core.service import GtdService
+
+        cfg_path = data_root / "home" / "config.yml"
+        cfg_path.write_text(cfg_path.read_text() + "claude_config_dir: ~/.claude-personal\n")
+        svc = GtdService(data_root)
+        captured = self._launch_capture(monkeypatch)
+
+        item = svc.capture("home", "Fix the shed door")
+        svc.launch_agent_session("home", item.id)
+
+        assert captured["config_dir"] == Path("~/.claude-personal").expanduser()
+        assert "~" not in str(captured["config_dir"])
+
+    def test_passes_none_when_env_has_no_config_dir(self, svc, monkeypatch):
+        captured = self._launch_capture(monkeypatch)
+
+        item = svc.capture("work", "Review PR #42")
+        svc.launch_agent_session("work", item.id)
+
+        assert captured["config_dir"] is None

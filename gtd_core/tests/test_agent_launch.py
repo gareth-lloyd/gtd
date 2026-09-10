@@ -439,3 +439,40 @@ class TestLaunchDesktopSession:
 
         with pytest.raises(AgentLaunchUpstreamError, match="timed out"):
             launch_desktop_session(prompt="hi", cwd=tmp_path)
+
+
+class TestLaunchClaudeSessionConfigDir:
+    """`config_dir` pins the session to a specific Claude Code account by
+    prefixing the command with CLAUDE_CONFIG_DIR — the same mechanism the
+    user's `pclaude` shell function uses for the personal account."""
+
+    def test_prefixes_claude_config_dir_when_given(self, monkeypatch, tmp_path):
+        _mock_which(monkeypatch)
+        cmds = _mock_subprocess(monkeypatch)
+        config_dir = tmp_path / ".claude-personal"
+
+        launch_claude_session(prompt="hi", cwd=tmp_path, config_dir=config_dir)
+
+        as_script = cmds[0][2]
+        expected = f"CLAUDE_CONFIG_DIR={shlex.quote(str(config_dir))} claude --permission-mode auto"
+        assert expected in as_script
+
+    def test_omits_claude_config_dir_by_default(self, monkeypatch, tmp_path):
+        _mock_which(monkeypatch)
+        cmds = _mock_subprocess(monkeypatch)
+
+        launch_claude_session(prompt="hi", cwd=tmp_path)
+
+        as_script = cmds[0][2]
+        assert "CLAUDE_CONFIG_DIR" not in as_script
+        assert "&& claude --permission-mode auto" in as_script
+
+    def test_config_dir_with_spaces_is_shell_quoted(self, monkeypatch, tmp_path):
+        _mock_which(monkeypatch)
+        cmds = _mock_subprocess(monkeypatch)
+        config_dir = tmp_path / "my claude dir"
+
+        launch_claude_session(prompt="hi", cwd=tmp_path, config_dir=config_dir)
+
+        as_script = cmds[0][2]
+        assert f"CLAUDE_CONFIG_DIR={shlex.quote(str(config_dir))}" in as_script

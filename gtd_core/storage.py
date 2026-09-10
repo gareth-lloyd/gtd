@@ -138,6 +138,8 @@ def dump_env_config(path: Path, config: EnvConfig) -> None:
         "areas": config.areas,
         "default_energy": config.default_energy,
     }
+    if config.claude_config_dir is not None:
+        data["claude_config_dir"] = config.claude_config_dir
     payload = yaml.safe_dump(data, sort_keys=False).encode("utf-8")
 
     def write(f: IOBase) -> None:
@@ -154,6 +156,7 @@ def load_env_config(path: Path) -> EnvConfig:
         contexts=list(data.get("contexts") or []),
         areas=list(data.get("areas") or []),
         default_energy=data.get("default_energy", "medium"),
+        claude_config_dir=data.get("claude_config_dir"),
     )
 
 
