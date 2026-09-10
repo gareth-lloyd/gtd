@@ -3,20 +3,20 @@ area: null
 completed_at: null
 contexts:
 - react
-created: &id001 2026-09-09 12:55:30.979046
+created: 2026-09-09 12:55:30.979046
 defer_until: null
 due: null
 energy: medium
 id: 2026-09-09T1255-post-the-five-drafted-sdm-config-linter-ticket-com
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 25
 title: Post the five drafted SDM config-linter ticket comments and settle the SDM-5039
   priority question
-updated: *id001
+updated: 2026-09-10 10:22:44.924055
 waiting_on: null
 waiting_since: null
 working_on: false

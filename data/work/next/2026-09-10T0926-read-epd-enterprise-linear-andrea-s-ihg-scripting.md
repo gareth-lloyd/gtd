@@ -10,7 +10,7 @@ energy: low
 id: 2026-09-10T0926-read-epd-enterprise-linear-andrea-s-ihg-scripting
 order: null
 output: ''
-project: null
+project: 2026-08-31-ihg
 source_id: https://canarytechnologies.slack.com/archives/C047K6WSUJY/p1788982063205919
 tags:
 - morning-gtd
@@ -19,7 +19,7 @@ tags:
 time_minutes: 5
 title: 'Read #epd-enterprise: Linear: Andrea''s IHG Scripting Changes Pilot-to-Scale
   update — on track, initial property batches configured'
-updated: 2026-09-10 09:26:03.163397
+updated: 2026-09-10 11:21:36.916967
 waiting_on: null
 waiting_since: null
 working_on: false

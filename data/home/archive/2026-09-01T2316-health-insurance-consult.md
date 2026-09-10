@@ -1,23 +1,21 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 11:27:53.195481
 contexts: []
-created: &id001 2026-09-09 20:55:59.651967
+created: 2026-09-01 23:16:26.627913
 defer_until: null
 due: null
 energy: low
-id: 2026-09-09T2055-insp
+id: 2026-09-01T2316-health-insurance-consult
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: insp
-updated: *id001
+title: health insurance consult
+updated: 2026-09-10 11:27:53.195444
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-https://www.youtube.com/watch?v=pR5RdfL_Zz4

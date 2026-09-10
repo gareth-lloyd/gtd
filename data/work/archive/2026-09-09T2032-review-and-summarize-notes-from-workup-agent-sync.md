@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 11:19:54.735566
 contexts: []
 created: 2026-09-09 20:32:21.164388
 defer_until: null
@@ -49,7 +49,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review and summarize notes from workup agent sync
-updated: 2026-09-09 20:50:35.781825
+updated: 2026-09-10 11:19:54.735561
 waiting_on: null
 waiting_since: null
 working_on: true

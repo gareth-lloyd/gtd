@@ -15,3 +15,4 @@ areas:
   - family
   - hobbies
 default_energy: medium
+claude_config_dir: ~/.claude-personal

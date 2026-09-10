@@ -1,10 +1,10 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 13:04:43.810813
 contexts:
 - react
 created: 2026-09-10 09:12:49.071453
-defer_until: null
+defer_until: 2026-09-10 12:20:00
 due: null
 energy: low
 id: 2026-09-10T0912-follow-up-with-sage-re-james-lovatt-referral-bonus
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 5
 title: 'Follow up with Sage re: James Lovatt referral bonus'
-updated: 2026-09-10 09:12:49.144842
+updated: 2026-09-10 13:04:43.810808
 waiting_on: null
 waiting_since: null
 working_on: false

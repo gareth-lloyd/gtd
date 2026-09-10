@@ -10,7 +10,7 @@ energy: low
 id: 2026-09-10T0926-read-epd-emea-engineers-sebastian-retention-schedu
 order: null
 output: ''
-project: null
+project: 2026-07-20-gdpr
 source_id: https://canarytechnologies.slack.com/archives/C0AB9E7AE59/p1788968522010779
 tags:
 - morning-gtd
@@ -19,7 +19,7 @@ tags:
 time_minutes: 5
 title: 'Read #epd-emea-engineers: Sebastian: retention schedules spreadsheet complete
   (for Marta)'
-updated: 2026-09-10 09:26:03.238420
+updated: 2026-09-10 11:21:29.767932
 waiting_on: null
 waiting_since: null
 working_on: false

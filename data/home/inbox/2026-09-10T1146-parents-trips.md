@@ -2,22 +2,20 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-09 12:02:13.063266
+created: &id001 2026-09-10 11:46:20.404979
 defer_until: null
 due: null
 energy: low
-id: 2026-09-09T1202-digest
+id: 2026-09-10T1146-parents-trips
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: digest
+title: parents trips
 updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-https://canarytechnologies.slack.com/archives/C083M6Q65PX/p1788889696469869

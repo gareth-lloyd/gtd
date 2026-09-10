@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 11:19:59.754447
 contexts:
 - react
 created: 2026-09-10 09:12:48.995005
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Confirm with Andrea: Wyndhams still on v2, and Rootly on-call schedules adjusted'
-updated: 2026-09-10 09:12:49.070769
+updated: 2026-09-10 11:19:59.754439
 waiting_on: null
 waiting_since: null
 working_on: false
