@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 09:04:15.305964
 contexts: []
 created: 2026-09-01 22:11:59.019296
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: quote bookign flow review
-updated: 2026-09-01 22:12:12.236382
+updated: 2026-09-10 09:04:15.305949
 waiting_on: null
 waiting_since: null
 working_on: false

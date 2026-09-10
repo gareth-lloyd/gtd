@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-07-28 13:37:25.827321
 defer_until: null
-due: 2026-07-29
+due: null
 energy: low
 id: 2026-07-28T1337-buy-roof-bar-straps
 order: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: buy roof bar straps
-updated: 2026-08-11 10:02:56.922280
+updated: 2026-09-10 09:04:21.779583
 waiting_on: null
 waiting_since: null
 working_on: false

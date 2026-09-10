@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 09:04:09.392714
 contexts: []
 created: 2026-08-31 07:56:53.500801
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Work through the villa looms, and review zoho flow configs.
-updated: 2026-08-31 10:44:05.116058
+updated: 2026-09-10 09:04:09.392699
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
