@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 09:36:10.114340
 contexts: []
-created: &id001 2026-09-09 10:54:52.634660
+created: 2026-09-09 10:54:52.634660
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Set up private claude
-updated: *id001
+updated: 2026-09-10 09:36:10.114279
 waiting_on: null
 waiting_since: null
 working_on: false

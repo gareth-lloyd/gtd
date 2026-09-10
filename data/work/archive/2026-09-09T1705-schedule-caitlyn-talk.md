@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 09:32:05.145284
 contexts: []
-created: &id001 2026-09-09 17:05:51.377703
+created: 2026-09-09 17:05:51.377703
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: schedule caitlyn talk
-updated: *id001
+updated: 2026-09-10 09:32:05.145265
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 09:26:03.726593
 contexts: []
 created: 2026-09-03 15:46:07.657693
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: schedule time with Diana P after jason F
-updated: 2026-09-09 10:12:06.670026
+updated: 2026-09-10 09:26:03.726567
 waiting_on: null
 waiting_since: null
 working_on: false
