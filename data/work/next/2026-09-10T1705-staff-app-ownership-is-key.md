@@ -13,8 +13,8 @@ project: 2026-09-08-mobile
 source_id: null
 tags: []
 time_minutes: 5
-title: staff app ownership is key
-updated: 2026-09-10 17:05:25.471431
+title: Resolve the staff app ownership question with James today
+updated: 2026-09-11 11:19:14.362788
 waiting_on: null
 waiting_since: null
 working_on: false

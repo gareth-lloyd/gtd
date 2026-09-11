@@ -10,14 +10,14 @@ energy: medium
 id: 2026-09-11T0956-re-review-pr-55813-id-91-staff-app-sso-login-ident
 order: null
 output: ''
-project: null
+project: 2026-09-01-bw-global-sso
 source_id: https://github.com/canary-technologies-corp/canary/pull/55813
 tags:
 - morning-gtd
 - github
 time_minutes: 20
 title: 'Re-review PR #55813: [ID-91] Staff app SSO login identifier lookup'
-updated: 2026-09-11 09:56:46.919767
+updated: 2026-09-11 11:17:02.521631
 waiting_on: null
 waiting_since: null
 working_on: false

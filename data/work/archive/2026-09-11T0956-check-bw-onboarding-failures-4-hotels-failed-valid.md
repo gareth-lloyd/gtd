@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-11 11:16:51.803897
 contexts:
 - react
 created: 2026-09-11 09:56:47.065285
@@ -17,7 +17,7 @@ tags:
 - gmail
 time_minutes: 15
 title: 'Check BW onboarding failures: 4 hotels failed validate_pms_configuration'
-updated: 2026-09-11 09:56:47.137615
+updated: 2026-09-11 11:16:51.803888
 waiting_on: null
 waiting_since: null
 working_on: false

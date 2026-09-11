@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-11 11:18:07.681363
 contexts:
 - react
 created: 2026-09-11 09:56:47.282484
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 5
 title: Tell Martijn he should write Marta's performance review
-updated: 2026-09-11 09:56:47.352923
+updated: 2026-09-11 11:18:07.681356
 waiting_on: null
 waiting_since: null
 working_on: false

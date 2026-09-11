@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-11 11:17:54.491646
 contexts:
 - react
 created: 2026-09-11 09:56:47.426895
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Ramiro re: SAG approver vs notification routing'
-updated: 2026-09-11 09:56:47.500939
+updated: 2026-09-11 11:17:54.491638
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-11 11:17:05.665710
 contexts:
 - react
 created: 2026-09-11 09:56:47.138408
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Peter Gao re: can''t nominate 2 peer reviewers in Lettuce'
-updated: 2026-09-11 09:56:47.211059
+updated: 2026-09-11 11:17:05.665705
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -10,14 +10,14 @@ energy: medium
 id: 2026-09-11T0956-reply-to-renan-in-eng-identity-re-review-done-revi
 order: null
 output: ''
-project: null
+project: 2026-09-01-bw-global-sso
 source_id: https://canarytechnologies.slack.com/archives/C0BET8YEKB4/p1789070062839719?thread_ts=1788961905.165999&cid=C0BET8YEKB4
 tags:
 - morning-gtd
 - slack
 time_minutes: 15
 title: 'Reply to Renan in #eng-identity: re-review done + review index PR #56061'
-updated: 2026-09-11 09:56:46.991972
+updated: 2026-09-11 11:18:00.786406
 waiting_on: null
 waiting_since: null
 working_on: false

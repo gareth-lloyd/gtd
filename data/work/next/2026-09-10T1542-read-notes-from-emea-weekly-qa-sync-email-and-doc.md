@@ -37,12 +37,12 @@ output: |-
   - HotelKey messaging feature flag being undocumented is a concrete doc gap; could become a small docs ticket.
 
   Also noticed: the Sep 3 "EMEA - Weekly QA Sync" notes email is still UNREAD (thread 1a0673cc8f15eeeb; doc https://docs.google.com/document/d/1tFUFCTyYQ8Y_mN5cMSOyU7QtkRL1QMHzFKX8HIGb4Mw/edit). It covered GDPR retention schedules (30-day fallback), ID visibility audit, and pilot status ("Dubious" per Gemini, Kempinski, HOST cert). Not reviewed in depth here.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: read Notes from “EMEA - Weekly QA Sync” email and doc
-updated: 2026-09-10 17:11:34.171929
+updated: 2026-09-11 11:18:49.660964
 waiting_on: null
 waiting_since: null
 working_on: false

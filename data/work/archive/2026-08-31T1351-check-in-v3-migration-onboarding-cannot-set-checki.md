@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-11 11:18:53.585891
 contexts:
 - deep
 created: 2026-08-31 13:51:49.869556
@@ -16,7 +16,7 @@ tags: []
 time_minutes: 30
 title: 'Check-in V3 migration: onboarding cannot set checkin_version=v3 + 5 related
   gaps'
-updated: 2026-09-10 10:20:37.619335
+updated: 2026-09-11 11:18:53.585883
 waiting_on: null
 waiting_since: null
 working_on: false
