@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 15:37:44.315963
 contexts: []
 created: 2026-08-31 22:17:52.803054
 defer_until: null
@@ -163,7 +163,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: I Need to understand purpose and scope of Canary staff mobile app
-updated: 2026-09-08 13:26:47.341618
+updated: 2026-09-10 15:37:44.315958
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 15:00:25.539736
 contexts:
 - react
 created: 2026-09-10 09:12:48.847285
@@ -47,7 +47,7 @@ tags:
 time_minutes: 30
 title: 'Review PR #55083: Dissolve IHG Core Plus plan subclasses into config-driven
   tipping plans'
-updated: 2026-09-10 11:25:41.456399
+updated: 2026-09-10 15:00:25.539730
 waiting_on: null
 waiting_since: null
 working_on: false

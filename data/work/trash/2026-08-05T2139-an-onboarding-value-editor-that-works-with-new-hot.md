@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: PRD for an onboarding value editor
-updated: 2026-08-13 15:21:57.280966
+updated: 2026-09-10 15:40:00.203883
 waiting_on: null
 waiting_since: null
 working_on: false

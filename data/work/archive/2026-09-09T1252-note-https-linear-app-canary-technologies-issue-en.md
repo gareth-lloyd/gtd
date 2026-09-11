@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 14:57:26.097136
 contexts: []
 created: 2026-09-09 12:52:59.521462
 defer_until: null
@@ -70,13 +70,22 @@ output: |
   - Snowflake CANARY_RAW.CANARY: HOTELS_HOTEL, CHECK_IN_CONFIGURATION, INTERNAL_SALESFORCEHOTELMETADATA (StoredHotelAttributes is not mirrored, so drift itself had to come from logs).
   - Related: ENT-7115 (https://linear.app/canary-technologies/issue/ENT-7115), ENT-7042 done (https://linear.app/canary-technologies/issue/ENT-7042), SDM-5045 (https://linear.app/canary-technologies/issue/SDM-5045).
   - No external writes made. No Salesforce access used.
+
+  ## Agent run 2026-09-10 (follow-up: evidence that the auto-post rule is not a live problem)
+
+  1. Engine output, 7 consecutive daily runs (c-detect-config-drift, 2026-09-04 .. 2026-09-10, 07:46 UTC each; earlier runs are past Groundcover retention). `detect_drift.non_conforming` rows whose setting_key contains `auto_post`: 7 rows, 1 hotel, all on `..._auto_post_to_pms_udf` (Georgian Bay Hotel, Trademark Collection by Wyndham, id 5285). Exact-key query for the parent `hotel.check_in_configuration.integration_auto_post_to_pms` over the same 7 days: 0 rows. The other 7 sub-flags (marketing_consent, phone, notes, passport_number, date_of_birth, nationality, push_registration_card_email_to_pms): 0 rows.
+  2. Raw config, all 6229 active Wyndham hotels on the wyndhamconnect domain (Snowflake CANARY_RAW): auto-post is OFF on 0 of 1407 Opera Cloud hotels, 7 of 4742 Synxis hotels, and 58 hotels whose `hotel.pms` is NULL or NONE (i.e. no PMS integration at all). Every one of those 65 has Salesforce onboarding_status NULL or in an onboarding state (New / Waiting for Form / Scheduling Property Training), so they are not in the live cohort the engine checks (4904 hotels) — consistent with the engine flagging 0.
+  3. No Desbravador exists in the Wyndham estate: distinct `hotel.pms` values are SYNXIS_SABRE, OPERA_CLOUD, NULL, NONE, HOTELKEY (1), OPERA (1). The ticket's "Desbravador, etc." example cannot come from the Wyndham GMS drift run; it is the only MSA in `MSA_HOTEL_PROVIDERS` (drift.py), so it is the only cohort the engine evaluates.
+  4. Timeline: drift service shipped 2026-07-14 (PR #50112), dependency roll-up ENT-7042 done 2026-08-06, daily cron 2026-07-30 (PR #50560). ENT-7113 was filed 2026-08-06 — the same day ENT-7042 closed — so the auto-post example most plausibly describes the pre-roll-up view (parent off => 9 rows) on a hotel that has since been fixed or left the cohort, or a raw-settings scan rather than engine output.
+
+  Caveat: Groundcover retention only lets me see 7 runs; I cannot prove the parent flag never fired between 2026-07-30 and 2026-09-03.
 project: null
 source_id: null
 tags: []
 time_minutes: 5
 title: note https://linear.app/canary-technologies/issue/ENT-7113/scope-us-centric-final-rules-by-regioncapability
   for investigation and action
-updated: 2026-09-10 10:31:14.559503
+updated: 2026-09-10 14:57:26.097129
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 15:39:51.549817
 contexts: []
 created: 2026-08-06 12:57:44.502288
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Improve rules-based documentation
-updated: 2026-08-13 16:21:30.470748
+updated: 2026-09-10 15:39:51.549813
 waiting_on: null
 waiting_since: null
 working_on: false

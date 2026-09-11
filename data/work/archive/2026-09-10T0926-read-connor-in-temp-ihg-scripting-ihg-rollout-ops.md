@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 15:03:58.840516
 contexts:
 - consume
 created: 2026-09-10 09:26:03.239308
@@ -61,7 +61,7 @@ tags:
 time_minutes: 10
 title: 'Read Connor in #temp-ihg-scripting: IHG rollout ops — Country Status Notion
   page with a 6-stage readiness process and owners'
-updated: 2026-09-10 11:23:00
+updated: 2026-09-10 15:03:58.840502
 waiting_on: null
 waiting_since: null
 working_on: false

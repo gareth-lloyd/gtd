@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - deep
 created: 2026-08-31 13:51:49.869556
-defer_until: 2026-09-11 09:00:00
+defer_until: null
 due: null
 energy: high
 id: 2026-08-31T1351-check-in-v3-migration-onboarding-cannot-set-checki

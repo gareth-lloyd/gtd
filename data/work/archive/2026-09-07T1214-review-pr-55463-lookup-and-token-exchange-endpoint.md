@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 15:30:50.682680
 contexts:
 - react
 created: 2026-09-07 12:14:52.462852
@@ -17,10 +17,10 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #55463: Lookup and token exchange endpoints'
-updated: 2026-09-09 13:53:44.219919
+updated: 2026-09-10 15:30:50.682673
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Renan's OAuth staff-exchange lookup/token endpoints (Staff App SSO work). Personally requested from you, Andrea, Arihant. Already approved by Lauta. https://github.com/canary-technologies-corp/canary/pull/55463

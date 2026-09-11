@@ -16,7 +16,7 @@ tags: []
 time_minutes: 25
 title: Post the five drafted SDM config-linter ticket comments and settle the SDM-5039
   priority question
-updated: 2026-09-10 10:22:44.924055
+updated: 2026-09-10 15:37:59.283913
 waiting_on: null
 waiting_since: null
 working_on: false

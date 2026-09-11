@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 15:15:59.240622
 contexts: []
 created: 2026-09-08 16:02:55.303065
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Merge IHG salesforce
-updated: 2026-09-09 12:13:11.606523
+updated: 2026-09-10 15:15:59.240611
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

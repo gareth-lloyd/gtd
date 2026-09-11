@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 15:04:14.246961
 contexts:
 - consume
 created: 2026-09-10 09:26:03.089885
@@ -19,7 +19,7 @@ tags:
 time_minutes: 5
 title: 'Read #epd-enterprise: Linear: Andrea''s IHG Scripting Changes Pilot-to-Scale
   update — on track, initial property batches configured'
-updated: 2026-09-10 11:21:36.916967
+updated: 2026-09-10 15:04:14.246953
 waiting_on: null
 waiting_since: null
 working_on: false

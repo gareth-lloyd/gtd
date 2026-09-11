@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-10 15:37:40.867686
 contexts:
 - react
 created: 2026-08-10 11:40:43.245843
@@ -149,7 +149,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Stephanie Barry re: AI Voice configuration research doc'
-updated: 2026-08-31 12:49:03.042738
+updated: 2026-09-10 15:37:40.867678
 waiting_on: null
 waiting_since: null
 working_on: false
