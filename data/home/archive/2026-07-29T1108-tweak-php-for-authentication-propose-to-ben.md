@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-11 13:56:40.343040
 contexts: []
 created: 2026-07-29 11:08:01.807935
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Tweak php for authentication, propose to Ben
-updated: 2026-08-13 14:58:47.818829
+updated: 2026-09-11 13:56:40.342996
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

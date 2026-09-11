@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts:
 - craft
 - deep
@@ -89,13 +90,13 @@ output: |
     worth its own capture. Relates to the same FINAL/FREE enforcement theme.
 
   No external writes made (no Notion/Linear/Slack). Handed the analysis back to Gareth in-session.
-project: 2026-04-16T1348-ideas
+project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 5
 title: 'good idea: hotel admin that detects is enterprise hotel and makes many fields
   read only (if they match right value)'
-updated: 2026-07-28 15:14:30.546019
+updated: 2026-09-11 13:40:41.919287
 waiting_on: null
 waiting_since: null
 working_on: false

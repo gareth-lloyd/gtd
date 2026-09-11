@@ -1,75 +1,138 @@
 ---
 area: null
 completed_at: null
-contexts: []
+contexts:
+- deep
 created: 2026-09-03 22:22:33.141966
 defer_until: null
 due: 2026-09-08
-energy: low
+energy: medium
 id: 2026-09-03T2222-laura-will-share-latest-workup-redesign-doc-for-re
 order: null
-output: "## Agent run 2026-09-04T12:32:04Z\n\nRead the doc: \"\U0001F4D6 Unified investigate
-  plugin design (readable version)\"\n(https://app.notion.com/p/canarytechnologies/Unified-investigate-plugin-design-readable-version-3bf81468615181e58428e5a18d91433c?source=copy_link)\nStatus:
-  **APPROVED**, Product: Workup, Owner: doc's Created-by user, Team: Internal Tools.\nThis
-  is the readable companion to the denser normative doc: https://app.notion.com/p/3bf814686151816391a4d784f859afcd\n(a
-  contradiction between the two is treated as a bug in the readable one).\n\n### TL;DR\nRedesigns
-  the `investigate` Claude Code plugin (canary/agent-plugins/claude-plugins/investigate/,\nv1.2.0
-  on trunk) that Workup (the production ticket-triage agent) runs on every handoff.
-  Three\nchanges: (1) every run now ends with a scored, structured \"next step\" declaration
-  instead of free\ntext: bucket + specific object + evidence citations; (2) a 9-stage
-  pipeline classifies the ticket\nand resolves the hotel's setup *before* gathering
-  evidence, so it only runs checks/gatherers the\nsymptom implicates, and stops as
-  soon as it has an `observed`-confidence answer (the \"short-circuit\"\nrule); (3)
-  a new runner-side \"gate\" scores each declaration (high/medium/low) before Workup
-  posts\nit to Linear, so a weak diagnosis can't post as a confident one — low score
-  = nothing beyond intake\nresolution, goes to an internal digest instead.\n\nConverges
-  three prior efforts: the current plugin, \"bowerbird\" (comms-core's triage tool
-  — evidence\nrules/budgets/checks/learn loop), and a separate targeted-iterative-investigation
-  design\n(classification/hotel-setup-resolution/selection/loop) at https://app.notion.com/p/3bb81468615181558b0cdb554d216a7d\n\n###
-  Status / rollout\n- Phase 1 (next-step declarations, telemetry, Next Step labeling)
-  is merged and live since\n  2026-08-24. Plugin side: TOOL-551 (https://linear.app/canary-technologies/issue/TOOL-551),\n
-  \ merged 2026-08-20. Overlord label posting: TOOL-552\n  (https://linear.app/canary-technologies/issue/TOOL-552),
-  merged 2026-08-24.\n- Phase 2 (extract core/ and bindings/, domains/ skeletons)
-  in progress: TOOL-568\n  (https://linear.app/canary-technologies/issue/TOOL-568,
-  at PR) and TOOL-569\n  (https://linear.app/canary-technologies/issue/TOOL-569).\n-
-  Phases 3a/3b/4/5/6 are scoped but not started; sequenced in dependency order in
-  the doc's\n  \"Order of work\" table.\n- Two out-of-phase-table tickets: TOOL-583
-  (https://linear.app/canary-technologies/issue/TOOL-583,\n  persist full tool-call
-  output for the replay corpus) and TOOL-584\n  (https://linear.app/canary-technologies/issue/TOOL-584,
-  port bowerbird's demo-mode/messaging\n  checks, hand-wired until select.py exists).\n-
-  Gate is still shadow-only pending judge calibration; not enforcing yet.\n\n### Open
-  questions flagged in the doc itself (worth your input if you have a view)\n- Loop
-  tuning: confidence threshold, default iteration cap, suspect ranking per area —
-  \"start\n  conservative, let telemetry inform.\"\n- Capability-driven configuration:
-  whether merged value or stored column is authoritative\n  (blocks phase 4).\n- Problem-area
-  vocabulary: seeded from worked examples + bowerbird categories, expected to grow\n
-  \ via team PRs.\n- Debate budgets: ~10 tool calls/agent starting point.\n- Gate
-  thresholds: global vs. per-team, and shadow duration before enforcement.\n- Recording/evidence
-  handling: storage, retention, size caps, redaction before leaving the sandbox.\n-
-  What the learn loop may read: comments carry useful signal but also eval-contaminating\n
-  \ ticket-resolution info — needs separate learning-input vs. eval-input rules.\n\n###
-  Things that stood out (not blockers, just notable)\n- Ownership model is clean:
-  Internal Tools owns core/bindings/scripts/orchestrator; each team\n  owns its own
-  domain/gatherers/checks/resolvers and \"never edits another pod's files\" — Workup\n
-  \ reads core/taxonomies and core/schemas directly so buckets/causes change in one
-  place for both\n  runners.\n- \"Fault outside Canary\" is explicitly a result, not
-  a failure (bucket 5) — nice guard against the\n  tool inventing internal causes
-  for vendor-side problems.\n- Explicitly NOT doing: migrating bowerbird onto the
-  framework yet, building the judge/eval\n  framework (separate specs), a second runner,
-  interactive degraded-tool negotiation, or renaming\n  the plugin to \"workup\".\n-
-  \"Config change\" next-step buckets are graded later against actual Linear resolution
-  by a judge,\n  with `indeterminate` as an allowed verdict since most config changes
-  leave no trace in Linear.\n\nNo blocking concerns found on a read-through; nothing
-  here required a Salesforce or external\nwrite. Recommend deciding whether you want
-  to comment inline on the doc (would need explicit\napproval per session rules) or
-  just reply to Laura with a thumbs-up / questions from the \"Open\nquestions\" list
-  above.\n"
+output: "## Review: Unified investigate plugin design (rewritten 2026-09-11)\n\nDoc\
+  \ (readable version): https://app.notion.com/p/canarytechnologies/Unified-investigate-plugin-design-readable-version-3bf81468615181e58428e5a18d91433c\n\
+  Normative main doc: https://app.notion.com/p/3bf814686151816391a4d784f859afcd\n\
+  Judge spec: https://app.notion.com/p/3c28146861518170a05fdbcf46a6f7d2\nOwner: Laura\
+  \ DeWald. Status: APPROVED. Linear project: \"AI Workup: Accuracy\" (Internal Tools).\n\
+  \n### Verdict\nThe design is smart, but it isn't proven yet. It's well above typical\
+  \ agent designs because it's\nbuilt to be measured and corrected rather than trusted.\
+  \ Whether it works in practice depends on\nnumbers that don't exist yet, and on\
+  \ checks and worked examples that teams haven't written yet.\n\n### What the system\
+  \ is\n`investigate` is a Claude Code plugin (canary/agent-plugins/claude-plugins/investigate/)\
+  \ that\ndiagnoses Linear tickets. Workup (the production triage agent, in the agents\
+  \ repo under overlord)\nruns it on every handoff. The plugin decides what's true\
+  \ and what to recommend. The runner decides\nwhat the ticket sees.\n\nPipeline,\
+  \ 9 stages: subject \u2192 classify \u2192 resolve \u2192 checks \u2192 branch \u2192\
+  \ (loop \u2192 debate) \u2192 report \u2192 telemetry.\n- Classify: a cheap model\
+  \ names the problem area (a symptom, never a cause), reading every team's\n  worked\
+  \ examples so the investigation isn't limited by which team's board the ticket landed\
+  \ on.\n- Resolve: works out the hotel's setup (its integrations and config flags)\
+  \ into resolved-context.json.\n- Checks: select.py (plain code, no model) picks\
+  \ cheap checks that match; they run in parallel.\n- Branch: an unopposed `observed`\
+  \ claim that held at the time of the problem and explains this\n  ticket's symptom\
+  \ ends the run early (short-circuit). Missing context sends a push-back to the\n\
+  \  reporter. Anything else starts the loop.\n- Loop: works through suspects one\
+  \ at a time, running only that suspect's gatherers. The debate\n  (adversarial agents)\
+  \ runs only if the loop ends unresolved.\n- Output: hypothesis.json holds the next\
+  \ step (one of 8 buckets, the exact object to act on, the\n  owner, a completion\
+  \ condition, and what would change its mind). run-summary.json lists what was\n\
+  \  left unchecked. tool-traffic.jsonl records every tool call for hermetic replay.\n\
+  - Claims: every finding carries a confidence (observed/high/medium/low), an as-of\
+  \ time\n  (read_time/event_time), a file citation, a hash and an excerpt.\n- Gate\
+  \ (runner-side, before posting): scores the declaration. High posts the full diagnosis\
+  \ plus\n  the label. Medium posts what was checked and what wasn't, with no root\
+  \ cause asserted. Low posts\n  intake facts only and sends the draft to an internal\
+  \ digest.\n- Judge (after resolution): grades the declaration against how the ticket\
+  \ actually resolved;\n  \"indeterminate\" is an allowed verdict. The learn loop\
+  \ and fleet miner turn misses into proposed\n  new checks.\n- Ownership: Internal\
+  \ Tools owns core/, bindings/, scripts/ and the orchestrator. Teams own their\n\
+  \  own checks, gatherers, resolvers and worked examples.\n\n### What's smart about\
+  \ it\n1. **The output can be graded.** This is the key decision. A structured, cited\
+  \ next step can be\n   measured, where prose can't.\n2. **It encodes real debugging\
+  \ lessons.** It separates what's true now from what was true at the\n   time (someone\
+  \ flips demo mode off mid-incident). A cause can only be ruled out by evidence\n\
+  \   covering the ticket's full window, finding nothing isn't proof of absence, and\
+  \ a\n   misconfiguration that exists isn't proof it caused this ticket.\n3. **Code\
+  \ and model have clear jobs.** select.py picks what runs deterministically; the\
+  \ model is\n   used only for judgment. Cheap checks run first and the expensive\
+  \ debate runs last.\n4. **The gate never reads the investigator's reasoning.** It\
+  \ sees only the evidence and the\n   declaration, so the investigator's own argument\
+  \ can't talk it into a high score.\n5. **Replays can't cheat.** The time filter\
+  \ refuses data newer than the ticket, so evals can't see\n   the resolution. Many\
+  \ teams get this wrong and inflate their accuracy numbers.\n6. **A fault outside\
+  \ Canary counts as a result.** That guards against inventing internal causes\n \
+  \  for vendor-side problems.\n\n### Where I'm skeptical\n1. **The framework is ahead\
+  \ of its content.** Value depends on checks and worked examples that\n   teams are\
+  \ meant to write, and most don't exist yet. The doc admits the fast path is\n  \
+  \ theoretical: TOOL-608 (messaging config-against-capability) is in Backlog, and\
+  \ the PMS instance\n   is unscheduled. That's the classic platform trap.\n2. **The\
+  \ confidence levels are the model grading itself.** The hash-and-excerpt check proves\
+  \ the\n   cited file contains the quoted text, not that the text supports the claim.\
+  \ Catching a wrong\n   `observed` claim is the gate's job, and the gate isn't built\
+  \ yet.\n3. **The ground truth is weak.** Linear resolutions are sparse and most\
+  \ config changes leave no\n   trace. If most judge verdicts come back \"indeterminate\"\
+  , the feedback loop that justifies the\n   whole thing is thin.\n4. **The safety\
+  \ step is shipping after the thing it guards.** Next Step labels have posted\n \
+  \  unscored since 2026-08-24, and the gate in shadow (TOOL-654) is still Todo. It\
+  \ should probably\n   land before the 2.0.0 cut (TOOL-652).\n5. **Privacy.** TOOL-583\
+  \ persists full tool outputs (64KB cap each) indefinitely, while redaction\n   and\
+  \ retention are still listed as open questions. Outputs carry guest PII that the\n\
+  \   already-stored inputs mostly didn't, so this widens what's exposed.\n6. **Pace\
+  \ and concentration.** Phases 2 through 4 landed in about two weeks, nearly all\
+  \ by one\n   person. That's great execution, but review is probably shallow, the\
+  \ bus factor is one, and the\n   \"teams own their checks\" model hasn't been tested.\n\
+  \n### Numbers that would settle whether it works\n- Short-circuit rate on real tickets:\
+  \ how often a run ends early on a direct observation.\n- Gate-vs-judge agreement:\
+  \ whether the pre-post score predicts the later grade.\n- Judge \"indeterminate\"\
+  \ rate: what share of verdicts can't be decided.\n- Number of team-authored checks:\
+  \ ones Internal Tools didn't write.\nIf these look good in a couple of months, it's\
+  \ a genuinely good system. If they don't, it's\nwell-built machinery with little\
+  \ running through it.\n\n### Doc accuracy: the status sections are stale\nThe header\
+  \ still says \"v1.2.0 on trunk\" and the Order-of-work table says phase 2 is in\
+  \ progress\nand phases 3a through 6 haven't started. Actual state as of 2026-09-11:\n\
+  - **Version:** the plugin on master is v1.9.0. core/, bindings/ and scripts/select.py\
+  \ all exist.\n- **Phase 2:** done. TOOL-568 (https://linear.app/canary-technologies/issue/TOOL-568)\
+  \ and TOOL-569\n  (https://linear.app/canary-technologies/issue/TOOL-569) merged\
+  \ 2026-08-28.\n- **Phase 3a:** done. TOOL-591 (claim schema) and TOOL-594 (gatherers\
+  \ emit claims), 2026-08-31.\n- **Phase 3b:** done. TOOL-592 (resolve hotel setup),\
+  \ TOOL-593 (tool traffic) and TOOL-595\n  (select.py), 2026-08-31.\n- **Out-of-table\
+  \ items:** done. TOOL-583 (https://linear.app/canary-technologies/issue/TOOL-583,\n\
+  \  agents PR https://github.com/canary-technologies-corp/agents/pull/164) and TOOL-584\n\
+  \  (https://linear.app/canary-technologies/issue/TOOL-584, canary PR\n  https://github.com/canary-technologies-corp/canary/pull/54769).\n\
+  - **Phase 4:** about half done.\n  - Done: TOOL-602 (scaffolders), TOOL-603 (checks\
+  \ through select.py), TOOL-604 (shadow\n    classification), TOOL-605 (push-back\
+  \ fixes), TOOL-606 (branch stage), TOOL-648 (config\n    authority, https://linear.app/canary-technologies/issue/TOOL-648)\
+  \ and TOOL-653 (persist cited\n    evidence at post time).\n  - Open: TOOL-649 (first\
+  \ config resolver), TOOL-650 (check-common-log-trace), TOOL-651 (CI lint\n    gap),\
+  \ TOOL-652 (2.0.0 cut), TOOL-654 (gate in shadow), TOOL-607 (selection goes live)\
+  \ and\n    TOOL-608 (messaging config check).\n- **Phase 6:** TOOL-599 (remove -devin\
+  \ variants) already shipped early, 2026-09-03.\n\nThe config-authority open question\
+  \ is now resolved in the doc (TOOL-648). PMS uses the stored\ncolumn. For messaging,\
+  \ the send-time snapshot is the event_time authority and the stored spec the\nread_time\
+  \ authority, and a disagreement between them is reported.\n\n### Notion comment\
+  \ threads\n8 open, 5 resolved. The Ian Clark and Blake Vanlandingham threads on\
+  \ classification, short-circuit\nand the learn loop were answered and the doc updated.\
+  \ Arihant Daga's \"how does the judge know\nbetter\" was answered by Laura. Blake's\
+  \ \"Claude estimates or our estimates?\" is stale: it's anchored\nto an \"Est.\"\
+  \ column that no longer exists, so it could be resolved.\n\n### Draft reply to Laura\
+  \ (NOT sent)\n\"Read the latest readable version. The design is strong, especially\
+  \ that the output is gradable,\nthe read_time/event_time split, and the gate never\
+  \ seeing the transcript. The TOOL-648 ruling is\nclean. A few things: (1) the header\
+  \ (v1.2.0) and Order-of-work Status column are about two phases\nbehind; master\
+  \ is at 1.9.0 with 2/3a/3b done and 4 half done. (2) Labels have been posting\n\
+  ungated since 08-24; should TOOL-654 land before the 2.0.0 cut? (3) TOOL-583 persists\
+  \ full tool\noutputs indefinitely while redaction is still an open question. Outputs\
+  \ carry guest data, so is a\nredaction pass or retention cap worth pulling forward?\
+  \ (4) Has any production run short-circuited\nyet, and what are you seeing for the\
+  \ judge's indeterminate rate? That's the number I'd watch to\nknow whether the feedback\
+  \ loop has enough signal.\"\n\nNo external writes were made (no Notion, Slack or\
+  \ Linear), and nothing touched Salesforce.\n"
 project: 2026-09-08-workup
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 15
 title: laura will share latest Workup redesign doc for review
-updated: 2026-09-08 13:26:56.736814
+updated: 2026-09-11 15:30:34.925376
 waiting_on: null
 waiting_since: null
 working_on: false

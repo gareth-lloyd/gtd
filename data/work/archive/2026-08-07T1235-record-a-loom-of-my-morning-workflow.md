@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-11 13:40:44.053592
 contexts: []
 created: 2026-08-07 12:35:54.493703
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Record a loom of my morning workflow
-updated: 2026-08-10 15:16:30.441277
+updated: 2026-09-11 13:40:44.053586
 waiting_on: null
 waiting_since: null
 working_on: false

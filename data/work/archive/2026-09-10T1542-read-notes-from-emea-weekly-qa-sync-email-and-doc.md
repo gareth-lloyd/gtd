@@ -1,11 +1,12 @@
 ---
-area: null
-completed_at: null
-contexts: []
+area: management
+completed_at: 2026-09-11 14:26:51.932936
+contexts:
+- react
 created: 2026-09-10 15:42:15.191340
 defer_until: null
 due: null
-energy: low
+energy: high
 id: 2026-09-10T1542-read-notes-from-emea-weekly-qa-sync-email-and-doc
 order: null
 output: |-
@@ -42,7 +43,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: read Notes from “EMEA - Weekly QA Sync” email and doc
-updated: 2026-09-11 11:18:49.660964
+updated: 2026-09-11 14:26:51.932925
 waiting_on: null
 waiting_since: null
 working_on: false

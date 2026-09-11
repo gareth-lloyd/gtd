@@ -1,7 +1,8 @@
 ---
 area: null
-completed_at: null
-contexts: []
+completed_at: 2026-09-11 14:39:13.975038
+contexts:
+- consume
 created: 2026-09-03 18:32:41.265484
 defer_until: null
 due: null
@@ -70,9 +71,9 @@ output: |
 project: 2026-09-08-mobile
 source_id: null
 tags: []
-time_minutes: 5
+time_minutes: 30
 title: Review this notion about ticketing app
-updated: 2026-09-08 13:26:51.200310
+updated: 2026-09-11 14:39:13.975033
 waiting_on: null
 waiting_since: null
 working_on: false

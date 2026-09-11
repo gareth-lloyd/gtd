@@ -1,6 +1,6 @@
 ---
-area: null
-completed_at: null
+area: engineering
+completed_at: 2026-09-11 14:37:40.154695
 contexts:
 - react
 created: 2026-09-11 09:56:46.849380
@@ -15,9 +15,9 @@ source_id: https://github.com/canary-technologies-corp/canary/pull/55813
 tags:
 - morning-gtd
 - github
-time_minutes: 20
+time_minutes: 5
 title: 'Re-review PR #55813: [ID-91] Staff app SSO login identifier lookup'
-updated: 2026-09-11 11:17:02.521631
+updated: 2026-09-11 14:37:40.154686
 waiting_on: null
 waiting_since: null
 working_on: false

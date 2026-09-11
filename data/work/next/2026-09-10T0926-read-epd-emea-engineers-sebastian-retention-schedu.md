@@ -1,12 +1,12 @@
 ---
-area: null
+area: engineering
 completed_at: null
 contexts:
 - consume
 created: 2026-09-10 09:26:03.164105
 defer_until: null
 due: null
-energy: low
+energy: high
 id: 2026-09-10T0926-read-epd-emea-engineers-sebastian-retention-schedu
 order: null
 output: ''
@@ -19,7 +19,7 @@ tags:
 time_minutes: 5
 title: 'Read #epd-emea-engineers: Sebastian: retention schedules spreadsheet complete
   (for Marta)'
-updated: 2026-09-10 11:21:29.767932
+updated: 2026-09-11 13:14:08.013372
 waiting_on: null
 waiting_since: null
 working_on: false
