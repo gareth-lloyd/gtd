@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-14 06:32:40.767587
 contexts: []
-created: &id001 2026-09-10 13:03:30.590789
+created: 2026-09-10 13:03:30.590789
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: work through routing
-updated: *id001
+updated: 2026-09-14 06:32:40.767525
 waiting_on: null
 waiting_since: null
 working_on: false
