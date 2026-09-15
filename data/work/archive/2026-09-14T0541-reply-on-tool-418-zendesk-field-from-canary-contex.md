@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-14 13:02:47.022273
 contexts:
 - react
 created: 2026-09-14 05:41:03.868261
@@ -17,7 +17,7 @@ tags:
 - linear
 time_minutes: 10
 title: 'Reply on TOOL-418: Zendesk field from Canary Context app proposal'
-updated: 2026-09-14 05:41:03.939476
+updated: 2026-09-14 13:02:47.022265
 waiting_on: null
 waiting_since: null
 working_on: false

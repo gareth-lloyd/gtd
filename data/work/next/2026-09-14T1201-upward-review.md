@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-11 13:01:22.609947
+created: 2026-09-14 12:01:09.786230
 defer_until: null
 due: null
 energy: low
-id: 2026-09-11T1301-cancel-prime
+id: 2026-09-14T1201-upward-review
 order: null
 output: ''
-project: null
+project: 2026-09-14-reviews
 source_id: null
 tags: []
 time_minutes: 5
-title: cancel prime
-updated: *id001
+title: upward review
+updated: 2026-09-14 12:01:38.732494
 waiting_on: null
 waiting_since: null
 working_on: false

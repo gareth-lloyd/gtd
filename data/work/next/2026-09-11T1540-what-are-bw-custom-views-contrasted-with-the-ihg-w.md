@@ -35,14 +35,14 @@ output: |
 
   ## Follow-up 2026-09-11T16:35: Notion page updated (user approved "yes")
   Added a "Brand integration models: flavors vs custom views" subsection to section 2 of [Mobile Pod — Jason Flax departure impact & landscape](https://app.notion.com/p/3d78146861518160bb80ece5ac5feb64). It sits after "Current themes" and before "Also owned beyond the SDK code". Contents: a flavor-vs-custom-views table by brand, the per-platform stack (iOS / Android / RN), implications, and source links. No existing content was changed. I re-read the page after the write to confirm it.
-project: null
+project: 2026-09-08-mobile
 source_id: null
 tags: []
 time_minutes: 5
 title: What are BW custom views contrasted with the IHG / Wyndham SDK approach to
   mobile dev?
-updated: 2026-09-11 16:35:00.000000
+updated: 2026-09-14 13:03:58.137003
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

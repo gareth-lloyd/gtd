@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-11 15:57:17.623415
+created: 2026-09-11 15:57:17.623415
 defer_until: null
 due: null
 energy: low
 id: 2026-09-11T1557-familiarize-with-deck-and-notion
 order: null
 output: ''
-project: null
+project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: familiarize with deck and notion
-updated: *id001
+updated: 2026-09-14 12:55:47.411776
 waiting_on: null
 waiting_since: null
 working_on: false

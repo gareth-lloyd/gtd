@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-11 11:40:56.236625
+created: &id001 2026-09-14 15:31:27.565337
 defer_until: null
 due: null
 energy: low
-id: 2026-09-11T1140-review-health-insurance
+id: 2026-09-14T1531-more-anti-coagulants
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: review health insurance
-updated: 2026-09-14 13:34:50.418854
+title: more anti coagulants
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

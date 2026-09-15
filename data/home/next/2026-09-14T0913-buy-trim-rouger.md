@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-11 11:40:56.236625
+created: 2026-09-14 09:13:00.746642
 defer_until: null
 due: null
 energy: low
-id: 2026-09-11T1140-review-health-insurance
+id: 2026-09-14T0913-buy-trim-rouger
 order: null
 output: ''
-project: null
+project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: 5
-title: review health insurance
-updated: 2026-09-14 13:34:50.418854
+title: buy trim router
+updated: 2026-09-14 13:26:08.041771
 waiting_on: null
 waiting_since: null
 working_on: false

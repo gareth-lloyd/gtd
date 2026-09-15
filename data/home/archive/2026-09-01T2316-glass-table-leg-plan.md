@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-14 13:09:50.568024
 contexts: []
-created: 2026-09-11 11:40:56.236625
+created: 2026-09-01 23:16:54.907640
 defer_until: null
 due: null
 energy: low
-id: 2026-09-11T1140-review-health-insurance
+id: 2026-09-01T2316-glass-table-leg-plan
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: review health insurance
-updated: 2026-09-14 13:34:50.418854
+title: glass table leg - inspect closely
+updated: 2026-09-14 13:09:50.567958
 waiting_on: null
 waiting_since: null
 working_on: false

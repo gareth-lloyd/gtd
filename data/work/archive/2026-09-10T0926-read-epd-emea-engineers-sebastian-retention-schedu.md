@@ -1,6 +1,6 @@
 ---
 area: engineering
-completed_at: null
+completed_at: 2026-09-14 13:45:27.455245
 contexts:
 - consume
 created: 2026-09-10 09:26:03.164105
@@ -19,11 +19,8 @@ tags:
 time_minutes: 5
 title: 'Read #epd-emea-engineers: Sebastian: retention schedules spreadsheet complete
   (for Marta)'
-updated: 2026-09-11 13:14:08.013372
+updated: 2026-09-14 13:45:27.455238
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-Promoted from the 2026-09-10 awareness report (Slack highlights).
-https://canarytechnologies.slack.com/archives/C0AB9E7AE59/p1788968522010779
