@@ -309,6 +309,51 @@ describe("Search", () => {
     // header search + page search input
     expect(inputs.length).toBeGreaterThanOrEqual(1);
   });
+
+  it("Cmd+Shift+F focuses the header search input", async () => {
+    const user = userEvent.setup();
+    renderApp("/work/inbox");
+    const input = await screen.findByPlaceholderText(/search/i);
+    expect(document.activeElement).not.toBe(input);
+
+    await user.keyboard("{Meta>}{Shift>}f{/Shift}{/Meta}");
+
+    expect(document.activeElement).toBe(input);
+  });
+
+  it("Ctrl+Shift+F focuses the header search input", async () => {
+    const user = userEvent.setup();
+    renderApp("/work/inbox");
+    const input = await screen.findByPlaceholderText(/search/i);
+
+    await user.keyboard("{Control>}{Shift>}f{/Shift}{/Control}");
+
+    expect(document.activeElement).toBe(input);
+  });
+
+  it("Cmd+Shift+F works even while typing in another input", async () => {
+    const user = userEvent.setup();
+    renderApp("/work/inbox");
+    const search = await screen.findByPlaceholderText(/search/i);
+
+    await user.keyboard("c");
+    const titleInput = await screen.findByPlaceholderText(/Capture to inbox/i);
+    expect(document.activeElement).toBe(titleInput);
+
+    await user.keyboard("{Meta>}{Shift>}f{/Shift}{/Meta}");
+
+    expect(document.activeElement).toBe(search);
+  });
+
+  it("Cmd+F alone does not hijack the browser find", async () => {
+    const user = userEvent.setup();
+    renderApp("/work/inbox");
+    const input = await screen.findByPlaceholderText(/search/i);
+
+    await user.keyboard("{Meta>}f{/Meta}");
+
+    expect(document.activeElement).not.toBe(input);
+  });
 });
 
 describe("Inbox count in side nav", () => {

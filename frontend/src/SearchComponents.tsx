@@ -114,7 +114,7 @@ export function SearchBar({ env, focusTick }: { env: string; focusTick: number }
       <input
         ref={inputRef}
         type="search"
-        placeholder="Search… (/)"
+        placeholder="Search… (/ or ⌘⇧F)"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => {

@@ -143,6 +143,13 @@ function AppShell() {
         setCaptureOpen(false);
         return;
       }
+      // Cmd/Ctrl+Shift+F is a chorded "search everywhere" shortcut: unlike
+      // the bare `/`, it works even while focus is inside another input.
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && !e.altKey && e.key.toLowerCase() === "f") {
+        e.preventDefault();
+        bumpSearchFocus();
+        return;
+      }
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (isEditableTarget(e.target)) return;
       if (e.shiftKey && e.key.toLowerCase() !== "c") return;

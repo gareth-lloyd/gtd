@@ -189,6 +189,7 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
   - `Shift+C` — open capture bar (Regular ↑ mode: float new item to top of inbox)
   - `A` — open capture bar (AI mode)
   - `/` — focus search
+  - `Cmd/Ctrl+Shift+F` — focus search (also works while typing in another input)
   - `F` — toggle working_on on the selected item
   - `Cmd/Ctrl+Enter` — save and close (in expanded item or capture bar)
 
