@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-29T2011-flag-to-nick-etc-that-zoho-can-t-reproduce-non-pro
-order: 3
+order: 2
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
@@ -15,7 +15,7 @@ tags: []
 time_minutes: 5
 title: Flag to Nick etc that Zoho can't reproduce non-propotional commission due to
   non-commissionable extras
-updated: 2026-08-31 10:44:05.116058
+updated: 2026-09-16 14:44:49.057046
 waiting_on: null
 waiting_since: null
 working_on: false

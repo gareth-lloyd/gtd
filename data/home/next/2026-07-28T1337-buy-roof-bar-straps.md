@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-28T1337-buy-roof-bar-straps
-order: null
+order: 10
 output: ''
 project: 2026-05-25T1130-purchases
 source_id: null
 tags: []
 time_minutes: 5
 title: buy roof bar straps
-updated: 2026-09-10 09:04:21.779583
+updated: 2026-09-16 09:58:27.824295
 waiting_on: null
 waiting_since: null
 working_on: false

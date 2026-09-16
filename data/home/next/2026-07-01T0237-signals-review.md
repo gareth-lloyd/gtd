@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-07-01T0237-signals-review
-order: 6
+order: 4
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: signals review
-updated: 2026-08-31 10:44:02.076999
+updated: 2026-09-16 14:44:49.057046
 waiting_on: null
 waiting_since: null
 working_on: false
