@@ -1,20 +1,24 @@
 ---
 area: null
+completed_at: 2026-09-15 15:43:08.278828
 contexts: []
 created: 2026-04-30 07:59:37.498287
 defer_until: null
 due: null
 energy: low
 id: 2026-04-30T0759-rule-suggestion
-order: null
+order: 4
+output: ''
 project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 5
-title: 'Rule suggestion: copy check-in payment slot → PMS auths slot when auths is empty'
-updated: 2026-04-30 07:59:37.502784
+title: 'Rule suggestion: copy check-in payment slot → PMS auths slot when auths is
+  empty'
+updated: 2026-09-15 15:43:08.278824
 waiting_on: null
 waiting_since: null
+working_on: false
 ---
 
 Candidate rule from David Thomson (ENT-6056 triage thread, 2026-04-30):

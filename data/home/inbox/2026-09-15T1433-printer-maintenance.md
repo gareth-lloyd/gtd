@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-07-30 15:30:24.338027
+created: &id001 2026-09-15 14:33:03.783848
 defer_until: null
 due: null
 energy: low
-id: 2026-07-30T1530-finish-ent-5695
-order: 6
+id: 2026-09-15T1433-printer-maintenance
+order: null
 output: ''
-project: 2026-04-16T1351-ship
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Finish ENT-5695
-updated: 2026-09-15 16:30:21.201233
+title: printer maintenance
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

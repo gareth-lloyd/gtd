@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-15 15:32:52.835272
 contexts: []
 created: 2026-09-01 14:51:58.920317
 defer_until: null
@@ -111,10 +111,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: 'Plan discussion for Blake directs: GDPR retention policies and implications'
-updated: 2026-09-14 15:31:40
+updated: 2026-09-15 15:32:52.835267
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Impact will be huge, and it's happening before end of September

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-15 15:42:09.692855
 contexts: []
 created: 2026-09-11 15:40:30.412753
 defer_until: null
@@ -41,8 +41,8 @@ tags: []
 time_minutes: 5
 title: What are BW custom views contrasted with the IHG / Wyndham SDK approach to
   mobile dev?
-updated: 2026-09-14 13:03:58.137003
+updated: 2026-09-15 15:42:09.692845
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

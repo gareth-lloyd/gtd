@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts:
 - deep
 - fun
@@ -8,7 +9,7 @@ defer_until: null
 due: null
 energy: high
 id: 2026-04-10T0840-experiment-with-how-to-specify-gjms-in-r
-order: 2
+order: 1
 output: |
   ## Agent run 2026-06-18T16:24
 
@@ -237,7 +238,7 @@ tags:
 - focus
 time_minutes: 60
 title: Experiment with how to specify Guest journey messages in Rules based configuration
-updated: 2026-06-18 16:42:38.532585
+updated: 2026-09-15 15:42:57.535951
 waiting_on: null
 waiting_since: null
 working_on: false

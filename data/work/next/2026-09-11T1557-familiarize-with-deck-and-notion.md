@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-11T1557-familiarize-with-deck-and-notion
-order: null
+order: 3
 output: ''
 project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 5
 title: familiarize with deck and notion
-updated: 2026-09-14 12:55:47.411776
+updated: 2026-09-15 16:30:21.201233
 waiting_on: null
 waiting_since: null
 working_on: false

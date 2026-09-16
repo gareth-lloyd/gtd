@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-15 15:27:58.324115
 contexts:
 - react
 created: 2026-09-15 06:04:55.560117
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 20
 title: 'Set up a 1:1 with Diana Perez Afanador: Mobile now reports through me'
-updated: 2026-09-15 06:04:55.629172
+updated: 2026-09-15 15:27:58.324107
 waiting_on: null
 waiting_since: null
 working_on: false

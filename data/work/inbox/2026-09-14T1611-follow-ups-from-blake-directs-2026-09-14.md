@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-14 16:11:17
-defer_until: null
+defer_until: 2026-09-21 09:00:00
 due: null
 energy: low
 id: 2026-09-14T1611-follow-ups-from-blake-directs-2026-09-14
@@ -17,7 +17,7 @@ tags:
 - blake
 time_minutes: 5
 title: Follow-ups from Blake directs 2026-09-14
-updated: 2026-09-14 16:17:13.347966
+updated: 2026-09-15 14:53:30.013831
 waiting_on: null
 waiting_since: null
 working_on: false
