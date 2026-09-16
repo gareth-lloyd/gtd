@@ -10,6 +10,7 @@ import { useEnvParam } from "./useEnvParam";
 import { useSpotlight } from "./spotlight";
 import { useSelection } from "./SelectionContext";
 import { isEditableTarget } from "./CaptureBar";
+import { isHiddenByDefer } from "./ItemEdit";
 
 const DEFAULT_DOC_TITLE = "gtd";
 
@@ -48,6 +49,20 @@ export function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
     queryFn: () => api.listItems(env, listParams),
   });
 
+  // Full inbox including deferred rows, fetched alongside the default list so
+  // the "Show deferred" toggle can display how many items it would reveal.
+  // Shares its cache key with the toggled-on list fetch above, so switching
+  // the toggle on is instant and nothing is fetched twice.
+  const { data: allInboxItems } = useQuery({
+    queryKey: ["items", env, "inbox", true],
+    queryFn: () => api.listItems(env, { status: "inbox", include_deferred: "true" }),
+    enabled: bucket === "inbox",
+  });
+  const deferredCount = useMemo(
+    () => (allInboxItems ?? []).filter((i) => isHiddenByDefer(i)).length,
+    [allInboxItems],
+  );
+
   // Inbox processing greys out moved items rather than removing them, so the
   // cached list contains items whose true status is no longer "inbox". Mark
   // the query stale on unmount so the next visit refetches a clean list
@@ -83,7 +98,7 @@ export function BucketView({ env, bucket }: { env: string; bucket: Bucket }) {
                 setParams(next, { replace: true });
               }}
             />
-            Show deferred
+            Show deferred{deferredCount > 0 ? ` (${deferredCount})` : ""}
           </label>
         </div>
       )}

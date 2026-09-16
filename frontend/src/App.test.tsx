@@ -416,6 +416,73 @@ describe("Inbox count in side nav", () => {
   });
 });
 
+describe("Inbox 'Show deferred' toggle", () => {
+  beforeEach(() => {
+    localStorage.setItem("gtd:env", "work");
+  });
+
+  const inboxItem = (id: string, defer_until: string | null = null) => ({
+    id,
+    title: id,
+    body: "",
+    created: "2026-04-10T09:00:00",
+    updated: "2026-04-10T09:00:00",
+    status: "inbox" as const,
+    contexts: [],
+    energy: null,
+    time_minutes: null,
+    project: null,
+    project_priority: null,
+    area: null,
+    tags: [],
+    due: null,
+    overdue: false,
+    defer_until,
+    waiting_on: null,
+    waiting_since: null,
+    order: null,
+    source_id: null,
+    working_on: false,
+    completed_at: null,
+    output: "",
+  });
+
+  it("shows the number of deferred inbox items next to the toggle", async () => {
+    const { api } = await import("./api");
+    const visible = [inboxItem("a"), inboxItem("b")];
+    const deferred = [inboxItem("c", "2999-01-01T09:00:00"), inboxItem("d", "2999-01-02T09:00:00")];
+    vi.mocked(api.listItems).mockImplementation(async (_env, params = {}) => {
+      if (params.status !== "inbox") return [];
+      return params.include_deferred === "true" ? [...visible, ...deferred] : visible;
+    });
+
+    renderApp("/work/inbox");
+    const toggle = await screen.findByLabelText(/show deferred/i);
+    await vi.waitFor(() => {
+      expect(toggle.closest("label")?.textContent).toMatch(/Show deferred \(2\)/);
+    });
+    // The default list still hides the deferred rows.
+    expect(screen.queryByText("c")).toBeNull();
+  });
+
+  it("omits the count when nothing is deferred", async () => {
+    const { api } = await import("./api");
+    vi.mocked(api.listItems).mockImplementation(async (_env, params = {}) =>
+      params.status === "inbox" ? [inboxItem("a")] : [],
+    );
+
+    renderApp("/work/inbox");
+    const toggle = await screen.findByLabelText(/show deferred/i);
+    await vi.waitFor(() => {
+      expect(vi.mocked(api.listItems)).toHaveBeenCalledWith(
+        "work",
+        expect.objectContaining({ status: "inbox", include_deferred: "true" }),
+      );
+    });
+    expect(toggle.closest("label")?.textContent).not.toMatch(/\(/);
+  });
+});
+
 describe("Capture-at-top shortcut", () => {
   beforeEach(async () => {
     localStorage.setItem("gtd:env", "work");
