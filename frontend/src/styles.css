@@ -2100,6 +2100,40 @@ button.quiet.danger {
   margin-bottom: 0;
 }
 
+/* "Next agent work" — the follow-up box at the top of the agent-log view. */
+.next-agent-work {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem 0.75rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-soft);
+}
+
+.next-agent-work-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.next-agent-work-input {
+  width: 100%;
+  resize: none;
+  font-size: 0.9rem;
+}
+
+.next-agent-work-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.next-agent-work-actions button {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem;
+}
+
 .chip-link {
   text-decoration: none;
   cursor: pointer;

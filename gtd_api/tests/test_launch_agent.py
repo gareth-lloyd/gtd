@@ -246,3 +246,27 @@ class TestLaunchAgentEndpoint:
 
         assert r.status_code == 400
         assert "bogus" in r.json()["error"]
+
+    def test_next_task_is_forwarded_into_prompt(self, api, monkeypatch):
+        mock = _mock_launcher(monkeypatch)
+        item_id = _capture_item(api, "Review PR")
+
+        r = api.post(
+            f"/api/envs/work/items/{item_id}/launch-agent/",
+            {"next_task": "Re-check after the author pushed fixes"},
+            format="json",
+        )
+
+        assert r.status_code == 204
+        prompt = _read_prompt(mock)
+        assert "## Next agent work" in prompt
+        assert "Re-check after the author pushed fixes" in prompt
+
+    def test_next_task_omitted_leaves_prompt_unchanged(self, api, monkeypatch):
+        mock = _mock_launcher(monkeypatch)
+        item_id = _capture_item(api, "Review PR")
+
+        r = api.post(f"/api/envs/work/items/{item_id}/launch-agent/")
+
+        assert r.status_code == 204
+        assert "Next agent work" not in _read_prompt(mock)

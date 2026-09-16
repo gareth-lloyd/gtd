@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { REM_PX, ShowAllButton } from "./ClippedBlock";
 
 export function AutoGrowTextarea({
+  id,
   className,
   value,
   onChange,
@@ -10,6 +11,7 @@ export function AutoGrowTextarea({
   minRows,
   maxHeightRem,
 }: {
+  id?: string;
   className?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -41,6 +43,7 @@ export function AutoGrowTextarea({
   return (
     <div className="autogrow-wrap">
       <textarea
+        id={id}
         ref={ref}
         className={`${className ?? ""} autogrow-textarea`.trim()}
         rows={minRows}

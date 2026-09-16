@@ -187,10 +187,15 @@ export const api = {
     }),
   completeItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/complete/`, { method: "POST" }),
-  launchAgent: (env: string, id: string, target: AgentTarget = "iterm") =>
+  /**
+   * `nextTask` is an optional follow-up instruction (the "Next agent work"
+   * box in the agent-log view). The server appends it to the prompt after
+   * the item's existing `output:` so the new session builds on prior runs.
+   */
+  launchAgent: (env: string, id: string, target: AgentTarget = "iterm", nextTask?: string) =>
     request<void>(`/envs/${env}/items/${id}/launch-agent/`, {
       method: "POST",
-      body: JSON.stringify({ target }),
+      body: JSON.stringify(nextTask ? { target, next_task: nextTask } : { target }),
     }),
   deleteItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/`, { method: "DELETE" }),

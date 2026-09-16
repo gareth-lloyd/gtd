@@ -1,7 +1,10 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { api } from "./api";
-import { findItemInCache } from "./ItemEdit";
+import { api, type AgentTarget } from "./api";
+import { AutoGrowTextarea } from "./AutoGrowTextarea";
+import { Button } from "./Button";
+import { findItemInCache, invalidateItemQueries } from "./ItemEdit";
 import { Markdown } from "./markdown";
 import { contextChipStyle } from "./context-colors";
 import { fmtDate } from "./format";
@@ -10,8 +13,9 @@ import { toasts } from "./toast";
 
 // A focused, single-item reading view: the agent log fills the screen, with
 // just a compact overview of the ticket and its metadata above it. Reached via
-// the 🤖 log chip on an item card. Deliberately read-only — editing lives in
-// the item card / detail pane; this view is for reading agent output.
+// the 🤖 log chip on an item card. Item fields are read-only here — editing
+// lives in the item card / detail pane. The one thing you can *do* from this
+// view is hand the agent its next piece of work (see NextAgentWork).
 export function AgentLogView() {
   const env = useEnvParam();
   const navigate = useNavigate();
@@ -76,6 +80,8 @@ export function AgentLogView() {
         </div>
       </header>
 
+      <NextAgentWork env={env} itemId={item.id} />
+
       <section className="agent-log-panel" data-testid="agent-log-panel">
         <div className="agent-log-panel-header">
           <span>🤖 Agent log</span>
@@ -94,5 +100,74 @@ export function AgentLogView() {
         </div>
       </section>
     </div>
+  );
+}
+
+// The "next agent task" flow: after reading a run's output, type the
+// follow-up and launch a fresh session. The server builds a prompt from the
+// item *plus* its existing `output:` *plus* this text, so the new agent picks
+// up where the last one left off. The text is not saved on the item — the
+// agent is told to quote it at the top of its own `## Agent run` section, so
+// the log itself records what was asked.
+function NextAgentWork({ env, itemId }: { env: string; itemId: string }) {
+  const qc = useQueryClient();
+  const [text, setText] = useState("");
+  const task = text.trim();
+
+  const launchMut = useMutation<void, Error, AgentTarget>({
+    mutationFn: (target) => api.launchAgent(env, itemId, target, task),
+    onSuccess: () => {
+      setText("");
+      toasts.show("success", "Agent launched");
+      // Launching pins working_on; refresh so the header/lists reflect it.
+      invalidateItemQueries(qc, env, itemId);
+    },
+    onError: (e) => toasts.show("error", e.message || "Launch failed"),
+  });
+  const isLaunching = (target: AgentTarget) =>
+    launchMut.isPending && launchMut.variables === target;
+  const disabled = !task || launchMut.isPending;
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && task && !launchMut.isPending) {
+      e.preventDefault();
+      launchMut.mutate("iterm");
+    }
+  };
+
+  return (
+    <section className="next-agent-work" data-testid="next-agent-work">
+      <label className="next-agent-work-label" htmlFor="next-agent-work-input">
+        ▶ Next agent work
+      </label>
+      <AutoGrowTextarea
+        id="next-agent-work-input"
+        className="next-agent-work-input"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={onKeyDown}
+        placeholder="What should the next agent session do? It will see the log below. ⌘↵ launches in iTerm."
+        minRows={2}
+        maxHeightRem={16}
+      />
+      <div className="next-agent-work-actions">
+        <Button
+          onClick={() => launchMut.mutate("iterm")}
+          busy={isLaunching("iterm")}
+          disabled={disabled}
+          title="Launch a Claude Code session in iTerm with the log and this follow-up as the prompt"
+        >
+          🤖 agent
+        </Button>
+        <Button
+          onClick={() => launchMut.mutate("desktop")}
+          busy={isLaunching("desktop")}
+          disabled={disabled}
+          title="Open a Claude Code session in the Claude desktop app with the log and this follow-up as the prompt"
+        >
+          🖥️ desktop agent
+        </Button>
+      </div>
+    </section>
   );
 }

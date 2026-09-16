@@ -234,6 +234,31 @@ class TestBuildPrompt:
         out = build_prompt(item, **self._kwargs(tmp_path))
         assert out.index("Prior agent runs") < out.index("## Task")
 
+    def test_includes_next_task_section_when_given(self, tmp_path):
+        item = self._item("Do the thing")
+        item.output = "## Agent run 2026-05-06\nDid the first half."
+        out = build_prompt(item, **self._kwargs(tmp_path), next_task="Now do the second half")
+        assert "## Next agent work" in out
+        assert "Now do the second half" in out
+        # The follow-up is the thing to do now — it must come after the
+        # original task so it reads as the most recent, most specific ask.
+        assert out.index("## Task") < out.index("## Next agent work")
+        assert out.index("Prior agent runs") < out.index("## Next agent work")
+
+    def test_next_task_instructs_agent_to_record_it_in_output(self, tmp_path):
+        out = build_prompt(self._item("t"), **self._kwargs(tmp_path), next_task="Follow up")
+        section = out[out.index("## Next agent work") :]
+        assert "## Agent run" in section
+        assert "Follow up" in section
+
+    def test_omits_next_task_section_by_default(self, tmp_path):
+        out = build_prompt(self._item("t"), **self._kwargs(tmp_path))
+        assert "Next agent work" not in out
+
+    def test_blank_next_task_is_treated_as_absent(self, tmp_path):
+        out = build_prompt(self._item("t"), **self._kwargs(tmp_path), next_task="   \n ")
+        assert "Next agent work" not in out
+
 
 class TestLaunchClaudeSession:
     def test_invokes_osascript_with_iterm_app(self, monkeypatch, tmp_path):

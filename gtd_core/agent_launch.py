@@ -45,6 +45,7 @@ def build_prompt(
     env_dir: Path,
     project: Project | None = None,
     prior_working_on: bool = False,
+    next_task: str | None = None,
 ) -> str:
     """Compose the prompt sent to `claude` from a GTD item.
 
@@ -56,6 +57,12 @@ def build_prompt(
     `prior_working_on` is the item's `working_on` value *before* launch pinned
     it. The exit protocol restores this state rather than always clearing the
     flag — an item the user had already pinned stays pinned after the run.
+
+    `next_task`, when non-blank, is a follow-up instruction the user typed
+    after reading the prior runs (the "Next agent work" box in the agent-log
+    view). It is appended as the final section so it reads as the most
+    specific, most recent ask, layered on top of the original task and the
+    prior `output:`.
     """
     working_on_target = "true" if prior_working_on else "false"
     sections = [
@@ -198,6 +205,22 @@ def build_prompt(
     sections.extend(["## Task", item.title])
     if item.body:
         sections.append(item.body)
+    next_task = (next_task or "").strip()
+    if next_task:
+        sections.extend(
+            [
+                "## Next agent work",
+                (
+                    "The user has read the prior runs above and wants THIS specific "
+                    "follow-up done now. Treat it as the primary instruction for "
+                    "this session: the original task and prior output are context "
+                    "for it, not something to redo from scratch. Start your new "
+                    "`## Agent run <ISO timestamp>` section in `output:` by quoting "
+                    "this follow-up so the log records what was asked."
+                ),
+                next_task,
+            ]
+        )
     return "\n\n".join(sections)
 
 

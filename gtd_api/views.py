@@ -283,8 +283,9 @@ def item_launch_agent(request: Request, env: str, item_id: str) -> Response:
             {"error": f"unknown target: {target!r} (expected one of {_AGENT_TARGETS})"},
             status=status.HTTP_400_BAD_REQUEST,
         )
+    next_task = _qstr(request.data.get("next_task"))
     try:
-        _service().launch_agent_session(env, item_id, target=target)
+        _service().launch_agent_session(env, item_id, target=target, next_task=next_task)
     except KeyError:
         return Response(status=status.HTTP_404_NOT_FOUND)
     except AgentLaunchNotConfiguredError as e:

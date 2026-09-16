@@ -1395,6 +1395,20 @@ class TestLaunchAgentSession:
         assert loaded is not None
         assert loaded.working_on is True
 
+    def test_next_task_is_embedded_in_prompt(self, svc, monkeypatch):
+        captured: dict = {}
+
+        def fake_launch(*, prompt, cwd=None, auto=True, config_dir=None):
+            captured["prompt"] = prompt
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", fake_launch)
+        item = svc.capture("work", "Review PR #42")
+        svc.update("work", item.id, {"output": "## Agent run 2026-05-06\nLeft two comments."})
+        svc.launch_agent_session("work", item.id, next_task="Address the two comments")
+        assert "## Next agent work" in captured["prompt"]
+        assert "Address the two comments" in captured["prompt"]
+        assert "Left two comments." in captured["prompt"]
+
     def test_prompt_clears_pin_when_not_previously_working_on(self, svc, monkeypatch):
         captured: dict = {}
 

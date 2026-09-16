@@ -92,13 +92,24 @@ class GtdService:
 
         return _clear(self.repo(env), now=self._now)
 
-    def launch_agent_session(self, env: str, item_id: str, *, target: str = "iterm") -> None:
+    def launch_agent_session(
+        self,
+        env: str,
+        item_id: str,
+        *,
+        target: str = "iterm",
+        next_task: str | None = None,
+    ) -> None:
         """Raises `KeyError` if the item is gone — the API translates to 404.
 
         `target` selects the surface: ``"iterm"`` (default) spawns a supervised
         terminal session running the `claude` CLI; ``"desktop"`` opens a new
         Claude Code session in the Claude desktop app via the `claude://code/new`
         deep link. Both pin the item with `working_on: True` first.
+
+        `next_task` is an optional follow-up instruction (from the "Next agent
+        work" box). It rides along in the prompt alongside the item's existing
+        `output:`; it is not persisted on the item.
         """
         from gtd_core.agent_launch import build_prompt
 
@@ -119,6 +130,7 @@ class GtdService:
             env_dir=repo.env_root,
             project=project,
             prior_working_on=prior_working_on,
+            next_task=next_task,
         )
         if target == "desktop":
             launch_desktop_session(prompt=prompt, cwd=cwd)

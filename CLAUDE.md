@@ -167,6 +167,15 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
   → `$HOME`. Errors surface as 503 (no `claude` CLI), 502 (osascript
   failed), 404 (item gone).
 
+- **Next agent work**: the agent-log "Full view" (`/<env>/items/<id>/agent`)
+  has a "Next agent work" box at the top. Type a follow-up and click
+  `🤖 agent` / `🖥️ desktop agent` (or ⌘↵ for iTerm) to launch a fresh
+  session that gets the item, its existing `output:`, AND the follow-up as
+  a final `## Next agent work` prompt section. The follow-up is sent as
+  `next_task` in the launch-agent POST body and is not persisted on the
+  item — the prompt tells the agent to quote it at the top of its new
+  `## Agent run` section so the log records what was asked.
+
 - **Per-env Claude account**: `config.yml` may set `claude_config_dir`
   (e.g. `~/.claude-personal`). Every `claude` shell-out for that env — the
   iTerm agent launch and AI capture — then runs with `CLAUDE_CONFIG_DIR`
