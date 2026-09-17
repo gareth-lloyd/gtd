@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-17 12:27:11.489452
 contexts: []
 created: 2026-09-16 11:07:28.510710
 defer_until: null
@@ -44,7 +44,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: try to get up to speed on Accord deal wrt mobile
-updated: 2026-09-16 14:38:38.275688
+updated: 2026-09-17 12:27:11.489446
 waiting_on: null
 waiting_since: null
 working_on: false

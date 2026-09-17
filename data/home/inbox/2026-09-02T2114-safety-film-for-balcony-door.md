@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-02 21:14:27.612924
-defer_until: 2026-09-17 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-09-02T2114-safety-film-for-balcony-door

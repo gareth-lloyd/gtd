@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - deep
 created: 2026-08-04 16:00:16.245615
-defer_until: 2026-09-17 09:00:00
+defer_until: null
 due: 2026-09-17
 energy: high
 id: 2026-08-04T1600-review-pms-capabilities-eng-design
@@ -85,10 +85,10 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review PMS capabilities eng design
-updated: 2026-09-16 09:32:02.052524
+updated: 2026-09-17 12:27:03.690151
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Asher's superseding eng design for TOOL-294: capability-driven config inside rules_based_configuration (fallback root, strict-healing writer in sync_gateway_state, override rows, two-tier drift). CloudBeds v1.

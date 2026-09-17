@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-16 15:47:08.495069
 contexts:
 - react
 created: 2026-09-16 09:11:57.904052
@@ -18,7 +18,7 @@ tags:
 - from-awareness
 time_minutes: 15
 title: Look at IHG demo ID error skipping the credit card step (#epd-mobile)
-updated: 2026-09-16 11:21:21.378511
+updated: 2026-09-16 15:47:08.495063
 waiting_on: null
 waiting_since: null
 working_on: false

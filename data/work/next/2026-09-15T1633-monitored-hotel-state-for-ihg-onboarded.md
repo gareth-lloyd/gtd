@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-09-15 16:33:21.670612
 defer_until: null
-due: null
+due: 2026-09-17
 energy: low
 id: 2026-09-15T1633-monitored-hotel-state-for-ihg-onboarded
 order: null
@@ -120,10 +120,10 @@ tags: []
 time_minutes: 5
 title: Examine monitoredHotelState for all onboarded IHG GMS Core hotels. There should
   be dozens in the last month. Conclude what's erroring, what's false negative/positive
-updated: 2026-09-16 09:30:59.866504
+updated: 2026-09-16 15:25:27.735952
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Next agent work: go through check by check to work out next steps
