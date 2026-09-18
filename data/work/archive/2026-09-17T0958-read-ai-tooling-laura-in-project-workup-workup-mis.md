@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-17 18:15:24.263954
 contexts:
 - consume
 created: 2026-09-17 09:58:14.685749
@@ -48,7 +48,7 @@ tags:
 time_minutes: 10
 title: 'Read: AI tooling: Laura in #project-workup - Workup missed 18 of 25 duplicate
   closes; proposes dropping the 7-day window and asks Blake what would justify auto-'
-updated: 2026-09-17 12:19:51.768468
+updated: 2026-09-17 18:15:24.263942
 waiting_on: null
 waiting_since: null
 working_on: false

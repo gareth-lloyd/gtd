@@ -5,7 +5,7 @@ contexts:
 - deep
 created: 2026-08-04 16:00:16.245615
 defer_until: null
-due: 2026-09-17
+due: 2026-09-18
 energy: high
 id: 2026-08-04T1600-review-pms-capabilities-eng-design
 order: 7
@@ -80,15 +80,55 @@ output: |
   2. Concede D2 relaxation with the boot-guard caveat; hold firm on fallback-root guards (concrete asks above).
   3. Ask where T6/T7 code actually lives — nothing is pushed, and the doc's "in review" claim is unverifiable.
   4. Raise the prior run's unclaimed divergences that affect the writer: pms_payment_slot_identifier missing from check_in CONFIG_FIELDS (breaks D21), nullable booleans (NULL vs False drift noise), GroupAttributes.__post_init__ rejecting empty predicates (second fallback-root guard).
+
+  ## Agent run 2026-09-17T14:52
+
+  > Follow-up asked: "Rewrite agent output from scratch: Set me up for my human review of the doc. Reiterate *what* is proposed in plain, straightforward terms to guide my reading. Check and reiterate your objections, and the weaknesses and un-finished decisions. Straightforward, direct, <500 words"
+
+  This section replaces both runs above. Rechecked today against master, Linear and GitHub. The doc was last edited 2026-08-06; this run I re-read only the engine, observe, risks, interaction, tickets and decisions sections.
+  Doc: https://app.notion.com/p/canarytechnologies/Capability-Driven-Config-Drift-Detection-3b18146861518073a23dd5241ddc8b6b
+
+  ### What is proposed
+  For non-enterprise hotels on a supported PMS (CloudBeds only in v1), 17 integration config fields are set automatically from what the PMS can do, and kept that way.
+  1. The rules live in the existing rules engine (rules_based_configuration). A new "fallback" tree claims every hotel that no enterprise tree matches. Its groups match on PMS and on capabilities present or absent: 9 capability groups plus one CloudBeds group.
+  2. The expected value of a field is the override row if one exists, else the tree value, else the Django default.
+  3. A writer runs on every PMS sync (Kafka event and 3-hour cron) and overwrites the DB columns to the expected value. The columns stay the source of truth and no readers change. A manual edit with no override row gets reverted ("strict healing").
+  4. Override rows are the only sanctioned way to deviate. Editing a managed field in admin forces a per-field reason page and creates the row.
+  5. A hotel activates when its observation row is stamped `enabled_at`, which needs a supported vendor, the flag on, and a non-enterprise hotel. A genuine PMS change makes old overrides dormant and resets all 17 fields.
+  6. Drift has two tiers. Activated hotels are healed and alerted on, even with the flag off. Legacy hotels are report-only. Enterprise is unchanged.
+  7. The kill switch is the flag: turning it off stops the writer, and values stay where they are.
+  Supporting work: five engine changes, ChangeTracker attribution, the model move, and retiring the old constants and the webhook.
+  Suggested reading order: Vocabulary, Engine extensions, Writer, Interaction with MSA/GMS, Decisions.
+
+  ### Objections (rechecked)
+  1. **The fallback root can swallow an enterprise brand. This still stands.** The exclusion list is derived from registered roots, so a brand with no root is not excluded. The doc's own `_enablement_allowed` sketch returns True when `parent_brand_id` is None, which is exactly where an unknown brand lands (the BrandId silent-None loophole). The only defence is the "placeholder root at contract time" convention, which is process rather than code. Ask for activation to refuse or alert on any non-None parent brand outside the derived set, and for the placeholder root to be a checked gate.
+  2. **Enterprise write precedence is punted ("future convergence").** v1's internal precedence is well specified. The contract between scripts, a future drift writer and the override table has to be designed before enterprise writes exist. This is also Asher's open question to you about who builds writes, and when.
+  3. **D2 weight sharing: concede.** Groups with disjoint keys sharing a weight is safe. The cost is that correctness rests on the boot guard and can no longer be read locally.
+
+  ### Weaknesses
+  - **The critical path is stalled.** T6/T7 now have draft PRs: #52728 (https://github.com/canary-technologies-corp/canary/pull/52728) and #52745 (https://github.com/canary-technologies-corp/canary/pull/52745, untouched since 2026-08-10). Both tickets went back to Backlog in August, TOOL-425 is unassigned, and TOOL-426 is labelled "Blocked: Needs Engineering". `sync_gateway_state`, the writer's host, is not on master, and the doc still says it "lands as-is".
+  - None of the engine extensions exist yet: no fallback root, no capability predicates, no writer source.
+  - Nullable booleans (passport/dob/nationality) are not addressed in the doc. NULL is not False, so legacy drift will be noisy and the writer will flip NULLs. The code was not re-verified this run.
+  - `try_fetch_hotel_attributes` does not exist, and the real fetch creates a row and calls Salesforce. The "existing dotted-path mapping utility" does not exist either; the logic is duplicated across roughly 5 sites.
+  - The D4 admin confirmation flow has no precedent, and a ValidationError raised in `save_model` would return a 500.
+  - A bad rule reaches the fleet within 3 hours, and the mitigations are boot checks and review. ConsistencyService has grown since August (SDM-4989/4990), so recheck how much it actually validates.
+  - Fixed since August: `pms_payment_slot_identifier` is now in CONFIG_FIELDS (#54858), and the doc now exempts the fallback root from the empty-predicate guard.
+
+  ### Unfinished decisions
+  - Whether CloudBeds is the right first target (https://pages.cnry.cloud/pms-setup-automation-numbers).
+  - Who owns writes and enterprise convergence. This was deferred to block planning.
+  - The module ownership split inside rules_based_configuration, which the doc marks "TBD" with the Enterprise team.
+  - Whether activation also requires a non-empty capability set. TOOL-426 (https://linear.app/canary-technologies/issue/TOOL-426) says "if adopted".
+  - The doc is still in "REVIEW ME" and has had one comment since August 6 (Asher's own, on layer metadata). No reviewer has signed off.
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
-time_minutes: 30
+time_minutes: 60
 title: Review PMS capabilities eng design
-updated: 2026-09-17 12:27:03.690151
+updated: 2026-09-17 19:16:03.218454
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Asher's superseding eng design for TOOL-294: capability-driven config inside rules_based_configuration (fallback root, strict-healing writer in sync_gateway_state, override rows, two-tier drift). CloudBeds v1.

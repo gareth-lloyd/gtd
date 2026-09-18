@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Deploy loaded data to VC, and demo to make case milestone complete
-updated: 2026-09-16 14:44:49.057046
+updated: 2026-09-17 21:13:29.097150
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

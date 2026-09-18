@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-09-15 15:42:17.708673
 defer_until: null
-due: 2026-09-17
+due: null
 energy: low
 id: 2026-09-15T1542-go-through-the-notion-doc-agains
 order: 1
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: go through the notion doc agains
-updated: 2026-09-16 14:16:15.004147
+updated: 2026-09-17 17:18:51.663329
 waiting_on: null
 waiting_since: null
 working_on: false

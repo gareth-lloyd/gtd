@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-31T0757-l6-eurorack-converter
-order: 8
+order: 9
 output: ''
 project: 2026-07-23-eurorack
 source_id: null
 tags: []
 time_minutes: 5
 title: L6 eurorack converter.
-updated: 2026-09-17 09:49:37.655775
+updated: 2026-09-18 10:31:14.311084
 waiting_on: null
 waiting_since: null
 working_on: false
