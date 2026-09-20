@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-18 12:31:59.889672
 contexts:
 - react
 created: 2026-09-18 09:38:23.174090
@@ -18,7 +18,7 @@ tags:
 - resurfaced
 time_minutes: 10
 title: 'Follow up with Sage re: James Lovatt referral bonus'
-updated: 2026-09-18 09:38:23.252745
+updated: 2026-09-18 12:31:59.889663
 waiting_on: null
 waiting_since: null
 working_on: false

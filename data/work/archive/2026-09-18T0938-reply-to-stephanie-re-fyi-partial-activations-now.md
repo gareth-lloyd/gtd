@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-18 14:39:58.152610
 contexts:
 - react
 created: 2026-09-18 09:38:23.335224
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Stephanie re: FYI partial activations now tracked in Salesforce'
-updated: 2026-09-18 09:38:23.412814
+updated: 2026-09-18 14:39:58.152573
 waiting_on: null
 waiting_since: null
 working_on: false

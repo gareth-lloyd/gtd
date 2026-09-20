@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-18 12:22:37.290632
 contexts:
 - react
 created: 2026-09-18 09:38:23.496601
@@ -18,7 +18,7 @@ tags:
 - resurfaced
 time_minutes: 10
 title: 'Post Linear project update: Make Salesforce reliable as source of truth'
-updated: 2026-09-18 09:38:23.589650
+updated: 2026-09-18 12:22:37.290625
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-18 14:40:00.541076
 contexts:
 - react
 created: 2026-09-18 09:38:22.928359
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Ian Clark re: staff app ownership and whether James moves to me'
-updated: 2026-09-18 09:38:23.009754
+updated: 2026-09-18 14:40:00.541069
 waiting_on: null
 waiting_since: null
 working_on: false

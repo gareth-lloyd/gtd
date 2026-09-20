@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-18 12:31:54.702147
 contexts:
 - deep
 created: 2026-09-18 09:38:23.590428
@@ -17,7 +17,7 @@ tags:
 - gmail
 time_minutes: 120
 title: 'Complete Lettuce reviews: self, upward, and 1 peer review'
-updated: 2026-09-18 09:38:23.671598
+updated: 2026-09-18 12:31:54.702142
 waiting_on: null
 waiting_since: null
 working_on: false

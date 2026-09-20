@@ -10,13 +10,13 @@ energy: medium
 id: 2026-09-16T1604-read-the-workup-catch-up-brief-before-tonight-s-la
 order: null
 output: ''
-project: 2026-04-16T1210-unblock-team
+project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: 15
 title: Read the Workup catch-up brief before tonight's Laura 1-1 (21:30) and the Workup
   sync (18:30)cF
-updated: 2026-09-17 14:14:36.885077
+updated: 2026-09-18 11:32:19.935830
 waiting_on: null
 waiting_since: null
 working_on: false

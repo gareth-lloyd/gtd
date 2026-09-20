@@ -4,8 +4,8 @@ completed_at: null
 contexts:
 - deep
 created: 2026-08-04 16:00:16.245615
-defer_until: null
-due: 2026-09-18
+defer_until: 2026-09-21 09:00:00
+due: null
 energy: high
 id: 2026-08-04T1600-review-pms-capabilities-eng-design
 order: 7
@@ -124,8 +124,9 @@ project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 60
-title: Review PMS capabilities eng design
-updated: 2026-09-17 19:16:03.218454
+title: Write up new thoughts on how to do the rules-based tree structure for pms capabilities,
+  linking to GDPR rules
+updated: 2026-09-18 15:20:12.006171
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -5,9 +5,10 @@ due: null
 id: 2026-04-16T1319-rules-based-config
 max_next_items: 1
 outcome: null
-priority: 4
+priority: 2
 status: active
 tags: []
 title: Rules-based config
-updated: 2026-04-29 11:54:41.521267
+updated: 2026-09-18 15:20:28.081724
+working_dir: null
 ---
