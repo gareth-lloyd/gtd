@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-21 14:04:34.380422
 contexts:
 - react
 created: 2026-09-17 09:32:17.417579
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Reply to Caitlyn re: mobile roadmap priority shortlist'
-updated: 2026-09-17 10:33:06.822329
+updated: 2026-09-21 14:04:34.380414
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-21 14:04:51.913207
 contexts: []
 created: 2026-09-18 11:35:08.842837
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Re-run workup next step in typesafe AI?
-updated: 2026-09-18 11:35:08.999605
+updated: 2026-09-21 14:04:51.913202
 waiting_on: null
 waiting_since: null
 working_on: false

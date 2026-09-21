@@ -4,7 +4,7 @@ contexts:
 - autopilot
 energy: low
 id: 2026-04-20T0900-blake-directs-meeting-updates
-last_spawned: 2026-09-14
+last_spawned: 2026-09-21
 project: null
 recurrence: weekly
 tags: []

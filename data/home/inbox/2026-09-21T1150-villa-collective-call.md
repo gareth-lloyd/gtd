@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-16 09:11:11.081147
-defer_until: 2026-09-22 09:00:00
+created: &id001 2026-09-21 11:50:29.120730
+defer_until: null
 due: null
 energy: low
-id: 2026-09-16T0911-self-improvement-greek-lessons
+id: 2026-09-21T1150-villa-collective-call
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: self-improvement greek lessons
-updated: 2026-09-21 11:31:09.625792
+title: VILLA COLLECTIVE CALL
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

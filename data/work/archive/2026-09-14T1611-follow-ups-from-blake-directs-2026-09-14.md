@@ -1,15 +1,39 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-21 14:14:28.528399
 contexts: []
 created: 2026-09-14 16:11:17
-defer_until: 2026-09-21 09:00:00
-due: null
+defer_until: null
+due: 2026-09-21
 energy: low
 id: 2026-09-14T1611-follow-ups-from-blake-directs-2026-09-14
 order: null
-output: ''
-project: null
+output: |
+  ## Signature question: context (researched 2026-09-21)
+  **Bottom line:** Blake was right to push back. Immediate purge applies to ID images only. No source says signatures must be purged immediately, and the record points toward keeping them for the statutory register period.
+
+  ### What supports immediate purge (ID images only)
+  - Tanja, the lawyer who reviewed the ROPA, advises every hotel be set to purge ID images immediately after OCR. Said in the "GDPR country retention" Granola meeting, Sep 3: "what should be happening now is immediate purge on OCR."
+  - The retention matrix has `ID_IMAGE_DAYS = 0` and marks ID copies as prohibited in France and Czech Republic. Its Method tab says the country retention figure does not cover ID photos or scans, which have their own column. https://docs.google.com/spreadsheets/d/1oItyp7d5keDcJjis1onPo0GmcjGbUEj3173Hqpr7A1A/edit
+  - The matrix has no signature column at all.
+
+  ### What the record says about signatures
+  - Jul 14 "GDPR storage" meeting notes: ID images mostly do not need long-term retention, but "what likely needs retention: signature + the policies being signed (for legal context)". https://app.notion.com/p/39d8146861518063a7a8caf9247db64d
+  - WIP PRD "GDPR storage of Reg cards + ID + signature" (V2, Aug 3): signature is a logbook field to keep where the law requires the register, e.g. Germany international 12 months. V1 proposed tagging signature as non-wipeable reg-card data. Open, unowned, last edited Aug 4. https://app.notion.com/p/39d81468615180fca1cfc7ff6ddd9fc3
+  - Matrix, France row: "signed fiche kept 6 months from its creation on arrival". A signed register record is a retention duty, not a purge duty.
+  - Jul 15 weekly sync follow-up listed James as owner of "continue reg card/signature retention" work.
+  - Granola search across the GDPR meetings and EMEA standups, Aug to Sep: no discussion of signatures as sensitive data or of any signature purge rule.
+
+  ### What the code does today
+  - The sweep scrubs the signature entry inside the reg-card JSON, so it disappears from the reg card after the country retention period.
+  - The signature image itself (`CheckIn.signature`, sensitive-media S3 bucket) is not tagged for obfuscation and survives the sweep. The legacy ID-image purge does not touch it either.
+  - Sebastian asked on Sep 4 whether the signature had been reviewed. Marta replied it is "a bug/not handled yet. I will add it to our list." No Linear ticket found for it. https://canarytechnologies.slack.com/archives/C0B3EUYPRL4/p1788521088317839
+
+  ### Suggested follow-ups
+  - Tell Blake the correction: IDs immediate on legal advice; signatures follow the country retention period with the rest of the reg card.
+  - Ask Marta whether the signature image gap is ticketed.
+  - Ask Sebastian and James who owns the reg-card and signature retention PRD, and whether Tanja has been asked about signatures specifically. No record shows she has.
+project: 2026-04-16T1210-unblock-team
 source_id: 2026-09-01T1451-plan-discussion-for-blake-directs-gdpr-retention-p
 tags:
 - gdpr
@@ -17,7 +41,7 @@ tags:
 - blake
 time_minutes: 5
 title: Follow-ups from Blake directs 2026-09-14
-updated: 2026-09-15 14:53:30.013831
+updated: 2026-09-21 14:14:28.528393
 waiting_on: null
 waiting_since: null
 working_on: false

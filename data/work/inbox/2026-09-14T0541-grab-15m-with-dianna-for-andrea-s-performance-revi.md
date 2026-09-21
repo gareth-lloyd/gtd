@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-09-14 05:41:03.797435
-defer_until: 2026-09-21 09:00:00
+defer_until: 2026-09-28 09:00:00
 due: null
 energy: low
 id: 2026-09-14T0541-grab-15m-with-dianna-for-andrea-s-performance-revi
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: Grab 15m with Dianna for Andrea's performance review feedback
-updated: 2026-09-14 06:36:53.350787
+updated: 2026-09-21 11:30:44.062702
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - deep
 created: 2026-08-04 16:00:16.245615
-defer_until: 2026-09-21 09:00:00
+defer_until: null
 due: null
 energy: high
 id: 2026-08-04T1600-review-pms-capabilities-eng-design

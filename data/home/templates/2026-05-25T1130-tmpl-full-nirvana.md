@@ -4,7 +4,7 @@ contexts:
 - computer
 energy: null
 id: 2026-05-25T1130-tmpl-full-nirvana
-last_spawned: 2026-09-14
+last_spawned: 2026-09-21
 project: null
 recurrence: weekly
 tags: []
