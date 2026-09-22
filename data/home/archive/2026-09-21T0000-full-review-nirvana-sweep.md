@@ -1,9 +1,9 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 09:05:56.915494
 contexts:
 - computer
-created: &id001 2026-09-21 00:00:00
+created: 2026-09-21 00:00:00
 defer_until: null
 due: null
 energy: null
@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Full review (Nirvana sweep)
-updated: *id001
+updated: 2026-09-22 09:05:56.915482
 waiting_on: null
 waiting_since: null
 working_on: false

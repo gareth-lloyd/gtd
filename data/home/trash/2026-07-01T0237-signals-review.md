@@ -2,22 +2,20 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-21 14:34:33.602647
+created: 2026-07-01 02:37:50.941439
 defer_until: null
 due: null
 energy: low
-id: 2026-09-21T1434-absorb
-order: null
+id: 2026-07-01T0237-signals-review
+order: 3
 output: ''
-project: null
+project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: absorb
-updated: *id001
+title: signals review
+updated: 2026-09-22 09:40:20.252775
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-https://www.youtube.com/watch?v=9IBn1iXpzdU

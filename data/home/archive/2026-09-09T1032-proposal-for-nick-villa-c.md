@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 09:39:32.995293
 contexts: []
 created: 2026-09-09 10:32:41.227246
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Deploy loaded data to VC, and demo to make case milestone complete
-updated: 2026-09-17 21:13:29.097150
+updated: 2026-09-22 09:39:32.995263
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

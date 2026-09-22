@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-16 09:11:11.081147
-defer_until: 2026-09-22 09:00:00
+created: &id001 2026-09-21 18:16:43.705160
+defer_until: null
 due: null
 energy: low
-id: 2026-09-16T0911-self-improvement-greek-lessons
+id: 2026-09-21T1816-bring-up-the-enterprise-goals-from-retreat-again
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: self-improvement greek lessons
-updated: 2026-09-21 11:31:09.625792
+title: bring up the enterprise goals from retreat again
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

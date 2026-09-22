@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 09:06:29.310822
 contexts: []
-created: &id001 2026-09-21 11:50:29.120730
+created: 2026-09-21 11:50:29.120730
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: VILLA COLLECTIVE CALL
-updated: *id001
+updated: 2026-09-22 09:06:29.310796
 waiting_on: null
 waiting_since: null
 working_on: false

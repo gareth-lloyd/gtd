@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-21 11:50:38.783381
-defer_until: 2026-09-22 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-09-21T1150-follow-up-with-caitlyn-on-selective-rollout-wyndha
