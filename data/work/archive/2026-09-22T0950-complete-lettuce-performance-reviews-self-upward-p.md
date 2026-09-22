@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 10:15:10.321869
 contexts:
 - deep
 created: 2026-09-22 09:50:30.679832
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 90
 title: 'Complete Lettuce performance reviews: self, upward, peer (due Fri Sep 25)'
-updated: 2026-09-22 09:50:30.757180
+updated: 2026-09-22 10:15:10.321864
 waiting_on: null
 waiting_since: null
 working_on: false

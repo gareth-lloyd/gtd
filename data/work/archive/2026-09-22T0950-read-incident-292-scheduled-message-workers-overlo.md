@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 10:15:48.861686
 contexts:
 - consume
 created: 2026-09-22 09:50:31.153869
@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Read incident #292: scheduled message workers overloaded the us-west-2 Aurora
   writer (mitigated)'
-updated: 2026-09-22 09:50:31.228634
+updated: 2026-09-22 10:15:48.861679
 waiting_on: null
 waiting_since: null
 working_on: false
