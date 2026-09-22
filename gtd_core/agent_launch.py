@@ -281,10 +281,13 @@ def launch_claude_session(
     file_q = shlex.quote(str(prompt_file))
     # `trap` ensures the prompt file is removed even if the user closes the
     # iTerm window mid-session (SIGHUP) — bare `; rm` would leak in that case.
+    # `command claude` bypasses any shell function/alias named `claude` in the
+    # user's rc (e.g. a wrapper that refuses to run in personal project dirs
+    # without checking CLAUDE_CONFIG_DIR) — we've already chosen the account.
     bash_cmd = (
         f"trap 'rm -f {file_q}' EXIT && "
         f"cd {shlex.quote(str(cwd))} && "
-        f'{env_prefix}claude{auto_flag} "$(cat {file_q})"'
+        f'{env_prefix}command claude{auto_flag} "$(cat {file_q})"'
     )
     # Open in a new tab of the current window when iTerm is already running;
     # fall back to a new window when no iTerm window exists yet.

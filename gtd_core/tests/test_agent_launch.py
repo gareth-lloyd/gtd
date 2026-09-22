@@ -479,7 +479,8 @@ class TestLaunchClaudeSessionConfigDir:
         launch_claude_session(prompt="hi", cwd=tmp_path, config_dir=config_dir)
 
         as_script = cmds[0][2]
-        expected = f"CLAUDE_CONFIG_DIR={shlex.quote(str(config_dir))} claude --permission-mode auto"
+        cfg = f"CLAUDE_CONFIG_DIR={shlex.quote(str(config_dir))}"
+        expected = f"{cfg} command claude --permission-mode auto"
         assert expected in as_script
 
     def test_omits_claude_config_dir_by_default(self, monkeypatch, tmp_path):
@@ -490,7 +491,22 @@ class TestLaunchClaudeSessionConfigDir:
 
         as_script = cmds[0][2]
         assert "CLAUDE_CONFIG_DIR" not in as_script
-        assert "&& claude --permission-mode auto" in as_script
+        assert "&& command claude --permission-mode auto" in as_script
+
+    def test_bypasses_shell_wrapper_function(self, monkeypatch, tmp_path):
+        """The iTerm tab runs an interactive zsh where `claude` may resolve to a
+        user-defined wrapper function (e.g. one that refuses to start in personal
+        project dirs regardless of CLAUDE_CONFIG_DIR). `command claude` skips
+        functions/aliases and runs the real binary, so the account we set via
+        config_dir is honoured rather than second-guessed by the wrapper."""
+        _mock_which(monkeypatch)
+        cmds = _mock_subprocess(monkeypatch)
+
+        launch_claude_session(prompt="hi", cwd=tmp_path, config_dir=tmp_path / ".claude-personal")
+
+        as_script = cmds[0][2]
+        assert " command claude --permission-mode auto" in as_script
+        assert "&& claude " not in as_script
 
     def test_config_dir_with_spaces_is_shell_quoted(self, monkeypatch, tmp_path):
         _mock_which(monkeypatch)

@@ -24,6 +24,7 @@ dev = [
     "pre-commit>=3.7",
     "pyright>=1.1.380",
     "djangorestframework-types>=0.9.0",
+    "typesafe-sdk>=0.6.0",
 ]
 
 [tool.ruff]
