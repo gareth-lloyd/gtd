@@ -1,11 +1,11 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 13:49:25.161997
 contexts:
 - react
 created: 2026-09-22 09:50:30.837267
 defer_until: null
-due: null
+due: 2026-09-22
 energy: medium
 id: 2026-09-22T0950-review-pr-57237-ent-7557-give-epd-department-admin
 order: null
@@ -45,14 +45,14 @@ output: |
   - The PR caveat about a "ticket-type catalog seed matching English names (Banquets, Engineering, F&B, Front Desk, Housekeeping, IT, Security)" doesn't correspond to anything in this repo; `seed_departments` uses a different list. May live in the ticketing microservice. Ask Andrea where that came from.
 
   No comments posted anywhere; nothing written to GitHub/Linear.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://github.com/canary-technologies-corp/canary/pull/57237
 tags:
 - morning-gtd
 - github
 time_minutes: 20
 title: 'Review PR #57237: [ENT-7557] Give EPD department admin permissions'
-updated: 2026-09-22 10:21:13.403923
+updated: 2026-09-22 13:49:25.161983
 waiting_on: null
 waiting_since: null
 working_on: false

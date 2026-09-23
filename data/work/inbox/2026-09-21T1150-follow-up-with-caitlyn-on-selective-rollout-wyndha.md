@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-21 11:50:38.783381
-defer_until: 2026-09-23 09:00:00
+defer_until: 2026-09-24 09:00:00
 due: null
 energy: low
 id: 2026-09-21T1150-follow-up-with-caitlyn-on-selective-rollout-wyndha
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Follow up with Caitlyn on selective rollout Wyndham hotels
-updated: 2026-09-22 10:15:23.914508
+updated: 2026-09-23 09:28:43.053825
 waiting_on: null
 waiting_since: null
 working_on: false

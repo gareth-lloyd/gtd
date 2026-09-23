@@ -1,11 +1,11 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 14:20:04.454021
 contexts:
 - consume
 created: 2026-09-22 09:50:30.757950
 defer_until: null
-due: null
+due: 2026-09-22
 energy: medium
 id: 2026-09-22T0950-re-familiarize-with-the-wyndham-barclays-project-a
 order: null
@@ -53,7 +53,7 @@ output: |
   - Staffing/lead is thin: one 2-pt spike, lead Ryan who also leads Golem triage, Managed Context and Content Gateway this block.
 
   **Adjacent Wyndham context.** Bryan M's 2026-08-26 #wyndham thread on Wyndham Connect upsell growth lists "Barclays card is another win to add to Wyndham Connect when we launch that" https://canarytechnologies.slack.com/archives/C04STT7UPRQ/p1787704062215709. Voice side (Val/Mason) references Barclay activity as a loyalty verification signal, unrelated to this project.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C0B1Y5K9AMC/p1790017590754549
 tags:
 - morning-gtd
@@ -61,7 +61,7 @@ tags:
 time_minutes: 30
 title: Re-familiarize with the Wyndham Barclays project and pre-read Connor's snapshot
   before block review
-updated: 2026-09-22 10:19:04.430716
+updated: 2026-09-22 14:20:04.454016
 waiting_on: null
 waiting_since: null
 working_on: false

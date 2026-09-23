@@ -1,11 +1,11 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 13:41:04.247042
 contexts:
 - consume
-created: &id001 2026-09-22 00:00:00
+created: 2026-09-22 00:00:00
 defer_until: null
-due: null
+due: 2026-09-22
 energy: low
 id: 2026-09-22T0000-check-ent-sync-transcripts
 order: null
@@ -48,12 +48,12 @@ output: |
   - Drift detection: Loom video (done, video was shared), approved-drifts spike ticket, filter-by-app, coordinate with Tommy Slater.
 
   Notes: the DB rows for both entries have empty Action Items / Decisions / Topics properties. No external writes made.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 10
 title: Check ENT sync transcripts
-updated: 2026-09-22 10:16:17
+updated: 2026-09-22 13:41:04.247038
 waiting_on: null
 waiting_since: null
 working_on: false

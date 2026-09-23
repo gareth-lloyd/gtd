@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-21T1448-blake-on-workup-eng-leads-last-week
-order: null
+order: 3
 output: ''
 project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: 5
 title: Blake on Workup, eng leads last week
-updated: 2026-09-22 11:33:03.891142
+updated: 2026-09-22 14:01:42.365376
 waiting_on: null
 waiting_since: null
 working_on: false

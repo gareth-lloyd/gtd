@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 13:31:16.893586
 contexts: []
 created: 2026-09-22 09:40:54.784110
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Go through zoho flow points and check all. Send sample
-updated: 2026-09-22 09:40:59.179302
+updated: 2026-09-22 13:31:16.893577
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-22 13:30:41.040882
 contexts: []
 created: 2026-09-21 14:39:08.121172
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Write a general email on zoho flow progress after checking
-updated: 2026-09-22 09:40:59.179302
+updated: 2026-09-22 13:30:41.040853
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

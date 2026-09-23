@@ -15,8 +15,8 @@ tags: []
 time_minutes: 5
 title: Flag to Nick etc that Zoho can't reproduce non-propotional commission due to
   non-commissionable extras
-updated: 2026-09-22 09:42:19.442851
+updated: 2026-09-22 13:05:50.194147
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

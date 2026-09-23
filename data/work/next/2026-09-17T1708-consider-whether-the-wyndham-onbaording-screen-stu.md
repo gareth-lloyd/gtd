@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-09-17 17:08:27.644093
 defer_until: null
-due: 2026-09-18
+due: 2026-09-23
 energy: low
 id: 2026-09-17T1708-consider-whether-the-wyndham-onbaording-screen-stu
 order: null
@@ -122,10 +122,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Think through how monitored health checks could be useful for onboarding checklist
-updated: 2026-09-18 15:22:46.520656
+updated: 2026-09-22 13:19:41.792344
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 read this notion: https://app.notion.com/p/canarytechnologies/Onboarding-Configuration-Checklists-3db814686151818b9316ffff0b388e50?source=copy_link

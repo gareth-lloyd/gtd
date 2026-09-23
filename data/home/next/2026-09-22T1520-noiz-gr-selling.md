@@ -2,22 +2,20 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-14 12:54:14.841898
+created: 2026-09-22 15:20:20.783678
 defer_until: null
 due: null
 energy: low
-id: 2026-09-14T1254-follow-up-glasses-metropole
+id: 2026-09-22T1520-noiz-gr-selling
 order: null
 output: ''
-project: null
+project: 2026-05-25-admin
 source_id: null
 tags: []
 time_minutes: 5
-title: follow up glasses metropole
-updated: 2026-09-22 09:06:16.527136
+title: noiz.gr selling
+updated: 2026-09-22 15:20:24.192212
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-1789379568-12429

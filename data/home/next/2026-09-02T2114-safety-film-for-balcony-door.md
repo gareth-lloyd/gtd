@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-16 17:08:35.134056
+created: 2026-09-02 21:14:27.612924
 defer_until: null
 due: null
 energy: low
-id: 2026-09-16T1708-printing
+id: 2026-09-02T2114-safety-film-for-balcony-door
 order: null
 output: ''
-project: null
+project: 2026-05-25-admin
 source_id: null
 tags: []
 time_minutes: 5
-title: printing
-updated: *id001
+title: Safety film for balcony door
+updated: 2026-09-22 13:30:54.443697
 waiting_on: null
 waiting_since: null
 working_on: false
