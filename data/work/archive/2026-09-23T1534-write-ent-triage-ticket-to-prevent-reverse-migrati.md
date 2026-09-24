@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-24 10:09:55.862593
 contexts: []
 created: 2026-09-23 15:34:32.112630
 defer_until: null
@@ -37,7 +37,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Write ENT triage ticket to prevent reverse migration to check in v2
-updated: 2026-09-23 17:58:45.598956
+updated: 2026-09-24 10:09:55.862588
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -10,14 +10,14 @@ energy: medium
 id: 2026-09-22T0950-read-the-orbital-private-docs-jason-gave-me-access
 order: null
 output: ''
-project: null
+project: 2026-09-08-workup
 source_id: https://canarytechnologies.slack.com/archives/D0A3G9PF066/p1790021680627369
 tags:
 - morning-gtd
 - slack
 time_minutes: 30
 title: Read the Orbital private docs Jason gave me access to
-updated: 2026-09-23 13:17:51.095498
+updated: 2026-09-24 10:08:33.907152
 waiting_on: null
 waiting_since: null
 working_on: false

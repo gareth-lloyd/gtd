@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-24 09:02:02.999098
 contexts: []
 created: 2026-09-14 12:54:14.841898
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: follow up glasses metropole
-updated: 2026-09-23 10:31:06.877389
+updated: 2026-09-24 09:02:02.999080
 waiting_on: null
 waiting_since: null
 working_on: false

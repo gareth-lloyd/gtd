@@ -16,10 +16,10 @@ tags: []
 time_minutes: 90
 title: Pull together the check-in v3 configuration threads and propose country-based
   (general) rules
-updated: 2026-09-23 16:08:38.742507
+updated: 2026-09-24 10:58:31.197462
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Notes:

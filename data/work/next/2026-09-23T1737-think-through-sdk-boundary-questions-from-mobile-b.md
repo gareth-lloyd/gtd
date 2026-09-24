@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-23 17:37:29.705942
+created: 2026-09-23 17:37:29.705942
 defer_until: null
 due: null
 energy: null
 id: 2026-09-23T1737-think-through-sdk-boundary-questions-from-mobile-b
 order: null
 output: ''
-project: null
+project: 2026-09-08-mobile
 source_id: null
 tags: []
 time_minutes: null
 title: Think through SDK boundary questions from mobile block planning (Sep 23)
-updated: *id001
+updated: 2026-09-24 10:10:01.316297
 waiting_on: null
 waiting_since: null
 working_on: false

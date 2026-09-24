@@ -1,5 +1,6 @@
 ---
 area: null
+completed_at: null
 contexts: []
 created: 2026-05-19 14:55:35.588068
 defer_until: null
@@ -7,13 +8,100 @@ due: null
 energy: low
 id: 2026-05-19T1455-merge-search-merge
 order: 2
-output: ''
+output: "## Agent run 2026-09-24T10:12:37\n\nImplemented the merge feature end to
+  end, mirroring the AI-capture pipeline. Committed to `main` as 97c5b7b4 (code only;
+  `data/` left out of the commit). Local service restarted via `make restart-service`
+  and answering on :8765.\n\n### Backend\n- `gtd_core/ai.py`: `AiMergeResult`, `_MERGE_JSON_SCHEMA`,
+  `ai_merge(target, source, today, config_dir, model)`, `_build_merge_prompt`. Factored
+  the subprocess call into `_run_claude()` and the fence-strip/JSON parse into `_parse_json_object()`,
+  both now shared with `ai_capture`. Same `GTD_AI_STUB_RESPONSE` seam and `AiCapture*`
+  exception hierarchy.\n- `gtd_core/service.py`: `merge_items(env, target_id, source_id,
+  model=\"\")`. Rejects self-merge (ValueError), missing either side (KeyError). Patch
+  = AI title/body + order-preserving union of contexts (filtered against config) and
+  tags + source value for any *falsy* target scalar (energy, time_minutes, due, defer_until,
+  waiting_on). Applied via `update()`, then `delete()` trashes the source. Ordering
+  means an AI failure leaves both items untouched. Passes the env's `claude_config_dir`
+  so `home` merges use the personal account.\n- `gtd_api`: `ItemMergeSerializer`,
+  `item_merge` view (404 missing / 400 self-or-blank / 422 bad JSON / 502 CLI / 503
+  no CLI), route `items/<id>/merge/`. Added `merge_items` to the method table in `gtd_core/CLAUDE.md`.\n\n###
+  Frontend\n- `api.mergeItem(env, id, sourceId)`.\n- New `MergeButton.tsx`: \"⇄ merge
+  other\" button → overlay (reuses `.capture-overlay`/`.capture`) with autofocused
+  search input backed by `useSearchIndex` (corpus only fetched once opened). Results
+  keep `kind===\"item\"`, exclude the current item, cap at 20, show status + project
+  chips. Click → `confirm()` naming both items and warning the source will be trashed
+  → mutation → invalidates queries for both ids → success toast → close. Escape /
+  backdrop click closes. Button shows busy while pending.\n- Mounted in `WorkflowActions`
+  normal branch after the two agent buttons. Trash/archive branches unchanged.\n\n###
+  Tests (red/green)\n- `gtd_core/tests/test_merge.py` (14): stub seam, missing title
+  → 422-class error, null body → \"\", no CLI → NotConfigured, prompt embeds both
+  items; service: identity/project/status preserved, source in trash, contexts+tags
+  union in order, unknown source context dropped, empty scalars filled, non-empty
+  untouched, self-merge ValueError, missing target/source KeyError with no side effects,
+  AI failure leaves both untouched.\n- `gtd_api/tests/test_api.py::TestItemMerge`
+  (6): 200 happy path + source in trash, 404 missing source/target, 400 blank source_id,
+  400 self-merge, 422 garbage AI output.\n- `frontend/src/MergeButton.test.tsx` (5):
+  corpus not fetched until opened, picker filters + excludes current item + shows
+  status chip, select → confirm → `api.mergeItem` → toast + invalidations + close,
+  declined confirm leaves picker open, Escape closes.\n- Note: the frontend test file
+  and component were written in the same step, so I did not observe the frontend red
+  phase separately. Backend red was observed.\n\n### Verification\n- `uv run pytest`:
+  649 passed (full suite, before the 2 test-only line-wrap edits; merge subsets re-run
+  green after).\n- `cd frontend && npm test`: 163 passed. `npm run build`: ok.\n-
+  `./scripts/lint.sh`: all clear (ruff, pyright, eslint, prettier, tsc). Pre-commit
+  hooks passed on commit.\n- HTTP smoke on a throwaway `GTD_DATA_ROOT` with `GTD_AI_STUB_RESPONSE`:
+  POST merge → 200 with merged title/body, contexts `[calls, office]`, energy filled
+  from source, status unchanged, source file in `trash/`; self-merge → 400; missing
+  source → 404.\n\n### Not done / for you\n- Manual UI check against real data with
+  the real `claude` CLI (spec step 3). I did not run this because it would move a
+  real item to trash. Open any next-action → \"⇄ merge other\" → search → pick → confirm.\n-
+  No e2e Playwright spec added (spec marked it optional). Easy follow-up: the stub
+  env var is already in the Playwright webServer config.\n- Prompt quality with the
+  real model is untested; if it over-trims, the \"err STRONGLY toward including ALL
+  information\" rule in `_build_merge_prompt` is the knob.\n\n## Agent run 2026-09-24T10:27:07\n\nUser
+  feedback after trying the first cut: `{\"error\":\"Claude CLI timed out after 30s\"}`.
+  Direction: don't merge inside the web request; open an agent session like the \U0001F916
+  agent button. Redesigned accordingly, committed to `main` as c723150f, service restarted.\n\n###
+  New flow\n1. \"⇄ merge other\" → search picker → pick → confirm → `POST /items/<id>/merge/`
+  `{source_id, target?}`.\n2. `service.launch_merge_session()` validates both ids,
+  pins the current item (`working_on: true`), builds a prompt with `agent_launch.build_merge_prompt()`,
+  and opens iTerm (default) or the desktop app in the gtd repo root. Returns 204 immediately.
+  Nothing is merged in the request.\n3. The agent reads both files, composes one merged
+  title + body (same rules as before: de-dup but err strongly toward keeping everything,
+  prefer the current title, verb-first, no invention), writes the body to a temp file
+  and runs\n   `uv run manage.py merge_items <env> <target_id> <source_id> --title
+  '…' --body-file …`.\n4. That command → `service.merge_items(title=, body=)`, now
+  a deterministic apply step with no AI: sets title/body, unions contexts (filtered
+  vs config) and tags, fills empty scalars from the source, keeps project + bucket,
+  moves the source to trash.\n5. The agent appends a `## Agent run` section to the
+  target's `output:` (what was folded in + the source id for recovery from trash),
+  restores `working_on`, bumps `updated:`, stops. The prompt forbids `mv`/hand-editing
+  fields — the command is the only sanctioned write.\n\n### Removed\n`ai_merge` /
+  `_build_merge_prompt` / `AiMergeResult` and the `claude -p` merge path are gone
+  from `gtd_core/ai.py`. The `_run_claude` + `_parse_json_object` refactor stays (still
+  used by AI capture).\n\n### Tests\n- `gtd_core/tests/test_merge.py` (27): apply
+  semantics as before plus blank-title rejection; `manage.py merge_items` via `call_command`
+  (body file, inline body, missing item → CommandError); prompt content (both items
+  + paths, exact apply command, rules, no-mv/no-edit, exit protocol, external-write
+  ban); launcher (cwd = repo root, pins target only, prior pin preserved, desktop
+  target, env `claude_config_dir`, self/missing rejected before pin or launch).\n-
+  `gtd_api/tests/test_api.py::TestItemMerge` (9): 204 + target pinned + source untouched,
+  desktop target, bad target 400, missing 404s, blank/self 400, 503/502 launch errors.\n-
+  Frontend `MergeButton.test.tsx` updated for void return + \"Agent launched\" toast.\n\n###
+  Verification\n- `uv run pytest`: 664 passed. `npm test`: 163 passed. `npm run build`:
+  ok. `./scripts/lint.sh`: all clear.\n- Smoke on a throwaway `GTD_DATA_ROOT`: ran
+  the exact `manage.py merge_items … --body-file` command → title/body set, contexts
+  `[calls, office]`, energy filled, source in `trash/`.\n\n### For you\n- Try the
+  real flow again: pick an item → \"⇄ merge other\" → pick → confirm → an iTerm tab
+  should open in `~/projects/gtd`. The agent needs `uv` on PATH there (it will).\n-
+  Only iTerm is wired from the button; the API accepts `target: \"desktop\"` if you
+  want a desktop variant later.\n- Docs: new \"Merge items\" bullet in the root `CLAUDE.md`;
+  `merge_items` + `launch_merge_session` in the `gtd_core/CLAUDE.md` method table.\n"
 project: 2026-04-27-gtd
 source_id: null
 tags: []
 time_minutes: 5
 title: merge -> search -> merge
-updated: 2026-06-25 12:17:54.394019
+updated: 2026-09-24 10:27:07
 waiting_on: null
 waiting_since: null
 working_on: false

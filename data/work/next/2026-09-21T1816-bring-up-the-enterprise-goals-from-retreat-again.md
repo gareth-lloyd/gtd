@@ -9,12 +9,12 @@ energy: low
 id: 2026-09-21T1816-bring-up-the-enterprise-goals-from-retreat-again
 order: null
 output: ''
-project: null
+project: 2026-08-05-strategy
 source_id: null
 tags: []
 time_minutes: 5
 title: bring up the enterprise goals from retreat again
-updated: 2026-09-23 09:28:47.484132
+updated: 2026-09-24 10:08:28.719011
 waiting_on: null
 waiting_since: null
 working_on: false

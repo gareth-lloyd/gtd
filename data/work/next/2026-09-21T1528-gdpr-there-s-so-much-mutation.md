@@ -9,12 +9,12 @@ energy: low
 id: 2026-09-21T1528-gdpr-there-s-so-much-mutation
 order: null
 output: ''
-project: null
+project: 2026-07-20-gdpr
 source_id: null
 tags: []
 time_minutes: 5
 title: GDPR. There's so much mutation
-updated: 2026-09-23 13:22:45.917215
+updated: 2026-09-24 10:08:23.495722
 waiting_on: null
 waiting_since: null
 working_on: false
