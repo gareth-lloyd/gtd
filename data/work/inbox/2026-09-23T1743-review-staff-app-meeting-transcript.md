@@ -2,22 +2,20 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-14 12:54:14.841898
+created: &id001 2026-09-23 17:43:47.138654
 defer_until: null
 due: null
 energy: low
-id: 2026-09-14T1254-follow-up-glasses-metropole
+id: 2026-09-23T1743-review-staff-app-meeting-transcript
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: follow up glasses metropole
-updated: 2026-09-23 10:31:06.877389
+title: REview staff app meeting transcript
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-1789379568-12429

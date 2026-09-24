@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-21 18:16:43.705160
-defer_until: 2026-09-24 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-09-21T1816-bring-up-the-enterprise-goals-from-retreat-again

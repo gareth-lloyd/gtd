@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-23 16:12:08.545409
 contexts:
 - react
 created: 2026-09-22 09:50:30.915498
@@ -87,6 +87,35 @@ output: |
   > So it moves the 2% reply number and gives us data, but it doesn't turn a stalled run into a resolved one. That stays the full PRD, which I'd keep in Up Next for Q4B.
   >
   > Two questions: does your eng design already carve out a notify-only phase like this? And where does it live, I couldn't find it in Notion or on the Linear project.
+  ## Agent run 2026-09-23T13:45:00+03:00
+  Follow-up asked: "verify claims of the comment draft, and redraft to be shorter, less prescriptive and more suggestive"
+
+  ### Claim check against both repos (canary master e3f5d1a, canary-agents b1943bd 2026-09-17)
+  Holds up:
+  - `Next Step: Request Info` label is real: defined in `overlord/src/agents/workup/next-step-label.ts:23` and applied at the end of every investigation (`agents/workup/agent.ts:518`).
+  - Plain Linear comments never reach Workup: `sources/linear.ts` `matchesAgent` only matches when the body contains `@<linearBotName>`.
+  - The follow-up stub exists verbatim at `agents/workup/agent.ts:704` ("I can't take follow-up questions on this ticket. A human will follow up here...").
+  - Legacy triage ask is still live for triage-failed, ambiguous-hotel and non-Workup-team tickets; ASK_FOR_ENTITIES on Workup teams is rendered and handed off (`linear_agent/tasks.py:380-410`).
+  - Canary has an email-to-Slack lookup (`internal_support/services/slack.py:81`, oncall token) and the SAG flow has its own lookup + `_post_chat_message` DM sender (`support_access_grant_slack.py:82`, support-access token). So no new Slack app is needed on the canary side, but it has to pick one of two existing tokens.
+
+  Needs correcting in the draft:
+  - "resolveUserByEmail + postMessage (currently no callers)" is half wrong. `resolveUserByEmail` (`overlord/src/clients/slack.ts:101`) has zero callers, but `postMessage` is used by Golem notify, the Slack source and the schedule source. Say "resolveUserByEmail has no callers yet" or drop the aside.
+  - Workup has no Slack bot identity. Overlord loads per-agent `{SLUG}_SLACK_BOT_TOKEN`; there is no WORKUP_SLACK_BOT_TOKEN anywhere in canary-agents, canary-kubernetes or terraform. A Workup DM needs a Slack app (or borrowing Golem's), which is config work, not code, but it is not "already there".
+  - Overlord does not know who filed the ticket. `ISSUE_FIELDS` in `clients/linear.ts:383` fetches assignee but not creator, and the canary handoff payload carries no filer email. Small GraphQL addition, but again not zero.
+  - "3 L and 7 M" is the previous run's estimate; not re-derived today. Present it as rough.
+  - Eng design location: not re-searched today; prior run found nothing in Notion or the Linear project. Keep it as a question.
+  Net: the ~1 week for the nudge slice still looks right for the canary hook; the Overlord hook is closer to 1-1.5 weeks once a Slack app and creator lookup are included. "Reuses what exists" is fair for canary, generous for Overlord.
+
+  ### Redraft (shorter, suggestive). NOT SENT.
+  > Thanks Laura. I read the PRD and had a look at what's already in both repos before the planning call.
+  >
+  > The full Interactive Investigations build feels like a lot for Q4A next to Accuracy and SQL: stop mid-run, resume from Linear/Slack, region ladder, SLA cancel, Zendesk. Rough count is 3 L and 7 M pieces, most of them Overlord. Does that match your eng design's read?
+  >
+  > What eng leads asked for is narrower than the PRD, more of a Lettuce-style nudge. One way to slice it: when triage posts an ask, or an investigation ends with Next Step: Request Info, DM the filer in Slack with the question and the link, re-nudge daily, stop when the ticket gets a comment. No resume, no Slack reply intake, people still answer in Linear. Canary already has the email-to-Slack lookup and DM sender from the SAG flow; Overlord would need a Slack app for Workup and a creator lookup, so maybe a week or so. It would also give us a real answer-rate number, which the PRD's 50% target needs anyway.
+  >
+  > Not sure that belongs in Q4A either, but it seemed worth putting on the table as a phase 0 with the rest staying in Up Next. Curious whether your design already carves it that way, and where the design lives, I couldn't find it in Notion or on the Linear project.
+
+  Sources: Laura's reply https://canarytechnologies.slack.com/archives/C0A4BS2AREH/p1790003955102049 ; PRD https://app.notion.com/p/3b9814686151818b9e09f189f1499888 ; Q4A Up Next https://app.notion.com/p/3db8146861518171aab0dbfe1d5b53ca#aa5cea48fdb844228b67ace52e0835fd ; Linear project https://linear.app/canary-technologies/project/ai-workup-interactive-investigations-8e1ffa958fa5
 project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C0A4BS2AREH/p1790003955102049
 tags:
@@ -95,7 +124,7 @@ tags:
 time_minutes: 10
 title: 'Reply to Laura re: Workup Slack follow-up mechanism — pull into next block
   or leave in Up Next?'
-updated: 2026-09-22 14:50:00
+updated: 2026-09-23 16:12:08.545403
 waiting_on: null
 waiting_since: null
 working_on: false

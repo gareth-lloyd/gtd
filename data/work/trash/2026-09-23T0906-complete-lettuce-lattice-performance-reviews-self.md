@@ -18,7 +18,7 @@ tags:
 time_minutes: 120
 title: Complete Lettuce/Lattice performance reviews (self, upward, 1 peer) and approve
   Martijn Dekker's 2 peer-review requests
-updated: 2026-09-23 09:06:58.382063
+updated: 2026-09-23 13:18:48.169653
 waiting_on: null
 waiting_since: null
 working_on: false

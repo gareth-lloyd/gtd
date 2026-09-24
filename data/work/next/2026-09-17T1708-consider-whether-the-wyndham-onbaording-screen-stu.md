@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-09-17 17:08:27.644093
 defer_until: null
-due: 2026-09-23
+due: null
 energy: low
 id: 2026-09-17T1708-consider-whether-the-wyndham-onbaording-screen-stu
 order: null
@@ -122,7 +122,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Think through how monitored health checks could be useful for onboarding checklist
-updated: 2026-09-22 13:19:41.792344
+updated: 2026-09-23 13:23:31.618170
 waiting_on: null
 waiting_since: null
 working_on: false

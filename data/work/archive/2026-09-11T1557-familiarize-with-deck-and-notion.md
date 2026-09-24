@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-23 13:24:28.188674
 contexts: []
 created: 2026-09-11 15:57:17.623415
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: familiarize with deck and notion
-updated: 2026-09-17 12:27:46.043712
+updated: 2026-09-23 13:24:28.188668
 waiting_on: null
 waiting_since: null
 working_on: false

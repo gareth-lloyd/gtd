@@ -16,11 +16,19 @@ tags: []
 time_minutes: 90
 title: Pull together the check-in v3 configuration threads and propose country-based
   (general) rules
-updated: 2026-09-23 09:29:05.323681
+updated: 2026-09-23 16:08:38.742507
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+Notes:
+* artifact https://claude.ai/code/artifact/69fa6951-0b20-4941-8c0e-8c4323c7f04a#b6348ffb-d29d
+* Check the proposed deisgn against all three goals:
+  * Check-in config rules
+  * GDPR retention rules
+  * PMS capabilities rules
+
 
 Captured 2026-09-22 from a Slack/Linear/code sweep on rules-based configuration for check-in v3. Companion to the existing item on the 2026-08-11 V3 migration/ownership call (gaps #1-#6).
 

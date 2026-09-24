@@ -2,7 +2,7 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-21 15:28:02.654550
+created: 2026-09-21 15:28:02.654550
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: GDPR. There's so much mutation
-updated: *id001
+updated: 2026-09-23 13:22:45.917215
 waiting_on: null
 waiting_since: null
 working_on: false
@@ -23,3 +23,6 @@ working_on: false
 * Seb trying to get it "too" right
 * Business cases allow more retention
 * Need to feed this in before weds
+
+
+Respond to PMS gateway team on guest profile retention, consent, how it affects work

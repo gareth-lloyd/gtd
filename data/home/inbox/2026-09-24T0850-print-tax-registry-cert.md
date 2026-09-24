@@ -2,22 +2,20 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-14 12:54:14.841898
+created: &id001 2026-09-24 08:50:40.395623
 defer_until: null
 due: null
 energy: low
-id: 2026-09-14T1254-follow-up-glasses-metropole
+id: 2026-09-24T0850-print-tax-registry-cert
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: follow up glasses metropole
-updated: 2026-09-23 10:31:06.877389
+title: print tax registry cert
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-1789379568-12429

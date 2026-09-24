@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-09-16 14:54:38.205014
 defer_until: null
-due: null
+due: 2026-09-24
 energy: low
 id: 2026-09-16T1454-ping-joshua-to-ask-if-he-needs-input-on-rules-base
 order: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: ping joshua to ask if he needs input on rules based
-updated: 2026-09-22 11:32:56.830857
+updated: 2026-09-23 13:17:23.075001
 waiting_on: null
 waiting_since: null
 working_on: false

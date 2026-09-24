@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-23 13:22:42.967286
 contexts: []
 created: 2026-09-22 12:06:52.487443
 defer_until: null
@@ -46,7 +46,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review most recent gdpr sync notes from email
-updated: 2026-09-22 12:08:00.409164
+updated: 2026-09-23 13:22:42.967275
 waiting_on: null
 waiting_since: null
 working_on: false
