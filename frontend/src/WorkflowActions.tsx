@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, type AgentTarget, type Bucket, type Item } from "./api";
 import { Button } from "./Button";
 import { invalidateItemQueries, invalidateItemQueriesPreservingInbox } from "./ItemEdit";
+import { MergeButton } from "./MergeButton";
 import { useSelection } from "./SelectionContext";
 import { useProcessedItems } from "./ProcessedItemsContext";
 
@@ -150,6 +151,7 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
           >
             🖥️ desktop agent
           </Button>
+          <MergeButton env={env} item={item} />
           <Button
             className="danger"
             onClick={() => deleteMut.mutate()}

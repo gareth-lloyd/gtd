@@ -26,6 +26,7 @@ from gtd_core.snapshot import pull, snapshot, snapshot_status
 from .serializers import (
     CaptureAiSerializer,
     CaptureSerializer,
+    ItemMergeSerializer,
     ItemPatchSerializer,
     ItemSerializer,
     MoveSerializer,
@@ -270,6 +271,37 @@ def item_move(request: Request, env: str, item_id: str) -> Response:
     except KeyError:
         return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(ItemSerializer(item).data)
+
+
+@api_view(["POST"])
+def item_merge(request: Request, env: str, item_id: str) -> Response:
+    svc = _service()
+    if missing := _require_env(svc, env):
+        return missing
+    serializer = ItemMergeSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    try:
+        item = svc.merge_items(
+            env,
+            item_id,
+            serializer.validated_data["source_id"],
+            model=getattr(settings, "ANTHROPIC_MODEL", ""),
+        )
+    except KeyError:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except AiCaptureNotConfiguredError as e:
+        return Response({"error": str(e)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+    except AiCaptureNoExtractionError as e:
+        return Response({"error": str(e)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+    except AiCaptureUpstreamError as e:
+        return Response({"error": str(e)}, status=status.HTTP_502_BAD_GATEWAY)
+    except AiCaptureError as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except ValueError as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    projects_by_id = {p.id: p for p in svc.list_projects(env, include_inactive=True)}
+    return Response(ItemSerializer(item, context={"projects_by_id": projects_by_id}).data)
 
 
 _AGENT_TARGETS = ("iterm", "desktop")

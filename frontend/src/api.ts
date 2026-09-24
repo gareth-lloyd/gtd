@@ -185,6 +185,11 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ to }),
     }),
+  mergeItem: (env: string, id: string, sourceId: string) =>
+    request<Item>(`/envs/${env}/items/${id}/merge/`, {
+      method: "POST",
+      body: JSON.stringify({ source_id: sourceId }),
+    }),
   completeItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/complete/`, { method: "POST" }),
   /**

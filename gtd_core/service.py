@@ -257,6 +257,55 @@ class GtdService:
             project_title=matched_project.title if matched_project else None,
         )
 
+    def merge_items(self, env: str, target_id: str, source_id: str, *, model: str = "") -> Item:
+        """Fold `source` into `target` and trash the source.
+
+        The AI merges only prose (title + body). Code unions contexts/tags
+        and fills any *empty* target scalar from the source. The target's
+        project and bucket are never touched. The source is soft-deleted
+        (trash) only after the target has been written, so an AI failure
+        leaves both items exactly as they were.
+        """
+        from gtd_core.ai import ai_merge
+
+        if target_id == source_id:
+            raise ValueError("cannot merge an item into itself")
+        repo = self.repo(env)
+        cfg = repo.load_config()
+        target = repo.get(target_id)
+        if target is None:
+            raise KeyError(target_id)
+        source = repo.get(source_id)
+        if source is None:
+            raise KeyError(source_id)
+
+        result = ai_merge(
+            target=target,
+            source=source,
+            today=self._now().date(),
+            config_dir=cfg.claude_config_dir,
+            model=model,
+        )
+
+        patch: dict = {"title": result.title, "body": result.body}
+        contexts = list(target.contexts)
+        for c in source.contexts:
+            if c in cfg.contexts and c not in contexts:
+                contexts.append(c)
+        patch["contexts"] = contexts
+        tags = list(target.tags)
+        for t in source.tags:
+            if t not in tags:
+                tags.append(t)
+        patch["tags"] = tags
+        for field_name in ("energy", "time_minutes", "due", "defer_until", "waiting_on"):
+            if not getattr(target, field_name) and getattr(source, field_name):
+                patch[field_name] = getattr(source, field_name)
+
+        merged = self.update(env, target_id, patch)
+        self.delete(env, source_id)
+        return merged
+
     def move(self, env: str, item_id: str, to: Bucket) -> Item:
         repo = self.repo(env)
         item = repo.get(item_id)

@@ -117,6 +117,10 @@ class CaptureAiSerializer(serializers.Serializer):
     text = serializers.CharField()
 
 
+class ItemMergeSerializer(serializers.Serializer):
+    source_id = serializers.CharField()
+
+
 class MoveSerializer(serializers.Serializer):
     to = serializers.ChoiceField(
         choices=["inbox", "next", "waiting", "someday", "reference", "archive", "trash"]

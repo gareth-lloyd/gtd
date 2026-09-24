@@ -1,4 +1,4 @@
-"""AI-powered capture — unstructured text → structured Item via Claude CLI."""
+"""AI-powered capture and merge — Claude CLI turns prose into structured Items."""
 
 from __future__ import annotations
 
@@ -56,6 +56,18 @@ class AiCaptureResult:
     defer_until: str | None = None
 
 
+_MERGE_JSON_SCHEMA = """{
+  "title": "string (required — one merged verb-first title)",
+  "body": "string (required — merged markdown notes; empty string if neither item has notes)"
+}"""
+
+
+@dataclass(slots=True)
+class AiMergeResult:
+    title: str
+    body: str
+
+
 def ai_capture(
     *,
     text: str,
@@ -92,7 +104,43 @@ def ai_capture(
         sample_actions=sample_actions,
         today=today,
     )
+    raw = _run_claude(claude_path, prompt, model=model, config_dir=cfg.claude_config_dir)
+    return _parse_response(raw)
 
+
+def ai_merge(
+    *,
+    target: Item,
+    source: Item,
+    today: date,
+    config_dir: str | None = None,
+    model: str = "",
+) -> AiMergeResult:
+    """Fold `source`'s prose into `target`'s via the Claude CLI.
+
+    Returns only the merged title + body; the caller decides what happens to
+    the non-prose fields and to the source item. Same stub seam and error
+    hierarchy as `ai_capture`.
+    """
+    stub = os.environ.get("GTD_AI_STUB_RESPONSE")
+    if stub:
+        return _parse_merge_response(stub)
+
+    claude_path = shutil.which("claude")
+    if not claude_path:
+        raise AiCaptureNotConfiguredError(
+            "claude CLI not found on PATH — install Claude Code to use AI merge"
+        )
+
+    prompt = _build_merge_prompt(target=target, source=source, today=today)
+    raw = _run_claude(claude_path, prompt, model=model, config_dir=config_dir)
+    return _parse_merge_response(raw)
+
+
+def _run_claude(
+    claude_path: str, prompt: str, *, model: str = "", config_dir: str | None = None
+) -> str:
+    """Run `claude -p <prompt>` and return its trimmed stdout."""
     cmd = [claude_path, "-p", prompt]
     if model:
         cmd.extend(["--model", model])
@@ -100,10 +148,10 @@ def ai_capture(
     # Run under the env's Claude account (see EnvConfig.claude_config_dir) so
     # e.g. home captures never go through the work account.
     env = None
-    if cfg.claude_config_dir:
+    if config_dir:
         env = {
             **os.environ,
-            "CLAUDE_CONFIG_DIR": str(Path(cfg.claude_config_dir).expanduser()),
+            "CLAUDE_CONFIG_DIR": str(Path(config_dir).expanduser()),
         }
 
     try:
@@ -123,8 +171,7 @@ def ai_capture(
             f"Claude CLI failed (exit {result.returncode}): {stderr or result.stdout.strip()}"
         )
 
-    raw = result.stdout.strip()
-    return _parse_response(raw)
+    return result.stdout.strip()
 
 
 def _build_prompt(
@@ -184,8 +231,46 @@ def _build_prompt(
     return "\n".join(lines)
 
 
-def _parse_response(raw: str) -> AiCaptureResult:
-    # Strip markdown code fences if the model wraps in ```json ... ```
+def _build_merge_prompt(*, target: Item, source: Item, today: date) -> str:
+    def _block(label: str, item: Item) -> list[str]:
+        return [
+            f"### {label}",
+            f"Title: {item.title}",
+            "Body:",
+            item.body.strip() or "(no notes)",
+            "",
+        ]
+
+    lines: list[str] = [
+        "You merge two GTD next actions that describe the same piece of work into one.",
+        "Reply ONLY with a single JSON object matching the schema below "
+        "— no markdown fences, no commentary.",
+        "",
+        f"Today: {today.isoformat()}",
+        "",
+        "The CURRENT item is the one being kept. The OTHER item is being folded into it "
+        "and will be trashed afterwards, so anything you leave out is lost.",
+        "",
+        *_block("CURRENT item", target),
+        *_block("OTHER item", source),
+        "Rules:",
+        "- Produce exactly one merged title and one merged body.",
+        "- De-duplicate repeated information, but err STRONGLY toward including ALL "
+        "information from both items. When in doubt, keep it.",
+        "- Prefer the CURRENT item's title unless the OTHER item's is clearly better. "
+        "Keep the title a verb-first concrete next action.",
+        "- Merge the bodies into clean markdown, preserving every distinct note, link, "
+        "checklist item, date, and name from either body.",
+        "- Do not invent facts, tasks, or details that appear in neither item.",
+        "- If neither item has notes, return an empty string for body.",
+        "",
+        f"JSON schema:\n{_MERGE_JSON_SCHEMA}",
+    ]
+    return "\n".join(lines)
+
+
+def _parse_json_object(raw: str, *, hint: str) -> dict:
+    """Strip optional ```json fences and parse a JSON object with a `title`."""
     cleaned = raw.strip()
     if cleaned.startswith("```"):
         cleaned = cleaned.split("\n", 1)[-1]
@@ -197,15 +282,27 @@ def _parse_response(raw: str) -> AiCaptureResult:
         data = json.loads(cleaned)
     except json.JSONDecodeError as err:
         raise AiCaptureNoExtractionError(
-            f"AI did not return valid JSON; try again or use Regular capture. Raw: {raw[:200]}"
+            f"AI did not return valid JSON; {hint}. Raw: {raw[:200]}"
         ) from err
 
     if not isinstance(data, dict) or "title" not in data:
-        raise AiCaptureNoExtractionError(
-            "AI response missing required 'title' field; try again or use Regular capture"
-        )
+        raise AiCaptureNoExtractionError(f"AI response missing required 'title' field; {hint}")
 
+    return data
+
+
+def _parse_response(raw: str) -> AiCaptureResult:
+    data = _parse_json_object(raw, hint="try again or use Regular capture")
     return _result_from_dict(data)
+
+
+def _parse_merge_response(raw: str) -> AiMergeResult:
+    data = _parse_json_object(raw, hint="try the merge again")
+    body = data.get("body")
+    return AiMergeResult(
+        title=str(data["title"]).strip(),
+        body="" if body is None else str(body).strip(),
+    )
 
 
 def _result_from_dict(data: dict) -> AiCaptureResult:

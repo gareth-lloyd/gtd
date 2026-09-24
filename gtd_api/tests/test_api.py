@@ -1,3 +1,4 @@
+import json
 from datetime import date, timedelta
 
 import git
@@ -879,3 +880,62 @@ class TestSnapshot:
 
         reloaded = api.get(f"/api/envs/work/items/{captured['id']}/").json()
         assert reloaded["defer_until"] is None
+
+
+class TestItemMerge:
+    def _two_items(self, api):
+        t = api.post("/api/envs/work/items/", {"title": "Target"}, format="json").json()
+        s = api.post("/api/envs/work/items/", {"title": "Source"}, format="json").json()
+        return t, s
+
+    def test_merge_happy_path(self, api, monkeypatch):
+        monkeypatch.setenv(
+            "GTD_AI_STUB_RESPONSE", json.dumps({"title": "Merged", "body": "Both notes"})
+        )
+        t, s = self._two_items(api)
+        r = api.post(
+            f"/api/envs/work/items/{t['id']}/merge/", {"source_id": s["id"]}, format="json"
+        )
+        assert r.status_code == 200, r.json()
+        body = r.json()
+        assert body["id"] == t["id"]
+        assert body["title"] == "Merged"
+        assert body["body"] == "Both notes"
+        assert body["status"] == "inbox"
+        gone = api.get(f"/api/envs/work/items/{s['id']}/")
+        assert gone.status_code == 200
+        assert gone.json()["status"] == "trash"
+
+    def test_missing_source_is_404(self, api, monkeypatch):
+        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", json.dumps({"title": "M", "body": ""}))
+        t, _ = self._two_items(api)
+        r = api.post(f"/api/envs/work/items/{t['id']}/merge/", {"source_id": "nope"}, format="json")
+        assert r.status_code == 404
+
+    def test_missing_target_is_404(self, api, monkeypatch):
+        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", json.dumps({"title": "M", "body": ""}))
+        _, s = self._two_items(api)
+        r = api.post("/api/envs/work/items/nope/merge/", {"source_id": s["id"]}, format="json")
+        assert r.status_code == 404
+
+    def test_empty_source_id_is_400(self, api, monkeypatch):
+        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", json.dumps({"title": "M", "body": ""}))
+        t, _ = self._two_items(api)
+        r = api.post(f"/api/envs/work/items/{t['id']}/merge/", {"source_id": ""}, format="json")
+        assert r.status_code == 400
+
+    def test_self_merge_is_400(self, api, monkeypatch):
+        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", json.dumps({"title": "M", "body": ""}))
+        t, _ = self._two_items(api)
+        r = api.post(
+            f"/api/envs/work/items/{t['id']}/merge/", {"source_id": t["id"]}, format="json"
+        )
+        assert r.status_code == 400
+
+    def test_bad_ai_output_is_422(self, api, monkeypatch):
+        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", "garbage")
+        t, s = self._two_items(api)
+        r = api.post(
+            f"/api/envs/work/items/{t['id']}/merge/", {"source_id": s["id"]}, format="json"
+        )
+        assert r.status_code == 422
