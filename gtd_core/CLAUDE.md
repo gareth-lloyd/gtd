@@ -34,7 +34,7 @@ The API layer (`gtd_api`) only talks to `GtdService`. Never skip layers.
 | Group | Methods |
 |-------|---------|
 | Envs | `list_envs`, `repo`, `config` |
-| Item capture / lifecycle | `capture`, `capture_ai`, `merge_items`, `move`, `update`, `complete`, `delete` (→trash), `purge` |
+| Item capture / lifecycle | `capture`, `capture_ai`, `merge_items`, `launch_merge_session`, `move`, `update`, `complete`, `delete` (→trash), `purge` |
 | Item queries | `list_items` (with `respect_next_cap`), `filter_items`, `filter_next`, `list_done` (paginated archive+trash), `actions_for_project` |
 | Projects | `create_project`, `save_project`, `get_project`, `list_projects`, `update_project`, `delete_project`, `find_project_by_title` (fuzzy match), `reorder_project_items` |
 | Templates | `list_templates` |

@@ -119,6 +119,7 @@ class CaptureAiSerializer(serializers.Serializer):
 
 class ItemMergeSerializer(serializers.Serializer):
     source_id = serializers.CharField()
+    target = serializers.ChoiceField(choices=["iterm", "desktop"], default="iterm")
 
 
 class MoveSerializer(serializers.Serializer):

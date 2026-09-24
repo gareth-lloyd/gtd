@@ -257,19 +257,24 @@ class GtdService:
             project_title=matched_project.title if matched_project else None,
         )
 
-    def merge_items(self, env: str, target_id: str, source_id: str, *, model: str = "") -> Item:
-        """Fold `source` into `target` and trash the source.
+    def merge_items(
+        self, env: str, target_id: str, source_id: str, *, title: str, body: str
+    ) -> Item:
+        """Fold `source` into `target` using an already-merged title/body, then trash the source.
 
-        The AI merges only prose (title + body). Code unions contexts/tags
-        and fills any *empty* target scalar from the source. The target's
-        project and bucket are never touched. The source is soft-deleted
-        (trash) only after the target has been written, so an AI failure
-        leaves both items exactly as they were.
+        The prose merge happens elsewhere (an agent session launched by
+        `launch_merge_session`, or a human). This method is the deterministic
+        apply step: it sets the given title/body, unions contexts (filtered
+        against config) and tags, fills any *empty* target scalar from the
+        source, and never touches the target's project or bucket. The source
+        is soft-deleted (trash) only after the target has been written, so a
+        validation error leaves both items exactly as they were.
         """
-        from gtd_core.ai import ai_merge
-
         if target_id == source_id:
             raise ValueError("cannot merge an item into itself")
+        title = title.strip()
+        if not title:
+            raise ValueError("merged title must not be blank")
         repo = self.repo(env)
         cfg = repo.load_config()
         target = repo.get(target_id)
@@ -279,15 +284,7 @@ class GtdService:
         if source is None:
             raise KeyError(source_id)
 
-        result = ai_merge(
-            target=target,
-            source=source,
-            today=self._now().date(),
-            config_dir=cfg.claude_config_dir,
-            model=model,
-        )
-
-        patch: dict = {"title": result.title, "body": result.body}
+        patch: dict = {"title": title, "body": body.strip()}
         contexts = list(target.contexts)
         for c in source.contexts:
             if c in cfg.contexts and c not in contexts:
@@ -305,6 +302,48 @@ class GtdService:
         merged = self.update(env, target_id, patch)
         self.delete(env, source_id)
         return merged
+
+    def launch_merge_session(
+        self, env: str, target_id: str, source_id: str, *, target: str = "iterm"
+    ) -> None:
+        """Open an agent session that merges `source_id` into `target_id`.
+
+        Mirrors `launch_agent_session`: pins the target with `working_on`,
+        builds a prompt, and opens iTerm (default) or the desktop app. The
+        session runs in `GTD_REPO_ROOT` so the agent can apply the merge via
+        `manage.py merge_items`. Nothing is merged or trashed here — the
+        agent does that, and the user supervises. Raises ValueError for a
+        self-merge and KeyError if either item is missing, both before
+        anything is pinned or launched.
+        """
+        from gtd_core.agent_launch import GTD_REPO_ROOT, build_merge_prompt
+
+        if target_id == source_id:
+            raise ValueError("cannot merge an item into itself")
+        repo = self.repo(env)
+        target_item = repo.get(target_id)
+        if target_item is None:
+            raise KeyError(target_id)
+        source_item = repo.get(source_id)
+        if source_item is None:
+            raise KeyError(source_id)
+        prior_working_on = target_item.working_on
+        if not target_item.working_on:
+            target_item = self.update(env, target_id, {"working_on": True})
+        prompt = build_merge_prompt(
+            target=target_item,
+            source=source_item,
+            env=env,
+            target_path=repo.path_for(target_item),
+            source_path=repo.path_for(source_item),
+            prior_working_on=prior_working_on,
+        )
+        if target == "desktop":
+            launch_desktop_session(prompt=prompt, cwd=GTD_REPO_ROOT)
+        else:
+            cfg = repo.load_config()
+            config_dir = Path(cfg.claude_config_dir).expanduser() if cfg.claude_config_dir else None
+            launch_claude_session(prompt=prompt, cwd=GTD_REPO_ROOT, config_dir=config_dir)
 
     def move(self, env: str, item_id: str, to: Bucket) -> Item:
         repo = self.repo(env)

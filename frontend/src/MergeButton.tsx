@@ -9,28 +9,28 @@ import { toasts } from "./toast";
 const RESULT_LIMIT = 20;
 
 /**
- * "merge other": pick a second item via search and fold it into `item`.
- * The current item keeps its project and bucket; the picked item's content
- * is merged in by the AI and the picked item is moved to trash.
+ * "merge other": pick a second item via search, then launch an agent session
+ * that folds it into `item`. The current item keeps its project and bucket;
+ * the agent merges the prose, applies it via `manage.py merge_items`, and
+ * moves the picked item to trash. Launching pins the current item.
  */
 export function MergeButton({ env, item }: { env: string; item: Item }) {
   const [open, setOpen] = useState(false);
   const qc = useQueryClient();
 
-  const mut = useMutation<Item, Error, Item>({
+  const mut = useMutation<void, Error, Item>({
     mutationFn: (source) => api.mergeItem(env, item.id, source.id),
-    onSuccess: (merged, source) => {
+    onSuccess: (_, source) => {
       invalidateItemQueries(qc, env, item.id);
-      invalidateItemQueries(qc, env, source.id);
       setOpen(false);
-      toasts.show("success", `Merged "${source.title}" into "${merged.title}" — original trashed`);
+      toasts.show("success", `Agent launched to merge "${source.title}" into "${item.title}"`);
     },
   });
 
   function pick(source: Item) {
     const ok = confirm(
-      `Merge "${source.title}" into "${item.title}"?\n\n` +
-        `"${source.title}" will be moved to trash once merged.`,
+      `Launch an agent to merge "${source.title}" into "${item.title}"?\n\n` +
+        `The agent will fold its notes in and move "${source.title}" to trash.`,
     );
     if (ok) mut.mutate(source);
   }
@@ -40,7 +40,7 @@ export function MergeButton({ env, item }: { env: string; item: Item }) {
       <Button
         onClick={() => setOpen(true)}
         busy={mut.isPending}
-        title="Search for another item and merge its content into this one"
+        title="Search for another item and launch an agent to merge it into this one"
       >
         ⇄ merge other
       </Button>
@@ -116,7 +116,9 @@ function MergePicker({
         <div className="merge-picker-results">
           {isLoading && !index && <div className="search-empty">Building index…</div>}
           {index && !hasQuery && (
-            <div className="search-empty">Type to search. The picked item will be trashed.</div>
+            <div className="search-empty">
+              Type to search. An agent will merge the picked item in and trash it.
+            </div>
           )}
           {index && hasQuery && hits.length === 0 && (
             <div className="search-empty">No matches.</div>

@@ -185,10 +185,12 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ to }),
     }),
-  mergeItem: (env: string, id: string, sourceId: string) =>
-    request<Item>(`/envs/${env}/items/${id}/merge/`, {
+  // Launches an agent session that merges `sourceId` into `id`; the merge
+  // itself happens in that session, so this resolves as soon as it's open.
+  mergeItem: (env: string, id: string, sourceId: string, target: AgentTarget = "iterm") =>
+    request<void>(`/envs/${env}/items/${id}/merge/`, {
       method: "POST",
-      body: JSON.stringify({ source_id: sourceId }),
+      body: JSON.stringify({ source_id: sourceId, target }),
     }),
   completeItem: (env: string, id: string) =>
     request<Item>(`/envs/${env}/items/${id}/complete/`, { method: "POST" }),

@@ -176,6 +176,22 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
   item — the prompt tells the agent to quote it at the top of its new
   `## Agent run` section so the log records what was asked.
 
+- **Merge items**: the `⇄ merge other` button (next to the agent buttons)
+  opens a search picker; choosing a second item POSTs
+  `/api/envs/<env>/items/<id>/merge/` (`{source_id, target?}`) →
+  `service.launch_merge_session()`, which pins the current item and opens
+  an iTerm/desktop agent session in the gtd repo root with
+  `agent_launch.build_merge_prompt()`. Nothing is merged in the request.
+  The agent composes one merged title + body, then applies it with
+  `uv run manage.py merge_items <env> <target_id> <source_id> --title …
+  --body-file …` → `service.merge_items()`: sets title/body, unions
+  contexts (filtered vs config) and tags, fills *empty* target scalars
+  (energy, time_minutes, due, defer_until, waiting_on) from the source,
+  keeps the target's project and bucket, and moves the source to trash.
+  The agent then records what it folded in under `output:` and restores
+  `working_on`, like any other agent run. Merging never runs `claude -p`
+  inside a web request (that path timed out at 30s).
+
 - **Per-env Claude account**: `config.yml` may set `claude_config_dir`
   (e.g. `~/.claude-personal`). Every `claude` shell-out for that env — the
   iTerm agent launch and AI capture — then runs with `CLAUDE_CONFIG_DIR`

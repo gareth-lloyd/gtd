@@ -1,4 +1,3 @@
-import json
 from datetime import date, timedelta
 
 import git
@@ -883,59 +882,97 @@ class TestSnapshot:
 
 
 class TestItemMerge:
+    """POST merge launches an agent session; it never runs the merge inline."""
+
+    @pytest.fixture
+    def launched(self, monkeypatch):
+        calls: list[dict] = []
+        monkeypatch.setattr(
+            "gtd_core.service.launch_claude_session",
+            lambda **kw: calls.append({"target": "iterm", **kw}),
+        )
+        monkeypatch.setattr(
+            "gtd_core.service.launch_desktop_session",
+            lambda **kw: calls.append({"target": "desktop", **kw}),
+        )
+        return calls
+
     def _two_items(self, api):
         t = api.post("/api/envs/work/items/", {"title": "Target"}, format="json").json()
         s = api.post("/api/envs/work/items/", {"title": "Source"}, format="json").json()
         return t, s
 
-    def test_merge_happy_path(self, api, monkeypatch):
-        monkeypatch.setenv(
-            "GTD_AI_STUB_RESPONSE", json.dumps({"title": "Merged", "body": "Both notes"})
-        )
+    def test_launches_iterm_session_and_pins_target(self, api, launched):
         t, s = self._two_items(api)
-        r = api.post(
-            f"/api/envs/work/items/{t['id']}/merge/", {"source_id": s["id"]}, format="json"
-        )
-        assert r.status_code == 200, r.json()
-        body = r.json()
-        assert body["id"] == t["id"]
-        assert body["title"] == "Merged"
-        assert body["body"] == "Both notes"
-        assert body["status"] == "inbox"
-        gone = api.get(f"/api/envs/work/items/{s['id']}/")
-        assert gone.status_code == 200
-        assert gone.json()["status"] == "trash"
+        url = f"/api/envs/work/items/{t['id']}/merge/"
+        r = api.post(url, {"source_id": s["id"]}, format="json")
+        assert r.status_code == 204
+        assert len(launched) == 1 and launched[0]["target"] == "iterm"
+        assert s["id"] in launched[0]["prompt"]
+        assert api.get(f"/api/envs/work/items/{t['id']}/").json()["working_on"] is True
+        # Nothing is merged or trashed until the agent does it.
+        src = api.get(f"/api/envs/work/items/{s['id']}/").json()
+        assert src["status"] == "inbox"
 
-    def test_missing_source_is_404(self, api, monkeypatch):
-        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", json.dumps({"title": "M", "body": ""}))
+    def test_desktop_target(self, api, launched):
+        t, s = self._two_items(api)
+        url = f"/api/envs/work/items/{t['id']}/merge/"
+        r = api.post(url, {"source_id": s["id"], "target": "desktop"}, format="json")
+        assert r.status_code == 204
+        assert launched[0]["target"] == "desktop"
+
+    def test_unknown_target_is_400(self, api, launched):
+        t, s = self._two_items(api)
+        url = f"/api/envs/work/items/{t['id']}/merge/"
+        r = api.post(url, {"source_id": s["id"], "target": "vim"}, format="json")
+        assert r.status_code == 400
+        assert not launched
+
+    def test_missing_source_is_404(self, api, launched):
         t, _ = self._two_items(api)
-        r = api.post(f"/api/envs/work/items/{t['id']}/merge/", {"source_id": "nope"}, format="json")
+        url = f"/api/envs/work/items/{t['id']}/merge/"
+        r = api.post(url, {"source_id": "nope"}, format="json")
         assert r.status_code == 404
+        assert not launched
 
-    def test_missing_target_is_404(self, api, monkeypatch):
-        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", json.dumps({"title": "M", "body": ""}))
+    def test_missing_target_is_404(self, api, launched):
         _, s = self._two_items(api)
         r = api.post("/api/envs/work/items/nope/merge/", {"source_id": s["id"]}, format="json")
         assert r.status_code == 404
 
-    def test_empty_source_id_is_400(self, api, monkeypatch):
-        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", json.dumps({"title": "M", "body": ""}))
+    def test_empty_source_id_is_400(self, api, launched):
         t, _ = self._two_items(api)
-        r = api.post(f"/api/envs/work/items/{t['id']}/merge/", {"source_id": ""}, format="json")
+        url = f"/api/envs/work/items/{t['id']}/merge/"
+        r = api.post(url, {"source_id": ""}, format="json")
         assert r.status_code == 400
 
-    def test_self_merge_is_400(self, api, monkeypatch):
-        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", json.dumps({"title": "M", "body": ""}))
+    def test_self_merge_is_400(self, api, launched):
         t, _ = self._two_items(api)
-        r = api.post(
-            f"/api/envs/work/items/{t['id']}/merge/", {"source_id": t["id"]}, format="json"
-        )
+        url = f"/api/envs/work/items/{t['id']}/merge/"
+        r = api.post(url, {"source_id": t["id"]}, format="json")
         assert r.status_code == 400
+        assert not launched
 
-    def test_bad_ai_output_is_422(self, api, monkeypatch):
-        monkeypatch.setenv("GTD_AI_STUB_RESPONSE", "garbage")
+    def test_no_claude_cli_is_503(self, api, monkeypatch):
+        from gtd_core.agent_launch import AgentLaunchNotConfiguredError
+
+        def boom(**kw):
+            raise AgentLaunchNotConfiguredError("claude CLI not found")
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", boom)
         t, s = self._two_items(api)
-        r = api.post(
-            f"/api/envs/work/items/{t['id']}/merge/", {"source_id": s["id"]}, format="json"
-        )
-        assert r.status_code == 422
+        url = f"/api/envs/work/items/{t['id']}/merge/"
+        r = api.post(url, {"source_id": s["id"]}, format="json")
+        assert r.status_code == 503
+
+    def test_osascript_failure_is_502(self, api, monkeypatch):
+        from gtd_core.agent_launch import AgentLaunchUpstreamError
+
+        def boom(**kw):
+            raise AgentLaunchUpstreamError("osascript failed")
+
+        monkeypatch.setattr("gtd_core.service.launch_claude_session", boom)
+        t, s = self._two_items(api)
+        url = f"/api/envs/work/items/{t['id']}/merge/"
+        r = api.post(url, {"source_id": s["id"]}, format="json")
+        assert r.status_code == 502

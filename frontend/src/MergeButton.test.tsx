@@ -70,7 +70,7 @@ beforeEach(() => {
     projects: [],
   });
   vi.mocked(api.listProjects).mockResolvedValue([]);
-  vi.mocked(api.mergeItem).mockResolvedValue({ ...current, title: "Merged" });
+  vi.mocked(api.mergeItem).mockResolvedValue(undefined as unknown as void);
   vi.spyOn(window, "confirm").mockReturnValue(true);
 });
 
@@ -104,7 +104,7 @@ describe("MergeButton", () => {
     expect(within(dialog).getByText("inbox")).toBeInTheDocument();
   });
 
-  it("selecting a hit confirms, calls mergeItem, toasts, and closes", async () => {
+  it("selecting a hit confirms, launches the merge agent, toasts, and closes", async () => {
     const user = userEvent.setup();
     const show = vi.spyOn(toasts, "show");
     const { qc } = renderButton();
@@ -117,12 +117,9 @@ describe("MergeButton", () => {
     expect(window.confirm).toHaveBeenCalledWith(expect.stringContaining("Ring dentist re crown"));
     await waitFor(() => expect(api.mergeItem).toHaveBeenCalledWith("work", "item-1", "item-2"));
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
-    expect(show).toHaveBeenCalledWith("success", expect.stringContaining("Merged"));
+    expect(show).toHaveBeenCalledWith("success", expect.stringContaining("Agent launched"));
     expect(invalidate).toHaveBeenCalledWith(
       expect.objectContaining({ queryKey: ["item", "work", "item-1"] }),
-    );
-    expect(invalidate).toHaveBeenCalledWith(
-      expect.objectContaining({ queryKey: ["item", "work", "item-2"] }),
     );
   });
 

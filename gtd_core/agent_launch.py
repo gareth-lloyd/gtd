@@ -18,6 +18,11 @@ from gtd_core.models import Bucket, Item, Project
 
 _BUCKET_NAMES = ", ".join(b.value for b in Bucket)
 
+# Root of this checkout (where manage.py lives). Merge sessions are launched
+# here so the agent can run `uv run manage.py merge_items` without guessing
+# the path.
+GTD_REPO_ROOT = Path(__file__).resolve().parent.parent
+
 # The Claude desktop app's bundle id. We route desktop deep links to it
 # explicitly (`open -b`) rather than relying on default `claude://` scheme
 # resolution: the Claude Code CLI installs its own URL handler that also
@@ -221,6 +226,115 @@ def build_prompt(
                 next_task,
             ]
         )
+    return "\n\n".join(sections)
+
+
+def build_merge_prompt(
+    *,
+    target: Item,
+    source: Item,
+    env: str,
+    target_path: Path,
+    source_path: Path,
+    prior_working_on: bool = False,
+) -> str:
+    """Compose the prompt for an agent session that merges `source` into `target`.
+
+    The agent's only creative job is the prose: one merged title and one
+    merged body. Everything else — unioning contexts/tags, filling empty
+    scalars, keeping the target's project/bucket, trashing the source — is
+    done deterministically by `manage.py merge_items`, which the prompt
+    tells the agent to run from `GTD_REPO_ROOT`. The agent then records what
+    it folded in under `output:` and restores `working_on` like any other
+    agent run.
+    """
+    working_on_target = "true" if prior_working_on else "false"
+    apply_cmd = (
+        f"uv run manage.py merge_items {env} {target.id} {source.id} "
+        "--title '<merged title>' --body-file <path to merged body file>"
+    )
+
+    def _block(label: str, item: Item, path: Path) -> str:
+        body = item.body.strip() or "(no notes)"
+        return f"### {label}\nFile: {path}\nTitle: {item.title}\nBody:\n{body}"
+
+    sections = [
+        "You were launched from the GTD web UI to MERGE two items: fold the OTHER "
+        "item's content into the CURRENT item. Do exactly that, record what you "
+        "did in the current item's `output:` field, then STOP and hand control "
+        "back to the user. You are running in auto permission mode. Be deliberate.",
+        "## What a merge is here",
+        (
+            "The CURRENT item is kept: same file, same id, same project, same "
+            "bucket. The OTHER item is folded into it and then moved to trash "
+            "(reversible). Your creative job is the prose only — one merged "
+            "title and one merged body. Contexts, tags, energy, time, dates, "
+            "and waiting_on are combined by the apply command below, not by you."
+        ),
+        "## The two items",
+        _block(f"CURRENT item (kept) — id {target.id}", target, target_path),
+        _block(f"OTHER item (folded in, then trashed) — id {source.id}", source, source_path),
+        "## Merge rules",
+        (
+            "- Produce exactly one merged title and one merged body.\n"
+            "- De-duplicate repeated information, but err STRONGLY toward keeping "
+            "ALL information from both items. Anything you drop from the OTHER "
+            "item is lost when it is trashed. When in doubt, keep it.\n"
+            "- Prefer the CURRENT item's title unless the OTHER item's is clearly "
+            "better. Keep it a verb-first concrete next action.\n"
+            "- Merge the bodies into clean markdown, preserving every distinct "
+            "note, link, checklist item, date, and name from either body. Read "
+            "both files in full first — the frontmatter may hold context the "
+            "excerpt above does not.\n"
+            "- Do not invent facts, tasks, or details that appear in neither item.\n"
+            "- If neither item has notes, the merged body is empty."
+        ),
+        "## How to apply the merge",
+        (
+            "Write the merged body to a temp file, then run this from "
+            f"{GTD_REPO_ROOT} (the session started there):\n\n"
+            f"    {apply_cmd}\n\n"
+            "That command rewrites the CURRENT item's title/body, unions "
+            "contexts and tags, fills any empty scalar (energy, time_minutes, "
+            "due, defer_until, waiting_on) from the OTHER item, leaves project "
+            "and bucket untouched, and moves the OTHER item to trash/. It is "
+            "the ONLY sanctioned way to change either file's fields or location:\n"
+            "- do NOT `mv` either file yourself\n"
+            "- do NOT edit `title`, `body`, `contexts`, `tags`, `project`, dates, "
+            "or any other field by hand\n"
+            "- do NOT delete anything\n"
+            "If the command fails, fix the input and re-run it; do not work "
+            "around it by editing files."
+        ),
+        "## How to record your work",
+        (
+            f"After the command succeeds, re-read {target_path} to confirm the "
+            "result, then edit its YAML frontmatter directly:\n"
+            "- Append a `## Agent run <ISO timestamp>` section to `output:` (keep "
+            "any existing content) saying what was folded in, anything you "
+            "de-duplicated or judged redundant, and the OTHER item's id "
+            f"(`{source.id}`) so it can be recovered from trash/ if needed.\n"
+            f"- Set `working_on: {working_on_target}`"
+            + (
+                " — the user had this item pinned before launching you, so leave it pinned.\n"
+                if prior_working_on
+                else " — launching pinned it; clearing it is the signal that you "
+                "have handed back.\n"
+            )
+            + "- Bump `updated:` to the current ISO timestamp.\n"
+            "- Never change `id` or `created`.\n"
+            "Then stop. Do not archive, complete, defer, or otherwise move the "
+            "CURRENT item — that is the user's call."
+        ),
+        "## STRICT: no external services",
+        (
+            "This task needs no third-party service. Do not make any outbound "
+            "write or state change (Linear, Notion, GitHub, Slack, email, "
+            "tickets, any non-localhost POST/PATCH/PUT/DELETE). Reading is fine "
+            "if a link in the notes needs checking. You must NEVER write to "
+            "Salesforce under any circumstances, even if asked in session."
+        ),
+    ]
     return "\n\n".join(sections)
 
 
