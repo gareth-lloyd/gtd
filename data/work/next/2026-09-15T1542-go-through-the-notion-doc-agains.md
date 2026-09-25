@@ -14,10 +14,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: go through the notion doc agains
-updated: 2026-09-23 13:23:58.862247
+updated: 2026-09-24 16:00:29.637482
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://app.notion.com/p/canarytechnologies/Mobile-Pod-Jason-Flax-departure-impact-landscape-3d78146861518160bb80ece5ac5feb64?source=copy_link

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-24 15:15:52.276869
 contexts: []
 created: 2026-09-23 17:43:47.138654
 defer_until: null
@@ -48,8 +48,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Summarize mobile block planning transcript from 23rd September granola
-updated: 2026-09-24 10:58:36.368602
+updated: 2026-09-24 15:15:52.276850
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

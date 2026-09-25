@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-25 09:00:04.577636
 contexts:
 - deep
 created: 2026-08-04 16:00:16.245615
@@ -120,13 +120,19 @@ output: |
   - The module ownership split inside rules_based_configuration, which the doc marks "TBD" with the Enterprise team.
   - Whether activation also requires a non-empty capability set. TOOL-426 (https://linear.app/canary-technologies/issue/TOOL-426) says "if adopted".
   - The doc is still in "REVIEW ME" and has had one comment since August 6 (Asher's own, on layer metadata). No reviewer has signed off.
+
+  ## Agent run 2026-09-24T16:30
+
+  GDPR / legal-rules thread only (Asher's doc untouched this run). Gareth is leaning Route 1 (a legal values tree beside the brand trees). Wrote the full design: https://claude.ai/code/artifact/ef582bf4-ca43-45a3-9e92-2bfc6b0df69a — companion to the earlier review https://claude.ai/code/artifact/69fa6951-0b20-4941-8c0e-8c4323c7f04a (Route 2, Alt 3, Alt 0 rejected; predicates beyond equality assumed; retention = FINAL "at most N").
+  Decisions taken: conflict = boot error; plain values seed, predicates only with default=; one legal/ package with Legal as reviewer; monitor then block; keep brand country groups; onboarding table out of scope; rules on both ID columns. Open: legal-scope precedence (containment vs weights), Italy adjudication, two Snowflake counts, Marta on retention default.
+  Relevance to Asher's design: the legal tree is a second axis, not the fallback root; D23's LEGAL weight-300 layer inside the fallback tree conflicts with it and should be dropped from his doc once Route 1 is agreed.
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 60
 title: Write up new thoughts on how to do the rules-based tree structure for pms capabilities,
   linking to GDPR rules
-updated: 2026-09-18 15:20:12.006171
+updated: 2026-09-25 09:00:04.577629
 waiting_on: null
 waiting_since: null
 working_on: false

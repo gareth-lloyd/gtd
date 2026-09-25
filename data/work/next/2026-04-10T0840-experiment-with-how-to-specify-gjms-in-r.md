@@ -239,10 +239,10 @@ tags:
 time_minutes: 60
 title: Experiment with how to specify Guest journey messages in Rules based configuration.
   Circulate doc
-updated: 2026-09-23 13:34:04.248902
+updated: 2026-09-25 09:01:12.359167
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 * The group attributes could define list of `GuestJourneyMessageUseCase` enum values

@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-14 12:01:06.982193
+created: &id001 2026-09-25 07:35:34.097114
 defer_until: null
-due: 2026-09-25
+due: null
 energy: low
-id: 2026-09-14T1201-self-review
+id: 2026-09-25T0735-contact-houses
 order: null
 output: ''
-project: 2026-09-14-reviews
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Self review
-updated: 2026-09-25 09:01:21.196654
+title: contact houses
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

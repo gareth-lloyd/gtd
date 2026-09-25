@@ -16,10 +16,10 @@ tags: []
 time_minutes: 15
 title: Read the Workup catch-up brief before tonight's Laura 1-1 (21:30) and the Workup
   sync (18:30)cF
-updated: 2026-09-21 14:55:53.677904
+updated: 2026-09-24 16:00:50.928425
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Notion (private): https://app.notion.com/p/3dd8146861518127a5baca7c17b32a0e

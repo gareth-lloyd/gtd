@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-25 09:00:00.552755
 contexts:
 - deep
 created: 2026-09-22 16:27:43.984283
@@ -16,10 +16,10 @@ tags: []
 time_minutes: 90
 title: Pull together the check-in v3 configuration threads and propose country-based
   (general) rules
-updated: 2026-09-24 10:58:31.197462
+updated: 2026-09-25 09:00:00.552750
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Notes:
