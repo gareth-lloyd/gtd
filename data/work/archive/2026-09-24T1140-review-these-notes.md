@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-25 09:19:28.996961
 contexts: []
 created: 2026-09-24 11:40:54.858912
 defer_until: null
@@ -46,7 +46,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review these notes
-updated: 2026-09-24 11:48:41.116716
+updated: 2026-09-25 09:19:28.996957
 waiting_on: null
 waiting_since: null
 working_on: true

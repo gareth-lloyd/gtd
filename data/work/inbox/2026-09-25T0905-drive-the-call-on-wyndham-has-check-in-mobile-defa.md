@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-09-25 09:05:07.757573
-defer_until: null
+defer_until: 2026-09-28 09:00:00
 due: null
 energy: medium
 id: 2026-09-25T0905-drive-the-call-on-wyndham-has-check-in-mobile-defa
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 20
 title: Drive the call on Wyndham has_check_in_mobile default for the slow mobile rollout
-updated: 2026-09-25 09:05:07.828726
+updated: 2026-09-25 09:20:22.715055
 waiting_on: null
 waiting_since: null
 working_on: false

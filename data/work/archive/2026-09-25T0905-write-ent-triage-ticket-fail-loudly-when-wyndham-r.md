@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-25 09:21:01.967799
 contexts:
 - react
 created: 2026-09-25 09:05:07.686749
@@ -18,7 +18,7 @@ tags:
 time_minutes: 20
 title: 'Write ENT triage ticket: fail loudly when Wyndham reg-card config provider
   detects check-in v3'
-updated: 2026-09-25 09:05:07.756919
+updated: 2026-09-25 09:21:01.967788
 waiting_on: null
 waiting_since: null
 working_on: false

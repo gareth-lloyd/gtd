@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-25 09:20:37.359687
 contexts:
 - deep
 created: 2026-09-25 09:05:07.616809
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 90
 title: Refine Binding Rules Tree proposal and send Blake the digestible version
-updated: 2026-09-25 09:05:07.686111
+updated: 2026-09-25 09:20:37.359682
 waiting_on: null
 waiting_since: null
 working_on: false
