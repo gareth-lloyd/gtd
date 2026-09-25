@@ -4,10 +4,10 @@ contexts:
 - computer
 energy: null
 id: 2026-05-25T1130-tmpl-pay-kiddy
-last_spawned: 2026-08-05
+last_spawned: 2026-09-25
 project: null
 recurrence: monthly
 tags: []
 time_minutes: null
-title: Pay Kiddy
+title: Pay dorothy Snot 630 Euros
 ---
