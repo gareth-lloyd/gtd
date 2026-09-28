@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-26 12:22:13.864224
 contexts: []
 created: 2026-09-23 12:41:28.262732
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Work through nick latest feedback
-updated: 2026-09-23 12:41:36.870468
+updated: 2026-09-26 12:22:13.864213
 waiting_on: null
 waiting_since: null
 working_on: false

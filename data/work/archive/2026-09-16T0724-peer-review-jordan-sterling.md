@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-25 12:38:15.679941
 contexts: []
 created: 2026-09-16 07:24:53.676279
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: peer review jordan sterling
-updated: 2026-09-25 09:01:25.801011
+updated: 2026-09-25 12:38:15.679923
 waiting_on: null
 waiting_since: null
 working_on: false

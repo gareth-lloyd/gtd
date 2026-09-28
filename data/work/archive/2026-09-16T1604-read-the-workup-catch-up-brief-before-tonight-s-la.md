@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-25 11:24:45.782639
 contexts:
 - consume
 created: 2026-09-16 16:04:19.951249
@@ -16,10 +16,10 @@ tags: []
 time_minutes: 15
 title: Read the Workup catch-up brief before tonight's Laura 1-1 (21:30) and the Workup
   sync (18:30)cF
-updated: 2026-09-24 16:00:50.928425
+updated: 2026-09-25 11:24:45.782631
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Notion (private): https://app.notion.com/p/3dd8146861518127a5baca7c17b32a0e

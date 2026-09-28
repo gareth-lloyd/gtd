@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-25 11:21:56.841989
 contexts:
 - deep
 created: 2026-09-25 09:05:07.546855
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 90
 title: Complete Lattice performance reviews (writing phase closes today)
-updated: 2026-09-25 09:05:07.616181
+updated: 2026-09-25 11:21:56.841984
 waiting_on: null
 waiting_since: null
 working_on: false

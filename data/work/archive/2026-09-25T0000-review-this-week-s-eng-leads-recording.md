@@ -1,9 +1,9 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-25 10:43:36.166788
 contexts:
 - consume
-created: &id001 2026-09-25 00:00:00
+created: 2026-09-25 00:00:00
 defer_until: null
 due: null
 energy: low
@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review this week's Eng Leads recording
-updated: *id001
+updated: 2026-09-25 10:43:36.166777
 waiting_on: null
 waiting_since: null
 working_on: false
