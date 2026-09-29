@@ -8,7 +8,7 @@ outcome: null
 priority: 1
 status: active
 tags: []
-title: Villa Collective
-updated: 2026-05-25 11:59:36.600070
+title: VC
+updated: 2026-09-29 03:31:58.145197
 working_dir: ~/projects/villacollective
 ---

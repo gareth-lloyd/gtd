@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-28 16:29:08.172318
 contexts: []
-created: &id001 2026-09-28 07:43:52.839949
+created: 2026-09-28 15:12:42.679673
 defer_until: null
 due: null
 energy: low
-id: 2026-09-28T0743-call-ups
+id: 2026-09-28T1512-add-zoom-room-to-apac
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: call ups
-updated: *id001
+title: add zoom room to apac
+updated: 2026-09-28 16:29:08.172308
 waiting_on: null
 waiting_since: null
 working_on: false

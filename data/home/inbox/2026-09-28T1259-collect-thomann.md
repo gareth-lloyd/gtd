@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-14 12:01:06.982193
+created: 2026-09-28 12:59:03.229383
 defer_until: null
 due: null
 energy: low
-id: 2026-09-14T1201-self-review
+id: 2026-09-28T1259-collect-thomann
 order: null
 output: ''
-project: 2026-09-14-reviews
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Self review
-updated: 2026-09-28 14:06:02.791998
+title: collect thomann
+updated: 2026-09-28 23:16:39.198488
 waiting_on: null
 waiting_since: null
 working_on: false

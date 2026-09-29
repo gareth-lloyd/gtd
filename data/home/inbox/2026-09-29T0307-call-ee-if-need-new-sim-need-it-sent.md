@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-14 12:01:06.982193
+created: &id001 2026-09-29 03:07:08.720984
 defer_until: null
 due: null
 energy: low
-id: 2026-09-14T1201-self-review
+id: 2026-09-29T0307-call-ee-if-need-new-sim-need-it-sent
 order: null
 output: ''
-project: 2026-09-14-reviews
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Self review
-updated: 2026-09-28 14:06:02.791998
+title: call ee (if need new sim, need it sent)
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

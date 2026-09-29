@@ -3,19 +3,19 @@ area: null
 completed_at: null
 contexts:
 - consume
-created: &id001 2026-09-28 00:00:00
+created: 2026-09-28 00:00:00
 defer_until: null
 due: null
 energy: low
 id: 2026-09-28T0000-review-friday-s-show-tell-recording
 order: null
 output: ''
-project: null
+project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: 30
 title: Review Friday's show & tell recording
-updated: *id001
+updated: 2026-09-28 14:05:50.225604
 waiting_on: null
 waiting_since: null
 working_on: false

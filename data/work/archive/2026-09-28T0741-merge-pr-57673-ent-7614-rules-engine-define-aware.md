@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-28 08:40:50.775535
 contexts:
 - autopilot
 created: 2026-09-28 07:41:13.646616
@@ -17,7 +17,7 @@ tags:
 - github
 time_minutes: 5
 title: 'Merge PR #57673: ENT-7614 rules engine define-aware key resolution'
-updated: 2026-09-28 07:41:13.722015
+updated: 2026-09-28 08:40:50.775529
 waiting_on: null
 waiting_since: null
 working_on: false

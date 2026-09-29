@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-28 21:38:41.970595
 contexts: []
 created: 2026-09-24 08:50:40.395623
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: print tax registry cert
-updated: 2026-09-25 11:17:28.183033
+updated: 2026-09-28 21:38:41.970562
 waiting_on: null
 waiting_since: null
 working_on: false

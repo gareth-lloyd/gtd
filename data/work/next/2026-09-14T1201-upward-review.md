@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-09-14 12:01:09.786230
 defer_until: null
-due: 2026-09-25
+due: null
 energy: low
 id: 2026-09-14T1201-upward-review
 order: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: upward review
-updated: 2026-09-25 11:24:48.239110
+updated: 2026-09-28 14:05:57.763865
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

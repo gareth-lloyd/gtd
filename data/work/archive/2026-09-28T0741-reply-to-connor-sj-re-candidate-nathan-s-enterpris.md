@@ -1,16 +1,16 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-28 15:47:21.742444
 contexts:
 - react
 created: 2026-09-28 07:41:13.800581
 defer_until: null
-due: null
+due: 2026-09-28
 energy: medium
 id: 2026-09-28T0741-reply-to-connor-sj-re-candidate-nathan-s-enterpris
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C0C3VDJHGBH/p1790348922438139
 tags:
 - morning-gtd
@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Reply to Connor/SJ re: candidate Nathan''s Enterprise fit and moving Enterprise
   scripting to Stephanie''s team'
-updated: 2026-09-28 07:41:13.876043
+updated: 2026-09-28 15:47:21.742437
 waiting_on: null
 waiting_since: null
 working_on: false
