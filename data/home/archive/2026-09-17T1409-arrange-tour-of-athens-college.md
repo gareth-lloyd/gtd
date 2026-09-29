@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-29 10:58:25.619498
 contexts: []
 created: 2026-09-17 14:09:13.017148
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: arrange tour of athens college
-updated: 2026-09-18 10:38:34.455055
+updated: 2026-09-29 10:58:25.619458
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

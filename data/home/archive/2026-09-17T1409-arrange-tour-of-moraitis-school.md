@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-29 10:58:27.463954
 contexts: []
 created: 2026-09-17 14:09:28.533974
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: arrange tour of Moraitis School
-updated: 2026-09-18 10:38:38.099931
+updated: 2026-09-29 10:58:27.463945
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

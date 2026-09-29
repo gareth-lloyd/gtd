@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-29 12:15:05.737167
 contexts: []
 created: 2026-09-24 11:09:23.655457
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: How should an eng lead request design work for pod - Peter's question
-updated: 2026-09-28 15:50:58.190241
+updated: 2026-09-29 12:15:05.737159
 waiting_on: null
 waiting_since: null
 working_on: false

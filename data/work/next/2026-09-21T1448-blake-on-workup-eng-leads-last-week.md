@@ -14,10 +14,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Blake on Workup, eng leads last week
-updated: 2026-09-22 14:01:42.365376
+updated: 2026-09-29 12:19:33.732705
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 - He wants "an intelligence layer on blocked tickets" that does the manual follow-ups, for example asking the CS

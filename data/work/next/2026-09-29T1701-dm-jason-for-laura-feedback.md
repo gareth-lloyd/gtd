@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-22 15:20:20.783678
+created: 2026-09-29 17:01:15.751271
 defer_until: null
 due: null
 energy: low
-id: 2026-09-22T1520-noiz-gr-selling
-order: 12
+id: 2026-09-29T1701-dm-jason-for-laura-feedback
+order: null
 output: ''
-project: 2026-05-25-admin
+project: 2026-09-14-reviews
 source_id: null
 tags: []
 time_minutes: 5
-title: noiz.gr selling
-updated: 2026-09-29 16:09:53.823213
+title: DM Jason for Laura feedback
+updated: 2026-09-29 17:01:15.928484
 waiting_on: null
 waiting_since: null
 working_on: false

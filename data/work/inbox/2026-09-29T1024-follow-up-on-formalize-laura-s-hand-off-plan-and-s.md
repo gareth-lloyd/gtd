@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-09-29 10:24:30.743855
-defer_until: null
+defer_until: 2026-09-30 09:00:00
 due: null
 energy: medium
 id: 2026-09-29T1024-follow-up-on-formalize-laura-s-hand-off-plan-and-s
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Follow up on: formalize Laura''s hand-off plan and share it with Blake'
-updated: 2026-09-29 10:24:30.825259
+updated: 2026-09-29 11:02:37.621826
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,18 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-28 23:46:02.270581
+created: &id001 2026-09-29 15:56:16.613508
 defer_until: null
 due: null
 energy: low
-id: 2026-09-28T2346-schedule-converstaions-to-gather-feedback-martijn
+id: 2026-09-29T1556-mobile-guest-messaging-sit-down-and-evaluate-the-w
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: 'schedule converstaions to gather feedback: martijn, andrea, laura'
+title: 'mobile guest messaging: * Sit down and evaluate the whole API surface'
 updated: *id001
 waiting_on: null
 waiting_since: null

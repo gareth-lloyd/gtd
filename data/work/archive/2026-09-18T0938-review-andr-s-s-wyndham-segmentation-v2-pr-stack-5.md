@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-29 12:19:21.459875
 contexts:
 - react
 created: 2026-09-18 09:38:23.413683
@@ -92,7 +92,7 @@ tags:
 - slack
 time_minutes: 45
 title: 'Review Andrés''s Wyndham segmentation v2 PR stack (#56242, #56243, #56244)'
-updated: 2026-09-18 15:19:35.090089
+updated: 2026-09-29 12:19:21.459857
 waiting_on: null
 waiting_since: null
 working_on: false

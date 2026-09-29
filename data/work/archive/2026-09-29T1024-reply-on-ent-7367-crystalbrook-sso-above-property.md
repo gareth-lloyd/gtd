@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-29 11:42:18.773820
 contexts:
 - react
 created: 2026-09-29 10:24:31.121892
@@ -17,7 +17,7 @@ tags:
 - linear
 time_minutes: 10
 title: 'Reply on ENT-7367: Crystalbrook SSO above-property access'
-updated: 2026-09-29 10:24:31.195343
+updated: 2026-09-29 11:42:18.773811
 waiting_on: null
 waiting_since: null
 working_on: false

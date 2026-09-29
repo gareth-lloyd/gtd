@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-29 11:03:57.147787
 contexts: []
 created: 2026-09-29 04:32:39.632285
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: reorganize quote builder form
-updated: 2026-09-29 04:32:39.689798
+updated: 2026-09-29 11:03:57.147774
 waiting_on: null
 waiting_since: null
 working_on: false

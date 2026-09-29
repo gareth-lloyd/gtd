@@ -14,10 +14,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: absorb architecture
-updated: 2026-09-21 14:55:53.677904
+updated: 2026-09-29 12:19:52.429765
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 https://claude.ai/artifact/VKCDjnQLiziw5LVTZTZm8J

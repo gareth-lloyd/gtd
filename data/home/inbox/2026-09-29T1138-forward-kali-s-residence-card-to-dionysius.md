@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-09-28 08:47:28.794877
+created: 2026-09-29 11:38:12.373883
 defer_until: null
 due: null
 energy: low
-id: 2026-09-28T0847-arrange-to-buy-health-insurance
+id: 2026-09-29T1138-forward-kali-s-residence-card-to-dionysius
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: arrange to buy health insurance
-updated: *id001
+title: forward kali's residence card to dionysius. save to files
+updated: 2026-09-29 11:38:17.684111
 waiting_on: null
 waiting_since: null
 working_on: false

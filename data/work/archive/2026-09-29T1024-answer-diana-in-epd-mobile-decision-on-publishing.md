@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-29 11:00:48.506352
 contexts:
 - react
 created: 2026-09-29 10:24:30.825920
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Answer Diana in #epd-mobile: decision on publishing SDKs to public registries'
-updated: 2026-09-29 10:24:30.899938
+updated: 2026-09-29 11:00:48.506347
 waiting_on: null
 waiting_since: null
 working_on: false

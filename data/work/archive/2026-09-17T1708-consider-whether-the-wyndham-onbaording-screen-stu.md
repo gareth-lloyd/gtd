@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-29 12:19:42.682325
 contexts: []
 created: 2026-09-17 17:08:27.644093
 defer_until: null
@@ -122,7 +122,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Think through how monitored health checks could be useful for onboarding checklist
-updated: 2026-09-23 13:23:31.618170
+updated: 2026-09-29 12:19:42.682319
 waiting_on: null
 waiting_since: null
 working_on: false

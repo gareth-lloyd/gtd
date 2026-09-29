@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-09-29 10:24:30.666087
-defer_until: null
+defer_until: 2026-09-30 09:00:00
 due: null
 energy: low
 id: 2026-09-29T1024-check-lettuce-martijn-dekker-s-upward-review-flagg
@@ -17,7 +17,7 @@ tags:
 - gmail
 time_minutes: 5
 title: 'Check Lettuce: Martijn Dekker''s upward review flagged 4 days late'
-updated: 2026-09-29 10:24:30.743191
+updated: 2026-09-29 11:42:25.511661
 waiting_on: null
 waiting_since: null
 working_on: false

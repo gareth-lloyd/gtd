@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-29 11:42:30.168860
 contexts:
 - react
 created: 2026-09-29 10:24:30.900535
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Answer Laura in #eng-leads: what is the staff ops team?'
-updated: 2026-09-29 10:24:30.973614
+updated: 2026-09-29 11:42:30.168855
 waiting_on: null
 waiting_since: null
 working_on: false
