@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - consume
 created: 2026-09-28 07:41:13.952877
-defer_until: 2026-09-30 09:00:00
+defer_until: null
 due: 2026-09-30
 energy: medium
 id: 2026-09-28T0741-follow-up-on-review-step-configurator-demo-recordi

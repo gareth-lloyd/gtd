@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-09-28 08:40:21.337829
-defer_until: 2026-09-30 09:00:00
+defer_until: null
 due: null
 energy: medium
 id: 2026-09-28T0840-follow-up-on-wyndham-mobile-check-in-rollout-get-c

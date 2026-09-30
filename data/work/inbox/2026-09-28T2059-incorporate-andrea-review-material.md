@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-28 20:59:31.574964
-defer_until: 2026-09-30 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-09-28T2059-incorporate-andrea-review-material

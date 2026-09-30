@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-30 05:16:24.380934
 contexts: []
-created: 2026-09-29 03:07:08.720984
+created: 2026-09-30 03:00:20.973324
 defer_until: null
 due: null
 energy: low
-id: 2026-09-29T0307-call-ee-if-need-new-sim-need-it-sent
+id: 2026-09-30T0300-reply-dionysius
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: call ee (if need new sim, need it sent)
-updated: 2026-09-29 13:44:54.752902
+title: reply dionysius
+updated: 2026-09-30 05:16:24.380912
 waiting_on: null
 waiting_since: null
 working_on: false
