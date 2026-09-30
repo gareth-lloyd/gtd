@@ -1,0 +1,87 @@
+# Priorities for /gtd2. Edit numbers here rather than rewriting prompts.
+#
+# attention = sigmoid(bias + sum(weight * feature)). Features are Jev's
+# probabilities, each in 0..1, plus `kind_prior`, which is looked up in the
+# table at the bottom. `evaluate.py --fit` prints fitted values for both.
+#
+# Tuned against this model and question set. Re-run evaluate.py if either changes.
+model: jev-1.13.0
+questions_version: "1"
+
+attention:
+  # Fitted 2026-09-18 by `evaluate.py --fit` on April-July history (2,367 items).
+  # Jev's features are fitted on top of the kind prior, so their weights are
+  # what Jev adds beyond the item's kind. On judgment kinds in the test split:
+  # kind alone AUC 0.771, with Jev 0.864.
+  bias: -0.17
+  awaiting_me: 0.28
+  addressed_to_me: 0.13
+  stakes: 0.29
+  deadline: 0.03
+  key_account: 0.60
+  ent_serious: -0.02
+  already_handled: -0.68
+  automated: -0.44
+  disp_actionable: 0.78
+  disp_aware: -0.81
+  disp_noise: -0.26
+  kind_prior: 0.98
+
+# Deadline choice -> proximity feature.
+deadline_proximity:
+  today: 1.0
+  this_week: 0.5
+  later: 0.15
+  none_stated: 0.0
+
+bands:
+  # act: attention at or above this, and uncertainty at or below max_uncertainty.
+  # Items scoring 0.2-0.4 were acted on half the time in the test split.
+  act_attention: 0.4
+  # know: attention at or below this, uncertainty at or below max_uncertainty,
+  # awaiting_me at or below know_max_awaiting, and no key account.
+  # 0.015 banded 16% of the test split `know` with no acted-on item among them;
+  # 0.02 already caught a promotion.
+  know_attention: 0.015
+  know_max_awaiting: 0.3
+  max_uncertainty: 0.45
+  # A feature counts as "key account" above this probability.
+  key_account_threshold: 0.5
+
+dives:
+  budget: 8
+  key_account_bonus: 0.5
+  # Added for a pending reply that arrived with no thread context. Larger than
+  # any other item can score, so these are always read first.
+  unverified_ask_bonus: 2.5
+
+# Log-odds that I act on an item of each `source:kind`, smoothed, from all
+# labelled history (April to 2026-09-18), so kinds that first appeared in August
+# are covered. `evaluate.py --fit` refits it on April-July alone for its report.
+# `default` is the overall rate, used for an unseen kind.
+kind_prior:
+  default: -2.21
+  "github:mine_action_needed": -0.45
+  "github:mine_in_flight": -1.69
+  "github:review_personal": 0.96
+  "github:review_team_only": -3.82
+  "gmail:human": -0.79
+  "gmail:lever_feedback": -1.30
+  "gmail:notion_mention": -0.25
+  "gmail:other": -1.13
+  "linear:assigned": -1.10
+  "linear:ent_triage": -2.46
+  "linear:mention": 0.32
+  "linear:new_comment": -0.67
+  "linear:project_update": -1.95
+  "linear:status_change": -4.74
+  "linear:subscribed": -3.00
+  "notion:brief_note": -1.61
+  "notion:brief_priority": 1.10
+  "slack:channel_unread": -3.29
+  "slack:dm": -2.01
+  "slack:dm_pending_reply": -0.74
+  "slack:mention": -1.74
+  "slack:mention_pending_reply": -0.00
+  "slack:saved": 0.05
+  "slack:thread_continuing": -2.26

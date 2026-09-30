@@ -16,36 +16,6 @@ output: |
   Spain (CNMC) version of this on Sep 17. Nobody has responded to Twilio's Austrian message yet and
   there is no Linear ticket for a TUI BLUE sender-ID registration in any country.
 
-  **What the Twilio message is** (https://canarytechnologies.slack.com/archives/C079SQR30Q4/p1790018880170299,
-  #ext-canary-tech-twilio, Morgan Hall @ Twilio, 2026-09-21): from **Oct 1, 2026** Austrian operators block
-  unregistered alphanumeric sender IDs (error 21612, no fallback to long codes). Sub-account
-  AC<redacted-twilio-sid>, sender ID "TUI BLUE", needs registering. Twilio offered to submit to
-  the Austrian portal themselves if we give them the authorised representative's name + email + gov ID.
-  **No thread replies as of this run.**
-
-  **Who owns what**
-  - **Isaac Sheahan (EMEA CS)** — TUI's CSM. Runs the weekly TUI sync, owns #tui (C06EVB6BPMX), and in
-    #emea-cs on 2026-09-17 posted the Spain/CNMC sender-ID rollout and assigned himself "TUI BLUE, The Mora"
-    (https://canarytechnologies.slack.com/archives/C099ES3HX8A/p1789640559318549). That thread has the
-    customer email template + CustOps ticket template. Only Sam Stead has reported back in it so far;
-    Isaac has not said whether he's emailed TUI for the docs.
-  - **Rachel Kim** — Canary-side Twilio/sender-ID programme contact. Raised TUI BLUE + The Mora with Twilio
-    for the France requirement on 2026-08-28 (https://canarytechnologies.slack.com/archives/C079SQR30Q4/p1787926974742599),
-    asking whether one brand-level submission covers all properties. Thread ended with Twilio (jhrios)
-    pointing at senderid-notify@twilio.zendesk.com; no resolution recorded in Slack.
-  - **EMEA eng pod (James Saram, Martijn Dekker)** — on TUI for AI Voice / SIP (TUI BLUE Sylt) and Linear
-    EMEA-* tickets. Not involved in sender-ID registration; that's a CS/CustOps process, not engineering.
-  - **CustOps (Jolly Saracanlao / Cristhian Grijalva)** — execute the Twilio console registration once
-    docs are in hand, via a CUSTOPS "Other" ticket per Isaac's template.
-
-  **State of the registrations for TUI BLUE (AC<redacted-twilio-sid>)**
-  - France: raised with Twilio Aug 28, no recorded outcome.
-  - Spain (CNMC): assigned to Isaac Sep 17, no progress reported.
-  - Austria: Twilio notice Sep 21, unanswered. Deadline Oct 1 (9 days).
-  - Linear: no CUSTOPS/EMEA ticket mentions TUI BLUE sender ID or Austria/CNMC registration. Only TUI Twilio
-    ticket is CUSTOPS-4541 (TUI BLUE Sylt number config, done Jul 30).
-  - The same document set (proof of business, legal-rep gov ID, signed LOA) serves all three countries, so
-    one ask to TUI covers Austria + Spain + France.
 
   **Suggested next step (not sent — needs your OK):** reply in the Twilio thread tagging Isaac and Rachel,
   e.g. "@Isaac @Rachel Kim this is the same doc set as the Spain/CNMC ask from last week — can we get
