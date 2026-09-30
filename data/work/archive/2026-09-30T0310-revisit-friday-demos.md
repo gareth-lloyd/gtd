@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-30 13:39:55.177833
 contexts: []
-created: &id001 2026-09-30 03:10:27.262625
+created: 2026-09-30 03:10:27.262625
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: revisit friday demos
-updated: *id001
+updated: 2026-09-30 13:39:55.177820
 waiting_on: null
 waiting_since: null
 working_on: false

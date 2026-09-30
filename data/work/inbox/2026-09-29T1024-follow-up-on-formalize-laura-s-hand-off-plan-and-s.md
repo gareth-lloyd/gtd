@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Follow up on: formalize Laura''s hand-off plan and share it with Blake'
-updated: 2026-09-30 02:59:15.100952
+updated: 2026-09-30 12:55:12.169413
 waiting_on: null
 waiting_since: null
 working_on: false

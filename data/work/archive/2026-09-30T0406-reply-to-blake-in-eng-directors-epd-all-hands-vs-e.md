@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-30 12:59:21.876548
 contexts:
 - react
 created: 2026-09-30 04:06:42.301200
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Blake in #eng-directors: EPD All Hands vs Eng All Hands'
-updated: 2026-09-30 04:06:42.397514
+updated: 2026-09-30 12:59:21.876541
 waiting_on: null
 waiting_since: null
 working_on: false

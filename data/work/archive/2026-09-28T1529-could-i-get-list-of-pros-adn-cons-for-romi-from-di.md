@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-30 12:50:40.098356
 contexts: []
 created: 2026-09-28 15:29:20.175020
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: '* Could I get list of pros adn cons for romi from diana'
-updated: 2026-09-30 04:26:21.171917
+updated: 2026-09-30 12:50:40.098332
 waiting_on: null
 waiting_since: null
 working_on: false

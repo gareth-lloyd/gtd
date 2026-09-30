@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-30 12:55:25.247940
 contexts:
 - react
 created: 2026-09-30 04:06:41.917465
@@ -17,7 +17,7 @@ tags:
 - linear
 time_minutes: 15
 title: 'Get ENT-7693 owned: Wyndham mobile check-in script change + backfill'
-updated: 2026-09-30 04:06:42.007699
+updated: 2026-09-30 12:55:25.247929
 waiting_on: null
 waiting_since: null
 working_on: false

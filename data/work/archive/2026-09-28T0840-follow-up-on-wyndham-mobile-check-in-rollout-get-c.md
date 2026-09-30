@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-30 12:45:46.394215
 contexts:
 - react
 created: 2026-09-28 08:40:21.337829
@@ -19,7 +19,7 @@ tags:
 time_minutes: 15
 title: 'Follow up on Wyndham mobile check-in rollout: get Caitlyn''s call on slow
   rollout (has_check_in_mobile)'
-updated: 2026-09-29 12:14:36.548996
+updated: 2026-09-30 12:45:46.394187
 waiting_on: null
 waiting_since: null
 working_on: false
