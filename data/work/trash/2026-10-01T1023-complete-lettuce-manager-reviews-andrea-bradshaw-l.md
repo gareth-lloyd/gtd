@@ -17,7 +17,7 @@ tags:
 - gmail
 time_minutes: 120
 title: 'Complete Lettuce manager reviews: Andrea Bradshaw, Laura DeWald, Martijn Dekker'
-updated: 2026-10-01 10:23:58.854509
+updated: 2026-10-01 10:28:17.841450
 waiting_on: null
 waiting_since: null
 working_on: false
