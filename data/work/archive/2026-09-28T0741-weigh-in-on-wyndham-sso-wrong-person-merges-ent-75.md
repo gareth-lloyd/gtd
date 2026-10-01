@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-01 14:56:34.628498
 contexts:
 - react
 created: 2026-09-28 07:41:13.876749
@@ -58,7 +58,7 @@ tags:
 - slack
 time_minutes: 15
 title: Weigh in on Wyndham SSO wrong-person merges (ENT-7582)
-updated: 2026-09-29 12:19:39.366168
+updated: 2026-10-01 14:56:34.628493
 waiting_on: null
 waiting_since: null
 working_on: false

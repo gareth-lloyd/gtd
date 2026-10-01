@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-01 14:56:07.575887
 contexts:
 - consume
 created: 2026-09-28 07:41:13.952877
@@ -237,10 +237,10 @@ tags:
 - slack
 time_minutes: 30
 title: 'Follow up on: review step-configurator demo recording and docs (promised Leandro)'
-updated: 2026-09-30 14:34:23.409173
+updated: 2026-10-01 14:56:07.575877
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 I told Leandro on 09-25 I'd review the recording and docs and schedule time if needed. His point: additional_guest_* and id_* fields become StepForms/CatalogFields, which changes how the Binding Rules Tree seeds them.

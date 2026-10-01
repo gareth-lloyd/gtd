@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-01 13:45:11.040724
 contexts:
 - react
 created: 2026-10-01 10:23:58.140994
@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Answer Blake in #eng-directors: my concern with EPD All Hands taking the Show
   and Tell slot'
-updated: 2026-10-01 10:23:58.217624
+updated: 2026-10-01 13:45:11.040710
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -7,17 +7,17 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-21T1448-blake-on-workup-eng-leads-last-week
-order: 3
+order: 4
 output: ''
 project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: 5
-title: Blake on Workup, eng leads last week
-updated: 2026-09-29 12:19:33.732705
+title: Blake on Workup, eng leads last week. Explroe with Laura
+updated: 2026-10-01 14:56:17.880177
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 - He wants "an intelligence layer on blocked tickets" that does the manual follow-ups, for example asking the CS

@@ -2,22 +2,20 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-29 13:53:11.338965
+created: 2026-10-01 15:46:31.014924
 defer_until: null
 due: null
 energy: low
-id: 2026-09-29T1353-read-zuck
+id: 2026-10-01T1546-product-owner-personality
 order: null
 output: ''
-project: null
+project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: read zuck
-updated: 2026-10-01 11:21:03.706121
+title: product owner personality?
+updated: 2026-10-01 15:46:31.064655
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-https://colossus.com/article/mark-zuckerberg-profile/

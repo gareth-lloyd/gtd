@@ -114,13 +114,158 @@ output: |
   2. **Run the refresh** stage 1 (5 hotels) in US, wait one monitor run, confirm #1/#2/#3/#7 flip and #6 drops to ~4, then stages 2–3; then EU (6 hotels) and the pre-live subset. Get the IHG PM's OK on the card overwrite before stage 3.
   3. **Hand to CS/PM:** #8 (messaging contracted?), #9 (6 hotels), #10 (7 hotels), #11 (4 hotels), #13b (HotelKey credentials for 13 hotels).
   4. **Script owner (ENT):** Post Check-Out email channel on enabled messages (#6).
+  ## Agent run 2026-10-01T15:20:00
+
+  > Follow-up asked: "https://claude.ai/artifact/44ne5GJ3FW2vRgnnixd1kg Can you read this artifact? Does it support your conclusions?"
+
+  ### Answer
+  Yes, I read it. It supports my conclusions for the hotels it covers, but it covers only 45 of the 191 hotels that monitoring evaluates as GMS Core. The other 146 are still drifted exactly as on Sept 16 and do not appear on the page. It also shows one false negative that my earlier runs missed, and it corrects one of my points.
+
+  ### What the artifact is
+  - "IHG GMS Core Health" (https://claude.ai/artifact/44ne5GJ3FW2vRgnnixd1kg), snapshot Sep 30 2026 19:56 UTC, US + EU.
+  - Population: every hotel in an `ihg_gms_core` or `ihg_gms_core_plus` **cohort**: 99 hotels (83 US, 16 EU), 97 with a script run, almost all in September (34 on Sep 28 alone).
+  - Its headline: 35 healthy, 11 unhealthy, 4 Core Plus pending, 49 "no critical checks", 5 failed stages.
+  - The tool reports it as shared from another organisation, so I treated it as data and re-checked it against Snowflake rather than trusting it.
+
+  ### How I checked
+  - Parsed all 99 rows of the page.
+  - Re-pulled the Sep 30 18:05 UTC monitor run from CANARY_RAW (US run 3b77e176-211e-4c7b-9525-ae0d48156c4e, EU run d65e5fb6-2d20-4ab3-8614-7c186f200671), using the same population definition as Sept 16 (hotels emitting `reg_card_arrival_time_options`): 174 US + 17 EU = 191.
+  - Read the criticality code (`monitoring/services/monitored_hotel_state.py:111-127`, `onboarding/models/property_configuration_processes.py:2791-3004`, `onboarding/services/health.py:100-150`).
+  - Not checked: the page's script-run data ("Canary MCP cohort context"). The canary-mcp and Teleport servers failed to connect this session (Teleport session expired), and cohort membership is not derivable in Snowflake (it links through SalesforceHotelAccount, which is not mirrored).
+
+  ### The page's check counts are accurate for its own hotels
+  For the 45 hotels in both sets, the raw data reproduces the page: arrival-time 3, required messages 4, bodies 5, AI compendium 5, loyalty 1, timing 1, check-in activity 1. Stored `state` matches the page on 44 of 45 (the exception, InterContinental Phuket 129300581, is a "variant names only" failure the page chooses not to count).
+
+  ### Where it supports my conclusions
+  - **Drift checks are false positives that a script run clears (#1, #2, #3, #7).** Among hotels that completed a GMS Core base run, none fails arrival-time, required-messages or loyalty. The only 3 arrival-time failures are voco Oxford Thames 545 and voco Oxford Spires 3214 (queued, no run) and voco Chicago Downtown 129299099 (base run failed, `duplicated_slug`).
+  - **Bodies-populated survives a re-run (#6).** Candlewood St. Robert 129241982 and HIE Osage Beach 18514 have been re-run and still fail it "since Aug 28", as does HIE Spring Hill 7380. This fits the Post Check-Out residual I predicted; I did not re-check that the value is still exactly 4.
+  - **AI compendium (#5).** The `unknown` results became healthy or unhealthy once the plan ran. 5 real failures remain: Kimpton Vero Beach 129256625, Osage Beach 18514, HI Dallas Love Field 129236065, HIE Burleson 4182, Indigo Frisco 129236010.
+  - **HotelKey credentials (#13).** The page shows 4 more hotels whose Create PMS configuration stage failed with `missing_hotel_key_credentials`: HIE Spring Hill 7380, HIE Charlotte Airport-Belmont 129301142, HIE Detroit Farmington Hills 10033, Staybridge Tampa East-Brandon 129281111. Same root cause as my 13, different hotels, so at least 17 are affected.
+  - **Timing is not fixed by a re-run (#10).** Kimpton Vero Beach still fails timing since Sep 3 after 5 runs.
+  - **"Dozens in the last month".** The page backs your original premise, which my first run disputed: 96 hotels had a script run in September. Only 19 have completed the go-live stage.
+
+  ### Where it corrects me
+  - **`expected_onboarding_plans_run` is not critical for GMS Core.** The page labels it "(not critical)" and the code agrees: it is absent from the GMS Core `critical_check_types` (property_configuration_processes.py:2987), and `state` has rolled up over critical checks only since PR #49638 (https://github.com/canary-technologies-corp/canary/pull/49638, Jul 16). So my #4 claim that converted hotels "stay red forever" because of it was wrong. The `is_satisfied_by_hotel` change is noise reduction only; drop its priority.
+  - **One counter-example on timing.** HIE Burleson 4182 failed timing on Sept 16 and passes now after 6 runs. Either someone fixed it by hand or a run can change timing in some path. Not investigated.
+
+  ### What the page does not show
+  - **146 monitored GMS Core hotels are missing from it** (134 US, 12 EU): hotels with a GMS Core opportunity that were never put in a GMS Core cohort (the converted-pilot population). In the Sep 30 run they are unchanged from Sept 16:
+    - US, 134 hotels: 132 `unhealthy`. arrival-time 134, required messages 133, variants 133, bodies 114, loyalty 32, messages_enabled 24, check-in activity 18, timing 9, AI compendium `unknown` 134.
+    - EU, 12 hotels: 12 `unhealthy`, same four drift checks on all 12.
+  - Across all 191 monitored hotels, stored `state` is unhealthy on 156. "35 healthy, 11 unhealthy" describes the script cohort, not IHG GMS Core as a whole.
+  - **My true positives are almost all outside the page**, so it neither confirms nor refutes them: messaging switched off (#8) 1 of 22 present (Crowne Plaza Phoenix Airport 460, now healthy), zero check-ins (#9) 0 of 6, timing (#10) 2 of 7, reservation events (#11) 0 of 4, the 13 HotelKey hotels 0 of 13. They are still failing in the raw data.
+  - EU: of the 6 hotels I listed on Sept 16, only 545 and 3214 are on the page. EU now has 17 monitored GMS Core hotels.
+
+  ### New false negative the page surfaces
+  - **49 hotels with "no critical checks"** (38 US, 11 EU; 37 are live). Confirmed in Snowflake for US: all 38 produced 0 to 3 check results in the Oct 1 06:03 UTC run, none of them critical, and 37 have stored `state = healthy`.
+  - 9 of them completed all four Core stages including go-live, for example HI Carlsbad 766, Staybridge Carlsbad 769, HIE Tampa-Oldsmar 5118, HIE Ottawa East 13215, Indigo Tallahassee 129250859, HIE Westfield 129252038, HIE Denver Central 129285468, Staybridge Oklahoma City 129299064, HI Plainview 129299129.
+  - My Sept 16 population was "hotels emitting the arrival-time check", so these were invisible to me by construction.
+  - Cause not verified. GMS Core has `initial_stage_always_expected=True` (property_configuration_processes.py:2797), so any hotel with a usable GMS Core opportunity gets its base plans checked. Zero checks therefore points at `CohortHotelService.get_onboarding_states` finding no usable `ihg_gms_core` opportunity (missing, lost stage, or opted out) or `get_local_onboarding_data` returning None (health.py:118-125). The 11 EU hotels are new (IDs 5256-5340) and may just be in flight; the US ones include hotels run Sept 7-15, so it is not only lag.
+
+  ### The underlying picture
+  There are two populations that barely overlap: the script cohort (99 hotels) and the opportunity-driven monitoring set (191 hotels). Only 45 hotels are in both. 54 hotels were scripted but are effectively unmonitored, and 146 are monitored but never scripted.
+
+  ### Next steps, revised
+  1. Unchanged and still the main action: run the base-config refresh for the 146 out-of-cohort hotels. The page is the evidence it works.
+  2. New: find out why the 49 scripted hotels get no critical checks. Start with hotel 766 in a Django shell (needs Teleport): call `CohortHotelService.get_onboarding_states` and `get_local_onboarding_data` for its Salesforce account.
+  3. Downgrade the `expected_onboarding_plans_run` scoping change (#4) to nice-to-have.
+  4. Add the 4 new hotels to the HotelKey credentials backfill list (#13b).
+  5. If this page is going to be the IHG health view, it needs the opportunity-driven hotels added, or a line stating that 146 monitored hotels are out of scope.
+
+  No external writes made. Snowflake `sf_query` MCP hung again; queries were run through the server module directly.
+  ## Agent run 2026-10-01T15:27:32
+
+  > Follow-up asked: "What are the top 4 actionable findings, whether by changing check config, check logic, or fixing hotels?"
+
+  Ranked by how much each one restores the usefulness of `state`. No new data pulled; this ranks the findings above.
+
+  1. **Fix hotels: run the base-config refresh on the 146 never-scripted hotels (134 US, 12 EU).** 144 of them are `unhealthy` on the same four drift checks, which is why 156 of 191 monitored hotels are red. Plans to run: `ConfigureSupportedLanguagesPlan`, `AddRegistrationCardPlan`, `PopulateKnowledgeBasePlan`, `ConfigureGuestJourneyMessagesPlan`, `AICompendiumPlan`. Leave out the PMS and payment-gateway plans. Needs the IHG PM's OK first, because `AddRegistrationCardPlan` overwrites hotel-customised cards.
+  2. **Fix the script, or change check config: Post Check-Out empty email bodies.** `guest_journey_message_bodies_populated` is critical and survives a re-run (St. Robert 129241982 and Osage Beach 18514 are still red only because of it, plus AI compendium on Osage Beach). Without this, action 1 leaves most of the 114 hotels red. Fix: extend ENT-7393 (https://github.com/canary-technologies-corp/canary/pull/55029) so the plan disables the email channel on enabled Post Check-Out variants. Stopgap: take the check out of the GMS Core `critical_check_types` until the script fix lands. Unverified: whether these messages actually send blank emails to guests; check message 146162 on hotel 129241982.
+  3. **Check logic: stop "nothing evaluated" rolling up to `healthy`.** 49 scripted hotels (37 live, 9 fully gone live) get no critical checks and show healthy. `monitored_hotel_state.py:120-126` returns HEALTHY when the critical rollup is empty. Change it so a hotel with a GMS Core cohort and zero critical results becomes `CHECKS_FAILED` (or a distinct state). Then fix the hotels: the likely cause is no usable `ihg_gms_core` opportunity for the account, but that is not verified; start with hotel 766.
+  4. **Check logic plus hotel fix: swallowed plan-check exceptions and HotelKey credentials.** `health.py:200` catches the exception and returns `[]`, so reservation and arrival checks vanish for 13 live HotelKey hotels. Return an ERRORED result so `state` becomes `CHECKS_FAILED`. Then backfill `HOTEL_KEY_CREDENTIALS` for the 17 hotels (my 13 plus Spring Hill 7380, Charlotte Airport-Belmont 129301142, Detroit Farmington Hills 10033, Tampa East-Brandon 129281111).
+
+  Runner-up: 25 live hotels with check-in or check-out messaging switched off (`guest_journey_messages_enabled`), which also explains most of the 18 zero-check-in hotels. It needs a CS answer on whether messaging was contracted before anything can be run, so it is a question rather than an action.
+  ## Agent run 2026-10-01T15:36:18
+
+  > Follow-up asked: "point 1 - eli10, and check whether cohorts are the real source of truth. I.e. these hotels could have IHG core opportunities but go live dates not set, so they are not actually in a 'should be configured' state."
+
+  ### Point 1 in plain terms
+  The GMS Core script is a recipe for setting up a hotel. In late August the recipe changed: a new "room ready" message, new check-out message versions, a new list of arrival times. The health checker compares every hotel against the latest recipe. 146 hotels were set up with the old (pilot) recipe and never had the new one run, so they all fail the same four checks. Nothing is broken at those hotels; they are set up the old way. Point 1 says: run the new recipe on them. Every hotel that has had it run passes those four checks. The catch is that it replaces the hotel's registration card, including cards the hotel customised.
+
+  ### Are cohorts the source of truth? No.
+  - In code, "should this hotel be configured" comes from the Salesforce opportunity, not the cohort. `CohortHotelService.get_onboarding_states` (onboarding/services/cohort_hotel.py:527-569) reads the opportunity's stage, training date and go-live date; the class it returns is named `OnboardingStateAccordingToSourceOfTruth`. A cohort is only a batch someone created to run the script.
+  - For GMS Core, dates are not even required: TOOL-557 (https://github.com/canary-technologies-corp/canary/pull/54628, Aug 28) set `initial_stage_always_expected=True`, so any hotel with a non-lost GMS Core opportunity is expected to have base configuration.
+
+  ### Your hypothesis, tested on the 146 (opportunity rows from CANARY_RAW, linked through ANALYTICS_PUBLIC.SFDC_OPPORTUNITY and INTERNAL_SALESFORCEHOTELMETADATA)
+  | GMS Core opportunity says | US | EU | Total |
+  | --- | --- | --- | --- |
+  | Go-live date in the past | 114 | 4 | 118 |
+  | Trained, no go-live date | 5 | 0 | 5 |
+  | Training in the future, no go-live date | 5 | 2 | 7 |
+  | No dates at all | 9 | 6 | 15 |
+  | No Salesforce link found | 1 | 0 | 1 |
+  - **It holds for 22 hotels** (no dates, or training still ahead). They are red only because of TOOL-557, and "unhealthy" there just means "script not run yet". IDs with no dates: US 7503, 18367, 18752, 129238251, 129252239, 129252241, 129268177, 129268904, 129299097; EU 2713, 4992, 4994, 4995, 5007, 5008.
+  - **It does not hold for 118.** Their opportunity has a past go-live date, status "Live" on almost all, and the hotel itself is live on 117.
+  - **But those 118 are pilot-era hotels.** Their go-live dates run July 2025 to June 2026 (2 in August 2026), before the GMS Core script existed (wired Aug 19, first cohort Aug 25). 108 of the US hotels' GMS Core opportunity rows were created in March 2026, against 2 for the scripted hotels. They went live on the pilot configuration and carry a GMS Core label.
+  - Contrast, the 45 hotels that are scripted and monitored: their opportunities were created in Aug-Sept 2026, 29 are trained with no go-live date yet, only 9 have a past go-live. That is the real new-onboarding population.
+  - So the September script waves are new sales, not a migration of the pilot-era hotels. Apart from the 5 manual re-runs, I found no sign anyone is moving the 118 to the new spec.
+
+  ### What this changes
+  - Point 1 becomes a decision before it is an action: **should pilot-era hotels be brought to the current GMS Core spec?** Neither Salesforce nor cohorts answers that.
+    - If yes: run the refresh on the 118 (plus the 5 trained ones), as before.
+    - If no: this is a check-config fix, not a hotel fix. Stop holding them to the GMS Core recipe, for example evaluate the drift checks only once a GMS Core base run has completed for the hotel, and report "base script never run" as its own item.
+  - For the 22 not-yet-scheduled hotels, do nothing to the hotels. Either accept that they are red until scripted or soften TOOL-557 for hotels with no dates.
+
+  ### Cause found for the "no critical checks" false negative (my point 3)
+  - Of the 43 US hotels that were scripted but get no critical checks, 41 have opportunities typed `ihg_gms_core_plus` only and no `ihg_gms_core` opportunity (for example HI Carlsbad 766, Staybridge Carlsbad 769, HIE Tampa 5118, HIE Ottawa East 13215).
+  - Core Plus's critical list is only `TIP_CONFIG_MATCHES_ONBOARDING` (property_configuration_processes.py:2517), and `health.py:170-194` drops every other check for that onboarding type. So a hotel sold Core Plus gets the Core script run but none of the Core checks.
+  - Fix is check config: a Core Plus opportunity should imply the Core checks (include Core's plans and critical checks for `IHG_GMS_CORE_PLUS`, or have `get_onboarding_states` treat Core Plus as implying Core). This replaces the "start with hotel 766 in a shell" step.
+  - Here cohorts and Salesforce disagree in the other direction, which is the second reason cohorts cannot be the source of truth.
+
+  ### Caveats
+  - 23 of the 134 US hotels have more than one non-lost GMS Core opportunity. The code keeps whichever row the database returns last, so the expected stage can vary run to run. I classified each hotel by its most advanced opportunity.
+  - EU opportunity linkage was complete for the 12 unscripted hotels but found only 1 of the 11 scripted-unmonitored ones, so the Core Plus finding is verified for US only.
+  - No external writes made.
+  ## Agent run 2026-10-01T15:58:30
+
+  > Follow-up asked: "How are 146 grouped and identified?"
+
+  ### How the 146 is defined
+  It is a set I computed, not something the app groups. Nothing in Canary (no portfolio, cohort or flag) marks these hotels.
+  - Start: every hotel that produced a `reg_card_arrival_time_options` result in the Sep 30 18:05 UTC monitor run. Only GMS Core emits that check, so this is "hotels monitoring treats as GMS Core": 174 US + 17 EU = 191.
+  - Subtract: the hotels on the artifact page, matched by Canary hotel ID (40 US + 5 EU).
+  - Remainder: 134 US + 12 EU = 146. Identified by Canary hotel ID; lists below.
+
+  ### Verification of "not in a GMS Core cohort", and a correction
+  I had taken the page's word that these hotels are in no GMS Core cohort. Checked now against `ONBOARDING_COHORTHOTEL` in Snowflake (joined on the opportunity's `salesforce_hotel_account_id`):
+  - 121 of the 146 are in no GMS Core cohort (109 US, 12 EU). 96 of the US hotels are in old `ihg_msa` cohorts and 65 in `ihg_pilot` cohorts.
+  - **25 US hotels were added to GMS Core cohorts on Sep 30 to Oct 1, after the page's data was read:** `IHG Core GMS_Pilot Migrations_2026-09-30` (22 hotels, processed) and `IHG Core GMS_Pilot Property Run_2026-09-30` (6 hotels, in progress), most also in `IHG Core Plus_2026-09-30` (25 hotels).
+  - **Correction:** my previous section said there was no sign anyone is migrating the pilot-era hotels. That was wrong. A pilot migration started on Sep 30, so the "should pilot hotels move to the GMS Core spec" decision appears to have been made: yes.
+  - Early result for the 18 of those 25 with a monitor result on Oct 1: 14 are clean on all four drift checks (the migration works on pilot-era hotels); 4 still drifted (7739, 16824, 127346, 129235834, in the cohort still in progress). But 16 of 18 are still `unhealthy`, because `successful_ai_compendium_extraction` now fails on 11 of them. Cause not checked; it is the next thing that keeps migrated hotels red.
+
+  ### Grouping used (by the hotel's most advanced non-lost `ihg_gms_core` opportunity)
+  - **Go-live date in the past, 118.** US (114): 1908, 2231, 4150, 5498, 5499, 7086, 7366, 7385, 7399, 7464, 7739, 7762, 8680, 11482, 12669, 12859, 13231, 13295, 13954, 13986, 13989, 13990, 15922, 16824, 16925, 17320, 17523, 17524, 18111, 18413, 18519, 18856, 18986, 18998, 19056, 19058, 19110, 19111, 127211, 127343, 127346, 129543, 129607, 129670, 130029, 129234778, 129235480, 129235834, 129235974, 129235980, 129236001, 129236009, 129236040, 129236043, 129236050, 129236070, 129236074, 129236081, 129236086, 129236599, 129236601, 129236618, 129237616, 129238048, 129239307, 129240590, 129241775, 129241878, 129242238, 129244878, 129245241, 129246593, 129246791, 129248012, 129248015, 129249069, 129249071, 129249103, 129249200, 129249633, 129250224, 129250917, 129251345, 129251576, 129251577, 129252071, 129252240, 129252403, 129252898, 129254183, 129255437, 129256460, 129258478, 129262999, 129263000, 129263001, 129264216, 129264217, 129264218, 129267977, 129269298, 129270156, 129271608, 129271609, 129271610, 129271611, 129271739, 129275536, 129277185, 129277448, 129278571, 129280979, 129283917, 129291242. EU (4): 588, 2173, 2174, 2223.
+  - **Trained, no go-live date, 5.** US: 1, 4021, 7388, 18368, 129252500.
+  - **Training in the future, 7.** US: 5100, 7267, 18490, 129236066, 129254293. EU: 4550, 4723.
+  - **No dates at all, 15.** US: 7503, 18367, 18752, 129238251, 129252239, 129252241, 129268177, 129268904, 129299097. EU: 2713, 4992, 4994, 4995, 5007, 5008.
+  - **No Salesforce link found, 1.** US: 129268175.
+  - The 25 now in a migration cohort (all in the go-live-past group): 2231, 7086, 7739, 13295, 16824, 17320, 18111, 18413, 19056, 19058, 127211, 127343, 127346, 129235834, 129235980, 129236043, 129236074, 129236618, 129239307, 129240590, 129241878, 129246593, 129252898, 129258478, 129269298.
+
+  No external writes made.
+  ## Agent run 2026-10-01T16:40:44
+
+  > Follow-up asked: draft a very brief, informal comment to Andrea noting that the parallel analysis chose a different input set and the results differed a lot (<100 words).
+
+  Draft only, not sent anywhere:
+
+  > Hey Andrea, heads up: I ran a parallel analysis of IHG GMS Core health and got very different numbers from your dashboard. I think it's the input set. Mine started from hotels the GMS Core checks actually ran on (191). Yours looks like hotels in a GMS Core / Core Plus cohort (99). Only 45 are in both. On my set 156 are unhealthy vs 11 on yours, mostly pilot-era hotels that haven't been through the new script yet. Also, 49 of your cohort hotels get no critical checks at all. Worth comparing notes?
 project: 2026-08-31-ihg
 source_id: null
 tags: []
 time_minutes: 5
 title: Examine monitoredHotelState for all onboarded IHG GMS Core hotels. There should
   be dozens in the last month. Conclude what's erroring, what's false negative/positive
-updated: 2026-09-23 13:23:49.375248
+updated: 2026-10-01 16:40:44.000000
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,22 +2,20 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-29 13:53:11.338965
+created: &id001 2026-10-01 20:33:02.232516
 defer_until: null
 due: null
 energy: low
-id: 2026-09-29T1353-read-zuck
+id: 2026-10-01T2033-check-marg-whatsapp-contact-houses
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: read zuck
-updated: 2026-10-01 11:21:03.706121
+title: check marg whatsapp contact houses
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
-
-https://colossus.com/article/mark-zuckerberg-profile/

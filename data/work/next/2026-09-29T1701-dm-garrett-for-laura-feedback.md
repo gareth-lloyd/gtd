@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-29T1701-dm-garrett-for-laura-feedback
-order: null
+order: 1
 output: ''
 project: 2026-09-14-reviews
 source_id: null
 tags: []
 time_minutes: 5
 title: DM Garrett for Laura feedback
-updated: 2026-09-29 17:01:10.099585
+updated: 2026-10-01 14:57:27.466395
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -4,20 +4,20 @@ completed_at: null
 contexts: []
 created: 2026-09-25 13:30:29.056626
 defer_until: null
-due: 2026-09-28
+due: null
 energy: null
 id: 2026-09-25T1330-workup-next-step-accuracy-review-iteration-ideas-a
-order: null
+order: 1
 output: ''
 project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: null
 title: 'Workup next-step accuracy: review iteration ideas and select some for implementation'
-updated: 2026-09-29 12:19:54.927870
+updated: 2026-10-01 14:56:22.711685
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 ## Next action

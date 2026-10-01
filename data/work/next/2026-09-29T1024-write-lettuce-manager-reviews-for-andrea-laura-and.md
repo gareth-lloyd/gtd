@@ -8,7 +8,7 @@ defer_until: null
 due: 2026-10-07
 energy: high
 id: 2026-09-29T1024-write-lettuce-manager-reviews-for-andrea-laura-and
-order: null
+order: 5
 output: ''
 project: 2026-09-14-reviews
 source_id: https://mail.google.com/mail/?authuser=glloyd@canarytechnologies.com#all/thread-f:1877644879748924983|msg-f:1877644879748924983
@@ -17,7 +17,7 @@ tags:
 - gmail
 time_minutes: 180
 title: Write Lettuce manager reviews for Andrea, Laura and Martijn
-updated: 2026-09-29 11:42:09.337455
+updated: 2026-10-01 14:57:31.158549
 waiting_on: null
 waiting_since: null
 working_on: false

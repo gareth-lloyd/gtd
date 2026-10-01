@@ -3,22 +3,22 @@ area: null
 completed_at: null
 contexts:
 - consume
-created: &id001 2026-09-30 21:35:14.568359
+created: 2026-09-30 21:35:14.568359
 defer_until: null
-due: null
+due: 2026-10-01
 energy: null
 id: 2026-09-30T2135-read-and-absorb-workup-agent-sync-2026-09-30-mcp-s
-order: null
+order: 2
 output: ''
-project: null
+project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: null
 title: 'Read and absorb: Workup Agent Sync 2026-09-30 (MCP SQL tool nearly live)'
-updated: *id001
+updated: 2026-10-01 14:44:24.942212
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Doc: https://docs.google.com/document/d/13FEf-8bolS9gMcHdETXpAHH3N04oxJiqHytydgJOdys/edit

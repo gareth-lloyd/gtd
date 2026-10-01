@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-29T1701-dm-nensy-for-laura-feedback
-order: null
+order: 4
 output: ''
 project: 2026-09-14-reviews
 source_id: null
 tags: []
 time_minutes: 5
 title: schedule nensy for laura feedback
-updated: 2026-09-29 17:01:29.079448
+updated: 2026-10-01 14:57:31.158549
 waiting_on: null
 waiting_since: null
 working_on: false

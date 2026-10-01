@@ -7,17 +7,17 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-21T1455-absorb-architecture
-order: 1
+order: 3
 output: ''
 project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: 5
 title: absorb architecture
-updated: 2026-09-29 12:19:52.429765
+updated: 2026-10-01 14:56:24.553531
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://claude.ai/artifact/VKCDjnQLiziw5LVTZTZm8J

@@ -8,7 +8,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-17T0932-follow-up-on-getting-context-on-orbital
-order: 4
+order: 5
 output: |-
   ## Agent run 2026-09-21T14:55
 
@@ -102,7 +102,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Follow up on: getting context on orbital'
-updated: 2026-09-22 14:01:42.365376
+updated: 2026-10-01 14:44:24.942212
 waiting_on: null
 waiting_since: null
 working_on: false

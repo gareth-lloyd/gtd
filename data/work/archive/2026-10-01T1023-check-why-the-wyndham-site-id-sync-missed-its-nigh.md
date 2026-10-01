@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-01 13:45:20.410656
 contexts:
 - react
 created: 2026-10-01 10:23:58.060677
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 20
 title: Check why the Wyndham site ID sync missed its nightly run (US + EU)
-updated: 2026-10-01 10:23:58.140125
+updated: 2026-10-01 13:45:20.410651
 waiting_on: null
 waiting_since: null
 working_on: false
