@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-09-30 22:12:13.953758
 contexts:
 - react
 created: 2026-09-29 10:24:30.743855
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Follow up on: formalize Laura''s hand-off plan and share it with Blake'
-updated: 2026-09-30 12:55:12.169413
+updated: 2026-09-30 22:12:13.953746
 waiting_on: null
 waiting_since: null
 working_on: false

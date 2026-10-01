@@ -9,6 +9,6 @@ priority: 1
 status: active
 tags: []
 title: VC
-updated: 2026-09-29 03:31:58.145197
+updated: 2026-10-01 10:23:46.758351
 working_dir: ~/projects/villacollective
 ---
