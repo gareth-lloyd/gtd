@@ -12,7 +12,7 @@ import {
 } from "./ItemEdit";
 import { Markdown } from "./markdown";
 import { contextChipStyle } from "./context-colors";
-import { fmtDate, generateProjectId, sortProjects } from "./format";
+import { fmtDate, fmtDateTime, generateProjectId, sortProjects } from "./format";
 import { Button } from "./Button";
 import { WorkflowActions } from "./WorkflowActions";
 import { useSelection } from "./SelectionContext";
@@ -232,7 +232,7 @@ function SelectedDetail({ env, itemId }: { env: string; itemId: string }) {
       </div>
 
       <div className="detail-dates" title={`updated ${fmtDate(item.updated)}`}>
-        created {fmtDate(item.created)}
+        created {fmtDateTime(item.created)}
       </div>
     </div>
   );

@@ -19,6 +19,13 @@ export function fmtDate(iso: string): string {
   return iso.slice(0, 10);
 }
 
+export function fmtDateTime(iso: string): string {
+  if (!iso) return "";
+  const date = iso.slice(0, 10);
+  const time = iso.slice(11, 16);
+  return time ? `${date} ${time}` : date;
+}
+
 export function fmtMinutes(m: number): string {
   if (m === 0) return "0m";
   const h = Math.floor(m / 60);

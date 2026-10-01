@@ -127,6 +127,15 @@ describe("DetailPanel", () => {
     expect(screen.getByText("Actions")).toBeDefined();
   });
 
+  it("shows the created time as well as the date", async () => {
+    const user = userEvent.setup();
+    renderPanel({ withSelect: "item-1" });
+
+    await user.click(screen.getByTestId("select-trigger"));
+
+    expect(await screen.findByText("created 2026-04-10 09:00")).toBeInTheDocument();
+  });
+
   it("shows workflow actions when hovering", async () => {
     const user = userEvent.setup();
     renderPanel({ withHover: "item-1" });

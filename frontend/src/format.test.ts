@@ -1,6 +1,13 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { Project } from "./api";
-import { fmtDate, fmtMinutes, generateProjectId, slugify, sortProjects } from "./format";
+import {
+  fmtDate,
+  fmtDateTime,
+  fmtMinutes,
+  generateProjectId,
+  slugify,
+  sortProjects,
+} from "./format";
 
 function mkProject(overrides: Partial<Project> = {}): Project {
   return {
@@ -80,6 +87,28 @@ describe("fmtDate", () => {
 
   it("returns empty string for empty input", () => {
     expect(fmtDate("")).toBe("");
+  });
+});
+
+describe("fmtDateTime", () => {
+  it("renders date and hour:minute for an ISO datetime", () => {
+    expect(fmtDateTime("2026-04-20T14:30:00")).toBe("2026-04-20 14:30");
+  });
+
+  it("drops seconds and microseconds", () => {
+    expect(fmtDateTime("2026-09-24T10:08:02.569987")).toBe("2026-09-24 10:08");
+  });
+
+  it("keeps a midnight time rather than collapsing to the date", () => {
+    expect(fmtDateTime("2026-04-20T00:00:00")).toBe("2026-04-20 00:00");
+  });
+
+  it("returns a plain ISO date unchanged", () => {
+    expect(fmtDateTime("2026-04-20")).toBe("2026-04-20");
+  });
+
+  it("returns empty string for empty input", () => {
+    expect(fmtDateTime("")).toBe("");
   });
 });
 

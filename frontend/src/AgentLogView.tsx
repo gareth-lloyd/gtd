@@ -7,7 +7,7 @@ import { Button } from "./Button";
 import { findItemInCache, invalidateItemQueries } from "./ItemEdit";
 import { Markdown } from "./markdown";
 import { contextChipStyle } from "./context-colors";
-import { fmtDate } from "./format";
+import { fmtDate, fmtDateTime } from "./format";
 import { useEnvParam } from "./useEnvParam";
 import { toasts } from "./toast";
 
@@ -75,7 +75,7 @@ export function AgentLogView() {
           {item.area && <span className="chip">{item.area}</span>}
           {item.due && <span className="chip">📅 {fmtDate(item.due)}</span>}
         </div>
-        <div className="agent-log-dates" title={`created ${fmtDate(item.created)}`}>
+        <div className="agent-log-dates" title={`created ${fmtDateTime(item.created)}`}>
           updated {fmtDate(item.updated)}
         </div>
       </header>
