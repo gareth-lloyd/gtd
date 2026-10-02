@@ -17,11 +17,11 @@ tags:
 - slack
 time_minutes: 20
 title: Put together thoughts for Connor on Internal Tools / Enterprise boundaries
-updated: 2026-10-02 11:12:14.035828
+updated: 2026-10-02 12:05:43.807791
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
-Connor (Oct 1 DM): wants to talk Internal Tools/Enterprise boundaries today; is considering shifting scripting ownership to Stephanie in the new year, post-IHG; Nathan (if he joins) could take enterprise workload off Vibhor. You replied 'Interesting. I'll put together some thoughts'.
+Connor (Oct 1 DM): wants to talk Internal Tools/Enterprise boundaries today; is considering shifting scripting ownership to Stephanie  in the new year, post-IHG; Nathan (if he joins) could take enterprise workload off Vibhor. You replied 'Interesting. I'll put together some thoughts'.
 https://canarytechnologies.slack.com/archives/D08BG88NY2K/p1790858018440159
