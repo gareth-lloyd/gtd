@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Check the retrospective for incident #300 (us-west-2 default celery queue
   backlog)'
-updated: 2026-10-02 11:12:14.853691
+updated: 2026-10-02 12:27:07.906748
 waiting_on: null
 waiting_since: null
 working_on: false

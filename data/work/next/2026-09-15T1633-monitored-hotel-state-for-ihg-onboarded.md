@@ -259,13 +259,51 @@ output: |
   Draft only, not sent anywhere:
 
   > Hey Andrea, heads up: I ran a parallel analysis of IHG GMS Core health and got very different numbers from your dashboard. I think it's the input set. Mine started from hotels the GMS Core checks actually ran on (191). Yours looks like hotels in a GMS Core / Core Plus cohort (99). Only 45 are in both. On my set 156 are unhealthy vs 11 on yours, mostly pilot-era hotels that haven't been through the new script yet. Also, 49 of your cohort hotels get no critical checks at all. Worth comparing notes?
+  ## Agent run 2026-10-02T13:21:13
+
+  > Follow-up asked: "Let's investigate the gap in how Salesforce opportunities map to onboarding types"
+
+  ### Finding
+  When a hotel buys Core Plus, the app relabels its **Core** opportunity as Core Plus. The hotel is then left with no opportunity typed `ihg_gms_core`, so monitoring expects no Core checks and reports it healthy. This is a mislabel, not a missing opportunity. It corrects my earlier wording ("only a Core Plus opportunity"): the Core opportunity exists in Salesforce.
+
+  ### How the mapping works
+  - Each Salesforce opportunity gets exactly one onboarding type at import: `derive_onboarding_type` in `backend/canary/onboarding/services/types.py:137-151`.
+  - For IHG, the Salesforce field `IHG_Package_Type__c` decides: "Core" gives `ihg_gms_core`, "Core Plus" gives `ihg_gms_core_plus`. It overrides the IHG parent opportunity (types.py:149-150). This precedence came in with PR #55157 (https://github.com/canary-technologies-corp/canary/pull/55157, Sept 10); before it, the IHG parent alone meant Core.
+  - Monitoring builds one expected state per onboarding type (`get_onboarding_states`, cohort_hotel.py:527-569). Types are independent: Core Plus does not imply Core, and Core Plus's only check is tipping.
+
+  ### Evidence (Snowflake: app opportunity rows joined to ANALYTICS_PUBLIC.SFDC_OPPORTUNITY)
+  - US: **186 opportunities named "... - IHG Core" are typed `ihg_gms_core_plus`**, on 182 accounts. 181 carry the enterprise-deployment checkbox and the IHG parent, which RevOps sets only for Core. EU: 1.
+  - Every one of the 186 has Active Products that mention "IHG Core Plus". Of the 116 "IHG Core" opportunities typed correctly, 98 mention Core-only products and 7 mention Core Plus. So `IHG_Package_Type__c` appears to follow the account's products, not the opportunity name as the code comment (types.py:114) assumes.
+  - 140 of the 182 accounts have no non-lost opportunity typed `ihg_gms_core` at all: Core monitoring is off for them. The other 42 happen to have a second Core-typed opportunity, which is why St. Robert and Osage Beach are still monitored.
+  - Example, hotel 766: "Holiday Inn Carlsbad/San Diego - IHG Core" (IHG parent, checkbox on, training Aug 31, go-live Sept 7) is typed `ihg_gms_core_plus`, alongside the real "- IHG Core Plus" opportunity.
+
+  ### Timing
+  - Opportunity history: 51 rows flipped from `ihg_gms_core` to `ihg_gms_core_plus` on Sept 17 (1 on Sept 16, 6 later). About 130 created since then arrived already as Core Plus.
+  - Check history for hotels 766, 769, 129250859, 129285468, 129299064: all five ran the Core checks up to Sept 16 and lost them on Sept 17.
+  - PR #55157 was in release tag v2026.31.73 on Sept 10, and opportunities imported Sept 11-16 were still typed Core. So the Sept 16-17 trigger looks to be on the Salesforce side (the formula or the product data changed). Not verified: the field value and formula are not in Snowflake, and I did not query Salesforce.
+
+  ### Other effects, not traced further
+  - Two opportunities typed Core Plus per hotel: `get_onboarding_states` keeps whichever row comes last, so the Core Plus (tipping) expectation may use the Core opportunity's dates or the Plus one's (often none).
+  - Cohort-to-opportunity matching is by onboarding type (salesforce_opportunity.py:158-170), so a hotel in a Core cohort has no matching opportunity.
+
+  ### Options
+  1. **Confirm the cause in Salesforce (read-only):** look at the `IHG_Package_Type__c` formula and its value on the hotel 766 "IHG Core" opportunity. Needs you or RevOps; I have not touched Salesforce.
+  2. **Fix at source (RevOps):** make the package type describe the opportunity itself, not the account's products.
+  3. **App guard (small PR, types.py):** an opportunity with the IHG parent and the enterprise-deployment checkbox is Core whatever the package type says. On current data that fixes 181 of 186 and would wrongly reclassify 2 real Core Plus opportunities that carry the checkbox.
+  4. **Monitoring guard:** treat a Core Plus opportunity as implying the Core checks, since the Core Plus script already requires Core base configuration. Protects against the next relabelling.
+
+  Recommendation: do 1 first; then 3 as the quick fix, with 2 raised to RevOps.
+
+  Note: the reply drafted for Andrea yesterday said these hotels "have only a Core Plus opportunity". More exact: their Core opportunity is typed Core Plus in the app.
+
+  No external writes made. No Salesforce access.
 project: 2026-08-31-ihg
 source_id: null
 tags: []
 time_minutes: 5
 title: Examine monitoredHotelState for all onboarded IHG GMS Core hotels. There should
   be dozens in the last month. Conclude what's erroring, what's false negative/positive
-updated: 2026-10-01 16:40:44.000000
+updated: 2026-10-02 13:21:13.000000
 waiting_on: null
 waiting_since: null
 working_on: false

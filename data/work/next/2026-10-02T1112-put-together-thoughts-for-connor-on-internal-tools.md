@@ -10,14 +10,14 @@ energy: medium
 id: 2026-10-02T1112-put-together-thoughts-for-connor-on-internal-tools
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/D08BG88NY2K/p1790858018440159
 tags:
 - morning-gtd
 - slack
 time_minutes: 20
 title: Put together thoughts for Connor on Internal Tools / Enterprise boundaries
-updated: 2026-10-02 12:05:43.807791
+updated: 2026-10-02 13:51:35.653319
 waiting_on: null
 waiting_since: null
 working_on: false

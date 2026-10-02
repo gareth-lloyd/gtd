@@ -5,12 +5,12 @@ contexts:
 - react
 created: 2026-10-02 11:12:14.203746
 defer_until: null
-due: null
+due: 2026-10-02
 energy: medium
 id: 2026-10-02T1112-answer-stephanie-in-epd-internal-tools-engineers-t
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/C0A8L5RJM5K/p1790884204879789?thread_ts=1790884204.879789&cid=C0A8L5RJM5K
 tags:
 - morning-gtd
@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Answer Stephanie in #epd-internal-tools-engineers: thoughts on TOOL-793 and
   TOOL-792'
-updated: 2026-10-02 11:12:14.282474
+updated: 2026-10-02 12:26:16.161850
 waiting_on: null
 waiting_since: null
 working_on: false

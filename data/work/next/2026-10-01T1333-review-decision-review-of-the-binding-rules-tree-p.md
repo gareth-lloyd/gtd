@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-10-01 13:33:37.867580
 defer_until: null
-due: null
+due: 2026-10-02
 energy: null
 id: 2026-10-01T1333-review-decision-review-of-the-binding-rules-tree-p
 order: null
@@ -76,12 +76,12 @@ output: |
   - The generated per-key overloads in `conformity.pyi` (skimmed only).
   - The three diagrams embedded in the Notion page.
   - No tests were run; the PR branch is not checked out locally.
-project: null
+project: 2026-04-16T1351-ship
 source_id: null
 tags: []
 time_minutes: null
 title: 'Review decision review of the Binding Rules Tree prototype (PR #58570)'
-updated: 2026-10-01 13:33:37.942292
+updated: 2026-10-02 12:24:07.393803
 waiting_on: null
 waiting_since: null
 working_on: false

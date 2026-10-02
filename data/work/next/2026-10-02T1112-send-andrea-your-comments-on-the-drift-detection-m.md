@@ -10,14 +10,14 @@ energy: medium
 id: 2026-10-02T1112-send-andrea-your-comments-on-the-drift-detection-m
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/D061NMRMFB3/p1790859501065599
 tags:
 - morning-gtd
 - slack
 time_minutes: 30
 title: Send Andrea your comments on the drift detection / monitoring design
-updated: 2026-10-02 11:12:14.119627
+updated: 2026-10-02 13:51:32.517678
 waiting_on: null
 waiting_since: null
 working_on: false

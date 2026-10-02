@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-02 12:25:45.570076
 contexts:
 - react
 created: 2026-10-02 11:12:14.283264
@@ -18,7 +18,7 @@ tags:
 - resurfaced
 time_minutes: 5
 title: 'Answer Laura in #eng-leads: what is the staff ops team?'
-updated: 2026-10-02 11:12:14.364503
+updated: 2026-10-02 12:25:45.570054
 waiting_on: null
 waiting_since: null
 working_on: false
