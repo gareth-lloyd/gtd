@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-30 22:18:23.808092
-defer_until: 2026-10-02 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-09-30T2218-feedback-on-laura-s-handover-doc
