@@ -5,7 +5,7 @@ contexts:
 - react
 created: 2026-10-02 10:10:28.661209
 defer_until: null
-due: null
+due: 2026-10-05
 energy: low
 id: 2026-10-02T1010-incident-retro
 order: null
@@ -87,14 +87,14 @@ output: |-
   - Queue routing and duplicate-run safety of the Adyen, Antom and scheduled-task countdowns.
   - Attendee time zones and availability.
   - Nothing was posted, edited or scheduled anywhere; all access was read-only.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags:
 - morning-gtd
 - gmail
 time_minutes: 5
 title: 'Review incident #300 (us-west-2 default celery queue backlog) and plan retro'
-updated: 2026-10-02 12:31:00.000000
+updated: 2026-10-02 15:03:13.308450
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-02 16:27:46.727554
 contexts:
 - consume
 created: 2026-09-30 21:35:14.568359
@@ -15,10 +15,10 @@ source_id: null
 tags: []
 time_minutes: null
 title: 'Read and absorb: Workup Agent Sync 2026-09-30 (MCP SQL tool nearly live)'
-updated: 2026-10-01 14:44:24.942212
+updated: 2026-10-02 16:27:46.727546
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Doc: https://docs.google.com/document/d/13FEf-8bolS9gMcHdETXpAHH3N04oxJiqHytydgJOdys/edit

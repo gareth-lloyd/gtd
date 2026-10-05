@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-09-30 22:18:23.808092
 defer_until: null
-due: 2026-10-02
+due: null
 energy: low
 id: 2026-09-30T2218-feedback-on-laura-s-handover-doc
 order: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: feedback on laura's handover doc
-updated: 2026-10-02 12:23:53.324264
+updated: 2026-10-02 15:02:41.294458
 waiting_on: null
 waiting_since: null
 working_on: false

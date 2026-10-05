@@ -1,19 +1,20 @@
 ---
 area: null
 completed_at: null
-contexts: []
-created: &id001 2026-10-01 11:21:18.429036
+contexts:
+- autopilot
+created: &id001 2026-10-05 00:00:00
 defer_until: null
 due: null
 energy: low
-id: 2026-10-01T1121-greek-revision
+id: 2026-10-05T0000-blake-directs-meeting-updates
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: greek revision
+title: Blake directs meeting updates
 updated: *id001
 waiting_on: null
 waiting_since: null

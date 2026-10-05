@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-02 16:26:48.518934
 contexts:
 - react
 created: 2026-09-28 08:40:21.418593
@@ -19,7 +19,7 @@ tags:
 time_minutes: 15
 title: 'Follow up on moving all IHGs to check-in v3: accurate IHG property list for
   Caitlyn'
-updated: 2026-09-28 12:55:59.476440
+updated: 2026-10-02 16:26:48.518921
 waiting_on: null
 waiting_since: null
 working_on: false

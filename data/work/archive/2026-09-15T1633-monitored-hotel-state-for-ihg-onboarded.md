@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-02 16:26:42.977273
 contexts: []
 created: 2026-09-15 16:33:21.670612
 defer_until: null
@@ -297,13 +297,214 @@ output: |
   Note: the reply drafted for Andrea yesterday said these hotels "have only a Core Plus opportunity". More exact: their Core opportunity is typed Core Plus in the app.
 
   No external writes made. No Salesforce access.
+  ## Agent run 2026-10-02T14:05:41
+
+  > Follow-up asked: "So this is an app bug or a salesforce data problem?" then "check prod data to confirm"
+
+  ### Verdict: Salesforce-side change, confirmed as far as prod data can show
+  Checked the full change history of the app's opportunity rows (CANARY_RAW CDC mirror of prod). The live prod database was not reachable (canary-mcp and Teleport servers not connected), and the Salesforce field itself is not visible in any source I can read.
+  - **The app code was live and working from Sept 10.** On Sept 10, 28 opportunities named "IHG Core Plus" were retyped from `ihg_gms_core` to `ihg_gms_core_plus` and 11 more from untyped. So the import was reading `IHG_Package_Type__c` correctly from that day.
+  - **Core-named opportunities stayed Core for a week under that code.** 13 opportunities named "IHG Core" were first imported Sept 11-16, already with Core Plus products on them, and were typed `ihg_gms_core`.
+  - **Then 51 flipped in one day (Sept 17) with nothing else changing.** 49 of the 51 already had "IHG Core Plus" in Active Products before the flip, some since Aug 26. So the product data did not change that day.
+  - **No app change explains it.** No commit touched opportunity typing between Sept 12 and Sept 19 (only #55157 on Sept 10).
+  - With code and products constant, the only remaining input is the value Salesforce returns for `IHG_Package_Type__c`. It changed around Sept 16-17 for opportunities named "IHG Core".
+  - The field does not track the products text exactly: 2 of the 51 flipped without Core Plus in their products. So "follows the account's products" is an approximation of whatever the formula now does.
+
+  ### Still unconfirmed
+  What the formula is now and who changed it. Salesforce Setup Audit Trail for `IHG_Package_Type__c` around Sept 16-17 would show it. That is a read for you or RevOps.
+
+  ### What this means for the fix
+  The source fix belongs to RevOps. The app guard is still worth doing, because the app turned one changed field into 140 unmonitored accounts with no signal.
+
+  No external writes made. No Salesforce access.
+  ## Agent run 2026-10-02T14:43:00
+
+  > Follow-up asked: "These findings are important, and suggest that the app has bad logic for distinguishing core from core plus deals. Write an Enterprise Linear Ticket concisely explaining the problem. Triage, priority high. Include a short section on the fix, but don't over-explain"
+
+  Created **ENT-7742** (Enterprise team, Triage, High, unassigned): https://linear.app/canary-technologies/issue/ENT-7742/ihg-core-opportunities-are-typed-as-core-plus-so-140-accounts-get-no
+  - Title: "IHG Core opportunities are typed as Core Plus, so 140 accounts get no Core health checks"
+  - Covers the problem, impact (186 opportunities, 182 US accounts, 140 with no Core checks), the CDC evidence, and a three-step fix: app guard in `derive_onboarding_type`, monitoring guard against "nothing evaluated = healthy", and a question for RevOps about the `IHG_Package_Type__c` formula.
+  - References PR #55157: https://github.com/canary-technologies-corp/canary/pull/55157
+
+  Also answered in chat: the "label" is `IHG_Package_Type__c`, not the parent opportunity. The parent and the enterprise-deployment checkbox still say Core on the mislabelled opportunities.
+
+  External writes: one Linear issue created at your request. No Salesforce access.
+  ## Agent run 2026-10-02T14:49:01
+
+  > Follow-up asked: "Try to confirm or invalidate the hypothesis here from prod data"
+
+  ### Verdict: timing confirmed, cause refined, one claim in ENT-7742 is wrong
+  Source: Snowflake only (CDC mirror of the prod opportunity table, plus the Salesforce line-item snapshot `ANALYTICS.SNAPSHOT.SALESFORCE_OPPORTUNITYLINEITEM`). US only. Live prod DB and Salesforce not touched; `IHG_Package_Type__c` itself is not in Snowflake, so the formula is still inferred.
+
+  **Confirmed: the value Salesforce returns changed on Sept 16 between 20:09 and 21:44 UTC.**
+  - Core-named opportunities first imported Sept 11 to Sept 16 20:09 UTC: 15 of 15 typed `ihg_gms_core`, 14 of them already carrying Core Plus line items.
+  - Core-named opportunities first imported from Sept 17 00:09 UTC: 8 of 8 in that first batch typed `ihg_gms_core_plus`, and 120 more since.
+  - First Core to Core Plus flip: Sept 16 21:44 UTC. Then 51 on Sept 17.
+  - Stale sync ruled out: all 52 had been re-synced as Core under the #55157 code (1 to 35 syncs each) before flipping.
+  - Product change ruled out: 49 of the 52 had Core Plus line items more than a day before the flip, the earliest from Aug 25.
+  - App change ruled out: both import paths pass the package type, and no commit touched them after Sept 10.
+
+  **Refined: the label now follows the opportunity's own line items, and by that measure it is not wrong.**
+  - Of opportunities synced since Sept 18: 536 with Core Plus line items and no Core line items are all typed Core Plus. 244 with no Core Plus line items are all typed Core, against 2 typed Core Plus. 22 with both kinds split 16 Core Plus, 6 Core.
+  - Later flips track the products: the 5 on Sept 23-24 flipped the day a Core Plus line item was added.
+  - The 186 "IHG Core" opportunities typed Core Plus hold the Core Plus package lines ("Guest Management System (GMS) - IHG Core Plus" and so on). Only 8 also hold Core lines. So in Salesforce the Core Plus package is sold on the "IHG Core" enterprise opportunity (IHG parent, checkbox ticked), and the label reports that.
+  - 181 of the 182 accounts also have a separate "IHG Core Plus"-named opportunity with the same Core Plus lines.
+
+  **What this changes**
+  - Earlier wording "Salesforce puts the wrong label on the Core deal" and "the field follows the account's products" is wrong. The field follows the opportunity's products. The broken assumption is in the app: it treats Core Plus as an add-on needing only the tip check, with Core always on a separate opportunity.
+  - ENT-7742 needs two corrections (problem sentence and fix item 3). Drafted in chat, not applied: awaiting your OK. https://linear.app/canary-technologies/issue/ENT-7742/ihg-core-opportunities-are-typed-as-core-plus-so-140-accounts-get-no
+  - Fix direction: "a Core Plus opportunity implies the Core checks" is now the principled fix. "IHG parent + checkbox means Core" still corrects 181 of 186.
+
+  No external writes made in this run. No Salesforce access.
+  ## Agent run 2026-10-02T14:56:54
+
+  > Follow-up asked: "First apply these edits. assuming the fix was applied, identify what would change the first run after deploy"
+
+  ### Ticket edits applied
+  ENT-7742 updated with the two approved corrections (problem sentence, fix item 3): https://linear.app/canary-technologies/issue/ENT-7742/ihg-core-opportunities-are-typed-as-core-plus-so-140-accounts-get-no
+
+  ### Prediction for fix item 1 (IHG parent + enterprise-deployment checkbox means Core)
+  US only, from the Snowflake mirror. Check outcomes are predicted from past results, not a dry run. Per-account data saved in the session scratchpad as `retype_predict.json`.
+
+  **First Salesforce opportunity sync (runs every 4 hours)**
+  - 259 opportunities on 254 accounts change from `ihg_gms_core_plus` to `ihg_gms_core`: 181 named "IHG Core", 76 with default "(Hotel)" names, 2 named "IHG Core Plus".
+  - The 76 default-named ones were missing from the ticket's count of 186, which matched on name.
+  - The 2 named "IHG Core Plus" would be retyped wrongly.
+  - 205 accounts gain a live Core opportunity they do not have today. 49 already have another one.
+  - 246 accounts keep a separate Core Plus-typed opportunity. 8 lose the Core Plus type entirely; 1 of those has a tip check today, which would stop.
+
+  **First monitoring run (cron_monitor_hotels, every 6 hours)**
+  - The set of monitored hotels does not change: selection is by training and go-live dates, not type. 206 of the 254 accounts were in today's run; 41 have no Canary hotel.
+  - 160 hotels start receiving Core checks. Today 153 of them are `healthy` and 7 `unhealthy` (tip check).
+  - Stages checked, from the retyped opportunity's dates: 92 base configuration only, 55 through the trained stage, 13 through go-live.
+  - 35 of the 160 had Core checks before they were dropped (Sept 16-24). 25 were failing then, 23 of them on the same three checks (arrival-time options, required messages enabled, variants configured). 10 were clean.
+  - 125 have never had Core checks. 84 are in no GMS Core cohort, so probably never scripted; unscripted hotels failed 132 of 134 in the earlier analysis. 41 are in a Core cohort; outcome unknown.
+  - Expect at least about 105 of the 153 healthy hotels to turn `unhealthy`, and possibly nearly all.
+  - 46 monitored hotels already had a Core opportunity (35 unhealthy, 11 healthy): no change expected.
+
+  ### Implication
+  Deploying the fix makes the dashboard much redder on the first run. That is the real state surfacing, not a regression, but worth warning Andrea and the onboarding team first.
+
+  External writes: ENT-7742 description edited at your request. No Salesforce access.
+  ## Agent run 2026-10-02T15:23:36
+
+  > Follow-up: you pasted the Salesforce field definition for `IHG_Package_Type__c` (read by you in Setup; I did not access Salesforce).
+
+  ### Cause confirmed: the formula was edited on Sept 16
+  - Modified by Gerson Villahermosa on 9/16/2026 at 2:19 PM. If Salesforce shows Pacific time, that is 21:19 UTC, inside the 20:09-21:44 UTC window from the CDC data and 25 minutes before the first flip.
+  - The formula now reads the opportunity's `Canary_Package__c` picklist: "Guest Management System (GMS) - IHG Core Plus" gives Core Plus, "Guest Management System (GMS) - IHG Core" gives Core, anything else Unclassified.
+  - The field's description and help text still say it derives from the opportunity name. They are stale, and so is the docstring on `IhgPackageType` in `types.py`.
+  - So this was a deliberate formula change, not a bulk data update. The field now reports the package sold on the opportunity.
+
+  ### What follows
+  - The field is accurate about the package. The app's error is treating the Core Plus package as excluding Core.
+  - Preferred fix: a Core Plus opportunity implies the Core checks (ENT-7742 fix item 3). The parent-plus-checkbox retype (item 1) works against a field that is now behaving as designed.
+  - ENT-7742 still says the formula is unconfirmed. Correction drafted in chat, not applied.
+
+  No external writes made in this run. No Salesforce access.
+  ## Agent run 2026-10-02T15:25:30
+
+  > Follow-up asked: "yes, edit ticket"
+
+  ENT-7742 updated: https://linear.app/canary-technologies/issue/ENT-7742/ihg-core-opportunities-are-typed-as-core-plus-so-140-accounts-get-no
+  - Evidence now states the formula edit is confirmed (Sept 16, reads `Canary_Package__c`, stale help text). No person named.
+  - Fix section reordered: 1) Core Plus implies the Core checks, 2) monitoring guard, 3) parent-plus-checkbox retype as an alternative to 1.
+  - Not changed: the Impact section still says 186 opportunities and 140 accounts (the retype analysis found 259 and 205).
+
+  External writes: ENT-7742 description edited at your request. No Salesforce access.
+  ## Agent run 2026-10-02T15:26:56
+
+  > Follow-up asked: "Look for other context in #sales-ops" (two thread links given)
+
+  Read-only Slack. Threads read:
+  - Product Group formula thread: https://canarytechnologies.slack.com/archives/C03GL51KS80/p1790193224906839
+  - voco Katowice reconciliation thread: https://canarytechnologies.slack.com/archives/C03GL51KS80/p1790860016716329
+
+  ### What #sales-ops adds
+  - **The two-opportunity pair is intended.** Gerson, Oct 1: "the Core and Core Plus opps are the intended package pair". Stacy, Sep 22: "yeah intentional" (https://canarytechnologies.slack.com/archives/C03GL51KS80/p1790065372379499).
+  - **For a Core Plus customer, the base products sit on the Core opportunity.** Stacy, Sep 21: "core plus opp only has auths and tipping" and "messaging is in the other opp" (https://canarytechnologies.slack.com/archives/C03GL51KS80/p1790007348019109). Jlord, Sep 30: "Move the 5 base Core Plus lines ... onto Andre's Core opp" (https://canarytechnologies.slack.com/archives/C03GL51KS80/p1790800080517869). This matches the line-item data: the 186 Core-named opportunities hold the five base lines in their Core Plus variants.
+  - **So both halves of the pair carry the Core Plus package.** The Sept 16 formula reads `Canary_Package__c`, so it returns Core Plus for both and no longer tells the halves apart. The name-based formula did.
+  - **The package field drives RevOps flows.** Gerson, Sep 23: an opportunity was not assigned because "the package field was blank ... even though its line items were Core Plus" (https://canarytechnologies.slack.com/archives/C03GL51KS80/p1790185492493729).
+  - **Package choice changes after creation.** Several threads (Sep 18, 21, 24) are "signed up for Core Plus but the opp shows Core", fixed by updating the package. That explains the later Core to Core Plus flips in the app.
+  - **Why so many sit in Closing or Agreement Sent.** The signing automation moves opportunities to Closing, not Closed Won, and stalls when the signer is not linked or a validation rule fails (Sep 21 thread https://canarytechnologies.slack.com/archives/C03GL51KS80/p1790019733040809).
+  - **Default-named "(Hotel)" opportunities** are SDR-created or manually built ones, often duplicates of a flow pair.
+  - **No announcement of the Sept 16 formula change** found in the channel. Gerson owns these formulas (also the Product Group one, remapped Sep 24).
+
+  ### Effect on the fix
+  This reverses the reorder I made in ENT-7742 an hour earlier. The app's two-type model matches what RevOps intends; what it lost is a field that says which half of the pair an opportunity is. IHG parent plus enterprise-deployment checkbox is that signal (only 2 Core Plus-named opportunities carry both). So the retype guard should be the main fix again, with "Core Plus implies Core checks" as a safety net, and a request to RevOps for a field that identifies the Core half. Ticket not changed; proposed in chat.
+
+  No external writes made in this run. No Salesforce access.
+  ## Agent run 2026-10-02T15:29:00
+
+  > Follow-up: third link, https://canarytechnologies.slack.com/archives/CHRET6H33/p1790110150594219
+
+  Read-only Slack and Notion.
+  - Jesse Meller, Sep 22: announces the "Split IHG Core Package" action for IHG Kipsu buyout deals, built by Gerson. The AE closes one opportunity holding Core, Core Plus and add-ons, then clicks the action to split it in two.
+  - Guide: https://app.notion.com/p/3e3814686151816d98c4e1d32b58bb04 ("Splitting a Kipsu Buyout - AE Quick Guide", unverified page, last edited Sep 22).
+  - What the split does: the original opportunity keeps "the base Core products" and its set-up fee, and is set to segment Enterprise NA. A new opportunity gets Digital Tipping, Digital Authorizations and any add-ons.
+  - It adds a lookup on the original, `IHG Plus/Add-On Opportunity`, pointing at the new record.
+
+  ### What this adds
+  - Confirms the design from the RevOps side: Core half = base products, Plus half = tipping, authorizations and add-ons. For a Core Plus customer the Core half still carries the Core Plus package, which is why the formula mislabels it for our purposes.
+  - `IHG Plus/Add-On Opportunity` is a candidate signal for telling the halves apart: the opportunity that has it set is the Core half. Not checked: whether flow-created pairs populate it, or only split ones. The app does not read it today.
+  - Before this action existed, buyout deals were single manually built opportunities. That probably accounts for some of the 76 default-named "(Hotel)" opportunities.
+
+  No external writes made in this run. No Salesforce access.
+  ## Agent run 2026-10-02T15:30:43
+
+  > Follow-up asked: "Given everything we now know, rewrite the ticket from scratch with concise context about the intent of revops"
+
+  ENT-7742 rewritten (title and description): https://linear.app/canary-technologies/issue/ENT-7742/ihg-core-opportunities-are-typed-as-core-plus-so-160-monitored-hotels
+  - New title: "IHG Core opportunities are typed as Core Plus, so 160 monitored hotels get no Core health checks"
+  - Sections: Problem; What RevOps intends (the intended pair, both halves carrying the Core Plus package, the package as RevOps' working field, the Kipsu buyout split); Impact (259 opportunities, 254 accounts, 205 with no live Core opportunity, 160 monitored hotels, 153 reporting healthy); Evidence; Fix; On deploy.
+  - Fix order: 1) parent plus checkbox identifies the Core half, 2) Core Plus implies the Core checks, 3) no "healthy" when nothing was evaluated, 4) ask RevOps for a stable field for the Core half.
+  - Still Triage, High, unassigned. No person named; Slack threads and the Notion guide linked.
+
+  External writes: ENT-7742 title and description replaced at your request. No Salesforce access.
+  ## Agent run 2026-10-02T15:35:30
+
+  > Follow-up asked: "Check your confidence in item b of the fix. As you understand it, can a core plus opportunity exist with no Core opportunity? Do we always expect two opportunities for an account with both?"
+
+  Item b is fix item 2 in ENT-7742: "Treat a Core Plus opportunity as implying the Core checks".
+
+  ### Data (US, live opportunities, Snowflake mirror; saved as `pair_shapes.json` in the session scratchpad)
+  "Core half" here means typed `ihg_gms_core`, or typed Core Plus with the IHG parent and the enterprise-deployment checkbox.
+  - 460 accounts have an IHG Core or Core Plus opportunity.
+  - 253 have both halves. 183 have a Core half only (175 plain Core, 8 whose single opportunity carries the Core Plus package). 24 have a Core Plus opportunity and no Core half.
+  - So of 285 accounts that bought Core Plus, 253 (89%) have the pair.
+  - The 24 Plus-only accounts hold 31 opportunities. 29 were created in September, 13 of them Sept 28-30. None has the parent plus checkbox. 20 hold only tipping or authorizations lines; 9 hold the whole bundle on one opportunity; 2 hold base lines only.
+  - 19 of the 24 accounts also have an untyped opportunity, which may be a Core half not yet attributed. Not checked.
+  - 22 of the 31 opportunities map to a Canary hotel, all reporting healthy. 5 have a training date, none a go-live date.
+
+  ### Answers
+  - Can Core Plus exist with no Core? Not by design: Core Plus is sold on top of Core and the flow or the split action creates the pair. In the data it does happen, on 24 accounts, mostly new deals still in flight.
+  - Are two opportunities always expected? For a Core Plus hotel, yes by design, and 89% have them. The exceptions are the 24 above and 8 single-opportunity bundles.
+
+  ### Confidence in item 2: low as written
+  - With item 1 in place, item 2 only affects the 24 Plus-only accounts.
+  - It is not a small change: Core checks take their data and expected stage from a Core-typed opportunity (`get_local_onboarding_data` returns None without one), so the app would have to synthesise a Core state from the Plus half's commercial dates.
+  - It would run enterprise checks on hotels RevOps has not yet attributed to the deployment, which is deliberate before Agreement Sent.
+  - Item 3 already stops the silent "healthy". A cheaper replacement for item 2 is to flag accounts with a Core Plus opportunity and no Core half.
+  - Ticket not changed; proposed in chat.
+
+  No external writes made in this run. No Salesforce access.
+  ## Agent run 2026-10-02T15:37:10
+
+  > Follow-up asked: "yes" (apply the proposed change to fix item 2)
+
+  ENT-7742 fix item 2 replaced: https://linear.app/canary-technologies/issue/ENT-7742/ihg-core-opportunities-are-typed-as-core-plus-so-160-monitored-hotels
+  - Was: "Treat a Core Plus opportunity as implying the Core checks, so a missing Core half cannot silence them."
+  - Now: "Flag accounts that have a Core Plus opportunity and no Core half (24 today), so a missing Core half is visible."
+  - Nothing else in the ticket changed.
+
+  External writes: ENT-7742 description edited at your request. No Salesforce access.
 project: 2026-08-31-ihg
 source_id: null
 tags: []
 time_minutes: 5
 title: Examine monitoredHotelState for all onboarded IHG GMS Core hotels. There should
   be dozens in the last month. Conclude what's erroring, what's false negative/positive
-updated: 2026-10-02 13:21:13.000000
+updated: 2026-10-02 16:26:42.977265
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-02 16:26:14.365640
 contexts: []
 created: 2026-10-01 13:33:37.867580
 defer_until: null
@@ -81,7 +81,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: 'Review decision review of the Binding Rules Tree prototype (PR #58570)'
-updated: 2026-10-02 12:24:07.393803
+updated: 2026-10-02 16:26:14.365630
 waiting_on: null
 waiting_since: null
 working_on: false

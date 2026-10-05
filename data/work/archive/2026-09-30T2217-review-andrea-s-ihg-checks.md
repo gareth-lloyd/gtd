@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-02 15:53:32.069661
 contexts: []
 created: 2026-09-30 22:17:30.403023
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review andrea's IHG checks
-updated: 2026-10-01 16:46:32.745164
+updated: 2026-10-02 15:53:32.069656
 waiting_on: null
 waiting_since: null
 working_on: false

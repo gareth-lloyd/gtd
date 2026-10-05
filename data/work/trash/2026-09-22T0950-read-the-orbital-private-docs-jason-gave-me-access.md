@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 30
 title: Read the Orbital private docs Jason gave me access to
-updated: 2026-10-01 14:44:24.942212
+updated: 2026-10-02 16:25:37.355402
 waiting_on: null
 waiting_since: null
 working_on: false

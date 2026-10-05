@@ -1,10 +1,10 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-02 15:07:05.848913
 contexts: []
 created: 2026-10-02 11:04:43.512950
 defer_until: null
-due: null
+due: 2026-10-02
 energy: low
 id: 2026-10-02T1104-review-martijn
 order: null
@@ -107,12 +107,12 @@ output: |
   >    sweep's country-default gate?
   > 7. Is there a frontend ticket for check-out? I only see check-in wired in #58571 and
   >    #58722.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: review martijn
-updated: 2026-10-02 12:32:00.000000
+updated: 2026-10-02 15:07:05.848909
 waiting_on: null
 waiting_since: null
 working_on: false

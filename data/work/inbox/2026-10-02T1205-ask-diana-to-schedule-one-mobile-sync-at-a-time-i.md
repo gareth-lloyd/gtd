@@ -2,7 +2,7 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-02 12:05:14.753088
+created: 2026-10-02 12:05:14.753088
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: ask diana to schedule one mobile sync at a time I can make per week
-updated: *id001
+updated: 2026-10-02 14:05:20.586856
 waiting_on: null
 waiting_since: null
 working_on: false

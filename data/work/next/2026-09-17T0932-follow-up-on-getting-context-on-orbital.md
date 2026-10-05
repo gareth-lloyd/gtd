@@ -95,21 +95,35 @@ output: |-
 
   ### Not verified
   I have no access to the Orbital / orbital-server / engram-server repos, so Orbital's internals come from Linear ticket text and Slack only. The "target" diagram is inference. Teleport-backed MCPs were down (session expired) but weren't needed.
+
+  ## Agent run 2026-10-02T16:26
+
+  Merge: folded `2026-09-22T0950-read-the-orbital-private-docs-jason-gave-me-access` ("Read the Orbital private docs Jason gave me access to") into this item. The other item is now in `data/work/trash/` under that id and can be recovered from there.
+  - Title changed from "Follow up on: getting context on orbital" to "Get context on Orbital: read the private docs Jason gave me access to". The wider search the old title pointed at was done in the 2026-09-21 run, so reading the private docs is the remaining concrete action.
+  - Body: kept this item's original body verbatim and added the other item's note as a `## Read the Orbital private docs...` section: the Sep 21 'still building context' exchange, the docs host orbital-private-docs-20260917-jf.fly.dev/docs (credentials stay in the DM), and its Slack link https://canarytechnologies.slack.com/archives/D0A3G9PF066/p1790021680627369 (which was also the other item's `source_id`).
+  - De-duplicated: only the repeated "I asked Jason 'Where can I get context on orbital?' (Sep 16)" lead-in, reworded so it reads as a continuation. Nothing else was dropped.
+  - Added one parenthetical to the body's "still unanswered" sentence pointing at the correction in the 2026-09-21 run above (Jason did answer both questions).
+  - Scalars: this item already had energy (low) and time_minutes (15), so the other item's values (energy medium, time_minutes 30) were NOT carried over; bump them by hand if reading the docs is the bigger job. Contexts (consume), tags (morning-gtd, slack) and project (2026-09-08-workup) were identical on both. The other item had no `output:`.
 project: 2026-09-08-workup
 source_id: https://canarytechnologies.slack.com/archives/D0A3G9PF066/p1789563894657179
 tags:
 - morning-gtd
 - slack
 time_minutes: 15
-title: 'Follow up on: getting context on orbital'
-updated: 2026-10-01 14:44:24.942212
+title: 'Get context on Orbital: read the private docs Jason gave me access to'
+updated: 2026-10-02 16:26:30.000000
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
 
-I parked this on 2026-09-16: 'Where can I get context on orbital?' Jason's explainer is in #eng-orbital-internal; my later questions to him (focus TLDR, target metric) are still unanswered.
+I parked this on 2026-09-16: 'Where can I get context on orbital?' Jason's explainer is in #eng-orbital-internal; my later questions to him (focus TLDR, target metric) are still unanswered. (Since corrected by the 2026-09-21 agent run in `output:` — Jason did answer both in the DM.)
 https://canarytechnologies.slack.com/archives/D0A3G9PF066/p1789563894657179
 https://canarytechnologies.slack.com/archives/C0C1Z7G3WS2/p1789583812346249
 
 Perform wider search and come up with a brief best guess of how orbital, workup and overlord fit together, with architecture diagrams if helpful
+
+## Read the Orbital private docs Jason gave me access to
+
+After I asked Jason 'Where can I get context on orbital?' (Sep 16), I told him I was 'still building context' (Sep 21). He sent a login for orbital-private-docs-20260917-jf.fly.dev/docs (credentials in the DM, not copied here).
+https://canarytechnologies.slack.com/archives/D0A3G9PF066/p1790021680627369

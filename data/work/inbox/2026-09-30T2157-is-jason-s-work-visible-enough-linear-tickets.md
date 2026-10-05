@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-30 21:57:02.989677
-defer_until: 2026-10-05 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-09-30T2157-is-jason-s-work-visible-enough-linear-tickets
