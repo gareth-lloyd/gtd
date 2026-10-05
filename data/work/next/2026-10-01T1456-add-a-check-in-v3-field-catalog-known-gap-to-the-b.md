@@ -8,14 +8,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-10-01T1456-add-a-check-in-v3-field-catalog-known-gap-to-the-b
-order: null
+order: 5
 output: ''
 project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 15
 title: Add a 'Check-in V3 field catalog' known gap to the Binding Rules Tree doc
-updated: 2026-10-01 15:00:05.483270
+updated: 2026-10-05 14:08:15.478548
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-07T1140-drill-dust-collector
-order: 4
+order: 3
 output: ''
 project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
 title: drill dust collector
-updated: 2026-09-07 21:53:44.020224
+updated: 2026-10-05 11:07:38.379065
 waiting_on: null
 waiting_since: null
 working_on: false

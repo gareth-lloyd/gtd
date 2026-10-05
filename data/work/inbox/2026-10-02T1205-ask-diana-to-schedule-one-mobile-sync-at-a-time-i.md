@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-02 12:05:14.753088
-defer_until: null
+defer_until: 2026-10-06 09:00:00
 due: null
 energy: low
 id: 2026-10-02T1205-ask-diana-to-schedule-one-mobile-sync-at-a-time-i
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: ask diana to schedule one mobile sync at a time I can make per week
-updated: 2026-10-02 14:05:20.586856
+updated: 2026-10-05 10:35:47.505911
 waiting_on: null
 waiting_since: null
 working_on: false

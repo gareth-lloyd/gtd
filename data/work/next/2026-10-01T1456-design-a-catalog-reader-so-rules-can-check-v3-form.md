@@ -8,14 +8,14 @@ defer_until: null
 due: null
 energy: high
 id: 2026-10-01T1456-design-a-catalog-reader-so-rules-can-check-v3-form
-order: null
+order: 7
 output: ''
 project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 60
 title: Design a catalog reader so rules can check V3 form fields
-updated: 2026-10-01 15:00:14.473749
+updated: 2026-10-05 14:08:13.016260
 waiting_on: null
 waiting_since: null
 working_on: false

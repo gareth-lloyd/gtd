@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-30T1004-respond-to-comments-on-binding-tree-design
-order: null
+order: 4
 output: |
   ## Agent run 2026-09-30T14:05:00+01:00
 
@@ -116,13 +116,12 @@ output: |
   - Resolve Andrea's thread, or reply on it that the reword and the row are in.
   - Decide whether `ES_ID` should carry `default=OPTIONAL` (the new row currently says nothing is seeded for the ID key). If yes, the section 5 code sample and the row's fourth cell both change.
   - Josh's two threads still have no reply posted; drafts are in the first run above.
-
 project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 5
 title: respond to comments on binding tree design
-updated: 2026-09-30 15:40:00.000000
+updated: 2026-10-05 14:08:17.876933
 waiting_on: null
 waiting_since: null
 working_on: false

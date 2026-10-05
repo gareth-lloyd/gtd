@@ -8,7 +8,7 @@ defer_until: null
 due: null
 energy: null
 id: 2026-05-25T1130-free-amex-companion
-order: 4
+order: 10
 output: ''
 project: 2026-05-25-admin
 source_id: null
@@ -16,7 +16,7 @@ tags:
 - focus
 time_minutes: null
 title: Look for a free Amex to use companion voucher
-updated: 2026-09-29 16:09:53.823213
+updated: 2026-10-05 11:05:36.270840
 waiting_on: null
 waiting_since: null
 working_on: false

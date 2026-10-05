@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Follow up on: Wyndham Voice AI onboarding script must not auto-enable booking
   links'
-updated: 2026-10-02 14:05:18.548838
+updated: 2026-10-05 11:09:53.919133
 waiting_on: null
 waiting_since: null
 working_on: false

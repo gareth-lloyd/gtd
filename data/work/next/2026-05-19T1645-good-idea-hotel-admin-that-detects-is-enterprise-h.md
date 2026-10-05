@@ -96,7 +96,7 @@ tags: []
 time_minutes: 5
 title: 'good idea: hotel admin that detects is enterprise hotel and makes many fields
   read only (if they match right value)'
-updated: 2026-09-15 15:43:04.222867
+updated: 2026-10-05 14:08:17.876933
 waiting_on: null
 waiting_since: null
 working_on: false
