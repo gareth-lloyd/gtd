@@ -9,7 +9,7 @@ defer_until: null
 due: null
 energy: high
 id: 2026-05-19T1645-good-idea-hotel-admin-that-detects-is-enterprise-h
-order: 3
+order: 4
 output: |
   ## Agent run 2026-07-01T16:02
 
@@ -96,7 +96,7 @@ tags: []
 time_minutes: 5
 title: 'good idea: hotel admin that detects is enterprise hotel and makes many fields
   read only (if they match right value)'
-updated: 2026-10-05 14:08:17.876933
+updated: 2026-10-06 12:48:18.250173
 waiting_on: null
 waiting_since: null
 working_on: false

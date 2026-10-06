@@ -8,7 +8,7 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-10-01T1456-decide-how-drift-and-apply-portfolio-settings-trea
-order: 6
+order: 7
 output: ''
 project: 2026-04-16T1319-rules-based-config
 source_id: null
@@ -16,7 +16,7 @@ tags: []
 time_minutes: 30
 title: Decide how drift and apply_portfolio_settings treat catalog-owned keys on catalog
   hotels
-updated: 2026-10-05 14:08:15.478548
+updated: 2026-10-06 12:48:14.768115
 waiting_on: null
 waiting_since: null
 working_on: false

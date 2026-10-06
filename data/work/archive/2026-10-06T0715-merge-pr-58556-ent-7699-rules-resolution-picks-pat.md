@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-06 12:09:53.215943
 contexts:
 - autopilot
 created: 2026-10-06 07:15:43.399055
@@ -18,7 +18,7 @@ tags:
 time_minutes: 5
 title: 'Merge PR #58556: ENT-7699 rules resolution picks paths that define the key
   for the hotel under consideration'
-updated: 2026-10-06 07:15:43.558380
+updated: 2026-10-06 12:09:53.215930
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-06-08T1236-cancel-barclaycard-avios
-order: 12
+order: 11
 output: ''
 project: 2026-05-25-admin
 source_id: null
 tags: []
 time_minutes: 15
 title: Cancel barclaycard avios
-updated: 2026-10-05 11:05:36.270840
+updated: 2026-10-06 17:01:14.176413
 waiting_on: null
 waiting_since: null
 working_on: false

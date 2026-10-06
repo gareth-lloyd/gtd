@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-06 12:46:26.372897
 contexts: []
-created: &id001 2026-10-05 20:48:34.367510
+created: 2026-10-05 20:48:34.367510
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: CAll back renovation property
-updated: *id001
+updated: 2026-10-06 12:46:26.372859
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -16,8 +16,8 @@ tags:
 - morning-gtd
 - slack
 time_minutes: 45
-title: 'Complete retrospective steps for incident #300 (us-west-2 celery queue backlog)'
-updated: 2026-10-06 07:15:43.056836
+title: Schedule retro for incident; share retro doc
+updated: 2026-10-06 14:08:36.343059
 waiting_on: null
 waiting_since: null
 working_on: false
