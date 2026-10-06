@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-29 03:07:08.720984
-defer_until: 2026-10-06 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-09-29T0307-call-ee-if-need-new-sim-need-it-sent

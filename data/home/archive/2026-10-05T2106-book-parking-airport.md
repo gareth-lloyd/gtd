@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-06 05:47:32.175250
 contexts: []
-created: 2026-10-05 11:13:26.189819
+created: 2026-10-05 21:06:56.926475
 defer_until: null
 due: null
 energy: low
-id: 2026-10-05T1113-request-elsa-sunday-and-wednesday
+id: 2026-10-05T2106-book-parking-airport
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Request Elsa Sunday and Wednesday
-updated: 2026-10-05 11:15:27.780117
+title: book parking airport
+updated: 2026-10-06 05:47:32.175236
 waiting_on: null
 waiting_since: null
 working_on: false

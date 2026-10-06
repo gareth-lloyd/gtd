@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-05 10:06:59.440594
+created: &id001 2026-10-05 18:00:57.699011
 defer_until: null
 due: null
 energy: low
-id: 2026-10-05T1006-house-listings-phone-calls
+id: 2026-10-05T1800-finish-incident-retro-remove-ai-gen
 order: null
 output: ''
-project: 2026-10-05-house-hunt
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: house listings phone calls
-updated: 2026-10-05 12:25:00.150538
+title: finish incident retro remove AI gen
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

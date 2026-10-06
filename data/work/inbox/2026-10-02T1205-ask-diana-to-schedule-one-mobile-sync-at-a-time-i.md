@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-02 12:05:14.753088
-defer_until: 2026-10-06 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-02T1205-ask-diana-to-schedule-one-mobile-sync-at-a-time-i

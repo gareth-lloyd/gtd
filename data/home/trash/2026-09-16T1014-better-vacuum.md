@@ -9,12 +9,12 @@ energy: low
 id: 2026-09-16T1014-better-vacuum
 order: null
 output: ''
-project: 2026-05-25T1130-purchases
+project: 2026-05-25-workshop
 source_id: null
 tags: []
 time_minutes: 5
 title: better vacuum
-updated: 2026-09-16 10:14:05.753951
+updated: 2026-10-06 06:45:40.890636
 waiting_on: null
 waiting_since: null
 working_on: false

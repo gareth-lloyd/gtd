@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-09-16 09:44:36.564136
+created: &id001 2026-10-05 23:46:44.656709
 defer_until: null
 due: null
 energy: low
-id: 2026-09-16T0944-bin-for-safi-food
-order: 2
+id: 2026-10-05T2346-ask-sage-to-move-to-2-30pm-et
+order: null
 output: ''
-project: 2026-05-25T1130-purchases
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: bin for safi food
-updated: 2026-09-16 10:02:07.409584
+title: ask sage to move to 2:30pm ET
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
