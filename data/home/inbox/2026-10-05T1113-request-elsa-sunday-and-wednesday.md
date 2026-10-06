@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-05 11:13:26.189819
-defer_until: null
+defer_until: 2026-10-09 09:03:00
 due: null
 energy: low
 id: 2026-10-05T1113-request-elsa-sunday-and-wednesday
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Request Elsa Sunday and Wednesday
-updated: 2026-10-05 11:15:27.780117
+updated: 2026-10-06 09:03:35.764062
 waiting_on: null
 waiting_since: null
 working_on: false
