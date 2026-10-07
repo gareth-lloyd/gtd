@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-05 23:40:00.242653
-defer_until: 2026-10-07 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-05T2340-house-hunt-calls
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: house hunt calls
-updated: 2026-10-06 12:58:56.982654
+updated: 2026-10-07 02:37:23.295432
 waiting_on: null
 waiting_since: null
 working_on: false
