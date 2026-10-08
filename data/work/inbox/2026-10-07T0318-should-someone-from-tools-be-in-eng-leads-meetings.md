@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-07 03:18:10.848437
-defer_until: 2026-10-08 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-07T0318-should-someone-from-tools-be-in-eng-leads-meetings

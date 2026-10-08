@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-07 12:35:11.391775
-defer_until: 2026-10-08 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-07T1235-make-sure-someone-sucks-up-james-l-s-knowledge

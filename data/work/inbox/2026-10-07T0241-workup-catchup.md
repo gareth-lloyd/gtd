@@ -2,7 +2,7 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-07 02:41:10.333540
+created: 2026-10-07 02:41:10.333540
 defer_until: null
 due: null
 energy: low
@@ -14,8 +14,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: workup catchup
-updated: *id001
+updated: 2026-10-08 06:23:59.971463
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+revise sync notes

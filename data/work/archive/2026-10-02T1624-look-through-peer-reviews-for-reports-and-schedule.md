@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-08 06:24:11.172727
 contexts: []
 created: 2026-10-02 16:24:33.515094
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Look through peer reviews for reports and schedule calls if any need expansion
-updated: 2026-10-05 14:21:00.823892
+updated: 2026-10-08 06:24:11.172723
 waiting_on: null
 waiting_since: null
 working_on: false
