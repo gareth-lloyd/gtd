@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-05 10:08:21.323820
+created: &id001 2026-10-07 22:14:28.456849
 defer_until: null
-due: 2026-10-05
+due: null
 energy: low
-id: 2026-10-05T1008-pay-water-bill
-order: 2
+id: 2026-10-07T2214-moneyto-jess-for-dad
+order: null
 output: ''
-project: 2026-05-25-admin
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: pay water bill
-updated: 2026-10-06 17:01:07.701837
+title: moneyto jess for dad
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

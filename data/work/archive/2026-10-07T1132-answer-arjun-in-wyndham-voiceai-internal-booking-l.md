@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-07 12:35:33.085619
 contexts:
 - react
 created: 2026-10-07 11:32:55.714000
@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Answer Arjun in #wyndham-voiceai-internal: booking_link_enabled flags ignored
   under USE_AGENTIC_GUEST_MESSAGING'
-updated: 2026-10-07 11:32:55.816120
+updated: 2026-10-07 12:35:33.085611
 waiting_on: null
 waiting_since: null
 working_on: false

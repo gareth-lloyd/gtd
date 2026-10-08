@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-07 12:28:54.858191
 contexts: []
-created: &id001 2026-10-07 11:24:08.115173
+created: 2026-10-07 11:24:08.115173
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: talk to james about new starter rafael starting tomorrow thurs
-updated: *id001
+updated: 2026-10-07 12:28:54.858184
 waiting_on: null
 waiting_since: null
 working_on: false

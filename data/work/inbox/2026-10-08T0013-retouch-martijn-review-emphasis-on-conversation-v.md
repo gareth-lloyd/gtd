@@ -2,18 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-06 17:00:54.626956
+created: &id001 2026-10-08 00:13:53.791417
 defer_until: null
 due: null
 energy: low
-id: 2026-10-06T1700-offer-dev-direct-limitless-zoho
+id: 2026-10-08T0013-retouch-martijn-review-emphasis-on-conversation-v
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: offer dev direct limitless zoho
+title: retouch martijn review emphasis on conversation v written
 updated: *id001
 waiting_on: null
 waiting_since: null

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-07 12:06:50.617851
 contexts: []
 created: 2026-10-05 23:40:00.242653
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: house hunt calls
-updated: 2026-10-07 02:37:23.295432
+updated: 2026-10-07 12:06:50.617813
 waiting_on: null
 waiting_since: null
 working_on: false

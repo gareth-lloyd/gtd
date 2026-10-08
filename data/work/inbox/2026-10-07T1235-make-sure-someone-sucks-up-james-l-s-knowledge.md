@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-02 12:05:14.753088
+created: 2026-10-07 12:35:11.391775
 defer_until: 2026-10-08 09:00:00
 due: null
 energy: low
-id: 2026-10-02T1205-ask-diana-to-schedule-one-mobile-sync-at-a-time-i
+id: 2026-10-07T1235-make-sure-someone-sucks-up-james-l-s-knowledge
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: ask diana to schedule one mobile sync at a time I can make per week
-updated: 2026-10-07 12:18:44.433758
+title: Make sure someone sucks up james L's knowledge
+updated: 2026-10-07 12:35:15.961037
 waiting_on: null
 waiting_since: null
 working_on: false
