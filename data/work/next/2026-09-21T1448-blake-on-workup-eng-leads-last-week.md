@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-21 14:48:16.414464
-defer_until: null
+defer_until: 2026-10-12 09:00:00
 due: null
 energy: low
 id: 2026-09-21T1448-blake-on-workup-eng-leads-last-week
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Blake on Workup, eng leads last week. Explroe with Laura
-updated: 2026-10-01 14:56:17.880177
+updated: 2026-10-08 12:25:05.332543
 waiting_on: null
 waiting_since: null
 working_on: false

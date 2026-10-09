@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Take anticoagulants
-updated: 2026-10-07 20:04:33.204818
+updated: 2026-10-08 13:55:03.661723
 waiting_on: null
 waiting_since: null
 working_on: false

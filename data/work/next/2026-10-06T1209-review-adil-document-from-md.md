@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-10-06 12:09:46.093757
 defer_until: null
-due: 2026-10-06
+due: null
 energy: low
 id: 2026-10-06T1209-review-adil-document-from-md
 order: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review adil document from MD
-updated: 2026-10-06 12:47:55.149699
+updated: 2026-10-08 12:24:39.147524
 waiting_on: null
 waiting_since: null
 working_on: false

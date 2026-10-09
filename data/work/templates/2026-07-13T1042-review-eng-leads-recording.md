@@ -4,7 +4,7 @@ contexts:
 - consume
 energy: low
 id: 2026-07-13T1042-review-eng-leads-recording
-last_spawned: 2026-10-02
+last_spawned: 2026-10-09
 project: null
 recurrence: weekly
 tags: []

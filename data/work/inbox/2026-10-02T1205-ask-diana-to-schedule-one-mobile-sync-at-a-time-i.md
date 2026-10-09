@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: ask diana to schedule one mobile sync at a time I can make per week
-updated: 2026-10-07 12:18:44.433758
+updated: 2026-10-08 11:05:18.845860
 waiting_on: null
 waiting_since: null
 working_on: false

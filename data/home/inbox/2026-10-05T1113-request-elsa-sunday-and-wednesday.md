@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-05 11:13:26.189819
-defer_until: 2026-10-09 09:03:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-05T1113-request-elsa-sunday-and-wednesday
