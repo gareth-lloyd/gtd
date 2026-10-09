@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-09 11:09:39.460373
 contexts: []
 created: 2026-10-08 06:14:09.703203
 defer_until: null
@@ -14,10 +14,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Flesh out these notes for a presentation introducing onboarding scripts
-updated: 2026-10-08 15:01:30.339155
+updated: 2026-10-09 11:09:39.460363
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Goal: an engaging, broad-technical-audience, talk to share the critical concepts of the onboarding script system.

@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 20
 title: Post Linear project updates (Windtrap nudge)
-updated: 2026-10-09 09:21:11.626069
+updated: 2026-10-09 11:09:02.952013
 waiting_on: null
 waiting_since: null
 working_on: false

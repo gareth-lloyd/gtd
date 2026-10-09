@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-09 11:08:58.079947
 contexts:
 - react
 created: 2026-10-09 09:21:11.456131
@@ -18,7 +18,7 @@ tags:
 - resurfaced
 time_minutes: 15
 title: 'Answer Diana Perez in #epd-enterprise: IHG vs Wyndham SDK update cadence'
-updated: 2026-10-09 09:21:11.542059
+updated: 2026-10-09 11:08:58.079937
 waiting_on: null
 waiting_since: null
 working_on: false

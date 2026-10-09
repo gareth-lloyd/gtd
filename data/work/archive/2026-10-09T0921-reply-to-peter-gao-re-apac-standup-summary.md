@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-09 11:09:20.918126
 contexts:
 - react
 created: 2026-10-09 09:21:11.372511
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 5
 title: 'Reply to Peter Gao re: APAC standup summary'
-updated: 2026-10-09 09:21:11.455202
+updated: 2026-10-09 11:09:20.918118
 waiting_on: null
 waiting_since: null
 working_on: false

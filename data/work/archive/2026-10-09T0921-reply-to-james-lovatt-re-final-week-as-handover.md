@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-09 11:09:17.810695
 contexts:
 - react
 created: 2026-10-09 09:21:11.280832
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to James Lovatt re: final week as handover'
-updated: 2026-10-09 09:21:11.371695
+updated: 2026-10-09 11:09:17.810690
 waiting_on: null
 waiting_since: null
 working_on: false

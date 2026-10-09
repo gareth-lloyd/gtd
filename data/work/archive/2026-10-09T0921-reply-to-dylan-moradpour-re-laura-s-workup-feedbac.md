@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-09 11:09:10.279497
 contexts:
 - react
 created: 2026-10-09 09:21:11.194725
@@ -18,7 +18,7 @@ tags:
 - resurfaced
 time_minutes: 10
 title: 'Reply to Dylan Moradpour re: Laura''s Workup feedback'
-updated: 2026-10-09 09:21:11.280087
+updated: 2026-10-09 11:09:10.279489
 waiting_on: null
 waiting_since: null
 working_on: false

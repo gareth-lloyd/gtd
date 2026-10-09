@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-09 11:08:04.837656
 contexts:
 - react
 created: 2026-10-09 09:21:11.012220
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 5
 title: 'Reply to Brooke Blackwell: pick a slot for Bernard Sabag debrief (today)'
-updated: 2026-10-09 09:21:11.110641
+updated: 2026-10-09 11:08:04.837643
 waiting_on: null
 waiting_since: null
 working_on: false
