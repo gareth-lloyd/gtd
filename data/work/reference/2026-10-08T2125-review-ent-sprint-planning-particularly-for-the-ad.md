@@ -1,10 +1,10 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-09 13:29:16.615789
 contexts: []
 created: 2026-10-08 21:25:55.236996
 defer_until: null
-due: null
+due: 2026-10-09
 energy: low
 id: 2026-10-08T2125-review-ent-sprint-planning-particularly-for-the-ad
 order: null
@@ -76,13 +76,13 @@ output: |
   7. These are still open from earlier meetings, via Granola search: GDPR reg card anonymization before the Turkey/Thailand/France rollouts, and an SDK vs non-SDK flag for scripting at 50-150+ properties. See the Enterprise clients sync, Oct 7: https://notes.granola.ai/d/59de57f7-c736-4d19-a35c-321aa616b73f
 
   Nothing was posted anywhere.
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: Review ent sprint planning transcript, particularly for the AD check-in rollout
   stuff.
-updated: 2026-10-09 12:30:00
+updated: 2026-10-09 13:29:16.615784
 waiting_on: null
 waiting_since: null
 working_on: false

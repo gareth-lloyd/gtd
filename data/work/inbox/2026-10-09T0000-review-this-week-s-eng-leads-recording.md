@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - consume
 created: 2026-10-09 00:00:00
-defer_until: 2026-10-12 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-09T0000-review-this-week-s-eng-leads-recording

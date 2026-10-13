@@ -13,9 +13,11 @@ project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 5
-title: Rules-based portfolio membership!!!!
-updated: 2026-10-08 14:19:55.660785
+title: Capture Rules-based portfolio membership idea.
+updated: 2026-10-09 13:31:32.632980
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+Blocked until reader mechanism lands. Do this as a rewrite of binding rules plan

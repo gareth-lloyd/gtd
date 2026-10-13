@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-08 15:19:49.904001
+created: &id001 2026-10-10 15:59:03.917709
 defer_until: null
 due: null
 energy: low
-id: 2026-10-08T1519-solder-fume-fan
+id: 2026-10-10T1559-rejig-martijn-tree
 order: null
 output: ''
-project: 2026-07-15-prints
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: solder fume fan
-updated: 2026-10-08 15:19:49.949184
+title: rejig martijn tree
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

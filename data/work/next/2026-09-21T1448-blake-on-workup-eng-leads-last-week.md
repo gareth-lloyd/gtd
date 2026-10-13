@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-09-21 14:48:16.414464
-defer_until: 2026-10-12 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-09-21T1448-blake-on-workup-eng-leads-last-week

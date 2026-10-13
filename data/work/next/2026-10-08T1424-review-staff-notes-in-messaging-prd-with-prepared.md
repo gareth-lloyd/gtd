@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-08 14:24:28.966146
+created: 2026-10-08 14:24:28.966146
 defer_until: null
-due: null
+due: 2026-10-09
 energy: null
 id: 2026-10-08T1424-review-staff-notes-in-messaging-prd-with-prepared
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: null
-title: Review Staff Notes in Messaging PRD with prepared points
-updated: *id001
+title: APAC Review Staff Notes in Messaging PRD with prepared points
+updated: 2026-10-09 12:56:51.088847
 waiting_on: null
 waiting_since: null
 working_on: false

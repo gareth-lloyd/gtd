@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-10-08 16:12:28.711679
 defer_until: null
-due: null
+due: 2026-10-09
 energy: low
 id: 2026-10-08T1612-review-the-revised-canary-agent-architecture-artif
 order: null
@@ -15,15 +15,15 @@ output: |-
   - Its body was only the artifact link https://claude.ai/artifact/VKCDjnQLiziw5LVTZTZm8J, which this item already had, so I didn't copy it again.
   - The merge filled energy: low and time_minutes: 5 from it.
   - Not carried over automatically: project 2026-09-08-workup (this item has no project) and order 3. I recorded the Workup project link in the body. Re-link this item to Workup if you want it there.
-project: null
+project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: 5
 title: Review the revised Canary Agent Architecture artifact
-updated: 2026-10-09 11:11:00
+updated: 2026-10-09 12:57:12.587446
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 Rewritten 2026-10-08: corrected engineering plane (Pomerium/Sallyport, sandbox not secretless), new Orbital sections (architecture, concepts, rollout status), Workup today vs Orbital plan, Operator added to product plane.

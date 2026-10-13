@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-11 11:06:12.344149
 contexts: []
-created: 2026-10-08 16:15:27.194152
+created: 2026-10-07 10:40:22.993656
 defer_until: null
 due: null
 energy: low
-id: 2026-10-08T1615-travel-plans
+id: 2026-10-07T1040-print-invoice
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: travel plans UK
-updated: 2026-10-08 16:15:46.184884
+title: print invoice livetrak
+updated: 2026-10-11 11:06:12.344130
 waiting_on: null
 waiting_since: null
 working_on: false

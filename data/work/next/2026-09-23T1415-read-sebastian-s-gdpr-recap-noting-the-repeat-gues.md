@@ -5,7 +5,7 @@ contexts:
 - consume
 created: 2026-09-23 14:15:48.910147
 defer_until: null
-due: 2026-09-24
+due: null
 energy: low
 id: 2026-09-23T1415-read-sebastian-s-gdpr-recap-noting-the-repeat-gues
 order: null
@@ -61,7 +61,7 @@ tags:
 time_minutes: 15
 title: Read Sebastian's GDPR recap, noting the repeat-guest profile implications for
   the CRM Unified Guest Record work
-updated: 2026-09-24 10:14:58.898432
+updated: 2026-10-09 13:01:01.384411
 waiting_on: null
 waiting_since: null
 working_on: false

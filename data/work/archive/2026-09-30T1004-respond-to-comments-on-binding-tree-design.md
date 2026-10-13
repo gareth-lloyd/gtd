@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-09 12:57:53.749920
 contexts: []
 created: 2026-09-30 10:04:13.888752
 defer_until: null
@@ -121,7 +121,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: respond to comments on binding tree design
-updated: 2026-10-06 12:48:18.250173
+updated: 2026-10-09 12:57:53.749912
 waiting_on: null
 waiting_since: null
 working_on: false

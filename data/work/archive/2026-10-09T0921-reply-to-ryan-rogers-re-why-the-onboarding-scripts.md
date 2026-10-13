@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-09 12:56:27.565081
 contexts:
 - react
 created: 2026-10-09 09:21:11.111448
@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Reply to Ryan Rogers re: why the onboarding-scripts rules-based-config design
   was abandoned'
-updated: 2026-10-09 09:21:11.193909
+updated: 2026-10-09 12:56:27.565070
 waiting_on: null
 waiting_since: null
 working_on: false

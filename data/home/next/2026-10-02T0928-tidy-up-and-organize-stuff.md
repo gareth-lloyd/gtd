@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-10-02T0928-tidy-up-and-organize-stuff
-order: 4
+order: 2
 output: ''
 project: 2026-05-25-admin
 source_id: null
 tags: []
 time_minutes: 5
 title: tidy up and organize stuff
-updated: 2026-10-08 14:13:50.736101
+updated: 2026-10-12 15:35:21.459535
 waiting_on: null
 waiting_since: null
 working_on: false

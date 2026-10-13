@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-05 17:01:40.793187
-defer_until: 2026-10-10 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-05T1701-take-anticoagulants
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Take anticoagulants
-updated: 2026-10-09 12:47:42.672484
+updated: 2026-10-12 14:03:30.908573
 waiting_on: null
 waiting_since: null
 working_on: false
