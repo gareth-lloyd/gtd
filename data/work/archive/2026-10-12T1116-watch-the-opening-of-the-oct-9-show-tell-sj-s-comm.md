@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-13 09:58:19.340752
 contexts:
 - consume
 created: 2026-10-12 11:16:40.718072
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 20
 title: Watch the opening of the Oct 9 Show & Tell (SJ's comments)
-updated: 2026-10-12 11:16:40.802448
+updated: 2026-10-13 09:58:19.340748
 waiting_on: null
 waiting_since: null
 working_on: false

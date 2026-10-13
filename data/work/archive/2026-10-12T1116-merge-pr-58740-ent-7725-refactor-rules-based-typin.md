@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-13 10:03:44.669452
 contexts:
 - autopilot
 created: 2026-10-12 11:16:40.972407
@@ -17,7 +17,7 @@ tags:
 - github
 time_minutes: 5
 title: 'Merge PR #58740: [ENT-7725] Refactor rules-based typing'
-updated: 2026-10-12 11:16:41.054422
+updated: 2026-10-13 10:03:44.669448
 waiting_on: null
 waiting_since: null
 working_on: false

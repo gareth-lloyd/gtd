@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-09 16:10:12.597859
-defer_until: null
-due: null
+created: 2026-10-13 10:50:39.159951
+defer_until: 2026-10-14 09:00:00
+due: 2026-10-14
 energy: low
-id: 2026-10-09T1610-why-not-4-for-laura
+id: 2026-10-13T1050-instruct-elsa
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: '"why not 4" for Laura?'
-updated: *id001
+title: instruct elsa, inform Dorothy
+updated: 2026-10-13 11:07:21.271670
 waiting_on: null
 waiting_since: null
 working_on: false

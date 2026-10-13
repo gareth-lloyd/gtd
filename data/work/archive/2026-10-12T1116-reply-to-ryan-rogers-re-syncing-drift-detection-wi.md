@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-13 10:04:28.686523
 contexts:
 - react
 created: 2026-10-12 11:16:40.543863
@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Reply to Ryan Rogers re: syncing drift detection with onboarding scripts (BW
   OTA rollout issue)'
-updated: 2026-10-12 11:16:40.631653
+updated: 2026-10-13 10:04:28.686518
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-13 10:03:42.064321
 contexts:
 - react
 created: 2026-10-12 11:16:40.803282
@@ -17,7 +17,7 @@ tags:
 - github
 time_minutes: 20
 title: 'Fix CI on PR #59772: [ENT-7806] Enable pyrefly no-matching-overload'
-updated: 2026-10-12 11:16:40.887919
+updated: 2026-10-13 10:03:42.064312
 waiting_on: null
 waiting_since: null
 working_on: false
