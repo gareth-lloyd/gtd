@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 from gtd_core.agent_launch import launch_claude_session, launch_desktop_session
 from gtd_core.audit import log_purge
 from gtd_core.dates import defer_expired, is_overdue, parse_human_date, parse_human_datetime
-from gtd_core.models import Bucket, Energy, EnvConfig, Item, Priority, Project
+from gtd_core.models import Bucket, Energy, EnvConfig, GrabBag, Item, Priority, Project
 from gtd_core.repository import EnvRepository
 
 _ENERGY_RANK = {"low": 1, "medium": 2, "high": 3}
@@ -41,6 +41,11 @@ def _default_now() -> datetime:
 # or behind every rated project without comparing to None.
 _ORPHAN_PRIORITY = -1
 _UNRATED_PRIORITY = 99
+
+# A grab bag is cleaned up once nothing in it is still live. Reference is
+# deliberately not terminal: grabbing reference material to read together is
+# a normal use, and filing it there must not make the bag vanish.
+_GRAB_BAG_TERMINAL = frozenset({Bucket.ARCHIVE, Bucket.TRASH})
 
 PROJECT_STATUSES = frozenset({"active", "on_hold", "complete", "dropped"})
 
@@ -716,6 +721,69 @@ class GtdService:
         self.repo(env).delete_project(project_id)
 
     # ---- Templates ----
+
+    # ---- Grab bags ----
+
+    def create_grab_bag(self, env: str, name: str, item_id: str | None = None) -> GrabBag:
+        """Create a bag, optionally grabbing `item_id` into it in the same step."""
+        name = name.strip()
+        if not name:
+            raise ValueError("grab bag name must not be blank")
+        repo = self.repo(env)
+        if item_id is not None and repo.get(item_id) is None:
+            raise KeyError(item_id)
+        now = self._now()
+        base_id = make_item_id(now, name)
+        bag_id, n = base_id, 2
+        while repo.grab_bag_exists(bag_id):
+            bag_id, n = f"{base_id}-{n}", n + 1
+        items = [item_id] if item_id is not None else []
+        return repo.save_grab_bag(
+            GrabBag(id=bag_id, name=name, created=now, updated=now, items=items)
+        )
+
+    def grab(self, env: str, bag_id: str, item_id: str) -> GrabBag:
+        """Add `item_id` to the bag. Idempotent; never modifies the item."""
+        repo = self.repo(env)
+        bag = repo.get_grab_bag(bag_id)
+        if bag is None:
+            raise KeyError(bag_id)
+        if repo.get(item_id) is None:
+            raise KeyError(item_id)
+        if item_id not in bag.items:
+            bag.items.append(item_id)
+        bag.updated = self._now()
+        return repo.save_grab_bag(bag)
+
+    def list_grab_bags(self, env: str) -> list[GrabBag]:
+        """Live bags, most recently touched first. Prunes finished bags."""
+        repo = self.repo(env)
+        bags = [b for b in repo.list_grab_bags() if self._grab_bag_items(repo, b) is not None]
+        return sorted(bags, key=lambda b: (b.updated, b.id), reverse=True)
+
+    def get_grab_bag(self, env: str, bag_id: str) -> tuple[GrabBag, list[Item]] | None:
+        """The bag plus its surviving items in grab order; None if gone/pruned."""
+        repo = self.repo(env)
+        bag = repo.get_grab_bag(bag_id)
+        if bag is None:
+            return None
+        items = self._grab_bag_items(repo, bag)
+        return None if items is None else (bag, items)
+
+    def empty_grab_bag(self, env: str, bag_id: str) -> None:
+        """Drop the bag. Its items keep their bucket, project and every field."""
+        self.repo(env).delete_grab_bag(bag_id)
+
+    @staticmethod
+    def _grab_bag_items(repo: EnvRepository, bag: GrabBag) -> list[Item] | None:
+        """Resolve the bag's items, or delete the bag and return None when
+        every item is terminal (archived, trashed or purged). A bag that has
+        never had anything grabbed into it is left alone."""
+        items = [i for i in (repo.get(iid) for iid in bag.items) if i is not None]
+        if bag.items and all(i.status in _GRAB_BAG_TERMINAL for i in items):
+            repo.delete_grab_bag(bag.id)
+            return None
+        return items
 
     def list_templates(self, env: str) -> list:
         return self.repo(env).list_templates()

@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { Project } from "./api";
 import {
+  fmtAge,
   fmtDate,
   fmtDateTime,
   fmtMinutes,
@@ -178,5 +179,18 @@ describe("sortProjects", () => {
     const snapshot = input.map((p) => p.id);
     sortProjects(input);
     expect(input.map((p) => p.id)).toEqual(snapshot);
+  });
+});
+
+describe("fmtAge", () => {
+  const now = new Date("2026-10-14T12:00:00");
+  it.each([
+    ["2026-10-14T11:59:30", "just now"],
+    ["2026-10-14T11:45:00", "15m"],
+    ["2026-10-14T09:00:00", "3h"],
+    ["2026-10-12T12:00:00", "2d"],
+    ["2026-09-30T12:00:00", "2w"],
+  ])("%s → %s", (iso, expected) => {
+    expect(fmtAge(iso, now)).toBe(expected);
   });
 });

@@ -23,6 +23,7 @@ import { SearchBar, SearchView } from "./SearchComponents";
 import { ProjectNavLinks, ProjectsView, ProjectDetailView } from "./ProjectComponents";
 import { BucketRoute, DoneView, NextActionsView } from "./ItemList";
 import { TemplatesView } from "./TemplatesView";
+import { GrabBagDetailView, GrabBagNavLinks, GrabBagsView } from "./GrabBags";
 import { SelectionProvider, useSelection } from "./SelectionContext";
 import { DetailPanel } from "./DetailPanel";
 import { AgentLogView } from "./AgentLogView";
@@ -35,6 +36,7 @@ type Section =
   | "inbox"
   | "next"
   | "projects"
+  | "grab-bags"
   | "waiting"
   | "someday"
   | "reference"
@@ -46,6 +48,7 @@ const SECTIONS: Section[] = [
   "inbox",
   "next",
   "projects",
+  "grab-bags",
   "waiting",
   "someday",
   "reference",
@@ -78,6 +81,8 @@ export default function App() {
         <Route path="trash" element={<BucketRoute bucket="trash" />} />
         <Route path="projects" element={<ProjectsView />} />
         <Route path="projects/:projectId" element={<ProjectDetailView />} />
+        <Route path="grab-bags" element={<GrabBagsView />} />
+        <Route path="grab-bags/:bagId" element={<GrabBagDetailView />} />
         <Route path="templates" element={<TemplatesView />} />
         <Route path="items/:itemId" element={<ItemDetailView />} />
         <Route path="items/:itemId/agent" element={<AgentLogView />} />
@@ -222,15 +227,16 @@ function AppShell() {
             <React.Fragment key={s}>
               <NavLink
                 to={s}
-                end={s === "projects"}
+                end={s === "projects" || s === "grab-bags"}
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                {s}
+                {s.replace("-", " ")}
                 {s === "inbox" && inboxCount > 0 && (
                   <span className="side-nav-count"> ({inboxCount})</span>
                 )}
               </NavLink>
               {s === "projects" && <ProjectNavLinks env={env} />}
+              {s === "grab-bags" && <GrabBagNavLinks env={env} />}
             </React.Fragment>
           ))}
         </nav>
@@ -391,6 +397,7 @@ function invalidateAfterSync(qc: QueryClient) {
   qc.invalidateQueries({ queryKey: ["item"] });
   qc.invalidateQueries({ queryKey: ["projects"] });
   qc.invalidateQueries({ queryKey: ["project"] });
+  qc.invalidateQueries({ queryKey: ["grab-bags"] });
   qc.invalidateQueries({ queryKey: ["snapshot-status"] });
   qc.invalidateQueries({ queryKey: ["search-corpus"], refetchType: "none" });
 }

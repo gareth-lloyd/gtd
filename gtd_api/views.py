@@ -26,6 +26,9 @@ from gtd_core.snapshot import pull, snapshot, snapshot_status
 from .serializers import (
     CaptureAiSerializer,
     CaptureSerializer,
+    GrabBagCreateSerializer,
+    GrabBagSerializer,
+    GrabSerializer,
     ItemMergeSerializer,
     ItemPatchSerializer,
     ItemSerializer,
@@ -417,6 +420,70 @@ def project_reorder(request: Request, env: str, project_id: str) -> Response:
     except ValueError as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     return Response(ItemSerializer(items, many=True).data)
+
+
+@api_view(["GET", "POST"])
+def grab_bags(request: Request, env: str) -> Response:
+    svc = _service()
+    if missing := _require_env(svc, env):
+        return missing
+    if request.method == "GET":
+        return Response(GrabBagSerializer(svc.list_grab_bags(env), many=True).data)
+
+    serializer = GrabBagCreateSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.validated_data
+    try:
+        bag = svc.create_grab_bag(env, data["name"], item_id=data.get("item_id") or None)
+    except KeyError:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except ValueError as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    return Response(GrabBagSerializer(bag).data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET", "DELETE"])
+def grab_bag_detail(request: Request, env: str, bag_id: str) -> Response:
+    """GET the bag and its items; DELETE empties it (items are untouched)."""
+    svc = _service()
+    if missing := _require_env(svc, env):
+        return missing
+    if request.method == "DELETE":
+        try:
+            svc.empty_grab_bag(env, bag_id)
+        except KeyError:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    result = svc.get_grab_bag(env, bag_id)
+    if result is None:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    bag, items = result
+    projects_by_id = {p.id: p for p in svc.list_projects(env, include_inactive=True)}
+    return Response(
+        {
+            "bag": GrabBagSerializer(bag).data,
+            "items": ItemSerializer(
+                items,
+                many=True,
+                context={"projects_by_id": projects_by_id, "today": localdate()},
+            ).data,
+        }
+    )
+
+
+@api_view(["POST"])
+def grab_bag_items(request: Request, env: str, bag_id: str) -> Response:
+    svc = _service()
+    if missing := _require_env(svc, env):
+        return missing
+    serializer = GrabSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    try:
+        bag = svc.grab(env, bag_id, serializer.validated_data["item_id"])
+    except KeyError:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(GrabBagSerializer(bag).data)
 
 
 @api_view(["GET"])

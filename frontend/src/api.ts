@@ -75,6 +75,15 @@ export interface Template {
   next_due: string | null;
 }
 
+/** A short-lived named collection of items. Membership never alters the items. */
+export interface GrabBag {
+  id: string;
+  name: string;
+  created: string;
+  updated: string;
+  item_count: number;
+}
+
 export interface EnvConfig {
   name: string;
   contexts: string[];
@@ -253,6 +262,24 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ item_ids: itemIds }),
     }),
+
+  // Most recently touched first; bags whose items are all done are pruned server-side.
+  listGrabBags: (env: string) => request<GrabBag[]>(`/envs/${env}/grab-bags/`),
+  getGrabBag: (env: string, id: string) =>
+    request<{ bag: GrabBag; items: Item[] }>(`/envs/${env}/grab-bags/${id}/`),
+  createGrabBag: (env: string, name: string, itemId?: string) =>
+    request<GrabBag>(`/envs/${env}/grab-bags/`, {
+      method: "POST",
+      body: JSON.stringify(itemId ? { name, item_id: itemId } : { name }),
+    }),
+  grabItem: (env: string, bagId: string, itemId: string) =>
+    request<GrabBag>(`/envs/${env}/grab-bags/${bagId}/items/`, {
+      method: "POST",
+      body: JSON.stringify({ item_id: itemId }),
+    }),
+  // Deletes the bag only — its items keep their bucket, project and fields.
+  emptyGrabBag: (env: string, id: string) =>
+    request<void>(`/envs/${env}/grab-bags/${id}/`, { method: "DELETE" }),
 
   listTemplates: (env: string) => request<Template[]>(`/envs/${env}/templates/`),
 

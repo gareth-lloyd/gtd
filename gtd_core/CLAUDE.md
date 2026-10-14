@@ -19,7 +19,7 @@ The API layer (`gtd_api`) only talks to `GtdService`. Never skip layers.
 
 | File | Purpose |
 |------|---------|
-| `models.py` | `Bucket` enum (inbox/next/waiting/someday/reference/archive/trash), `Item`/`Project`/`Template`/`EnvConfig` dataclasses |
+| `models.py` | `Bucket` enum (inbox/next/waiting/someday/reference/archive/trash), `Item`/`Project`/`Template`/`GrabBag`/`EnvConfig` dataclasses |
 | `storage.py` | Raw frontmatter IO: `dump_item`/`load_item`, `dump_project`/`load_project`, `dump_template`/`load_template`, `load_env_config`/`dump_env_config` |
 | `repository.py` | `EnvRepository` — CRUD per env. `list_items()` excludes archive+trash by default |
 | `service.py` | `GtdService` — see method table below. `AiCaptureOutcome` dataclass; module-level helpers `apply_next_item_cap`, `sort_next_items`, `slugify`, `make_item_id` |
@@ -37,6 +37,7 @@ The API layer (`gtd_api`) only talks to `GtdService`. Never skip layers.
 | Item capture / lifecycle | `capture`, `capture_ai`, `merge_items`, `launch_merge_session`, `move`, `update`, `complete`, `delete` (→trash), `purge` |
 | Item queries | `list_items` (with `respect_next_cap`), `filter_items`, `filter_next`, `list_done` (paginated archive+trash), `actions_for_project` |
 | Projects | `create_project`, `save_project`, `get_project`, `list_projects`, `update_project`, `delete_project`, `find_project_by_title` (fuzzy match), `reorder_project_items` |
+| Grab bags | `create_grab_bag` (optional `item_id`), `grab`, `list_grab_bags` (prunes finished bags), `get_grab_bag` → `(bag, items)`, `empty_grab_bag` |
 | Templates | `list_templates` |
 
 ## Conventions

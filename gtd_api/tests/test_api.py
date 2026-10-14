@@ -976,3 +976,87 @@ class TestItemMerge:
         url = f"/api/envs/work/items/{t['id']}/merge/"
         r = api.post(url, {"source_id": s["id"]}, format="json")
         assert r.status_code == 502
+
+
+def _capture(api, title="Thing"):
+    return api.post("/api/envs/work/items/", {"title": title}, format="json").json()
+
+
+class TestGrabBags:
+    def test_create_with_item_and_list(self, api):
+        item = _capture(api)
+        r = api.post(
+            "/api/envs/work/grab-bags/",
+            {"name": "Prep", "item_id": item["id"]},
+            format="json",
+        )
+        assert r.status_code == 201
+        bag = r.json()
+        assert bag["name"] == "Prep"
+        assert bag["item_count"] == 1
+        assert set(bag) >= {"id", "name", "created", "updated", "item_count"}
+
+        r = api.get("/api/envs/work/grab-bags/")
+        assert r.status_code == 200
+        assert [b["id"] for b in r.json()] == [bag["id"]]
+
+    def test_create_rejects_blank_name(self, api):
+        r = api.post("/api/envs/work/grab-bags/", {"name": "  "}, format="json")
+        assert r.status_code == 400
+
+    def test_create_with_unknown_item_404(self, api):
+        r = api.post(
+            "/api/envs/work/grab-bags/", {"name": "Prep", "item_id": "nope"}, format="json"
+        )
+        assert r.status_code == 404
+
+    def test_unknown_env_404(self, api):
+        assert api.get("/api/envs/nope/grab-bags/").status_code == 404
+
+    def test_grab_into_existing_bag_and_detail(self, api):
+        a = _capture(api, "A")
+        b = _capture(api, "B")
+        bag = api.post(
+            "/api/envs/work/grab-bags/", {"name": "Prep", "item_id": a["id"]}, format="json"
+        ).json()
+        r = api.post(
+            f"/api/envs/work/grab-bags/{bag['id']}/items/", {"item_id": b["id"]}, format="json"
+        )
+        assert r.status_code == 200
+        assert r.json()["item_count"] == 2
+
+        r = api.get(f"/api/envs/work/grab-bags/{bag['id']}/")
+        assert r.status_code == 200
+        body = r.json()
+        assert body["bag"]["id"] == bag["id"]
+        assert [i["id"] for i in body["items"]] == [a["id"], b["id"]]
+
+    def test_grab_unknown_bag_or_item_404(self, api):
+        a = _capture(api)
+        bag = api.post("/api/envs/work/grab-bags/", {"name": "Prep"}, format="json").json()
+        r = api.post("/api/envs/work/grab-bags/nope/items/", {"item_id": a["id"]}, format="json")
+        assert r.status_code == 404
+        r = api.post(
+            f"/api/envs/work/grab-bags/{bag['id']}/items/", {"item_id": "nope"}, format="json"
+        )
+        assert r.status_code == 404
+
+    def test_empty_deletes_bag_and_leaves_item(self, api):
+        a = _capture(api)
+        bag = api.post(
+            "/api/envs/work/grab-bags/", {"name": "Prep", "item_id": a["id"]}, format="json"
+        ).json()
+        r = api.delete(f"/api/envs/work/grab-bags/{bag['id']}/")
+        assert r.status_code == 204
+        assert api.get(f"/api/envs/work/grab-bags/{bag['id']}/").status_code == 404
+        assert api.get(f"/api/envs/work/items/{a['id']}/").json()["status"] == "inbox"
+        assert api.delete(f"/api/envs/work/grab-bags/{bag['id']}/").status_code == 404
+
+    def test_bag_disappears_when_all_items_done(self, api):
+        a = _capture(api)
+        bag = api.post(
+            "/api/envs/work/grab-bags/", {"name": "Prep", "item_id": a["id"]}, format="json"
+        ).json()
+        api.post(f"/api/envs/work/items/{a['id']}/complete/")
+        assert api.get("/api/envs/work/grab-bags/").json() == []
+        assert api.get(f"/api/envs/work/grab-bags/{bag['id']}/").status_code == 404

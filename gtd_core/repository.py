@@ -2,13 +2,15 @@ import logging
 import os
 from pathlib import Path
 
-from gtd_core.models import Bucket, EnvConfig, Item, Project, Template
+from gtd_core.models import Bucket, EnvConfig, GrabBag, Item, Project, Template
 from gtd_core.storage import (
+    dump_grab_bag,
     dump_item,
     dump_project,
     dump_template,
     list_item_paths,
     load_env_config,
+    load_grab_bag,
     load_item,
     load_project,
     load_template,
@@ -183,6 +185,37 @@ class EnvRepository:
         path = self.env_root / "projects" / f"{project_id}.md"
         if not path.exists():
             raise KeyError(project_id)
+        path.unlink()
+
+    # ---- Grab bags ----
+
+    def _grab_bag_path(self, bag_id: str) -> Path:
+        return self.env_root / "grabbags" / f"{bag_id}.md"
+
+    def list_grab_bags(self) -> list[GrabBag]:
+        out: list[GrabBag] = []
+        for p in list_item_paths(self.env_root / "grabbags"):
+            try:
+                out.append(load_grab_bag(p))
+            except Exception as exc:
+                logger.warning("skipping unloadable grab bag %s: %s", p, exc)
+        return out
+
+    def get_grab_bag(self, bag_id: str) -> GrabBag | None:
+        path = self._grab_bag_path(bag_id)
+        return load_grab_bag(path) if path.exists() else None
+
+    def grab_bag_exists(self, bag_id: str) -> bool:
+        return self._grab_bag_path(bag_id).exists()
+
+    def save_grab_bag(self, bag: GrabBag) -> GrabBag:
+        dump_grab_bag(self._grab_bag_path(bag.id), bag)
+        return bag
+
+    def delete_grab_bag(self, bag_id: str) -> None:
+        path = self._grab_bag_path(bag_id)
+        if not path.exists():
+            raise KeyError(bag_id)
         path.unlink()
 
     # ---- Templates ----

@@ -64,6 +64,17 @@ class ProjectSerializer(serializers.Serializer):
         }
 
 
+class GrabBagSerializer(serializers.Serializer):
+    def to_representation(self, instance):
+        return {
+            "id": instance.id,
+            "name": instance.name,
+            "created": instance.created.isoformat(),
+            "updated": instance.updated.isoformat(),
+            "item_count": len(instance.items),
+        }
+
+
 class TemplateSerializer(serializers.Serializer):
     """Read-only representation of a `gtd_core.models.Template`.
 
@@ -120,6 +131,15 @@ class CaptureAiSerializer(serializers.Serializer):
 class ItemMergeSerializer(serializers.Serializer):
     source_id = serializers.CharField()
     target = serializers.ChoiceField(choices=["iterm", "desktop"], default="iterm")
+
+
+class GrabBagCreateSerializer(serializers.Serializer):
+    name = serializers.CharField(trim_whitespace=False, allow_blank=True)
+    item_id = serializers.CharField(required=False, allow_null=True)
+
+
+class GrabSerializer(serializers.Serializer):
+    item_id = serializers.CharField()
 
 
 class MoveSerializer(serializers.Serializer):

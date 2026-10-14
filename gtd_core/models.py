@@ -108,6 +108,22 @@ class Template:
 
 
 @dataclass(slots=True)
+class GrabBag:
+    """A short-lived, named collection of item ids to look at in one place.
+
+    Membership lives only here — items carry no back-reference, so grabbing
+    or emptying a bag never touches an item file. `updated` bumps on every
+    grab and drives "most recent" ordering.
+    """
+
+    id: str
+    name: str
+    created: datetime
+    updated: datetime
+    items: list[str] = field(default_factory=list)
+
+
+@dataclass(slots=True)
 class EnvConfig:
     name: str
     contexts: list[str]

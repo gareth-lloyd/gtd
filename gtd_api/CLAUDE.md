@@ -58,6 +58,11 @@ GET    /api/envs/<env>/projects/<id>/            ?include_deferred= — actions 
 PATCH  /api/envs/<env>/projects/<id>/
 DELETE /api/envs/<env>/projects/<id>/
 POST   /api/envs/<env>/projects/<id>/reorder/    {item_ids: [...]} — assigns order 1..N
+GET    /api/envs/<env>/grab-bags/                most recent first; prunes bags whose items are all done
+POST   /api/envs/<env>/grab-bags/                {name, item_id?}
+GET    /api/envs/<env>/grab-bags/<id>/           {bag, items}
+DELETE /api/envs/<env>/grab-bags/<id>/           "Empty" — deletes the bag, items untouched
+POST   /api/envs/<env>/grab-bags/<id>/items/     {item_id} — idempotent grab
 GET    /api/envs/<env>/templates/                recurring templates list
 POST   /api/snapshot/                            {message?, push?}
 GET    /api/snapshot/status/

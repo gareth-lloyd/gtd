@@ -26,6 +26,18 @@ export function fmtDateTime(iso: string): string {
   return time ? `${date} ${time}` : date;
 }
 
+/** Coarse elapsed time since `iso`: "just now", "15m", "3h", "2d", "2w". */
+export function fmtAge(iso: string, now: Date = new Date()): string {
+  const mins = Math.floor((now.getTime() - new Date(iso).getTime()) / 60_000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h`;
+  const days = Math.floor(hours / 24);
+  if (days < 14) return `${days}d`;
+  return `${Math.floor(days / 7)}w`;
+}
+
 export function fmtMinutes(m: number): string {
   if (m === 0) return "0m";
   const h = Math.floor(m / 60);

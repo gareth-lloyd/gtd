@@ -9,7 +9,7 @@ import frontmatter
 import yaml
 from frontmatter.default_handlers import SafeDumper as FrontmatterSafeDumper
 
-from gtd_core.models import Bucket, EnvConfig, Item, Project, Template
+from gtd_core.models import Bucket, EnvConfig, GrabBag, Item, Project, Template
 
 
 def _represent_str(dumper: Any, data: str) -> yaml.ScalarNode:
@@ -191,6 +191,29 @@ def load_template(path: Path) -> Template:
         tags=list(md.get("tags") or []),
         recurrence=md.get("recurrence", "monthly"),
         last_spawned=_as_date(md.get("last_spawned")),
+    )
+
+
+def dump_grab_bag(path: Path, bag: GrabBag) -> None:
+    post = frontmatter.Post(
+        "",
+        id=bag.id,
+        name=bag.name,
+        created=bag.created,
+        updated=bag.updated,
+        items=bag.items,
+    )
+    _atomic_dump(path, lambda f: frontmatter.dump(post, f))
+
+
+def load_grab_bag(path: Path) -> GrabBag:
+    md, _ = _read_frontmatter(path)
+    return GrabBag(
+        id=md["id"],
+        name=md["name"],
+        created=_as_datetime(md["created"]),
+        updated=_as_datetime(md["updated"]),
+        items=list(md.get("items") or []),
     )
 
 

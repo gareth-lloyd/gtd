@@ -192,6 +192,17 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
   `working_on`, like any other agent run. Merging never runs `claude -p`
   inside a web request (that path timed out at 30s).
 
+- **Grab bags**: throwaway, named collections of items to look at in one
+  place. Stored as `data/<env>/grabbags/<id>.md` (frontmatter: `name`,
+  `created`, `updated`, `items: [ids]`). Membership lives only on the bag —
+  grabbing or emptying never touches an item file. The `✋ grab` action on
+  any item opens a dialog listing existing bags (click to add) plus a
+  new-bag name field. Side nav shows "grab bags" under projects with the 3
+  most recently touched; `/<env>/grab-bags[/<id>]` are the list and detail
+  views. "Empty" deletes the bag (items unchanged, not completed). A bag is
+  auto-deleted (on any read) once every item in it is archived, trashed or
+  purged — reference does NOT count as terminal. No history is kept.
+
 - **Per-env Claude account**: `config.yml` may set `claude_config_dir`
   (e.g. `~/.claude-personal`). Every `claude` shell-out for that env — the
   iTerm agent launch and AI capture — then runs with `CLAUDE_CONFIG_DIR`

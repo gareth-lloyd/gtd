@@ -47,6 +47,8 @@ export function invalidateItemQueries(qc: QueryClient, env: string, itemId: stri
   // determine the old project ID when the item was loaded via a composite
   // project detail query rather than an items list.
   qc.invalidateQueries({ queryKey: ["project", env] });
+  // Finishing an item can auto-delete a grab bag; editing one changes its card.
+  qc.invalidateQueries({ queryKey: ["grab-bags", env] });
 }
 
 // Used by the inbox-processing flow: same as invalidateItemQueries but
@@ -65,6 +67,7 @@ export function invalidateItemQueriesPreservingInbox(qc: QueryClient, env: strin
   qc.invalidateQueries({ queryKey: ["snapshot-status"] });
   qc.invalidateQueries({ queryKey: ["projects", env] });
   qc.invalidateQueries({ queryKey: ["project", env] });
+  qc.invalidateQueries({ queryKey: ["grab-bags", env] });
 }
 
 export function invalidateProjectQueries(qc: QueryClient, env: string, projectId?: string) {
@@ -92,6 +95,13 @@ export function findItemInCache(qc: QueryClient, env: string, itemId: string): I
   const projects = qc.getQueriesData<{ actions: Item[] }>({ queryKey: ["project", env] });
   for (const [, data] of projects) {
     const found = data?.actions?.find((i) => i.id === itemId);
+    if (found) return found;
+  }
+  // Grab bag detail caches (shape: { bag, items: Item[] }); the bag list
+  // shares the key prefix but is an array, so `.items` is undefined there.
+  const bags = qc.getQueriesData<{ items?: Item[] }>({ queryKey: ["grab-bags", env] });
+  for (const [, data] of bags) {
+    const found = data?.items?.find((i) => i.id === itemId);
     if (found) return found;
   }
   return undefined;
