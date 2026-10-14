@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-13 15:10:13.104105
 contexts: []
 created: 2026-09-28 14:57:28.060122
 defer_until: null
@@ -110,7 +110,7 @@ tags: []
 time_minutes: 5
 title: Review blake 'taking over mobile' notes - bear under the "Blake vanlandingham"
   note
-updated: 2026-09-29 12:18:49.466034
+updated: 2026-10-13 15:10:13.104097
 waiting_on: null
 waiting_since: null
 working_on: false

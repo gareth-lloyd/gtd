@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-13 11:47:04.636433
 contexts: []
 created: 2026-08-05 16:35:35.269380
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: APAC strategic accounts notion - familiarize
-updated: 2026-08-06 15:03:37.078228
+updated: 2026-10-13 11:47:04.636416
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-13 11:43:45.063566
 contexts: []
 created: 2026-10-06 12:09:46.093757
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review adil document from MD
-updated: 2026-10-08 12:24:39.147524
+updated: 2026-10-13 11:43:45.063543
 waiting_on: null
 waiting_since: null
 working_on: false

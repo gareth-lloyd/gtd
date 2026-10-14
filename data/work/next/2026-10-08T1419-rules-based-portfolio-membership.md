@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-10-08 14:19:49.339767
 defer_until: null
-due: 2026-10-08
+due: null
 energy: low
 id: 2026-10-08T1419-rules-based-portfolio-membership
 order: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Capture Rules-based portfolio membership idea.
-updated: 2026-10-09 13:31:32.632980
+updated: 2026-10-13 11:39:50.114869
 waiting_on: null
 waiting_since: null
 working_on: false

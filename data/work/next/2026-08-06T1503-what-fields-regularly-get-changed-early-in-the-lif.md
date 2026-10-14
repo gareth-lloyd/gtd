@@ -7,7 +7,7 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-06T1503-what-fields-regularly-get-changed-early-in-the-lif
-order: 1
+order: 2
 output: |
   ## Agent run 2026-08-06T12:23Z — PLAN (awaiting approval, no analysis run yet)
 
@@ -381,7 +381,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: What fields regularly get changed early in the life of a hotel - event analysis?
-updated: 2026-08-14 07:12:18.416672
+updated: 2026-10-13 11:47:12.498085
 waiting_on: null
 waiting_since: null
 working_on: false

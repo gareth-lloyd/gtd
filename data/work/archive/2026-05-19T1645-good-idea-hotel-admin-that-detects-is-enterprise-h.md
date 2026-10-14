@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-13 11:44:51.777055
 contexts:
 - craft
 - deep
@@ -96,7 +96,7 @@ tags: []
 time_minutes: 5
 title: 'good idea: hotel admin that detects is enterprise hotel and makes many fields
   read only (if they match right value)'
-updated: 2026-10-06 12:48:18.250173
+updated: 2026-10-13 11:44:51.777043
 waiting_on: null
 waiting_since: null
 working_on: false

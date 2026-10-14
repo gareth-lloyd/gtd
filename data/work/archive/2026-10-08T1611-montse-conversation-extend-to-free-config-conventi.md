@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-13 14:03:17.629595
 contexts: []
 created: 2026-10-08 16:11:46.690408
 defer_until: null
@@ -13,11 +13,11 @@ project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 5
-title: Montse conversation - extend to FREE config conventions by country
-updated: 2026-10-09 13:33:30.564745
+title: Rejig the work to include country-defaults
+updated: 2026-10-13 14:03:17.629581
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 e.g. german hotels should have german language enabled

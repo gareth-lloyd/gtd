@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-31T1545-emea-apac-code-review-it-s-my-problem
-order: null
+order: 4
 output: ''
 project: 2026-08-05-strategy
 source_id: null
 tags: []
 time_minutes: 5
 title: EMEA APAC code review. It's my problem.
-updated: 2026-09-15 14:53:18.008727
+updated: 2026-10-13 11:47:12.498085
 waiting_on: null
 waiting_since: null
 working_on: false

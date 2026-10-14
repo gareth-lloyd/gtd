@@ -80,7 +80,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Is jason's work visible enough? Linear tickets?
-updated: 2026-10-05 10:15:10.109531
+updated: 2026-10-13 11:48:43.962357
 waiting_on: null
 waiting_since: null
 working_on: false
