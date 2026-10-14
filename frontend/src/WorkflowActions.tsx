@@ -3,7 +3,7 @@ import { api, type AgentTarget, type Bucket, type Item } from "./api";
 import { Button } from "./Button";
 import { invalidateItemQueries, invalidateItemQueriesPreservingInbox } from "./ItemEdit";
 import { MergeButton } from "./MergeButton";
-import { GrabButton } from "./GrabBags";
+import { GrabRow } from "./GrabBags";
 import { useSelection } from "./SelectionContext";
 import { useProcessedItems } from "./ProcessedItemsContext";
 
@@ -68,104 +68,110 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
   const isArchive = item.status === "archive";
 
   return (
-    <div className="item-actions" onClick={(e) => e.stopPropagation()}>
-      {inTrash ? (
-        <>
-          <Button onClick={() => moveMut.mutate("inbox")} busy={isMoving("inbox")} disabled={busy}>
-            ↺ restore
-          </Button>
-          <Button
-            className="danger"
-            onClick={() => {
-              if (confirm(`Permanently delete "${item.title}"?`)) purgeMut.mutate();
-            }}
-            busy={purgeMut.isPending}
-            disabled={busy}
-          >
-            Purge
-          </Button>
-          <GrabButton env={env} item={item} />
-        </>
-      ) : isArchive ? (
-        <>
-          <Button onClick={() => moveMut.mutate("next")} busy={isMoving("next")} disabled={busy}>
-            ↺ uncomplete
-          </Button>
-          <Button
-            onClick={() => moveMut.mutate("reference")}
-            busy={isMoving("reference")}
-            disabled={busy}
-            title="File this completed item as reference"
-          >
-            → reference
-          </Button>
-          <GrabButton env={env} item={item} />
-          <Button
-            className="danger"
-            onClick={() => deleteMut.mutate()}
-            busy={deleteMut.isPending}
-            disabled={busy}
-          >
-            Delete
-          </Button>
-        </>
-      ) : (
-        <>
-          {(["next", "waiting", "someday", "reference"] as const).map((b) =>
-            item.status === b ? (
-              <Button key={b} aria-pressed disabled title={`Currently in ${b}`}>
-                {b}
-              </Button>
-            ) : (
-              <Button
-                key={b}
-                onClick={() => moveMut.mutate(b)}
-                busy={isMoving(b)}
-                disabled={busy}
-                title={
-                  b === "reference" ? "File as reference — also marks the item complete" : undefined
-                }
-              >
-                → {b}
-              </Button>
-            ),
-          )}
-          <Button
-            data-completing={completeMut.isPending ? "true" : undefined}
-            onClick={() => completeMut.mutate()}
-            busy={completeMut.isPending}
-            disabled={busy}
-          >
-            ✓ done
-          </Button>
-          <Button
-            onClick={() => launchMut.mutate("iterm")}
-            busy={isLaunching("iterm")}
-            disabled={busy}
-            title="Launch a Claude Code session in iTerm with this item as the prompt"
-          >
-            🤖 agent
-          </Button>
-          <Button
-            onClick={() => launchMut.mutate("desktop")}
-            busy={isLaunching("desktop")}
-            disabled={busy}
-            title="Open a Claude Code session in the Claude desktop app with this item as the prompt"
-          >
-            🖥️ desktop agent
-          </Button>
-          <MergeButton env={env} item={item} />
-          <GrabButton env={env} item={item} />
-          <Button
-            className="danger"
-            onClick={() => deleteMut.mutate()}
-            busy={deleteMut.isPending}
-            disabled={busy}
-          >
-            Delete
-          </Button>
-        </>
-      )}
-    </div>
+    <>
+      <div className="item-actions" onClick={(e) => e.stopPropagation()}>
+        {inTrash ? (
+          <>
+            <Button
+              onClick={() => moveMut.mutate("inbox")}
+              busy={isMoving("inbox")}
+              disabled={busy}
+            >
+              ↺ restore
+            </Button>
+            <Button
+              className="danger"
+              onClick={() => {
+                if (confirm(`Permanently delete "${item.title}"?`)) purgeMut.mutate();
+              }}
+              busy={purgeMut.isPending}
+              disabled={busy}
+            >
+              Purge
+            </Button>
+          </>
+        ) : isArchive ? (
+          <>
+            <Button onClick={() => moveMut.mutate("next")} busy={isMoving("next")} disabled={busy}>
+              ↺ uncomplete
+            </Button>
+            <Button
+              onClick={() => moveMut.mutate("reference")}
+              busy={isMoving("reference")}
+              disabled={busy}
+              title="File this completed item as reference"
+            >
+              → reference
+            </Button>
+            <Button
+              className="danger"
+              onClick={() => deleteMut.mutate()}
+              busy={deleteMut.isPending}
+              disabled={busy}
+            >
+              Delete
+            </Button>
+          </>
+        ) : (
+          <>
+            {(["next", "waiting", "someday", "reference"] as const).map((b) =>
+              item.status === b ? (
+                <Button key={b} aria-pressed disabled title={`Currently in ${b}`}>
+                  {b}
+                </Button>
+              ) : (
+                <Button
+                  key={b}
+                  onClick={() => moveMut.mutate(b)}
+                  busy={isMoving(b)}
+                  disabled={busy}
+                  title={
+                    b === "reference"
+                      ? "File as reference — also marks the item complete"
+                      : undefined
+                  }
+                >
+                  → {b}
+                </Button>
+              ),
+            )}
+            <Button
+              data-completing={completeMut.isPending ? "true" : undefined}
+              onClick={() => completeMut.mutate()}
+              busy={completeMut.isPending}
+              disabled={busy}
+            >
+              ✓ done
+            </Button>
+            <Button
+              onClick={() => launchMut.mutate("iterm")}
+              busy={isLaunching("iterm")}
+              disabled={busy}
+              title="Launch a Claude Code session in iTerm with this item as the prompt"
+            >
+              🤖 agent
+            </Button>
+            <Button
+              onClick={() => launchMut.mutate("desktop")}
+              busy={isLaunching("desktop")}
+              disabled={busy}
+              title="Open a Claude Code session in the Claude desktop app with this item as the prompt"
+            >
+              🖥️ desktop agent
+            </Button>
+            <MergeButton env={env} item={item} />
+            <Button
+              className="danger"
+              onClick={() => deleteMut.mutate()}
+              busy={deleteMut.isPending}
+              disabled={busy}
+            >
+              Delete
+            </Button>
+          </>
+        )}
+      </div>
+      <GrabRow env={env} item={item} />
+    </>
   );
 }

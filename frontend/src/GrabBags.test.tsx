@@ -17,7 +17,13 @@ vi.mock("./api", () => ({
 }));
 
 import { api } from "./api";
-import { GrabBagDetailView, GrabBagNavLinks, GrabBagsView, GrabButton } from "./GrabBags";
+import {
+  GrabBagDetailView,
+  GrabBagNavLinks,
+  GrabBagsNavSection,
+  GrabBagsView,
+  GrabRow,
+} from "./GrabBags";
 import { SelectionProvider } from "./SelectionContext";
 
 function makeItem(id: string, title: string): Item {
@@ -55,6 +61,7 @@ function bag(id: string, name: string, overrides: Partial<GrabBag> = {}): GrabBa
     created: "2026-10-14T09:00:00",
     updated: "2026-10-14T09:00:00",
     item_count: 1,
+    item_ids: [],
     ...overrides,
   };
 }
@@ -83,7 +90,7 @@ beforeEach(() => {
   vi.mocked(api.listGrabBags).mockResolvedValue([bag("b1", "Offsite"), bag("b2", "Calls")]);
   vi.mocked(api.listProjects).mockResolvedValue([]);
   vi.mocked(api.grabItem).mockResolvedValue(bag("b1", "Offsite", { item_count: 2 }));
-  vi.mocked(api.createGrabBag).mockResolvedValue(bag("b3", "New one"));
+  vi.mocked(api.createGrabBag).mockResolvedValue(bag("b3", "New one", { item_count: 0 }));
   vi.mocked(api.emptyGrabBag).mockResolvedValue(undefined as unknown as void);
 });
 
@@ -92,33 +99,62 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-describe("GrabButton", () => {
-  it("lists existing bags and grabs into the one clicked", async () => {
+describe("GrabRow", () => {
+  it("renders one hand button per bag and grabs directly on click", async () => {
     const user = userEvent.setup();
-    renderAt("/work/next", <GrabButton env="work" item={item} />);
-    await user.click(screen.getByRole("button", { name: /grab/i }));
-    const dialog = await screen.findByRole("dialog", { name: /grab/i });
-    await user.click(await screen.findByRole("button", { name: "Offsite" }));
+    renderAt("/work/next", <GrabRow env="work" item={item} />);
+    await user.click(await screen.findByRole("button", { name: "✋ Offsite" }));
     await waitFor(() => expect(api.grabItem).toHaveBeenCalledWith("work", "b1", "item-1"));
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
+    expect(screen.getByRole("button", { name: "✋ Calls" })).toBeInTheDocument();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
-  it("creates a new bag by name containing the item", async () => {
-    const user = userEvent.setup();
-    renderAt("/work/next", <GrabButton env="work" item={item} />);
-    await user.click(screen.getByRole("button", { name: /grab/i }));
-    await user.type(await screen.findByPlaceholderText(/new grab bag/i), "New one{Enter}");
-    await waitFor(() =>
-      expect(api.createGrabBag).toHaveBeenCalledWith("work", "New one", "item-1"),
-    );
+  it("marks bags already holding the item as pressed and not clickable", async () => {
+    vi.mocked(api.listGrabBags).mockResolvedValue([
+      bag("b1", "Offsite", { item_ids: ["item-1"] }),
+      bag("b2", "Calls"),
+    ]);
+    renderAt("/work/next", <GrabRow env="work" item={item} />);
+    const held = await screen.findByRole("button", { name: "✋ Offsite" });
+    expect(held).toHaveAttribute("aria-pressed", "true");
+    expect(held).toBeDisabled();
+    expect(screen.getByRole("button", { name: "✋ Calls" })).toBeEnabled();
   });
 
-  it("does not create a bag with a blank name", async () => {
+  it("renders nothing when there are no bags", async () => {
+    vi.mocked(api.listGrabBags).mockResolvedValue([]);
+    const { container } = renderAt("/work/next", <GrabRow env="work" item={item} />);
+    await waitFor(() => expect(api.listGrabBags).toHaveBeenCalled());
+    expect(container.querySelector(".grab-row")).toBeNull();
+  });
+});
+
+describe("GrabBagsNavSection", () => {
+  it("+ opens a name field that creates an empty bag", async () => {
     const user = userEvent.setup();
-    renderAt("/work/next", <GrabButton env="work" item={item} />);
-    await user.click(screen.getByRole("button", { name: /grab/i }));
-    await user.type(await screen.findByPlaceholderText(/new grab bag/i), "   {Enter}");
+    renderAt("/work/next", <GrabBagsNavSection env="work" />);
+    await user.click(screen.getByRole("button", { name: /new grab bag/i }));
+    await user.type(screen.getByPlaceholderText(/bag name/i), "New one{Enter}");
+    await waitFor(() => expect(api.createGrabBag).toHaveBeenCalledWith("work", "New one"));
+    await waitFor(() => expect(screen.queryByPlaceholderText(/bag name/i)).not.toBeInTheDocument());
+  });
+
+  it("ignores a blank name and Escape closes the field", async () => {
+    const user = userEvent.setup();
+    renderAt("/work/next", <GrabBagsNavSection env="work" />);
+    await user.click(screen.getByRole("button", { name: /new grab bag/i }));
+    await user.type(screen.getByPlaceholderText(/bag name/i), "   {Enter}");
     expect(api.createGrabBag).not.toHaveBeenCalled();
+    await user.keyboard("{Escape}");
+    expect(screen.queryByPlaceholderText(/bag name/i)).not.toBeInTheDocument();
+  });
+
+  it("links to the all-bags view", async () => {
+    renderAt("/work/next", <GrabBagsNavSection env="work" />);
+    expect(screen.getByRole("link", { name: /grab bags/i })).toHaveAttribute(
+      "href",
+      "/work/grab-bags",
+    );
   });
 });
 

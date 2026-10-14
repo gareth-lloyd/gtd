@@ -23,7 +23,7 @@ import { SearchBar, SearchView } from "./SearchComponents";
 import { ProjectNavLinks, ProjectsView, ProjectDetailView } from "./ProjectComponents";
 import { BucketRoute, DoneView, NextActionsView } from "./ItemList";
 import { TemplatesView } from "./TemplatesView";
-import { GrabBagDetailView, GrabBagNavLinks, GrabBagsView } from "./GrabBags";
+import { GrabBagDetailView, GrabBagsNavSection, GrabBagsView } from "./GrabBags";
 import { SelectionProvider, useSelection } from "./SelectionContext";
 import { DetailPanel } from "./DetailPanel";
 import { AgentLogView } from "./AgentLogView";
@@ -223,22 +223,25 @@ function AppShell() {
         )}
 
         <nav className="side-nav">
-          {SECTIONS.map((s) => (
-            <React.Fragment key={s}>
-              <NavLink
-                to={s}
-                end={s === "projects" || s === "grab-bags"}
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                {s.replace("-", " ")}
-                {s === "inbox" && inboxCount > 0 && (
-                  <span className="side-nav-count"> ({inboxCount})</span>
-                )}
-              </NavLink>
-              {s === "projects" && <ProjectNavLinks env={env} />}
-              {s === "grab-bags" && <GrabBagNavLinks env={env} />}
-            </React.Fragment>
-          ))}
+          {SECTIONS.map((s) =>
+            s === "grab-bags" ? (
+              <GrabBagsNavSection key={s} env={env} />
+            ) : (
+              <React.Fragment key={s}>
+                <NavLink
+                  to={s}
+                  end={s === "projects"}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  {s}
+                  {s === "inbox" && inboxCount > 0 && (
+                    <span className="side-nav-count"> ({inboxCount})</span>
+                  )}
+                </NavLink>
+                {s === "projects" && <ProjectNavLinks env={env} />}
+              </React.Fragment>
+            ),
+          )}
         </nav>
 
         {onNextPage && (

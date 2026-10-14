@@ -82,6 +82,7 @@ export interface GrabBag {
   created: string;
   updated: string;
   item_count: number;
+  item_ids: string[];
 }
 
 export interface EnvConfig {

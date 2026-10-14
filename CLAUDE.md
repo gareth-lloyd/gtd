@@ -195,11 +195,12 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
 - **Grab bags**: throwaway, named collections of items to look at in one
   place. Stored as `data/<env>/grabbags/<id>.md` (frontmatter: `name`,
   `created`, `updated`, `items: [ids]`). Membership lives only on the bag —
-  grabbing or emptying never touches an item file. The `✋ grab` action on
-  any item opens a dialog listing existing bags (click to add) plus a
-  new-bag name field. Side nav shows "grab bags" under projects with the 3
-  most recently touched; `/<env>/grab-bags[/<id>]` are the list and detail
-  views. "Empty" deletes the bag (items unchanged, not completed). A bag is
+  grabbing or emptying never touches an item file. Bags are created only
+  via the `+` next to "grab bags" in the side nav (under projects, which
+  also lists the 3 most recently touched). Every item's actions get a
+  second row of `✋ <bag>` buttons — one click grabs; bags already holding
+  the item show pressed. A bag created empty is never auto-pruned.
+  `/<env>/grab-bags[/<id>]` are the list and detail views. "Empty" deletes the bag (items unchanged, not completed). A bag is
   auto-deleted (on any read) once every item in it is archived, trashed or
   purged — reference does NOT count as terminal. No history is kept.
 

@@ -994,11 +994,18 @@ class TestGrabBags:
         bag = r.json()
         assert bag["name"] == "Prep"
         assert bag["item_count"] == 1
-        assert set(bag) >= {"id", "name", "created", "updated", "item_count"}
+        assert set(bag) >= {"id", "name", "created", "updated", "item_count", "item_ids"}
+        assert bag["item_ids"] == [item["id"]]
 
         r = api.get("/api/envs/work/grab-bags/")
         assert r.status_code == 200
         assert [b["id"] for b in r.json()] == [bag["id"]]
+
+    def test_create_without_item_is_listed_empty(self, api):
+        r = api.post("/api/envs/work/grab-bags/", {"name": "Prep"}, format="json")
+        assert r.status_code == 201
+        assert r.json()["item_ids"] == []
+        assert [b["name"] for b in api.get("/api/envs/work/grab-bags/").json()] == ["Prep"]
 
     def test_create_rejects_blank_name(self, api):
         r = api.post("/api/envs/work/grab-bags/", {"name": "  "}, format="json")

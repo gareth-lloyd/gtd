@@ -25,103 +25,109 @@ function itemCount(n: number): string {
   return n === 1 ? "1 item" : `${n} items`;
 }
 
-/** "✋ grab": add this item to an existing grab bag, or a new one named on the spot. */
-export function GrabButton({ env, item }: { env: string; item: Item }) {
-  const [open, setOpen] = useState(false);
+/**
+ * A row of "✋ <bag>" buttons under an item's workflow actions — one click
+ * grabs the item into that bag. Bags already holding the item show pressed.
+ * Bags are only created from the side nav's "+".
+ */
+export function GrabRow({ env, item }: { env: string; item: Item }) {
+  const qc = useQueryClient();
+  const { data: bags } = useGrabBags(env);
+  const grabMut = useMutation<GrabBag, Error, GrabBag>({
+    mutationFn: (bag) => api.grabItem(env, bag.id, item.id),
+    onSuccess: (_, bag) => {
+      qc.invalidateQueries({ queryKey: ["grab-bags", env] });
+      toasts.show("success", `Grabbed "${item.title}" into ${bag.name}`);
+    },
+  });
+  if (!bags || bags.length === 0) return null;
   return (
-    <>
-      <Button onClick={() => setOpen(true)} title="Put this item in a grab bag">
-        ✋ grab
-      </Button>
-      {open && <GrabDialog env={env} item={item} onClose={() => setOpen(false)} />}
-    </>
+    <div className="item-actions grab-row" onClick={(e) => e.stopPropagation()}>
+      {bags.map((b) => {
+        const held = b.item_ids.includes(item.id);
+        return (
+          <Button
+            key={b.id}
+            aria-pressed={held || undefined}
+            onClick={() => grabMut.mutate(b)}
+            busy={grabMut.isPending && grabMut.variables?.id === b.id}
+            disabled={held || grabMut.isPending}
+            title={held ? `Already in ${b.name}` : `Grab into ${b.name}`}
+          >
+            ✋ {b.name}
+          </Button>
+        );
+      })}
+    </div>
   );
 }
 
-function GrabDialog({ env, item, onClose }: { env: string; item: Item; onClose: () => void }) {
+/** Side-nav "grab bags" entry with a "+" to name a new bag, then the recent bags. */
+export function GrabBagsNavSection({ env }: { env: string }) {
   const qc = useQueryClient();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
-  const { data: bags, isLoading } = useGrabBags(env);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    if (adding) inputRef.current?.focus();
+  }, [adding]);
 
-  const done = (bag: GrabBag) => {
-    qc.invalidateQueries({ queryKey: ["grab-bags", env] });
-    toasts.show("success", `Grabbed "${item.title}" into ${bag.name}`);
-    onClose();
+  const close = () => {
+    setAdding(false);
+    setName("");
   };
-  const grabMut = useMutation<GrabBag, Error, GrabBag>({
-    mutationFn: (bag) => api.grabItem(env, bag.id, item.id),
-    onSuccess: done,
-  });
   const createMut = useMutation<GrabBag, Error, string>({
-    mutationFn: (bagName) => api.createGrabBag(env, bagName, item.id),
-    onSuccess: done,
+    mutationFn: (bagName) => api.createGrabBag(env, bagName),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["grab-bags", env] });
+      close();
+    },
   });
-  const busy = grabMut.isPending || createMut.isPending;
-
-  const create = () => {
-    const trimmed = name.trim();
-    if (trimmed && !busy) createMut.mutate(trimmed);
-  };
 
   return (
-    <div
-      className="capture-overlay"
-      onClick={onClose}
-      onKeyDown={(e) => {
-        if (e.key === "Escape") {
-          e.stopPropagation();
-          onClose();
-        }
-      }}
-    >
-      <div
-        className="capture grab-dialog"
-        role="dialog"
-        aria-label="Grab into a bag"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="grab-dialog-bags">
-          {isLoading && <span className="search-empty">Loading…</span>}
-          {bags?.map((b) => (
-            <Button
-              key={b.id}
-              onClick={() => grabMut.mutate(b)}
-              busy={grabMut.isPending && grabMut.variables?.id === b.id}
-              disabled={busy}
-              title={`${itemCount(b.item_count)} · ${fmtAge(b.created)} old`}
-            >
-              {b.name}
-            </Button>
-          ))}
-          {bags?.length === 0 && <span className="search-empty">No grab bags yet.</span>}
-        </div>
+    <>
+      <div className="side-nav-row">
+        <NavLink to="grab-bags" end className={({ isActive }) => (isActive ? "active" : "")}>
+          grab bags
+        </NavLink>
+        <button
+          type="button"
+          className="side-nav-add"
+          aria-label="New grab bag"
+          title="New grab bag"
+          onClick={() => (adding ? close() : setAdding(true))}
+        >
+          +
+        </button>
+      </div>
+      {adding && (
         <form
-          className="grab-dialog-new"
+          className="side-nav-new"
           onSubmit={(e) => {
             e.preventDefault();
-            create();
+            const trimmed = name.trim();
+            if (trimmed && !createMut.isPending) createMut.mutate(trimmed);
           }}
         >
           <input
             ref={inputRef}
             type="text"
-            placeholder="New grab bag name…"
+            placeholder="Bag name…"
             value={name}
-            disabled={busy}
+            disabled={createMut.isPending}
             onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                e.stopPropagation();
+                close();
+              }
+            }}
           />
-          <Button type="submit" busy={createMut.isPending} disabled={busy || !name.trim()}>
-            + New bag
-          </Button>
         </form>
-        <div className="capture-hint">Esc to cancel · grabbing doesn't change the item</div>
-      </div>
-    </div>
+      )}
+      <GrabBagNavLinks env={env} />
+    </>
   );
 }
 
@@ -150,7 +156,9 @@ export function GrabBagsView() {
   const { data: bags, isLoading } = useGrabBags(env);
   if (isLoading) return <div className="empty">Loading…</div>;
   if (!bags || bags.length === 0) {
-    return <div className="empty">No grab bags. Use ✋ grab on any item to start one.</div>;
+    return (
+      <div className="empty">No grab bags. Use + next to grab bags in the menu to start one.</div>
+    );
   }
   return (
     <ul className="project-index">

@@ -72,6 +72,7 @@ class GrabBagSerializer(serializers.Serializer):
             "created": instance.created.isoformat(),
             "updated": instance.updated.isoformat(),
             "item_count": len(instance.items),
+            "item_ids": list(instance.items),
         }
 
 
