@@ -57,12 +57,50 @@ output: |
   - `skills/propose-hypothesis-msg/SKILL.md` already defines a compact format for messaging: lead with the diagnosis, under 60 lines, ruled-out causes collapsed into one row, empty sections omitted, CS summary last. Nothing in the pipeline calls it. It appears only in the README as a manual command, so messaging tickets get the verbose base format.
 
   Levers, cheapest first: route MSG tickets to the -msg Step 7, or bring its formatting rules into the base. Give the base template a length target and a BLUF line. Cap the expected_behavior explanation, since it is the bucket Matías wants auto-handled and the place where verbosity hurts most. Check with Dmitry and Laura first, because Dmitry is already on the output format.
+
+  ## Agent run 2026-10-14T13:49: Dmitry's Workup output work
+  I found no output-format work by Dmitry Ryzhkov (GitHub dryzhkov-canary).
+  - canary: none of his PRs since 2026-09-15 touch agent-plugins/claude-plugins/investigate. His open PRs are scheduler V2 work (MSG-5838, MSG-6545).
+  - agents repo: he has no PRs and no commits.
+  - Linear: he filed no Workup tickets, and none of the Workup tickets updated in the last 30 days are assigned to him.
+  - Slack: no messages from him about format or readability.
+
+  The only Workup item from him is the messaging triage stats for the week of Oct 5, which Matías forwarded to #project-workup on 2026-10-09 (https://canarytechnologies.slack.com/archives/C0AL1T2H43V/p1791551518858509):
+  - about 50 tickets, about 15 cleared a day against 12 arriving
+  - top issues: AI reply quality ~27%, GJ scheduling/timing ~24%, Booking.com/Expedia ~19%
+  - about half resolved during triage
+  - "Workup initial investigations: about 50% accurate"
+
+  Laura asked him for detail. He called the 50% "a bit of crude estimate" and posted a breakdown image (https://canarytechnologies.slack.com/archives/C0AL1T2H43V/p1791561456967539), which I couldn't read through the tools. His 50% is roughly consistent with the backtest's 52.7%.
+
+  Conclusion: Matías's "Dmitry is thinking about that" (2026-10-08) has not yet produced a visible artifact. Related: Laura's TOOL-842 (No Action auto-close, shadow first) https://linear.app/canary-technologies/issue/TOOL-842 and TOOL-825 (config auto-close, In Review) https://linear.app/canary-technologies/issue/TOOL-825.
+
+  ## Agent run 2026-10-14T17:47: Workup workstreams (PRs 2026-09-14 to 10-14) vs Linear
+  Sources: canary origin/master and open PRs touching agent-plugins/claude-plugins/investigate, backend/canary/linear_agent, canary_mcp, backend/mcp-server; agents repo PRs (gh) in the window. About 150 PRs. Joined against Linear TOOL issues. No external writes.
+
+  ### Workstreams and their Linear projects
+  1. Accuracy: declarations, duplicates, auto-close (Laura, ~35 PRs). Project "AI Workup: Accuracy Phase 1-5" (P-TOOL-2140), Implementation, target 2026-10-06 (passed; last update 09-30). Covers TOOL-706/708/709/755/756/757/822/837/839 duplicates auto-close, TOOL-833 No Action declare, TOOL-825 config auto-close (In Review, agents#409 + canary#59747 open), TOOL-842 No Action auto-close (Backlog), TOOL-773 gathering unskippable for Sonnet 5.5 (In Progress, no PR seen).
+  2. Investigate plugin pipeline/loop/selection (Laura, Sam, Kevin): TOOL-607/691/692/694/695/705/712/713/715/716/717/724/733/744/745/795. Same project.
+  3. run_sql for Workup (Asher, ~30 PRs). "AI Workup: Canary MCP SQL Tool" (P-TOOL-2219), Completed 10-01. Follow-ons TOOL-813 EU/AP enablement (In Review, canary#59133, agents#389) and TOOL-790/797/804/807/815/818 under "Canary MCP: Permissions and Reliability".
+  4. Nudge for Info (Sam). "AI Workup: Nudge for Info" (P-TOOL-2236), target 2026-10-16. TOOL-734/736-740 all In Review/In Progress, open PRs agents#400/406/410/412/417/424, canary#59276. TOOL-741 metrics and TOOL-742 turn-on-for-all-teams unassigned Todo.
+  5. Handoff reliability and monitoring (Sam, Kevin). "AI Workup: Monitoring" (P-TOOL-2482) holds TOOL-765/823 only. TOOL-609/646/748/751/752/786/824 have no project.
+  6. Replay harness and offline evaluation (Laura). TOOL-743 (Done) in Accuracy covers agents#376/381-384; #290/291/292/401 have no ticket.
+
+  ### Work not well tracked in Linear
+  - Jason Flax's Workup research stack: agents#232/235/236/237/242/243/244/293/332 (decision capture, isolated local runner, Jeb proposal selection, Jeb shadow eval, regional SQL confinement) and canary drafts #57639/#57644/#57670. All open. No Linear ticket; his Linear is Orbital (ORB-*), none mention Workup. agents#237 overlaps TOOL-813. #332 says "Workup owners still need to discuss storage". This is the Orbital path Blake described on 10-08.
+  - canary#59753 "Make the Workup diagnosis report compact" (Laura, open, updated 10-13): 350-word template, from a 1,000-word median; MSG wrapper reuses the base. This is the readability problem from the 10-08 meeting and the lever from run 2. No ticket.
+  - Next-step judge and Quality page: agents#408 (score unanswered asks), #207, #375 (Quality page readable). No ticket; "Next-Step Metric" project is Completed (Aug).
+  - Model and runtime config: agents#334 (pin Sonnet 5), #335 (price Sonnet 5.5), #394 (deny Workflow/ScheduleWakeup), #202 (sync sub-agent hook). No tickets. "Faster, Cheaper Runs" (P-TOOL-2141) is Planned and untouched since Aug.
+  - Routing and handoff tweaks: canary#56391 (missing-info tickets to Workup), #56276 (routed ticket is not its own duplicate), #58172 (Jason, deployment env in handoffs), #59858 (drop shadow selection, open). No tickets.
+  - Other teams adding checks and gatherers: Luiza #59257 (cites SDM-5164/5166 only), CT-fgario SDM-5126, Joshua Hart SDM-4981, Ashish PMS-10486/10492, Guido #55360 / AD-8340 (open since 09-03, stale). Tracked in their teams but not linked to any Workup project. "Staged Rollout to Eng-Routed Teams" (P-TOOL-2148) is Planned and untouched since 08-10.
+  - Engram eval (Stephanie): agents#245, canary#58938 drafts under FRO-252 / EE-2178 ("Engram Memory v2"). Tracked, but outside Workup.
+  - Stale or empty: "Workup Plugin Phase 6" (P-TOOL-2473) has no issues. SEC-809 "Send the /events trigger key" is Backlog, but the work shipped in canary#58516 under TOOL-639. MSG project "Triage: Workup Investigation for Messaging Threads" (P-MSG-2154) is Backlog, target 08-28. Accuracy Phase 1-5 is past its target date.
 project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: 15
 title: 'Review Eng Leads 2026-10-08 Workup triage discussion: problems and owners'
-updated: 2026-10-13 15:06:32.455600
+updated: 2026-10-14 17:47:33.834685
 waiting_on: null
 waiting_since: null
 working_on: true

@@ -9,7 +9,7 @@ defer_until: null
 due: null
 energy: high
 id: 2026-04-10T0840-experiment-with-how-to-specify-gjms-in-r
-order: 3
+order: 4
 output: |
   ## Agent run 2026-06-18T16:24
 
@@ -232,6 +232,129 @@ output: |
   `guest_journey/constants.py:46-76` (IHGHardcodedSegment),
   `onboarding/configuration_providers/ihg/guest_journey_messages_provider.py` (region/brand branching),
   `onboarding/configuration_providers/configs/guest_journey_message.py:81-131` (variant spec).
+
+  ## Agent run 2026-10-14T15:04 — fit with the ENT-7726 rules registry
+
+  > Follow-up asked: "In the context of this proposal, look at the system which is currently
+  > being prototyped using this plan: ~/.claude/plans/zippy-soaring-metcalfe.md. The predicates
+  > e.g. SuperSetOf plus the `reader` mechanism should come in handy. Report back your conclusions"
+
+  Read: the plan (all 657 lines), `predicates.py` in the ent-7726 worktrees, `problem_with_define`
+  and `get_actual_hotel_setting` on `glloyd/ent-7726-merge-and-boot-checks` (#59059),
+  `GroupUseCaseService` and `GuestJourneyMessageGroupUseCase`, and `onboarding/models/use_case.py`.
+  Nothing was run. No repo changes.
+
+  ### Conclusion: yes, it fits. Two earlier calls change
+  **1. `SupersetOf` conjunction gives the UNION primitive, so no new resolver is needed.**
+  Run 2 asked for a `collect_set_valued_setting` union resolver, because IHG message sets add up:
+  the regional base, plus a luxury-brand add-on, plus pilot extras. In the registry, every rule
+  that matches a hotel applies, and their constraints are joined with AND.
+  `AllOf(SupersetOf(*AMER_BASE), SupersetOf(*KIMPTON_EXTRAS))` means "the hotel has at least the
+  union of both lists". The planned `AllOf.candidate_values` merged candidate (plan step 13,
+  "union of its SupersetOf parts, in authored order") is that union, computed. So:
+  - selection is `SupersetOf(...)` on a use-case-set key;
+  - the union falls out of the conjunction;
+  - `satisfiable` and the boot checks already cover it. For example, a PMS rule
+    `SubsetOf(...allowed...)` that forbids a message a brand requires fails at boot. That is the
+    real `PMS_CAPABILITY` use: "this PMS can't drive pre-arrival".
+
+  `SupersetOf` (not `Equals`) is also the right semantics for drift. Ops-added or hotel-specific
+  extra messages don't drift. Only a MISSING required message does.
+
+  **2. The `reader` mechanism replaces run 1's "virtual key" hack, and makes conformity and drift
+  work.** Run 1 needed a key that generic apply skips. The plan's step 9 reader
+  (`services/value_readers.py`, per-key, "consulted only inside the conformity comparison, NOT by
+  `get_actual_hotel_setting`") does that properly.
+  - The reader for `guest_journey.message_use_cases` returns `frozenset(use_case_identifier)` from
+    `GuestJourneyMessageGroupUseCase` for the hotel. Model:
+    `onboarding/models/guest_journey_message_use_case.py`, unique per (hotel, use_case_identifier).
+    Stale associations are already filtered by `GroupUseCaseService.get_guest_journey_messages_by_use_cases`.
+  - Payoff: `hotel_conforms`, drift, monitoring and the config-drift view report "hotel X is missing
+    CHECKOUT_SAME_DAY" with no new code, and `ConformityError.failed_rules` cites the rule.
+  - The planned guard, "finalize() rejects a brand plain value or any default= on a key with a
+    reader", is exactly what we want here. RBC never writes this key, so generic
+    `apply_portfolio_settings` cannot touch it. Writing (materialization) stays with the dedicated
+    GJM plan. Selection and materialization split along the reader boundary.
+  - Registration follows the gdpr pattern: guest_journey or onboarding registers its reader from a
+    `configuration_rules/` module picked up by autodiscover. The engine doesn't import
+    guest_journey. Expect a new dependency edge in `ci/deps/opinionated_state.py`.
+
+  ### How the plan consumes it
+  The GJM plan reads the merged entry's `constraint`, not a value. Its required set =
+  the merged `SupersetOf` candidate. Its forbidden set = the `SubsetOf` parts. It then:
+  - looks up each required use-case in the spec registry (run 2: factories, per portfolio);
+  - materializes the missing ones through the existing `update_or_create_guest_journey_message`
+    path.
+
+  It needs one small public helper, e.g. `required_members(predicate) -> list`. Don't make callers
+  reach into `candidate_values`, which exists for satisfiability, not for writes. It also keeps
+  "value reads never return a predicate" true.
+
+  ### Gaps: what the registry does NOT give us today
+  - **Key universe.** `problem_with_define` raises `unknown setting key` for anything that isn't a
+    Django field in the generated `SettingKey` aliases. `guest_journey.message_use_cases` is not a
+    field. It needs a "virtual setting" declaration: the key, an item domain (the use-case enum),
+    and its reader. `_mismatch` and `can_store` must check items against that domain. Typing cost:
+    a seventh key alias means another overload on BOTH `GroupAttributes.define` and
+    `ScopedRules.define`. That is the "fourteen-signature edit" risk the plan already flags.
+    Alternative: allow virtual keys only with predicates and type their `value` as `Predicate`.
+  - **Brand selection lives in the brand tree, which is winner-takes-one.** GJM selection is a
+    brand preference. It is not LAW / PMS_CAPABILITY / PLATFORM, and the registry's `Scope` is
+    countries only, with no brand or MSA dimension. So the IHG brand×region union only happens if
+    it is authored as registry rules, and brands are not an authority. Options:
+    (a) Brand tree, `FINAL SupersetOf(...)`, with each defining node restating its list from Python
+        constants (`SupersetOf(*AMER_BASE, *KIMPTON_EXTRAS)`). No engine change. It works if the
+        IHG tree already has the brand×region nodes. NOT verified. Check the IHG tree before
+        choosing.
+    (b) An engine change: mark a key "conjunctive", so the brand resolver joins the predicates of
+        every matching group with AND instead of picking the winner. With predicates this is
+        well-defined and boot-checkable. It is the clean form of run 2's union resolver, but it
+        changes the brand resolver, which the plan deliberately leaves alone.
+    Recommend (a) first and (b) only if restatement blows up.
+  - **No negative predicate.** De-selection (the deprecated IHG pre-arrival set,
+    `use_cases_to_delete`) needs "contains none of". `SubsetOf` would mean listing every allowed
+    member. Add `NoneOf(*values)` / `DisjointFrom`, the mirror of `SupersetOf`. Its candidates are
+    `[]`, and it merges with the `SupersetOf` union candidate. Small, but must go in the
+    satisfiability matrix test. The GJM plan then deletes the forbidden ones that are present.
+  - **Defaults don't union.** Two co-matching CONVENTION rules on one key is a boot error, and a
+    binding default is "first that satisfies". So don't try to express selection as defaults. The
+    constraint-driven plan above avoids defaults entirely, which is consistent with the
+    reader-key rule that rejects `default=`.
+  - **StrEnum value collisions.** `welcome_message`, `mid_stay_message` and
+    `post_check_out_message` exist in more than one portfolio enum. StrEnum `==` and hash compare
+    by string, so `BW.WELCOME_MESSAGE == Wyndham.WELCOME_MESSAGE`. Predicates compare by `==`.
+    Conformity is fine, because a hotel belongs to one portfolio. But the item-domain check can't
+    tell the portfolio enums apart, and a single cross-portfolio spec registry dict would collide.
+    Keep the spec registry per portfolio (as run 1 had it), or key it by
+    (portfolio, use-case).
+  - **Exists vs enabled.** The reader should report "message exists" (pilot messages are selected
+    but disabled at go-live). An enabled-set check, if wanted, is a second key with its own reader.
+  - **Not yet built.** `SupersetOf` is planned for #59043 and is not in any worktree yet.
+    `value_readers.py` is plan step 9 (PR 2) and not started. Both are prerequisites. Nothing here
+    needs the convention work (PR 4).
+
+  ### Updated recommendation
+  1. Keep the selection / materialization split. Swap run 2's "new union resolver" for
+     `SupersetOf` + conjunction, and swap run 1's "virtual key skipped by apply" for a
+     reader-backed key.
+  2. Engine asks to feed back into ENT-7726 (not urgent; after PR 2):
+     - virtual-setting registration (key + item domain + reader);
+     - a `NoneOf` predicate;
+     - a public `required_members` helper.
+     Flag the brand-tree winner-takes-one question as an open design point. Don't build it yet.
+  3. Spike (replaces run 2's IHG spike, after `SupersetOf` and readers land):
+     - register the `guest_journey.message_use_cases` reader;
+     - put `FINAL SupersetOf(...)` on Wyndham Connect live;
+     - assert that `hotel_conforms` flags a live Wyndham hotel whose CHECKOUT_SAME_DAY association
+       was deleted, and that the merged constraint's required set equals what
+       `WyndhamGuestJourneyMessagesProvider` builds today.
+     Then try IHG AMER + Kimpton as two `SupersetOf` defines to test option (a).
+
+  Plan: ~/.claude/plans/zippy-soaring-metcalfe.md. Stack: #59043 / #59047 / #59059
+  (https://github.com/canary-technologies-corp/canary/pull/59043,
+  https://github.com/canary-technologies-corp/canary/pull/59047,
+  https://github.com/canary-technologies-corp/canary/pull/59059), ENT-7726
+  (https://linear.app/canary-technologies/issue/ENT-7726/implement-binding-rules-tree-prototype).
 project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags:
@@ -239,7 +362,7 @@ tags:
 time_minutes: 60
 title: Experiment with how to specify Guest journey messages in Rules based configuration.
   Circulate doc
-updated: 2026-10-06 12:48:21.417649
+updated: 2026-10-14 17:59:56.486087
 waiting_on: null
 waiting_since: null
 working_on: false

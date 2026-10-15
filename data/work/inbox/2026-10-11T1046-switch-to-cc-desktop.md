@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: switch to CC desktop
-updated: 2026-10-13 11:07:39.331589
+updated: 2026-10-14 13:15:35.022837
 waiting_on: null
 waiting_since: null
 working_on: false
