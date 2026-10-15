@@ -1,21 +1,42 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-15 13:02:43.002685
 contexts: []
-created: &id001 2026-10-14 20:07:32.072781
+created: 2026-10-14 20:07:32.072781
 defer_until: null
 due: null
 energy: null
 id: 2026-10-14T2007-file-linear-ticket-make-guest-journey-use-case-ide
 order: null
-output: ''
+output: |-
+  ## Agent run 2026-10-15 13:00:15.070839
+
+  NOT FILED. Gareth asked for a redraft to review before creation.
+  Redraft: /private/tmp/claude-501/-Users-garethlloyd-projects-canary/be0b57d7-68b6-4eae-9601-b51901b66f4a/scratchpad/ticket-body.md (session scratchpad; copy it if needed)
+  Planned create: team Enterprise, title "Make guest journey use-case identifiers unique across portfolios", unassigned, relatedTo ENT-7726 (https://linear.app/canary-technologies/issue/ENT-7726/implement-binding-rules-tree-prototype).
+
+  Duplicate check: none. Closest is ENT-5310, canceled (https://linear.app/canary-technologies/issue/ENT-5310/address-wyndham-check-in-message-use-case-overlap-with-migration-step).
+
+  Claims checked against code:
+  - Shared identifiers table: correct (use_case.py). Addon overlap list: correct.
+  - Rebrand claim needed softening: the configure plan finds the message by use case and then overwrites its content (configure_guest_journey_messages.py ~1531-1583), so wrong content only persists until a new-family plan rewrites that message.
+  - The configure plan already falls back to fetch_root_message_by_type when the use-case lookup misses (~1342-1350), so deleting foreign associations then re-linking under the prefix works for system messages.
+  - Demo hotels use the BW enum (demo_guest_journey_messages_provider.py:50). Staging portfolios reuse the prod enums, so the prefix belongs to the enum, not Portfolio.Identifier.
+  - remove_foreign_portfolio_use_case_associations already computes "other enums minus current". With unique values the subtraction does nothing, so the fix is a simplification plus a docstring update.
+  - set_guest_journey_message_for_use_case raises MessageAlreadyAssignedError rather than duplicating (guest_journey_message is OneToOne). A wrong-form read during the rollout fails loudly.
+
+  Edits to your version: "data migration" vs "management command" reconciled to the command; import-time check replaces the separate "test enforces" criterion; release sequence kept as one line with an example; restored the one-line list of bare strings outside the enums (tmp scripts, tests, Snowflake).
+
+  ## Agent run 2026-10-15 13:03:09.551539
+
+  FILED: ENT-7901 (https://linear.app/canary-technologies/issue/ENT-7901/make-guest-journey-use-case-identifiers-unique-across-portfolios). Enterprise team, Triage, Low priority, unassigned, related to ENT-7726. Opens with a note that this is a potential future footgun the current code works around, and a candidate for a later fix. The body is the reviewed redraft from the previous run.
 project: null
 source_id: null
 tags: []
 time_minutes: null
 title: 'File Linear ticket: make guest journey use-case identifiers unique across
   portfolios'
-updated: *id001
+updated: 2026-10-15 13:03:09.551539
 waiting_on: null
 waiting_since: null
 working_on: false
@@ -53,11 +74,11 @@ The enums in `onboarding/models/use_case.py` reuse the same identifier for diffe
 
 ## Proposal
 
-Prefix every identifier with its portfolio family, for example `wyndham.mid_stay_message`, and migrate the existing rows.
+By editing the StrEnum definitions, prefix every identifier with its portfolio family, for example `wyndham.mid_stay_message`, and migrate the existing rows.
 
-- The prefix names the enum's family, not `Portfolio.Identifier`. Staging portfolios (`IHG_STAGING`, `WYNDHAM_STAGING`) reuse the production enums, and demo hotels use the Best Western enum outside any Best Western portfolio.
-- On rebrand, delete every association whose prefix isn't the new family. The configure plan finds the system message by `GuestJourneyMessage.type` and links it under the new family's identifier. This replaces today's deliberate rebind of shared strings.
-
+- The prefix names the enum's brand MSA - 'wyndham' for the Wyndham StrEnum
+- Create a one-off migration management command to select all use-case instances by hotel portfolio and identifier and convert them to the new values.
+- Institute a runtime check in the same file which asserts the length of the combined strenums is the same as the sum of the individual enums
 ## Scope
 
 1. Change the enum values in `use_case.py`. Services read and write through `str(use_case)`, so `group_use_case_service.py` needs no logic change.
@@ -65,24 +86,9 @@ Prefix every identifier with its portfolio family, for example `wyndham.mid_stay
    - An identifier found in only one family's enum gets that family's prefix.
    - A shared identifier gets the hotel's current portfolio family.
    - A shared identifier on a hotel with no portfolio family needs a decision. Demo hotels are the known group, and their rows come from the Best Western enum.
-3. Rewrite `remove_foreign_portfolio_use_case_associations` to delete by prefix. Leave hotels with no portfolio family alone.
-4. Update the bare identifier strings outside the enums:
-   - rollout recipes and management commands;
-   - `tmp/repeatable` and `tmp/useful` scripts, e.g. `tmp/useful/deactivated_hotels_by_script_type.py` and `tmp/repeatable/ihg/tag_deprecated_mid_stay_custom_message.py`;
-   - tests;
-   - Snowflake or analytics queries on `use_case_identifier`.
-5. Ship in three releases so a rolling deploy never runs a reader that misses rows:
-   1. Readers accept both the bare and the prefixed form. Writers still write bare strings.
-   2. Run the data migration, and switch writers to prefixed strings.
-   3. Remove support for bare strings.
+3. Fix `remove_foreign_portfolio_use_case_associations` to delete using the correct enum values. 
+5. design a safe releases sequence to avoid gaps where the wrong enum values are used to filter / create during onboarding scripts. 
 
-   `guest_journey_message` is one-to-one with its association. A pod that misses an existing row and tries to link the message again fails with `MessageAlreadyAssignedError`, not a duplicate row.
-
-## Alternatives considered
-
-- **Rename only the three shared identifiers.** This touches fewer rows, but the data still can't show which family a row belongs to. The next new identifier can collide again unless a test catches it.
-- **One shared identifier per system slot.** This doesn't work. Identifiers name content, and one slot carries different content per portfolio and per region.
-- **A `family` column instead of a prefix.** This gives a structured, filterable field, but it needs a schema migration PR. The unique constraint would also have to stop a hotel holding rows from two families.
 
 ## Out of scope
 

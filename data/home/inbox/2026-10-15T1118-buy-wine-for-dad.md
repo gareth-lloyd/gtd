@@ -2,18 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-14 16:31:19.545387
+created: &id001 2026-10-15 11:18:53.035713
 defer_until: null
 due: null
 energy: low
-id: 2026-10-14T1631-call-matt
+id: 2026-10-15T1118-buy-wine-for-dad
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: call matt
+title: buy wine for dad
 updated: *id001
 waiting_on: null
 waiting_since: null

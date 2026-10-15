@@ -82,7 +82,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: look at accor doc in my gmail inbox. what is it?
-updated: 2026-10-14 19:50:00
+updated: 2026-10-15 10:57:51.496042
 waiting_on: null
 waiting_since: null
 working_on: false

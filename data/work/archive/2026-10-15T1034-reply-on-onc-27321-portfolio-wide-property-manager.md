@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-15 10:56:56.542444
 contexts:
 - react
 created: 2026-10-15 10:34:12.683212
@@ -17,7 +17,7 @@ tags:
 - linear
 time_minutes: 10
 title: 'Reply on ONC-27321: portfolio-wide Property Manager grant needs shell-plus'
-updated: 2026-10-15 10:34:12.766985
+updated: 2026-10-15 10:56:56.542435
 waiting_on: null
 waiting_since: null
 working_on: false

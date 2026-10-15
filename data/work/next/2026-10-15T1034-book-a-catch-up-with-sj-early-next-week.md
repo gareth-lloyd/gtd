@@ -1,0 +1,43 @@
+---
+area: null
+completed_at: null
+contexts:
+- react
+created: 2026-10-15 10:34:12.515080
+defer_until: null
+due: 2026-10-15
+energy: low
+id: 2026-10-15T1034-book-a-catch-up-with-sj-early-next-week
+order: null
+output: |
+  ## Agent run 2026-10-15T14:58
+  Context: SJ (ssawhney@, New York / ET) offered Fri; you asked for early next week; SJ: "you find time :)". DM: https://canarytechnologies.slack.com/archives/D04PM0J572Q/p1791992991948509
+  Nothing booked or sent yet. Both calendars checked for Mon 19 – Wed 21 Oct.
+
+  Why it's tight: SJ's day starts 9am ET (16:00 EEST). You have "Unavailable" from 17:00 EEST (10am ET), and SJ is booked solid 9am–1:30pm ET Mon/Tue.
+
+  Candidate slots (EEST / ET):
+  1. **Tue 20 Oct 15:30–16:00 / 8:30–9:00 ET** (recommended). Both free from 15:00; it's before SJ's 9am block. Early for SJ.
+  2. Wed 21 Oct 15:30–16:00 / 8:30–9:00 ET. Same shape. You have Calibration until 15:30 and Caitlyn at 16:00.
+  3. Tue 20 Oct 17:55–18:15 / 10:55–11:15 ET. 20 min in SJ's gap between Voice AI review and EMEA Strategic Accounts; falls inside your "Unavailable" block, but you take other calls in that block.
+  4. Wed 21 Oct 16:00–16:30 / 9:00–9:30 ET. SJ is free, but it clashes with "Gareth / Caitlyn" (you haven't responded). Only if you move Caitlyn.
+  Mon 19 doesn't work: SJ's 9am ET slot is taken by SJ/Blake.
+
+  Next step (needs your OK, both are outbound):
+  - Calendar invite: "Gareth / SJ catch-up", ssawhney@canarytechnologies.com, Meet link, slot 1.
+  - Optional Slack reply in the DM: "Sent an invite for Tue 8:30am your time — shout if that's too early and I'll move it."
+project: null
+source_id: https://canarytechnologies.slack.com/archives/D04PM0J572Q/p1791992991948509
+tags:
+- morning-gtd
+- slack
+time_minutes: 5
+title: Book a catch-up with SJ early next week
+updated: 2026-10-15 14:58:00.000000
+waiting_on: null
+waiting_since: null
+working_on: true
+---
+
+SJ cancelled Fri 8pm slot after I asked for early next week; 'you find time :)' — ball is with me.
+https://canarytechnologies.slack.com/archives/D04PM0J572Q/p1791992991948509

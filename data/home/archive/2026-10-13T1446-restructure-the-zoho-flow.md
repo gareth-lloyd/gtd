@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-15 12:45:28.898753
 contexts: []
 created: 2026-10-13 14:46:04.522891
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: restructure the zoho flow
-updated: 2026-10-14 13:17:08.153517
+updated: 2026-10-15 12:45:28.898736
 waiting_on: null
 waiting_since: null
 working_on: false

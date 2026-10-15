@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-15 12:47:42.956204
 contexts:
 - react
 created: 2026-10-15 10:34:12.245379
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 15
 title: Discuss BW user-export pre-create plan with Connor in today's 1:1
-updated: 2026-10-15 10:34:12.346669
+updated: 2026-10-15 12:47:42.956200
 waiting_on: null
 waiting_since: null
 working_on: false

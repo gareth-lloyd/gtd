@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-15 13:44:30.697705
 contexts:
 - deep
 - fun
@@ -379,10 +379,10 @@ tags:
 - focus
 time_minutes: 5
 title: GL go direct to Tincho on the wider changes which will inform GJMs etc
-updated: 2026-10-14 18:29:24.971431
+updated: 2026-10-15 13:44:30.697700
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 https://claude.ai/artifact/17JLmQ9e94VZnnwCLbnKpr#5f79a6a5-4d95.mfwtdyx5t1b.2895

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-15 10:56:43.393195
 contexts:
 - consume
 created: 2026-10-15 10:34:12.601861
@@ -18,7 +18,7 @@ tags:
 - resurfaced
 time_minutes: 15
 title: Read Connor's tipping transition plan explainer
-updated: 2026-10-15 10:34:12.682432
+updated: 2026-10-15 10:56:43.393186
 waiting_on: null
 waiting_since: null
 working_on: false

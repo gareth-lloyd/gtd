@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-15 10:57:05.211864
 contexts:
 - react
 created: 2026-10-15 10:34:12.433029
@@ -18,7 +18,7 @@ tags:
 time_minutes: 10
 title: 'Reply to Andrea Bradshaw re: presentation postponed + Wyndham test hotel unblocked
   for segmentation'
-updated: 2026-10-15 10:34:12.514258
+updated: 2026-10-15 10:57:05.211854
 waiting_on: null
 waiting_since: null
 working_on: false

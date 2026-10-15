@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Pack Window screen car
-updated: 2026-10-14 13:17:30.462363
+updated: 2026-10-15 12:45:26.162630
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

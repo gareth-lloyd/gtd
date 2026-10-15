@@ -4,17 +4,17 @@ completed_at: null
 contexts: []
 created: 2026-10-14 18:50:38.562084
 defer_until: null
-due: null
+due: 2026-10-15
 energy: low
 id: 2026-10-14T1850-capture-follow-ups-for-incident-retro
 order: null
 output: ''
-project: null
+project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: 5
 title: Capture follow ups for incident retro
-updated: 2026-10-14 18:55:41.331325
+updated: 2026-10-15 12:49:35.593986
 waiting_on: null
 waiting_since: null
 working_on: false

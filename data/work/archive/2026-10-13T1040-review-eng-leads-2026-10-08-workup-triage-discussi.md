@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-15 14:55:21.045459
 contexts:
 - consume
 created: 2026-10-13 10:40:19.991550
@@ -95,15 +95,18 @@ output: |
   - Other teams adding checks and gatherers: Luiza #59257 (cites SDM-5164/5166 only), CT-fgario SDM-5126, Joshua Hart SDM-4981, Ashish PMS-10486/10492, Guido #55360 / AD-8340 (open since 09-03, stale). Tracked in their teams but not linked to any Workup project. "Staged Rollout to Eng-Routed Teams" (P-TOOL-2148) is Planned and untouched since 08-10.
   - Engram eval (Stephanie): agents#245, canary#58938 drafts under FRO-252 / EE-2178 ("Engram Memory v2"). Tracked, but outside Workup.
   - Stale or empty: "Workup Plugin Phase 6" (P-TOOL-2473) has no issues. SEC-809 "Send the /events trigger key" is Backlog, but the work shipped in canary#58516 under TOOL-639. MSG project "Triage: Workup Investigation for Messaging Threads" (P-MSG-2154) is Backlog, target 08-28. Accuracy Phase 1-5 is past its target date.
+
+  ## Agent run 2026-10-15T14:54: handoff doc
+  Wrote ~/projects/plans/workup-workstreams-handoff.md so another session can pick this up. It summarizes all four runs, the binding rules, the open follow-ups and how to rerun the PR scan.
 project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: 15
 title: 'Review Eng Leads 2026-10-08 Workup triage discussion: problems and owners'
-updated: 2026-10-14 17:47:33.834685
+updated: 2026-10-15 14:55:21.045454
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Source: Eng Leads 2026-10-08 (Zoom transcript ~/Downloads/GMT20261008-162948_Recording.transcript.vtt), temperatures section. Discussion started from Laura's temperature update and Sudarshan's push. Transcript is garbled in places (e.g. lines ~339-340), so check before quoting anyone.

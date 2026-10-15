@@ -8,13 +8,41 @@ due: null
 energy: null
 id: 2026-09-25T1330-workup-next-step-accuracy-review-iteration-ideas-a
 order: 1
-output: ''
+output: |
+  ## Agent run 2026-10-15T15:10
+
+  Re-checked the seven ideas against what changed since 24 Sep: the handoff at ~/projects/plans/workup-workstreams-handoff.md (workstream map to 10-14, backtest), plus Linear. Selection is yours; this is my recommendation.
+
+  ### What changed since the ideas were written
+  - #4 is done. TOOL-608 config-against-capability, messaging first: Done 10-06, Kevin Cormier (https://linear.app/canary-technologies/issue/TOOL-608/investigate-plugin-config-against-capability-messaging-first).
+  - #3 is partly done. Laura shipped two Code Fix rules: TOOL-733, code_bug needs an execution read (https://linear.app/canary-technologies/issue/TOOL-733) and TOOL-745, Code Fix needs a verdict on every open candidate (https://linear.app/canary-technologies/issue/TOOL-745). Per-queue base rates in classify are not done. Nobody has measured whether Code Fix over-declaration (49 declared, 8 agreed) dropped.
+  - #6 is moving. TOOL-825 config auto-close is In Review (agents#409, canary#59747). TOOL-842 No Action auto-close is in Backlog. End to end stops being zero by construction once one gate lands.
+  - The backtest sharpens #2 and #3. Workup gets 52.7% on 91 anchored labels (CI 43-63%), but only 4/21 on no-action tickets and 44/70 (63%) on the rest. The close cluster is its weakest area, and TOOL-842 targets exactly that bucket.
+  - I have no accuracy figure after 18 Sep. The handoff already lists "ask Laura" as an open follow-up. Without it, nothing shows whether the 18-21 Sep pipeline changes moved the number.
+  - Readability is not on this list but now has a PR: canary#59753 (compact 350-word report, Laura, no ticket).
+
+  ### Recommendation
+  Select:
+  1. **#1 Trust the number.** Add a second grader to reach ~250 labels and put the bucket-only interval beside the headline. Still the highest leverage, it removes the single-grader bus factor before Laura's leave, and it costs less than 1% of run spend. Pair it with the ask for a post-18-Sep figure.
+  2. **#2 Collapse the close cluster in the headline.** It is a cheap dashboard change. The 4/21 no-action result says the 8-way grid is noisiest exactly there, so do this before TOOL-842 ships or its effect will be hard to read.
+  3. **#3, the remaining part.** First measure Code Fix declared/agreed on runs after TOOL-733/745 shipped. Only if it is still inflated, add per-queue base rates to classify. Don't rewrite rules that already shipped.
+  4. **#5, CI fixture test only.** A gatherer that returns empty against recorded traffic should fail the build. Six silent-empty gatherers were the main September input bug. The dashboard indicator can wait.
+
+  Defer / drop:
+  - #4: drop, it's done. A follow-on worth asking about is how often the short-circuit now fires on messaging tickets before a second check gets built.
+  - #6: defer until TOOL-825 lands, then reopen the end-to-end definition with Blake and Jason using real gate numbers.
+  - #7: hold. Act only if someone proposes productionising Engram; the evidence (24 tickets, diagnosis judge) has not changed.
+
+  Suggested block-review story: "~50% bucket-level once taxonomy noise is removed, CI-bounded; no-action/close cluster is the weakest area and auto-close is aimed at it; Code Fix rules shipped, effect being measured."
+
+  ### Not done (needs your go-ahead)
+  No Linear tickets, comments or messages sent. Selecting 1-3 implies drafting tickets (no owner exists for #1/#2) and asking Laura for the post-18-Sep figure. Say the word and I'll draft them locally for review.
 project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: null
 title: 'Workup next-step accuracy: review iteration ideas and select some for implementation'
-updated: 2026-10-01 14:56:22.711685
+updated: 2026-10-15 14:56:33.144350
 waiting_on: null
 waiting_since: null
 working_on: false
