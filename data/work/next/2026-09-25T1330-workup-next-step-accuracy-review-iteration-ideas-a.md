@@ -37,12 +37,62 @@ output: |
 
   ### Not done (needs your go-ahead)
   No Linear tickets, comments or messages sent. Selecting 1-3 implies drafting tickets (no owner exists for #1/#2) and asking Laura for the post-18-Sep figure. Say the word and I'll draft them locally for review.
+  ## Agent run 2026-10-15T15:30 - option space, decision rule, research programme
+
+  ### Options
+  A. Measurement (does not move accuracy, decides whether we can see a move)
+  - A1 Second grader, ~250 labels, inter-rater agreement as the ceiling
+  - A2 Headline with the close cluster collapsed (and Config/Ops merged); 8-way grid kept as a diagnostic
+  - A3 Post-18-Sep accuracy figure; freeze the judge while the pipeline changes so moves can be attributed
+  - A4 Intermediate value metric: did the engineer act on the declaration without re-investigating?
+  B. Accuracy movers
+  - B1 Code Fix over-declaration: per-queue base rates in classify (after TOOL-733/745)
+  - B2 No-action detection: expected-behaviour checks, TOOL-842 auto-close (backtest 4/21)
+  - B3 Context gaps: CI fixture test for silent-empty gatherers, gap-free rate per queue
+  - B4 More config-vs-capability checks beyond messaging (TOOL-608)
+  - B5 Domain file coverage (8 of 9 thin)
+  - B6 run_sql in EU/AP (TOOL-813)
+  - B7 Nudge for Info (Request Info bucket, P-TOOL-2236)
+  - B8 Engram memory
+  - B9 Object sharpness when the bucket is right (Code Fix object 3/8)
+  C. Value and cost
+  - C1 Compact report (canary#59753)
+  - C2 Auto-close gates (TOOL-825, TOOL-842)
+  - C3 Cost: Haiku and fewer calls (P-TOOL-2141)
+
+  ### Decision rule
+  1. Measurement gates everything. At n~200 a 95% CI on bucket accuracy is about +/-7 pts; on a week (~70) it is about +/-11; one judge prompt edit swung 5.5. A mover expected to add less than ~5 headline pts can only be judged on a targeted subset eval, not the dashboard. Do A1-A3 first.
+  2. Impact = tickets/week in the affected slice x share currently wrong x expected fix rate, in tickets/week moved to correct. Report it as a range with a confidence grade.
+  3. Effort = engineer-days plus run spend to validate, sized by the likely owner.
+  4. Rank by impact/effort. Take 2-3 with one owner each and a metric registered before the work starts. Kill or keep on the subset result, not the headline.
+
+  ### Research programme (~2 weeks, mostly existing data)
+  Phase 0, measurement (week 1, ~3 days of grading plus 1 day of dashboard work)
+  - Pull the post-18-Sep figure. Second grader independently labels 50 runs already graded; compute human-human agreement. That is the ceiling and sets how much judge noise to tolerate.
+  - Recompute the headline with the collapsed cluster across All/30d/7d.
+  Phase 1, error attribution (week 1, ~2-3 days)
+  - Take every bucket-wrong scored run since 18 Sep. Tag one primary cause from a fixed list: taxonomy ambiguity; missing context (gap present, and which gatherer); wrong conclusion with full context; Code Fix default; no-action missed; out of domain coverage; bucket right/object wrong. Two people tag a 30-run overlap to check the tags hold.
+  - Output: share of errors per cause = the impact ceiling for B1-B9. This is the single most useful artefact; most options map one-to-one to a cause.
+  Phase 2, per-option probes (week 2, top 3-4 causes only)
+  - Use the replay harness (TOOL-743) on a 20-30 ticket subset per option with and without the intervention, same judge. At ~$11/run that is ~$300-650 per probe.
+  - B1: replay the Code-Fix-declared subset with base rates injected.
+  - B2: replay the no-action labels with an expected-behaviour check.
+  - B3: re-run the gapped runs with the gatherer fixed; measures what gaps cost.
+  - B4/B5: count how many wrong runs fall in a domain where a check or domain file would apply; no replay until that count is material.
+  - B6/B7: read volume only (EU/AP share of tickets; Request Info share of labels).
+  - B8: TOOL-583 replay through the next-step judge (Stephanie, ~1 day).
+  - Effort: 30-minute sizing with the owner per option.
+  Phase 3, decide (one meeting)
+  - One table: option, impact range, confidence, effort, cost, owner. Pick 2-3.
+
+  ### Unknowns
+  Weekly ticket volume per queue; whether the replay harness can inject an intervention without a code change; who the second grader is.
 project: 2026-09-08-workup
 source_id: null
 tags: []
 time_minutes: null
 title: 'Workup next-step accuracy: review iteration ideas and select some for implementation'
-updated: 2026-10-15 14:56:33.144350
+updated: 2026-10-15 15:26:15.208685
 waiting_on: null
 waiting_since: null
 working_on: false

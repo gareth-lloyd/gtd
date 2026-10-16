@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-11 10:46:21.217723
-defer_until: 2026-10-16 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-11T1046-switch-to-cc-desktop

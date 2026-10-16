@@ -14,8 +14,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: '"why not 4" for Laura?'
-updated: 2026-10-13 11:44:21.864423
+updated: 2026-10-15 20:19:11.921043
 waiting_on: null
 waiting_since: null
 working_on: true
 ---
+
+it's easy. If sam's 3, she's 4. c

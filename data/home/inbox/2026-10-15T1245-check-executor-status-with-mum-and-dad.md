@@ -2,8 +2,8 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-15 12:45:03.387436
-defer_until: null
+created: 2026-10-15 12:45:03.387436
+defer_until: 2026-10-19 09:00:00
 due: null
 energy: low
 id: 2026-10-15T1245-check-executor-status-with-mum-and-dad
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: check executor status with mum and dad
-updated: *id001
+updated: 2026-10-16 10:17:25.437140
 waiting_on: null
 waiting_since: null
 working_on: false

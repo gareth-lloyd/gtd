@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-15 13:03:40.148125
-defer_until: null
+created: 2026-10-15 15:13:24.409971
+defer_until: 2026-10-19 09:00:00
 due: null
 energy: low
-id: 2026-10-15T1303-rakia-fix
+id: 2026-10-15T1513-inform-dorothy-no-kali-friday
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: rakia fix
-updated: *id001
+title: inform dorothy no kali friday
+updated: 2026-10-16 10:17:23.144188
 waiting_on: null
 waiting_since: null
 working_on: false
