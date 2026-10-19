@@ -86,8 +86,14 @@ export function AgentLogView() {
         <div className="agent-log-panel-header">
           <span>🤖 Agent log</span>
           {item.output && (
-            <button type="button" className="agent-output-copy" onClick={copy}>
-              Copy
+            <button
+              type="button"
+              className="agent-output-copy"
+              onClick={copy}
+              aria-label="Copy agent log to clipboard"
+              title="Copy the raw markdown log to the clipboard"
+            >
+              📋 Copy
             </button>
           )}
         </div>

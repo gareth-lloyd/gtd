@@ -2090,7 +2090,13 @@ button.quiet.danger {
   background: var(--surface-soft);
 }
 
+/* Sticky so the Copy button stays reachable while scrolling a long log. */
 .agent-log-panel-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface-soft);
+  border-radius: var(--radius) var(--radius) 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;

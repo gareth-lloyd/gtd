@@ -117,6 +117,24 @@ describe("AgentLogView", () => {
 
     const panel = await screen.findByTestId("agent-log-panel");
     expect(within(panel).getByText(/no agent log yet/i)).toBeInTheDocument();
+    expect(within(panel).queryByRole("button", { name: /copy agent log/i })).toBeNull();
+  });
+
+  it("copies the raw agent log markdown to the clipboard", async () => {
+    const user = userEvent.setup();
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, "clipboard", {
+      value: { writeText },
+      configurable: true,
+    });
+    renderAt("/work/items/agent-item/agent");
+
+    const panel = await screen.findByTestId("agent-log-panel");
+    await user.click(within(panel).getByRole("button", { name: /copy agent log to clipboard/i }));
+
+    expect(writeText).toHaveBeenCalledWith(
+      "## Agent run 2026-06-24\n\nFound the **root cause** in the parser.",
+    );
   });
 
   describe("Next agent work", () => {
