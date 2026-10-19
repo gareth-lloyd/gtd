@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -214,6 +214,80 @@ describe("WorkflowActions — inbox bucket", () => {
     const cached = qc.getQueryData<Item[]>(["items", "work", "inbox", false]);
     expect(cached?.map((i) => i.id)).toContain("item-1");
   });
+
+  function renderInboxProcessing(item: Item) {
+    const qc = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false, staleTime: Infinity },
+        mutations: { retry: false },
+      },
+    });
+    qc.setQueryData(["items", "work", "inbox", false], [item]);
+    let captured: ReturnType<typeof useProcessedItems> = null;
+    function CaptureCtx() {
+      captured = useProcessedItems();
+      return null;
+    }
+    const utils = render(
+      <QueryClientProvider client={qc}>
+        <MemoryRouter initialEntries={["/work/inbox"]} future={ROUTER_FUTURE}>
+          <SelectionProvider>
+            <ProcessedItemsProvider>
+              <CaptureCtx />
+              <WorkflowActions env="work" item={item} />
+            </ProcessedItemsProvider>
+          </SelectionProvider>
+        </MemoryRouter>
+      </QueryClientProvider>,
+    );
+    return { ...utils, qc, getCaptured: () => captured };
+  }
+
+  it("offers an enabled uncomplete on a greyed-out row that was just marked done", async () => {
+    const user = userEvent.setup();
+    const inboxItem = { ...nextItem, status: "inbox" as const };
+    const { getCaptured } = renderInboxProcessing(inboxItem);
+
+    await user.click(screen.getByRole("button", { name: /✓ done/ }));
+    await waitFor(() => expect(getCaptured()?.isProcessed("item-1")).toBe(true));
+
+    const uncomplete = screen.getByRole("button", { name: /↺ uncomplete/ });
+    expect((uncomplete as HTMLButtonElement).disabled).toBe(false);
+  });
+
+  it("uncompleting a processed inbox item moves it back to inbox and un-greys the row", async () => {
+    const user = userEvent.setup();
+    const inboxItem = { ...nextItem, status: "inbox" as const };
+    vi.mocked(api.moveItem).mockResolvedValue({ ...inboxItem, title: "fresh from server" });
+    const { qc, getCaptured } = renderInboxProcessing(inboxItem);
+
+    await user.click(screen.getByRole("button", { name: /✓ done/ }));
+    await waitFor(() => expect(getCaptured()?.isProcessed("item-1")).toBe(true));
+    await user.click(screen.getByRole("button", { name: /↺ uncomplete/ }));
+
+    await waitFor(() => {
+      expect(api.moveItem).toHaveBeenCalledWith("work", "item-1", "inbox");
+    });
+    await waitFor(() => expect(getCaptured()?.isProcessed("item-1")).toBe(false));
+    // The preserved inbox list row is refreshed with the server's copy.
+    const cached = qc.getQueryData<Item[]>(["items", "work", "inbox", false]);
+    expect(cached?.find((i) => i.id === "item-1")?.title).toBe("fresh from server");
+  });
+
+  it("offers uncomplete when the detail pane shows the processed item as archived", async () => {
+    // The detail pane refetches the single item, so after ✓ done it renders
+    // with status=archive while the item is still marked processed.
+    const archived = { ...nextItem, status: "archive" as const };
+    const { getCaptured } = renderInboxProcessing(archived);
+    act(() => getCaptured()?.markProcessed("item-1", "archive"));
+
+    const uncomplete = screen.getByRole("button", { name: /↺ uncomplete/ });
+    expect((uncomplete as HTMLButtonElement).disabled).toBe(false);
+    await userEvent.setup().click(uncomplete);
+    await waitFor(() => {
+      expect(api.moveItem).toHaveBeenCalledWith("work", "item-1", "inbox");
+    });
+  });
 });
 
 describe("WorkflowActions — archive bucket", () => {
@@ -228,6 +302,24 @@ describe("WorkflowActions — archive bucket", () => {
     expect(screen.getByRole("button", { name: /↺ uncomplete/ })).toBeDefined();
     // Still offers soft delete.
     expect(screen.getByRole("button", { name: /^Delete$/ })).toBeDefined();
+  });
+
+  it("uncompleting a project-less item sends it back to inbox for re-processing", async () => {
+    const user = userEvent.setup();
+    renderActions({ ...nextItem, status: "archive", project: null });
+    await user.click(screen.getByRole("button", { name: /↺ uncomplete/ }));
+    await waitFor(() => {
+      expect(api.moveItem).toHaveBeenCalledWith("work", "item-1", "inbox");
+    });
+  });
+
+  it("uncompleting an item linked to a project sends it back to next", async () => {
+    const user = userEvent.setup();
+    renderActions({ ...nextItem, status: "archive", project: "proj-1" });
+    await user.click(screen.getByRole("button", { name: /↺ uncomplete/ }));
+    await waitFor(() => {
+      expect(api.moveItem).toHaveBeenCalledWith("work", "item-1", "next");
+    });
   });
 
   it('clicking "→ reference" on a completed item calls moveItem with reference', async () => {

@@ -16,10 +16,10 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
   // it. The user can keep scanning the rest of the inbox without items
   // vanishing under their cursor.
   const inInboxProcessing = processed?.active === true && item.status === "inbox";
-  const invalidate = () => {
+  const invalidate = (outcome?: Bucket) => {
     if (inInboxProcessing && processed) {
       invalidateItemQueriesPreservingInbox(qc, env, item.id);
-      processed.markProcessed(item.id);
+      processed.markProcessed(item.id, outcome);
     } else {
       invalidateItemQueries(qc, env, item.id);
     }
@@ -28,19 +28,44 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
 
   const moveMut = useMutation<Item, Error, Bucket>({
     mutationFn: (to) => api.moveItem(env, item.id, to),
-    onSuccess: invalidate,
+    onSuccess: (_updated, to) => invalidate(to),
   });
   const completeMut = useMutation({
     mutationFn: () => api.completeItem(env, item.id),
-    onSuccess: invalidate,
+    onSuccess: () => invalidate("archive"),
+  });
+  // Marked done during this inbox session: the row is greyed out (and the
+  // detail pane may already show it as archived), but uncomplete stays
+  // available and puts it straight back into the inbox.
+  const doneInThisSession = processed?.processedOutcome(item.id) === "archive";
+  // Outside that flow we don't know where the item came from: a project
+  // action belongs in next, anything else goes back to inbox for triage.
+  const uncompleteTo: Bucket = doneInThisSession || !item.project ? "inbox" : "next";
+  const uncompleteMut = useMutation<Item, Error, void>({
+    mutationFn: () => api.moveItem(env, item.id, uncompleteTo),
+    onSuccess: (updated) => {
+      if (doneInThisSession && processed) {
+        invalidateItemQueriesPreservingInbox(qc, env, item.id);
+        qc.setQueriesData<Item[]>(
+          {
+            predicate: (q) =>
+              q.queryKey[0] === "items" && q.queryKey[1] === env && q.queryKey[2] === "inbox",
+          },
+          (list) => list?.map((i) => (i.id === updated.id ? updated : i)),
+        );
+        processed.unmarkProcessed(item.id);
+      } else {
+        invalidateItemQueries(qc, env, item.id);
+      }
+    },
   });
   const deleteMut = useMutation({
     mutationFn: () => api.deleteItem(env, item.id),
-    onSuccess: invalidate,
+    onSuccess: () => invalidate("trash"),
   });
   const purgeMut = useMutation({
     mutationFn: () => api.purgeItem(env, item.id),
-    onSuccess: invalidate,
+    onSuccess: () => invalidate(),
   });
   const launchMut = useMutation<void, Error, AgentTarget>({
     mutationFn: (target) => api.launchAgent(env, item.id, target),
@@ -54,13 +79,14 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
   // status. The row is still visible / inspectable; the user navigates
   // away (or reloads) to drop it.
   const alreadyProcessed = processed?.isProcessed(item.id) ?? false;
-  const busy =
-    alreadyProcessed ||
+  const mutating =
     moveMut.isPending ||
+    uncompleteMut.isPending ||
     completeMut.isPending ||
     deleteMut.isPending ||
     purgeMut.isPending ||
     launchMut.isPending;
+  const busy = alreadyProcessed || mutating;
 
   const isMoving = (to: Bucket) => moveMut.isPending && moveMut.variables === to;
 
@@ -90,9 +116,14 @@ export function WorkflowActions({ env, item }: { env: string; item: Item }) {
               Purge
             </Button>
           </>
-        ) : isArchive ? (
+        ) : isArchive || doneInThisSession ? (
           <>
-            <Button onClick={() => moveMut.mutate("next")} busy={isMoving("next")} disabled={busy}>
+            <Button
+              onClick={() => uncompleteMut.mutate()}
+              busy={uncompleteMut.isPending}
+              disabled={mutating}
+              title={`Reopen this item in ${uncompleteTo}`}
+            >
               ↺ uncomplete
             </Button>
             <Button

@@ -1,9 +1,14 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
+import type { Bucket } from "./api";
 
 type Ctx = {
   isProcessed: (id: string) => boolean;
-  markProcessed: (id: string) => void;
+  // `outcome` is the bucket the item was moved to (when known), so a row
+  // that was marked done can offer an "uncomplete" back into the inbox.
+  markProcessed: (id: string, outcome?: Bucket) => void;
+  unmarkProcessed: (id: string) => void;
+  processedOutcome: (id: string) => Bucket | undefined;
   // Number of items processed in this session — used by the sidebar count
   // to stay consistent with the visibly-greyed rows.
   processedCount: number;
@@ -26,20 +31,29 @@ function parseInboxPath(pathname: string): [string | null, boolean] {
 export function ProcessedItemsProvider({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
   const [env, active] = parseInboxPath(pathname);
-  const [processedIds, setProcessedIds] = useState<Set<string>>(new Set());
+  const [processedIds, setProcessedIds] = useState<Map<string, Bucket | undefined>>(new Map());
 
   // Reset the processed set whenever we leave the inbox route OR switch envs
   // (e.g. /work/inbox -> /home/inbox), so stale IDs can't grey out an
   // unrelated item with a coincidentally-matching id in the new view.
   useEffect(() => {
-    setProcessedIds(new Set());
+    setProcessedIds(new Map());
   }, [env, active]);
 
-  const markProcessed = useCallback((id: string) => {
+  const markProcessed = useCallback((id: string, outcome?: Bucket) => {
     setProcessedIds((prev) => {
-      if (prev.has(id)) return prev;
-      const next = new Set(prev);
-      next.add(id);
+      if (prev.has(id) && prev.get(id) === outcome) return prev;
+      const next = new Map(prev);
+      next.set(id, outcome);
+      return next;
+    });
+  }, []);
+
+  const unmarkProcessed = useCallback((id: string) => {
+    setProcessedIds((prev) => {
+      if (!prev.has(id)) return prev;
+      const next = new Map(prev);
+      next.delete(id);
       return next;
     });
   }, []);
@@ -48,10 +62,12 @@ export function ProcessedItemsProvider({ children }: { children: React.ReactNode
     () => ({
       isProcessed: (id: string) => processedIds.has(id),
       markProcessed,
+      unmarkProcessed,
+      processedOutcome: (id: string) => processedIds.get(id),
       processedCount: processedIds.size,
       active,
     }),
-    [processedIds, markProcessed, active],
+    [processedIds, markProcessed, unmarkProcessed, active],
   );
 
   return <ProcessedItemsContext.Provider value={value}>{children}</ProcessedItemsContext.Provider>;
