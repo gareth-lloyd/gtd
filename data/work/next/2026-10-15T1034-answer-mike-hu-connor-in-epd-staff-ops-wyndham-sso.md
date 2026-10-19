@@ -38,6 +38,13 @@ output: |-
   > For Wyndham it's mostly config: adding the `wyndham` slug to the SSO allow-list plus a deploy, with no BW-specific code in the path. Before we commit to dates I'd check three things: (1) Wyndham's IdP handles SP-initiated login and passes RelayState through, so a quick test login with a Wyndham test user; (2) first-time users still need a prior web login, the QR flow or SCIM, since we only route to SSO users we already know; (3) native SSO is US-only, so IHG APAC depends on STAFF-251. IHG US could be allow-listed at the same time (they keep password login too). Happy to go through it with Connor in our 1:1.
 
   Nothing was posted to Slack or Linear.
+
+  ## Agent run 2026-10-16T13:24:30
+
+  Merged `2026-10-05T2347-up-to-speed-on-bw-sso` ("up to speed on BW sso", project 2026-04-16T1210-unblock-team, due 2026-10-14, energy low, 5 min, no notes) into this item. It's now in trash/ and can be restored from there.
+  - Kept the current title. It already covers BW SSO readiness.
+  - The other item had no body, so its title is kept as a line in the body: "Also: get up to speed on BW SSO".
+  - Kept this item's own scalars (due 2026-10-15, energy medium, 15 min) and project (2026-09-08-mobile). The other item had no contexts or tags.
 project: 2026-09-08-mobile
 source_id: https://canarytechnologies.slack.com/archives/C0AN8AQ49UG/p1792018516101899?thread_ts=1792018248.856969&cid=C0AN8AQ49UG
 tags:
@@ -45,7 +52,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'read summary: background context including BW SSO in staff app readiness (code)'
-updated: 2026-10-15 14:58:09.473149
+updated: 2026-10-16 13:24:30.000000
 waiting_on: null
 waiting_since: null
 working_on: true
@@ -53,3 +60,5 @@ working_on: true
 
 Mike asks what's needed to set up Wyndham (and maybe IHG) SSO orgs on Staff App mobile; Connor wants to cover it in 1:1 today. Open since yesterday, no reply from me.
 https://canarytechnologies.slack.com/archives/C0AN8AQ49UG/p1792018516101899?thread_ts=1792018248.856969&cid=C0AN8AQ49UG
+
+Also: get up to speed on BW SSO (merged from "up to speed on BW sso").

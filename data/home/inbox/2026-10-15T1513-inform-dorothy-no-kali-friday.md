@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-15 15:13:24.409971
-defer_until: 2026-10-19 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-15T1513-inform-dorothy-no-kali-friday

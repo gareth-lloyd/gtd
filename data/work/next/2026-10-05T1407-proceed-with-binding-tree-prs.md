@@ -14,10 +14,10 @@ source_id: null
 tags: []
 time_minutes: 60
 title: Continue to implement the new rule work for rules-based
-updated: 2026-10-14 21:46:56.697280
+updated: 2026-10-16 15:14:58.634601
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Rewrite the design doc

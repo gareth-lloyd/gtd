@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-14 11:19:45.583086
-defer_until: 2026-10-19 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-14T1119-team-ownership-conversation-blake-monday-mobile-st

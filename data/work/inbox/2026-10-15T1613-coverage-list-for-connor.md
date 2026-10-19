@@ -2,7 +2,7 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-15 16:13:14.699747
+created: 2026-10-15 16:13:14.699747
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: coverage list for connor
-updated: *id001
+updated: 2026-10-16 13:16:57.707667
 waiting_on: null
 waiting_since: null
 working_on: false

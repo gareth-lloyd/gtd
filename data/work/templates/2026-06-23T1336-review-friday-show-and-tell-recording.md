@@ -4,7 +4,7 @@ contexts:
 - consume
 energy: low
 id: 2026-06-23T1336-review-friday-show-and-tell-recording
-last_spawned: 2026-10-05
+last_spawned: 2026-10-19
 project: null
 recurrence: weekly
 tags: []

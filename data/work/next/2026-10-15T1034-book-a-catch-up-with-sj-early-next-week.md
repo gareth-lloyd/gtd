@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-10-15 10:34:12.515080
-defer_until: 2026-10-19 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-15T1034-book-a-catch-up-with-sj-early-next-week
