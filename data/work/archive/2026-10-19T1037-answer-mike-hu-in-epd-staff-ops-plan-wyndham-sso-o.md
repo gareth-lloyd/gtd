@@ -1,15 +1,26 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-19 16:27:35.855491
 contexts:
 - react
-created: 2026-10-15 10:34:12.347444
+created: 2026-10-19 10:37:05.567963
 defer_until: null
-due: 2026-10-15
+due: 2026-10-19
 energy: medium
-id: 2026-10-15T1034-answer-mike-hu-connor-in-epd-staff-ops-wyndham-sso
+id: 2026-10-19T1037-answer-mike-hu-in-epd-staff-ops-plan-wyndham-sso-o
 order: null
 output: |-
+  ## Agent run 2026-10-19T12:47:58
+
+  Merged `2026-10-15T1034-answer-mike-hu-connor-in-epd-staff-ops-wyndham-sso` ("read summary: background context including BW SSO in staff app readiness (code)", was in next/, project 2026-09-08-mobile) into this item. It's in trash/ and can be restored from there.
+  - Kept this item's title; the other title was a reading note rather than a next action, so it became the "Background" line in the body.
+  - Body: both Slack links kept (thread root and the reply in thread). From the other body, added Mike's question about Wyndham (and maybe IHG) orgs, the 1:1 date (2026-10-15), "open since 2026-10-14, no reply from me", and the "get up to speed on BW SSO" line. Dropped "Open 4 days" / "open since yesterday" in favour of the absolute date.
+  - Scalars: merge filled `due: 2026-10-15` from the other item (this one had none), so the item now shows as overdue. Energy, time, contexts already matched; tags unioned (no new ones).
+  - Project NOT carried over: this item has `project: null`; the other was linked to 2026-09-08-mobile. Re-link if you want it under that project.
+  - The other item's full agent output (code-verified readiness research, caveats for the 1:1, and a draft reply, plus its earlier merge log) is copied verbatim below so it isn't lost.
+
+  ### Carried over from 2026-10-15T1034-answer-mike-hu-connor-in-epd-staff-ops-wyndham-sso
+
   ## Agent run 2026-10-15T12:52:45.914449
 
   ### Thread (#epd-staff-ops, 14 Oct, https://canarytechnologies.slack.com/archives/C0AN8AQ49UG/p1792018248856969)
@@ -45,20 +56,26 @@ output: |-
   - Kept the current title. It already covers BW SSO readiness.
   - The other item had no body, so its title is kept as a line in the body: "Also: get up to speed on BW SSO".
   - Kept this item's own scalars (due 2026-10-15, energy medium, 15 min) and project (2026-09-08-mobile). The other item had no contexts or tags.
-project: 2026-09-08-mobile
-source_id: https://canarytechnologies.slack.com/archives/C0AN8AQ49UG/p1792018516101899?thread_ts=1792018248.856969&cid=C0AN8AQ49UG
+project: 2026-08-31-ihg
+source_id: https://canarytechnologies.slack.com/archives/C0AN8AQ49UG/p1792018248856969?thread_ts=1792018248.856969&cid=C0AN8AQ49UG
 tags:
 - morning-gtd
 - slack
+- resurfaced
 time_minutes: 15
-title: 'read summary: background context including BW SSO in staff app readiness (code)'
-updated: 2026-10-16 13:24:30.000000
+title: 'Answer Mike Hu in #epd-staff-ops: plan Wyndham SSO on mobile (Wyndham testing
+  early Nov)'
+updated: 2026-10-19 16:27:35.855486
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
-Mike asks what's needed to set up Wyndham (and maybe IHG) SSO orgs on Staff App mobile; Connor wants to cover it in 1:1 today. Open since yesterday, no reply from me.
-https://canarytechnologies.slack.com/archives/C0AN8AQ49UG/p1792018516101899?thread_ts=1792018248.856969&cid=C0AN8AQ49UG
+Resurfaced: archived 2026-10-16 as `2026-10-16T1013-answer-mike-hu-in-epd-staff-ops-plan-wyndham-sso-o`, but the fetcher still shows it unanswered.
 
-Also: get up to speed on BW SSO (merged from "up to speed on BW sso").
+Mike: Wyndham is close to testing by early November, so we should plan Wyndham SSO on mobile. Some work is needed to support new SSO orgs on mobile. He asks what's needed to set up Wyndham (and maybe IHG) SSO orgs on Staff App mobile. Connor said to discuss in a 1:1 (planned for 2026-10-15), so check whether that conversation closed this out. Open since 2026-10-14, no reply from me.
+
+- Thread: https://canarytechnologies.slack.com/archives/C0AN8AQ49UG/p1792018248856969?thread_ts=1792018248.856969&cid=C0AN8AQ49UG
+- Reply in thread: https://canarytechnologies.slack.com/archives/C0AN8AQ49UG/p1792018516101899?thread_ts=1792018248.856969&cid=C0AN8AQ49UG
+
+Background: read the summary (BW SSO in Staff App readiness, code-verified) and a draft reply in `output:`. Also: get up to speed on BW SSO (merged from "up to speed on BW sso").

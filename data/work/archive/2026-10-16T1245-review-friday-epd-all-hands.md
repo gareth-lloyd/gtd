@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-19 12:39:27.310054
 contexts: []
-created: 2026-10-15 11:18:53.035713
+created: 2026-10-16 12:45:10.393016
 defer_until: null
 due: null
 energy: low
-id: 2026-10-15T1118-buy-wine-for-dad
+id: 2026-10-16T1245-review-friday-epd-all-hands
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: buy wine for dad
-updated: 2026-10-16 10:17:27.848356
+title: review Friday EPD all hands
+updated: 2026-10-19 12:39:27.310046
 waiting_on: null
 waiting_since: null
 working_on: false

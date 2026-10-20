@@ -1,21 +1,20 @@
 ---
 area: null
 completed_at: null
-contexts:
-- autopilot
-created: &id001 2026-10-19 00:00:00
+contexts: []
+created: 2026-10-15 11:18:53.035713
 defer_until: null
 due: null
 energy: low
-id: 2026-10-19T0000-blake-directs-meeting-updates
+id: 2026-10-15T1118-buy-wine-for-dad
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Blake directs meeting updates
-updated: *id001
+title: buy wine for dad
+updated: 2026-10-19 10:37:20.899669
 waiting_on: null
 waiting_since: null
 working_on: false

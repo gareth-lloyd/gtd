@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-16 12:45:10.393016
+created: &id001 2026-10-19 14:43:20.560233
 defer_until: null
 due: null
 energy: low
-id: 2026-10-16T1245-review-friday-epd-all-hands
+id: 2026-10-19T1443-ask-for-noiz-review
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: review Friday EPD all hands
-updated: 2026-10-16 12:45:18.143646
+title: ask for noiz review
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

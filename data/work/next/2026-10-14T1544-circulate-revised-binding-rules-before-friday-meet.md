@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-10-14 15:44:29.679206
 defer_until: null
-due: null
+due: 2026-10-20
 energy: low
 id: 2026-10-14T1544-circulate-revised-binding-rules-before-friday-meet
 order: 1
@@ -50,12 +50,55 @@ output: |
   @Asher: you're out, I know. Please leave async thoughts on the PMS capability open questions in the doc when you're back.
   --- end draft ---
   Note: the doc's retention open question is addressed to "Marta (EMEA-350)". That still needs checking.
+  ## Agent run 2026-10-19T12:00 (non-technical draft for Tue)
+  Meeting check (https://www.google.com/calendar/event?eid=NmFvdmk5aDQ1MTJhZHJ2Y2RsajRjZmF2YXMgZ2xsb3lkQGNhbmFyeXRlY2hub2xvZ2llcy5jb20): Tue 2026-10-20 16:00-16:45 Athens. Martijn accepted, AC accepted, Diego NOT YET RESPONDED, Asher declined (OOO), Stephanie DECLINED ("out of office"). Draft below treats Stephanie as async.
+  Doc re-read (last edited 2026-10-16 09:38 UTC): https://app.notion.com/p/canarytechnologies/Modeling-laws-system-capabilities-and-country-conventions-in-rules-based-configuration-3e58146861518147b489e3fa8e8aef09
+  NOT SENT. Destination: group DM Martijn, Diego, AC, Stephanie (+ Asher optional).
+
+  --- draft ---
+  Hi all, here's a plain-English preview for tomorrow's brainstorm (Tue 20 Oct, 16:00 Athens / 09:00 NY / 07:00 Belize / 21:00 KL).
+
+  *The problem.* Today our settings rules are written per brand. That works for brand preferences, but some rules don't depend on brand at all:
+  • *Laws.* e.g. "In Germany, guest data can't be kept more than 455 days", or limits on how ID capture can be set up in the EU.
+  • *System limits.* e.g. "If this hotel's PMS can't create memberships, membership push must be off."
+  • *Country defaults.* e.g. "A German hotel should greet guests in German unless its brand says otherwise."
+  Right now these only exist as copies inside each brand's setup, the copies sometimes disagree (IHG and Wyndham treat Italy differently), and independent hotels get none of them.
+
+  *The idea.* Keep these rules in one place that applies to every hotel, branded or not:
+  • Laws and system limits are *must-follow*. Brands can choose anything inside them, but nothing breaks them, and config drift flags any hotel that does.
+  • Country defaults are *suggestions*. A new hotel gets them when its brand doesn't say otherwise; a brand can always override.
+  • Every rule carries a short reason, so when drift flags a hotel it says which rule and why.
+
+  *What I'd love from you tomorrow:* real examples. Things like:
+  • Country-specific setup you do by hand today (languages, ID, registration, invoicing, retention)
+  • Settings that are "illegal" or "impossible" for some hotels and keep getting set anyway
+  • Where config drift or onboarding settings are painful or noisy
+  Rough notes are perfect, even one line each.
+
+  @Stephanie @Asher: I know you're both out. If you get a moment afterwards, comments in the doc are very welcome. Stephanie, I'd especially value your take on how this should look in the configurator and in drift.
+
+  The full design doc is here if you're curious, but it's engineering-heavy and you don't need to read it: <https://app.notion.com/p/canarytechnologies/Modeling-laws-system-capabilities-and-country-conventions-in-rules-based-configuration-3e58146861518147b489e3fa8e8aef09|Modeling laws, system capabilities and country conventions>
+  --- end draft ---
+
+  Notes:
+  - Stephanie is OOO tomorrow. You may want to reschedule again if her input matters live, or accept async.
+  - Diego hasn't responded; worth a nudge in the same message if you want a confirmation.
+  - Still open from earlier runs: the doc's retention question is addressed to "Marta (EMEA-350)". Not checked.
+  ## Agent run 2026-10-19T14:00 (rescheduled to Thu)
+  Done (you approved in session): moved the meeting to Thu 2026-10-22 16:00-16:45 Athens (https://www.google.com/calendar/event?eid=NmFvdmk5aDQ1MTJhZHJ2Y2RsajRjZmF2YXMgZ2xsb3lkQGNhbmFyeXRlY2hub2xvZ2llcy5jb20). Updated invites went out and every response reset to needsAction.
+  Free/busy showed you, Martijn, AC, Diego and Stephanie all free. Stephanie was out only on Tue 20 Oct. Asher is out until 28 Oct and will still miss it.
+  Local times: 09:00 New York, 07:00 Belize, 21:00 Kuala Lumpur.
+  Slack draft from the 2026-10-19T12:00 run, with these changes:
+  - Opening line: "...preview for Thursday's brainstorm (Thu 22 Oct, 16:00 Athens / 09:00 NY / 07:00 Belize / 21:00 KL). I've moved it from Tuesday so Stephanie can join."
+  - "What I'd love from you tomorrow" -> "What I'd love from you on Thursday".
+  - Async line becomes "@Asher: I know you're out. If you get a moment afterwards, comments in the doc are very welcome." Move Stephanie's configurator/drift ask into the examples list: "Stephanie: how this should show up in the configurator and in drift".
+  Still NOT SENT.
 project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 5
 title: circulate revised binding rules before tuesday meeting
-updated: 2026-10-15 15:23:39.464514
+updated: 2026-10-19 13:59:02.014728
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,7 +2,7 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-15 12:45:48.443113
+created: 2026-10-15 12:45:48.443113
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: respond nova real estate email
-updated: *id001
+updated: 2026-10-19 13:15:35.968079
 waiting_on: null
 waiting_since: null
 working_on: false

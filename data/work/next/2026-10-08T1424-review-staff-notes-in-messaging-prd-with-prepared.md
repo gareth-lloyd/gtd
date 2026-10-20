@@ -7,14 +7,14 @@ defer_until: null
 due: 2026-10-09
 energy: null
 id: 2026-10-08T1424-review-staff-notes-in-messaging-prd-with-prepared
-order: null
+order: 4
 output: ''
 project: 2026-04-16T1210-unblock-team
 source_id: null
 tags: []
 time_minutes: null
 title: APAC Review Staff Notes in Messaging PRD with prepared points
-updated: 2026-10-09 12:56:51.088847
+updated: 2026-10-19 13:00:46.471568
 waiting_on: null
 waiting_since: null
 working_on: false

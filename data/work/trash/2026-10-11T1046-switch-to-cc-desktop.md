@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-15 15:13:24.409971
+created: 2026-10-11 10:46:21.217723
 defer_until: null
 due: null
 energy: low
-id: 2026-10-15T1513-inform-dorothy-no-kali-friday
+id: 2026-10-11T1046-switch-to-cc-desktop
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: inform dorothy no kali friday
-updated: 2026-10-16 10:17:23.144188
+title: switch to CC desktop
+updated: 2026-10-19 12:39:05.994460
 waiting_on: null
 waiting_since: null
 working_on: false
