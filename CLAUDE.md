@@ -200,7 +200,11 @@ then tests) or `cd frontend && npm run e2e:ui` for interactive mode.
   also lists the 3 most recently touched). Every item's actions get a
   second row of `✋ <bag>` buttons — one click grabs; bags already holding
   the item show pressed. A bag created empty is never auto-pruned.
-  `/<env>/grab-bags[/<id>]` are the list and detail views. "Empty" deletes the bag (items unchanged, not completed). A bag is
+  `/<env>/grab-bags[/<id>]` are the list and detail views. The detail view
+  sorts "set aside" items (completed, archived/trashed, filed as reference,
+  or deferred into the future — not overdue) to the bottom and dims them
+  (`.item.parked`); grab order is kept within each group. "Empty" deletes
+  the bag (items unchanged, not completed). A bag is
   auto-deleted (on any read) once every item in it is archived, trashed or
   purged — reference does NOT count as terminal. No history is kept.
 

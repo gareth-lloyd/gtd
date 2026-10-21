@@ -21,10 +21,13 @@ export function ItemCard({
   env,
   item,
   projects,
+  parked = false,
 }: {
   env: string;
   item: Item;
   projects: Project[] | undefined;
+  /** Dim the card: the item is done, filed or deferred in the current view. */
+  parked?: boolean;
 }) {
   const { selectedId, editingId, hoveredId, select, edit, setHover } = useSelection();
   const processed = useProcessedItems();
@@ -50,6 +53,7 @@ export function ItemCard({
     hovered && !selected ? "hovered" : "",
     item.working_on ? "working-on" : "",
     isProcessed ? "processed" : "",
+    parked ? "parked" : "",
   ]
     .filter(Boolean)
     .join(" ");

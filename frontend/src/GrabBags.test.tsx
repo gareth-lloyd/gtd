@@ -23,6 +23,8 @@ import {
   GrabBagsNavSection,
   GrabBagsView,
   GrabRow,
+  isSetAside,
+  sortBagItems,
 } from "./GrabBags";
 import { SelectionProvider } from "./SelectionContext";
 
@@ -215,6 +217,59 @@ describe("GrabBagDetailView", () => {
     renderAt("/work/grab-bags/b1", <GrabBagDetailView />, "/:env/grab-bags/:bagId");
     await user.click(await screen.findByRole("button", { name: /empty/i }));
     expect(api.emptyGrabBag).not.toHaveBeenCalled();
+  });
+});
+
+describe("sortBagItems", () => {
+  const live = makeItem("live", "Live");
+  const done = {
+    ...makeItem("done", "Done"),
+    status: "archive" as const,
+    completed_at: "2026-10-20T10:00:00",
+  };
+  const ref = { ...makeItem("ref", "Ref"), status: "reference" as const };
+  const deferred = { ...makeItem("deferred", "Deferred"), defer_until: "2999-01-01T09:00:00" };
+  const overdueDeferred = {
+    ...makeItem("od", "Overdue deferred"),
+    defer_until: "2999-01-01T09:00:00",
+    overdue: true,
+  };
+  const expiredDefer = { ...makeItem("ed", "Expired defer"), defer_until: "2000-01-01T09:00:00" };
+
+  it("flags completed, reference and future-deferred items as set aside", () => {
+    expect(isSetAside(live)).toBe(false);
+    expect(isSetAside(done)).toBe(true);
+    expect(isSetAside(ref)).toBe(true);
+    expect(isSetAside(deferred)).toBe(true);
+    expect(isSetAside(overdueDeferred)).toBe(false);
+    expect(isSetAside(expiredDefer)).toBe(false);
+  });
+
+  it("keeps grab order within each group and moves set-aside items last", () => {
+    const sorted = sortBagItems([done, live, ref, expiredDefer, deferred]);
+    expect(sorted.map((i) => i.id)).toEqual(["live", "ed", "done", "ref", "deferred"]);
+  });
+});
+
+describe("GrabBagDetailView ordering", () => {
+  it("renders set-aside items after live ones, greyed out", async () => {
+    const done = { ...makeItem("done", "Done thing"), completed_at: "2026-10-20T10:00:00" };
+    const live = makeItem("live", "Live thing");
+    vi.mocked(api.getGrabBag).mockResolvedValue({
+      bag: bag("b1", "Offsite", { item_count: 2 }),
+      items: [done, live],
+    });
+    const { container } = renderAt(
+      "/work/grab-bags/b1",
+      <GrabBagDetailView />,
+      "/:env/grab-bags/:bagId",
+    );
+    await screen.findByText("Live thing");
+    const cards = Array.from(container.querySelectorAll(".item"));
+    expect(cards.map((c) => c.getAttribute("data-item-id"))).toEqual(["live", "done"]);
+    expect(cards[0]).not.toHaveClass("parked");
+    expect(cards[1]).toHaveClass("parked");
+    expect(screen.getByText("2 items · 1 set aside")).toBeInTheDocument();
   });
 });
 

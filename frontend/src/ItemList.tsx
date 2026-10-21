@@ -161,7 +161,16 @@ export function DoneView() {
   );
 }
 
-export function ItemList({ env, items }: { env: string; items: Item[] }) {
+export function ItemList({
+  env,
+  items,
+  isParked,
+}: {
+  env: string;
+  items: Item[];
+  /** Marks items to render dimmed (e.g. a grab bag's completed/deferred entries). */
+  isParked?: (item: Item) => boolean;
+}) {
   const { data: projects } = useQuery({
     queryKey: ["projects", env, false],
     queryFn: () => api.listProjects(env, false),
@@ -235,7 +244,7 @@ export function ItemList({ env, items }: { env: string; items: Item[] }) {
       <ul ref={listRef} className={`item-list${spotlitItem ? " spotlight-mode" : ""}`}>
         {visibleItems.map((item) => (
           <li key={item.id}>
-            <ItemCard env={env} item={item} projects={projects} />
+            <ItemCard env={env} item={item} projects={projects} parked={isParked?.(item)} />
           </li>
         ))}
       </ul>

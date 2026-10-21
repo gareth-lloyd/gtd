@@ -4,6 +4,7 @@ import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { api, type GrabBag, type Item } from "./api";
 import { Button } from "./Button";
 import { fmtAge } from "./format";
+import { isHiddenByDefer } from "./ItemEdit";
 import { ItemList } from "./ItemList";
 import { toasts } from "./toast";
 import { useEnvParam } from "./useEnvParam";
@@ -13,6 +14,26 @@ import { useEnvParam } from "./useEnvParam";
 // The server prunes a bag once every item in it is archived/trashed.
 
 const NAV_LIMIT = 3;
+
+/**
+ * An item that no longer needs attention right now: completed (archived or
+ * filed as reference), parked in reference, or deferred into the future.
+ * Overdue items are never set aside, mirroring `isHiddenByDefer`.
+ */
+export function isSetAside(item: Item): boolean {
+  return (
+    item.completed_at != null ||
+    item.status === "reference" ||
+    item.status === "archive" ||
+    item.status === "trash" ||
+    isHiddenByDefer(item)
+  );
+}
+
+/** Live items first, then set-aside ones; grab order is kept within each group. */
+export function sortBagItems(items: Item[]): Item[] {
+  return [...items.filter((i) => !isSetAside(i)), ...items.filter(isSetAside)];
+}
 
 function useGrabBags(env: string) {
   return useQuery({
@@ -206,7 +227,9 @@ export function GrabBagDetailView() {
     );
   }
 
-  const { bag, items } = data;
+  const { bag } = data;
+  const items = sortBagItems(data.items);
+  const asideCount = items.filter(isSetAside).length;
   return (
     <div className="project-detail">
       <header className="project-header">
@@ -217,7 +240,10 @@ export function GrabBagDetailView() {
               ? "created just now"
               : `created ${fmtAge(bag.created)} ago`}
           </span>
-          <span className="chip">{itemCount(items.length)}</span>
+          <span className="chip">
+            {itemCount(items.length)}
+            {asideCount > 0 && ` · ${asideCount} set aside`}
+          </span>
         </div>
       </header>
       <div className="project-actions">
@@ -237,7 +263,7 @@ export function GrabBagDetailView() {
           Empty
         </Button>
       </div>
-      <ItemList env={env} items={items} />
+      <ItemList env={env} items={items} isParked={isSetAside} />
     </div>
   );
 }
