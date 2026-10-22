@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: schedule hospital follow up appointment
-updated: 2026-10-08 14:13:49.159196
+updated: 2026-10-21 16:07:37.331434
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-10-07T1244-read-these-docs
-order: 9
+order: 10
 output: ''
 project: 2026-09-08-mobile
 source_id: null
 tags: []
 time_minutes: 5
 title: REad these docs
-updated: 2026-10-19 12:57:53.675830
+updated: 2026-10-20 14:34:05.482142
 waiting_on: null
 waiting_since: null
 working_on: false

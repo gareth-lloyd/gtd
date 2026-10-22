@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: call ee (if need new sim, need it sent)
-updated: 2026-10-09 12:47:30.837203
+updated: 2026-10-21 16:07:34.962892
 waiting_on: null
 waiting_since: null
 working_on: false

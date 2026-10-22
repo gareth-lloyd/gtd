@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-15T1542-go-through-the-notion-doc-agains
-order: 3
+order: 5
 output: ''
 project: 2026-09-08-mobile
 source_id: null
 tags: []
 time_minutes: 5
 title: go through the notion doc agains
-updated: 2026-10-19 12:57:53.675830
+updated: 2026-10-20 14:34:08.395234
 waiting_on: null
 waiting_since: null
 working_on: false

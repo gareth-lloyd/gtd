@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-10-08 14:24:28.966146
 defer_until: null
-due: 2026-10-09
+due: null
 energy: null
 id: 2026-10-08T1424-review-staff-notes-in-messaging-prd-with-prepared
 order: 4
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: APAC Review Staff Notes in Messaging PRD with prepared points
-updated: 2026-10-19 13:00:46.471568
+updated: 2026-10-20 14:33:07.696322
 waiting_on: null
 waiting_since: null
 working_on: false
