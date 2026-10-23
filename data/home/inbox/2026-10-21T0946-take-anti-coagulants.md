@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-21 09:46:10.617246
-defer_until: 2026-10-23 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-21T0946-take-anti-coagulants
