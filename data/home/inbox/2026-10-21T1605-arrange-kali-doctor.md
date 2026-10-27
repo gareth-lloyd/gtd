@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-21 16:05:21.832169
-defer_until: 2026-10-26 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-21T1605-arrange-kali-doctor

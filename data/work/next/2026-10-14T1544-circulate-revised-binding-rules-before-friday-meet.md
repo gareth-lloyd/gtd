@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-14 15:44:29.679206
-defer_until: 2026-10-26 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-14T1544-circulate-revised-binding-rules-before-friday-meet

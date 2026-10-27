@@ -2,20 +2,20 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-22 15:31:39.036062
+created: &id001 2026-10-26 15:59:48.418137
 defer_until: null
-due: 2026-10-22
+due: null
 energy: low
-id: 2026-10-22T1531-prep-sj
+id: 2026-10-26T1559-download-health-app
 order: null
 output: ''
-project: 2026-09-08-mobile
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: prep sj
-updated: 2026-10-22 15:31:48.489573
+title: download health app
+updated: *id001
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

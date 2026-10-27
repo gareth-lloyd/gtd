@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-19 14:43:20.560233
-defer_until: 2026-10-26 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-19T1443-ask-for-noiz-review
