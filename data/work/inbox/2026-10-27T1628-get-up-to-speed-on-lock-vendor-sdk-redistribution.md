@@ -2,8 +2,8 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-27 16:28:59.594139
-defer_until: null
+created: 2026-10-27 16:28:59.594139
+defer_until: 2026-10-29 09:00:00
 due: null
 energy: null
 id: 2026-10-27T1628-get-up-to-speed-on-lock-vendor-sdk-redistribution
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Get up to speed on lock vendor SDK redistribution situation
-updated: *id001
+updated: 2026-10-28 13:42:13.734095
 waiting_on: null
 waiting_since: null
 working_on: false

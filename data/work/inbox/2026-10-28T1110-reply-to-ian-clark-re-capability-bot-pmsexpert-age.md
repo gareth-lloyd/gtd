@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-10-28 11:10:00.626333
-defer_until: null
+defer_until: 2026-10-29 09:00:00
 due: null
 energy: low
 id: 2026-10-28T1110-reply-to-ian-clark-re-capability-bot-pmsexpert-age
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Ian Clark re: capability bot (pmsexpert agent link)'
-updated: 2026-10-28 11:10:00.724953
+updated: 2026-10-28 14:43:14.764147
 waiting_on: null
 waiting_since: null
 working_on: false

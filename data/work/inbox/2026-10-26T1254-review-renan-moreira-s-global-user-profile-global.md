@@ -4,8 +4,8 @@ completed_at: null
 contexts:
 - deep
 created: 2026-10-26 12:54:53.679994
-defer_until: null
-due: 2026-10-26
+defer_until: 2026-10-29 09:00:00
+due: null
 energy: high
 id: 2026-10-26T1254-review-renan-moreira-s-global-user-profile-global
 order: null
@@ -152,7 +152,7 @@ tags:
 - slack
 time_minutes: 45
 title: Review Renan Moreira's Global User Profile / Global SSO doc (promised Monday)
-updated: 2026-10-27T07:08:23.699078
+updated: 2026-10-28 15:54:07.775189
 waiting_on: null
 waiting_since: null
 working_on: false
