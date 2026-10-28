@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-28 13:34:14.083186
 contexts:
 - consume
 created: 2026-10-27 00:00:00
@@ -78,7 +78,7 @@ source_id: null
 tags: []
 time_minutes: 10
 title: Review yesterday's Blake Directs page
-updated: 2026-10-28 11:39:52
+updated: 2026-10-28 13:34:14.083171
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-28 13:35:59.145994
 contexts: []
-created: &id001 2026-10-27 15:19:31.526849
+created: 2026-10-27 15:19:31.526849
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: martijn notes for secuirty
-updated: *id001
+updated: 2026-10-28 13:35:59.145975
 waiting_on: null
 waiting_since: null
 working_on: false
