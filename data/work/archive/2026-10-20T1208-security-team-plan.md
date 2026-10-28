@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-27 13:48:18.701734
 contexts: []
 created: 2026-10-20 12:08:27.313757
 defer_until: 2026-10-27 09:00:00
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Security team plan
-updated: 2026-10-26 15:47:24.318799
+updated: 2026-10-27 13:48:18.701727
 waiting_on: null
 waiting_since: null
 working_on: false

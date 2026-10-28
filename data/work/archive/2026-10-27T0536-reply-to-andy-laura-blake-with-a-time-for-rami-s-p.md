@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-27 13:27:12.420328
 contexts:
 - react
 created: 2026-10-27 05:36:42.298832
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: Reply to Andy/Laura/Blake with a time for Rami's promo case call
-updated: 2026-10-27 05:36:42.379585
+updated: 2026-10-27 13:27:12.420311
 waiting_on: null
 waiting_since: null
 working_on: false
