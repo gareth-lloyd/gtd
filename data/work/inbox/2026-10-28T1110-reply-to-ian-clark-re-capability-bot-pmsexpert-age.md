@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-10-28 11:10:00.626333
-defer_until: 2026-10-29 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-28T1110-reply-to-ian-clark-re-capability-bot-pmsexpert-age

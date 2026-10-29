@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-29 13:23:49.198269
 contexts: []
 created: 2026-10-28 15:41:45.688651
 defer_until: 2026-10-29 09:00:00
@@ -50,7 +50,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: things for my attention from
-updated: 2026-10-28 16:15:30.451910
+updated: 2026-10-29 13:23:49.198264
 waiting_on: null
 waiting_since: null
 working_on: false

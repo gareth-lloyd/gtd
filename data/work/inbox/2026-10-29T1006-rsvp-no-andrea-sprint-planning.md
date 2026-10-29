@@ -2,18 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-27 21:41:10.287600
+created: &id001 2026-10-29 10:06:07.237810
 defer_until: null
 due: null
 energy: low
-id: 2026-10-27T2141-top-up-internet
+id: 2026-10-29T1006-rsvp-no-andrea-sprint-planning
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: top up internet
+title: rsvp no andrea sprint planning
 updated: *id001
 waiting_on: null
 waiting_since: null

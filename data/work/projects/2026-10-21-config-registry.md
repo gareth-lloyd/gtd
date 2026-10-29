@@ -9,6 +9,6 @@ priority: 2
 status: active
 tags: []
 title: Field guide
-updated: 2026-10-21 14:10:07.586640
-working_dir: null
+updated: 2026-10-29 11:11:09.673396
+working_dir: ~/projects/canary/.claude/worktrees/settings-field-guide
 ---

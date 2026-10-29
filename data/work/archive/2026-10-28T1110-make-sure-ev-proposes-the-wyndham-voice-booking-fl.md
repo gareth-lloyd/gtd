@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-29 13:23:09.537029
 contexts:
 - react
 created: 2026-10-28 11:10:00.431624
@@ -70,7 +70,7 @@ tags:
 time_minutes: 15
 title: Make sure EV proposes the Wyndham voice booking-flow onboarding change before
   the 11/10 batch
-updated: 2026-10-28 14:54:40.739292
+updated: 2026-10-29 13:23:09.536682
 waiting_on: null
 waiting_since: null
 working_on: false

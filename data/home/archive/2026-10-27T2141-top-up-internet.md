@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-28 22:23:07.236644
 contexts: []
-created: &id001 2026-10-27 21:46:57.519339
+created: 2026-10-27 21:41:10.287600
 defer_until: null
 due: null
 energy: low
-id: 2026-10-27T2146-pay-electric
+id: 2026-10-27T2141-top-up-internet
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: PAY ELECTRIC
-updated: *id001
+title: top up internet
+updated: 2026-10-28 22:23:07.236617
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-29 13:24:57.844076
 contexts: []
 created: 2026-10-28 16:16:43.844527
 defer_until: null
@@ -124,7 +124,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review doc linked
-updated: 2026-10-28 16:25:34.000000
+updated: 2026-10-29 13:24:57.844071
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-28 14:41:03.995744
-defer_until: 2026-10-29 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-28T1441-prep-for-rules-based-meeting

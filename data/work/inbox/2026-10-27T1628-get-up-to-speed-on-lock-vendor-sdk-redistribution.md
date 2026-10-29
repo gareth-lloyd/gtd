@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-27 16:28:59.594139
-defer_until: 2026-10-29 09:00:00
+defer_until: null
 due: null
 energy: null
 id: 2026-10-27T1628-get-up-to-speed-on-lock-vendor-sdk-redistribution

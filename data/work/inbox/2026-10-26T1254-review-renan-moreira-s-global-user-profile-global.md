@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - deep
 created: 2026-10-26 12:54:53.679994
-defer_until: 2026-10-29 09:00:00
+defer_until: null
 due: null
 energy: high
 id: 2026-10-26T1254-review-renan-moreira-s-global-user-profile-global
