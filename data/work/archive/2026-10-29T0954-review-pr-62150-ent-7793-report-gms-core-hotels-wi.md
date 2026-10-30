@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-29 15:10:10.319743
 contexts:
 - react
 created: 2026-10-29 09:54:56.907935
@@ -18,7 +18,7 @@ tags:
 time_minutes: 20
 title: 'Review PR #62150: [ENT-7793] Report GMS Core hotels with no cohort as awaiting
   cohort'
-updated: 2026-10-29 09:54:57.006726
+updated: 2026-10-29 15:10:10.319733
 waiting_on: null
 waiting_since: null
 working_on: false

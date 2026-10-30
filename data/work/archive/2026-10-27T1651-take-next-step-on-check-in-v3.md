@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-29 15:59:42.860429
 contexts: []
 created: 2026-10-27 16:51:00.078678
 defer_until: null
@@ -15,7 +15,7 @@ tags: []
 time_minutes: 5
 title: Take next step on Check-in v3. Have we pushed back successfully? Are wyndhams
   going to catalog yet?
-updated: 2026-10-27 16:52:11.630047
+updated: 2026-10-29 15:59:42.860424
 waiting_on: null
 waiting_since: null
 working_on: false

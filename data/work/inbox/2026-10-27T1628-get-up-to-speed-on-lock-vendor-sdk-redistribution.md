@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Get up to speed on lock vendor SDK redistribution situation
-updated: 2026-10-28 13:42:13.734095
+updated: 2026-10-29 14:06:12.232753
 waiting_on: null
 waiting_since: null
 working_on: false

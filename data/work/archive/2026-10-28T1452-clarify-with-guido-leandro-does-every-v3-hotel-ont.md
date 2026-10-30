@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-29 15:59:27.295022
 contexts:
 - react
 created: 2026-10-28 14:52:21.595826
@@ -44,7 +44,7 @@ tags: []
 time_minutes: 10
 title: 'Clarify with Guido/Leandro: does ''every v3 hotel onto the field catalog by
   end of Oct 2026'' include Enterprise?'
-updated: 2026-10-28 16:24:54.928862
+updated: 2026-10-29 15:59:27.295017
 waiting_on: null
 waiting_since: null
 working_on: false

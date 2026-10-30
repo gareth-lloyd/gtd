@@ -4,7 +4,7 @@ completed_at: null
 contexts: []
 created: 2026-10-14 15:44:29.679206
 defer_until: null
-due: null
+due: 2026-10-29
 energy: low
 id: 2026-10-14T1544-circulate-revised-binding-rules-before-friday-meet
 order: 1
@@ -98,10 +98,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Write an overview of the rules system. to present in meeting.
-updated: 2026-10-22 15:58:03.475189
+updated: 2026-10-29 16:34:11.004261
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 draft slack message to attendees of meeting tomorrow. Non-technical overview for CS and STephanie.

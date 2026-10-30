@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-29 10:06:07.237810
+created: 2026-10-28 14:41:03.995744
 defer_until: null
 due: null
 energy: low
-id: 2026-10-29T1006-rsvp-no-andrea-sprint-planning
+id: 2026-10-28T1441-prep-for-rules-based-meeting
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: rsvp no andrea sprint planning
-updated: *id001
+title: prep for rules-based meeting
+updated: 2026-10-29 16:34:16.498707
 waiting_on: null
 waiting_since: null
 working_on: false

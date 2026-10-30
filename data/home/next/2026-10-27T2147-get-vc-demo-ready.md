@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-10-27T2147-get-vc-demo-ready
-order: null
+order: 5
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: get VC demo ready
-updated: 2026-10-28 11:40:10.144901
+updated: 2026-10-29 15:18:06.040076
 waiting_on: null
 waiting_since: null
 working_on: false

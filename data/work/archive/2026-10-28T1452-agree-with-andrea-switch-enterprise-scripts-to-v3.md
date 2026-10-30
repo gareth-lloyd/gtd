@@ -1,9 +1,9 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-29 15:59:36.535388
 contexts:
 - react
-created: &id001 2026-10-28 14:52:21.485771
+created: 2026-10-28 14:52:21.485771
 defer_until: null
 due: null
 energy: medium
@@ -16,7 +16,7 @@ tags: []
 time_minutes: 20
 title: 'Agree with Andrea: switch Enterprise scripts to v3 (not catalog) on Connor''s
   go; hold IHG non-US until GMS Core catalog break fixed'
-updated: *id001
+updated: 2026-10-29 15:59:36.535383
 waiting_on: null
 waiting_since: null
 working_on: false

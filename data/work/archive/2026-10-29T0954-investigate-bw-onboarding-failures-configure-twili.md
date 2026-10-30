@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-29 14:04:38.126812
 contexts:
 - react
 created: 2026-10-29 09:54:56.811494
@@ -41,7 +41,7 @@ tags:
 - gmail
 time_minutes: 30
 title: 'Investigate BW onboarding failures: configure_twilio missing address Region'
-updated: 2026-10-29 13:27:10.982959
+updated: 2026-10-29 14:04:38.126805
 waiting_on: null
 waiting_since: null
 working_on: false

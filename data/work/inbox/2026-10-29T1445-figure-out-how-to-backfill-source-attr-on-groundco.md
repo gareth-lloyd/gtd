@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-28 14:41:03.995744
+created: &id001 2026-10-29 14:45:42.949080
 defer_until: null
 due: null
 energy: low
-id: 2026-10-28T1441-prep-for-rules-based-meeting
+id: 2026-10-29T1445-figure-out-how-to-backfill-source-attr-on-groundco
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: prep for rules-based meeting
-updated: 2026-10-28 16:14:50.674827
+title: figure out how to backfill source attr on groundcover -> snowflake mobile analytics
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

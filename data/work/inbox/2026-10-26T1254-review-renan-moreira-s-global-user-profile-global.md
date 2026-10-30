@@ -152,7 +152,7 @@ tags:
 - slack
 time_minutes: 45
 title: Review Renan Moreira's Global User Profile / Global SSO doc (promised Monday)
-updated: 2026-10-28 15:54:07.775189
+updated: 2026-10-29 15:31:41.065290
 waiting_on: null
 waiting_since: null
 working_on: false
