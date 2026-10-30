@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-30 13:06:12.081265
 contexts: []
 created: 2026-10-14 15:44:29.679206
 defer_until: null
@@ -98,10 +98,10 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Write an overview of the rules system. to present in meeting.
-updated: 2026-10-29 16:34:11.004261
+updated: 2026-10-30 13:06:12.081241
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 draft slack message to attendees of meeting tomorrow. Non-technical overview for CS and STephanie.
