@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-27 21:47:45.495105
+created: 2026-11-02 14:25:25.678805
 defer_until: null
 due: null
 energy: low
-id: 2026-10-27T2147-get-vc-demo-ready
-order: 5
+id: 2026-11-02T1425-kali-porto-kali-print
+order: null
 output: ''
-project: 2026-05-25-villa-collective
+project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
-title: get VC demo ready
-updated: 2026-10-29 15:18:06.040076
+title: Kali Porto Kali print
+updated: 2026-11-02 14:25:25.722785
 waiting_on: null
 waiting_since: null
 working_on: false

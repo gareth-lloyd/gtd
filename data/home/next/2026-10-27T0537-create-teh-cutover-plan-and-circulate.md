@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-10-27T0537-create-teh-cutover-plan-and-circulate
-order: 4
+order: 5
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: Create teh cutover plan and circulate
-updated: 2026-10-29 15:18:06.040076
+updated: 2026-11-02 12:40:22.205077
 waiting_on: null
 waiting_since: null
 working_on: false

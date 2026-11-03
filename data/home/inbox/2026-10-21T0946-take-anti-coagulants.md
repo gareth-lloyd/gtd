@@ -13,8 +13,8 @@ project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: take anti-coagulants
-updated: 2026-10-29 15:17:22.860446
+title: buy more anti-coagulants
+updated: 2026-11-02 11:28:14.176527
 waiting_on: null
 waiting_since: null
 working_on: false

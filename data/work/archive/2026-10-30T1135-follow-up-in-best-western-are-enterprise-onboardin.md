@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-30 13:08:02.217431
 contexts:
 - react
 created: 2026-10-30 11:35:30.602275
@@ -18,7 +18,7 @@ tags:
 time_minutes: 15
 title: 'Follow up in #best-western: are enterprise onboarding scripts ready for check-in
   v3?'
-updated: 2026-10-30 11:35:30.688131
+updated: 2026-10-30 13:08:02.217420
 waiting_on: null
 waiting_since: null
 working_on: false

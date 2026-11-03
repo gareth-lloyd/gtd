@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-10-28T1139-watch-nick-vids-and-write-questions-pre-meet
-order: 2
+order: 1
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: Watch nick vids and write questions pre-meet
-updated: 2026-10-29 15:18:06.040076
+updated: 2026-11-02 12:40:20.256998
 waiting_on: null
 waiting_since: null
 working_on: false

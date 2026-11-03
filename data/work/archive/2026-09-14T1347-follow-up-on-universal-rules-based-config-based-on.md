@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-01 15:23:25.948038
 contexts: []
 created: 2026-09-14 13:47:15.533938
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Follow up on universal rules-based-config based on countries, not brand/MSA
-updated: 2026-09-14 13:47:15.705848
+updated: 2026-11-01 15:23:25.948031
 waiting_on: null
 waiting_since: null
 working_on: false

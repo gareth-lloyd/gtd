@@ -111,7 +111,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Get context on Orbital: read the private docs Jason gave me access to'
-updated: 2026-10-02 16:26:30.000000
+updated: 2026-11-02 14:42:04.641977
 waiting_on: null
 waiting_since: null
 working_on: false

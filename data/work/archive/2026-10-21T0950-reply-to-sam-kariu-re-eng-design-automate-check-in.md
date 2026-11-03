@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-01 15:23:09.077552
 contexts:
 - react
 created: 2026-10-21 09:50:10.042616
@@ -127,7 +127,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Reply to Sam Kariu re: Eng Design: Automate Check-in V3 Onboarding'
-updated: 2026-10-21 14:47:08.929442
+updated: 2026-11-01 15:23:09.077545
 waiting_on: null
 waiting_since: null
 working_on: false

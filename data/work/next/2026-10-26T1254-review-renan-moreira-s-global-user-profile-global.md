@@ -5,7 +5,7 @@ contexts:
 - deep
 created: 2026-10-26 12:54:53.679994
 defer_until: null
-due: null
+due: 2026-11-02
 energy: high
 id: 2026-10-26T1254-review-renan-moreira-s-global-user-profile-global
 order: null
@@ -145,17 +145,67 @@ output: |-
   Best Western staff who already have both a US account and an EU account.
   1. The backfill runs in the US first: each SSO account looks up or registers its credential and gets a new ID. **[doc]**
   2. The backfill then runs in the EU: the same organization ID + SSO identifier gives a registry hit, so the EU account receives the US ID. **[gap]** This links existing duplicates automatically, yet the doc lists "One sid per person at backfill" as a rejected alternative (review point 6). It also depends on both of Best Western's sign-in systems sending the same identifier (review point 4).
-project: null
+
+  ## Agent run 2026-10-30T16:41: vital blockers + draft comments
+
+  > Reread the doc. Pick vital blockers only, and draft comments for me.
+
+  **Nothing was posted.** The doc is unchanged since 2026-10-23 13:10, with the same 15 comment threads. This list replaces the longer one from 10-26: three new blockers, plus one reply offering a fix for a blocker Security already raised. I wouldn't approve the doc until these and Security's two other threads are answered.
+
+  Doc: https://app.notion.com/p/3f381468615180939704fd689cd53eb0
+
+  ### 1. We don't know that linking works, or that it's safe (most important)
+  Where: reply on Security's thread, https://app.notion.com/p/3f381468615180939704fd689cd53eb0?d=40281468615181028ec5001c2055c178
+
+  > +1, and I think this has to be answered before build. ENT confirming Best Western's NameID format is listed as a rollout task, but the answer decides whether phase 1 works:
+  >
+  > If each IdP issues its own persistent ID, nothing links. BW keeps two accounts per person, which is the main thing this project is meant to fix.
+  >
+  > If the NameID is an email, linking works, but a rename changes the subject. The local lookup misses, the email merge skips accounts that already have a name ID, and the person gets a new account and a new sid. So "renames stop breaking auth" doesn't hold for those orgs.
+  >
+  > If an IdP reassigns a subject to someone else, the registry hit gives the new person the old person's sid, and the old person's tokens then resolve to the new person's profile in that region. We already log IdPs reissuing name IDs for the same person (sso.provision_user.suspected_name_id_change), so subjects do change in practice.
+  >
+  > Can we add a per-org check, before an org is enabled, that subjects match across its IdPs and are never reassigned? Also, does the backfill link existing duplicates? Alternatives rejects grouping accounts at backfill, but lookup-or-register in the second region would do exactly that, in bulk, with no login to confirm it.
+
+  Checked in code: `sso/services/sso_organization.py:243` (the email merge only matches an empty name ID) and `:413` (the log). I did not look up BW's actual NameID format, because that needs prod access. It's a read-only lookup if you want it before posting.
+
+  ### 2. The mint refusal breaks password users as written
+  Where: inline on "The OAuth mint uses the user profile identity when the sid is set and refuses otherwise"
+
+  > Is the refusal only for allow-listed orgs? As written, it breaks everyone with a null sid. Staff App password login and the web OAuth login both mint through OAuthGrantIssuanceService.issue, so on deploy, password users and SSO users outside the allow-list could no longer get tokens. That contradicts "backwards-compatibility breaking changes: None". Risks says the same under "Null sids". I'd expect sid set → user_profile, null sid → today's staff_user. If so, can you reword both places?
+
+  Checked in code: `api_gateway/views/oauth_authorize_challenge.py:224` (password) and `hotels/views/views.py:520` (web) both call the same service. The doc may not mean this literally, but the current wording would ship an outage.
+
+  ### 3. Phase 1 doesn't deliver the Global Web goal
+  Where: inline on "Global Web is unblocked"
+
+  > Global Web's definition of done is a public API token for all users logged in to the website, and it gets that token for "the current user as a user profile identity". It also says this doc should be finished before it rolls out to all users. Phase 1 only gives SSO users a sid, so everyone else can't get that identity. Which phase covers password users, and does Global Web wait for it or launch them on staff_user? Either way, I'd scope this goal to SSO users for now.
+
+  Reread Global Web (https://app.notion.com/p/3c6814686151805b8a11f952998b7a6d), edited 10-29. It now says impersonation isn't supported initially, so I dropped that part of the 10-26 point.
+
+  ### 4. A way to close Security's merge race (their blocker, my suggested fix)
+  Where: reply on Security's thread, https://app.notion.com/p/3f381468615180939704fd689cd53eb0?d=4028146861518130b98d001cef4e4e1d
+
+  > One way to close this: make the first mint deterministic. On a credential miss, mint sid = HMAC(global key, sso_organization_sid + subject) instead of a random value, and store it. Two regions racing then write the same sid, so there's no losing sid, merged state, revocation sweep or repair task, and this race goes away. It's computed once and stored, so later subject or attribute changes don't affect it. Trade-offs: the key has to be global and stable, and someone deleted under GDPR gets the same sid back if they log in again. If you don't go this way, it's worth a line in Alternatives.
+
+  ### Already raised, so no comment needed
+  These still block approval, and the doc hasn't answered them:
+  - GDPR: Security says residency and deletion must be covered in this phase, while the doc defers residency to the email phase. https://app.notion.com/p/3f381468615180939704fd689cd53eb0?d=402814686151817da1b9001cef94abd2
+  - Deactivation scope, revocation for the new identity type, and a cutoff for legacy tokens. https://app.notion.com/p/3f381468615180939704fd689cd53eb0?d=4028146861518138a19b001c1f37cd8e
+
+  ### Dropped from the 10-26 list as not blocking
+  Repair wording, the staging collision drill, unfinished Vocabulary and Out of scope, leftover text, and reasons for rejecting alternatives. The backfill question moved into comment 1, and subject reassignment is now part of it too.
+project: 2026-04-16T1210-unblock-team
 source_id: https://canarytechnologies.slack.com/archives/D09S6HC42H0/p1792764674195549
 tags:
 - morning-gtd
 - slack
 time_minutes: 45
 title: Review Renan Moreira's Global User Profile / Global SSO doc (promised Monday)
-updated: 2026-10-29 15:31:41.065290
+updated: 2026-11-02 13:41:48.638884
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 On 10-23 Renan asked for another review and I said 'Is Monday ok?'. He said no rush, but he's on vacation from next week.

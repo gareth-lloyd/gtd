@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-01 15:23:13.726805
 contexts: []
 created: 2026-10-22 16:55:37.271552
 defer_until: null
@@ -40,7 +40,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: wyndham property feed broken? check grouncdover
-updated: 2026-10-22 17:10:00.000000
+updated: 2026-11-01 15:23:13.726800
 waiting_on: null
 waiting_since: null
 working_on: false

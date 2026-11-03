@@ -2,19 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-29 21:22:54.957125
+created: &id001 2026-11-02 10:44:42.996844
 defer_until: null
 due: null
 energy: low
-id: 2026-10-29T2122-workup-accuracy-if-we-collapsed-two-categories-wha
+id: 2026-11-02T1044-accommodation-london
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: 'workup accuracy: if we collapsed two categories, what would most improve the
-  accuracy?'
+title: accommodation london
 updated: *id001
 waiting_on: null
 waiting_since: null

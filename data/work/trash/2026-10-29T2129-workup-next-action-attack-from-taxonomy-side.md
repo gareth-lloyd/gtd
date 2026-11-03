@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-10-29 14:45:42.949080
+created: 2026-10-29 21:29:12.313085
 defer_until: null
 due: null
 energy: low
-id: 2026-10-29T1445-figure-out-how-to-backfill-source-attr-on-groundco
+id: 2026-10-29T2129-workup-next-action-attack-from-taxonomy-side
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: figure out how to backfill source attr on groundcover -> snowflake mobile analytics
-updated: *id001
+title: 'workup next action: attack from taxonomy side'
+updated: 2026-10-30 13:07:30.708367
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-10-30 13:08:12.126073
 contexts:
 - react
 created: 2026-10-30 11:35:31.225174
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: Post Linear updates on Clean up legacy permissions and Make Salesforce reliable
-updated: 2026-10-30 11:35:31.319693
+updated: 2026-10-30 13:08:12.126066
 waiting_on: null
 waiting_since: null
 working_on: false
