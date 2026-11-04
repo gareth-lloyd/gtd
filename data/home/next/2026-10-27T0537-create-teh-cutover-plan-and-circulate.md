@@ -7,15 +7,17 @@ defer_until: null
 due: null
 energy: low
 id: 2026-10-27T0537-create-teh-cutover-plan-and-circulate
-order: 5
+order: 2
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: Create teh cutover plan and circulate
-updated: 2026-11-02 12:40:22.205077
+updated: 2026-11-03 16:13:18.002732
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+Claude artifact

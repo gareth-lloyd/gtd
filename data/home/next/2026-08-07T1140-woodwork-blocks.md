@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-08-07T1140-woodwork-blocks
-order: 4
+order: 3
 output: ''
 project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
 title: woodwork blocks
-updated: 2026-10-05 11:03:04.899587
+updated: 2026-11-04 16:52:46.857205
 waiting_on: null
 waiting_since: null
 working_on: false

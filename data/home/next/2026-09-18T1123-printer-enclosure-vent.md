@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-18T1123-printer-enclosure-vent
-order: 6
+order: 5
 output: ''
 project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
 title: Printer enclosure + vent
-updated: 2026-10-05 11:03:04.899587
+updated: 2026-11-04 16:52:46.857205
 waiting_on: null
 waiting_since: null
 working_on: false

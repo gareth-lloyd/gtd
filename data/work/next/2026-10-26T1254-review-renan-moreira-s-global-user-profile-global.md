@@ -4,8 +4,8 @@ completed_at: null
 contexts:
 - deep
 created: 2026-10-26 12:54:53.679994
-defer_until: null
-due: 2026-11-02
+defer_until: 2026-11-05 09:00:00
+due: null
 energy: high
 id: 2026-10-26T1254-review-renan-moreira-s-global-user-profile-global
 order: null
@@ -202,10 +202,10 @@ tags:
 - slack
 time_minutes: 45
 title: Review Renan Moreira's Global User Profile / Global SSO doc (promised Monday)
-updated: 2026-11-02 13:41:48.638884
+updated: 2026-11-04 16:43:00.390013
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 On 10-23 Renan asked for another review and I said 'Is Monday ok?'. He said no rush, but he's on vacation from next week.

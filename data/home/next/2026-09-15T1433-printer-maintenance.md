@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-09-15T1433-printer-maintenance
-order: 5
+order: 4
 output: ''
 project: 2026-07-15-prints
 source_id: null
 tags: []
 time_minutes: 5
 title: printer maintenance
-updated: 2026-10-05 11:03:04.899587
+updated: 2026-11-04 16:52:46.857205
 waiting_on: null
 waiting_since: null
 working_on: false

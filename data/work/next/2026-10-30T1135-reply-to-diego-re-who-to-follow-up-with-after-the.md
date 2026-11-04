@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-10-30 11:35:31.055694
-defer_until: null
+defer_until: 2026-11-05 09:00:00
 due: null
 energy: low
 id: 2026-10-30T1135-reply-to-diego-re-who-to-follow-up-with-after-the
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Diego re: who to follow up with after the meeting'
-updated: 2026-10-30 14:13:36.221015
+updated: 2026-11-04 16:42:49.202623
 waiting_on: null
 waiting_since: null
 working_on: false
