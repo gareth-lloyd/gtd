@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-11-02 15:33:03.371389
-defer_until: 2026-11-05 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-11-02T1533-plan-stuff-schedule-for-uk-etc

@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-10-30 11:35:31.055694
-defer_until: 2026-11-05 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-30T1135-reply-to-diego-re-who-to-follow-up-with-after-the

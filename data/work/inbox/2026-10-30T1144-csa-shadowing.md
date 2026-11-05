@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-10-30 11:44:18.169092
-defer_until: 2026-11-05 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-10-30T1144-csa-shadowing
