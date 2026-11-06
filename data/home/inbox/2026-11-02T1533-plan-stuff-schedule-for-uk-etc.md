@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: plan stuff schedule for UK etc
-updated: 2026-11-04 16:49:11.339558
+updated: 2026-11-06 13:51:04.627254
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

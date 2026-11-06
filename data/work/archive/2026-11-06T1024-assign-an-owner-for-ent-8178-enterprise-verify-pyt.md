@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-06 11:40:39.012746
 contexts:
 - react
 created: 2026-11-06 10:24:22.164110
@@ -17,7 +17,7 @@ tags:
 - linear
 time_minutes: 10
 title: 'Assign an owner for ENT-8178: Enterprise verify Python 3.14 upgrade (due 2026-11-12)'
-updated: 2026-11-06 10:24:22.245694
+updated: 2026-11-06 11:40:39.012730
 waiting_on: null
 waiting_since: null
 working_on: false

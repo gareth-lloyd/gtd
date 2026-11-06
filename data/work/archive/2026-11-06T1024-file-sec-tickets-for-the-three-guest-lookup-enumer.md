@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-06 11:40:15.756474
 contexts:
 - react
 created: 2026-11-06 10:24:21.820965
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 30
 title: File SEC tickets for the three guest-lookup enumeration fixes Alina asked for
-updated: 2026-11-06 10:24:21.905499
+updated: 2026-11-06 11:40:15.756467
 waiting_on: null
 waiting_since: null
 working_on: false
