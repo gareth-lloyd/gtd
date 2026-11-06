@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts:
 - deep
-created: &id001 2026-11-04 19:57:26.337946
+created: 2026-11-04 19:57:26.337946
 defer_until: null
 due: null
 energy: high
@@ -14,9 +14,9 @@ project: null
 source_id: null
 tags: []
 time_minutes: 240
-title: 'Dashboard latency audit: reproduce each finding locally and file tickets to
-  the owning pods'
-updated: *id001
+title: 'Dashboard latency audit: reproduce each finding in groundcover and validate
+  fix on /debug_in_shell  and file tickets to the owning pods'
+updated: 2026-11-05 17:50:14.986491
 waiting_on: null
 waiting_since: null
 working_on: false

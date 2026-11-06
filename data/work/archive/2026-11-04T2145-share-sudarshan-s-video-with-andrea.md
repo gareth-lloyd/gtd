@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-05 16:06:53.016480
 contexts: []
-created: &id001 2026-11-04 21:45:43.464619
+created: 2026-11-04 21:45:43.464619
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: share sudarshan's video with Andrea
-updated: *id001
+updated: 2026-11-05 16:06:53.016476
 waiting_on: null
 waiting_since: null
 working_on: false

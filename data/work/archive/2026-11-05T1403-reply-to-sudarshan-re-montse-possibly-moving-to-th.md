@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-05 14:58:56.052145
 contexts:
 - react
 created: 2026-11-05 14:03:27.061055
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Sudarshan re: Montse possibly moving to the Voice team'
-updated: 2026-11-05 14:03:27.149160
+updated: 2026-11-05 14:58:56.052126
 waiting_on: null
 waiting_since: null
 working_on: false

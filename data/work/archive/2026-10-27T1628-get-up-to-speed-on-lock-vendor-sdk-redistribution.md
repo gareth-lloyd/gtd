@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-05 16:11:17.878547
 contexts: []
 created: 2026-10-27 16:28:59.594139
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Get up to speed on lock vendor SDK redistribution situation
-updated: 2026-11-04 16:11:39.690038
+updated: 2026-11-05 16:11:17.878523
 waiting_on: null
 waiting_since: null
 working_on: false

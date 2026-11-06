@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-05 17:48:08.273279
 contexts: []
 created: 2026-11-04 19:34:34.016735
 defer_until: null
@@ -40,7 +40,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review transcript
-updated: 2026-11-04 20:05:08.965502
+updated: 2026-11-05 17:48:08.273262
 waiting_on: null
 waiting_since: null
 working_on: false

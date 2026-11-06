@@ -2,19 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-04 21:27:38.105302
+created: &id001 2026-11-05 17:55:15.994388
 defer_until: null
 due: null
 energy: low
-id: 2026-11-04T2127-how-often-is-last-name-look-up-used-legitimately-i
+id: 2026-11-05T1755-send-next-batch-of-questoins-for-kostas
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: How often is last name look up used legitimately in the context of the security
-  problems
+title: send next batch of questoins for kostas
 updated: *id001
 waiting_on: null
 waiting_since: null
