@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-05 17:55:15.994388
+created: 2026-11-05 17:55:15.994388
 defer_until: null
 due: null
 energy: low
 id: 2026-11-05T1755-send-next-batch-of-questoins-for-kostas
-order: null
+order: 5
 output: ''
-project: null
+project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: send next batch of questoins for kostas
-updated: *id001
+updated: 2026-11-06 15:58:24.208584
 waiting_on: null
 waiting_since: null
 working_on: false

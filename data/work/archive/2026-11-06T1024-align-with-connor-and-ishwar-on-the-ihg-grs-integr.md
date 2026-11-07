@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-06 16:38:42.646624
 contexts:
 - react
 created: 2026-11-06 10:24:22.246386
@@ -87,7 +87,7 @@ tags:
 time_minutes: 20
 title: Align with Connor and Ishwar on the IHG GRS integration restart (end-of-year
   ask)
-updated: 2026-11-06 11:45:09.913826
+updated: 2026-11-06 16:38:42.646619
 waiting_on: null
 waiting_since: null
 working_on: false

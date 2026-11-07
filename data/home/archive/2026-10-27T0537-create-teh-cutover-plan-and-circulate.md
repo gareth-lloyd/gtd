@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-06 14:50:33.394188
 contexts: []
 created: 2026-10-27 05:37:42.904925
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Create teh cutover plan and circulate
-updated: 2026-11-03 16:13:18.002732
+updated: 2026-11-06 14:50:33.394149
 waiting_on: null
 waiting_since: null
 working_on: false

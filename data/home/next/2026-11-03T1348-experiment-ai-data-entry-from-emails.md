@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-11-03T1348-experiment-ai-data-entry-from-emails
-order: 3
+order: 6
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: experiment AI data entry from emails
-updated: 2026-11-03 16:13:18.002732
+updated: 2026-11-06 15:58:24.208584
 waiting_on: null
 waiting_since: null
 working_on: false

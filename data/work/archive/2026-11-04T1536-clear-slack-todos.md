@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-06 16:58:25.640484
 contexts: []
 created: 2026-11-04 15:36:34.059017
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: clear slack todos
-updated: 2026-11-04 16:42:29.031682
+updated: 2026-11-06 16:58:25.640477
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-06 16:31:17.399014
 contexts: []
 created: 2026-11-04 22:06:29.656035
 defer_until: null
@@ -93,7 +93,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: clean up perms legacy project and share with andrea
-updated: 2026-11-05 18:06:00.344192
+updated: 2026-11-06 16:31:17.399007
 waiting_on: null
 waiting_since: null
 working_on: false

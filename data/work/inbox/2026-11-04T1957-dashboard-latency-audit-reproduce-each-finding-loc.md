@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - deep
 created: 2026-11-04 19:57:26.337946
-defer_until: null
+defer_until: 2026-11-09 09:00:00
 due: null
 energy: high
 id: 2026-11-04T1957-dashboard-latency-audit-reproduce-each-finding-loc
@@ -16,7 +16,7 @@ tags: []
 time_minutes: 240
 title: 'Dashboard latency audit: reproduce each finding in groundcover and validate
   fix on /debug_in_shell  and file tickets to the owning pods'
-updated: 2026-11-05 17:50:14.986491
+updated: 2026-11-06 16:11:58.030471
 waiting_on: null
 waiting_since: null
 working_on: false

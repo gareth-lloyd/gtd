@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-06 16:58:19.650053
 contexts:
 - react
 created: 2026-10-30 11:35:30.688825
@@ -84,10 +84,10 @@ tags:
 - slack
 time_minutes: 20
 title: Read Andrea's check-in v3 loyalty analysis and reply (with Connor)
-updated: 2026-11-04 16:12:05.269945
+updated: 2026-11-06 16:58:19.650041
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
 
 Andrea shared a Notion analysis of what v3 catalog needs for loyalty items, to inform the conversations around the ask.

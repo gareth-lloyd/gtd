@@ -9,12 +9,12 @@ energy: low
 id: 2026-10-30T1144-csa-shadowing
 order: null
 output: ''
-project: null
+project: 2026-10-21-config-registry
 source_id: null
 tags: []
 time_minutes: 5
 title: From JS 1-1 - think about CSA shadowing
-updated: 2026-11-05 17:49:51.749434
+updated: 2026-11-06 16:11:48.598124
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -7,15 +7,15 @@ defer_until: null
 due: null
 energy: low
 id: 2026-11-03T1516-propose-retainer
-order: 4
+order: 2
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: propose retainer
-updated: 2026-11-03 16:13:18.002732
+updated: 2026-11-06 15:58:24.208584
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

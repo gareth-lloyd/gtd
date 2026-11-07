@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-06 16:12:09.009229
 contexts: []
 created: 2026-11-04 21:47:55.379612
 defer_until: null
@@ -38,7 +38,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: check Ent retro last week
-updated: 2026-11-05 16:09:43.079418
+updated: 2026-11-06 16:12:09.009220
 waiting_on: null
 waiting_since: null
 working_on: false
