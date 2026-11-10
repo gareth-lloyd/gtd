@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: respond nova real estate email
-updated: 2026-10-21 16:12:30.366268
+updated: 2026-11-10 15:27:01.971468
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---
