@@ -1,9 +1,9 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-10 12:51:02.299694
 contexts:
 - consume
-created: &id001 2026-11-10 00:00:00
+created: 2026-11-10 00:00:00
 defer_until: null
 due: null
 energy: low
@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 10
 title: Check ENT sync transcripts
-updated: *id001
+updated: 2026-11-10 12:51:02.299675
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,8 +2,8 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-10 11:27:09.925855
-defer_until: null
+created: 2026-11-10 11:27:09.925855
+defer_until: 2026-11-11 09:00:00
 due: null
 energy: low
 id: 2026-11-10T1127-should-i-do-this-ticket
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: should I do this ticket?
-updated: *id001
+updated: 2026-11-10 14:37:23.332805
 waiting_on: null
 waiting_since: null
 working_on: false

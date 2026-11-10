@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-09 09:45:20.110038
+created: 2026-11-09 15:22:04.106657
 defer_until: null
-due: null
+due: 2026-11-10
 energy: low
-id: 2026-11-09T0945-greek-alphabet-song
+id: 2026-11-09T1522-decide-prod-url
 order: null
 output: ''
-project: null
+project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: greek alphabet song
-updated: *id001
+title: decide prod URL
+updated: 2026-11-10 15:06:02.460690
 waiting_on: null
 waiting_since: null
 working_on: false

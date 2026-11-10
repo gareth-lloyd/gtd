@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-10 12:46:34.166210
 contexts: []
 created: 2026-11-09 11:43:34.025995
 defer_until: null
@@ -41,7 +41,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: look at emea-824 marta's analysis
-updated: 2026-11-09 11:44:41.762572
+updated: 2026-11-10 12:46:34.166203
 waiting_on: null
 waiting_since: null
 working_on: false

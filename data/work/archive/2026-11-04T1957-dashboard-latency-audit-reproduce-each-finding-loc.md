@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-10 12:46:25.950709
 contexts:
 - deep
 created: 2026-11-04 19:57:26.337946
@@ -62,7 +62,7 @@ tags: []
 time_minutes: 240
 title: 'Dashboard latency audit: reproduce each finding in groundcover and validate
   fix on /debug_in_shell  and file tickets to the owning pods'
-updated: 2026-11-09 16:09:19.335076
+updated: 2026-11-10 12:46:25.950701
 waiting_on: null
 waiting_since: null
 working_on: false

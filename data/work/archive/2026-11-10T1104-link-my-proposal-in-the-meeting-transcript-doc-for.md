@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-10 12:51:49.492910
 contexts:
 - react
 created: 2026-11-10 11:04:30.747281
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: Link my proposal in the meeting transcript doc for Andrea (#epd-enterprise-engineers)
-updated: 2026-11-10 11:04:30.841227
+updated: 2026-11-10 12:51:49.492824
 waiting_on: null
 waiting_since: null
 working_on: false

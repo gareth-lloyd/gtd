@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-11-10 11:04:30.841982
-defer_until: null
+defer_until: 2026-11-11 09:00:00
 due: null
 energy: low
 id: 2026-11-10T1104-follow-up-on-check-in-with-rami-promised-sudarshan
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Follow up on: check in with Rami (promised Sudarshan)'
-updated: 2026-11-10 11:04:30.931468
+updated: 2026-11-10 15:21:26.517207
 waiting_on: null
 waiting_since: null
 working_on: false
