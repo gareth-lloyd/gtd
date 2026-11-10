@@ -50,6 +50,28 @@ output: |
     "Picking this back up. CUSTOPS-4398 closed in August, so this is no longer blocked. MSG-5620 refreshed the campaign copy on 2026-09-18, but the description is still static: it has no legal-entity line, hotel name or website. The onboarding registration data already carries entity_name and website, so this can be automated. Since create_a2p is shared across brands, I think this belongs with Messaging as a follow-up to MSG-5620. @Rachel Kim @Rick Schieck does that work? @Cristhian Grijalva are BW campaigns still being rejected since the September change?"
 
   **Not done:** no playbook run (`/enterprise:work-ticket`), no Twilio or prod queries, no writes to Linear, Slack or Notion.
+
+  ## Agent run 2026-11-10T13:10 (follow-up: current failure rate)
+
+  **Result: not obtained.** Every route to the data was blocked, so there is still no number.
+
+  - The right source is the prod table `messaging_integrations_twiliocampaign` (one row per hotel, `status` of pending / approved / failed, kept current by Twilio's campaign-approved and campaign-failure webhooks).
+  - The Sallyport read-only query on prod `canary` (us-west-2) was denied by the auto-mode permission classifier. Only the schema lookup ran.
+  - The `twilio_lookup` MCP tool returned "session not found" twice.
+  - Snowflake hung on both the MCP call and the direct bypass, most likely waiting on a browser SSO login. I stopped both.
+  - Groundcover logs cannot answer it: the approve and fail handlers log nothing with hotel context on the normal path.
+
+  **Query to run yourself** (`! canary prod-db query canary "<sql>"`), BW vs other brands by month the campaign was created:
+
+      with bw as (select distinct hotel_id from hotels_hotelslug where slug like 'bw-%')
+      select case when c.hotel_id in (select hotel_id from bw) then 'BW' else 'other' end as grp,
+             to_char(date_trunc('month', c.created_at), 'YYYY-MM') as created_month,
+             c.status, count(*) as n, max(c.updated_at)::date as last_status_update
+      from messaging_integrations_twiliocampaign c
+      where c.created_at >= '2026-05-01'
+      group by 1, 2, 3 order by 1, 2, 3
+
+  **Reading the result:** compare the failed share for BW rows created before and after 2026-09-18 (the MSG-5620 copy change). Two caveats: `status` is the latest state, so a campaign that failed and was later approved after manual resubmission counts as approved, which understates first-attempt rejections. And 'bw-%' slugs are my assumption for identifying Best Western hotels.
 project: null
 source_id: https://linear.app/canary-technologies/issue/ENT-6766/twilio-campaigns-consistently-failing-for-best-western
 tags:
@@ -58,7 +80,7 @@ tags:
 - from-awareness
 time_minutes: 20
 title: 'Look at ENT-6766: Twilio campaigns consistently failing for Best Western'
-updated: 2026-11-10 12:53:17.561621
+updated: 2026-11-10 13:10:00.000000
 waiting_on: null
 waiting_since: null
 working_on: false

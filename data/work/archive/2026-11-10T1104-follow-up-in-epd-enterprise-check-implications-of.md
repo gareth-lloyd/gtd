@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-10 15:52:01.045212
 contexts:
 - react
 created: 2026-11-10 11:04:30.658445
@@ -118,7 +118,7 @@ tags:
 time_minutes: 20
 title: 'Follow up in #epd-enterprise: check implications of dropping portfolio-managed
   reg cards'
-updated: 2026-11-10 13:06:17.180875
+updated: 2026-11-10 15:52:01.045184
 waiting_on: null
 waiting_since: null
 working_on: false

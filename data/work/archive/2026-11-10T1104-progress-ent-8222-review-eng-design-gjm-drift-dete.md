@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-10 16:26:39.272080
 contexts:
 - deep
 created: 2026-11-10 11:04:30.932217
@@ -70,7 +70,7 @@ tags:
 - linear
 time_minutes: 60
 title: 'Progress ENT-8222: Review eng design: GJM Drift Detection'
-updated: 2026-11-10 12:11:20.000000
+updated: 2026-11-10 16:26:39.272058
 waiting_on: null
 waiting_since: null
 working_on: false

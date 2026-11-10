@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-11-05 17:51:45.336951
-defer_until: null
+defer_until: 2026-11-11 09:00:00
 due: null
 energy: low
 id: 2026-11-05T1751-view-this-thread-ani-s-work-and-see-how-to-incorpo
@@ -103,7 +103,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: View this thread, Ani's work and see how to incorporate her stuff
-updated: 2026-11-06 10:20:35.415709
+updated: 2026-11-10 15:37:23.505245
 waiting_on: null
 waiting_since: null
 working_on: false

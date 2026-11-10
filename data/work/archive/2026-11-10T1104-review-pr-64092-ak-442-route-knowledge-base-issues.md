@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-10 15:53:25.300472
 contexts:
 - react
 created: 2026-11-10 11:04:31.017955
@@ -46,7 +46,7 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #64092: [AK-442] Route Knowledge Base issues to Agent Knowledge'
-updated: 2026-11-10 12:53:57.693849
+updated: 2026-11-10 15:53:25.300461
 waiting_on: null
 waiting_since: null
 working_on: false

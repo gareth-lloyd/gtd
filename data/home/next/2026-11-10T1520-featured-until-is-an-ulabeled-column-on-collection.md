@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-11-10T1520-featured-until-is-an-ulabeled-column-on-collection
-order: null
+order: 6
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: featured until is an ulabeled column on collection detail
-updated: 2026-11-10 15:20:15.488943
+updated: 2026-11-10 16:08:50.568752
 waiting_on: null
 waiting_since: null
 working_on: false

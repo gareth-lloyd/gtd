@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-09 19:02:03.162173
+created: 2026-11-11 01:11:53.271925
 defer_until: null
 due: null
 energy: low
-id: 2026-11-09T1902-buy-chillis-and-paper-towel
+id: 2026-11-11T0111-prep-tomorrow-kali
 order: null
 output: ''
-project: null
+project: 2026-11-09-uk-trip
 source_id: null
 tags: []
 time_minutes: 5
-title: buy chillis and paper towel
-updated: *id001
+title: prep tomorrow kali
+updated: 2026-11-11 01:11:53.310635
 waiting_on: null
 waiting_since: null
 working_on: false
