@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-10-21 16:05:21.832169
+created: &id001 2026-11-09 11:25:18.466764
 defer_until: null
 due: null
 energy: low
-id: 2026-10-21T1605-arrange-kali-doctor
+id: 2026-11-09T1125-message-peter-to-check-on-adil-s-idea
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: arrange kali doctor
-updated: 2026-10-22 11:14:02.310841
+title: message peter to check on Adil's idea
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
