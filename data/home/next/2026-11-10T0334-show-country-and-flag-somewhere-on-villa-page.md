@@ -13,8 +13,8 @@ project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
-title: show country and flag somewhere on villa page
-updated: 2026-11-10 16:08:50.568752
+title: show country and flag somewhere on villa page header
+updated: 2026-11-11 10:09:29.673361
 waiting_on: null
 waiting_since: null
 working_on: false

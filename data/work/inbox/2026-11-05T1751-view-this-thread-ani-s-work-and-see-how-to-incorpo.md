@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-11-05 17:51:45.336951
-defer_until: 2026-11-11 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-11-05T1751-view-this-thread-ani-s-work-and-see-how-to-incorpo

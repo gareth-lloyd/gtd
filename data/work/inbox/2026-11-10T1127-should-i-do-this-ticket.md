@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-11-10 11:27:09.925855
-defer_until: 2026-11-11 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-11-10T1127-should-i-do-this-ticket

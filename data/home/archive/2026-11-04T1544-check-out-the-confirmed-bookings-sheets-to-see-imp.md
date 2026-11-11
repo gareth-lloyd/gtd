@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-11 10:09:13.743673
 contexts: []
 created: 2026-11-04 15:44:40.108225
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Check out the confirmed bookings sheets to see impact on import work
-updated: 2026-11-10 16:06:51.096093
+updated: 2026-11-11 10:09:13.743602
 waiting_on: null
 waiting_since: null
 working_on: false

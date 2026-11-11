@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-11-11 01:10:23.250918
+created: &id001 2026-11-11 02:23:21.948393
 defer_until: null
 due: null
 energy: low
-id: 2026-11-11T0110-pack
+id: 2026-11-11T0223-security-incident-retro
 order: null
 output: ''
-project: 2026-11-09-uk-trip
+project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: pack
-updated: 2026-11-11 01:10:23.295562
+title: security incident retro
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
