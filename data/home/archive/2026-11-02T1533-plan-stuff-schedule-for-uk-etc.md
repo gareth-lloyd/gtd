@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-11 10:58:18.430411
 contexts: []
 created: 2026-11-02 15:33:03.371389
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: plan stuff schedule for UK etc
-updated: 2026-11-09 15:02:59.382662
+updated: 2026-11-11 10:58:18.430387
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

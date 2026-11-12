@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-09 14:06:40.084126
+created: 2026-11-11 11:39:29.974072
 defer_until: null
-due: null
+due: 2026-11-12
 energy: low
-id: 2026-11-09T1406-msg-ollie
+id: 2026-11-11T1139-schneiders-keller
 order: null
 output: ''
-project: null
+project: 2026-11-09-uk-trip
 source_id: null
 tags: []
 time_minutes: 5
-title: msg ollie
-updated: *id001
+title: schneiders keller
+updated: 2026-11-12 11:00:34.786892
 waiting_on: null
 waiting_since: null
 working_on: false

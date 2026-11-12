@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-11 10:25:40.160942
 contexts:
 - react
 created: 2026-11-11 07:38:03.215041
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Stephanie Barry re: internal-tools project leads and HR handoff'
-updated: 2026-11-11 07:38:03.286690
+updated: 2026-11-11 10:25:40.160934
 waiting_on: null
 waiting_since: null
 working_on: false

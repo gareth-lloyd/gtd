@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-11 10:29:51.113029
 contexts: []
 created: 2026-08-12 08:43:54.264038
 defer_until: null
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: create a color cheat sheet for rings lights
-updated: 2026-09-18 10:31:14.311084
+updated: 2026-11-11 10:29:51.113011
 waiting_on: null
 waiting_since: null
 working_on: false

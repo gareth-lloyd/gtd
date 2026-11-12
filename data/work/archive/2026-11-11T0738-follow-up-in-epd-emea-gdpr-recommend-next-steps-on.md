@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-11 10:21:54.742927
 contexts:
 - react
 created: 2026-11-11 07:38:03.134924
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Follow up in #epd-emea-gdpr: recommend next steps on EU/IHG breach notification'
-updated: 2026-11-11 07:38:03.214360
+updated: 2026-11-11 10:21:54.742920
 waiting_on: null
 waiting_since: null
 working_on: false

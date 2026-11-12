@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-11 10:12:58.065069
 contexts:
 - react
 created: 2026-11-11 07:38:03.045648
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 45
 title: Catch up on SEC-1762 overnight and review the lockdown PRs
-updated: 2026-11-11 07:38:03.134154
+updated: 2026-11-11 10:12:58.065060
 waiting_on: null
 waiting_since: null
 working_on: false

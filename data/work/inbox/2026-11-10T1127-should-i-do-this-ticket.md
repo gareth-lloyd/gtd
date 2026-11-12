@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: should I do this ticket?
-updated: 2026-11-10 14:37:23.332805
+updated: 2026-11-11 10:24:05.735934
 waiting_on: null
 waiting_since: null
 working_on: false
