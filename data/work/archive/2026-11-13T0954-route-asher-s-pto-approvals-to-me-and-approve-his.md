@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-13 10:05:40.230537
 contexts:
 - react
 created: 2026-11-13 09:54:28.107388
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: Route Asher's PTO approvals to me and approve his Monday request
-updated: 2026-11-13 09:54:28.195390
+updated: 2026-11-13 10:05:40.230531
 waiting_on: null
 waiting_since: null
 working_on: false

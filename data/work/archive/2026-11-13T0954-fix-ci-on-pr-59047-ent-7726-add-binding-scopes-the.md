@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-13 10:06:56.986110
 contexts:
 - react
 created: 2026-11-13 09:54:28.018662
@@ -18,10 +18,10 @@ tags:
 time_minutes: 20
 title: 'Fix CI on PR #59047: [ENT-7726] Add binding scopes, the binding author and
   the rule registry'
-updated: 2026-11-13 09:54:28.106548
+updated: 2026-11-13 10:06:56.986103
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---
 
 CI failing, review still required. Base of the ENT-7726 stack.
