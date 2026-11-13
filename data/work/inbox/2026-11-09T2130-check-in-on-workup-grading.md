@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: check in on workup grading
-updated: 2026-11-11 10:22:15.662488
+updated: 2026-11-12 11:11:12.994837
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-11-11T1007-quote-builder-marginal-bug
-order: null
+order: 11
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: 'Quote builder: marginal bug'
-updated: 2026-11-11 10:07:45.075057
+updated: 2026-11-12 09:36:43.089668
 waiting_on: null
 waiting_since: null
 working_on: false

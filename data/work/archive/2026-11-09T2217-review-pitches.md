@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-12 15:20:16.451107
 contexts: []
 created: 2026-11-09 22:17:47.951947
 defer_until: null
@@ -139,7 +139,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review pitches
-updated: 2026-11-10 14:46:54.000000
+updated: 2026-11-12 15:20:16.451097
 waiting_on: null
 waiting_since: null
 working_on: false
