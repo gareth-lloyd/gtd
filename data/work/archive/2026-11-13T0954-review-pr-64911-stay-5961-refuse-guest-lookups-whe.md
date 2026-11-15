@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-13 12:26:32.332657
 contexts:
 - react
 created: 2026-11-13 09:54:27.847873
@@ -50,6 +50,10 @@ output: |-
   > 2. Can you confirm product knows `/cl/` and `/ul/` stop working for a switched-off hotel? Those are in hotels' PMS emails, and the ticket says to keep guest journey message links.
   >
   > The linter failure is stale generated files from the field in #64907 (`generate_setting_types`, `make generate-mcp-sql-grants`).
+
+  ## Agent run 2026-11-13T10:15
+
+  Gareth confirmed production runs `IDENTITY_TOKEN_MODE=enforce`. That closes question 1 above: in enforce mode only a verified edge identity token counts, so a forged `X-Canary-Source` does not pass the gate. Drop question 1 from the draft comment. The only open question is whether product knows `/cl/` and `/ul/` stop working for a switched-off hotel. The PR is otherwise approvable once #64907 is fixed and landed.
 project: null
 source_id: https://github.com/canary-technologies-corp/canary/pull/64911
 tags:
@@ -57,7 +61,7 @@ tags:
 - github
 time_minutes: 20
 title: 'Review PR #64911: [STAY-5961] Refuse guest lookups when sign-in is off'
-updated: 2026-11-13 10:08:46.182797
+updated: 2026-11-13 12:26:32.332650
 waiting_on: null
 waiting_since: null
 working_on: false

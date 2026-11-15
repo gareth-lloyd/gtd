@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-13 12:26:30.735784
 contexts:
 - react
 created: 2026-11-13 09:54:27.755729
@@ -57,7 +57,7 @@ tags:
 - github
 time_minutes: 15
 title: 'Review PR #64907: [STAY-5961] Migrations: add Hotel.has_guest_sign_in'
-updated: 2026-11-13 10:07:57.843920
+updated: 2026-11-13 12:26:30.735765
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-13 12:11:36.795186
 contexts:
 - react
 created: 2026-11-13 09:54:28.372145
@@ -39,7 +39,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Answer Alan in #eng-leads: holiday Incident Commander split for Dec 22-28'
-updated: 2026-11-13 10:08:07.331263
+updated: 2026-11-13 12:11:36.795171
 waiting_on: null
 waiting_since: null
 working_on: false

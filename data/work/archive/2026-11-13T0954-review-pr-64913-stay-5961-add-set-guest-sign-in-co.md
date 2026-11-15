@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-13 12:26:34.080388
 contexts:
 - react
 created: 2026-11-13 09:54:27.931484
@@ -60,7 +60,7 @@ tags:
 - github
 time_minutes: 15
 title: 'Review PR #64913: [STAY-5961] Add set_guest_sign_in command'
-updated: 2026-11-13 10:08:22.000000
+updated: 2026-11-13 12:26:34.080383
 waiting_on: null
 waiting_since: null
 working_on: false

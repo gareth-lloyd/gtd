@@ -1,8 +1,8 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-13 15:00:13.060095
 contexts: []
-created: &id001 2026-11-12 14:58:25.737614
+created: 2026-11-12 14:58:25.737614
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: summarize commercial context for Dianna on BW
-updated: *id001
+updated: 2026-11-13 15:00:13.060078
 waiting_on: null
 waiting_since: null
 working_on: false

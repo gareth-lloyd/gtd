@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-13 15:17:36.425719
 contexts: []
 created: 2026-11-09 15:41:50.651667
 defer_until: null
@@ -65,8 +65,8 @@ tags: []
 time_minutes: 5
 title: check laura Dewald's handover document for unfinished items, and make action
   plan
-updated: 2026-11-09 15:46:09.089099
+updated: 2026-11-13 15:17:36.425714
 waiting_on: null
 waiting_since: null
-working_on: false
+working_on: true
 ---

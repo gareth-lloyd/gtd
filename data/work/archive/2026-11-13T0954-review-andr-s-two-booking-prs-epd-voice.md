@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-13 12:13:59.129422
 contexts:
 - react
 created: 2026-11-13 09:54:28.681434
@@ -50,7 +50,7 @@ tags:
 - slack
 time_minutes: 30
 title: Review Andrés' two booking PRs (#epd-voice)
-updated: 2026-11-13 10:09:00.000000
+updated: 2026-11-13 12:13:59.129404
 waiting_on: null
 waiting_since: null
 working_on: false
