@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-16 10:12:08.310476
 contexts:
 - consume
 created: 2026-11-13 00:00:00
@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review this week's Eng Leads recording
-updated: 2026-11-13 10:07:24.948209
+updated: 2026-11-16 10:12:08.310461
 waiting_on: null
 waiting_since: null
 working_on: false

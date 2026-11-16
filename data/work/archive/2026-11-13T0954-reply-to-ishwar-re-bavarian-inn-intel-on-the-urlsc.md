@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-16 10:12:26.156229
 contexts:
 - react
 created: 2026-11-13 09:54:28.454847
@@ -42,7 +42,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Ishwar re: Bavarian Inn intel on the urlscan finding'
-updated: 2026-11-13 10:07:16.586646
+updated: 2026-11-16 10:12:26.156224
 waiting_on: null
 waiting_since: null
 working_on: false

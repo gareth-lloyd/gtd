@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-14 11:23:38.659344
+created: 2026-11-13 09:51:15.892890
 defer_until: null
 due: null
 energy: low
-id: 2026-11-14T1123-call-mozza
+id: 2026-11-13T0951-next-steps-peter-upsells-belindar
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: call mozza
-updated: *id001
+title: next steps peter upsells belindar
+updated: 2026-11-16 10:12:19.097861
 waiting_on: null
 waiting_since: null
 working_on: false
