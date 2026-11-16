@@ -1,22 +1,23 @@
 ---
 area: null
 completed_at: null
-contexts:
-- autopilot
-created: &id001 2026-11-16 00:00:00
+contexts: []
+created: &id001 2026-11-16 14:55:05.939149
 defer_until: null
 due: null
 energy: low
-id: 2026-11-16T0000-blake-directs-meeting-updates
+id: 2026-11-16T1455-raed-and-absorb
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: Blake directs meeting updates
+title: Raed and absorb
 updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false
 ---
+
+https://pages.cnry.cloud/resolution-flow/

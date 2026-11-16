@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-16 14:20:55.123358
 contexts: []
 created: 2026-10-19 16:26:49.599158
 defer_until: null
@@ -15,7 +15,7 @@ tags: []
 time_minutes: 5
 title: a project to embrace the combinatorial explosion and actually map what hte
   config flags do
-updated: 2026-10-20 13:52:42.222598
+updated: 2026-11-16 14:20:55.123351
 waiting_on: null
 waiting_since: null
 working_on: false

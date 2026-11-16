@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-11-16 10:10:20.437793
-defer_until: null
+defer_until: 2026-11-17 09:00:00
 due: null
 energy: medium
 id: 2026-11-16T1010-get-a-review-on-pr-59047-ent-7726-add-binding-scop
@@ -18,8 +18,8 @@ tags:
 - resurfaced
 time_minutes: 15
 title: 'Get a review on PR #59047: [ENT-7726] Add binding scopes, the binding author
-  and the rule registry'
-updated: 2026-11-16 10:10:20.523863
+  and the rule registry¡'
+updated: 2026-11-16 14:41:58.638212
 waiting_on: null
 waiting_since: null
 working_on: false

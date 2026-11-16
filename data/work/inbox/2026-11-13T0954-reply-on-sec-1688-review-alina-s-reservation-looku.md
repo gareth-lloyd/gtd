@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - consume
 created: 2026-11-13 09:54:28.765473
-defer_until: null
+defer_until: 2026-11-17 09:00:00
 due: null
 energy: medium
 id: 2026-11-13T0954-reply-on-sec-1688-review-alina-s-reservation-looku
@@ -71,7 +71,7 @@ tags:
 - linear
 time_minutes: 30
 title: 'Reply on SEC-1688: review Alina''s reservation-lookup design doc'
-updated: 2026-11-13 10:07:57.355033
+updated: 2026-11-16 14:00:22.551789
 waiting_on: null
 waiting_since: null
 working_on: false

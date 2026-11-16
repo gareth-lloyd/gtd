@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-16 10:41:34.809968
 contexts:
 - react
 created: 2026-11-13 09:54:28.196189
@@ -56,7 +56,7 @@ tags:
 time_minutes: 15
 title: 'Answer Diana in #best-western-mobile-app-project: who integrates the SDK into
   the BW app'
-updated: 2026-11-13 10:09:30.000000
+updated: 2026-11-16 10:41:34.809913
 waiting_on: null
 waiting_since: null
 working_on: false

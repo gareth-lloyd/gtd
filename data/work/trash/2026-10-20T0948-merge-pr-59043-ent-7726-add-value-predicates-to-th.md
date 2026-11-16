@@ -18,7 +18,7 @@ tags:
 - resurfaced
 time_minutes: 5
 title: 'Merge PR #59043: [ENT-7726] Add value predicates to the rules engine'
-updated: 2026-10-20 13:53:38.567518
+updated: 2026-11-16 14:21:00.658079
 waiting_on: null
 waiting_since: null
 working_on: false

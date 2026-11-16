@@ -2,8 +2,8 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-16 10:15:47.623482
-defer_until: null
+created: 2026-11-16 10:15:47.623482
+defer_until: 2026-11-17 09:00:00
 due: null
 energy: low
 id: 2026-11-16T1015-arrange-the-live-sessions-we-will-need-to-get-tris
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: arrange the live sessions we will need to get trish live
-updated: *id001
+updated: 2026-11-16 11:21:35.124549
 waiting_on: null
 waiting_since: null
 working_on: false
