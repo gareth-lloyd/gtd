@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - consume
 created: 2026-11-13 09:54:28.765473
-defer_until: 2026-11-17 09:00:00
+defer_until: null
 due: null
 energy: medium
 id: 2026-11-13T0954-reply-on-sec-1688-review-alina-s-reservation-looku

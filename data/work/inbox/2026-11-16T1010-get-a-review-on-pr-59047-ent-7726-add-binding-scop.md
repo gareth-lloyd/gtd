@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-11-16 10:10:20.437793
-defer_until: 2026-11-17 09:00:00
+defer_until: null
 due: null
 energy: medium
 id: 2026-11-16T1010-get-a-review-on-pr-59047-ent-7726-add-binding-scop

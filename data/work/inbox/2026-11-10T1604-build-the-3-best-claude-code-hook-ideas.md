@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-11-10 16:04:37.892895
-defer_until: 2026-11-17 09:00:00
+defer_until: null
 due: null
 energy: null
 id: 2026-11-10T1604-build-the-3-best-claude-code-hook-ideas
