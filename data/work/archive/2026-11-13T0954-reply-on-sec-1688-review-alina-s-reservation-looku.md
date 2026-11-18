@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-17 13:49:57.937597
 contexts:
 - consume
 created: 2026-11-13 09:54:28.765473
@@ -71,7 +71,7 @@ tags:
 - linear
 time_minutes: 30
 title: 'Reply on SEC-1688: review Alina''s reservation-lookup design doc'
-updated: 2026-11-16 14:00:22.551789
+updated: 2026-11-17 13:49:57.937592
 waiting_on: null
 waiting_since: null
 working_on: false

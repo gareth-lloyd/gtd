@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-17 12:44:05.757217
 contexts:
 - consume
 created: 2026-11-16 00:00:00
@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: 30
 title: Review Friday's show & tell recording
-updated: 2026-11-16 11:28:31.705469
+updated: 2026-11-17 12:44:05.757194
 waiting_on: null
 waiting_since: null
 working_on: false

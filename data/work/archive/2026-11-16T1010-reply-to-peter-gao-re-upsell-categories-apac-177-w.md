@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-17 12:50:46.046516
 contexts:
 - react
 created: 2026-11-16 10:10:20.261883
@@ -85,7 +85,7 @@ tags:
 time_minutes: 30
 title: 'Reply to Peter Gao re: upsell categories (APAC-177) with no PRD and the In-Stay
   impasse'
-updated: 2026-11-16 14:35:36.361795
+updated: 2026-11-17 12:50:46.046510
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-17 12:50:42.721084
 contexts:
 - react
 created: 2026-11-16 10:10:20.437793
@@ -19,7 +19,7 @@ tags:
 time_minutes: 15
 title: 'Get a review on PR #59047: [ENT-7726] Add binding scopes, the binding author
   and the rule registry¡'
-updated: 2026-11-16 14:41:58.638212
+updated: 2026-11-17 12:50:42.721070
 waiting_on: null
 waiting_since: null
 working_on: false

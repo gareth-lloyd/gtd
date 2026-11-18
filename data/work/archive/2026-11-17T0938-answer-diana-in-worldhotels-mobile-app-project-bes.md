@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-17 12:51:28.762257
 contexts:
 - react
 created: 2026-11-17 09:38:12.545404
@@ -19,7 +19,7 @@ tags:
 time_minutes: 15
 title: 'Answer Diana in #worldhotels-mobile-app-project: Best Western app SDK integration
   approach (Telus)'
-updated: 2026-11-17 09:38:12.635181
+updated: 2026-11-17 12:51:28.762251
 waiting_on: null
 waiting_since: null
 working_on: false

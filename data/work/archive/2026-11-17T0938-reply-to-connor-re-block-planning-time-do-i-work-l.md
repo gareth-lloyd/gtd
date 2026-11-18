@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-17 12:51:11.098675
 contexts:
 - react
 created: 2026-11-17 09:38:12.357768
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Connor re: block planning time (do I work later Wed/Thu?)'
-updated: 2026-11-17 09:38:12.451111
+updated: 2026-11-17 12:51:11.098669
 waiting_on: null
 waiting_since: null
 working_on: false

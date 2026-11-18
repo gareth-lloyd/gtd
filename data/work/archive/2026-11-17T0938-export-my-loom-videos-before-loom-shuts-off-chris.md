@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-17 12:51:21.470058
 contexts:
 - autopilot
 created: 2026-11-17 09:38:12.728463
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 15
 title: 'Export my Loom videos before Loom shuts off (Chris Carter, #eng-general)'
-updated: 2026-11-17 09:38:12.818703
+updated: 2026-11-17 12:51:21.470050
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: 2026-11-16 10:15:47.623482
+created: &id001 2026-11-17 15:09:56.772765
 defer_until: null
 due: null
 energy: low
-id: 2026-11-16T1015-arrange-the-live-sessions-we-will-need-to-get-tris
+id: 2026-11-17T1509-set-up-meeting-with-seb-on-country-requirements
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: arrange the live sessions we will need to get trish live
-updated: 2026-11-16 11:21:35.124549
+title: set up meeting with seb on country requirements
+updated: *id001
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,19 +2,19 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-16 14:07:27.665774
+created: 2026-11-17 12:14:15.515651
 defer_until: null
 due: null
 energy: low
-id: 2026-11-16T1407-make-order
+id: 2026-11-17T1214-order-bolidelux
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: MAKE order
-updated: *id001
+title: order bolidelux
+updated: 2026-11-17 12:20:35.334995
 waiting_on: null
 waiting_since: null
 working_on: false

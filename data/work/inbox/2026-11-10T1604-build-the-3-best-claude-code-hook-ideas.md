@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Build the 3 best Claude Code hook ideas
-updated: 2026-11-16 10:10:06.444305
+updated: 2026-11-17 13:49:55.137526
 waiting_on: null
 waiting_since: null
 working_on: false

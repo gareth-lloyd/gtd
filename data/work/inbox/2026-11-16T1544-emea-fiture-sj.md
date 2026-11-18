@@ -2,7 +2,7 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-16 15:44:54.081074
+created: 2026-11-16 15:44:54.081074
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: EMEA Fiture -> SJ
-updated: *id001
+updated: 2026-11-17 13:53:53.926787
 waiting_on: null
 waiting_since: null
 working_on: false

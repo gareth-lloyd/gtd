@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-17 13:50:00.873812
 contexts:
 - react
 created: 2026-11-16 10:10:20.350604
@@ -85,7 +85,7 @@ tags:
 time_minutes: 15
 title: 'Answer Stephanie Barry in group DM: block-planning priorities and check-in
   V3 in more countries'
-updated: 2026-11-16 15:00:48.000000
+updated: 2026-11-17 13:50:00.873803
 waiting_on: null
 waiting_since: null
 working_on: false
