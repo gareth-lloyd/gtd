@@ -1,14 +1,14 @@
 ---
 area: null
-completed_at: 2026-11-17 13:50:00.873812
+completed_at: 2026-11-19 20:20:05.957962
 contexts:
 - react
 created: 2026-11-16 10:10:20.350604
 defer_until: null
-due: null
+due: 2026-11-18
 energy: medium
 id: 2026-11-16T1010-answer-stephanie-barry-in-group-dm-block-planning
-order: null
+order: 1
 output: |
   ## Agent run 2026-11-16T12:11:42Z
 
@@ -77,7 +77,7 @@ output: |
   > One ask for now: keep the hub's split between legal status and Canary default for each setting. That's the split the rules need.
 
   Still for you to decide: send, edit or drop; and whether this message also counts as the "Monday or Tuesday context" you promised Stephanie, or she gets a fuller note separately.
-project: null
+project: 2026-04-16T1319-rules-based-config
 source_id: https://canarytechnologies.slack.com/archives/C0CHDN04Y68/p1794585563975099
 tags:
 - morning-gtd
@@ -85,7 +85,7 @@ tags:
 time_minutes: 15
 title: 'Answer Stephanie Barry in group DM: block-planning priorities and check-in
   V3 in more countries'
-updated: 2026-11-17 13:50:00.873803
+updated: 2026-11-19 20:20:05.957953
 waiting_on: null
 waiting_since: null
 working_on: false

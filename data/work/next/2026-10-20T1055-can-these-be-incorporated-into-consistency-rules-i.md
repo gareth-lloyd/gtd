@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-10-20T1055-can-these-be-incorporated-into-consistency-rules-i
-order: null
+order: 10
 output: ''
 project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 5
 title: Can these be incorporated into consistency rules in rules based?
-updated: 2026-10-20 13:54:03.697769
+updated: 2026-11-19 19:28:53.018215
 waiting_on: null
 waiting_since: null
 working_on: false

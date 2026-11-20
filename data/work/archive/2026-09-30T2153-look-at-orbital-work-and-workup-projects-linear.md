@@ -1,0 +1,25 @@
+---
+area: null
+completed_at: 2026-11-19 19:57:41.860492
+contexts: []
+created: 2026-09-30 21:53:25.899245
+defer_until: null
+due: null
+energy: low
+id: 2026-09-30T2153-look-at-orbital-work-and-workup-projects-linear
+order: 7
+output: ''
+project: 2026-09-08-workup
+source_id: null
+tags: []
+time_minutes: 5
+title: look at orbital work and workup projects linear
+updated: 2026-11-19 19:57:41.860483
+waiting_on: null
+waiting_since: null
+working_on: false
+---
+
+https://linear.app/canary-technologies/team/ORB/members
+https://linear.app/canary-technologies/team/ORB/members
+https://linear.app/canary-technologies/initiative/workup-2a7616f589a4/overview

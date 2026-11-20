@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-11-09 21:30:34.848219
-defer_until: null
+defer_until: 2026-11-23 09:00:00
 due: null
 energy: low
 id: 2026-11-09T2130-check-in-on-workup-grading
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: check in on workup grading - check progress, ask sam
-updated: 2026-11-17 13:49:45.408313
+updated: 2026-11-20 12:51:51.864842
 waiting_on: null
 waiting_since: null
 working_on: false

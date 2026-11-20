@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: parents trips
-updated: 2026-10-21 16:07:20.644478
+updated: 2026-11-20 12:51:19.965913
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

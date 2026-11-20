@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-11-17 11:02:10.908471
-defer_until: null
+defer_until: 2026-11-23 09:00:00
 due: null
 energy: low
 id: 2026-11-17T1102-understand-the-cloudflare-proposal-martijn-gdpr
@@ -75,7 +75,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: understand the cloudflare proposal martijn gdpr
-updated: 2026-11-17 13:56:15.501687
+updated: 2026-11-19 15:32:26.896439
 waiting_on: null
 waiting_since: null
 working_on: false

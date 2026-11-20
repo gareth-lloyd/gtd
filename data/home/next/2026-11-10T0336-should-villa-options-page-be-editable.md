@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-11-10T0336-should-villa-options-page-be-editable
-order: 2
+order: 4
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: should villa options url be editable in property setings
-updated: 2026-11-12 09:36:46.408938
+updated: 2026-11-19 18:52:44.389507
 waiting_on: null
 waiting_since: null
 working_on: false

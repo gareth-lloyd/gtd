@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: high
 id: 2026-10-05T1407-proceed-with-binding-tree-prs
-order: 2
+order: 4
 output: ''
 project: 2026-04-16T1319-rules-based-config
 source_id: null
 tags: []
 time_minutes: 60
 title: Continue to implement the new rule work for rules-based
-updated: 2026-10-16 15:14:58.634601
+updated: 2026-11-19 19:28:53.018215
 waiting_on: null
 waiting_since: null
 working_on: false

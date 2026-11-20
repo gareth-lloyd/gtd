@@ -8,7 +8,7 @@ defer_until: null
 due: null
 energy: medium
 id: 2026-10-21T0950-resolve-merge-conflicts-on-the-13-ent-7806-overloa
-order: null
+order: 11
 output: |
   ## Agent run 2026-10-21T10:07
 
@@ -38,7 +38,7 @@ tags:
 - github
 time_minutes: 45
 title: Resolve merge conflicts on the 13 ENT-7806 overload-fix draft PRs
-updated: 2026-10-21 10:07:48
+updated: 2026-11-19 19:28:53.018215
 waiting_on: null
 waiting_since: null
 working_on: false

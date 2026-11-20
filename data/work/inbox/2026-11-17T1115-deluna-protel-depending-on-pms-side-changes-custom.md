@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-11-17 11:15:52.506268
-defer_until: null
+defer_until: 2026-11-23 09:00:00
 due: null
 energy: low
 id: 2026-11-17T1115-deluna-protel-depending-on-pms-side-changes-custom
@@ -72,7 +72,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: deluna protel depending on PMS-side changes, customer functions broken
-updated: 2026-11-17 13:56:51.880975
+updated: 2026-11-19 15:32:30.419586
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -7,14 +7,14 @@ defer_until: null
 due: null
 energy: low
 id: 2026-11-09T2245-next-page-previous-page-are-confusing-on-availabil
-order: 8
+order: 9
 output: ''
 project: 2026-05-25-villa-collective
 source_id: null
 tags: []
 time_minutes: 5
 title: '"next page" previous page are confusing on availability.'
-updated: 2026-11-12 09:36:43.089668
+updated: 2026-11-19 18:52:44.389507
 waiting_on: null
 waiting_since: null
 working_on: false
