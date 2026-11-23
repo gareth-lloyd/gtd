@@ -4,7 +4,7 @@ completed_at: null
 contexts:
 - react
 created: 2026-11-20 08:22:30.619648
-defer_until: 2026-11-23 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-11-20T0822-reply-to-stephanie-re-add-someone-from-a-d-to-the

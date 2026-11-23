@@ -69,7 +69,7 @@ tags:
 - slack
 time_minutes: 20
 title: Read Jordan's Public API Scopes doc and reply
-updated: 2026-11-20 13:09:03.000000
+updated: 2026-11-20 15:37:38.194738
 waiting_on: null
 waiting_since: null
 working_on: false

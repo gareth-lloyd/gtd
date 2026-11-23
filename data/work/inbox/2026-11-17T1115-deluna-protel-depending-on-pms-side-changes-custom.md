@@ -3,7 +3,7 @@ area: null
 completed_at: null
 contexts: []
 created: 2026-11-17 11:15:52.506268
-defer_until: 2026-11-23 09:00:00
+defer_until: null
 due: null
 energy: low
 id: 2026-11-17T1115-deluna-protel-depending-on-pms-side-changes-custom

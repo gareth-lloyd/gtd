@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: 2026-11-20 14:08:37.982369
+completed_at: null
 contexts: []
 created: 2026-11-19 22:44:57.150733
 defer_until: null
@@ -41,7 +41,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Make sure Andrea and the ENT team know about Lab Hacker MCP
-updated: 2026-11-20 14:08:37.982356
+updated: 2026-11-20 16:03:01.058514
 waiting_on: null
 waiting_since: null
 working_on: false
