@@ -2,7 +2,7 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-23 10:10:16.391020
+created: 2026-11-23 10:10:16.391020
 defer_until: null
 due: null
 energy: low
@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: harden machine
-updated: *id001
+updated: 2026-11-23 17:24:26.318999
 waiting_on: null
 waiting_since: null
 working_on: false

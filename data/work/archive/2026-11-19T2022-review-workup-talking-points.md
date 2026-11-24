@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-23 17:16:36.454442
 contexts: []
 created: 2026-11-19 20:22:00.245451
 defer_until: null
@@ -14,8 +14,8 @@ source_id: null
 tags: []
 time_minutes: 5
 title: review workup talking points
-updated: 2026-11-19 20:26:14.674824
+updated: 2026-11-23 17:16:36.454427
 waiting_on: null
 waiting_since: null
-working_on: true
+working_on: false
 ---

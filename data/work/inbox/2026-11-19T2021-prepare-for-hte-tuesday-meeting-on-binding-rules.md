@@ -15,7 +15,7 @@ tags: []
 time_minutes: 5
 title: 'Prepare for hte tuesday meeting on binding rules: "Replace distributed source
   of truth"'
-updated: 2026-11-20 15:34:29.561556
+updated: 2026-11-23 17:25:51.249646
 waiting_on: null
 waiting_since: null
 working_on: false

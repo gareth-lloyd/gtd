@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-23 14:36:16.362483
 contexts:
 - react
 created: 2026-11-23 09:30:59.090933
@@ -19,7 +19,7 @@ tags:
 time_minutes: 20
 title: 'Review PR #65909: Shorten guest reservation link access after departure to
   7 days'
-updated: 2026-11-23 09:30:59.179884
+updated: 2026-11-23 14:36:16.362474
 waiting_on: null
 waiting_since: null
 working_on: false

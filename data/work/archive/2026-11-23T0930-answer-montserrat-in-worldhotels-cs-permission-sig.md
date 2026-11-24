@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-23 14:35:45.570755
 contexts:
 - react
 created: 2026-11-23 09:30:58.733888
@@ -18,7 +18,7 @@ tags:
 - resurfaced
 time_minutes: 10
 title: 'Answer Montserrat in #worldhotels: CS permission sign-off in Blake''s absence'
-updated: 2026-11-23 09:30:58.818909
+updated: 2026-11-23 14:35:45.570749
 waiting_on: null
 waiting_since: null
 working_on: false

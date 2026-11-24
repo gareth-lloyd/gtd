@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-23 17:59:24.899082
 contexts:
 - consume
 created: 2026-11-20 08:22:30.708390
@@ -62,6 +62,56 @@ output: |
   - No Notion comments posted and no Slack message sent. Both need your explicit go-ahead.
   - Did not read the two images or the linked Canary Public API and OAuth docs.
   - Did not locate the hard-coded sid list in the MCP server code to confirm point 2 against the implementation.
+
+  ## Agent run 2026-11-23T14:18
+
+  Follow-up asked: "Boil this down to the most actionable feedback. Give me a high level summary of what I'm looking at. Check my friday granola call with Connor for additional context"
+
+  Re-read the doc and its comments (now 12 threads, up from 6) and the Friday call with Connor (https://notes.granola.ai/d/9bd860bb-744c-47e8-b586-9a8fbf6cc1f2). Nothing sent or posted.
+
+  ### What you are looking at
+
+  Jordan's design doc (https://app.notion.com/p/41881468615180dd9367fb44b7247e03) for permission scopes on the public API. Today any application with a token can call every public route. The proposal: each of the 115 operations names one scope such as `canary-guest:check-in:write`, each application and token carries a list of scopes, and the identity service returns 403 when they do not match. OAuth users see the scopes on a consent screen. Which hotels an app can reach (installs) is a separate, later project. Existing apps are backfilled with umbrella scopes (`canary:read` and so on), so nothing changes for them at launch.
+
+  Jordan wants two things from reviewers: whether guest should be its own group (`canary-guest`) or folded into `canary`, and a check of the proposed scope list.
+
+  ### What the Connor call adds
+
+  - Connor said Jordan keeps sending API specs to the PM group (he named Kevin, Babur, Nico and himself) and they are pitched too technically for product to help. What is missing for him is why we are building this and what it will be used for.
+  - You agreed on the call: the problem statement is technical and states no user problem.
+  - Connor will give Jordan that feedback himself and asked you to help corral and review, because he knows the work matters and is still finding the right way to give Jordan feedback.
+  - Timing: Connor called it a next-week thing, nothing here moves quickly. That is this week.
+
+  One caveat on the framing point. The doc does have a problem statement and one concrete case (the MCP connector's hard-coded sid list). What it lacks is who the consumers are and what each one needs, so say that rather than "no problem statement".
+
+  ### The feedback worth giving (4 points, in order)
+
+  1. **Add the consumers and use cases.** Ask for a short section listing the applications that exist or are planned (MCP connector, brand apps on the mobile SDK, partner OAuth apps, the staff app) and the scopes each would hold. This is Connor's point made concrete, and it is what the open decisions depend on: Jordan's own question "would anyone use guest except us?" (https://app.notion.com/p/41881468615180dd9367fb44b7247e03?d=41d814686151806a9f17001c1e4288d4) cannot be answered without it, and neither can the scope list be tested. Agree with Connor who says it, so Jordan does not get it twice.
+  2. **The backfill stops the MCP sid list from being deleted.** Every existing app gets `canary:read` and `canary:write`, and the doc says MCP uses ordinary read and write scopes. So every backfilled app passes the `/mcp` check, and the hard-coded list (a stated success criterion) has to stay. `/mcp` needs a scope the umbrellas do not cover, or a narrower backfill. Nobody has raised this. I have not checked it against the public-mcp code.
+  3. **Keep `canary-guest` as its own group.** This answers the decision Jordan flags as the big one. The group is the audience (guest versus staff). Folding it into `canary` hands every staff-facing partner with `canary:read` all guest surfaces. From the enterprise side, brand apps on the mobile SDK (Wyndham) are the likely outside users of guest scopes. I have not verified which application the SDK authenticates as.
+  4. **Split gateway configs out of `canary:payments`.** One scope covers taking payments and editing gateway configs, and names are permanent. Splitting later means a migration.
+
+  ### Dropped from the earlier list, and why
+
+  - **Null versus `[]` during rollout.** G. Wilson posted this on Friday night (https://app.notion.com/p/41881468615180dd9367fb44b7247e03?d=41e8146861518030a3c3001c879fed3c). A +1 on that thread is enough.
+  - **Nobody narrows apps after the backfill.** The doc now says so itself in Appendix B, and G. Wilson asked to refuse umbrella scopes in OAuth consent (https://app.notion.com/p/41881468615180dd9367fb44b7247e03?d=41e814686151802aaa3c001cf69e4542).
+  - **Cross-product flows and the small scopes.** Real but minor. Point 1 covers them once the consumers are listed.
+
+  G. Wilson also left four other comments on Friday night (logs look clean straight after the backfill, refuse unmatched routes at step 4, a cache time limit, SOC 2 audit record). None needs you.
+
+  ### Revised draft Slack reply to Jordan (not sent)
+
+  > Read it, will leave comments in Notion. Short version:
+  > 1. Biggest gap for me is who this is for. A short list of the apps we expect (MCP connector, brand apps on the SDK, partner OAuth apps) and the scopes each would hold would let us test the scope list and answer the canary-guest question.
+  > 2. If every existing app is backfilled with canary:read/write and /mcp uses ordinary scopes, they can all call /mcp, so the sid list can't be deleted. /mcp probably needs a scope outside the umbrellas.
+  > 3. I'd keep canary-guest as its own group. It's the audience, and brand apps on the SDK are the likely outside users.
+  > 4. I'd split gateway configs out of canary:payments now, since names are permanent.
+
+  ### Not done
+
+  - No Notion comments posted and no Slack message sent. Both need your explicit go-ahead.
+  - Did not check the public-mcp sid list or the SDK's application in code (points 2 and 3).
+  - Only read the first 9 minutes of the Connor transcript, where the doc was discussed. Granola's summary lists no other mention of it.
 project: null
 source_id: https://canarytechnologies.slack.com/archives/D07HCMQU5FY/p1795125130135899
 tags:
@@ -69,7 +119,7 @@ tags:
 - slack
 time_minutes: 20
 title: Read Jordan's Public API Scopes doc and reply
-updated: 2026-11-20 15:37:38.194738
+updated: 2026-11-23 17:59:24.899078
 waiting_on: null
 waiting_since: null
 working_on: false

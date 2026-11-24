@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-23 17:23:09.652004
 contexts:
 - react
 created: 2026-11-20 08:22:30.619648
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 10
 title: 'Reply to Stephanie re: add someone from A&D to the rules-conventions session'
-updated: 2026-11-20 14:15:42.882803
+updated: 2026-11-23 17:23:09.651999
 waiting_on: null
 waiting_since: null
 working_on: false

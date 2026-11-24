@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-23 21:17:21.293213
 contexts: []
-created: &id001 2026-11-20 02:19:22.553209
+created: 2026-11-17 10:14:19.273085
 defer_until: null
 due: null
 energy: low
-id: 2026-11-20T0219-rings-into-swells-2
+id: 2026-11-17T1014-biological-clean-for-carpet
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: rings into swells
-updated: *id001
+title: Biological clean for carpet
+updated: 2026-11-23 21:17:21.293205
 waiting_on: null
 waiting_since: null
 working_on: false

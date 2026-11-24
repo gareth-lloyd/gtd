@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: EMEA Fiture -> SJ
-updated: 2026-11-19 15:32:10.065639
+updated: 2026-11-23 14:14:37.111782
 waiting_on: null
 waiting_since: null
 working_on: false

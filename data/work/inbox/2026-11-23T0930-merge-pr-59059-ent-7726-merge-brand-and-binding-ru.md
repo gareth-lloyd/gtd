@@ -19,7 +19,7 @@ tags:
 time_minutes: 5
 title: 'Merge PR #59059: [ENT-7726] Merge brand and binding rules into entries and
   check them at boot'
-updated: 2026-11-23 09:30:59.272437
+updated: 2026-11-23 17:41:33.268929
 waiting_on: null
 waiting_since: null
 working_on: false
