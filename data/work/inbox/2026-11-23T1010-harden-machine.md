@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: harden machine
-updated: 2026-11-23 17:24:26.318999
+updated: 2026-11-24 15:23:32.181129
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: Secure own login to typsafe.ai without google account dependency
-updated: 2026-11-23 17:41:36.884764
+updated: 2026-11-24 15:23:34.670334
 waiting_on: null
 waiting_since: null
 working_on: false

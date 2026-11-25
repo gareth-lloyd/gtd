@@ -72,7 +72,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: deluna protel depending on PMS-side changes, customer functions broken
-updated: 2026-11-19 15:32:30.419586
+updated: 2026-11-24 15:23:15.607898
 waiting_on: null
 waiting_since: null
 working_on: false

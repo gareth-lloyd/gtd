@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-24 16:37:04.614356
 contexts: []
 created: 2026-11-19 20:21:11.826833
 defer_until: null
@@ -15,7 +15,7 @@ tags: []
 time_minutes: 5
 title: 'Prepare for hte tuesday meeting on binding rules: "Replace distributed source
   of truth"'
-updated: 2026-11-23 17:25:51.249646
+updated: 2026-11-24 16:37:04.614350
 waiting_on: null
 waiting_since: null
 working_on: false
