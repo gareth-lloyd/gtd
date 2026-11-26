@@ -1,9 +1,9 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-25 14:02:30.254541
 contexts:
 - computer
-created: &id001 2026-11-25 00:00:00
+created: 2026-11-25 00:00:00
 defer_until: null
 due: null
 energy: null
@@ -15,7 +15,7 @@ source_id: null
 tags: []
 time_minutes: null
 title: Pay electricity bill
-updated: *id001
+updated: 2026-11-25 14:02:30.254525
 waiting_on: null
 waiting_since: null
 working_on: false

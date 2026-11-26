@@ -1,6 +1,6 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-25 12:59:43.850910
 contexts:
 - react
 created: 2026-11-25 11:15:40.082102
@@ -19,7 +19,7 @@ tags:
 time_minutes: 15
 title: 'Answer Stephanie Barry in #epd-internal-tools: input on Workup plans for Q4B
   block planning'
-updated: 2026-11-25 11:15:40.197979
+updated: 2026-11-25 12:59:43.850905
 waiting_on: null
 waiting_since: null
 working_on: false

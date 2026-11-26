@@ -1,10 +1,10 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-25 16:05:39.256222
 contexts:
 - react
 created: 2026-11-25 11:15:39.954642
-defer_until: null
+defer_until: 2026-11-25 18:05:00
 due: 2026-11-25
 energy: medium
 id: 2026-11-25T1115-reply-to-jason-flax-re-workup-prs-and-the-dana-thi
@@ -17,7 +17,7 @@ tags:
 - slack
 time_minutes: 30
 title: 'Reply to Jason Flax re: Workup PRs and the Dana thing'
-updated: 2026-11-25 11:15:40.080889
+updated: 2026-11-25 16:05:39.256202
 waiting_on: null
 waiting_since: null
 working_on: false

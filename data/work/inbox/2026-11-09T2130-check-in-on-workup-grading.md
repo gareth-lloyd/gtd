@@ -14,7 +14,7 @@ source_id: null
 tags: []
 time_minutes: 5
 title: check in on workup grading - check progress, ask sam
-updated: 2026-11-24 15:22:42.862216
+updated: 2026-11-25 15:05:52.874911
 waiting_on: null
 waiting_since: null
 working_on: false

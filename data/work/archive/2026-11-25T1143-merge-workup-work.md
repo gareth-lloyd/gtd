@@ -1,20 +1,20 @@
 ---
 area: null
-completed_at: null
+completed_at: 2026-11-25 13:00:34.836135
 contexts: []
-created: &id001 2026-11-24 21:31:40.190254
+created: 2026-11-25 11:43:16.735738
 defer_until: null
 due: null
 energy: low
-id: 2026-11-24T2131-configure-robot-properly
+id: 2026-11-25T1143-merge-workup-work
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: configure robot properly
-updated: *id001
+title: merge workup work
+updated: 2026-11-25 13:00:34.836131
 waiting_on: null
 waiting_since: null
 working_on: false

@@ -2,18 +2,18 @@
 area: null
 completed_at: null
 contexts: []
-created: &id001 2026-11-24 14:36:38.505296
+created: &id001 2026-11-26 14:54:22.640713
 defer_until: null
 due: null
 energy: low
-id: 2026-11-24T1436-dorothy-playdate-email-admin
+id: 2026-11-26T1454-arrange-viewings
 order: null
 output: ''
 project: null
 source_id: null
 tags: []
 time_minutes: 5
-title: dorothy playdate email admin
+title: arrange viewings
 updated: *id001
 waiting_on: null
 waiting_since: null
